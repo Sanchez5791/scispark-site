@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SciSpark — Complete sign up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg:#FBF8F4; --ink:#171413; --ink-2:#3a342f; --ink-3:#6b6358;
+    --line:#E6DFD3; --line-2:#D9D0BF; --accent:#EA580C; --accent-soft:#FFE9D6;
+    --ff-display:'Instrument Serif', 'Times New Roman', serif;
+    --ff-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
+    --max:860px;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body {
+    font-family:var(--ff-body); background:var(--bg); color:var(--ink);
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+  }
+  .wrap { max-width:var(--max); margin:0 auto; padding:32px 24px 80px; }
+  .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+  .brand img { width:38px; height:38px; border-radius:999px; }
+  .brand b { display:block; font-size:15px; }
+  .brand span { display:block; font-family:var(--ff-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin-top:2px; }
+  .card {
+    margin-top:36px; background:#fff; border:1px solid var(--line); border-radius:20px;
+    padding:32px; box-shadow:0 18px 50px -28px rgba(23,20,19,.18);
+  }
+  .eyebrow {
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  }
+  h1 {
+    font-family:var(--ff-display); font-weight:400; letter-spacing:-.015em; line-height:1;
+    font-size:clamp(36px, 6vw, 58px); margin:12px 0 14px;
+  }
+  .lede { color:var(--ink-2); font-size:16px; max-width:52ch; }
+  .status {
+    margin:16px 0 24px; padding:14px 16px; border-radius:12px; background:var(--accent-soft);
+    border:1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); color:var(--ink-2); font-size:14px;
+  }
+  .hidden { display:none !important; }
+  .field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:640px) { .field-row { grid-template-columns:1fr; } .card { padding:24px; } }
+  label {
+    font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3);
+  }
+  input, select {
+    font:inherit; font-size:14.5px; padding:12px 14px; border:1px solid var(--line-2);
+    border-radius:10px; background:#fff; color:var(--ink);
+  }
+  input:focus, select:focus { outline:none; border-color:var(--ink); }
+  .btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; padding:14px 18px; border-radius:10px; border:0; cursor:pointer;
+    background:var(--accent); color:#fff; font:inherit; font-size:15px; font-weight:600;
+  }
+  .btn.secondary {
+    background:#fff; color:var(--ink); border:1px solid var(--line-2);
+  }
+  .fine { font-size:12px; color:var(--ink-3); margin-top:14px; line-height:1.55; }
+  .fine a { color:var(--ink-2); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <img src="assets/scispark-mark-clean.png" alt="SciSpark">
+      <div>
+        <b>IG Science Spark Lab</b>
+        <span>Year 7–9 Science · Cambridge 0893</span>
+      </div>
+    </a>
+
+    <div class="card">
+      <div class="eyebrow">Complete sign up</div>
+      <h1>Finish account setup.</h1>
+      <p class="lede">You are now signed in. Complete the parent and student details below so SciSpark can store the assessment correctly and route your child to the right year-level paper.</p>
+
+      <div id="status" class="status">Checking sign-in status…</div>
+
+      <form id="setup-form" class="hidden">
+        <div class="field-row">
+          <div class="field">
+            <label for="parent-name">Parent name</label>
+            <input id="parent-name" type="text" required placeholder="Jane Lim">
+          </div>
+          <div class="field">
+            <label for="parent-email">Parent email</label>
+            <input id="parent-email" type="email" required placeholder="parent@example.com">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="student-name">Student name</label>
+            <input id="student-name" type="text" required placeholder="Alex Lim">
+          </div>
+          <div class="field">
+            <label for="year-group">Year group</label>
+            <select id="year-group">
+              <option>Year 7</option>
+              <option>Year 8</option>
+              <option selected>Year 9</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="student-email">Student email (optional)</label>
+            <input id="student-email" type="email" placeholder="student@gmail.com">
+          </div>
+          <div class="field">
+            <label for="assessment-language">Assessment language</label>
+            <select id="assessment-language">
+              <option>English</option>
+              <option>中文 (Chinese)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Save details & begin assessment →</button>
+        <p class="fine">If this page says you are not signed in, go back to <a href="index.html">the homepage</a> and use <strong>Continue with Google</strong> again.</p>
+      </form>
+
+      <div id="not-signed-in" class="hidden">
+        <button class="btn secondary" onclick="window.location.href='index.html'">Return to homepage</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+  const statusEl = document.getElementById('status');
+  const formEl = document.getElementById('setup-form');
+  const notSignedInEl = document.getElementById('not-signed-in');
+
+  async function getCurrentUser() {
+    const { data, error } = await supabaseClient.auth.getUser();
+    if (error) return null;
+    return data?.user || null;
+  }
+
+  (async function init() {
+    const user = await getCurrentUser();
+    if (!user) {
+      statusEl.textContent = 'You are not signed in yet. Please return to the homepage and continue with Google first.';
+      notSignedInEl.classList.remove('hidden');
+      return;
+    }
+
+    statusEl.textContent = 'Signed in successfully. Please complete the details below before starting the assessment.';
+    formEl.classList.remove('hidden');
+    if (user.email) {
+      document.getElementById('parent-email').value = user.email;
+    }
+  })();
+
+  formEl.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const user = await getCurrentUser();
+    if (!user) {
+      alert('You are not signed in. Please return to the homepage and continue with Google first.');
+      return;
+    }
+
+    const parentName = document.getElementById('parent-name').value.trim();
+    const parentEmail = document.getElementById('parent-email').value.trim() || user.email || '';
+    const studentName = document.getElementById('student-name').value.trim();
+    const yearGroup = document.getElementById('year-group').value;
+    const preferredLanguage = document.getElementById('assessment-language').value;
+
+    if (!parentName || !parentEmail || !studentName || !yearGroup) {
+      alert('Please complete all required fields.');
+      return;
+    }
+
+    statusEl.textContent = 'Saving your details…';
+
+    try {
+      const { data: parentData, error: parentErr } = await supabaseClient
+        .from('parents')
+        .upsert({
+          auth_user_id: user.id,
+          full_name: parentName,
+          email: parentEmail
+        }, {
+          onConflict: 'auth_user_id'
+        })
+        .select('id')
+        .single();
+
+      if (parentErr) throw parentErr;
+
+      const parentId = parentData.id;
+
+      const { error: studentErr } = await supabaseClient
+        .from('students')
+        .insert({
+          parent_id: parentId,
+          student_name: studentName,
+          year_group: yearGroup,
+          preferred_language: preferredLanguage
+        });
+
+      if (studentErr) throw studentErr;
+
+      statusEl.textContent = 'Details saved. Opening the assessment…';
+
+      if (yearGroup === 'Year 7') {
+        window.location.href = 'assessment-y7.html';
+      } else if (yearGroup === 'Year 8') {
+        window.location.href = 'assessment-y8.html';
+      } else {
+        window.location.href = 'assessment-y9.html';
+      }
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = 'Your details could not be saved yet.';
+      alert('Your details could not be saved yet. The most likely cause is that the database row-level security policies still need to allow inserts from signed-in users.');
+    }
+  });
+</script>
+</body>
+</html>
