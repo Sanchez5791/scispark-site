@@ -3,234 +3,435 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SciSpark — Complete sign up</title>
+<title>Complete your registration — IG Science Spark Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root {
-    --bg:#FBF8F4; --ink:#171413; --ink-2:#3a342f; --ink-3:#6b6358;
-    --line:#E6DFD3; --line-2:#D9D0BF; --accent:#EA580C; --accent-soft:#FFE9D6;
-    --ff-display:'Instrument Serif', 'Times New Roman', serif;
-    --ff-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
-    --max:860px;
+  :root{
+    --bg:#FBF8F4;
+    --bg-2:#F4EFE7;
+    --ink:#171413;
+    --ink-2:#3a342f;
+    --ink-3:#6b6358;
+    --line:#E6DFD3;
+    --line-2:#D9D0BF;
+    --accent:#EA580C;
+    --accent-ink:#7a2e08;
+    --accent-soft:#FFE9D6;
+    --ok:#2E7D5B;
+    --ff-display:'Instrument Serif','Times New Roman',serif;
+    --ff-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --ff-mono:'JetBrains Mono',ui-monospace,monospace;
+    --max:680px;
+    --pad:clamp(20px,4vw,56px);
   }
-  * { box-sizing:border-box; }
-  html,body { margin:0; padding:0; }
-  body {
-    font-family:var(--ff-body); background:var(--bg); color:var(--ink);
-    -webkit-font-smoothing:antialiased; line-height:1.5;
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--ff-body);
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+    line-height:1.5;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
   }
-  .wrap { max-width:var(--max); margin:0 auto; padding:32px 24px 80px; }
-  .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
-  .brand img { width:38px; height:38px; border-radius:999px; }
-  .brand b { display:block; font-size:15px; }
-  .brand span { display:block; font-family:var(--ff-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin-top:2px; }
-  .card {
-    margin-top:36px; background:#fff; border:1px solid var(--line); border-radius:20px;
-    padding:32px; box-shadow:0 18px 50px -28px rgba(23,20,19,.18);
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+  /* ---------- nav ---------- */
+  .nav{
+    border-bottom:1px solid var(--line);
+    background:var(--bg);
   }
-  .eyebrow {
-    font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  .nav-inner{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 var(--pad);
+    display:flex;align-items:center;
+    height:60px;
   }
-  h1 {
-    font-family:var(--ff-display); font-weight:400; letter-spacing:-.015em; line-height:1;
-    font-size:clamp(36px, 6vw, 58px); margin:12px 0 14px;
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px}
+  .brand-img{width:30px;height:30px;border-radius:99px}
+  .brand-name b{font-weight:600;font-size:14px;color:var(--ink)}
+  .brand-name i{display:block;font-style:normal;font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:1px}
+
+  /* ---------- page wrapper ---------- */
+  .page{
+    flex:1;
+    max-width:var(--max);
+    width:100%;
+    margin:0 auto;
+    padding:clamp(32px,6vh,72px) var(--pad) 64px;
   }
-  .lede { color:var(--ink-2); font-size:16px; max-width:52ch; }
-  .status {
-    margin:16px 0 24px; padding:14px 16px; border-radius:12px; background:var(--accent-soft);
-    border:1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); color:var(--ink-2); font-size:14px;
+
+  /* ---------- loading / not-signed-in state ---------- */
+  .state-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:40px 36px;
+    text-align:center;
   }
-  .hidden { display:none !important; }
-  .field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
-  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  @media (max-width:640px) { .field-row { grid-template-columns:1fr; } .card { padding:24px; } }
-  label {
-    font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3);
+  .state-card .icon{font-size:36px;margin-bottom:16px}
+  .state-card h2{
+    font-family:var(--ff-display);font-weight:400;
+    font-size:28px;margin:0 0 10px;letter-spacing:-.01em
   }
-  input, select {
-    font:inherit; font-size:14.5px; padding:12px 14px; border:1px solid var(--line-2);
-    border-radius:10px; background:#fff; color:var(--ink);
+  .state-card p{color:var(--ink-2);font-size:15px;margin:0 0 24px;max-width:38ch;margin-left:auto;margin-right:auto}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 20px;border-radius:8px;
+    background:var(--ink);color:var(--bg);
+    font-size:14px;font-weight:500;
+    transition:background .18s;
   }
-  input:focus, select:focus { outline:none; border-color:var(--ink); }
-  .btn {
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    width:100%; padding:14px 18px; border-radius:10px; border:0; cursor:pointer;
-    background:var(--accent); color:#fff; font:inherit; font-size:15px; font-weight:600;
+  .btn-primary:hover{background:var(--accent)}
+
+  /* ---------- form card ---------- */
+  .form-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:40px 36px;
   }
-  .btn.secondary {
-    background:#fff; color:var(--ink); border:1px solid var(--line-2);
+  @media(max-width:520px){.form-card{padding:28px 22px}}
+
+  .step-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--ff-mono);font-size:10.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+    margin-bottom:8px;
   }
-  .fine { font-size:12px; color:var(--ink-3); margin-top:14px; line-height:1.55; }
-  .fine a { color:var(--ink-2); }
+  .step-badge .dot{width:7px;height:7px;border-radius:99px;background:var(--accent)}
+
+  .form-card h1{
+    font-family:var(--ff-display);font-weight:400;
+    font-size:clamp(28px,5vw,36px);
+    letter-spacing:-.01em;line-height:1.05;
+    margin:0 0 8px;
+  }
+  .form-card .sub{
+    font-size:14.5px;color:var(--ink-2);margin:0 0 28px;max-width:52ch;line-height:1.55
+  }
+
+  .section-label{
+    font-family:var(--ff-mono);font-size:10.5px;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--accent);font-weight:500;
+    margin:20px 0 12px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .section-label:first-of-type{border-top:0;padding-top:0;margin-top:4px}
+
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+  .field label{
+    font-family:var(--ff-mono);font-size:10.5px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)
+  }
+  .field input,.field select{
+    font:inherit;font-size:14.5px;
+    padding:12px 14px;border:1px solid var(--line-2);
+    border-radius:10px;background:#fff;color:var(--ink);
+    transition:border-color .15s;
+  }
+  .field input:focus,.field select:focus{outline:none;border-color:var(--ink)}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.field-row{grid-template-columns:1fr}}
+
+  .prefilled{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 14px;
+    border:1px solid var(--line);border-radius:10px;
+    background:var(--bg-2);
+    font-size:14px;color:var(--ink-2);
+  }
+  .prefilled .label{
+    font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3);margin-right:auto
+  }
+  .prefilled .val{font-weight:500;color:var(--ink)}
+
+  .btn-submit{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:14px;margin-top:8px;
+    border-radius:10px;
+    background:var(--accent);color:#fff;
+    font-size:15px;font-weight:500;
+    box-shadow:0 1px 0 rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.18);
+    transition:filter .18s;
+  }
+  .btn-submit:hover{filter:brightness(.93) saturate(1.05)}
+  .btn-submit:disabled{opacity:.55;cursor:not-allowed;filter:none}
+  .arr{transition:transform .2s}
+  .btn-submit:not(:disabled):hover .arr{transform:translateX(3px)}
+
+  .fine{
+    font-size:12px;color:var(--ink-3);margin:12px 0 0;text-align:center;line-height:1.5
+  }
+  .fine a{color:var(--ink-2);text-decoration:underline}
+
+  /* ---------- error / status ---------- */
+  .msg{
+    display:none;
+    padding:12px 16px;border-radius:10px;
+    font-size:14px;margin-top:16px;line-height:1.5;
+  }
+  .msg.error{background:rgba(185,28,28,.07);border:1px solid rgba(185,28,28,.2);color:#b91c1c;display:block}
+  .msg.ok{background:rgba(46,125,91,.07);border:1px solid rgba(46,125,91,.2);color:var(--ok);display:block}
+
+  /* ---------- spinner ---------- */
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spinner{
+    width:18px;height:18px;border-radius:99px;
+    border:2px solid rgba(255,255,255,.35);
+    border-top-color:#fff;
+    animation:spin .6s linear infinite;
+    display:none;
+  }
+  .loading .spinner{display:block}
+  .loading .btn-label{display:none}
+
+  /* ---------- loading skeleton ---------- */
+  #state-loading{padding:60px 0;text-align:center;color:var(--ink-3);font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="wrap">
-    <a class="brand" href="index.html">
-      <img src="assets/scispark-mark-clean.png" alt="SciSpark">
-      <div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand">
+      <img src="assets/scispark-mark-clean.png" alt="IG Science Spark Lab" class="brand-img">
+      <span class="brand-name">
         <b>IG Science Spark Lab</b>
-        <span>Year 7–9 Science · Cambridge 0893</span>
-      </div>
+        <i>Year 7–9 Science · Cambridge 0893</i>
+      </span>
     </a>
+  </div>
+</nav>
 
-    <div class="card">
-      <div class="eyebrow">Complete sign up</div>
-      <h1>Finish account setup.</h1>
-      <p class="lede">You are now signed in. Complete the parent and student details below so SciSpark can store the assessment correctly and route your child to the right year-level paper.</p>
+<!-- PAGE -->
+<main class="page" id="main-content">
+  <!-- Shown while Supabase session check is in progress -->
+  <div id="state-loading">Checking sign-in…</div>
 
-      <div id="status" class="status">Checking sign-in status…</div>
-
-      <form id="setup-form" class="hidden">
-        <div class="field-row">
-          <div class="field">
-            <label for="parent-name">Parent name</label>
-            <input id="parent-name" type="text" required placeholder="Jane Lim">
-          </div>
-          <div class="field">
-            <label for="parent-email">Parent email</label>
-            <input id="parent-email" type="email" required placeholder="parent@example.com">
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="student-name">Student name</label>
-            <input id="student-name" type="text" required placeholder="Alex Lim">
-          </div>
-          <div class="field">
-            <label for="year-group">Year group</label>
-            <select id="year-group">
-              <option>Year 7</option>
-              <option>Year 8</option>
-              <option selected>Year 9</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="student-email">Student email (optional)</label>
-            <input id="student-email" type="email" placeholder="student@gmail.com">
-          </div>
-          <div class="field">
-            <label for="assessment-language">Assessment language</label>
-            <select id="assessment-language">
-              <option>English</option>
-              <option>中文 (Chinese)</option>
-            </select>
-          </div>
-        </div>
-
-        <button type="submit" class="btn">Save details & begin assessment →</button>
-        <p class="fine">If this page says you are not signed in, go back to <a href="index.html">the homepage</a> and use <strong>Continue with Google</strong> again.</p>
-      </form>
-
-      <div id="not-signed-in" class="hidden">
-        <button class="btn secondary" onclick="window.location.href='index.html'">Return to homepage</button>
-      </div>
+  <!-- Shown if no active session -->
+  <div id="state-no-session" style="display:none">
+    <div class="state-card">
+      <div class="icon">🔒</div>
+      <h2>Please sign in first</h2>
+      <p>This page is the next step after signing in with Google. Return to the homepage and click <strong>Continue with Google</strong> to begin.</p>
+      <a href="/" class="btn-primary">← Back to homepage</a>
     </div>
   </div>
 
+  <!-- Shown when a session exists -->
+  <div id="state-form" style="display:none">
+    <div class="form-card">
+      <div class="step-badge"><span class="dot"></span> Step 2 of 2</div>
+      <h1>Complete your registration.</h1>
+      <p class="sub">Your Google sign-in worked. Now tell us about the parent and student so we can set up the right assessment path.</p>
+
+      <form id="signup-form" novalidate>
+
+        <!-- Google account row (pre-filled, read-only) -->
+        <p class="section-label">Signed in as</p>
+        <div class="prefilled">
+          <span class="label">Google account</span>
+          <span class="val" id="display-email">—</span>
+        </div>
+
+        <!-- Parent details -->
+        <p class="section-label">Parent / responsible adult</p>
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" id="parent-name" required placeholder="Jane Lim" autocomplete="name">
+        </div>
+        <div class="field">
+          <label>Contact email</label>
+          <input type="email" id="parent-email" required placeholder="parent@example.com" autocomplete="email">
+        </div>
+
+        <!-- Student details -->
+        <p class="section-label">Student</p>
+        <div class="field-row">
+          <div class="field">
+            <label>Student name</label>
+            <input type="text" id="student-name" required placeholder="Alex Lim">
+          </div>
+          <div class="field">
+            <label>Year group</label>
+            <select id="year-group" required>
+              <option value="">Select…</option>
+              <option value="7">Year 7</option>
+              <option value="8">Year 8</option>
+              <option value="9">Year 9</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Assessment language</label>
+          <select id="assess-lang" required>
+            <option value="en">English</option>
+            <option value="zh">中文 (Chinese)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-label">Begin assessment <span class="arr">→</span></span>
+        </button>
+        <p class="fine">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+        <div class="msg" id="form-msg"></div>
+      </form>
+    </div>
+  </div>
+</main>
+
 <script>
+(async function(){
+  /* ── Supabase init ── */
   const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-  const statusEl = document.getElementById('status');
-  const formEl = document.getElementById('setup-form');
-  const notSignedInEl = document.getElementById('not-signed-in');
-
-  async function getCurrentUser() {
-    const { data, error } = await supabaseClient.auth.getUser();
-    if (error) return null;
-    return data?.user || null;
+  const SUPABASE_KEY  = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  let sb;
+  try {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch(e) {
+    showState('no-session');
+    console.error('Supabase init failed:', e);
+    return;
   }
 
-  (async function init() {
-    const user = await getCurrentUser();
-    if (!user) {
-      statusEl.textContent = 'You are not signed in yet. Please return to the homepage and continue with Google first.';
-      notSignedInEl.classList.remove('hidden');
-      return;
-    }
+  /* ── Helper: show a state panel ── */
+  function showState(which){
+    document.getElementById('state-loading').style.display    = which === 'loading'    ? '' : 'none';
+    document.getElementById('state-no-session').style.display = which === 'no-session' ? '' : 'none';
+    document.getElementById('state-form').style.display       = which === 'form'       ? '' : 'none';
+  }
 
-    statusEl.textContent = 'Signed in successfully. Please complete the details below before starting the assessment.';
-    formEl.classList.remove('hidden');
-    if (user.email) {
-      document.getElementById('parent-email').value = user.email;
-    }
-  })();
+  /* ── Check session ── */
+  showState('loading');
+  const { data: { session } } = await sb.auth.getSession();
 
-  formEl.addEventListener('submit', async (e) => {
+  if (!session) {
+    showState('no-session');
+    return;
+  }
+
+  /* We have a session — show the form */
+  const user = session.user;
+  document.getElementById('display-email').textContent = user.email || user.id;
+
+  /* Pre-fill parent email from Google account */
+  const parentEmailEl = document.getElementById('parent-email');
+  if (user.email) parentEmailEl.value = user.email;
+
+  /* Pre-fill parent name from Google identity if available */
+  const parentNameEl = document.getElementById('parent-name');
+  const googleName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+  if (googleName) parentNameEl.value = googleName;
+
+  showState('form');
+
+  /* ── Form submission ── */
+  const form = document.getElementById('signup-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const msgEl = document.getElementById('form-msg');
+
+  function showMsg(text, type){
+    msgEl.textContent = text;
+    msgEl.className = 'msg ' + type;
+  }
+  function clearMsg(){ msgEl.className = 'msg'; }
+
+  function setLoading(on){
+    submitBtn.disabled = on;
+    submitBtn.classList.toggle('loading', on);
+  }
+
+  form.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    clearMsg();
 
-    const user = await getCurrentUser();
-    if (!user) {
-      alert('You are not signed in. Please return to the homepage and continue with Google first.');
-      return;
-    }
-
-    const parentName = document.getElementById('parent-name').value.trim();
-    const parentEmail = document.getElementById('parent-email').value.trim() || user.email || '';
+    const parentName  = document.getElementById('parent-name').value.trim();
+    const parentEmail = document.getElementById('parent-email').value.trim();
     const studentName = document.getElementById('student-name').value.trim();
-    const yearGroup = document.getElementById('year-group').value;
-    const preferredLanguage = document.getElementById('assessment-language').value;
+    const yearGroup   = document.getElementById('year-group').value;
+    const assessLang  = document.getElementById('assess-lang').value;
 
+    /* Basic client-side validation */
     if (!parentName || !parentEmail || !studentName || !yearGroup) {
-      alert('Please complete all required fields.');
+      showMsg('Please fill in all required fields.', 'error');
       return;
     }
 
-    statusEl.textContent = 'Saving your details…';
+    setLoading(true);
 
     try {
-      const { data: parentData, error: parentErr } = await supabaseClient
+      /* 1. Upsert parent row using the auth user id */
+      const { data: parentRow, error: parentErr } = await sb
         .from('parents')
-        .upsert({
-          auth_user_id: user.id,
-          full_name: parentName,
-          email: parentEmail
-        }, {
-          onConflict: 'auth_user_id'
-        })
+        .upsert(
+          {
+            auth_user_id: user.id,
+            name: parentName,
+            email: parentEmail,
+          },
+          { onConflict: 'auth_user_id', ignoreDuplicates: false }
+        )
         .select('id')
         .single();
 
       if (parentErr) throw parentErr;
 
-      const parentId = parentData.id;
+      const parentId = parentRow.id;
 
-      const { error: studentErr } = await supabaseClient
+      /* 2. Insert student row */
+      const { error: studentErr } = await sb
         .from('students')
         .insert({
           parent_id: parentId,
-          student_name: studentName,
-          year_group: yearGroup,
-          preferred_language: preferredLanguage
+          name: studentName,
+          year_group: parseInt(yearGroup, 10),
+          assessment_language: assessLang,
         });
 
       if (studentErr) throw studentErr;
 
-      statusEl.textContent = 'Details saved. Opening the assessment…';
+      /* 3. Redirect to the correct year-based assessment */
+      const assessmentPages = {
+        '7': 'assessment-y7.html',
+        '8': 'assessment-y8.html',
+        '9': 'assessment-y9.html',
+      };
+      const target = assessmentPages[yearGroup] || 'assessment-y7.html';
+      window.location.href = target;
 
-      if (yearGroup === 'Year 7') {
-        window.location.href = 'assessment-y7.html';
-      } else if (yearGroup === 'Year 8') {
-        window.location.href = 'assessment-y8.html';
-      } else {
-        window.location.href = 'assessment-y9.html';
+    } catch(err) {
+      console.error('Signup error:', err);
+
+      /* Surface a useful message */
+      let msg = 'Something went wrong. Please try again.';
+      if (err?.message) {
+        if (err.message.includes('policy') || err.message.includes('permission') || err.code === '42501') {
+          msg = 'Database permission error. The site administrator needs to enable row-level security policies. Please contact support.';
+        } else {
+          msg = err.message;
+        }
       }
-    } catch (err) {
-      console.error(err);
-      statusEl.textContent = 'Your details could not be saved yet.';
-      alert('Your details could not be saved yet. The most likely cause is that the database row-level security policies still need to allow inserts from signed-in users.');
+      showMsg(msg, 'error');
+      setLoading(false);
     }
   });
+})();
 </script>
+
 </body>
 </html>
