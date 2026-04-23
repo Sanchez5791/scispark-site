@@ -730,6 +730,8 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     background:var(--accent);opacity:.3;border-radius:2px;z-index:-1;
   }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1625,6 +1627,33 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   document.getElementById('btn-email-step').addEventListener('click', ()=> showStep(2));
   document.getElementById('gate-back').addEventListener('click', ()=> showStep(1));
 
+  
+  const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+  // Real Google OAuth via Supabase
+  document.getElementById('btn-google').addEventListener('click', async (e)=>{
+    e.preventDefault();
+    try {
+      await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: 'https://scisparklab.com'
+        }
+      });
+    } catch (err) {
+      alert('Google sign-in could not start. Please try again.');
+      console.error(err);
+    }
+  });
+
+  // Facebook remains placeholder until connected
+  document.getElementById('btn-facebook').addEventListener('click', (e)=>{
+    e.preventDefault();
+    alert('Facebook sign-in is not connected yet.');
+  });
+
   const form = document.getElementById('gate-form');
   form.addEventListener('submit', (e)=>{
     e.preventDefault();
@@ -1637,7 +1666,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     try {
       sessionStorage.setItem('scispark_signup_intake_pending', JSON.stringify(data));
     } catch (err) {}
-    alert('Your details have been stored temporarily in this browser. Real account creation and assessment continuation are not connected yet, so the system will not pretend signup is complete. The next step is to connect this form to the real signup/intake route.');
+    alert('Your details have been stored temporarily in this browser. Real account creation and assessment continuation are not connected yet, so the system will not pretend signup is complete. The next step is to connect this form to the real signup/intake route and post-login assessment continuation.');
   });
 })();
 
