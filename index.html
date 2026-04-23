@@ -1628,23 +1628,46 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   document.getElementById('gate-back').addEventListener('click', ()=> showStep(1));
 
   
+  
   const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+  function openStep2() {
+    const gate = document.getElementById('gate');
+    const step1 = document.getElementById('gate-step-1');
+    const step2 = document.getElementById('gate-step-2');
+    if (gate) gate.classList.add('on');
+    if (step1) step1.style.display = 'none';
+    if (step2) step2.style.display = '';
+  }
+
+  async function getCurrentUser() {
+    const { data, error } = await supabaseClient.auth.getUser();
+    if (error) return null;
+    return data?.user || null;
+  }
 
   // Real Google OAuth via Supabase
   document.getElementById('btn-google').addEventListener('click', async (e)=>{
     e.preventDefault();
     try {
       await supabaseClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: 'https://scisparklab.com'
-        }
+        provider: 'google'
       });
     } catch (err) {
-      alert('Google sign-in could not start. Please try again.');
       console.error(err);
+      alert('Google sign-in could not start. Please try again.');
+    }
+  });
+
+  // Re-open gate at step 2 after successful return
+  window.addEventListener('load', async () => {
+    const user = await getCurrentUser();
+    if (user) {
+      openStep2();
+      const parentEmail = document.getElementById('parent-email');
+      if (parentEmail && user.email) parentEmail.value = user.email;
     }
   });
 
@@ -1655,14 +1678,67 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   });
 
   const form = document.getElementById('gate-form');
-  form.addEventListener('submit', (e)=>{
+  form.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    const fields = form.querySelectorAll('input, select');
-    const data = {};
-    fields.forEach((field, index) => {
-      const key = field.name || field.id || `field_${index+1}`;
-      data[key] = field.value;
-    });
+
+    const user = await getCurrentUser();
+    if (!user) {
+      alert('Please sign in with Google first before continuing.');
+      return;
+    }
+
+    const parentName = document.getElementById('parent-name')?.value?.trim() || '';
+    const parentEmail = document.getElementById('parent-email')?.value?.trim() || user.email || '';
+    const studentName = document.getElementById('student-name')?.value?.trim() || '';
+    const yearGroup = document.getElementById('year-group')?.value || '';
+    const preferredLanguage = document.getElementById('assessment-language')?.value || '';
+
+    if (!parentName || !parentEmail || !studentName || !yearGroup) {
+      alert('Please complete all required fields.');
+      return;
+    }
+
+    try {
+      const { data: parentData, error: parentErr } = await supabaseClient
+        .from('parents')
+        .upsert({
+          auth_user_id: user.id,
+          full_name: parentName,
+          email: parentEmail
+        }, {
+          onConflict: 'auth_user_id'
+        })
+        .select('id')
+        .single();
+
+      if (parentErr) throw parentErr;
+
+      const parentId = parentData.id;
+
+      const { error: studentErr } = await supabaseClient
+        .from('students')
+        .insert({
+          parent_id: parentId,
+          student_name: studentName,
+          year_group: yearGroup,
+          preferred_language: preferredLanguage
+        });
+
+      if (studentErr) throw studentErr;
+
+      if (yearGroup === 'Year 7') {
+        window.location.href = 'assessment-y7.html';
+      } else if (yearGroup === 'Year 8') {
+        window.location.href = 'assessment-y8.html';
+      } else {
+        window.location.href = 'assessment-y9.html';
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Your details could not be saved yet. Please check database policies and try again.');
+    }
+  });
+
     try {
       sessionStorage.setItem('scispark_signup_intake_pending', JSON.stringify(data));
     } catch (err) {}
