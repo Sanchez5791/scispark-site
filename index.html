@@ -1628,26 +1628,27 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   document.getElementById('gate-back').addEventListener('click', ()=> showStep(1));
 
   
-  
   const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
+  // Real Google OAuth via Supabase
   document.getElementById('btn-google').addEventListener('click', async (e)=>{
     e.preventDefault();
     try {
       await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'https://scisparklab.com/signup-complete.html'
+          redirectTo: 'https://scisparklab.com'
         }
       });
     } catch (err) {
-      console.error(err);
       alert('Google sign-in could not start. Please try again.');
+      console.error(err);
     }
   });
 
+  // Facebook remains placeholder until connected
   document.getElementById('btn-facebook').addEventListener('click', (e)=>{
     e.preventDefault();
     alert('Facebook sign-in is not connected yet.');
@@ -1656,9 +1657,12 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   const form = document.getElementById('gate-form');
   form.addEventListener('submit', (e)=>{
     e.preventDefault();
-    alert('Please continue with Google first. After sign-in, you will be redirected to the next setup page.');
-  });
-
+    const fields = form.querySelectorAll('input, select');
+    const data = {};
+    fields.forEach((field, index) => {
+      const key = field.name || field.id || `field_${index+1}`;
+      data[key] = field.value;
+    });
     try {
       sessionStorage.setItem('scispark_signup_intake_pending', JSON.stringify(data));
     } catch (err) {}
@@ -1709,6 +1713,81 @@ document.querySelectorAll('.qopt').forEach(o=>{
     if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
   });
   try{ window.parent.postMessage({type:'__edit_mode_available'}, '*'); }catch(e){}
+})();
+</script>
+
+
+<script>
+(function() {
+  const gate = document.getElementById('gate');
+  const closeBtn = document.getElementById('gate-close');
+  const emailBtn = document.getElementById('btn-email-step');
+  const backBtn = document.getElementById('gate-back');
+  const step1 = document.getElementById('gate-step-1');
+  const step2 = document.getElementById('gate-step-2');
+
+  function openGate() {
+    if (!gate) return;
+    gate.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    if (step1) step1.style.display = '';
+    if (step2) step2.style.display = 'none';
+  }
+
+  function closeGate() {
+    if (!gate) return;
+    gate.classList.remove('on');
+    document.body.style.overflow = '';
+  }
+
+  function openStep2() {
+    if (!gate) return;
+    gate.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    if (step1) step1.style.display = 'none';
+    if (step2) step2.style.display = '';
+  }
+
+  // Make every Start Assessment trigger open the gate
+  document.querySelectorAll('[data-gate="1"]').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      openGate();
+    });
+  });
+
+  // Close controls
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeGate();
+    });
+  }
+
+  if (gate) {
+    gate.addEventListener('click', function(e) {
+      if (e.target === gate) closeGate();
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeGate();
+  });
+
+  // Step switch
+  if (emailBtn) {
+    emailBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openStep2();
+    });
+  }
+
+  if (backBtn) {
+    backBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openGate();
+    });
+  }
 })();
 </script>
 
