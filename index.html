@@ -752,7 +752,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
       <a href="#home" data-en="Home" data-zh="首页">Home</a>
       <a href="#how" data-en="How It Works" data-zh="运作方式">How It Works</a>
       <a href="#levels" data-en="Learning Paths" data-zh="学习路径">Learning Paths</a>
-      <a href="#assess" data-en="Start Assessment" data-zh="开始评估">Start Assessment</a>
+      <a href="#" data-gate="1" data-en="Start Assessment" data-zh="开始评估">Start Assessment</a>
     </div>
     <div class="nav-right">
       <div class="lang" role="group" aria-label="Language">
@@ -1315,7 +1315,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
         </p>
         <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
           <a href="#" class="btn btn-accent" data-gate="1" style="padding:14px 22px;font-size:15px" data-en="Start Assessment" data-zh="开始评估">Start Assessment <span class="arr">→</span></a>
-          <a href="#" class="btn" style="background:#2a2622;color:var(--bg);padding:14px 22px;font-size:15px" data-en="Sign In" data-zh="登录">Sign In</a>
+          <a href="signin.html" class="btn" style="background:#2a2622;color:var(--bg);padding:14px 22px;font-size:15px" data-en="Sign In" data-zh="登录">Sign In</a>
         </div>
       </div>
       <div class="checks">
@@ -1471,7 +1471,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
 
       <div class="signin-row">
         <span data-en="Already have an account?" data-zh="已有账号？">Already have an account?</span>
-        <a href="#" id="gate-signin" data-en="Sign in" data-zh="登录">Sign in</a>
+        <a href="signin.html" id="gate-signin" data-en="Sign in" data-zh="登录">Sign in</a>
       </div>
     </div>
 
@@ -1609,15 +1609,21 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   gate.addEventListener('click', (e)=>{ if (e.target === gate) closeGate(); });
   document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeGate(); });
 
-  document.getElementById('btn-google').addEventListener('click', ()=>{
-    closeGate();
-    const a = document.getElementById('assess');
-    if (a) { const top = a.getBoundingClientRect().top + window.scrollY - 24; window.scrollTo({top, behavior:'smooth'}); }
+  function showPendingAuth(provider){
+    const lang = document.documentElement.lang === 'zh' ? 'zh' : 'en';
+    const msg = lang === 'zh'
+      ? `${provider} 登录尚未接通。当前首页已完成注册弹窗演示，但真实账号创建与社交登录仍在接线中。请先使用邮箱流程，或稍后再试。`
+      : `${provider} sign-in is not connected yet. The homepage gate demo is built, but real account creation and social auth wiring are still pending. Please use the email path for now or try again later.`;
+    window.alert(msg);
+  }
+
+  document.getElementById('btn-google').addEventListener('click', (e)=>{
+    e.preventDefault();
+    showPendingAuth('Google');
   });
-  document.getElementById('btn-facebook').addEventListener('click', ()=>{
-    closeGate();
-    const a = document.getElementById('assess');
-    if (a) { const top = a.getBoundingClientRect().top + window.scrollY - 24; window.scrollTo({top, behavior:'smooth'}); }
+  document.getElementById('btn-facebook').addEventListener('click', (e)=>{
+    e.preventDefault();
+    showPendingAuth('Facebook');
   });
 
   document.getElementById('btn-email-step').addEventListener('click', ()=> showStep(2));
@@ -1626,12 +1632,37 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   const form = document.getElementById('gate-form');
   form.addEventListener('submit', (e)=>{
     e.preventDefault();
+
+    const parentName = form.querySelector('input[type="text"]')?.value?.trim() || '';
+    const parentEmail = form.querySelector('input[type="email"]')?.value?.trim() || '';
+    const allTextInputs = form.querySelectorAll('input[type="text"]');
+    const allEmailInputs = form.querySelectorAll('input[type="email"]');
+    const selects = form.querySelectorAll('select');
+    const studentName = allTextInputs[1]?.value?.trim() || '';
+    const studentEmail = allEmailInputs[1]?.value?.trim() || '';
+    const yearGroup = selects[0]?.value || '';
+    const language = selects[1]?.value || '';
+
+    const payload = {
+      parentName,
+      parentEmail,
+      studentName,
+      studentEmail,
+      yearGroup,
+      language,
+      source: 'homepage-gate-demo'
+    };
+
+    try {
+      sessionStorage.setItem('scispark_signup_intake_pending', JSON.stringify(payload));
+    } catch (err) {}
+
     closeGate();
-    const a = document.getElementById('assess');
-    if (a) {
-      const top = a.getBoundingClientRect().top + window.scrollY - 24;
-      window.scrollTo({top, behavior:'smooth'});
-    }
+    const lang = document.documentElement.lang === 'zh' ? 'zh' : 'en';
+    const msg = lang === 'zh'
+      ? '资料已暂存到当前浏览器。真实账号创建和评估接续页面尚未接通，所以系统不会假装注册成功。下一步应把这个表单接到真正的 signup / intake 路由。'
+      : 'Your details have been stored temporarily in this browser. Real account creation and assessment continuation are not connected yet, so the system will not pretend signup is complete. The next step is to connect this form to the real signup/intake route.';
+    window.alert(msg);
   });
 })();
 
