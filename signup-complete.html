@@ -276,7 +276,7 @@
             </select>
           </div>
         </div>
-        <div class="field">
+       <div class="field" style="display:none">
           <label>Assessment language</label>
           <select id="assess-lang" required>
             <option value="en">English</option>
@@ -400,52 +400,23 @@
     parent_id: parentId,
     student_name: studentName,
     year_group: yearGroup,
-    preferred_language: assessLang,
+    preferred_language: 'EN',
   })
   .select('id')
   .single();
 
 if (studentErr) throw studentErr;
 
-     /* 3. Redirect to the correct year-based assessment */
+     /* 3. Redirect to the correct year-based assessment.
+   First-round assessment is English only.
+   Chinese second-round is teacher-triggered after English result review. */
 const assessmentPages = {
-  '7': {
-    EN: 'assessment-y7.html',
-    ZH: 'assessment-y7-zh.html'
-  },
-  '8': {
-    EN: 'assessment-y8.html',
-    ZH: 'assessment-y8-zh.html'
-  },
-  '9': {
-    EN: 'assessment/year-9/en/assessment-y9.html',
-    ZH: 'assessment/year-9/zh/assessment-y9-zh.html'
-  }
+  '7': 'assessment-y7.html',
+  '8': 'assessment-y8.html',
+  '9': 'assessment/year-9/en/assessment-y9.html',
 };
 
-const languageSelect =
-  document.getElementById('preferred_language') ||
-  document.getElementById('preferred-language') ||
-  document.getElementById('assessment_language') ||
-  document.getElementById('assessment-language') ||
-  document.querySelector('select[name="preferred_language"]') ||
-  document.querySelector('select[name="preferredLanguage"]') ||
-  document.querySelector('select[name="assessment_language"]') ||
-  document.querySelector('select[name="assessmentLanguage"]');
-
-const selectedLanguage = languageSelect ? languageSelect.value : 'English';
-
-const lang =
-  String(selectedLanguage).toLowerCase().includes('chinese') ||
-  String(selectedLanguage).toLowerCase().includes('zh')
-    ? 'ZH'
-    : 'EN';
-
-const targetBase =
-  assessmentPages[yearGroup]?.[lang] ||
-  assessmentPages[yearGroup]?.EN ||
-  assessmentPages['9'].EN;
-
+const targetBase = assessmentPages[yearGroup] || assessmentPages['9'];
 const target = `${targetBase}?student_id=${encodeURIComponent(studentRow.id)}`;
 window.location.href = target;
 
