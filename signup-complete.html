@@ -394,16 +394,18 @@
       const parentId = parentRow.id;
 
       /* 2. Insert student row */
-      const { error: studentErr } = await sb
-        .from('students')
-        .insert({
-          parent_id: parentId,
-          student_name: studentName,
-          year_group: yearGroup,
-          preferred_language: assessLang,
-        });
+    const { data: studentRow, error: studentErr } = await sb
+  .from('students')
+  .insert({
+    parent_id: parentId,
+    student_name: studentName,
+    year_group: yearGroup,
+    preferred_language: assessLang,
+  })
+  .select('id')
+  .single();
 
-      if (studentErr) throw studentErr;
+if (studentErr) throw studentErr;
 
      /* 3. Redirect to the correct year-based assessment */
 const assessmentPages = {
@@ -444,7 +446,7 @@ const targetBase =
   assessmentPages[yearGroup]?.EN ||
   assessmentPages['9'].EN;
 
-const target = `${targetBase}?student_id=${encodeURIComponent(student.id)}`;
+const target = `${targetBase}?student_id=${encodeURIComponent(studentRow.id)}`;
 window.location.href = target;
 
     } catch(err) {
