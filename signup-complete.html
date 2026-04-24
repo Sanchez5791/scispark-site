@@ -405,14 +405,30 @@
 
       if (studentErr) throw studentErr;
 
-      /* 3. Redirect to the correct year-based assessment */
-      const assessmentPages = {
-        '7': 'assessment-y7.html',
-        '8': 'assessment-y8.html',
-        '9': 'assessment-y9.html',
-      };
-      const target = assessmentPages[yearGroup] || 'assessment-y7.html';
-      window.location.href = target;
+     /* 3. Redirect to the correct year-based assessment */
+const assessmentPages = {
+  '7': {
+    EN: 'assessment-y7.html',
+    ZH: 'assessment-y7-zh.html'
+  },
+  '8': {
+    EN: 'assessment-y8.html',
+    ZH: 'assessment-y8-zh.html'
+  },
+  '9': {
+    EN: 'assessment/year-9/en/assessment-y9.html',
+    ZH: 'assessment/year-9/zh/assessment-y9-zh.html'
+  }
+};
+
+const lang = (preferredLanguage || 'EN').toUpperCase();
+const targetBase =
+  assessmentPages[yearGroup]?.[lang] ||
+  assessmentPages[yearGroup]?.EN ||
+  assessmentPages['9'].EN;
+
+const target = `${targetBase}?student_id=${encodeURIComponent(student.id)}`;
+window.location.href = target;
 
     } catch(err) {
       console.error('Signup error:', err);
