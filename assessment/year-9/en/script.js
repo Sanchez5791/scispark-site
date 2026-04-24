@@ -340,6 +340,8 @@ async function submitToSupabase(payload) {
       submitted_at: payload.meta.submitted_at,
       time_spent_seconds: payload.meta.time_spent_seconds,
       teacher_review_status: 'pending'
+       assessment_round: 1,
+trigger_source: 'signup'
     })
     .select('id')
     .single();
