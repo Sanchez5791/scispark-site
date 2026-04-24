@@ -339,7 +339,7 @@ async function submitToSupabase(payload) {
       total_marks: payload.meta.total_marks,
       submitted_at: payload.meta.submitted_at,
       time_spent_seconds: payload.meta.time_spent_seconds,
-      teacher_review_status: 'pending'
+      teacher_review_status: 'pending',
        assessment_round: 2,
 trigger_source: 'teacher_second_round'
     })
