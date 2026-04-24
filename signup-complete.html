@@ -421,7 +421,24 @@ const assessmentPages = {
   }
 };
 
-const lang = (preferredLanguage || 'EN').toUpperCase();
+const languageSelect =
+  document.getElementById('preferred_language') ||
+  document.getElementById('preferred-language') ||
+  document.getElementById('assessment_language') ||
+  document.getElementById('assessment-language') ||
+  document.querySelector('select[name="preferred_language"]') ||
+  document.querySelector('select[name="preferredLanguage"]') ||
+  document.querySelector('select[name="assessment_language"]') ||
+  document.querySelector('select[name="assessmentLanguage"]');
+
+const selectedLanguage = languageSelect ? languageSelect.value : 'English';
+
+const lang =
+  String(selectedLanguage).toLowerCase().includes('chinese') ||
+  String(selectedLanguage).toLowerCase().includes('zh')
+    ? 'ZH'
+    : 'EN';
+
 const targetBase =
   assessmentPages[yearGroup]?.[lang] ||
   assessmentPages[yearGroup]?.EN ||
