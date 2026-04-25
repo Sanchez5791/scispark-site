@@ -359,6 +359,39 @@
   .card-header-sub{
     font-size:12px;color:var(--ink-3);margin-left:8px;font-style:italic;
   }
+
+  /* ── teacher final decision ── */
+  .card-header.final-decision{
+    background:var(--ink);
+    border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .card-header.final-decision .card-header-label{color:rgba(255,255,255,.75)}
+  .card-header.final-decision .card-header-sub{color:rgba(255,255,255,.4);font-style:italic}
+
+  .final-level-field{display:flex;flex-direction:column;gap:5px;margin-bottom:20px}
+  .final-required{color:#b91c1c;margin-left:3px}
+  .final-level-select{
+    font:inherit;font-size:14px;font-weight:500;
+    padding:11px 14px;
+    border:2px solid var(--line-2);border-radius:10px;
+    background:#fff;color:var(--ink);
+    transition:border-color .15s;
+    cursor:pointer;
+  }
+  .final-level-select:focus{outline:none;border-color:var(--accent)}
+  .final-level-select.invalid-field{border-color:#ef4444;background:#fff5f5}
+
+  .btn-save-final{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 24px;border-radius:10px;
+    background:var(--accent);color:#fff;
+    font-size:14px;font-weight:500;
+    white-space:nowrap;
+    box-shadow:0 1px 0 rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.15);
+    transition:filter .18s;
+  }
+  .btn-save-final:hover{filter:brightness(.9) saturate(1.05)}
+  .btn-save-final:disabled{opacity:.55;cursor:not-allowed;filter:none}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -538,6 +571,38 @@
       </div>
     </div>
 
+    <!-- Teacher Final Decision -->
+    <p class="section-title">Teacher final decision</p>
+    <div class="card">
+      <div class="card-header final-decision">
+        <span class="card-header-label">Final level decision</span>
+        <span class="card-header-sub">This action sets the official result — Save Draft will preserve this status going forward</span>
+      </div>
+      <div class="card-body">
+
+        <div class="final-level-field">
+          <label class="score-label" for="final-level">
+            Teacher final level <span class="final-required">*</span>
+          </label>
+          <select id="final-level" class="final-level-select">
+            <option value="">— select final level —</option>
+            <option value="level_1">Level 1</option>
+            <option value="level_2">Level 2</option>
+            <option value="level_3">Level 3</option>
+            <option value="hold_second_round">Hold — needs Chinese second round</option>
+            <option value="hold_manual_review">Hold — manual review required</option>
+            <option value="invalid">Invalid attempt</option>
+          </select>
+        </div>
+
+        <div class="save-row">
+          <button type="button" id="save-final-btn" class="btn-save-final">Save Final Review</button>
+          <span class="save-msg" id="final-msg"></span>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Bottom back link -->
     <div class="bottom-nav">
       <a href="teacher-review-list.html" class="back-link">
@@ -624,7 +689,7 @@
       .order('question_number', { ascending: true }),
     sb
       .from('assessment_reviews')
-      .select('id, part_a_score, part_b_score, part_c_score, part_d_score, total_score, provisional_level, reliability_status, language_status, borderline_status, teacher_notes, review_status')
+      .select('id, part_a_score, part_b_score, part_c_score, part_d_score, total_score, provisional_level, reliability_status, language_status, borderline_status, teacher_notes, teacher_final_level, review_status')
       .eq('attempt_id', attemptId)
       .maybeSingle()
   ]);
@@ -808,6 +873,7 @@
     setVal('language-status',   existingReview.language_status);
     setVal('borderline-status', existingReview.borderline_status);
     setVal('teacher-notes',     existingReview.teacher_notes);
+    setVal('final-level',       existingReview.teacher_final_level);
     updateTotals();
   }
 
@@ -842,7 +908,7 @@
       language_status:     document.getElementById('language-status')?.value   || null,
       borderline_status:   document.getElementById('borderline-status')?.value || null,
       teacher_notes:       document.getElementById('teacher-notes')?.value?.trim() || null,
-      review_status:       'draft',
+      review_status:       isFinalizedStatus(existingReview?.review_status) ? existingReview.review_status : 'draft',
       updated_at:          new Date().toISOString()
     };
 
@@ -886,6 +952,120 @@
 
   function showSaveMsg(type, text) {
     const el = document.getElementById('save-msg');
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'save-msg' + (type ? ' ' + type : '');
+  }
+
+  /* ── Teacher final decision ── */
+  document.getElementById('save-final-btn')?.addEventListener('click', saveFinal);
+
+  function isFinalizedStatus(s) {
+    return ['final', 'needs_second_round', 'manual_review_required', 'invalid'].includes(s);
+  }
+
+  function reviewStatusFromFinalLevel(v) {
+    if (v === 'level_1' || v === 'level_2' || v === 'level_3') return 'final';
+    if (v === 'hold_second_round')  return 'needs_second_round';
+    if (v === 'hold_manual_review') return 'manual_review_required';
+    if (v === 'invalid')            return 'invalid';
+    return null;
+  }
+
+  async function saveFinal() {
+    const LIMITS = { 'score-a': 5, 'score-b': 15, 'score-c': 12, 'score-d': 28 };
+    const LABELS = { 'score-a': 'Part A', 'score-b': 'Part B', 'score-c': 'Part C', 'score-d': 'Part D' };
+    const vals = {};
+
+    for (const [id, max] of Object.entries(LIMITS)) {
+      const el = document.getElementById(id);
+      const raw = el ? el.value : '';
+      if (raw === '') { showFinalMsg('error', LABELS[id] + ' score is required.'); return; }
+      const v = parseInt(raw, 10);
+      if (isNaN(v) || v < 0 || v > max) {
+        showFinalMsg('error', LABELS[id] + ' must be 0–' + max + '.'); return;
+      }
+      vals[id] = v;
+    }
+
+    const total      = vals['score-a'] + vals['score-b'] + vals['score-c'] + vals['score-d'];
+    const finalLevel = document.getElementById('final-level')?.value;
+
+    if (!finalLevel) {
+      document.getElementById('final-level')?.classList.add('invalid-field');
+      showFinalMsg('error', 'Please select a teacher final level.');
+      return;
+    }
+    document.getElementById('final-level')?.classList.remove('invalid-field');
+
+    const computedReviewStatus = reviewStatusFromFinalLevel(finalLevel);
+
+    const payload = {
+      part_a_score:        vals['score-a'],
+      part_b_score:        vals['score-b'],
+      part_c_score:        vals['score-c'],
+      part_d_score:        vals['score-d'],
+      total_score:         total,
+      provisional_level:   provisionalLevel(total),
+      reliability_status:  document.getElementById('reliability-status')?.value || null,
+      language_status:     document.getElementById('language-status')?.value    || null,
+      borderline_status:   document.getElementById('borderline-status')?.value  || null,
+      teacher_notes:       document.getElementById('teacher-notes')?.value?.trim() || null,
+      teacher_final_level: finalLevel,
+      review_status:       computedReviewStatus,
+      updated_at:          new Date().toISOString()
+    };
+
+    ['reliability_status', 'language_status', 'borderline_status'].forEach(k => {
+      if (payload[k] === '') payload[k] = null;
+    });
+
+    const btn = document.getElementById('save-final-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+    showFinalMsg('', '');
+
+    let saveError = null;
+
+    if (existingReview) {
+      const { error } = await sb
+        .from('assessment_reviews')
+        .update(payload)
+        .eq('id', existingReview.id);
+      saveError = error;
+    } else {
+      const { data: inserted, error } = await sb
+        .from('assessment_reviews')
+        .insert({ ...payload, attempt_id: attemptId, student_id: attempt.student_id })
+        .select('id')
+        .single();
+      saveError = error;
+      if (!error && inserted) existingReview = { id: inserted.id };
+    }
+
+    if (!saveError) {
+      const { error: attemptErr } = await sb
+        .from('assessment_attempts')
+        .update({ teacher_review_status: computedReviewStatus })
+        .eq('id', attemptId);
+      if (attemptErr) saveError = attemptErr;
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Save Final Review';
+
+    if (saveError) {
+      showFinalMsg('error', saveError.message || 'Save failed.');
+    } else {
+      existingReview = existingReview || {};
+      existingReview.review_status = computedReviewStatus;
+      const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      showFinalMsg('ok', 'Final review saved at ' + now);
+    }
+  }
+
+  function showFinalMsg(type, text) {
+    const el = document.getElementById('final-msg');
     if (!el) return;
     el.textContent = text;
     el.className = 'save-msg' + (type ? ' ' + type : '');
