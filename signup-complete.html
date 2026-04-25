@@ -276,13 +276,7 @@
             </select>
           </div>
         </div>
-       <div class="field" style="display:none">
-          <label>Assessment language</label>
-          <select id="assess-lang" required>
-            <option value="en">English</option>
-            <option value="zh">中文 (Chinese)</option>
-          </select>
-        </div>
+        <input type="hidden" id="assess-lang" value="en">
 
         <button type="submit" class="btn-submit" id="submit-btn">
           <span class="spinner"></span>
@@ -394,31 +388,29 @@
       const parentId = parentRow.id;
 
       /* 2. Insert student row */
-    const { data: studentRow, error: studentErr } = await sb
-  .from('students')
-  .insert({
-    parent_id: parentId,
-    student_name: studentName,
-    year_group: yearGroup,
-    preferred_language: 'EN',
-  })
-  .select('id')
-  .single();
+      const { data: studentRow, error: studentErr } = await sb
+        .from('students')
+        .insert({
+          parent_id: parentId,
+          name: studentName,
+          year_group: parseInt(yearGroup, 10),
+          assessment_language: 'en',
+        })
+        .select('id')
+        .single();
 
-if (studentErr) throw studentErr;
+      if (studentErr) throw studentErr;
 
-     /* 3. Redirect to the correct year-based assessment.
-   First-round assessment is English only.
-   Chinese second-round is teacher-triggered after English result review. */
-const assessmentPages = {
-  '7': 'assessment-y7.html',
-  '8': 'assessment-y8.html',
-  '9': 'assessment/year-9/en/assessment-y9.html',
-};
+      const studentId = studentRow.id;
 
-const targetBase = assessmentPages[yearGroup] || assessmentPages['9'];
-const target = `${targetBase}?student_id=${encodeURIComponent(studentRow.id)}`;
-window.location.href = target;
+      /* 3. Redirect to the correct year-based assessment */
+      const assessmentPages = {
+        '7': '/assessment/year-7/en/assessment-y7.html',
+        '8': '/assessment/year-8/en/assessment-y8.html',
+        '9': '/assessment/year-9/en/assessment-y9.html',
+      };
+      const target = assessmentPages[yearGroup] || assessmentPages['9'];
+      window.location.href = `${target}?student_id=${studentId}`;
 
     } catch(err) {
       console.error('Signup error:', err);
