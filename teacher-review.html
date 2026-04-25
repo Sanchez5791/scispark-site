@@ -254,6 +254,111 @@
     padding-top:24px;
     border-top:1px solid var(--line);
   }
+
+  /* ── scoring draft ── */
+  .score-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:20px;
+  }
+  @media(max-width:600px){.score-row{grid-template-columns:1fr 1fr}}
+  .score-field{display:flex;flex-direction:column;gap:5px}
+  .score-label{
+    font-family:var(--ff-mono);font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  .score-max{color:var(--line-2)}
+  .score-input{
+    font:inherit;font-size:15px;font-weight:600;
+    padding:10px 12px;
+    border:1px solid var(--line-2);border-radius:10px;
+    background:#fff;color:var(--ink);
+    text-align:center;
+    transition:border-color .15s;
+    -moz-appearance:textfield;
+  }
+  .score-input::-webkit-inner-spin-button,
+  .score-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .score-input:focus{outline:none;border-color:var(--ink)}
+  .score-input.invalid{border-color:#ef4444;background:#fff5f5}
+
+  .calc-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:20px;
+    padding:14px 16px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:10px;
+  }
+  @media(max-width:480px){.calc-row{grid-template-columns:1fr}}
+  .calc-item{display:flex;flex-direction:column;gap:4px}
+  .calc-label{
+    font-family:var(--ff-mono);font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  }
+  .provisional-note{
+    font-family:var(--ff-mono);font-size:9px;
+    letter-spacing:.06em;color:var(--warn);
+    text-transform:uppercase;margin-left:4px;
+  }
+  .calc-value{font-size:15px;font-weight:600;color:var(--ink)}
+  .calc-value.provisional{color:var(--accent)}
+
+  .dropdown-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:20px;
+  }
+  @media(max-width:640px){.dropdown-row{grid-template-columns:1fr}}
+  .dropdown-field{display:flex;flex-direction:column;gap:5px}
+  .score-select{
+    font:inherit;font-size:13.5px;
+    padding:10px 12px;
+    border:1px solid var(--line-2);border-radius:10px;
+    background:#fff;color:var(--ink);
+    transition:border-color .15s;
+    cursor:pointer;
+  }
+  .score-select:focus{outline:none;border-color:var(--ink)}
+
+  .notes-field{display:flex;flex-direction:column;gap:5px;margin-bottom:20px}
+  .score-textarea{
+    font:inherit;font-size:13.5px;
+    padding:10px 12px;
+    border:1px solid var(--line-2);border-radius:10px;
+    background:#fff;color:var(--ink);
+    resize:vertical;min-height:90px;
+    transition:border-color .15s;
+    line-height:1.5;
+  }
+  .score-textarea:focus{outline:none;border-color:var(--ink)}
+
+  .save-row{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding-top:4px;
+  }
+  .btn-save-draft{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:10px;
+    background:var(--ink);color:var(--bg);
+    font-size:14px;font-weight:500;
+    transition:background .15s;
+    white-space:nowrap;
+  }
+  .btn-save-draft:hover{background:var(--accent)}
+  .btn-save-draft:disabled{opacity:.55;cursor:not-allowed;background:var(--ink)}
+  .save-msg{font-size:13px}
+  .save-msg.ok{color:var(--ok)}
+  .save-msg.error{color:#b91c1c}
+
+  .card-header-sub{
+    font-size:12px;color:var(--ink-3);margin-left:8px;font-style:italic;
+  }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -345,6 +450,94 @@
       <div class="no-answers">No answer rows found for this attempt.</div>
     </div>
 
+    <!-- Scoring Draft -->
+    <p class="section-title">Teacher scoring draft</p>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-header-label">Scoring draft</span>
+        <span class="card-header-sub">Provisional level is not final — teacher_final_level is set separately</span>
+      </div>
+      <div class="card-body">
+
+        <!-- Part scores -->
+        <div class="score-row">
+          <div class="score-field">
+            <label class="score-label" for="score-a">Part A <span class="score-max">/ 5</span></label>
+            <input type="number" id="score-a" class="score-input" min="0" max="5" step="1" placeholder="0">
+          </div>
+          <div class="score-field">
+            <label class="score-label" for="score-b">Part B <span class="score-max">/ 15</span></label>
+            <input type="number" id="score-b" class="score-input" min="0" max="15" step="1" placeholder="0">
+          </div>
+          <div class="score-field">
+            <label class="score-label" for="score-c">Part C <span class="score-max">/ 12</span></label>
+            <input type="number" id="score-c" class="score-input" min="0" max="12" step="1" placeholder="0">
+          </div>
+          <div class="score-field">
+            <label class="score-label" for="score-d">Part D <span class="score-max">/ 28</span></label>
+            <input type="number" id="score-d" class="score-input" min="0" max="28" step="1" placeholder="0">
+          </div>
+        </div>
+
+        <!-- Auto-calculated -->
+        <div class="calc-row">
+          <div class="calc-item">
+            <span class="calc-label">Total score</span>
+            <span class="calc-value" id="total-score-display">—</span>
+          </div>
+          <div class="calc-item">
+            <span class="calc-label">Provisional level <span class="provisional-note">not final</span></span>
+            <span class="calc-value provisional" id="provisional-level-display">—</span>
+          </div>
+        </div>
+
+        <!-- Dropdowns -->
+        <div class="dropdown-row">
+          <div class="dropdown-field">
+            <label class="score-label" for="reliability-status">Reliability status</label>
+            <select id="reliability-status" class="score-select">
+              <option value="">— select —</option>
+              <option value="consistent">Consistent</option>
+              <option value="inconsistent">Inconsistent</option>
+              <option value="unclear">Unclear</option>
+            </select>
+          </div>
+          <div class="dropdown-field">
+            <label class="score-label" for="language-status">Language status</label>
+            <select id="language-status" class="score-select">
+              <option value="">— select —</option>
+              <option value="english_ok">English OK</option>
+              <option value="language_barrier_possible">Language barrier possible</option>
+              <option value="translation_needed">Translation needed</option>
+            </select>
+          </div>
+          <div class="dropdown-field">
+            <label class="score-label" for="borderline-status">Borderline status</label>
+            <select id="borderline-status" class="score-select">
+              <option value="">— select —</option>
+              <option value="not_borderline">Not borderline</option>
+              <option value="borderline_low">Borderline low</option>
+              <option value="borderline_high">Borderline high</option>
+              <option value="needs_discussion">Needs discussion</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="notes-field">
+          <label class="score-label" for="teacher-notes">Teacher notes</label>
+          <textarea id="teacher-notes" class="score-textarea" placeholder="Optional notes for this submission…" rows="4"></textarea>
+        </div>
+
+        <!-- Save -->
+        <div class="save-row">
+          <button type="button" id="save-draft-btn" class="btn-save-draft">Save Draft Review</button>
+          <span class="save-msg" id="save-msg"></span>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Bottom back link -->
     <div class="bottom-nav">
       <a href="teacher-review-list.html" class="back-link">
@@ -406,8 +599,8 @@
     return;
   }
 
-  /* ── Parallel fetch: attempt meta + answers ── */
-  const [attemptResult, answersResult] = await Promise.all([
+  /* ── Parallel fetch: attempt meta + answers + existing review ── */
+  const [attemptResult, answersResult, reviewResult] = await Promise.all([
     sb
       .from('assessment_attempts')
       .select(`
@@ -428,7 +621,12 @@
       .from('assessment_answers')
       .select('*')
       .eq('attempt_id', attemptId)
-      .order('question_number', { ascending: true })
+      .order('question_number', { ascending: true }),
+    sb
+      .from('assessment_reviews')
+      .select('id, part_a_score, part_b_score, part_c_score, part_d_score, total_score, provisional_level, reliability_status, language_status, borderline_status, teacher_notes, review_status')
+      .eq('attempt_id', attemptId)
+      .maybeSingle()
   ]);
 
   if (attemptResult.error) {
@@ -557,6 +755,141 @@
 
   showState('content');
   setStatus('live', 'Loaded · ' + answers.length + ' answer field' + (answers.length === 1 ? '' : 's'));
+
+  /* ── Scoring draft ── */
+  let existingReview = (reviewResult && !reviewResult.error) ? reviewResult.data : null;
+
+  function parseScore(id) {
+    const el = document.getElementById(id);
+    if (!el || el.value === '') return null;
+    const v = parseInt(el.value, 10);
+    return isNaN(v) ? null : v;
+  }
+
+  function provisionalLevel(total) {
+    if (total <= 17) return 'Level 1 provisional';
+    if (total <= 23) return 'Borderline provisional';
+    if (total <= 43) return 'Level 2 provisional';
+    if (total <= 47) return 'Borderline provisional';
+    return 'Level 3 provisional';
+  }
+
+  function updateTotals() {
+    const a = parseScore('score-a');
+    const b = parseScore('score-b');
+    const c = parseScore('score-c');
+    const d = parseScore('score-d');
+    const totalEl = document.getElementById('total-score-display');
+    const levelEl = document.getElementById('provisional-level-display');
+    if (a !== null && b !== null && c !== null && d !== null) {
+      const total = a + b + c + d;
+      totalEl.textContent = total + ' / 60';
+      levelEl.textContent = provisionalLevel(total);
+    } else {
+      totalEl.textContent = '—';
+      levelEl.textContent = '—';
+    }
+  }
+
+  ['score-a', 'score-b', 'score-c', 'score-d'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', updateTotals);
+  });
+
+  if (existingReview) {
+    const setVal = (id, v) => {
+      const el = document.getElementById(id);
+      if (el && v != null) el.value = v;
+    };
+    setVal('score-a',           existingReview.part_a_score);
+    setVal('score-b',           existingReview.part_b_score);
+    setVal('score-c',           existingReview.part_c_score);
+    setVal('score-d',           existingReview.part_d_score);
+    setVal('reliability-status',existingReview.reliability_status);
+    setVal('language-status',   existingReview.language_status);
+    setVal('borderline-status', existingReview.borderline_status);
+    setVal('teacher-notes',     existingReview.teacher_notes);
+    updateTotals();
+  }
+
+  document.getElementById('save-draft-btn')?.addEventListener('click', saveDraft);
+
+  async function saveDraft() {
+    const LIMITS = { 'score-a': 5, 'score-b': 15, 'score-c': 12, 'score-d': 28 };
+    const LABELS = { 'score-a': 'Part A', 'score-b': 'Part B', 'score-c': 'Part C', 'score-d': 'Part D' };
+    const vals = {};
+
+    for (const [id, max] of Object.entries(LIMITS)) {
+      const el = document.getElementById(id);
+      const raw = el ? el.value : '';
+      if (raw === '') { showSaveMsg('error', LABELS[id] + ' score is required.'); return; }
+      const v = parseInt(raw, 10);
+      if (isNaN(v) || v < 0 || v > max) {
+        showSaveMsg('error', LABELS[id] + ' must be 0–' + max + '.'); return;
+      }
+      vals[id] = v;
+    }
+
+    const total = vals['score-a'] + vals['score-b'] + vals['score-c'] + vals['score-d'];
+
+    const payload = {
+      part_a_score:        vals['score-a'],
+      part_b_score:        vals['score-b'],
+      part_c_score:        vals['score-c'],
+      part_d_score:        vals['score-d'],
+      total_score:         total,
+      provisional_level:   provisionalLevel(total),
+      reliability_status:  document.getElementById('reliability-status')?.value || null,
+      language_status:     document.getElementById('language-status')?.value   || null,
+      borderline_status:   document.getElementById('borderline-status')?.value || null,
+      teacher_notes:       document.getElementById('teacher-notes')?.value?.trim() || null,
+      review_status:       'draft',
+      updated_at:          new Date().toISOString()
+    };
+
+    ['reliability_status', 'language_status', 'borderline_status'].forEach(k => {
+      if (payload[k] === '') payload[k] = null;
+    });
+
+    const btn = document.getElementById('save-draft-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+    showSaveMsg('', '');
+
+    let saveError = null;
+
+    if (existingReview) {
+      const { error } = await sb
+        .from('assessment_reviews')
+        .update(payload)
+        .eq('id', existingReview.id);
+      saveError = error;
+    } else {
+      const { data: inserted, error } = await sb
+        .from('assessment_reviews')
+        .insert({ ...payload, attempt_id: attemptId, student_id: attempt.student_id })
+        .select('id')
+        .single();
+      saveError = error;
+      if (!error && inserted) existingReview = { id: inserted.id };
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Save Draft Review';
+
+    if (saveError) {
+      showSaveMsg('error', saveError.message || 'Save failed.');
+    } else {
+      const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      showSaveMsg('ok', 'Draft saved at ' + now);
+    }
+  }
+
+  function showSaveMsg(type, text) {
+    const el = document.getElementById('save-msg');
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'save-msg' + (type ? ' ' + type : '');
+  }
 
   /* ── Helpers ── */
   function esc(str) {
