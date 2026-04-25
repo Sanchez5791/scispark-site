@@ -392,6 +392,72 @@
   }
   .btn-save-final:hover{filter:brightness(.9) saturate(1.05)}
   .btn-save-final:disabled{opacity:.55;cursor:not-allowed;filter:none}
+
+  /* ── recommendation preview ── */
+  .rec-internal-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--ff-mono);font-size:9.5px;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:#b91c1c;background:#fef2f2;
+    border:1px solid #fecaca;
+    padding:3px 9px;border-radius:99px;
+    margin-left:auto;
+    white-space:nowrap;
+  }
+  .rec-empty{
+    padding:28px 20px;
+    font-size:13.5px;color:var(--ink-3);font-style:italic;
+    text-align:center;
+  }
+  .rec-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .rec-field{display:flex;flex-direction:column;gap:4px}
+  .rec-field-label{
+    font-family:var(--ff-mono);font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  }
+  .rec-field-value{font-size:14px;font-weight:500;color:var(--ink)}
+
+  .rec-plan-pill{
+    display:inline-flex;align-items:center;
+    padding:4px 12px;border-radius:99px;
+    font-size:13px;font-weight:600;white-space:nowrap;
+  }
+  .rec-plan-pill.core{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+  .rec-plan-pill.core-plus{background:#ede9fe;color:#5b21b6;border:1px solid #ddd6fe}
+  .rec-plan-pill.bilingual-plus{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+  .rec-plan-pill.hold{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-border)}
+  .rec-plan-pill.invalid{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+
+  .rec-divider{border:0;border-top:1px solid var(--line);margin:20px 0}
+
+  .rec-msg-label{
+    font-family:var(--ff-mono);font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:8px;
+  }
+  .rec-msg-text{
+    font:inherit;font-size:13.5px;line-height:1.6;
+    padding:12px 14px;
+    border:1px solid var(--line);border-radius:10px;
+    background:var(--bg);color:var(--ink-2);
+    resize:none;width:100%;cursor:default;
+  }
+  .rec-msg-footer{display:flex;justify-content:flex-end;margin-top:8px}
+  .btn-copy{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 14px;border-radius:8px;
+    background:var(--bg-2);color:var(--ink-2);
+    border:1px solid var(--line);
+    font-size:12.5px;font-weight:500;
+    cursor:pointer;transition:background .15s,color .15s;
+  }
+  .btn-copy:hover{background:var(--ink);color:var(--bg)}
+  .btn-copy.copied{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-border)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -600,6 +666,46 @@
           <span class="save-msg" id="final-msg"></span>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Internal Plan Recommendation Preview -->
+    <p class="section-title">Internal plan recommendation preview</p>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-header-label">Plan recommendation</span>
+        <span class="rec-internal-badge">Internal only — not for parents</span>
+      </div>
+      <div class="card-body">
+        <div class="rec-empty" id="rec-empty">No recommendation yet — save a final teacher decision first.</div>
+        <div id="rec-content" style="display:none">
+          <div class="rec-grid">
+            <div class="rec-field">
+              <span class="rec-field-label">Recommended plan</span>
+              <span id="rec-plan"></span>
+            </div>
+            <div class="rec-field">
+              <span class="rec-field-label">Reason</span>
+              <span class="rec-field-value" id="rec-reason"></span>
+            </div>
+            <div class="rec-field">
+              <span class="rec-field-label">Internal next action</span>
+              <span class="rec-field-value" id="rec-next-action"></span>
+            </div>
+          </div>
+          <hr class="rec-divider">
+          <div class="rec-msg-label">Parent message draft — copy only, do not send automatically</div>
+          <textarea class="rec-msg-text" id="rec-msg-text" rows="4" readonly></textarea>
+          <div class="rec-msg-footer">
+            <button type="button" class="btn-copy" id="rec-copy-btn">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M3 8H2a1 1 0 01-1-1V2a1 1 0 011-1h5a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+              Copy to clipboard
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -959,6 +1065,9 @@
 
   /* ── Teacher final decision ── */
   document.getElementById('save-final-btn')?.addEventListener('click', saveFinal);
+  document.getElementById('final-level')?.addEventListener('change', updateRecommendation);
+  document.getElementById('language-status')?.addEventListener('change', updateRecommendation);
+  updateRecommendation();
 
   function isFinalizedStatus(s) {
     return ['final', 'needs_second_round', 'manual_review_required', 'invalid'].includes(s);
@@ -1061,6 +1170,7 @@
       existingReview.review_status = computedReviewStatus;
       const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
       showFinalMsg('ok', 'Final review saved at ' + now);
+      updateRecommendation();
     }
   }
 
@@ -1070,6 +1180,122 @@
     el.textContent = text;
     el.className = 'save-msg' + (type ? ' ' + type : '');
   }
+
+  /* ── Recommendation preview ── */
+  function computeRecommendation(finalLevel, langStatus) {
+    if (!finalLevel) return null;
+
+    if (finalLevel === 'level_3' || finalLevel === 'level_2') {
+      const lvl = finalLevel === 'level_3' ? '3' : '2';
+      return {
+        plan:       'Core',
+        planClass:  'core',
+        reason:     `Level ${lvl} — Core programme recommended.`,
+        nextAction: 'Prepare enrolment offer and contact parent.',
+        msg:        `Hi, we've completed ${studentName}'s Year 9 entry assessment. Based on their results, we'd like to recommend the Core programme. We'll be in touch shortly to discuss the next steps.`
+      };
+    }
+
+    if (finalLevel === 'level_1') {
+      const bilingual = langStatus === 'language_barrier_possible' || langStatus === 'translation_needed';
+      if (bilingual) {
+        return {
+          plan:       'Bilingual Plus',
+          planClass:  'bilingual-plus',
+          reason:     'Level 1 with language support needed — Bilingual Plus recommended.',
+          nextAction: 'Prepare Bilingual Plus enrolment offer and contact parent.',
+          msg:        `Hi, we've completed ${studentName}'s Year 9 entry assessment. Based on their results, we'd like to recommend the Bilingual Plus programme. We'll be in touch shortly to discuss the next steps.`
+        };
+      }
+      const langNote = langStatus === 'english_ok' ? 'Language status: English OK.' : 'Language status not recorded.';
+      return {
+        plan:       'Core Plus',
+        planClass:  'core-plus',
+        reason:     `Level 1 — Core Plus recommended. ${langNote}`,
+        nextAction: 'Prepare Core Plus enrolment offer and contact parent.',
+        msg:        `Hi, we've completed ${studentName}'s Year 9 entry assessment. Based on their results, we'd like to recommend the Core Plus programme. We'll be in touch shortly to discuss the next steps.`
+      };
+    }
+
+    if (finalLevel === 'hold_second_round') {
+      return {
+        plan:       'No plan yet',
+        planClass:  'hold',
+        reason:     'Chinese second round required before a plan can be assigned.',
+        nextAction: 'Arrange Chinese assessment session for student.',
+        msg:        `Hi, to complete ${studentName}'s assessment, we'd like to arrange a short follow-up assessment. Our team will be in touch to schedule this.`
+      };
+    }
+
+    if (finalLevel === 'hold_manual_review') {
+      return {
+        plan:       'No plan yet',
+        planClass:  'hold',
+        reason:     'Manual review required before a plan can be assigned.',
+        nextAction: 'Review with academic team before contacting parent.',
+        msg:        `Hi, we're currently completing the review of ${studentName}'s assessment with our academic team. We'll be in touch shortly.`
+      };
+    }
+
+    if (finalLevel === 'invalid') {
+      return {
+        plan:       'No plan',
+        planClass:  'invalid',
+        reason:     'Assessment flagged as invalid — no plan can be assigned.',
+        nextAction: 'Contact parent to reschedule assessment.',
+        msg:        `Hi, we were unable to complete ${studentName}'s assessment session. Please get in touch with us to arrange a new session.`
+      };
+    }
+
+    return null;
+  }
+
+  function updateRecommendation() {
+    const finalLevel = document.getElementById('final-level')?.value  || '';
+    const langStatus = document.getElementById('language-status')?.value || '';
+    const rec        = computeRecommendation(finalLevel, langStatus);
+
+    const emptyEl   = document.getElementById('rec-empty');
+    const contentEl = document.getElementById('rec-content');
+    if (!emptyEl || !contentEl) return;
+
+    if (!rec) {
+      emptyEl.style.display   = '';
+      contentEl.style.display = 'none';
+      return;
+    }
+
+    emptyEl.style.display   = 'none';
+    contentEl.style.display = '';
+
+    const planEl = document.getElementById('rec-plan');
+    if (planEl) planEl.innerHTML = '<span class="rec-plan-pill ' + rec.planClass + '">' + esc(rec.plan) + '</span>';
+
+    const reasonEl = document.getElementById('rec-reason');
+    if (reasonEl) reasonEl.textContent = rec.reason;
+
+    const nextEl = document.getElementById('rec-next-action');
+    if (nextEl) nextEl.textContent = rec.nextAction;
+
+    const msgEl = document.getElementById('rec-msg-text');
+    if (msgEl) msgEl.value = rec.msg;
+  }
+
+  document.getElementById('rec-copy-btn')?.addEventListener('click', () => {
+    const msgEl = document.getElementById('rec-msg-text');
+    if (!msgEl || !msgEl.value) return;
+    const btn      = document.getElementById('rec-copy-btn');
+    const origHTML = btn ? btn.innerHTML : '';
+    navigator.clipboard.writeText(msgEl.value).then(() => {
+      if (!btn) return;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = origHTML;
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {});
+  });
 
   /* ── Helpers ── */
   function esc(str) {
