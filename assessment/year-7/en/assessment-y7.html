@@ -1806,6 +1806,12 @@ async function submitToSupabase(payload) {
   if (!supabaseClient) throw new Error('Supabase client not initialised');
   const studentId = new URLSearchParams(window.location.search).get('student_id') || null;
 
+  const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+  if (sessionError) throw sessionError;
+  if (!sessionData?.session) {
+    throw new Error('No active login session. Please sign in again before submitting.');
+  }
+
   const { data: attempt, error: attemptError } = await supabaseClient
     .from('assessment_attempts')
     .insert({
