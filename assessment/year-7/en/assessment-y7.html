@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 7 Entry Assessment · SciSpark</title>
+  <!-- DRAFT STATUS: HTML_CONTENT_PASS_v2_DONE | VISUAL_PLACEMENT_AUDIT_v2_COMPLETE | PRODUCTION_LOCK_PENDING_FINAL_CHECKS -->
+  <!-- Source-of-truth: SCISPARK_Y7_ENTRY_ASSESSMENT_SOURCE_MAPPING_PACKAGE_v1.2_TOPIC_REALIGNED -->
+  <!-- Visual lock: SCISPARK_Y7_ENTRY_VISUAL_DECISION_LOCK_v2 -->
+  <!-- Total: 27 questions / 60 marks / 45 minutes / Y7_ENTRY_EN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Y7 draft-only overrides ──────────────────────────── */
+    .placeholder-box {
+      background: #fff8f0;
+      border: 2px dashed #e8521a;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 8px 0;
+      font-size: 13px;
+      color: #9a4a00;
+    }
+    .placeholder-box .ph-label { font-weight: 600; display: block; margin-bottom: 4px; }
+    .placeholder-box .ph-source { font-size: 11px; color: #c06020; font-style: italic; }
+    .draft-notice {
+      background: #1a1917; color: #e8521a;
+      text-align: center; padding: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    /* States-of-matter grid */
+    .states-grid { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+    .states-grid th, .states-grid td {
+      border: 1px solid var(--border);
+      padding: 8px 10px; text-align: center;
+    }
+    .states-grid th { background: var(--bg-subtle); font-weight: 600; }
+    .states-grid td:first-child { text-align: left; font-weight: 500; }
+    .states-grid .example-tick { color: var(--orange); font-weight: 700; }
+    .states-grid input[type="radio"] { cursor: pointer; accent-color: var(--orange); }
+    /* Rock / data tables */
+    .data-table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+    .data-table th, .data-table td {
+      border: 1px solid var(--border);
+      padding: 7px 10px;
+    }
+    .data-table th { background: var(--bg-subtle); font-weight: 600; }
+    /* Fill-in-blank inline */
+    .fill-blank {
+      display: inline-block;
+      border-bottom: 2px solid var(--border-focus);
+      min-width: 120px; padding: 2px 4px;
+      font-size: 14px; outline: none;
+      background: transparent; color: var(--text);
+    }
+    .fill-blank:focus { border-color: var(--orange); background: var(--orange-light); }
+    /* Flower SVG option labels */
+    .mirror-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    /* Checkbox group for Q27 */
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .checkbox-option { display: flex; align-items: center; gap: 6px;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+    .checkbox-option input { accent-color: var(--orange); }
+    .checkbox-option.checked { background: var(--orange-light); border-color: var(--orange); }
+    /* Compound row (Q12 true/false) */
+    .compound-rows .cr-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+    }
+    .compound-rows .cr-stmt { flex: 1; font-size: 14px; padding-top: 3px; }
+    .compound-rows .cr-opts { display: flex; gap: 8px; flex-shrink: 0; }
+    .compound-rows label { display: flex; align-items: center; gap: 4px;
+      font-size: 13px; cursor: pointer; }
+    /* Figure / visual container */
+    .q-figure { margin: 12px 0; }
+    .q-figure img { max-width: 100%; border-radius: 6px; border: 1px solid var(--border); }
+    .q-figure figcaption { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    /* Equation inline inputs */
+    .word-equation { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .eq-word { font-style: italic; }
+    .eq-sym { font-weight: 700; color: var(--text-muted); }
+    .eq-input-sm { border-bottom: 2px solid var(--border-focus); min-width: 90px; padding: 2px 4px;
+      font-size: 14px; background: transparent; outline: none; }
+    .eq-input-sm:focus { border-color: var(--orange); }
+    /* Limit-reached flash */
+    @keyframes limitFlash { 0%,100%{background:var(--bg-card)} 50%{background:#fff3ed} }
+    .limit-reached { animation: limitFlash 0.9s ease; }
+  </style>
+</head>
+<body>
+
+<div class="draft-notice">
+  ✅ DRAFT v1.2 — TOPIC REALIGNED — HTML_CONTENT_PASS_v2_DONE — Q21 ✅ Q25 ✅ — 60m / 27Q / Y7_ENTRY_EN
+  — Remaining: Q20 graph pending (production blocker only) | mark scheme build pending | live Supabase test pending
+</div>
+
+<!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <img src="scispark-logo-horizontal.svg" alt="SciSpark" class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-name">IG Science Spark Lab</span>
+        <span class="logo-sub">YEAR 7–9 SCIENCE · CAMBRIDGE 0893</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <span class="assessment-badge">ASSESSMENT · LIVE</span>
+      <span class="assessment-title">Year 7 Entry Assessment</span>
+    </div>
+    <div class="header-right">
+      <div class="marks-block">
+        <span class="timer-label">ANSWERED</span>
+        <span class="marks-display"><span id="answered-count">0</span>&nbsp;/ 27 QUESTIONS</span>
+      </div>
+      <div class="timer-block">
+        <span class="timer-label">TIME LEFT</span>
+        <span class="timer-display" id="timer">45:00</span>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════ MAIN ════════════════════════════════ -->
+<main class="assessment-main">
+
+  <!-- Instructions -->
+  <div class="instructions-card">
+    <div class="instructions-row">
+      <div class="instr-item">
+        <span class="instr-icon">⏱</span>
+        <div><strong>45 minutes</strong><span>Time allowed</span></div>
+      </div>
+      <div class="instr-item">
+        <span class="instr-icon">📋</span>
+        <div><strong>60 marks</strong><span>Total marks</span></div>
+      </div>
+      <div class="instr-divider"></div>
+      <ul class="instr-list">
+        <li>For Part A and Part B: click the correct answer or type your response.</li>
+        <li>For Part C and Part D: use the interactive fields provided.</li>
+        <li>Read each question carefully before answering.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────── PART A ─────────────────────────── -->
+  <section class="part-section" id="part-a">
+    <div class="part-header">
+      <div class="part-label">PART A</div>
+      <h2 class="part-title">Vocabulary</h2>
+      <div class="part-marks">5 marks</div>
+    </div>
+    <p class="part-instruction">Questions 1–5: Answer each question. (1 mark each)</p>
+
+    <!-- Q1 | BIO-NEW-A1 | BIO | Oct 2022 P1 Q8(b) | p.1006 | text input + food chain SVG | v1.2 REPLACEMENT -->
+    <div class="question-block" id="qblock-1" data-marks="1" data-question-id="Y7_Q01" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="1006" data-candidate-id="BIO-NEW-A1">
+      <div class="question-header">
+        <div class="q-number">Q1</div>
+        <div class="q-topic">Biology · Food Chain</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Oct 2022 P1 Q8(b) — PDF page 1006 — food chain prey of snake -->
+        <p class="question-text">The diagram shows living things in a food chain.</p>
+        <figure class="q-figure" data-asset-status="RECREATED_INLINE_SVG">
+          <svg viewBox="0 0 600 90" xmlns="http://www.w3.org/2000/svg" role="img"
+               style="max-width:600px;width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;"
+               aria-label="Food chain showing five organisms: grass, grasshopper, frog, snake, bird">
+            <title>Food chain showing five organisms in a row: grass, grasshopper, frog, snake, bird</title>
+            <!-- Five organism cells, no arrows (Q8(a) is the arrow-drawing subpart; Q8(b) uses unarrowed diagram) -->
+            <!-- 1. grass -->
+            <g><rect x="20" y="20" width="80" height="40" fill="#e8f5e0" stroke="#4a7c3f" stroke-width="1.5" rx="4"/>
+               <text x="60" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">grass</text></g>
+            <!-- 2. grasshopper -->
+            <g><rect x="140" y="20" width="100" height="40" fill="#fff" stroke="#666" stroke-width="1.5" rx="4"/>
+               <text x="190" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">grasshopper</text></g>
+            <!-- 3. frog -->
+            <g><rect x="280" y="20" width="80" height="40" fill="#fff" stroke="#666" stroke-width="1.5" rx="4"/>
+               <text x="320" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">frog</text></g>
+            <!-- 4. snake -->
+            <g><rect x="400" y="20" width="80" height="40" fill="#fff" stroke="#666" stroke-width="1.5" rx="4"/>
+               <text x="440" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">snake</text></g>
+            <!-- 5. bird -->
+            <g><rect x="520" y="20" width="60" height="40" fill="#fff" stroke="#666" stroke-width="1.5" rx="4"/>
+               <text x="550" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">bird</text></g>
+          </svg>
+          <figcaption>Food chain — SVG recreation. Source: Oct 2022 P1 Q8 (PDF page 1006). Note: Q8(a) requires drawing arrows; Q8(b) uses the diagram as-shown without arrows.</figcaption>
+        </figure>
+        <p class="question-text">Which animal in the diagram is the prey of the snake?</p>
+        <div class="input-group">
+          <input type="text" class="text-input" id="Y7_Q01_answer" name="Y7_Q01_answer"
+            placeholder="Name of animal…" autocomplete="off" data-question-id="Y7_Q01">
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">MS source: Oct 2022 P1 MS. Single text input.</p>
+      </div>
+    </div>
+
+    <!-- Q2 | PARTA-04 | CHEM | Oct 2021 P1 Q8(a) | p.849 | text + table -->
+    <div class="question-block" id="qblock-2" data-marks="1" data-question-id="Y7_Q02" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="849">
+      <div class="question-header">
+        <div class="q-number">Q2</div>
+        <div class="q-topic">Chemistry · Properties of Materials</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Oct 2021 P1 Q8(a) — PDF page 849 | CONTENT COMPLETE -->
+        <p class="question-text">Gabriella investigates what happens when substances are added to water.</p>
+        <table class="data-table" aria-label="Substance properties and temperature changes" style="font-size:13px;">
+          <thead>
+            <tr>
+              <th>Substance</th>
+              <th>Appearance of substance</th>
+              <th>Temperature of water at start in °C</th>
+              <th>Temperature of water at end in °C</th>
+              <th>Other observations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ammonium chloride</td>
+              <td>white solid</td>
+              <td>20</td>
+              <td>10</td>
+              <td>dissolves to give a colourless solution</td>
+            </tr>
+            <tr>
+              <td>calcium</td>
+              <td>silver / grey solid</td>
+              <td>20</td>
+              <td>30</td>
+              <td>fizzes and gives off a colourless gas and makes a milky solution</td>
+            </tr>
+            <tr>
+              <td>ethanol</td>
+              <td>colourless liquid</td>
+              <td>20</td>
+              <td>20</td>
+              <td>dissolves to give a colourless solution</td>
+            </tr>
+            <tr>
+              <td>sodium chloride</td>
+              <td>white solid</td>
+              <td>20</td>
+              <td>20</td>
+              <td>dissolves to give a colourless solution</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="question-text" style="margin-top:10px;">Gabriella wants to use one of the substances to cool some water.</p>
+        <p class="question-text">Write down the name of the substance she uses.</p>
+        <div class="input-group">
+          <input type="text" class="text-input" id="Y7_Q02_answer" name="Y7_Q02_answer"
+            placeholder="Name of substance…" autocomplete="off" data-question-id="Y7_Q02">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 | PARTA-05 | PHYS | Apr 2022 P1 Q14(a) | p.941 | text input -->
+    <div class="question-block" id="qblock-3" data-marks="1" data-question-id="Y7_Q03" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="941">
+      <div class="question-header">
+        <div class="q-number">Q3</div>
+        <div class="q-topic">Physics · Measurement</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Insert exact text from Apr 2022 Paper 1 Q14(a) — PDF page 941 -->
+        <p class="question-text">This is a question about forces.</p>
+        <p class="question-text">(a) Write down the name of the equipment we use to measure force.</p>
+        <div class="input-group">
+          <input type="text" class="text-input" id="Y7_Q03_answer" name="Y7_Q03_answer"
+            placeholder="Equipment name…" autocomplete="off" data-question-id="Y7_Q03">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 | PARTA-07 | EARTH | Apr 2021 P1 Q10(b) | p.791 | radio 5 options -->
+    <div class="question-block" id="qblock-4" data-marks="1" data-question-id="Y7_Q04" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="791">
+      <div class="question-header">
+        <div class="q-number">Q4</div>
+        <div class="q-topic">Earth &amp; Space · Earth's Rotation</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Insert exact text from Apr 2021 Paper 1 Q10(b) — PDF page 791 -->
+        <p class="question-text">How many hours does the Earth take to complete one spin on its axis?</p>
+        <p class="question-text">Circle the correct answer.</p>
+        <!-- DRAFT: Insert exact option values from source p.791 -->
+        <div class="mcq-options" role="radiogroup" aria-label="Select one option">
+          <label class="mcq-option"><input type="radio" name="Y7_Q04_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">12</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q04_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">24</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q04_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">28</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q04_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">31</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q04_answer" value="E"><span class="opt-badge">E</span><span class="opt-text">48</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 | PARTA-08 | SCISKILLS | Apr 2017 P1 Q14(c) | p.231 | radio 3 options -->
+    <div class="question-block" id="qblock-5" data-marks="1" data-question-id="Y7_Q05" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="231">
+      <div class="question-header">
+        <div class="q-number">Q5</div>
+        <div class="q-topic">Scientific Skills · Units</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Insert exact text from Apr 2017 Paper 1 Q14(c) — PDF page 231 -->
+        <p class="question-text">What unit is force measured in?</p>
+        <p class="question-text">Circle the correct unit.</p>
+        <!-- DRAFT: Insert exact option values from source p.231 -->
+        <div class="mcq-options" role="radiogroup" aria-label="Select one option">
+          <label class="mcq-option"><input type="radio" name="Y7_Q05_answer" value="A" data-question-id="Y7_Q05"><span class="opt-badge">A</span><span class="opt-text">kilogram</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q05_answer" value="B" data-question-id="Y7_Q05"><span class="opt-badge">B</span><span class="opt-text">metre</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q05_answer" value="C" data-question-id="Y7_Q05"><span class="opt-badge">C</span><span class="opt-text">newton</span></label>
+        </div>
+      </div>
+    </div>
+
+  </section><!-- /part-a -->
+  <!-- ─────────────────────────────── PART B ─────────────────────────── -->
+  <section class="part-section" id="part-b">
+    <div class="part-header">
+      <div class="part-label">PART B</div>
+      <h2 class="part-title">Core Concepts</h2>
+      <div class="part-marks">15 marks</div>
+    </div>
+    <p class="part-instruction">Questions 6–20: Select or type your answer. (1 mark each)</p>
+
+    <!-- Q6 | PARTB-01 | BIO | Apr 2017 P1 Q13(c) | p.230 | radio 4 -->
+    <div class="question-block" id="qblock-6" data-marks="1" data-question-id="Y7_Q06" data-source-page="230">
+      <div class="question-header"><div class="q-number">Q6</div><div class="q-topic">Biology · Food Chains</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2017 P1 Q13(c) p.230 — correct sentence about predator/carnivore relationship -->
+        <p class="question-text">Tick (✓) the correct sentence.</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q06_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Only the fox is a predator.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q06_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Only the rabbit is a predator.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q06_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The rabbit and the fox are both carnivores.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q06_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The rabbit and the fox are both predators.</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 | BIO-NEW-B1 | BIO | Oct 2020 P2 Q13(c) | p.757 | textarea + food chain SVG | v1.2 REPLACEMENT -->
+    <div class="question-block" id="qblock-7" data-marks="1" data-question-id="Y7_Q07" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="757" data-candidate-id="BIO-NEW-B1">
+      <div class="question-header">
+        <div class="q-number">Q7</div>
+        <div class="q-topic">Biology · Food Chain</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Oct 2020 P2 Q13(c) — PDF page 757 — corn as producer -->
+        <p class="question-text">The diagram shows a feeding relationship between three living organisms.</p>
+        <figure class="q-figure" data-asset-status="RECREATED_INLINE_SVG">
+          <svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" role="img"
+               style="max-width:400px;width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;"
+               aria-label="Food chain: corn, mouse, owl with arrows showing feeding relationship">
+            <title>Food chain: corn, mouse, owl with arrows showing feeding relationship</title>
+            <!-- corn -->
+            <g><rect x="10" y="20" width="80" height="40" fill="#fff8e0" stroke="#8b6914" stroke-width="1.5" rx="4"/>
+               <text x="50" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">corn</text></g>
+            <!-- arrow 1: corn → mouse -->
+            <line x1="95" y1="40" x2="155" y2="40" stroke="#1a1917" stroke-width="1.5" marker-end="url(#arrowhead-q07)"/>
+            <!-- mouse -->
+            <g><rect x="160" y="20" width="80" height="40" fill="#fff" stroke="#666" stroke-width="1.5" rx="4"/>
+               <text x="200" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">mouse</text></g>
+            <!-- arrow 2: mouse → owl -->
+            <line x1="245" y1="40" x2="305" y2="40" stroke="#1a1917" stroke-width="1.5" marker-end="url(#arrowhead-q07)"/>
+            <!-- owl -->
+            <g><rect x="310" y="20" width="80" height="40" fill="#fff" stroke="#666" stroke-width="1.5" rx="4"/>
+               <text x="350" y="44" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#1a1917">owl</text></g>
+            <defs>
+              <marker id="arrowhead-q07" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 Z" fill="#1a1917"/>
+              </marker>
+            </defs>
+          </svg>
+          <figcaption>Food chain — SVG recreation. Source: Oct 2020 P2 Q13 (PDF page 757).</figcaption>
+        </figure>
+        <p class="question-text">Corn is the producer in this relationship.</p>
+        <p class="question-text">Explain why.</p>
+        <div class="input-group">
+          <textarea class="text-input" id="Y7_Q07_answer" name="Y7_Q07_answer" rows="2"
+            placeholder="Explain why corn is the producer…" data-question-id="Y7_Q07"></textarea>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">MS source: Oct 2020 P2 MS. Textarea (one sentence).</p>
+      </div>
+    </div>
+
+    <!-- Q8 | BIO-NEW-C1 | BIO | Apr 2020 P1 Q12(a) | p.652 | textarea | NO_VISUAL | v1.2 REPLACEMENT -->
+    <div class="question-block" id="qblock-8" data-marks="1" data-question-id="Y7_Q08" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="652" data-candidate-id="BIO-NEW-C1">
+      <div class="question-header">
+        <div class="q-number">Q8</div>
+        <div class="q-topic">Biology · Living Things &amp; Habitats</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Apr 2020 P1 Q12(a) — PDF page 652 — snail desert habitat | Visual OMITTED (decorative) -->
+        <p class="question-text">Animals are suited to their environment.</p>
+        <p class="question-text">Some snails live in the desert. They need to keep their soft body wet.</p>
+        <p class="question-text">Describe one way snails keep their soft body from drying out.</p>
+        <div class="input-group">
+          <textarea class="text-input" id="Y7_Q08_answer" name="Y7_Q08_answer" rows="2"
+            placeholder="Describe one way…" data-question-id="Y7_Q08"></textarea>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">MS source: Apr 2020 P1 MS. Textarea. Snail picture in source is decorative — omitted per VISUAL_DECISION_LOCK_v2.</p>
+      </div>
+    </div>
+
+    <!-- Q9 | PARTB-05 | CHEM | Apr 2022 P2 Q13(c) | p.977 | COMPOUND: radio + textarea 1m -->
+    <div class="question-block" id="qblock-9" data-marks="1" data-question-id="Y7_Q09" data-source-page="977">
+      <div class="question-header"><div class="q-number">Q9</div><div class="q-topic">Chemistry · Reversible Changes</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2022 P2 Q13(c) p.977 — cooking rice: reversible or irreversible + explain -->
+        <!-- COMPOUND: tick + explain both required for 1 mark -->
+        <p class="question-text">Chen cooks some rice. He puts the rice in boiling water.</p>
+        <p class="question-text">What type of change is cooking rice?</p>
+        <p class="question-text">Tick (✓) the correct answer. Explain your answer.</p>
+        <div class="mcq-options" role="radiogroup" aria-label="Reversible or irreversible?">
+          <label class="mcq-option"><input type="radio" name="Y7_Q09_tick" value="reversible"><span class="opt-badge">A</span><span class="opt-text">Reversible</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q09_tick" value="irreversible"><span class="opt-badge">B</span><span class="opt-text">Irreversible</span></label>
+        </div>
+        <div class="input-group" style="margin-top:10px;">
+          <label class="input-label" for="Y7_Q09_explain">Explain your answer:</label>
+          <textarea class="text-input" id="Y7_Q09_explain" name="Y7_Q09_explain" rows="2" placeholder="Explain why…"></textarea>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">⚠ Compound scoring: both the tick AND explanation must be correct for the 1 mark.</p>
+      </div>
+    </div>
+
+    <!-- Q10 | PARTB-06 | CHEM | Oct 2022 P2 Q6(b) | p.1036 | radio binary (verify compound at build) -->
+    <div class="question-block" id="qblock-10" data-marks="1" data-question-id="Y7_Q10" data-source-page="1036">
+      <div class="question-header"><div class="q-number">Q10</div><div class="q-topic">Chemistry · Reversible Changes</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Oct 2022 P2 Q6(b) p.1036 — iron rusting: reversible or irreversible -->
+        <!-- ⚠ VERIFY_AT_PDF_BUILD_TIME: confirm if (b) is simple binary OR compound (binary + explain) -->
+        <p class="question-text">Iron reacts with water and air to make rust.</p>
+        <p class="question-text">Tick (✓) to show if this change is reversible or irreversible.</p>
+        <p class="question-text">Explain your answer.</p>
+        <div class="mcq-options" role="radiogroup" aria-label="Reversible or irreversible?">
+          <label class="mcq-option"><input type="radio" name="Y7_Q10_answer" value="reversible"><span class="opt-badge">A</span><span class="opt-text">Reversible</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q10_answer" value="irreversible"><span class="opt-badge">B</span><span class="opt-text">Irreversible</span></label>
+        </div>
+        <!-- Conditional explanation field — activate if source confirms compound -->
+        <div class="input-group" style="margin-top:10px;">
+          <label class="input-label" for="Y7_Q10_explain">Explain your answer (if required by source):</label>
+          <textarea class="text-input" id="Y7_Q10_explain" name="Y7_Q10_explain" rows="2" placeholder="Explanation (insert if compound confirmed)…" style="font-size:13px;"></textarea>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">⚠ Compound scoring confirmed: both tick AND explanation must be correct for 1 mark. (Source p.1036 verified — same pattern as Q09.)</p>
+      </div>
+    </div>
+
+    <!-- Q11 | PARTB-07 | CHEM | Apr 2018 P1 Q5(a) | p.361 | radio 4 -->
+    <div class="question-block" id="qblock-11" data-marks="1" data-question-id="Y7_Q11" data-source-page="361">
+      <div class="question-header"><div class="q-number">Q11</div><div class="q-topic">Chemistry · Separation</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2018 P1 Q5(a) p.361 — choose separation method for mixture A+B -->
+        <table class="data-table" aria-label="Material properties" style="font-size:13px;margin-bottom:10px;">
+          <thead><tr><th>Material</th><th>Hard or soft</th><th>Magnetic or non-magnetic</th><th>Soluble or insoluble in water</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>hard</td><td>non-magnetic</td><td>insoluble</td></tr>
+            <tr><td>B</td><td>hard</td><td>magnetic</td><td>insoluble</td></tr>
+            <tr><td>C</td><td>soft</td><td>non-magnetic</td><td>insoluble</td></tr>
+            <tr><td>D</td><td>hard</td><td>non-magnetic</td><td>soluble</td></tr>
+          </tbody>
+        </table>
+        <p class="question-text">A mixture contains A and B.</p>
+        <p class="question-text">Which method would you use to separate this mixture?</p>
+        <p class="question-text">Tick (✓) the correct box.</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q11_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">condensation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q11_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">evaporation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q11_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">filtration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q11_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">magnetic attraction</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 | EARTH-NEW-Q12 | EARTH | Apr 2022 P2 Q14(a) | p.978 | text input + Solar System SVG | v1.2 REPLACEMENT -->
+    <div class="question-block" id="qblock-12" data-marks="1" data-question-id="Y7_Q12" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="978" data-candidate-id="EARTH-NEW-Q12">
+      <div class="question-header">
+        <div class="q-number">Q12</div>
+        <div class="q-topic">Earth &amp; Space · Solar System</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Apr 2022 P2 Q14(a) — PDF page 978 — name path X (orbit) -->
+        <p class="question-text">Pierre and Youssef make a model of a part of the Solar System.</p>
+        <figure class="q-figure" data-asset-status="RECREATED_INLINE_SVG">
+          <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img"
+               style="max-width:400px;width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;"
+               aria-label="Model of part of the Solar System with Sun, planet, and orbit path labelled X">
+            <title>Solar System model: Sun in centre, planet on oval orbit path labelled X</title>
+            <!-- Orbit path (oval) -->
+            <ellipse cx="200" cy="110" rx="150" ry="75" fill="none" stroke="#1a1917" stroke-width="1.8" stroke-dasharray="4,3"/>
+            <!-- Sun -->
+            <circle cx="200" cy="110" r="22" fill="#f4d03f" stroke="#d4ac0d" stroke-width="2"/>
+            <!-- Sun rays for clarity -->
+            <line x1="200" y1="80" x2="200" y2="73" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="200" y1="140" x2="200" y2="147" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="170" y1="110" x2="163" y2="110" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="230" y1="110" x2="237" y2="110" stroke="#d4ac0d" stroke-width="1.5"/>
+            <!-- Planet (small ball) on the orbit path -->
+            <circle cx="345" cy="110" r="9" fill="#3b82c4" stroke="#1a4a7e" stroke-width="1.5"/>
+            <!-- Label X on the orbit path with leader line -->
+            <line x1="200" y1="35" x2="200" y2="45" stroke="#666" stroke-width="1"/>
+            <text x="200" y="28" text-anchor="middle" font-size="16" font-family="sans-serif" font-weight="700" fill="#1a1917">X</text>
+            <!-- Caption -->
+            <text x="395" y="210" text-anchor="end" font-size="10" font-family="sans-serif" font-style="italic" fill="#666">Not drawn to scale</text>
+          </svg>
+          <figcaption>Solar System model — SVG recreation. Source: Apr 2022 P2 Q14 (PDF page 978).</figcaption>
+        </figure>
+        <p class="question-text">Write down the name of the path labelled <strong>X</strong>.</p>
+        <div class="input-group">
+          <input type="text" class="text-input" id="Y7_Q12_answer" name="Y7_Q12_answer"
+            placeholder="Name of path X…" autocomplete="off" data-question-id="Y7_Q12">
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">MS source: Apr 2022 P2 MS p.995 — answer: orbit. Single text input.</p>
+      </div>
+    </div>
+
+    <!-- Q13 | PHYS-NEW-D1 | PHYS | Apr 2021 P2 Q1(a) | p.799 | text input + bird forces SVG | v1.2 REPLACEMENT -->
+    <div class="question-block" id="qblock-13" data-marks="1" data-question-id="Y7_Q13" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="799" data-candidate-id="PHYS-NEW-D1">
+      <div class="question-header">
+        <div class="q-number">Q13</div>
+        <div class="q-topic">Physics · Forces</div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Apr 2021 P2 Q1(a) — PDF page 799 — name force slowing bird -->
+        <p class="question-text">The picture shows a bird gliding in the sky.</p>
+        <figure class="q-figure" data-asset-status="RECREATED_INLINE_SVG">
+          <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" role="img"
+               style="max-width:320px;width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;"
+               aria-label="Bird gliding with force A acting horizontally and force B acting vertically downward">
+            <title>Bird gliding with force A horizontal (slowing bird) and force B vertical downward (pulling bird towards Earth)</title>
+            <!-- Bird silhouette: simple gliding bird body + wings -->
+            <g stroke="#1a1917" stroke-width="1.8" fill="#cdd5dd">
+              <!-- body (oval) -->
+              <ellipse cx="160" cy="90" rx="36" ry="10"/>
+              <!-- left wing -->
+              <path d="M 132 88 Q 105 72 80 78 Q 100 92 130 92 Z" stroke-linejoin="round"/>
+              <!-- right wing -->
+              <path d="M 188 88 Q 215 72 240 78 Q 220 92 190 92 Z" stroke-linejoin="round"/>
+              <!-- head -->
+              <circle cx="195" cy="86" r="6"/>
+              <!-- beak -->
+              <path d="M 200 84 L 209 86 L 200 88 Z" fill="#d4ac0d" stroke="#8b6914"/>
+              <!-- eye -->
+              <circle cx="197" cy="85" r="1" fill="#1a1917"/>
+            </g>
+            <!-- Force A: horizontal arrow opposing motion direction (rightward bird → arrow points LEFT/backward) -->
+            <line x1="240" y1="90" x2="290" y2="90" stroke="#d63333" stroke-width="2.5" marker-end="url(#arrowFA)"/>
+            <text x="265" y="78" text-anchor="middle" font-size="13" font-family="sans-serif" font-weight="600" fill="#1a1917">force A</text>
+            <!-- Force B: vertical arrow downward -->
+            <line x1="160" y1="125" x2="160" y2="175" stroke="#1a4a7e" stroke-width="2.5" marker-end="url(#arrowFB)"/>
+            <text x="118" y="155" text-anchor="end" font-size="13" font-family="sans-serif" font-weight="600" fill="#1a1917">force B</text>
+            <line x1="120" y1="158" x2="158" y2="158" stroke="#666" stroke-width="0.8"/>
+            <defs>
+              <marker id="arrowFA" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 Z" fill="#d63333"/>
+              </marker>
+              <marker id="arrowFB" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 Z" fill="#1a4a7e"/>
+              </marker>
+            </defs>
+          </svg>
+          <figcaption>Bird gliding with two forces — SVG recreation. Source: Apr 2021 P2 Q1 (PDF page 799). Force A: horizontal opposing motion. Force B: vertical downward.</figcaption>
+        </figure>
+        <p class="question-text">Force A slows the bird down.</p>
+        <p class="question-text">Force A is called <input type="text" class="fill-blank" id="Y7_Q13_answer" name="Y7_Q13_answer" placeholder="…" autocomplete="off" data-question-id="Y7_Q13" style="min-width:160px;">.</p>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">MS source: Apr 2021 P2 MS. Fill-in-blank text input.</p>
+      </div>
+    </div>
+    <!-- Q14 | PARTB-12 | PHYS | Oct 2020 P2 Q17(a) | p.761 | radio 4 mirror options — recreated CSS -->
+    <div class="question-block" id="qblock-14" data-marks="1" data-question-id="Y7_Q14" data-source-page="761">
+      <div class="question-header"><div class="q-number">Q14</div><div class="q-topic">Physics · Light &amp; Reflection</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Oct 2020 P2 Q17(a) p.761 — identify correct mirror image of a name -->
+        <p class="question-text">Yuri draws his name on a piece of paper.</p>
+        <p class="question-text">He looks at his name in a mirror.</p>
+        <p class="question-text">Tick (✓) the box next to the image Yuri sees in the mirror.</p>
+        <div class="mcq-options" role="radiogroup" aria-label="Select correct mirror image">
+          <label class="mcq-option">
+            <input type="radio" name="Y7_Q14_answer" value="A">
+            <span class="opt-badge">A</span>
+            <span class="opt-text" style="font-family:monospace;font-size:15px;letter-spacing:2px;">Yuri</span>
+          </label>
+          <label class="mcq-option">
+            <input type="radio" name="Y7_Q14_answer" value="B">
+            <span class="opt-badge">B</span>
+            <span class="opt-text" style="font-family:monospace;font-size:15px;letter-spacing:2px;">Yuri</span>
+          </label>
+          <label class="mcq-option">
+            <input type="radio" name="Y7_Q14_answer" value="C">
+            <span class="opt-badge">C</span>
+            <span class="opt-text" style="font-family:monospace;font-size:15px;letter-spacing:2px;">iruY</span>
+          </label>
+          <label class="mcq-option">
+            <input type="radio" name="Y7_Q14_answer" value="D">
+            <span class="opt-badge">D</span>
+            <span class="opt-text" style="font-family:monospace;font-size:15px;letter-spacing:2px;">i r u Y</span>
+          </label>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">Source: Oct 2020 P2 Q17(a) p.761. Options A–D show the four text variants from source. Verify correct answer via MS before mark scheme build.</p>
+      </div>
+    </div>
+
+    <!-- Q15 | PARTB-13 | EARTH | Oct 2016 P2 Q12(a) | p.197 | radio 5 planet names -->
+    <div class="question-block" id="qblock-15" data-marks="1" data-question-id="Y7_Q15" data-source-page="197">
+      <div class="question-header"><div class="q-number">Q15</div><div class="q-topic">Earth &amp; Space · Solar System</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Oct 2016 P2 Q12(a) p.197 — planet with longest orbital period -->
+        <p class="question-text">Ahmed and Rajiv use the internet to find information about planets.</p>
+        <p class="question-text">Which planet takes the longest time to orbit the Sun?</p>
+        <p class="question-text">Circle the correct answer.</p>
+        <!-- DRAFT: Insert exact planet options from source p.197 -->
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q15_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Earth</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q15_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Jupiter</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q15_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Mars</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q15_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Mercury</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q15_answer" value="E"><span class="opt-badge">E</span><span class="opt-text">Venus</span></label>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS note: more than one circled = 0 marks (older Cambridge format).</p>
+      </div>
+    </div>
+
+    <!-- Q16 | PARTB-14 | EARTH | Apr 2023 P2 Q3(c) | p.1104 | radio 4 + Moon cycle SVG -->
+    <div class="question-block" id="qblock-16" data-marks="1" data-question-id="Y7_Q16" data-source-page="1104">
+      <div class="question-header"><div class="q-number">Q16</div><div class="q-topic">Earth &amp; Space · Moon</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2023 P2 Q3(c) p.1104 — time for Moon to complete one cycle -->
+        <figure class="q-figure">
+          <!-- Moon cycle SVG — RECREATABLE per VISUAL_DECISION_LOCK_v2 -->
+          <svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" role="img" style="max-width:360px;" aria-label="Moon cycle showing 8 lunar phases">
+            <title>Moon cycle diagram showing eight lunar phases</title>
+            <!-- 8 moon phase circles evenly spaced -->
+            <!-- Phase 1: New moon -->
+            <circle cx="25" cy="70" r="18" fill="#333" stroke="#999" stroke-width="1.5"/>
+            <text x="25" y="100" text-anchor="middle" font-size="9" fill="#666">New</text>
+            <!-- Phase 2: Waxing crescent -->
+            <circle cx="70" cy="70" r="18" fill="#ddd" stroke="#999" stroke-width="1.5"/>
+            <path d="M70,52 A18,18 0 0,0 70,88 A9,18 0 0,1 70,52Z" fill="#333"/>
+            <text x="70" y="100" text-anchor="middle" font-size="8" fill="#666">Wax ☽</text>
+            <!-- Phase 3: First quarter -->
+            <circle cx="115" cy="70" r="18" fill="#ddd" stroke="#999" stroke-width="1.5"/>
+            <path d="M115,52 A18,18 0 0,0 115,88Z" fill="#333"/>
+            <text x="115" y="100" text-anchor="middle" font-size="8" fill="#666">1st Qtr</text>
+            <!-- Phase 4: Waxing gibbous -->
+            <circle cx="160" cy="70" r="18" fill="#ddd" stroke="#999" stroke-width="1.5"/>
+            <path d="M160,52 A18,18 0 0,0 160,88 A6,18 0 0,0 160,52Z" fill="#333"/>
+            <text x="160" y="100" text-anchor="middle" font-size="8" fill="#666">Wax ◑</text>
+            <!-- Phase 5: Full moon -->
+            <circle cx="205" cy="70" r="18" fill="#f0e68c" stroke="#999" stroke-width="1.5"/>
+            <text x="205" y="100" text-anchor="middle" font-size="8" fill="#666">Full</text>
+            <!-- Phase 6: Waning gibbous -->
+            <circle cx="250" cy="70" r="18" fill="#ddd" stroke="#999" stroke-width="1.5"/>
+            <path d="M250,52 A18,18 0 0,1 250,88 A6,18 0 0,1 250,52Z" fill="#333"/>
+            <text x="250" y="100" text-anchor="middle" font-size="8" fill="#666">Wan ◐</text>
+            <!-- Phase 7: Last quarter -->
+            <circle cx="295" cy="70" r="18" fill="#ddd" stroke="#999" stroke-width="1.5"/>
+            <path d="M295,52 A18,18 0 0,1 295,88Z" fill="#333"/>
+            <text x="295" y="100" text-anchor="middle" font-size="8" fill="#666">3rd Qtr</text>
+            <!-- Phase 8: Waning crescent -->
+            <circle cx="335" cy="70" r="18" fill="#ddd" stroke="#999" stroke-width="1.5"/>
+            <path d="M335,52 A18,18 0 0,1 335,88 A9,18 0 0,0 335,52Z" fill="#333"/>
+            <text x="335" y="100" text-anchor="middle" font-size="8" fill="#666">Wan ☾</text>
+            <!-- Arrow showing direction -->
+            <path d="M 42 125 L 318 125" stroke="#ccc" stroke-width="1.5" marker-end="url(#arr)"/>
+            <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3Z" fill="#ccc"/></marker></defs>
+          </svg>
+          <figcaption>Moon cycle — SVG recreation. Source context: Apr 2023 P2 Q3 (PDF page 1104)</figcaption>
+        </figure>
+        <p class="question-text">How much time does it take the Moon to complete this cycle?</p>
+        <p class="question-text">Circle the correct answer.</p>
+        <!-- DRAFT: Insert exact time-period options from source p.1104 -->
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q16_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">one day</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q16_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">one week</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q16_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">one month</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q16_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">one year</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q17 | PARTB-15 | EARTH | Apr 2021 P1 Q10(a) | p.791 | radio 4 -->
+    <div class="question-block" id="qblock-17" data-marks="1" data-question-id="Y7_Q17" data-source-page="791">
+      <div class="question-header"><div class="q-number">Q17</div><div class="q-topic">Earth &amp; Space · Earth's Orbit</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2021 P1 Q10(a) p.791 — distance Earth moves in 6 months -->
+        <!-- ⚠ Same source question as Q4 (different subpart) — allowed; confirmed in Source Mapping Package -->
+        <p class="question-text">Gabriella draws a picture of the Sun. She draws the Earth in four different positions around the Sun, labelled A, B, C, and D.</p>
+        <p class="question-text">The Earth moves around the Sun. What distance does the Earth move in half a year (6 months)?</p>
+        <p class="question-text">Circle the correct answer.</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q17_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">from A to B</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q17_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">from A to C</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q17_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">from B to B</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q17_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">from B to A</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q17_answer" value="E"><span class="opt-badge">E</span><span class="opt-text">from C to D</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q18 | PARTB-16 | SCISKILLS | Apr 2021 P2 Q13(a) | p.813 | radio 4 + post+shadow SVG -->
+    <div class="question-block" id="qblock-18" data-marks="1" data-question-id="Y7_Q18" data-source-page="813">
+      <div class="question-header"><div class="q-number">Q18</div><div class="q-topic">Scientific Skills · Shadows</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2021 P2 Q13(a) p.813 — why a post creates a shadow -->
+        <figure class="q-figure">
+          <!-- Post + shadow SVG — RECREATABLE per VISUAL_DECISION_LOCK_v2 -->
+          <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" role="img" style="max-width:260px;" aria-label="Diagram of a post casting a shadow on the ground">
+            <title>Diagram showing a vertical post casting a shadow on the ground</title>
+            <!-- Sun -->
+            <circle cx="30" cy="28" r="18" fill="#f4d03f" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="30" y1="6" x2="30" y2="0" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="52" y1="10" x2="56" y2="5" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="58" y1="28" x2="64" y2="28" stroke="#d4ac0d" stroke-width="1.5"/>
+            <line x1="52" y1="46" x2="56" y2="51" stroke="#d4ac0d" stroke-width="1.5"/>
+            <!-- Ground line -->
+            <line x1="0" y1="130" x2="280" y2="130" stroke="#8b6914" stroke-width="2"/>
+            <rect x="0" y="130" width="280" height="30" fill="#c8a96e" opacity="0.3"/>
+            <!-- Post -->
+            <rect x="118" y="50" width="12" height="80" fill="#4a3728"/>
+            <!-- Shadow (polygon from post base to right) -->
+            <polygon points="125,130 130,130 220,130 130,50" fill="#666" opacity="0.35"/>
+            <!-- Ray lines from sun to post top (dashed) -->
+            <line x1="42" y1="35" x2="118" y2="50" stroke="#f4d03f" stroke-width="1" stroke-dasharray="5,4" opacity="0.7"/>
+            <!-- Labels -->
+            <text x="104" y="38" font-size="12" fill="#333" font-family="sans-serif">post</text>
+            <line x1="112" y1="40" x2="120" y2="50" stroke="#666" stroke-width="1"/>
+            <text x="155" y="120" font-size="12" fill="#555" font-family="sans-serif">shadow</text>
+          </svg>
+          <figcaption>SVG recreation — source: Apr 2021 P2 Q13 (PDF page 813). Replace with screenshot if preferred.</figcaption>
+        </figure>
+        <p class="question-text">Priya and Chen investigate shadows. The picture shows the equipment they use.</p>
+        <p class="question-text">The post makes a shadow.</p>
+        <p class="question-text">Why does the post make a shadow?</p>
+        <p class="question-text">Tick (✓) the correct box.</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q18_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">the post is heavy</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q18_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the post is opaque</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q18_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">the post is tall</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q18_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">the post is transparent</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q19 | PARTB-17 | SCISKILLS | Apr 2018 P2 Q7(c) | p.405 | radio 4 — visual OMITTED -->
+    <div class="question-block" id="qblock-19" data-marks="1" data-question-id="Y7_Q19" data-source-page="405">
+      <div class="question-header"><div class="q-number">Q19</div><div class="q-topic">Scientific Skills · Fair Tests</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2018 P2 Q7(c) p.405 — action to make shadow investigation fair -->
+        <!-- Visual OMITTED per VISUAL_DECISION_LOCK_v2 — decorative only -->
+        <p class="question-text">Jamila and Safia investigate how the length of a shadow changes. They place a stick in the ground and measure the length of the shadow at different times of day.</p>
+        <p class="question-text">Jamila and Safia want to make their investigation a fair test.</p>
+        <p class="question-text">What must they do?</p>
+        <p class="question-text">Tick (✓) the box next to the correct sentence.</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y7_Q19_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Label the axes of the graph correctly.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q19_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Measure from the same point to the end of the shadow each time.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q19_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Push the stick into the ground before measuring.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q19_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Use a different stick in the ground each time.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q19_answer" value="E"><span class="opt-badge">E</span><span class="opt-text">Use a ruler to draw the table of results.</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q20 | PARTB-18 | SCISKILLS | Oct 2022 P1 Q11(b) | p.1009 | COMPOUND: radio + textarea + line graph placeholder -->
+    <div class="question-block" id="qblock-20" data-marks="1" data-question-id="Y7_Q20" data-source-page="1009">
+      <div class="question-header"><div class="q-number">Q20</div><div class="q-topic">Scientific Skills · Predictions</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <!-- DRAFT: Oct 2022 P1 Q11(b) p.1009 — is heating prediction correct? -->
+        <!-- COMPOUND: tick + explain both required for 1 mark; graph from Q11(a) must be shown -->
+        <!-- Q20 graph: PLACEHOLDER pending screenshot of Q11(a) line graph from p.1009 -->
+        <figure class="q-figure" data-asset-status="RECONSTRUCTED_FROM_MS_EVIDENCE">
+          <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" role="img"
+     style="max-width:400px;width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;"
+     aria-label="Line graph showing temperature in Celsius against time in minutes for Safia heating a substance">
+<title>Heating curve: temperature versus time for Safia heating a white solid substance. Temperature rises steadily 20 to 45°C (minutes 0–5), then plateaus at 45°C (minutes 5–6 and 8), with an anomalous drop to 30°C at minute 7.</title>
+<rect x="52" y="20" width="328" height="212" fill="#fafafa" stroke="#ddd" stroke-width="0.8"/>
+<line x1="52" y1="232.0" x2="380" y2="232.0" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="210.8" x2="380" y2="210.8" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="189.6" x2="380" y2="189.6" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="168.4" x2="380" y2="168.4" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="147.2" x2="380" y2="147.2" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="126.0" x2="380" y2="126.0" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="104.8" x2="380" y2="104.8" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="83.6" x2="380" y2="83.6" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="62.4" x2="380" y2="62.4" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="41.2" x2="380" y2="41.2" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52" y1="20.0" x2="380" y2="20.0" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="52.0" y1="20" x2="52.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="93.0" y1="20" x2="93.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="134.0" y1="20" x2="134.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="175.0" y1="20" x2="175.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="216.0" y1="20" x2="216.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="257.0" y1="20" x2="257.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="298.0" y1="20" x2="298.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="339.0" y1="20" x2="339.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<line x1="380.0" y1="20" x2="380.0" y2="232" stroke="#e0e0e0" stroke-width="0.8"/>
+<text x="46" y="236.0" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">0</text>
+<text x="46" y="214.8" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">5</text>
+<text x="46" y="193.6" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">10</text>
+<text x="46" y="172.4" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">15</text>
+<text x="46" y="151.2" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">20</text>
+<text x="46" y="130.0" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">25</text>
+<text x="46" y="108.8" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">30</text>
+<text x="46" y="87.6" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">35</text>
+<text x="46" y="66.4" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">40</text>
+<text x="46" y="45.2" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">45</text>
+<text x="46" y="24.0" text-anchor="end" font-size="10" font-family="sans-serif" fill="#444">50</text>
+<text x="52.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">0</text>
+<text x="93.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">1</text>
+<text x="134.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">2</text>
+<text x="175.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">3</text>
+<text x="216.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">4</text>
+<text x="257.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">5</text>
+<text x="298.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">6</text>
+<text x="339.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">7</text>
+<text x="380.0" y="246" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#444">8</text>
+<line x1="52" y1="20" x2="52" y2="232" stroke="#333" stroke-width="1.5"/>
+<line x1="52" y1="232" x2="380" y2="232" stroke="#333" stroke-width="1.5"/>
+<text x="12" y="126.0" text-anchor="middle" font-size="11" font-family="sans-serif" fill="#333" transform="rotate(-90,12,126.0)">temperature</text>
+<text x="26" y="126.0" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#333" transform="rotate(-90,26,126.0)">in °C</text>
+<text x="216.0" y="260" text-anchor="middle" font-size="11" font-family="sans-serif" fill="#333">time</text>
+<text x="216.0" y="272" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#333">in minutes</text>
+<polyline points="52.0,147.2 93.0,126.0 134.0,104.8 175.0,83.6 216.0,62.4 257.0,41.2 298.0,41.2" fill="none" stroke="#1a4a7e" stroke-width="2.2" stroke-linejoin="round"/>
+<polyline points="298.0,41.2 339.0,104.8" fill="none" stroke="#1a4a7e" stroke-width="2.2" stroke-dasharray="4,3"/>
+<polyline points="339.0,104.8 380.0,41.2" fill="none" stroke="#1a4a7e" stroke-width="2.2" stroke-dasharray="4,3"/>
+<line x1="298.0" y1="41.2" x2="380.0" y2="41.2" stroke="#1a4a7e" stroke-width="2.2" stroke-dasharray="0"/>
+<circle cx="52.0" cy="147.2" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="93.0" cy="126.0" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="134.0" cy="104.8" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="175.0" cy="83.6" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="216.0" cy="62.4" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="257.0" cy="41.2" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="298.0" cy="41.2" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+<circle cx="339.0" cy="104.8" r="5" fill="#d63333" stroke="#fff" stroke-width="1.5"/>
+<circle cx="380.0" cy="41.2" r="4" fill="#1a4a7e" stroke="#fff" stroke-width="1.5"/>
+</svg>
+          <figcaption>
+            Heating curve — SVG recreation from verified data (Oct 2022 P1 Q11(a), PDF page 1009).
+            Data points: t=0→20°C, t=1→25°C, t=2→30°C, t=3→35°C, t=4→40°C,
+            t=5→45°C, t=6→45°C, t=7→30°C (anomalous — shown in red), t=8→45°C.
+            Source evidence: MS p.1026 confirms t=7 drops to 30°C; plateau at 45°C after t=5.
+          </figcaption>
+        </figure>
+        <p class="question-text">Safia heats a white solid substance and measures the temperature every minute. She plots her results on a line graph.</p>
+        <p class="question-text">Safia says, 'The temperature keeps going up the longer I heat the substance.'</p>
+        <p class="question-text">Tick (✓) to show if Safia is correct. Explain your answer using information from the line graph.</p>
+        <div class="mcq-options" role="radiogroup" aria-label="Is the prediction correct?">
+          <label class="mcq-option"><input type="radio" name="Y7_Q20_tick" value="yes"><span class="opt-badge">A</span><span class="opt-text">Yes</span></label>
+          <label class="mcq-option"><input type="radio" name="Y7_Q20_tick" value="no"><span class="opt-badge">B</span><span class="opt-text">No</span></label>
+        </div>
+        <div class="input-group" style="margin-top:10px;">
+          <label class="input-label" for="Y7_Q20_explain">Explain your answer using the graph:</label>
+          <textarea class="text-input" id="Y7_Q20_explain" name="Y7_Q20_explain" rows="2" placeholder="Use the graph to explain…"></textarea>
+        </div>
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;">⚠ Compound scoring: both tick and explanation must be correct for 1 mark.</p>
+      </div>
+    </div>
+
+  </section><!-- /part-b -->
+  <!-- ─────────────────────────────── PART C ─────────────────────────── -->
+  <section class="part-section" id="part-c">
+    <div class="part-header">
+      <div class="part-label">PART C</div>
+      <h2 class="part-title">Data &amp; Experiment</h2>
+      <div class="part-marks">15 marks</div>
+    </div>
+    <p class="part-instruction">Questions 21–23: Answer all parts of each question. (5 marks each)</p>
+
+    <!-- Q21 | PARTD-C3 | PHYS | Apr 2023 P2 Q7 | p.1110-1111 | 5m (2+2+1) — PLACEHOLDER Q21 light-ray -->
+    <div class="question-block" id="qblock-21" data-marks="5" data-question-id="Y7_Q21" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="1110">
+      <div class="question-header">
+        <div class="q-number">Q21</div>
+        <div class="q-topic">Physics · Light</div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Apr 2023 P2 Q7 p.1110-1111 — light rays in two investigations | CONTENT COMPLETE -->
+        <!-- ✅ VISUAL STATUS: RECEIVED_VERIFIED — y7_q21_light_rays_investigations.png -->
+        <!-- Verified: Investigation A (refraction — ray entering water-filled container) -->
+        <!--           Investigation B (reflection — ray bouncing from flat mirror) -->
+        <!-- Dimensions: 734×321 px | Source: Apr 2023 Paper 2 Q7 | PDF pages 1110–1111 -->
+        <p class="question-text">Mike does two different investigations using light rays.</p>
+        <figure class="q-figure" data-asset-status="RECEIVED_VERIFIED">
+          <img src="y7_q21_light_rays_investigations.png"
+            alt="Two light-ray investigations side by side: Investigation A shows a light ray entering a water-filled glass container demonstrating refraction; Investigation B shows a light ray reflecting off a flat mirror demonstrating reflection"
+            style="max-width:100%;border-radius:6px;border:1px solid var(--border);"
+            data-source-attribution="Apr 2023 Paper 2 Q7 — PDF pages 1110–1111 — Cambridge Primary Checkpoint"
+            data-candidate-id="PARTD-C3"
+            data-asset-status="RECEIVED_VERIFIED">
+          <figcaption>Light ray investigations A and B — ✅ Screenshot verified (y7_q21_light_rays_investigations.png). Investigation A: refraction in water · Investigation B: reflection from mirror</figcaption>
+        </figure>
+        <!-- 21(a) — 2m — fill-in-blank: changes + called -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">2 marks</span></div>
+          <!-- DRAFT: "Describe what happens to the light ray in investigation A. Complete the sentences." -->
+          <p class="sub-text">Describe what happens to the light ray in investigation A.</p>
+          <p class="sub-text">Complete the sentences.</p>
+          <p class="sub-text">In investigation A the light ray changes
+            <input type="text" class="fill-blank" id="Y7_Q21_a_1_answer" name="Y7_Q21_a_1_answer"
+              placeholder="direction / property…" autocomplete="off" style="min-width:140px;">.
+          </p>
+          <p class="sub-text" style="margin-top:8px;">This is called
+            <input type="text" class="fill-blank" id="Y7_Q21_a_2_answer" name="Y7_Q21_a_2_answer"
+              placeholder="process name…" autocomplete="off" style="min-width:140px;">.
+          </p>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: each correct = 1 mark. Accept higher-level answers about speed. Ignore "medium", "appearance", "bends".</p>
+        </div>
+        <!-- 21(b) — 2m — fill-in-blank: investigation B -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">Describe what happens to the light ray in investigation B.</p>
+          <p class="sub-text">Complete the sentences.</p>
+          <p class="sub-text">In investigation B the light ray changes
+            <input type="text" class="fill-blank" id="Y7_Q21_b_1_answer" name="Y7_Q21_b_1_answer"
+              placeholder="direction / property…" autocomplete="off" style="min-width:140px;">.
+          </p>
+          <p class="sub-text" style="margin-top:8px;">This is called
+            <input type="text" class="fill-blank" id="Y7_Q21_b_2_answer" name="Y7_Q21_b_2_answer"
+              placeholder="process name…" autocomplete="off" style="min-width:140px;">.
+          </p>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: accept "direction" + "reflection"; ignore "bounces".</p>
+        </div>
+        <!-- 21(c) — 1m — textarea -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Mike removes the water from the container in investigation A.</p>
+          <p class="sub-text">Describe what happens to the light ray.</p>
+          <div class="input-group">
+            <textarea class="text-input" id="Y7_Q21_c_answer" name="Y7_Q21_c_answer" rows="2"
+              placeholder="Describe what happens to the light ray…"></textarea>
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: accept "remains straight" / "will not bend" / "will not refract".</p>
+        </div>
+      </div>
+    </div><!-- /Q21 -->
+
+    <!-- Q22 | PARTC-NEW-1 | SCISKILLS | Apr 2020 P2 Q16 | p.689-691 | 5m (1+1+1+2) -->
+    <div class="question-block" id="qblock-22" data-marks="5" data-question-id="Y7_Q22" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="689">
+      <div class="question-header">
+        <div class="q-number">Q22</div>
+        <div class="q-topic">Scientific Skills · Investigation</div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2020 P2 Q16 p.689-691 — seed dispersal model investigation -->
+        <p class="question-text">Pierre and Rajiv investigate how seeds are dispersed.</p>
+        <p class="question-text">They make a model seed from paper.</p>
+        <!-- Seed dispersal model diagram -->
+        <figure class="q-figure" data-pending-asset="y7_q22_seed_dispersal_diagram.svg">
+          <!-- SVG recreation of paper helicopter model -->
+          <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" role="img"
+            style="max-width:180px;" aria-label="Diagram of paper model seed with wings and paperclip">
+            <title>Paper model seed with two wings and a paperclip at the base</title>
+            <!-- Wings (two elongated rectangles at angle) -->
+            <rect x="60" y="20" width="80" height="16" rx="6" fill="#a8d5a2" stroke="#4a7c3f" stroke-width="1.5" transform="rotate(-15,100,28)"/>
+            <rect x="60" y="40" width="80" height="16" rx="6" fill="#a8d5a2" stroke="#4a7c3f" stroke-width="1.5" transform="rotate(15,100,48)"/>
+            <!-- Body -->
+            <rect x="92" y="28" width="16" height="55" rx="3" fill="#e8d5a0" stroke="#8b6914" stroke-width="1.5"/>
+            <!-- Paperclip at bottom -->
+            <rect x="96" y="80" width="8" height="22" rx="4" fill="none" stroke="#666" stroke-width="2"/>
+            <rect x="99" y="86" width="5" height="14" rx="2.5" fill="none" stroke="#666" stroke-width="1.5"/>
+            <!-- Labels -->
+            <text x="142" y="35" font-size="11" fill="#333" font-family="sans-serif" font-weight="600">wings</text>
+            <line x1="140" y1="33" x2="126" y2="30" stroke="#666" stroke-width="1"/>
+            <text x="118" y="100" font-size="11" fill="#333" font-family="sans-serif" font-weight="600">paper clip</text>
+            <line x1="117" y1="98" x2="104" y2="90" stroke="#666" stroke-width="1"/>
+          </svg>
+          <figcaption>Model seed diagram — SVG recreation. Source: Apr 2020 P2 Q16 (PDF page 689)</figcaption>
+        </figure>
+        <!-- Results data table — RECREATED in HTML -->
+        <p style="font-size:14px;font-weight:500;margin:10px 0 6px;">Here are their results.</p>
+        <table class="data-table" aria-label="Seed dispersal results: wing length and fall time">
+          <thead>
+            <tr>
+              <th>Length of wings<br>in <input type="text" class="text-input" id="Y7_Q22_a_answer" name="Y7_Q22_a_answer" placeholder="unit?" style="width:50px;padding:2px 4px;font-size:12px;display:inline;" aria-label="Unit for wing length (subpart a)"></th>
+              <th>Time to fall<br>in seconds</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>6</td><td>2.3</td></tr>
+            <tr><td>5</td><td>2.1</td></tr>
+            <tr><td>4</td><td>2.4</td></tr>
+            <tr><td>3</td><td>1.7</td></tr>
+            <tr><td>2</td><td>1.5</td></tr>
+          </tbody>
+        </table>
+        <!-- 22(a) is embedded in table header above — 1m -->
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin:4px 0 10px;">22(a) — 1 mark: type the correct unit for wing length in the table header above. MS: accept "cm" or "mm".</p>
+        <!-- 22(b) — 1m — sentence completion -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Most of the results fit a pattern. Complete the sentence about this pattern.</p>
+          <p class="sub-text">The shorter the wings the
+            <input type="text" class="fill-blank" id="Y7_Q22_b_answer" name="Y7_Q22_b_answer"
+              placeholder="…" autocomplete="off" style="min-width:180px;">.
+          </p>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: accept "faster it falls / quicker it falls / less time it takes".</p>
+        </div>
+        <!-- 22(c) — 1m -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Which length of wings does not fit the pattern?</p>
+          <div class="input-group">
+            <input type="text" class="text-input" id="Y7_Q22_c_answer" name="Y7_Q22_c_answer"
+              placeholder="Length value…" autocomplete="off">
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: accept "4 (cm)" or "2.4".</p>
+        </div>
+        <!-- 22(d) — 2m — two other factors -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">They want to do a new investigation about how seeds are dispersed. They have already investigated the length of the wings.<br>Write down <strong>two</strong> other factors about the model seed they could investigate.</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q22_d_1_answer">Factor 1:</label>
+            <input type="text" class="text-input" id="Y7_Q22_d_1_answer" name="Y7_Q22_d_1_answer"
+              placeholder="First factor…" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q22_d_2_answer">Factor 2:</label>
+            <input type="text" class="text-input" id="Y7_Q22_d_2_answer" name="Y7_Q22_d_2_answer"
+              placeholder="Second factor…" autocomplete="off">
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: any TWO from — number of paperclips / mass / material / amount of wind / length of drop / length or width of seed / shape of wings / number of wings.</p>
+        </div>
+      </div>
+    </div><!-- /Q22 -->
+
+    <!-- Q23 | PARTC-NEW-3 | CHEM | Apr 2017 P1 Q5 | p.224-225 | 5m (2+1+1+1) -->
+    <div class="question-block" id="qblock-23" data-marks="5" data-question-id="Y7_Q23" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="224">
+      <div class="question-header">
+        <div class="q-number">Q23</div>
+        <div class="q-topic">Chemistry · States of Matter</div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2017 P1 Q5 p.224-225 — three states of matter properties -->
+        <p class="question-text">The three states of matter are solid, liquid and gas.</p>
+        <!-- 23(a) — 2m — states-of-matter radio grid, graduated scoring -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">The table shows the state of matter at room temperature of some substances. Complete the table by putting a tick (✓) in the correct box. Water has been done for you.</p>
+          <!-- RECREATED IN HTML — no screenshot needed -->
+          <table class="states-grid" aria-label="States of matter at room temperature">
+            <thead>
+              <tr>
+                <th>Substance</th>
+                <th>Solid</th>
+                <th>Liquid</th>
+                <th>Gas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>carbon dioxide</td>
+                <td><input type="radio" name="Y7_Q23_a_carbon_dioxide" value="solid" aria-label="carbon dioxide solid"></td>
+                <td><input type="radio" name="Y7_Q23_a_carbon_dioxide" value="liquid" aria-label="carbon dioxide liquid"></td>
+                <td><input type="radio" name="Y7_Q23_a_carbon_dioxide" value="gas" aria-label="carbon dioxide gas"></td>
+              </tr>
+              <tr>
+                <td>gasoline</td>
+                <td><input type="radio" name="Y7_Q23_a_gasoline" value="solid" aria-label="gasoline solid"></td>
+                <td><input type="radio" name="Y7_Q23_a_gasoline" value="liquid" aria-label="gasoline liquid"></td>
+                <td><input type="radio" name="Y7_Q23_a_gasoline" value="gas" aria-label="gasoline gas"></td>
+              </tr>
+              <tr>
+                <td>mercury</td>
+                <td><input type="radio" name="Y7_Q23_a_mercury" value="solid" aria-label="mercury solid"></td>
+                <td><input type="radio" name="Y7_Q23_a_mercury" value="liquid" aria-label="mercury liquid"></td>
+                <td><input type="radio" name="Y7_Q23_a_mercury" value="gas" aria-label="mercury gas"></td>
+              </tr>
+              <tr>
+                <td>water</td>
+                <td></td>
+                <td><span class="example-tick">✓</span></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>wood</td>
+                <td><input type="radio" name="Y7_Q23_a_wood" value="solid" aria-label="wood solid"></td>
+                <td><input type="radio" name="Y7_Q23_a_wood" value="liquid" aria-label="wood liquid"></td>
+                <td><input type="radio" name="Y7_Q23_a_wood" value="gas" aria-label="wood gas"></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">⚠ GRADUATED SCORING: all 4 correct = 2 marks / 2–3 correct = 1 mark / 0–1 correct = 0 marks. Water row is locked as example (not scored). Multi-tick per row = invalid for that row.</p>
+        </div>
+        <!-- 23(b) — 1m — change of state copper melts (ordered compound X→Y) -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Copper has a melting point of 1083 °C. What change of state happens when copper melts?</p>
+          <div class="word-equation" style="margin-top:8px;">
+            <input type="text" class="eq-input-sm" id="Y7_Q23_b_1_answer" name="Y7_Q23_b_1_answer"
+              placeholder="from…" autocomplete="off">
+            <span class="eq-sym"> to </span>
+            <input type="text" class="eq-input-sm" id="Y7_Q23_b_2_answer" name="Y7_Q23_b_2_answer"
+              placeholder="…to" autocomplete="off">
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">⚠ Ordered compound: both fields correct AND in correct order = 1 mark. MS: "solid to liquid".</p>
+        </div>
+        <!-- 23(c) — 1m — change of state copper boils (ordered compound X→Y) -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Copper has a boiling point of 2567 °C. What change of state happens when copper boils?</p>
+          <div class="word-equation" style="margin-top:8px;">
+            <input type="text" class="eq-input-sm" id="Y7_Q23_c_1_answer" name="Y7_Q23_c_1_answer"
+              placeholder="from…" autocomplete="off">
+            <span class="eq-sym"> to </span>
+            <input type="text" class="eq-input-sm" id="Y7_Q23_c_2_answer" name="Y7_Q23_c_2_answer"
+              placeholder="…to" autocomplete="off">
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">Ordered compound. MS: "liquid to gas".</p>
+        </div>
+        <!-- 23(d) — 1m — state at 2000°C -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Copper is heated to 2000 °C. What is the state of matter of copper at 2000 °C?</p>
+          <div class="input-group">
+            <input type="text" class="text-input" id="Y7_Q23_d_answer" name="Y7_Q23_d_answer"
+              placeholder="State of matter…" autocomplete="off">
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS: liquid (2000 °C is between melting point 1083 °C and boiling point 2567 °C).</p>
+        </div>
+      </div>
+    </div><!-- /Q23 -->
+
+  </section><!-- /part-c -->
+  <!-- ─────────────────────────────── PART D ─────────────────────────── -->
+  <section class="part-section" id="part-d">
+    <div class="part-header">
+      <div class="part-label">PART D</div>
+      <h2 class="part-title">Reasoning &amp; Application</h2>
+      <div class="part-marks">25 marks</div>
+    </div>
+    <p class="part-instruction">Questions 24–27: Answer all parts of each question.</p>
+
+    <!-- Q24 | PARTD-A1 | CHEM | Apr 2016 P2 Q12 | p.126-128 | 6m (2+3+1) -->
+    <div class="question-block" id="qblock-24" data-marks="6" data-question-id="Y7_Q24" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="126">
+      <div class="question-header">
+        <div class="q-number">Q24</div>
+        <div class="q-topic">Chemistry · Separation of Mixtures</div>
+        <div class="q-marks">6 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2016 P2 Q12 p.126-128 — separating iron, sand, salt and water -->
+        <p class="question-text">Mia has a mixture of three powdered solids: chalk, iron and potassium chloride.</p>
+        <!-- 24(a) — 2m -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">Mia wants to separate the iron from the mixture.</p>
+          <p class="sub-text">Describe how she can do this. Explain why this method works.</p>
+          <div class="input-group">
+            <textarea class="text-input" id="Y7_Q24_a_answer" name="Y7_Q24_a_answer" rows="3"
+              placeholder="Describe the method and explain…"></textarea>
+          </div>
+        </div>
+        <!-- 24(b) — 3m — filter funnel visual -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">3 marks</span></div>
+          <p class="sub-text">Mia now has only potassium chloride and chalk left. She decides to add the mixture to water and filter the mixture.</p>
+          <p class="sub-text">Describe how the filtration works to separate the chalk from the potassium chloride solution. You may use the diagram to help.</p>
+          <figure class="q-figure">
+            <!-- Filter funnel SVG — RECREATABLE per VISUAL_DECISION_LOCK_v2 -->
+            <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" role="img"
+              style="max-width:180px;" aria-label="Diagram of a filter funnel apparatus">
+              <title>Filter funnel apparatus: funnel with filter paper over a conical flask</title>
+              <!-- Stand -->
+              <rect x="95" y="0" width="6" height="100" fill="#aaa"/>
+              <rect x="60" y="96" width="80" height="6" rx="2" fill="#aaa"/>
+              <!-- Funnel -->
+              <polygon points="75,30 125,30 108,80 92,80" fill="#d0e8f0" stroke="#6699bb" stroke-width="2"/>
+              <!-- Filter paper -->
+              <polygon points="78,33 122,33 107,77 93,77" fill="#fff8e8" stroke="#d4ac0d" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <!-- Funnel stem -->
+              <rect x="97" y="80" width="6" height="30" fill="#6699bb"/>
+              <!-- Conical flask -->
+              <path d="M70,175 L90,112 L110,112 L130,175 Z" fill="#d0e8f0" stroke="#6699bb" stroke-width="2"/>
+              <ellipse cx="100" cy="175" rx="30" ry="10" fill="#d0e8f0" stroke="#6699bb" stroke-width="2"/>
+              <ellipse cx="100" cy="112" rx="10" ry="4" fill="none" stroke="#6699bb" stroke-width="1.5"/>
+              <!-- Filtrate level in flask -->
+              <path d="M74,165 Q100,158 126,165" stroke="#6699bb" stroke-width="1.5" fill="none"/>
+              <!-- Labels -->
+              <text x="134" y="58" font-size="11" fill="#333" font-family="sans-serif">filter paper</text>
+              <line x1="130" y1="56" x2="118" y2="52" stroke="#666" stroke-width="1"/>
+              <text x="134" y="150" font-size="11" fill="#333" font-family="sans-serif">filtrate</text>
+              <line x1="132" y1="152" x2="124" y2="162" stroke="#666" stroke-width="1"/>
+            </svg>
+            <figcaption>Filter apparatus — SVG recreation. Source: Apr 2016 P2 Q12 (PDF page 126–127)</figcaption>
+          </figure>
+          <div class="input-group">
+            <textarea class="text-input" id="Y7_Q24_b_answer" name="Y7_Q24_b_answer" rows="4"
+              placeholder="Describe how filtering separates sand from the liquid…"></textarea>
+          </div>
+        </div>
+        <!-- 24(c) — 1m -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">After filtering, Mia has potassium chloride solution left. She heats the solution for 15 minutes. At the end only solid potassium chloride remains.</p>
+          <p class="sub-text">What has happened to the water in the solution?</p>
+          <div class="input-group">
+            <input type="text" class="text-input" id="Y7_Q24_c_answer" name="Y7_Q24_c_answer"
+              placeholder="Name the change of state…" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div><!-- /Q24 -->
+
+    <!-- Q25 | PARTD-A2 | BIO | Apr 2023 P2 Q1 | p.1101-1103 | 6m (1+1+2+2) -->
+    <div class="question-block" id="qblock-25" data-marks="6" data-question-id="Y7_Q25" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="1101">
+      <div class="question-header">
+        <div class="q-number">Q25</div>
+        <div class="q-topic">Biology · Circulatory System</div>
+        <div class="q-marks">6 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Apr 2023 P2 Q1 p.1101-1103 — circulatory system: organ X, function, blood vessels -->
+        <p class="question-text">The diagram shows part of the circulatory system.</p>
+        <!-- Circulatory diagram — VERIFIED SCREENSHOT received -->
+        <figure class="q-figure" data-asset-status="RECEIVED_VERIFIED">
+          <img src="y7_q25_circulatory_system.png"
+            alt="Diagram of the human circulatory system with organ X labelled"
+            style="max-width:340px;"
+            data-source-attribution="Apr 2023 Paper 2 Q1 — PDF page 1101 — Cambridge Primary Checkpoint"
+            data-candidate-id="PARTD-A2">
+          <figcaption>Circulatory system diagram — ✅ Screenshot provided and verified (y7_q25_circulatory_system.png)</figcaption>
+        </figure>
+        <!-- Oxygen table — RECREATED IN HTML (values from source p.1102-1103) -->
+        <!-- ⚠ DRAFT: Verify percentage values against source PDF p.1102-1103 before production lock -->
+        
+        <table class="data-table" aria-label="Percentage of oxygen in blood vessels" style="max-width:340px;">
+          <thead><tr><th>Blood vessel</th><th>Percentage (%) of oxygen</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>99</td></tr>
+            <tr><td>B</td><td>79</td></tr>
+            <tr><td>C</td><td>83</td></tr>
+            <tr><td>D</td><td>75</td></tr>
+            <tr><td>E</td><td>92</td></tr>
+          </tbody>
+        </table>
+        <!-- 25(a) — 1m -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Name the organ labelled <strong>X</strong> in the diagram.</p>
+          <div class="input-group">
+            <input type="text" class="text-input" id="Y7_Q25_a_answer" name="Y7_Q25_a_answer"
+              placeholder="Name of organ X…" autocomplete="off">
+          </div>
+        </div>
+        <!-- 25(b) — 1m -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Describe the function of the organ labelled X.</p>
+          <div class="input-group">
+            <textarea class="text-input" id="Y7_Q25_b_answer" name="Y7_Q25_b_answer" rows="2"
+              placeholder="Describe the function of organ X…"></textarea>
+          </div>
+        </div>
+        <!-- 25(c) — 2m — two blood vessel types -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">Write down the name of two types of blood vessel shown in the diagram.</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q25_c_1_answer">Blood vessel type 1:</label>
+            <input type="text" class="text-input" id="Y7_Q25_c_1_answer" name="Y7_Q25_c_1_answer"
+              placeholder="First type…" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q25_c_2_answer">Blood vessel type 2:</label>
+            <input type="text" class="text-input" id="Y7_Q25_c_2_answer" name="Y7_Q25_c_2_answer"
+              placeholder="Second type…" autocomplete="off">
+          </div>
+        </div>
+        <!-- 25(d) — 2m — identify vessel + explain using table -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">A scientist measures the percentage of oxygen in the blood travelling through different blood vessels. The table shows the results.</p>
+          <p class="sub-text">Which blood vessel transports blood from the lungs to the heart?</p>
+          <p class="sub-text">Explain your answer.</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q25_d_vessel">Blood vessel:</label>
+            <input type="text" class="text-input" id="Y7_Q25_d_vessel" name="Y7_Q25_d_vessel"
+              placeholder="Name of blood vessel…" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q25_d_explain">Use the table to explain:</label>
+            <textarea class="text-input" id="Y7_Q25_d_explain" name="Y7_Q25_d_explain" rows="2"
+              placeholder="Explain using data from the table…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div><!-- /Q25 -->
+
+    <!-- Q26 | PARTD-A3 | SCISKILLS | Oct 2016 P1 Q18 | p.168-170 | 7m (1+1+1+2+2) -->
+    <div class="question-block" id="qblock-26" data-marks="7" data-question-id="Y7_Q26" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="168">
+      <div class="question-header">
+        <div class="q-number">Q26</div>
+        <div class="q-topic">Scientific Skills · Fertiliser Solubility</div>
+        <div class="q-marks">7 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- DRAFT: Oct 2016 P1 Q18 p.168-170 — fertiliser solubility experiment -->
+        <p class="question-text">Potassium nitrate is a fertiliser.</p>
+        <p class="question-text">Class 6 investigate how much of this fertiliser can be dissolved in 10 cm³ of water. They do several experiments. Each experiment has water at a different temperature. Class 6 then repeat the experiments to get a second set of results.</p>
+        <!-- Data table — DRAFT values; verify against source p.169-170 -->
+        <p style="font-size:13px;font-weight:500;margin:8px 0 4px;">Here are their results.</p>
+        <table class="data-table" aria-label="Fertiliser solubility results" style="max-width:460px;">
+          <thead>
+            <tr>
+              <th>Temperature of water in °C</th>
+              <th>Mass of fertiliser dissolved (first experiment) in g</th>
+              <th>Mass of fertiliser dissolved (second experiment) in g</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>20</td><td>4.5</td><td>4.3</td></tr>
+            <tr><td>30</td><td>5.5</td><td>5.4</td></tr>
+            <tr><td>40</td><td>6.7</td><td>6.6</td></tr>
+            <tr><td>50</td><td>8.0</td><td>2.0</td></tr>
+            <tr><td>60</td><td>11.0</td><td>11.2</td></tr>
+          </tbody>
+        </table>
+        <!-- 26(a)(b) — 1m each — apparatus names -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">They measure the temperature of the water.</p>
+          <p class="sub-text">What piece of apparatus do they use?</p>
+          <div class="input-group">
+            <input type="text" class="text-input" id="Y7_Q26_a_answer" name="Y7_Q26_a_answer"
+              placeholder="Apparatus name…" autocomplete="off">
+          </div>
+        </div>
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">They measure the mass of the fertiliser.</p>
+          <p class="sub-text">What piece of apparatus do they use?</p>
+          <div class="input-group">
+            <input type="text" class="text-input" id="Y7_Q26_b_answer" name="Y7_Q26_b_answer"
+              placeholder="Apparatus name…" autocomplete="off">
+          </div>
+        </div>
+        <!-- 26(c) — 1m — why same volume -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Why do they always use 10 cm³ of water in each experiment?</p>
+          <div class="input-group">
+            <textarea class="text-input" id="Y7_Q26_c_answer" name="Y7_Q26_c_answer" rows="2"
+              placeholder="Explain why…"></textarea>
+          </div>
+        </div>
+        <!-- 26(d) — 2m — identify temperature + explain -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">Class 6 decide that their results for one temperature need checking.</p>
+          <p class="sub-text">Which temperature is this?</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q26_d_temp">Temperature:</label>
+            <input type="text" class="text-input" id="Y7_Q26_d_temp" name="Y7_Q26_d_temp"
+              placeholder="Temperature value…" autocomplete="off" style="max-width:120px;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q26_d_explain">Explain using the table:</label>
+            <textarea class="text-input" id="Y7_Q26_d_explain" name="Y7_Q26_d_explain" rows="2"
+              placeholder="Explain your answer…"></textarea>
+          </div>
+        </div>
+        <!-- 26(e) — 2m — predict mass + explain -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">Predict the mass of the fertiliser that can be dissolved in 10 cm³ of water at 70 °C.</p>
+          <p class="sub-text">The mass of the fertiliser is</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q26_e_mass">Predicted mass (g):</label>
+            <input type="number" class="text-input" id="Y7_Q26_e_mass" name="Y7_Q26_e_mass"
+              placeholder="Mass in grams…" style="max-width:120px;" step="0.1" min="0">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q26_e_explain">Explain your prediction:</label>
+            <textarea class="text-input" id="Y7_Q26_e_explain" name="Y7_Q26_e_explain" rows="2"
+              placeholder="Use the pattern in the table to explain…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div><!-- /Q26 -->
+
+    <!-- Q27 | SCISKILLS-6M-D1 | SCISKILLS | Oct 2023 P2 Q6 | p.1167-1169 | 6m (1+1+2+1+1) salt evaporation | v1.2 REPLACEMENT -->
+    <div class="question-block" id="qblock-27" data-marks="6" data-question-id="Y7_Q27" data-source-pool="PRIMARY_CHECKPOINT" data-source-page="1167" data-candidate-id="SCISKILLS-6M-D1">
+      <div class="question-header">
+        <div class="q-number">Q27</div>
+        <div class="q-topic">Scientific Skills · Investigation</div>
+        <div class="q-marks">6 marks</div>
+      </div>
+      <div class="question-body">
+        <!-- Source: Oct 2023 P2 Q6 (paper 0097/02) — PDF pages 1167-1169 — salt solution evaporation -->
+        <p class="question-text">Carlos and Mike investigate the rate of evaporation in four different samples of salt solution.</p>
+        <p class="question-text">Each salt solution contains 100 cm³ of water but different masses of salt.</p>
+        <p class="question-text">Carlos and Mike:</p>
+        <ul style="font-size:14px;margin:6px 0 10px 24px;line-height:1.55;">
+          <li>put one of the salt solutions into a beaker</li>
+          <li>find the mass of the beaker and the salt solution</li>
+          <li>put the beaker and salt solution into an oven with a temperature of 70 °C</li>
+          <li>take the beaker and salt solution out of the oven after 8 hours</li>
+          <li>leave the beaker and salt solution to cool</li>
+          <li>find the mass of the beaker and salt solution</li>
+          <li>repeat this method for the other three salt solutions.</li>
+        </ul>
+        <p class="question-text">Look at their results table.</p>
+        <table class="data-table" aria-label="Salt evaporation investigation results" style="font-size:13px;max-width:560px;">
+          <thead>
+            <tr>
+              <th rowspan="2">Salt in salt solution<br>in g</th>
+              <th colspan="2">Mass in g of</th>
+              <th rowspan="2">Change in mass<br>in g</th>
+            </tr>
+            <tr>
+              <th>beaker and salt solution at start</th>
+              <th>beaker and salt solution after 8 hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5</td>
+              <td>125</td>
+              <td>65</td>
+              <td><input type="number" class="text-input" id="Y7_Q27_a_answer" name="Y7_Q27_a_answer"
+                  placeholder="?" style="width:70px;padding:2px 6px;font-size:13px;text-align:center;"
+                  aria-label="Change in mass for 5 g of salt (subpart a)"></td>
+            </tr>
+            <tr><td>10</td><td>130</td><td>80</td><td>50</td></tr>
+            <tr><td>15</td><td>135</td><td>90</td><td>45</td></tr>
+            <tr><td>20</td><td>140</td><td>100</td><td>40</td></tr>
+          </tbody>
+        </table>
+        <!-- 27(a) — 1m — embedded in table header above -->
+        <p class="q-note" style="font-size:11px;color:var(--text-muted);margin:4px 0 14px;">27(a) — 1 mark: type the change in mass for 5 g of salt directly in the empty cell above. MS: 60.</p>
+
+        <!-- 27(b) — 1m — predict mass for 25g -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Carlos and Mike decide to test one more salt solution.</p>
+          <p class="sub-text">This solution contains 25 g of salt in 100 cm³ of water.</p>
+          <p class="sub-text">Predict the change in mass in this experiment.</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q27_b_answer">Change in mass (g):</label>
+            <input type="number" class="text-input" id="Y7_Q27_b_answer" name="Y7_Q27_b_answer"
+              placeholder="Mass in grams…" style="max-width:140px;" step="0.1" min="0">
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">MS source: Oct 2023 P2 MS.</p>
+        </div>
+
+        <!-- 27(c) — 2m — safety risk + reduce -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">2 marks</span></div>
+          <p class="sub-text">Describe one possible safety risk in this investigation and how to reduce this risk.</p>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q27_c_risk">Safety risk:</label>
+            <textarea class="text-input" id="Y7_Q27_c_risk" name="Y7_Q27_c_risk" rows="2"
+              placeholder="Describe the safety risk…"></textarea>
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="Y7_Q27_c_reduce">How to reduce this risk:</label>
+            <textarea class="text-input" id="Y7_Q27_c_reduce" name="Y7_Q27_c_reduce" rows="2"
+              placeholder="Describe how to reduce the risk…"></textarea>
+          </div>
+          <p class="q-note" style="font-size:11px;color:var(--text-muted);">⚠ Compound: 1 mark for risk identification + 1 mark for reduction method.</p>
+        </div>
+
+        <!-- 27(d) — 1m — independent variable (radio 4 options) -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Tick (✓) the box that shows the independent variable in this investigation.</p>
+          <div class="mcq-options" role="radiogroup" aria-label="Independent variable">
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_d_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">change in mass</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_d_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mass of salt in salt solution</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_d_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">temperature of oven</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_d_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">time in the oven</span></label>
+          </div>
+        </div>
+
+        <!-- 27(e) — 1m — controlled variable for fair test (radio 5 options) -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
+          <p class="sub-text">Tick (✓) the box that shows a variable that is controlled to make the investigation fair.</p>
+          <div class="mcq-options" role="radiogroup" aria-label="Controlled variable">
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_e_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">change in mass</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_e_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mass of salt in salt solution</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_e_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">mass of beaker and salt solution at start</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_e_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">mass of beaker and salt solution after 8 hours</span></label>
+            <label class="mcq-option"><input type="radio" name="Y7_Q27_e_answer" value="E"><span class="opt-badge">E</span><span class="opt-text">temperature of the oven</span></label>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /Q27 -->
+    <!-- Submit -->
+    <div class="submit-section">
+      <div class="submit-info">
+        <strong id="submit-answered">0 of 27</strong> questions answered
+      </div>
+      <button class="btn-submit" id="submit-btn">Submit Assessment →</button>
+    </div>
+  </section><!-- /part-d -->
+
+</main><!-- /assessment-main -->
+
+<!-- ═══════════════════════════ STICKY FOOTER ════════════════════════════ -->
+<div class="sticky-footer">
+  <div class="footer-progress">
+    <span class="fp-text" id="fp-text">0 / 27 answered</span>
+    <div class="fp-bar-wrap">
+      <div class="fp-bar-fill" id="fp-fill"></div>
+    </div>
+  </div>
+  <button class="btn-submit-sm" id="submit-btn-sm">Submit Assessment →</button>
+</div>
+
+<!-- ═══════════════════════════ CONFIRM MODAL ════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card">
+    <h2>Submit your assessment?</h2>
+    <p>Once submitted your answers will be sent for review. You will not be able to make changes afterwards.</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><span class="val" id="modal-answered">0</span><span class="lab">Questions answered</span></div>
+      <div class="modal-stat"><span class="val" id="modal-unanswered">27</span><span class="lab">Unanswered</span></div>
+      <div class="modal-stat"><span class="val" id="modal-time">--:--</span><span class="lab">Time remaining</span></div>
+      <div class="modal-stat"><span class="val">60</span><span class="lab">Total marks</span></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="modal-cancel">Go back</button>
+      <button class="btn-confirm" id="modal-confirm">Confirm &amp; Submit →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SUCCESS SCREEN ════════════════════════════ -->
+<div class="success-screen" id="success-screen">
+  <img src="scispark-logo-horizontal.svg" alt="SciSpark" class="success-logo">
+  <h1>Assessment <span class="orange-text">submitted.</span></h1>
+  <p>Your answers have been received. A reviewer will read your assessment and a recommendation will be stored in your account.</p>
+  <p style="font-size:14px;color:rgba(255,255,255,.3);">You may now close this window.</p>
+</div>
+
+<!-- ══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/**
+ * SciSpark Year 7 Entry Assessment — script (adapted from Y9)
+ * Assessment code: Y7_ENTRY_EN | 27 questions | 60 marks | 45 min
+ * Status: SUBMISSION_PATTERN_READY (not LIVE_SUBMISSION_VERIFIED — pending live test)
+ * Status: HTML_CONTENT_PASS_v2_DONE — VISUAL_PLACEMENT_AUDIT_v2_COMPLETE
+ */
+'use strict';
+
+/* ── CONFIG ────────────────────────────────────────────────── */
+const TOTAL_MARKS       = 60;
+const TOTAL_QUESTIONS   = 27;
+const TIMER_SECONDS     = 45 * 60;
+const AUTOSAVE_KEY      = 'scispark_y7_draft';
+const AUTOSAVE_INTERVAL_MS = 15000;
+
+const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+
+let supabaseClient = null;
+if (window.supabase) {
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+/** Y7 mark values per question */
+const QUESTION_MARKS = {
+  q1:1,q2:1,q3:1,q4:1,q5:1,
+  q6:1,q7:1,q8:1,q9:1,q10:1,q11:1,q12:1,q13:1,q14:1,q15:1,
+  q16:1,q17:1,q18:1,q19:1,q20:1,
+  q21:5, q22:5, q23:5,
+  q24:6, q25:6, q26:7, q27:6
+};
+
+/* ── STATE ─────────────────────────────────────────────────── */
+let timerRemaining    = TIMER_SECONDS;
+let timerInterval     = null;
+let answeredQuestions = new Set();
+let isSubmitting      = false;
+
+/* ── TIMER ─────────────────────────────────────────────────── */
+function formatTime(s) {
+  return `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
+}
+function tickTimer() {
+  if (timerRemaining <= 0) { clearInterval(timerInterval); document.getElementById('timer').textContent='00:00'; autoSubmit(); return; }
+  timerRemaining--;
+  const el = document.getElementById('timer');
+  if (el) { el.textContent = formatTime(timerRemaining); el.classList.toggle('urgent', timerRemaining <= 300); }
+}
+function startTimer() { timerInterval = setInterval(tickTimer, 1000); }
+
+/* ── PROGRESS TRACKING ─────────────────────────────────────── */
+function getAnsweredQuestions() {
+  const ans = new Set();
+  const getVal = id => document.getElementById(id)?.value?.trim();
+  const getRadio = name => !!document.querySelector(`input[name="${name}"]:checked`);
+
+  // Part A
+  if (getVal('Y7_Q01_answer')) ans.add('q1');
+  if (getVal('Y7_Q02_answer')) ans.add('q2');
+  if (getVal('Y7_Q03_answer')) ans.add('q3');
+  if (getRadio('Y7_Q04_answer')) ans.add('q4');
+  if (getRadio('Y7_Q05_answer')) ans.add('q5');
+
+  // Part B — simple radio
+  [6,11,14,15,16,17,18,19].forEach(n => {
+    const pad = n.toString().padStart(2,'0');
+    if (getRadio(`Y7_Q${pad}_answer`)) ans.add(`q${n}`);
+  });
+  // Q07 textarea (BIO-NEW-B1, v1.2 replacement — corn producer explain)
+  if (getVal('Y7_Q07_answer')) ans.add('q7');
+  // Q08 textarea (BIO-NEW-C1, v1.2 replacement — snail desert habitat)
+  if (getVal('Y7_Q08_answer')) ans.add('q8');
+  // Q9 compound
+  if (getRadio('Y7_Q09_tick') || getVal('Y7_Q09_explain')) ans.add('q9');
+  // Q10
+  if (getRadio('Y7_Q10_answer') || getVal('Y7_Q10_explain')) ans.add('q10');
+  // Q12 text (EARTH-NEW-Q12, v1.2 replacement — name orbit path)
+  if (getVal('Y7_Q12_answer')) ans.add('q12');
+  // Q13 text (PHYS-NEW-D1, v1.2 replacement — name force slowing bird)
+  if (getVal('Y7_Q13_answer')) ans.add('q13');
+  // Q20 compound
+  if (getRadio('Y7_Q20_tick') || getVal('Y7_Q20_explain')) ans.add('q20');
+
+  // Part C
+  if ([getVal('Y7_Q21_a_1_answer'),getVal('Y7_Q21_a_2_answer'),getVal('Y7_Q21_b_1_answer'),getVal('Y7_Q21_b_2_answer'),getVal('Y7_Q21_c_answer')].some(Boolean)) ans.add('q21');
+  if ([getVal('Y7_Q22_a_answer'),getVal('Y7_Q22_b_answer'),getVal('Y7_Q22_c_answer'),getVal('Y7_Q22_d_1_answer'),getVal('Y7_Q22_d_2_answer')].some(Boolean)) ans.add('q22');
+  if (['Y7_Q23_a_carbon_dioxide','Y7_Q23_a_gasoline','Y7_Q23_a_mercury','Y7_Q23_a_wood'].some(getRadio)
+      || [getVal('Y7_Q23_b_1_answer'),getVal('Y7_Q23_b_2_answer'),getVal('Y7_Q23_c_1_answer'),getVal('Y7_Q23_c_2_answer'),getVal('Y7_Q23_d_answer')].some(Boolean)) ans.add('q23');
+
+  // Part D
+  if ([getVal('Y7_Q24_a_answer'),getVal('Y7_Q24_b_answer'),getVal('Y7_Q24_c_answer')].some(Boolean)) ans.add('q24');
+  if ([getVal('Y7_Q25_a_answer'),getVal('Y7_Q25_b_answer'),getVal('Y7_Q25_c_1_answer'),getVal('Y7_Q25_c_2_answer'),getVal('Y7_Q25_d_vessel'),getVal('Y7_Q25_d_explain')].some(Boolean)) ans.add('q25');
+  if ([getVal('Y7_Q26_a_answer'),getVal('Y7_Q26_b_answer'),getVal('Y7_Q26_c_answer'),getVal('Y7_Q26_d_temp'),getVal('Y7_Q26_d_explain'),getVal('Y7_Q26_e_mass'),getVal('Y7_Q26_e_explain')].some(Boolean)) ans.add('q26');
+  // Q27 (SCISKILLS-6M-D1, v1.2 replacement — salt evaporation investigation)
+  if ([getVal('Y7_Q27_a_answer'), getVal('Y7_Q27_b_answer'), getVal('Y7_Q27_c_risk'),
+       getVal('Y7_Q27_c_reduce')].some(Boolean)
+      || getRadio('Y7_Q27_d_answer') || getRadio('Y7_Q27_e_answer')) ans.add('q27');
+
+  return ans;
+}
+
+function updateProgress() {
+  answeredQuestions = getAnsweredQuestions();
+  const count = answeredQuestions.size;
+  const pct   = (count / TOTAL_QUESTIONS) * 100;
+  const ac  = document.getElementById('answered-count');
+  const pf  = document.getElementById('progress-fill');
+  const ft  = document.getElementById('fp-text');
+  const ff  = document.getElementById('fp-fill');
+  const sa  = document.getElementById('submit-answered');
+  if (ac) ac.textContent = count;
+  if (pf) pf.style.width = `${pct}%`;
+  if (ft) ft.textContent = `${count} / ${TOTAL_QUESTIONS} answered`;
+  if (ff) ff.style.width = `${pct}%`;
+  if (sa) sa.textContent = `${count} of ${TOTAL_QUESTIONS}`;
+  document.querySelectorAll('.question-block').forEach(block => {
+    const qid = block.id.replace('qblock-', 'q');
+    block.classList.toggle('answered', answeredQuestions.has(qid));
+  });
+}
+
+/* ── PAYLOAD BUILDER ─────────────────────────────────────── */
+function buildPayload() {
+  const timestamp = new Date().toISOString();
+  const getRadio  = name => { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : null; };
+  const getChecks = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value);
+  const getVal    = id   => document.getElementById(id)?.value?.trim() || null;
+
+  return {
+    meta: {
+      assessment:             'Y7-Entry',
+      assessment_code:        'Y7_ENTRY_EN',
+      year_group:             'Year 7',
+      language:               'EN',
+      submitted_at:           timestamp,
+      time_remaining_seconds: timerRemaining,
+      time_spent_seconds:     TIMER_SECONDS - timerRemaining,
+      answered_count:         answeredQuestions.size,
+      total_questions:        TOTAL_QUESTIONS,
+      total_marks:            TOTAL_MARKS
+    },
+    answers: {
+      q1:  getVal('Y7_Q01_answer'),
+      q2:  getVal('Y7_Q02_answer'),
+      q3:  getVal('Y7_Q03_answer'),
+      q4:  getRadio('Y7_Q04_answer'),
+      q5:  getRadio('Y7_Q05_answer'),
+      q6:  getRadio('Y7_Q06_answer'),
+      q7:  getVal('Y7_Q07_answer'),
+      q8:  getVal('Y7_Q08_answer'),
+      q9:  { tick: getRadio('Y7_Q09_tick'), explain: getVal('Y7_Q09_explain') },
+      q10: { tick: getRadio('Y7_Q10_answer'), explain: getVal('Y7_Q10_explain') },
+      q11: getRadio('Y7_Q11_answer'),
+      q12: getVal('Y7_Q12_answer'),
+      q13: getVal('Y7_Q13_answer'),
+      q14: getRadio('Y7_Q14_answer'),
+      q15: getRadio('Y7_Q15_answer'),
+      q16: getRadio('Y7_Q16_answer'),
+      q17: getRadio('Y7_Q17_answer'),
+      q18: getRadio('Y7_Q18_answer'),
+      q19: getRadio('Y7_Q19_answer'),
+      q20: { tick: getRadio('Y7_Q20_tick'), explain: getVal('Y7_Q20_explain') },
+      q21: {
+        a_1: getVal('Y7_Q21_a_1_answer'), a_2: getVal('Y7_Q21_a_2_answer'),
+        b_1: getVal('Y7_Q21_b_1_answer'), b_2: getVal('Y7_Q21_b_2_answer'),
+        c:   getVal('Y7_Q21_c_answer')
+      },
+      q22: {
+        a_unit:  getVal('Y7_Q22_a_answer'),
+        b_pattern: getVal('Y7_Q22_b_answer'),
+        c_anomaly: getVal('Y7_Q22_c_answer'),
+        d_1: getVal('Y7_Q22_d_1_answer'),
+        d_2: getVal('Y7_Q22_d_2_answer')
+      },
+      q23: {
+        a_carbon_dioxide: getRadio('Y7_Q23_a_carbon_dioxide'),
+        a_gasoline:       getRadio('Y7_Q23_a_gasoline'),
+        a_mercury:        getRadio('Y7_Q23_a_mercury'),
+        a_wood:           getRadio('Y7_Q23_a_wood'),
+        b_1: getVal('Y7_Q23_b_1_answer'), b_2: getVal('Y7_Q23_b_2_answer'),
+        c_1: getVal('Y7_Q23_c_1_answer'), c_2: getVal('Y7_Q23_c_2_answer'),
+        d:   getVal('Y7_Q23_d_answer')
+      },
+      q24: {
+        a: getVal('Y7_Q24_a_answer'),
+        b: getVal('Y7_Q24_b_answer'),
+        c: getVal('Y7_Q24_c_answer')
+      },
+      q25: {
+        a_organ_x:  getVal('Y7_Q25_a_answer'),
+        b_function: getVal('Y7_Q25_b_answer'),
+        c_1_vessel: getVal('Y7_Q25_c_1_answer'),
+        c_2_vessel: getVal('Y7_Q25_c_2_answer'),
+        d_vessel:   getVal('Y7_Q25_d_vessel'),
+        d_explain:  getVal('Y7_Q25_d_explain')
+      },
+      q26: {
+        a_apparatus_1: getVal('Y7_Q26_a_answer'),
+        b_apparatus_2: getVal('Y7_Q26_b_answer'),
+        c_fair_test:   getVal('Y7_Q26_c_answer'),
+        d_temp:        getVal('Y7_Q26_d_temp'),
+        d_explain:     getVal('Y7_Q26_d_explain'),
+        e_mass:        getVal('Y7_Q26_e_mass'),
+        e_explain:     getVal('Y7_Q26_e_explain')
+      },
+      q27: {
+        a_change_in_mass:  getVal('Y7_Q27_a_answer'),
+        b_predict_mass:    getVal('Y7_Q27_b_answer'),
+        c_safety_risk:     getVal('Y7_Q27_c_risk'),
+        c_reduce_risk:     getVal('Y7_Q27_c_reduce'),
+        d_independent_var: getRadio('Y7_Q27_d_answer'),
+        e_controlled_var:  getRadio('Y7_Q27_e_answer')
+      }
+    }
+  };
+}
+
+/* ── FLATTEN ANSWERS (for Supabase assessment_answers rows) ── */
+function flattenAnswers(answers) {
+  const rows = [];
+  const push = (qn, field, val) => {
+    if (val !== null && val !== undefined && val !== '') {
+      const value = Array.isArray(val) ? val.join(',') : String(val);
+      rows.push({ question_number: qn, field_name: field, answer_value: value });
+    }
+  };
+  // Simple scalars
+  const simpleMap = {
+    q1:'Y7_Q01_answer', q2:'Y7_Q02_answer', q3:'Y7_Q03_answer',
+    q4:'Y7_Q04_answer', q5:'Y7_Q05_answer', q6:'Y7_Q06_answer',
+    q7:'Y7_Q07_answer', q8:'Y7_Q08_answer', q11:'Y7_Q11_answer',
+    q12:'Y7_Q12_answer', q13:'Y7_Q13_answer', q14:'Y7_Q14_answer', q15:'Y7_Q15_answer',
+    q16:'Y7_Q16_answer', q17:'Y7_Q17_answer', q18:'Y7_Q18_answer',
+    q19:'Y7_Q19_answer'
+  };
+  Object.entries(simpleMap).forEach(([qn, field]) => push(qn, field, answers[qn.replace('q','q')]));
+  // Compound answers via answers object
+  Object.entries(answers).forEach(([qn, val]) => {
+    if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+      Object.entries(val).forEach(([sub, sv]) => {
+        const fieldName = `${qn}_${sub}`;
+        push(qn, fieldName, Array.isArray(sv) ? sv.join(',') : sv);
+      });
+    }
+  });
+  return rows;
+}
+
+/* ── SUPABASE SUBMISSION ─────────────────────────────────── */
+async function submitToSupabase(payload) {
+  if (!supabaseClient) throw new Error('Supabase client not initialised');
+  const studentId = new URLSearchParams(window.location.search).get('student_id') || null;
+
+  const { data: attempt, error: attemptError } = await supabaseClient
+    .from('assessment_attempts')
+    .insert({
+      student_id: studentId,
+      year_group: payload.meta.year_group,
+      language: payload.meta.language,
+      assessment_code: payload.meta.assessment_code,
+      submitted_at: payload.meta.submitted_at,
+      time_spent_seconds: payload.meta.time_spent_seconds,
+      teacher_review_status: 'pending',
+      assessment_round: 1,
+      trigger_source: 'signup'
+    })
+    .select('id')
+    .single();
+
+  if (attemptError) throw attemptError;
+
+  const answerRows = flattenAnswers(payload.answers).map(row => ({
+    attempt_id: attempt.id,
+    question_number: row.question_number,
+    field_name: row.field_name,
+    answer_value: row.answer_value
+  }));
+
+  const { error: answersError } = await supabaseClient
+    .from('assessment_answers')
+    .insert(answerRows);
+
+  if (answersError) throw answersError;
+  return attempt.id;
+}
+
+/* ── AUTOSAVE ────────────────────────────────────────────── */
+function autosave() {
+  try { sessionStorage.setItem(AUTOSAVE_KEY, JSON.stringify(buildPayload())); } catch(e) {}
+}
+
+/* ── INPUT SYNC ─────────────────────────────────────────── */
+function syncInputStyles(input) {
+  const label = input.closest('label');
+  if (!label) return;
+  if (input.type === 'checkbox') {
+    label.classList.toggle('checked', input.checked);
+  } else if (input.type === 'radio' && input.checked) {
+    document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
+      const l = r.closest('label'); if (l) l.classList.remove('checked');
+    });
+    label.classList.add('checked');
+  }
+}
+
+/* ── MODAL / SUBMIT ─────────────────────────────────────── */
+function openModal() {
+  updateProgress();
+  const count = answeredQuestions.size;
+  document.getElementById('modal-answered').textContent  = count;
+  document.getElementById('modal-unanswered').textContent = TOTAL_QUESTIONS - count;
+  document.getElementById('modal-time').textContent       = formatTime(timerRemaining);
+  document.getElementById('modal-overlay')?.classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay')?.classList.remove('open'); }
+
+async function confirmSubmit() {
+  if (isSubmitting) return;
+  isSubmitting = true;
+  const confirmBtn = document.getElementById('modal-confirm');
+  if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Submitting…'; }
+  try {
+    closeModal();
+    clearInterval(timerInterval);
+    const payload = buildPayload();
+    console.log('[SciSpark Y7] Payload:', JSON.stringify(payload, null, 2));
+    const attemptId = await submitToSupabase(payload);
+    console.log('[SciSpark Y7] Submitted. Attempt ID:', attemptId);
+    sessionStorage.removeItem(AUTOSAVE_KEY);
+    document.getElementById('success-screen')?.classList.add('open');
+  } catch (err) {
+    console.error('[SciSpark Y7] Submission failed:', err);
+    alert('Submission failed. Please do not close this page.\n\nReason: ' + (err.message || err));
+    startTimer();
+    if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = 'Confirm & Submit →'; }
+    isSubmitting = false;
+  }
+}
+
+async function autoSubmit() {
+  if (isSubmitting) return;
+  isSubmitting = true;
+  try {
+    const payload = buildPayload();
+    const attemptId = await submitToSupabase(payload);
+    console.log('[SciSpark Y7] Auto-submitted. Attempt ID:', attemptId);
+    sessionStorage.removeItem(AUTOSAVE_KEY);
+    document.getElementById('success-screen')?.classList.add('open');
+  } catch(err) {
+    console.error('[SciSpark Y7] Auto-submit failed:', err);
+    alert('Time is up, but automatic submission failed. Please call the teacher.\n\nReason: ' + (err.message || err));
+  }
+}
+
+/* ── Q27 CHECKBOX MAX-2 ──────────────────────────────────── */
+function initCheckboxMax2(name, max, blockId) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (!cb.checked) return;
+      const checked = document.querySelectorAll(`input[name="${name}"]:checked`).length;
+      if (checked > max) {
+        cb.checked = false;
+        cb.closest('label')?.classList.remove('checked');
+        const block = document.getElementById(blockId);
+        if (block) { block.classList.add('limit-reached'); setTimeout(() => block.classList.remove('limit-reached'), 900); }
+      }
+    });
+  });
+}
+
+/* ── INIT ────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  updateProgress();
+  startTimer();
+  setInterval(autosave, AUTOSAVE_INTERVAL_MS);
+
+  document.addEventListener('change', e => {
+    if (e.target.matches('input, select, textarea')) {
+      syncInputStyles(e.target); updateProgress(); autosave();
+    }
+  });
+  document.addEventListener('input', e => {
+    if (e.target.matches('input[type="text"], input[type="number"], textarea')) updateProgress();
+  });
+
+  // Q27 checkbox-max-2 init removed in v1.2 — Q27 no longer uses checkboxes (salt evaporation, 6 fields)
+
+  document.getElementById('submit-btn')?.addEventListener('click', openModal);
+  document.getElementById('submit-btn-sm')?.addEventListener('click', openModal);
+  document.getElementById('modal-cancel')?.addEventListener('click', closeModal);
+  document.getElementById('modal-confirm')?.addEventListener('click', confirmSubmit);
+  document.getElementById('modal-overlay')?.addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  window.addEventListener('beforeunload', e => {
+    if (answeredQuestions.size > 0 && !isSubmitting) { e.preventDefault(); e.returnValue = ''; }
+  });
+});
+</script>
+</body>
+</html>
