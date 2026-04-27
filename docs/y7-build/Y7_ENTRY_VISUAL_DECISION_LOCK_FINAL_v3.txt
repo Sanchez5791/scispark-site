@@ -8,135 +8,303 @@ SCISPARK YEAR 7 ENTRY ASSESSMENT
 VISUAL DECISION LOCK — FINAL v3
 ================================================================
 Date: 2026-04-27
-Phase: 4 (Visual Decision Lock) — v3 post-build correction
+Phase: 4 (Visual Decision Lock) — v3 post-build full batch update
 Status: VISUAL_DECISION_LOCK_FINAL_v3_READY
 
-This v3 supersedes v2 ONLY for QA5. All other 26 questions keep their
-v2 visual decisions verbatim. v2 is preserved unchanged in
-docs/y7-build/Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2.txt for
-comparison.
+This v3 supersedes v2 across all visual-heavy questions following the
+new STRUCTURE LOCK v2 P6 policy (AI does not draw SVGs; all visual-
+heavy questions use PDF-page screenshots embedded as <img>).
+
+v2 is preserved unchanged at
+docs/y7-build/Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2.txt for diff.
+
+Earlier delta-only v3 (only QA5 flipped, written 2026-04-27 first
+correction pass) is replaced by this full v3 file.
 
 Inputs:
   Y7_ENTRY_ASSESSMENT_STRUCTURE_LOCK_v1.txt           (architecture)
+  STRUCTURE LOCK v2 (with P6 added)                   (no-AI-SVG policy)
   Y7_ENTRY_SOURCE_MAPPING_FINAL_BLUEPRINT_v3.txt      (selections)
   Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2.txt          (v2 baseline)
-
-Trigger:
-  v2 Section 9 SECTION 10 HOLD-V4 ("if SVG cannot preserve push vs
-  pull legibility, fall back to SCREENSHOT_REQUIRED") was triggered
-  during user review of the b3-y7-27q-rebuild HTML build. The
-  6-stick-figure inline SVG did not preserve the visual semantics of
-  the original Cambridge Primary Checkpoint 2017 P2 Q6 illustrations.
+  AI_SCREENSHOT_WORKFLOW_v1.txt                       (screenshot policy)
+  CLAUDE_CODE_BATCH_VISUAL_REPLACEMENT.txt            (15-PNG manifest)
 ================================================================
 
 
 ================================================================
-SECTION 1 — DELTAS FROM v2
+SECTION 1 — POLICY P6 (NEW IN v3)
 ================================================================
 
-Only one row of v2 changes in v3:
+Visual-heavy questions are required to use SCREENSHOT_REQUIRED.
+AI does not draw SVGs for question content.
 
-  Y7_QA5
-    v2 visual_decision : INLINE_SVG  (6 schematic push/pull illustrations)
-    v3 visual_decision : SCREENSHOT_REQUIRED
-    v3 asset           : assessment/year-7/en/qa5_six_pictures.png
-                         882 x 502 px, cropped from PCP 2017 P2 page 7
-                         (Q6 six-picture grid)
-    v3 alt text        : "six action illustrations labeled A to F"
-                         (neutral; no push/pull count to avoid leakage)
-    v3 HTML            : <img src="qa5_six_pictures.png"
-                              alt="six action illustrations labeled A to F"
-                              class="y7-qa5-image">
-    HOLD-V4            : CLOSED (replaced with screenshot fallback)
+Allowed exceptions (still INLINE_SVG):
+  - simple box and arrow (e.g. 3 text boxes + 2 arrows)
+  - single decorative icon (no data, no semantics)
+  - simple geometric shapes used for layout
 
-All other 26 questions UNCHANGED from v2 visual decisions.
+All other categories (food chains, food webs, apparatus, line graphs,
+plotted points, animal silhouettes, models, force arrows, particle
+diagrams, classification keys, planet/data tables) MUST be
+SCREENSHOT_REQUIRED.
+
+This policy is enforced at HTML build time and audited at Phase 6.
 
 
 ================================================================
-SECTION 2 — VISUAL CATEGORY SUMMARY  (updated)
+SECTION 2 — VISUAL DECISIONS BY QUESTION (full v3 table)
+================================================================
+
+PART A
+  Y7_QA1   SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q1_food_chain.png
+           alt:   "food chain with five organisms connected by arrows"
+           used by: QA1 question stem AND QB2 question stem (reused image)
+  Y7_QA2   NO_VISUAL
+  Y7_QA3   NO_VISUAL
+  Y7_QA4   TEXT_ONLY  (3 styled note cards: Chen / Mike / Oliver)
+  Y7_QA5   SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/qa5_six_pictures.png
+           alt:   "six action illustrations labeled A to F"
+
+PART B
+  Y7_QB1   NO_VISUAL
+  Y7_QB2   SCREENSHOT_REQUIRED  (same image as QA1)
+           asset: q1_food_chain.png
+           alt:   same as QA1
+  Y7_QB3   NO_VISUAL
+  Y7_QB4   NO_VISUAL
+  Y7_QB5   NO_VISUAL
+  Y7_QB6   SCREENSHOT_REQUIRED + matching dropdowns
+           asset: assessment/year-7/en/q11_particle_diagrams.png
+           alt:   "three particle arrangement diagrams labeled diagram 1,
+                   diagram 2 and diagram 3"
+           UI:    img above; 3 <select> elements (solid/liquid/gas)
+                  feed one hidden Y7_QB6_answer composite input
+  Y7_QB7   NO_VISUAL
+  Y7_QB8   NO_VISUAL
+  Y7_QB9   NO_VISUAL
+  Y7_QB10  NO_VISUAL
+  Y7_QB11  NO_VISUAL
+  Y7_QB12  NO_VISUAL
+  Y7_QB13  NO_VISUAL
+  Y7_QB14  NO_VISUAL
+  Y7_QB15  NO_VISUAL
+
+PART C
+  Y7_QC1   composite (5 subparts)
+    (a)    NO_VISUAL
+    (b)    NO_VISUAL
+    (c)    SCREENSHOT_REQUIRED  (tall variant)
+           asset: assessment/year-7/en/q21c_thermometer.png
+           alt:   "thermometer showing a reading between 70 and 90
+                   degrees Celsius"
+    (d)    SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q21d_line_graph.png
+           alt:   "line graph of mass dissolved against temperature
+                   of water"
+    (e)    NO_VISUAL
+  Y7_QC2   SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q22_filter_apparatus.png
+           alt:   "filtering apparatus with funnel paper residue and
+                   beaker"
+  Y7_QC3   composite (2 subparts)
+    a_value (salt)
+           SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q23a_salt_solubility_graph.png
+           alt:   "qualitative line graph of solubility of salt against
+                   temperature"
+    a_pattern (oxygen)
+           SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q23b_oxygen_solubility_graph.png
+           alt:   "qualitative line graph of solubility of oxygen against
+                   temperature"
+
+PART D
+  Y7_QD1   SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q24_food_web.png
+           alt:   "food web for a field of grass with eight organisms
+                   connected by arrows"
+  Y7_QD2   composite
+    (a)    HTML_TABLE  (input table for reactant/product names)
+           preserved as HTML <table class="y7-rp-table"> with text inputs
+    (b)    NO_VISUAL
+    (c)    NO_VISUAL
+    (d)    NO_VISUAL
+    (e/f)  HTML_TABLE  (read-only properties of copper/salt/steel,
+                        rendered as HTML <table class="y7-properties-table">)
+  Y7_QD3   composite
+    (a) animals
+           SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q26a_four_animals.png
+           alt:   "four animal silhouettes labeled A B C and D"
+    (a) key tree
+           SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q26a_key_tree.png
+           alt:   "classification key tree with four empty leaf boxes"
+           UI:    img above; 4 <select> dropdowns below for leaf assignment
+    (b)    INLINE_SVG  (allowed exception: simple two-line branch decoration
+                        for student's own key)
+           keeps a tiny `<svg viewBox="0 0 360 80">` with two diagonal
+           lines and "number of legs" label only.  No data, no animals,
+           no markings. Falls under P6 "few simple cases" exception.
+    (c)    SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q26b_waste_table.png
+           alt:   "table of percentage of different types of waste
+                   produced in 1970 and 2010"
+  Y7_QD4   composite
+    (a)/(b) planets table
+           SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q27a_planets_table.png
+           alt:   "table showing the number of Earth days in a year for
+                   six planets"
+    (c)    SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q27b_solar_model.png
+           alt:   "three students holding a hoop and two balls modeling
+                   part of the solar system"
+    (d)/(e) bird forces
+           SCREENSHOT_REQUIRED
+           asset: assessment/year-7/en/q27c_bird_forces.png
+           alt:   "bird gliding with two force arrows labeled force A
+                   and force B"
+    (f)    NO_VISUAL
+
+
+================================================================
+SECTION 3 — VISUAL CATEGORY SUMMARY  (v3 final)
 ================================================================
 
 | Category               | Part A | Part B | Part C | Part D | Total |
 |------------------------|--------|--------|--------|--------|-------|
-| NO_VISUAL              |   2    |  11    |   3    |   2    |  18   |
-| INLINE_SVG             |   1    |   4    |   2    |   5    |  12   |
-| HTML_TABLE             |   0    |   0    |   0    |   3    |   3   |
-| GRAPH                  |   0    |   0    |   3    |   0    |   3   |
+| NO_VISUAL              |   2    |  14    |   3    |   2    |  21   |
+| INLINE_SVG             |   0    |   0    |   0    |   1    |   1   |
+| HTML_TABLE             |   0    |   0    |   0    |   2    |   2   |
+| GRAPH (subset of SCR)  |   0    |   0    |   3    |   0    |   3   |
 | TEXT_ONLY              |   1    |   0    |   0    |   0    |   1   |
-| SCREENSHOT_REQUIRED    |   1    |   0    |   0    |   0    |   1   |  <- QA5 (new)
+| SCREENSHOT_REQUIRED    |   2    |   1    |   3    |   8    |  14   |
 | HOLD                   |   0    |   0    |   0    |   0    |   0   |
 
-(v3 INLINE_SVG count drops from 13 to 12; SCREENSHOT_REQUIRED rises
-from 0 to 1; total visual instances unchanged.)
+(Note: the 3 GRAPH instances are now inside SCREENSHOT_REQUIRED — they
+ are PNG screenshots of source graphs, NOT redrawn SVG.)
 
 
 ================================================================
-SECTION 3 — NO-LEAKAGE CHECKS  (UNCHANGED RULES FROM v2 SECTION 8)
+SECTION 4 — NO-LEAKAGE CHECKS (UPDATED FOR v3)
 ================================================================
 
 [ ✓ ]  No MS answer in visible text outside legitimate options/stems
 [ ✓ ]  No MS answer in alt / title / aria-label / aria-describedby
 [ ✓ ]  No MS answer in data-* attributes
 [ ✓ ]  No MS answer in HTML comments
-[ ✓ ]  No PDF page number / paper code / UCLES copyright
+[ ✓ ]  No PDF page number / paper code / UCLES copyright in HTML or in
+        any image alt text or filename
 [ ✓ ]  No DRAFT banner / source notes / dev notes / build status
-[ ✓ ]  No image filename leaking the answer
+[ ✓ ]  No image filename leaking the answer (filenames use qN_topic
+        naming convention, no paper code)
 [ ✓ ]  No input placeholder containing the expected answer
 
-QA5 specific check additions (v3):
-  - File name `qa5_six_pictures.png` is neutral (refers to the question
-    id and the count of items, not the answer).
-  - Alt text "six action illustrations labeled A to F" gives no
-    indication of how many of the 6 are pulling vs pushing.
-  - User must visually verify the cropped PNG itself contains:
-      - no Cambridge mark hint [N] in any corner
-      - no PDF page number
-      - no paper code (e.g. 0846/02/A/M/17)
-      - no examiner mark column
-    (Image content cannot be grepped programmatically; this verification
-     is recorded in Phase 9 human visual review.)
+NEW image-content checks (visual review during Phase 9):
+  Each PDF screenshot must be visually inspected to confirm:
+    [ ] no Cambridge mark hint [N] in any corner
+    [ ] no PDF page number visible
+    [ ] no paper code (e.g. "0846/02/A/M/22") visible
+    [ ] no [1] or [2] mark prompt
+    [ ] no Examiner mark column on the right
+    [ ] no "(a)" "(b)" subpart markers (those are in HTML, not in image)
+    [ ] no answer-area space or printed answer
+
+Audit 2 cannot grep image content. This list is the human review
+checkpoint for Phase 9.
 
 
 ================================================================
-SECTION 4 — HOLD LIST (UPDATED)
+SECTION 5 — DELTAS FROM v2
+================================================================
+
+  Y7_QA1   INLINE_SVG -> SCREENSHOT_REQUIRED (q1_food_chain.png)
+  Y7_QA5   INLINE_SVG -> SCREENSHOT_REQUIRED (qa5_six_pictures.png)
+                        [carried from earlier delta-only v3]
+  Y7_QB2   INLINE_SVG -> SCREENSHOT_REQUIRED (reuses q1_food_chain.png)
+  Y7_QB6   INLINE_SVG -> SCREENSHOT_REQUIRED (q11_particle_diagrams.png)
+                        [3 dropdowns kept; image is reference visual]
+  Y7_QC1c  INLINE_SVG -> SCREENSHOT_REQUIRED (q21c_thermometer.png, tall)
+  Y7_QC1d  GRAPH/SVG  -> SCREENSHOT_REQUIRED (q21d_line_graph.png)
+  Y7_QC2   INLINE_SVG -> SCREENSHOT_REQUIRED (q22_filter_apparatus.png)
+  Y7_QC3a  GRAPH/SVG  -> SCREENSHOT_REQUIRED (q23a_salt_solubility_graph.png)
+  Y7_QC3b  GRAPH/SVG  -> SCREENSHOT_REQUIRED (q23b_oxygen_solubility_graph.png)
+  Y7_QD1   INLINE_SVG -> SCREENSHOT_REQUIRED (q24_food_web.png)
+  Y7_QD3a  INLINE_SVG -> SCREENSHOT_REQUIRED (q26a_four_animals.png +
+                                              q26a_key_tree.png)
+                        [4 ABCD dropdowns kept]
+  Y7_QD3b  INLINE_SVG -> INLINE_SVG (kept, simple two-line branch only)
+  Y7_QD3c  HTML_TABLE -> SCREENSHOT_REQUIRED (q26b_waste_table.png)
+  Y7_QD4ab HTML_TABLE -> SCREENSHOT_REQUIRED (q27a_planets_table.png)
+  Y7_QD4c  INLINE_SVG -> SCREENSHOT_REQUIRED (q27b_solar_model.png)
+                        [3 dropdowns kept]
+  Y7_QD4de INLINE_SVG -> SCREENSHOT_REQUIRED (q27c_bird_forces.png)
+
+UNCHANGED from v2:
+  Y7_QA2 / QA3 / QA4 / QB1 / QB3 / QB4 / QB5 / QB7-QB15 / QC1a / QC1b /
+  QC1e / QD2(b/c/d/f) / QD4(f)
+  Y7_QD2(a) HTML_TABLE (reactant/product input table - preserved)
+  Y7_QD2(e) HTML_TABLE (read-only properties table - preserved; this is
+                        a small static reference table, low risk of
+                        SVG-style misrendering, kept as HTML for now)
+
+
+================================================================
+SECTION 6 — HOLD LIST (UPDATED)
 ================================================================
 
 Closed in v3:
   HOLD-V4   QA5 push/pull illustration legibility
-            STATUS: CLOSED ✓
-            RESOLUTION: SVG fallback to source PNG screenshot.
-            Asset: assessment/year-7/en/qa5_six_pictures.png
+            CLOSED ✓ via qa5_six_pictures.png
+  HOLD-V3   QD3 animal silhouette quality
+            CLOSED ✓ via q26a_four_animals.png
+  HOLD-V2-1 QD2 properties-of-solids visual
+            CLOSED ✓ — kept as HTML_TABLE (static reference, low risk)
+  HOLD-V2-2 QD3(c) waste table values
+            CLOSED ✓ via q26b_waste_table.png
 
-Carried open from v2 (unchanged):
-  HOLD-V3   QD3 animal silhouette quality (Phase 9 to confirm)
-  HOLD-V2-1 QD2 properties-of-solids visual (Phase 6 confirm)
-  HOLD-V2-2 QD3(c) waste table values (Phase 6 confirm)
+All v2 visual HOLD items are now closed.
 
 
 ================================================================
-SECTION 5 — DOWNSTREAM PHASE NOTES
+SECTION 7 — DOWNSTREAM PHASE NOTES
 ================================================================
 
 Phase 6 (HTML Build):
-  - DONE on b3-y7-27q-rebuild commit 48568c6 (initial 27q build)
-  - QA5 swap to PNG happens in a follow-up commit on the same branch.
+  - DONE on b3-y7-27q-rebuild commit chain:
+      48568c6 — initial 27q build
+      9a8bb98 — QA5 + header logo correction
+      <next>  — full batch visual replacement (this commit)
 
 Phase 9 (Human Visual Review):
-  - QA5 PNG visual content must be verified in Phase 9 — confirm the
-    crop has no answer hints, no mark numbers, no paper codes.
-  - All other v2 priority items still apply.
+  - For EACH of 15 PNG screenshots, run the SECTION 4 image-content
+    checklist visually.
+  - Confirm classification dropdowns under q26a_key_tree.png still
+    map to the correct leaf positions (4 leaves in the same order
+    as the source key tree).
+  - Confirm Y7_QB6 dropdown UI semantics still hold with the new
+    PNG above (matching gas/solid/liquid to diagram 1/2/3).
 
 
 ================================================================
-SECTION 6 — FINAL STATUS
+SECTION 8 — FINAL STATUS
 ================================================================
 
-VISUAL_DECISION_LOCK_FINAL_v3_READY
+VISUAL_DECISION_LOCK_FINAL_v3_READY (full batch screenshot policy)
 
-Diff vs v2: only QA5 row updated. All other rows unchanged.
-HOLD-V4 closed.
-1 SCREENSHOT_REQUIRED (new, QA5).
-12 INLINE_SVG (was 13).
+Diff vs v2:
+  - 14 visuals flipped from INLINE_SVG / GRAPH / HTML_TABLE
+    to SCREENSHOT_REQUIRED
+  - 1 INLINE_SVG retained (QD3_b two-line decorative branch)
+  - 2 HTML_TABLEs retained (QD2_a input table, QD2_e static reference)
+  - 1 TEXT_ONLY retained (QA4 note cards)
+  - All HOLD items closed.
+  - Total <img> count in HTML: 18 (15 unique question PNGs +
+    q1_food_chain.png reused for QB2 = 16 question images, plus
+    1 horizontal logo SVG and 1 success-screen PNG).
 
 ================================================================
 END OF FILE

@@ -689,5 +689,196 @@ POST-CORRECTION STATUS
       page number, no paper code, no examiner mark column.
 
 ================================================================
+SECTION 14b - FULL BATCH VISUAL REPLACEMENT (added 2026-04-27 second pass)
+================================================================
+
+Following SECTION 14 (initial QA5 + logo corrections), the user
+introduced policy P6 ("AI does not draw SVGs for visual-heavy
+questions; PDF page screenshots only") into STRUCTURE LOCK v2 and
+supplied a 15-PNG batch per CLAUDE_CODE_BATCH_VISUAL_REPLACEMENT.txt.
+This pass flips all remaining visual-heavy SVGs and 2 HTML data
+tables to <img> elements.
+
+INPUT ASSETS  (15 PNGs, all in assessment/year-7/en/, all neutral
+filenames matching qN_topic.png convention):
+
+  q1_food_chain.png            1116x298   124 KB
+  qa5_six_pictures.png          882x502   188 KB  (already swapped in
+                                                   prior commit 9a8bb98)
+  q11_particle_diagrams.png     558x395    69 KB
+  q21c_thermometer.png          248x246    17 KB
+  q21d_line_graph.png           843x614   100 KB
+  q22_filter_apparatus.png     1017x561   102 KB
+  q23a_salt_solubility_graph.png 1017x527  56 KB
+  q23b_oxygen_solubility_graph.png 1017x527 56 KB
+  q24_food_web.png              993x509    87 KB
+  q26a_four_animals.png        1017x245    69 KB
+  q26a_key_tree.png            1017x649    80 KB
+  q26b_waste_table.png         1016x580   168 KB
+  q27a_planets_table.png       1017x439   164 KB
+  q27b_solar_model.png         1017x843   276 KB
+  q27c_bird_forces.png          794x421   101 KB
+
+HTML CHANGES  (assessment/year-7/en/assessment-y7.html)
+
+  19 inline SVG instances reduced to 1 (QD3_b decorative two-line
+  branch retained under P6 "few simple cases" exception).
+
+  2 HTML <table> instances replaced with <img> (waste table, planets
+  table). Their fill-in-blank inputs / radios remain.
+
+  Replacement details (all <img> use class="y7-source-image"; the
+  thermometer additionally uses class="y7-source-image tall"):
+
+    QA1 (Q1)   food chain SVG          -> q1_food_chain.png
+    QB2 (Q7)   food chain SVG (reuse)  -> q1_food_chain.png (same file)
+    QB6 (Q11)  3 particle SVG figures  -> q11_particle_diagrams.png
+                                          (matching dropdowns kept)
+    QC1c (Q21c) thermometer SVG        -> q21c_thermometer.png (tall)
+                                          (numeric input kept)
+    QC1d (Q21d) 11-point line graph    -> q21d_line_graph.png
+                                          (textarea kept)
+    QC2 (Q22)  filtration apparatus    -> q22_filter_apparatus.png
+                                          (4 text inputs kept)
+    QC3a (Q23a) salt solubility graph  -> q23a_salt_solubility_graph.png
+    QC3b (Q23b) oxygen solubility graph-> q23b_oxygen_solubility_graph.png
+    QD1 (Q24)  food web SVG            -> q24_food_web.png
+    QD3a (Q26a) 4 animal silhouettes   -> q26a_four_animals.png
+    QD3a (Q26a) classification key tree-> q26a_key_tree.png
+                                          (4 ABCD dropdowns kept)
+    QD3b (Q26b) student own simple key -> RETAINED INLINE_SVG
+                                          (two-line decoration only)
+    QD3c (Q26b) waste percentage table -> q26b_waste_table.png
+                                          (4 fill-in-blank inputs kept)
+    QD4ab(Q27a) planets data table     -> q27a_planets_table.png
+                                          (text + radio inputs kept)
+    QD4c (Q27b) solar-system model     -> q27b_solar_model.png
+                                          (3 dropdowns kept)
+    QD4de(Q27c) bird + force arrows    -> q27c_bird_forces.png
+                                          (3 text inputs kept)
+
+  QA5 class normalization: changed `class="y7-qa5-image"` to
+  `class="y7-source-image"` for unified styling across all PDF
+  screenshots. Old `.y7-qa5-image` rule kept in CSS as harmless alias.
+
+CSS CHANGES  (assessment/year-7/en/style-y7.css)
+
+  Full file rewrite to clean state:
+    - ADDED:   .y7-source-image (unified PDF-screenshot styling)
+               .y7-source-image.tall (vertical visuals)
+               responsive breakpoints at 600px / 700px
+    - REMOVED: .y7-food-chain, .y7-foodweb, .y7-particle-grid,
+               .y7-particle-cell, .y7-thermometer (the SVG wrapper),
+               .y7-graph, .y7-graph-small, .y7-apparatus,
+               .y7-animals, .y7-animal-cell, .y7-bird,
+               .y7-solar-model, .y7-icon-grid, .y7-icon-cell,
+               .y7-waste-table, .y7-planets-table
+    - KEPT:    .y7-svg, .logo-horizontal, .y7-page-title, .y7-note-*,
+               .y7-match-*, .y7-rp-table, .y7-properties-table,
+               .y7-thermometer-row, .y7-numeric-block, .y7-unit,
+               .y7-keytree, .y7-keyleaves, .y7-keyleaf,
+               .y7-keytree-b, .y7-keyb-*, .y7-fillrow,
+               .y7-blank-grid, .y7-blank-row, .y7-bulleted,
+               .y7-qa5-image (legacy alias)
+
+VISUAL DECISION LOCK v3  (docs/y7-build/Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v3.txt)
+
+  Earlier delta-only v3 (only QA5) was REPLACED with full v3 file:
+    - 14 visuals flipped INLINE_SVG/GRAPH/HTML_TABLE -> SCREENSHOT_REQUIRED
+    - 1 INLINE_SVG retained (QD3_b decorative)
+    - 2 HTML_TABLEs retained (QD2_a input, QD2_e static reference)
+    - All v2 visual HOLD items now closed (HOLD-V3 + HOLD-V4 +
+      HOLD-V2-1 + HOLD-V2-2 + carried HOLDs)
+  v2 file unchanged in repo for diff.
+
+
+================================================================
+SECTION 15 - AUDIT RE-RUN AFTER FULL BATCH (2026-04-27 second pass)
+================================================================
+
+All 3 audits re-run after the full visual replacement.
+
+AUDIT 1  data-question-id 1:1 vs contract Section 8
+  - 27 unique data-q-key parent question IDs       (unchanged)
+  - 68 unique data-question-id field IDs           (unchanged)
+  - 68 unique <id>_answer name attributes          (unchanged)
+  - per-part field counts 5/15/11/37               (unchanged)
+  - sorted diff(dqi, names) zero lines             (PASS)
+  - PASS  (no field IDs added or removed; visual swaps preserve all
+           input elements verbatim)
+
+AUDIT 2  MS-answer leak grep
+  - Text-input MS keywords scanned (16 keywords incl. "Saturn",
+    "evaporation", "condensation", "newtons", "friction", "gravity",
+    "prey to predator", etc.):
+      "evaporation"  : appears only as <option> in QB8 dropdown - OK
+      "condensation" : appears only as <option> in QB8 dropdown - OK
+      "friction"     : appears only as visible MCQ option in QB12 - OK
+      "gravity"      : appears only in QB9 question stem + QB12 option - OK
+      "Saturn"       : NO LONGER appears in HTML (planets table swapped
+                       to PNG; Saturn name lives in image, not HTML)
+                       - cleaner than v2!
+      All other text-only MS answers: ZERO occurrences in HTML.
+  - Image src filenames scanned:
+      All 15 question PNGs use neutral qN_topic.png naming.
+      No paper code, no PDF page number, no answer hint in any filename.
+  - Image alt text scanned (all 17 alt attributes inspected):
+      All neutral. Examples:
+        "food chain with five organisms connected by arrows" - OK
+        "thermometer showing a reading between 70 and 90 degrees" - OK
+                                                  (says range, not 81)
+        "food web for a field of grass with eight organisms" - OK
+                                                  (no organism names)
+        "table of percentage of different types of waste" - OK
+                                                  (no numbers)
+        "table showing the number of Earth days in a year for six
+         planets" - OK (no planet names, no day counts)
+        "three students holding a hoop and two balls modeling part
+         of the solar system" - OK (no axis/Earth/Moon/orbit/Sun)
+        "bird gliding with two force arrows labeled force A and
+         force B" - OK (no friction/weight/gravity)
+  - PASS
+
+AUDIT 3  Visual Lock SECTION 8 (8 items)
+  [1] MS answer NOT in visible text outside legitimate options/stems
+       PASS (Saturn no longer in HTML; all other answers only in
+       legitimate UI roles)
+  [2] MS answer NOT in alt / title / aria-label / aria-describedby
+       PASS (17 alt attributes reviewed; all neutral)
+  [3] MS answer NOT in data-* attributes
+       PASS (only data-question-id / data-q-key / data-marks /
+             data-match-key in use; all values are contract IDs or
+             numeric counts)
+  [4] MS answer NOT in HTML comments
+       PASS (only PART A/B/C/D section dividers)
+  [5] No PDF page number / paper code / UCLES copyright / session marker
+       PASS (zero matches across HTML and image filenames)
+  [6] No DRAFT banner / source notes / mark-scheme hints / dev notes /
+      build status
+       PASS (strict regex returns zero matches)
+  [7] Image filenames don't leak the answer
+       PASS (15 question images use qN_topic.png; logo + success-screen
+             use brand asset names; no paper codes, no answer hints)
+  [8] Input placeholders don't contain the expected answer
+       PASS (all placeholders generic or task-describing)
+
+  Bonus checks all PASS:
+    - Test student UUID 00000000-0000-0000-0000-000000000701 NOT
+      hardcoded (zero matches in HTML and script.js)
+    - assessment_code = "Y7_ENTRY_EN" exact (script.js line 37)
+    - await supabase.auth.getSession() runs before any insert
+      (script.js line 269)
+
+POST-BATCH STATUS
+  HTML_CONTENT_PASS_v2_FULL_BATCH_READY.
+  All visual-heavy SVGs replaced with PDF screenshots per P6.
+  Audits 1/2/3 still PASS. No new field IDs, no field IDs lost.
+
+  Phase 9 human visual review must additionally verify, for each of
+  the 15 PNG assets, the image-content checklist in v3 visual lock
+  SECTION 4 (no [N] mark hints, no page numbers, no paper codes,
+  no examiner mark column, no answer-area space).
+
+================================================================
 END OF FILE
 ================================================================
