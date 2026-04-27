@@ -566,5 +566,128 @@ Branch hygiene:
 Spec discrepancies logged: 7 (Section 3) -> recommended for v4 contract update.
 
 ================================================================
+SECTION 14 - POST-BUILD CORRECTION (added 2026-04-27, after user review)
+================================================================
+
+Two visual corrections were made on b3-y7-27q-rebuild after the
+initial 27-question commit (48568c6) following user review feedback:
+
+CORRECTION 1 - QA5 visual swap to SCREENSHOT_REQUIRED
+  TRIGGER:
+    User reviewed the rendered HTML and reported the QA5 inline SVG
+    (six small schematic stick-figure illustrations) did not preserve
+    the visual semantics of the original Cambridge Primary Checkpoint
+    2017 P2 Q6 grid. Per Visual Decision Lock v2 SECTION 9 / 10
+    HOLD-V4 fallback rule ("if SVG cannot preserve push vs pull
+    legibility, fall back to SCREENSHOT_REQUIRED"), the SVG was
+    replaced with a cropped PNG of the source page.
+
+  CHANGES:
+    HTML  - assessment/year-7/en/assessment-y7.html
+            QA5 question_body block: removed `<div class="y7-icon-grid">`
+            with 6 inline SVG figures; replaced with single
+            `<img src="qa5_six_pictures.png"
+                  alt="six action illustrations labeled A to F"
+                  class="y7-qa5-image">`
+    CSS   - assessment/year-7/en/style-y7.css
+            Added `.y7-qa5-image` rule (max-width 720px, responsive,
+            white card with 1px border).
+    Asset - assessment/year-7/en/qa5_six_pictures.png  (882 x 502 px)
+            User-supplied crop from PCP 2017 P2 page 7.
+    Lock  - docs/y7-build/Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v3.txt
+            New v3 file with QA5 row flipped from INLINE_SVG to
+            SCREENSHOT_REQUIRED. v2 preserved unchanged for diff.
+            HOLD-V4 marked CLOSED.
+
+  Alt text discipline:
+    The new alt text "six action illustrations labeled A to F"
+    intentionally OMITS any push/pull count, which would leak the
+    answer. The image filename is also neutral (qa5 = question id,
+    six_pictures = visual element count, not the answer count).
+
+CORRECTION 2 - Header logo swap to horizontal SVG
+  TRIGGER:
+    User noticed the header was rendering broken logo image and the
+    "SciSpark" name + "YEAR 7-9 SCIENCE / CAMBRIDGE 0893" subtitle
+    were duplicated (once inside the logo PNG, once as separate HTML
+    spans).
+
+  CHANGES:
+    HTML  - assessment/year-7/en/assessment-y7.html
+            Header `.header-logo` div replaced. Old:
+              <img src="scispark-mark-clean.png" alt="SciSpark" class="logo-mark">
+              <div class="logo-text">
+                <span class="logo-name">SciSpark</span>
+                <span class="logo-sub">YEAR 7-9 SCIENCE ...</span>
+              </div>
+            New:
+              <img src="scispark-logo-horizontal.svg"
+                   alt="SciSpark - Year 7 to 9 Science - Cambridge 0893"
+                   class="logo-horizontal">
+            Y7 page H1 added at top of <main>:
+              <h1 class="y7-page-title">Year 7 Entry Assessment</h1>
+            (complements the existing header-center .assessment-title
+             span; H1 gives a clear semantic page heading.)
+    CSS   - assessment/year-7/en/style-y7.css
+            Added `.logo-horizontal` (max-width 260px desktop, 200px
+            <= 700px) and `.y7-page-title` (32px EB Garamond desktop,
+            24px mobile).
+    Asset - assessment/year-7/en/scispark-logo-horizontal.svg
+            User-supplied SVG, 260 x 48 viewBox, includes the SciSpark
+            wordmark + "YEAR 7-9 SCIENCE - CAMBRIDGE 0893" subtitle
+            built into the file.
+    Kept  - assessment/year-7/en/scispark-mark-clean.png
+            Still referenced by the success-screen overlay
+            (`<img class="success-logo" ...>` line ~1361). The success
+            screen has a centered hero layout where the small square
+            mark is the right shape, not the wide horizontal logo.
+
+POST-CORRECTION AUDIT RE-RUN
+  All three audits (Audit 1 / 2 / 3) re-run after both corrections:
+
+  Audit 1  data-question-id 1:1 vs contract:
+    - 27 unique data-q-key parent question IDs   (unchanged)
+    - 68 unique data-question-id field IDs       (unchanged)
+    - 68 unique <id>_answer name attributes      (unchanged)
+    - per-part counts 5/15/11/37                 (unchanged)
+    - PASS (no field IDs added or removed by either correction)
+
+  Audit 2  MS-answer leak grep:
+    - 14 text-input MS keywords scanned + 7 visible-option keywords
+    - new alt text and image filenames re-scanned:
+        "six action illustrations labeled A to F" - no count of
+                                                    pulls/pushes.
+        "qa5_six_pictures.png" - neutral.
+        "SciSpark - Year 7 to 9 Science - Cambridge 0893" - no MS
+                                                            answer text.
+    - PASS
+
+  Audit 3  Visual Lock SECTION 8 (8 checks):
+    - alt attributes count: 4 (was 2). Two new entries:
+        scispark-logo-horizontal.svg - "SciSpark - Year 7 to 9
+                                       Science - Cambridge 0893"
+        qa5_six_pictures.png         - "six action illustrations
+                                       labeled A to F"
+      Both are neutral; verified no MS answer keywords contained.
+    - Image filenames re-scanned:
+        scispark-mark-clean.png       - logo, neutral (kept)
+        scispark-logo-horizontal.svg  - logo, neutral (new)
+        qa5_six_pictures.png          - question-id + visual element
+                                        count, neutral (new)
+    - All 8 checks still PASS.
+
+POST-CORRECTION STATUS
+  HTML_CONTENT_PASS_v2_READY (with QA5 screenshot fallback + new
+  horizontal header logo). Audits 1/2/3 still PASS.
+
+  Visual Decision Lock now has both v2 (initial 27q, INLINE_SVG QA5)
+  and v3 (post-correction, SCREENSHOT_REQUIRED QA5) preserved in the
+  repo for full traceability.
+
+  Phase 9 human visual review must additionally verify:
+    - the QA5 PNG crop contains no Cambridge mark hint [N], no PDF
+      page number, no paper code, no examiner mark column.
+
+================================================================
 END OF FILE
 ================================================================

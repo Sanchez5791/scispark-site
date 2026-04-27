@@ -1,0 +1,143 @@
+Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v3
+
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+
+================================================================
+SCISPARK YEAR 7 ENTRY ASSESSMENT
+VISUAL DECISION LOCK — FINAL v3
+================================================================
+Date: 2026-04-27
+Phase: 4 (Visual Decision Lock) — v3 post-build correction
+Status: VISUAL_DECISION_LOCK_FINAL_v3_READY
+
+This v3 supersedes v2 ONLY for QA5. All other 26 questions keep their
+v2 visual decisions verbatim. v2 is preserved unchanged in
+docs/y7-build/Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2.txt for
+comparison.
+
+Inputs:
+  Y7_ENTRY_ASSESSMENT_STRUCTURE_LOCK_v1.txt           (architecture)
+  Y7_ENTRY_SOURCE_MAPPING_FINAL_BLUEPRINT_v3.txt      (selections)
+  Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2.txt          (v2 baseline)
+
+Trigger:
+  v2 Section 9 SECTION 10 HOLD-V4 ("if SVG cannot preserve push vs
+  pull legibility, fall back to SCREENSHOT_REQUIRED") was triggered
+  during user review of the b3-y7-27q-rebuild HTML build. The
+  6-stick-figure inline SVG did not preserve the visual semantics of
+  the original Cambridge Primary Checkpoint 2017 P2 Q6 illustrations.
+================================================================
+
+
+================================================================
+SECTION 1 — DELTAS FROM v2
+================================================================
+
+Only one row of v2 changes in v3:
+
+  Y7_QA5
+    v2 visual_decision : INLINE_SVG  (6 schematic push/pull illustrations)
+    v3 visual_decision : SCREENSHOT_REQUIRED
+    v3 asset           : assessment/year-7/en/qa5_six_pictures.png
+                         882 x 502 px, cropped from PCP 2017 P2 page 7
+                         (Q6 six-picture grid)
+    v3 alt text        : "six action illustrations labeled A to F"
+                         (neutral; no push/pull count to avoid leakage)
+    v3 HTML            : <img src="qa5_six_pictures.png"
+                              alt="six action illustrations labeled A to F"
+                              class="y7-qa5-image">
+    HOLD-V4            : CLOSED (replaced with screenshot fallback)
+
+All other 26 questions UNCHANGED from v2 visual decisions.
+
+
+================================================================
+SECTION 2 — VISUAL CATEGORY SUMMARY  (updated)
+================================================================
+
+| Category               | Part A | Part B | Part C | Part D | Total |
+|------------------------|--------|--------|--------|--------|-------|
+| NO_VISUAL              |   2    |  11    |   3    |   2    |  18   |
+| INLINE_SVG             |   1    |   4    |   2    |   5    |  12   |
+| HTML_TABLE             |   0    |   0    |   0    |   3    |   3   |
+| GRAPH                  |   0    |   0    |   3    |   0    |   3   |
+| TEXT_ONLY              |   1    |   0    |   0    |   0    |   1   |
+| SCREENSHOT_REQUIRED    |   1    |   0    |   0    |   0    |   1   |  <- QA5 (new)
+| HOLD                   |   0    |   0    |   0    |   0    |   0   |
+
+(v3 INLINE_SVG count drops from 13 to 12; SCREENSHOT_REQUIRED rises
+from 0 to 1; total visual instances unchanged.)
+
+
+================================================================
+SECTION 3 — NO-LEAKAGE CHECKS  (UNCHANGED RULES FROM v2 SECTION 8)
+================================================================
+
+[ ✓ ]  No MS answer in visible text outside legitimate options/stems
+[ ✓ ]  No MS answer in alt / title / aria-label / aria-describedby
+[ ✓ ]  No MS answer in data-* attributes
+[ ✓ ]  No MS answer in HTML comments
+[ ✓ ]  No PDF page number / paper code / UCLES copyright
+[ ✓ ]  No DRAFT banner / source notes / dev notes / build status
+[ ✓ ]  No image filename leaking the answer
+[ ✓ ]  No input placeholder containing the expected answer
+
+QA5 specific check additions (v3):
+  - File name `qa5_six_pictures.png` is neutral (refers to the question
+    id and the count of items, not the answer).
+  - Alt text "six action illustrations labeled A to F" gives no
+    indication of how many of the 6 are pulling vs pushing.
+  - User must visually verify the cropped PNG itself contains:
+      - no Cambridge mark hint [N] in any corner
+      - no PDF page number
+      - no paper code (e.g. 0846/02/A/M/17)
+      - no examiner mark column
+    (Image content cannot be grepped programmatically; this verification
+     is recorded in Phase 9 human visual review.)
+
+
+================================================================
+SECTION 4 — HOLD LIST (UPDATED)
+================================================================
+
+Closed in v3:
+  HOLD-V4   QA5 push/pull illustration legibility
+            STATUS: CLOSED ✓
+            RESOLUTION: SVG fallback to source PNG screenshot.
+            Asset: assessment/year-7/en/qa5_six_pictures.png
+
+Carried open from v2 (unchanged):
+  HOLD-V3   QD3 animal silhouette quality (Phase 9 to confirm)
+  HOLD-V2-1 QD2 properties-of-solids visual (Phase 6 confirm)
+  HOLD-V2-2 QD3(c) waste table values (Phase 6 confirm)
+
+
+================================================================
+SECTION 5 — DOWNSTREAM PHASE NOTES
+================================================================
+
+Phase 6 (HTML Build):
+  - DONE on b3-y7-27q-rebuild commit 48568c6 (initial 27q build)
+  - QA5 swap to PNG happens in a follow-up commit on the same branch.
+
+Phase 9 (Human Visual Review):
+  - QA5 PNG visual content must be verified in Phase 9 — confirm the
+    crop has no answer hints, no mark numbers, no paper codes.
+  - All other v2 priority items still apply.
+
+
+================================================================
+SECTION 6 — FINAL STATUS
+================================================================
+
+VISUAL_DECISION_LOCK_FINAL_v3_READY
+
+Diff vs v2: only QA5 row updated. All other rows unchanged.
+HOLD-V4 closed.
+1 SCREENSHOT_REQUIRED (new, QA5).
+12 INLINE_SVG (was 13).
+
+================================================================
+END OF FILE
+================================================================
