@@ -1,0 +1,348 @@
+Y7_ENTRY_ANSWER_FIELD_CONTRACT_FINAL_v3
+
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+
+================================================================
+SCISPARK YEAR 7 ENTRY ASSESSMENT
+ANSWER FIELD CONTRACT — FINAL v3
+================================================================
+Date: 2026-04-27
+Phase: 5 (Answer Field Contract) — v3 architecture rebuild
+Status: ANSWER_FIELD_CONTRACT_FINAL_v3_READY
+
+This v3 replaces v1 and v2. v1/v2 covered 21 questions / 76 fields
+under wrong architecture. v3 covers all 27 questions / ~63 fields
+under correct architecture.
+
+Inputs:
+  Y7_ENTRY_ASSESSMENT_STRUCTURE_LOCK_v1.txt           (architecture)
+  Y7_ENTRY_SOURCE_MAPPING_FINAL_BLUEPRINT_v3.txt      (selections)
+  Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2.txt          (visual plan)
+================================================================
+
+
+================================================================
+SECTION 1 — VERSION HISTORY
+================================================================
+
+v2 -> v3 deltas (architecture rebuild):
+  - 27 questions instead of 21
+  - Part B field count: 23 -> 15 (one field per 1m question)
+  - Part D field count: 37 -> ~28 (4 structured questions)
+  - Part A unchanged: 5 fields
+  - Part C unchanged: 11 fields
+  - Total fields: 76 -> ~59
+
+
+================================================================
+SECTION 2 — NAMING CONVENTIONS (UNCHANGED FROM v2)
+================================================================
+
+QUESTION ID         : Y7_Q<part-letter><number>
+                      e.g. Y7_QA1, Y7_QB1..Y7_QB15, Y7_QC1, Y7_QD1..Y7_QD4
+
+SUBPART ID          : <question-id>_<subpart-letter>
+                      e.g. Y7_QC1_a, Y7_QD1_b
+
+ROW ID              : <subpart-id>_r<n> (table rows)
+CHOICE ID           : <subpart-id>_c<X> (multi-checkbox)
+HTML name           : <id>_answer
+HTML id             : input_<name>
+data-question-id    : <id> (matches Supabase question_number)
+
+Supabase
+  question_number   : same as data-question-id
+  field_name        : same as HTML name
+
+AI marking path     : $.questions["<id>"]
+
+
+================================================================
+SECTION 3 — INPUT TYPE LIBRARY (UNCHANGED FROM v2)
+================================================================
+
+  radio_single        single-choice radio button group
+  checkbox_multi      multiple-checkbox group
+  text_short          single-line text, max 30-150 chars
+  text_long           textarea, max 250 chars
+  numeric             numeric input
+  dropdown            <select> with predefined options
+  table_row_radio     row in structured table; one radio per row
+  matching_dropdown   dropdown for matching items
+
+
+================================================================
+SECTION 4 — PART A FIELDS (5 fields, 5 marks)
+================================================================
+
+  Y7_QA1   radio_single   options ["1","2","3","4","5"]               1m
+  Y7_QA2   radio_single   options ["baking bread","burning a match",
+                                   "frying an egg","melting ice cream"] 1m
+  Y7_QA3   radio_single   options ["growth","movement","nutrition",
+                                   "reproduction"]                     1m
+  Y7_QA4   radio_single   options ["Chen","Mike","Oliver"]              1m
+  Y7_QA5   radio_single   options ["1","2","3","4","5","6"]             1m
+
+
+================================================================
+SECTION 5 — PART B FIELDS (15 fields, 15 marks)
+================================================================
+
+ALL Part B fields are pure MCQ — no subparts, one field per question.
+
+  ID         input_type    options/source                              max_marks
+  ------     -----------   -----------------------------------------   ---------
+  Y7_QB1     radio_single  4 options (env behaviour list from PCP19)   1
+  Y7_QB2     radio_single  options [bush, aphid, ladybird, bird, hawk] 1
+  Y7_QB3     radio_single  4 options (positive/negative effect)        1
+  Y7_QB4     radio_single  options [salt, water, salt water, sugar]    1
+  Y7_QB5     radio_single  options ["yes", "no"]                       1
+  Y7_QB6     matching_dropdown  3 dropdowns matching gas/solid/liquid
+                                to 3 particle diagrams                 1
+                          (pooled into 1m: all 3 must match correctly)
+  Y7_QB7     radio_single  options [iron, copper, plastic, wood]       1
+  Y7_QB8     dropdown      options [melting, freezing, boiling,
+                                    evaporation, condensation]         1
+  Y7_QB9     radio_single  options [Newton, Einstein, Darwin, Curie]   1
+  Y7_QB10    dropdown      options [blocked, absorbed, reflected,
+                                    refracted]                         1
+  Y7_QB11    dropdown      options [vibrates, freezes, melts,
+                                    dissolves]                         1
+  Y7_QB12    radio_single  options [push, pull, gravity, friction]     1
+  Y7_QB13    radio_single  5 mass statements from PCP 2019 P2 Q19      1
+  Y7_QB14    radio_single  options ["1", "24", "365"]                  1
+  Y7_QB15    dropdown      options [vibrating, melting, dissolving,
+                                    boiling]                           1
+
+PART B TOTAL: 15 fields / 15 marks
+
+
+================================================================
+SECTION 6 — PART C FIELDS (11 fields, 12 marks) — UNCHANGED FROM v2
+================================================================
+
+  Y7_QC1_a              text_short max 80 chars                     1m
+  Y7_QC1_b              text_short max 60 chars                     1m
+  Y7_QC1_c              numeric range 0-100, AI tolerance ±1 °C     1m
+                        source value = 81 °C
+  Y7_QC1_d              text_long max 200 chars                     2m
+  Y7_QC1_e              text_short max 80 chars                     1m
+
+  Y7_QC2_a              text_short max 100 chars                    1m
+  Y7_QC2_b              text_short max 30 chars                     1m
+  Y7_QC2_c              text_short max 60 chars                     1m
+  Y7_QC2_d              text_short max 30 chars                     1m
+
+  Y7_QC3_a_value        text_short max 120 chars                    1m
+                        (semantics: salt-solubility pattern)
+  Y7_QC3_a_pattern      text_short max 120 chars                    1m
+                        (semantics: oxygen-solubility pattern)
+
+PART C TOTAL: 11 fields / 12 marks
+
+
+================================================================
+SECTION 7 — PART D FIELDS (~28 fields, 28 marks)
+================================================================
+
+----------------------------------------------------------------
+Y7_QD1 — BIO food web + observations  (7 marks)
+----------------------------------------------------------------
+Y6 2024 P1 Q1 (5m) + Y6 2024 P1 Q2(c) (2m)
+
+  Y7_QD1_a              text_short max 100 chars  (predators)        1m
+  Y7_QD1_b              text_short max 30 chars   (energy source)    1m
+  Y7_QD1_c              text_short max 120 chars  (energy transfer)  1m
+  Y7_QD1_d              text_short max 80 chars   (food chain w/fox) 1m
+  Y7_QD1_e              text_short max 150 chars  (why voles die)    1m
+  Y7_QD1_f_obs1         text_short max 60 chars   (observation 1)    pooled
+  Y7_QD1_f_obs2         text_short max 60 chars   (observation 2)    pooled
+                          (f) total = 2m, MS: each correct obs = 1m
+
+QD1 fields: 7
+
+----------------------------------------------------------------
+Y7_QD2 — CHEM reaction + states + separation  (7 marks)
+----------------------------------------------------------------
+Y6 2024 P1 Q2(a)+(b) (3m) + PCP 2017 P2 Q8 (2m) + PCP 2017 P2 Q15 (2m)
+
+  Y7_QD2_a_reactant1    text_short max 30 chars                     pooled
+  Y7_QD2_a_reactant2    text_short max 30 chars                     pooled
+  Y7_QD2_a_product1     text_short max 30 chars                     pooled
+  Y7_QD2_a_product2     text_short max 30 chars                     pooled
+  Y7_QD2_a_product3     text_short max 40 chars                     pooled
+                          (a) pooled 2m: reactants=1m, products=1m
+  Y7_QD2_b              text_short max 60 chars  (gas observation)  1m
+  Y7_QD2_c              text_short max 20 chars  (liquid->gas)      1m
+  Y7_QD2_d              text_short max 20 chars  (gas->liquid)      1m
+  Y7_QD2_e              text_short max 150 chars (describe how
+                                                  to separate copper) 1m
+  Y7_QD2_f              text_short max 150 chars (explain why)       1m
+
+QD2 fields: 10
+
+----------------------------------------------------------------
+Y7_QD3 — BIO classification + environment  (7 marks)
+----------------------------------------------------------------
+PCP 2018 P1 Q11 (4m) + Y6 2014 P2 Q10 percentages (3m)
+
+  Y7_QD3_a_leaf1        matching_dropdown options [A,B,C,D]         pooled
+  Y7_QD3_a_leaf2        matching_dropdown options [A,B,C,D]         pooled
+  Y7_QD3_a_leaf3        matching_dropdown options [A,B,C,D]         pooled
+  Y7_QD3_a_leaf4        matching_dropdown options [A,B,C,D]         pooled
+                          (a) pooled 2m, MS: 4=2m, 2-3=1m, ≤1=0m
+  Y7_QD3_b_legs_branch1 numeric (no hint placeholder)               pooled
+  Y7_QD3_b_legs_branch2 numeric (no hint placeholder)               pooled
+  Y7_QD3_b_animal1      text_short max 20 chars                     pooled
+  Y7_QD3_b_animal2      text_short max 20 chars                     pooled
+                          (b) pooled 2m, either order accepted
+  Y7_QD3_c_glass        text_short max 30 chars                     pooled
+  Y7_QD3_c_metals       text_short max 30 chars                     pooled
+  Y7_QD3_c_paper        text_short max 30 chars                     pooled
+  Y7_QD3_c_plastic      text_short max 30 chars                     pooled
+                          (c) pooled 3m, MS: each correct = 1m, max 3m
+
+QD3 fields: 12
+
+----------------------------------------------------------------
+Y7_QD4 — EARTH + PHYS planets/model/bird  (7 marks)
+----------------------------------------------------------------
+PCP 2018 P2 Q9 (2m) + PCP 2020 P1 Q5 (2m) + PCP 2021 P2 Q1 (3m)
+
+  Y7_QD4_a              text_short max 60 chars  (longest year)     1m
+                        MS: "Saturn"
+  Y7_QD4_b              radio_single options ["0","1","2","3","4"]   1m
+  Y7_QD4_c1             dropdown ["axis","Earth","Moon","orbit","Sun"] pooled
+  Y7_QD4_c2             dropdown same options                       pooled
+  Y7_QD4_c3             dropdown same options                       pooled
+                          (c) pooled 2m across 3 dropdowns
+  Y7_QD4_d              text_short max 30 chars  (Force A)          1m
+  Y7_QD4_e              text_short max 30 chars  (Force B)          1m
+  Y7_QD4_f              text_short max 20 chars  (unit of force)    1m
+                        MS case-aware: "do not accept lowercase n"
+
+QD4 fields: 8
+
+PART D TOTAL: 7 + 10 + 12 + 8 = 37 fields / 28 marks
+
+(NOTE: 37 fields not 30 — many subparts pool into single mark items.
+ AI marker pools per "ai_marking_path" not per field.)
+
+
+================================================================
+SECTION 8 — MASTER FIELD COUNT TABLE
+================================================================
+
+| Part | Question count | Field count | Max marks |
+|------|----------------|-------------|-----------|
+| A    |        5       |      5      |     5     |
+| B    |       15       |     15      |    15     |
+| C    |        3       |     11      |    12     |
+| D    |        4       |     37      |    28     |
+| TOT  |       27       |     68      |    60     |
+
+(68 fields total, mapped to 27 question IDs through pooling.)
+
+Field-vs-question explanation:
+  Some questions have 1 field (Part A, Part B, simple Part C subparts).
+  Some questions pool multiple fields into one mark item
+  (e.g. Y7_QD3_a has 4 fields pooled into 2m).
+
+
+================================================================
+SECTION 9 — POOLED SCORING SUMMARY
+================================================================
+
+The following question/subpart IDs pool multiple input fields:
+
+  Y7_QB6   3 dropdowns -> 1m   (gas/solid/liquid match all correct)
+  Y7_QD1_f obs1+obs2 -> 2m
+  Y7_QD2_a 5 reactant/product fields -> 2m (1m each for reactants,
+                                            products)
+  Y7_QD3_a 4 leaves -> 2m  (4=2m, 2-3=1m, ≤1=0m)
+  Y7_QD3_b 4 fields -> 2m  (legs+animal pairs, either order)
+  Y7_QD3_c 4 percentage fields -> 3m  (1m each, max 3m)
+  Y7_QD4_c 3 dropdowns -> 2m  (Hoop A / Ball B / Ball C)
+
+
+================================================================
+SECTION 10 — VALIDATION RULES (UNCHANGED FROM v2)
+================================================================
+
+V1   required:true fields must be non-empty (or flagged blank)
+V2   table_row_radio: exactly one selection per row
+V3   matching_dropdown: each dropdown can be A/B/C/D (no constraint
+     that selections be unique - student may legitimately put same
+     letter twice if they think two animals match)
+V4   numeric: reject non-numeric on input event
+V5   text_short: clip at max char limit
+V6   text_long: clip at max char limit + character count
+V7   attempt_id MUST exist before answer rows insert
+V8   field_name MUST match a contract entry
+V9   question_number MUST match contract entry
+V10  UNIQUE(attempt_id, field_name) constraint
+V11  AI output MUST contain marks_awarded for every contract field
+V12  sum of question marks_awarded MUST equal total_score
+V13  part-level subtotals MUST equal A=5/B=15/C=12/D=28
+
+
+================================================================
+SECTION 11 — SUPABASE INSERT ORDER (UNCHANGED FROM v2)
+================================================================
+
+  Step 1: await supabase.auth.getSession()  (abort if no session)
+  Step 2: read student_id from URL parameter (abort if missing)
+  Step 3: insert one assessment_attempts row, returning attempt_id
+            { student_id, year_group: "Year 7", language: "EN",
+              assessment_code: "Y7_ENTRY_EN",
+              submitted_at, time_spent_seconds,
+              teacher_review_status: "pending" }
+  Step 4: build answer rows from contract for non-blank fields
+  Step 5: batch insert assessment_answers
+  Step 6: show success page only if BOTH inserts succeed
+
+Test student_id (Phase 27 only, supplied via URL):
+  00000000-0000-0000-0000-000000000701
+  (NOT hardcoded in HTML or script.js per Phase 6 audit policy)
+
+
+================================================================
+SECTION 12 — HOLD LIST
+================================================================
+
+Open HOLD items for Phase 6 HTML build:
+
+HOLD-FC-v3-1  Y7_QB1 4 environment options (PCP 2019 P2 Q3)
+              Phase 6 must transcribe the 4 source options exactly.
+
+HOLD-FC-v3-2  Y7_QB3 positive vs negative statement options
+              (PCP 2022 P1 Q9(b)) — Phase 6 transcribe.
+
+HOLD-FC-v3-3  Y7_QB4/QB5 Carlos solute/solvent option labels
+              (PCP 2016 P1 Q18) — Phase 6 transcribe.
+
+HOLD-FC-v3-4  Y7_QB13 5 mass statement options (PCP 2019 P2 Q19)
+              — Phase 6 transcribe.
+
+Closed HOLDs from v2 (carried as resolved):
+  Y7_QC1_c thermometer = 81 °C
+  Y7_QC3 graphs = qualitative pattern only
+  Y7_QD3 (now QD3_b) legs = 8/6 either order
+  Y7_QD4_c 3 dropdowns from 5-word list
+  Y7_QD4_b 0/1/2/3/4 radio
+
+
+================================================================
+SECTION 13 — FINAL STATUS
+================================================================
+
+ANSWER_FIELD_CONTRACT_FINAL_v3_READY
+
+  - 27 questions / 68 fields / 60 marks
+  - Architecture matches Y7 STRUCTURE LOCK v1
+  - All 4 v3 HOLD items listed for Phase 6 HTML build
+  - Ready for Phase 6 HTML rebuild on b3-y7-27q-rebuild branch
+
+================================================================
+END OF FILE

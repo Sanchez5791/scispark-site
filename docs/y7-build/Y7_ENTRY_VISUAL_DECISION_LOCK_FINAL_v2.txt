@@ -1,0 +1,289 @@
+Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v2
+
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+
+================================================================
+SCISPARK YEAR 7 ENTRY ASSESSMENT
+VISUAL DECISION LOCK — FINAL v2
+================================================================
+Date: 2026-04-27
+Phase: 4 (Visual Decision Lock) — v2 architecture rebuild
+Status: VISUAL_DECISION_LOCK_FINAL_v2_READY
+
+This v2 replaces v1. v1 covered 21 questions under wrong architecture.
+v2 covers all 27 questions under correct architecture per Y7 STRUCTURE
+LOCK v1.
+
+Inputs:
+  Y7_ENTRY_ASSESSMENT_STRUCTURE_LOCK_v1.txt           (architecture)
+  Y7_ENTRY_SOURCE_MAPPING_FINAL_BLUEPRINT_v3.txt      (selections)
+================================================================
+
+
+================================================================
+SECTION 1 — VISUAL DECISION CATEGORIES (UNCHANGED FROM v1)
+================================================================
+
+  1. NO_VISUAL                pure text question
+  2. INLINE_SVG               simple, source-clear, recreatable
+  3. HTML_TABLE               clean tabular data
+  4. GRAPH                    line graph / bar chart in SVG
+  5. SCREENSHOT_REQUIRED      too complex to recreate safely
+  6. TEXT_ONLY                styled text blocks (cards, notes)
+  7. HOLD_VISUAL_NOT_CLEAR    needs user decision
+
+
+================================================================
+SECTION 2 — RULES (UNCHANGED FROM v1)
+================================================================
+
+[ ✓ ] Do not invent visual data
+[ ✓ ] Do not show source captions / page numbers / paper codes
+[ ✓ ] Do not show MS answers in any DOM location
+[ ✓ ] Use SVG only when source is simple and safe
+[ ✓ ] Use HTML table when source data is clear
+[ ✓ ] Use screenshot only as last resort
+[ ✓ ] Every recreated visual must be human-reviewed (Phase 9)
+[ ✓ ] No answer leakage in alt / title / aria-label / hidden DOM
+
+
+================================================================
+SECTION 3 — PART A VISUALS (5 questions, all 1m)
+================================================================
+
+  Y7_QA1   INLINE_SVG    food chain: 5 boxes + 4 arrows
+                          bush -> aphid -> ladybird -> bird -> hawk
+  Y7_QA2   NO_VISUAL     4-option text MCQ
+  Y7_QA3   NO_VISUAL     4-option text MCQ (parent diagram NOT carried)
+  Y7_QA4   TEXT_ONLY     3 note cards (Chen / Mike / Oliver)
+  Y7_QA5   INLINE_SVG    6 push/pull illustrations A-F (3x2 grid)
+
+Verified visuals (carried from v1): all confirmed during Phase 6.
+
+
+================================================================
+SECTION 4 — PART B VISUALS (15 questions, all 1m, all pure MCQ)
+================================================================
+
+Most Part B items have NO_VISUAL or a single small SVG/table; nothing
+complex because each item is only 1 mark.
+
+  ID        Visual decision    Notes
+  -----     ---------------    --------------------------------------
+  Y7_QB1    NO_VISUAL          4 text options (tick one bad thing)
+  Y7_QB2    INLINE_SVG         food chain reused from QA1 layout
+                                 (read-only) + radio of organism names
+  Y7_QB3    NO_VISUAL          2 statement cards, tick one
+  Y7_QB4    INLINE_SVG         simple beaker icon (Carlos salt+water);
+                                 radio of solute/solvent/solution
+  Y7_QB5    INLINE_SVG         simple beaker icon (Carlos sand+water);
+                                 radio yes/no soluble
+  Y7_QB6    INLINE_SVG         3 particle diagrams + 3 text labels
+                                 (match-line UI as dropdowns)
+  Y7_QB7    NO_VISUAL          radio options (steel/aluminium/plastic/wood)
+  Y7_QB8    NO_VISUAL          dropdown from 5-word state-change list
+  Y7_QB9    NO_VISUAL          radio options (4 named scientists)
+  Y7_QB10   NO_VISUAL          dropdown completing "shadows are made
+                                 when light is ___"
+  Y7_QB11   NO_VISUAL          dropdown completing "the bell makes
+                                 sound because it ___"
+  Y7_QB12   INLINE_SVG         small door icon; radio of 4 force names
+  Y7_QB13   NO_VISUAL          radio of 5 mass statements
+  Y7_QB14   NO_VISUAL          radio (1 / 24 / 365)
+  Y7_QB15   NO_VISUAL          dropdown completing "guitar string makes
+                                 sound by ___"
+
+Visual category counts in Part B:
+  NO_VISUAL    : 11
+  INLINE_SVG   :  4
+  HTML_TABLE   :  0
+  GRAPH        :  0
+  TEXT_ONLY    :  0
+
+
+================================================================
+SECTION 5 — PART C VISUALS (3 questions, 12m, kept from v1)
+================================================================
+
+  Y7_QC1   Y6 2024 P2 Q5     6m   solubility experiment
+    (a) NO_VISUAL                  particle model description
+    (b) NO_VISUAL                  equipment name
+    (c) INLINE_SVG (thermometer)   reading 81 °C with gridlines 70/80/90
+    (d) GRAPH (INLINE_SVG)         11-point line, rises to plateau ~70°C
+    (e) NO_VISUAL                  safety statement
+
+  Y7_QC2   Y6 2018 P1 Q16    4m   filtering apparatus
+    (a)-(d) INLINE_SVG (filter)    funnel + paper + beaker + 5 leader-labels
+
+  Y7_QC3   PCP 2019 P2 Q17   2m   solubility line graphs
+    (a) GRAPH (INLINE_SVG)         salt-rising line, axis-only
+    (b) GRAPH (INLINE_SVG)         oxygen-falling line, axis-only
+
+(Carried verbatim from v1 visual lock; verified during Phase 6.)
+
+
+================================================================
+SECTION 6 — PART D VISUALS (4 structured questions, 28m)
+================================================================
+
+Each Part D question contains multiple subparts and combines 2-3
+source questions. Visual plan per question:
+
+  Y7_QD1   BIO  7m   food web + observations
+    Visual           : INLINE_SVG  (food web with 9 directional arrows)
+    Components       : 8 organism boxes (4 tiers) + 9 arrows
+                       prey -> predator (energy flow)
+    Source           : Y6 2024 P1 Q1 (verified Phase 6)
+    No-leakage check : predators NOT visually highlighted; aria-label
+                       must say "linked by directional arrows" (not
+                       "prey to predator" — would leak QD1_c answer)
+
+  Y7_QD2   CHEM 7m   reaction + states + separation
+    Visual a-b       : HTML_TABLE   2-col reactants/products (5 inputs)
+    Visual c-d       : NO_VISUAL    2 state-process names
+    Visual e         : HTML_TABLE   read-only properties of 4 solids
+                                    (copper / salt / sugar / steel)
+    Visual f         : NO_VISUAL    text explanation
+    Source           : Y6 2024 P1 Q2 + PCP 2017 P2 Q8 + PCP 2017 P2 Q15
+
+  Y7_QD3   BIO  7m   classification key + environment
+    Visual a         : INLINE_SVG  4 animal silhouettes A-D + key tree
+                                    (rabbit / iguana / bird / squirrel)
+    Visual b         : INLINE_SVG  small key tree for student own key
+                                    (2 numeric + 2 text inputs)
+    Visual c         : HTML_TABLE  read-only waste% 1970/2010 (4 rows)
+                                    + 4 fill-in-blank inputs below
+    Source           : PCP 2018 P1 Q11 + Y6 2014 P2 Q10
+    HOLD-V3-1 carried: Y7_QD3 silhouette legibility - if SVG cannot
+                       preserve tail length / scales distinction,
+                       fall back to SCREENSHOT_REQUIRED
+
+  Y7_QD4   EARTH+PHYS  7m   planets + solar model + bird forces
+    Visual a-b       : HTML_TABLE  read-only planets table (6 rows)
+                                    + radio for (b) 0/1/2/3/4
+    Visual c         : INLINE_SVG  3-ball solar model
+                                    + 3 dropdowns from 5-word list
+                                    (axis / Earth / Moon / orbit / Sun)
+    Visual d-e       : INLINE_SVG  bird silhouette + 2 force arrows
+                                    (Force A horizontal, Force B down)
+    Visual f         : NO_VISUAL   text input (unit of force)
+    Source           : PCP 2018 P2 Q9 + PCP 2020 P1 Q5 + PCP 2021 P2 Q1
+
+
+================================================================
+SECTION 7 — VISUAL CATEGORY SUMMARY
+================================================================
+
+| Category               | Part A | Part B | Part C | Part D | Total |
+|------------------------|--------|--------|--------|--------|-------|
+| NO_VISUAL              |   2    |  11    |   3    |   2    |  18   |
+| INLINE_SVG             |   2    |   4    |   2    |   5    |  13   |
+| HTML_TABLE             |   0    |   0    |   0    |   3    |   3   |
+| GRAPH                  |   0    |   0    |   3    |   0    |   3   |
+| TEXT_ONLY              |   1    |   0    |   0    |   0    |   1   |
+| SCREENSHOT_REQUIRED    |   0    |   0    |   0    |   0    |   0   |
+| HOLD                   |   0    |   0    |   0    |   0    |   0   |
+
+(Category counts include subparts; some Part D items have multiple
+visuals and are counted in multiple categories.)
+
+
+================================================================
+SECTION 8 — NO-LEAKAGE CHECKS (UNCHANGED RULES FROM v1)
+================================================================
+
+[ ✓ ]  No MS answer in visible text outside legitimate options/stems
+[ ✓ ]  No MS answer in alt / title / aria-label / aria-describedby
+[ ✓ ]  No MS answer in data-* attributes
+[ ✓ ]  No MS answer in HTML comments
+[ ✓ ]  No PDF page number / paper code / UCLES copyright
+[ ✓ ]  No DRAFT banner / source notes / dev notes / build status
+[ ✓ ]  No image filename leaking the answer
+[ ✓ ]  No input placeholder containing the expected answer
+
+Each rule must be verified in Phase 6 HTML build audits, then
+re-audited in Phase 7 Student View Cleanup.
+
+
+================================================================
+SECTION 9 — HUMAN VISUAL REVIEW PRIORITY (FOR PHASE 9)
+================================================================
+
+HIGH PRIORITY (correctness affects marking):
+  Y7_QA1   food chain — direction of arrows matters
+  Y7_QD1   food web — 9 arrow directions are marking points
+  Y7_QD3   animal silhouettes — tail length / scales distinction
+  Y7_QC1d  line graph — qualitative shape rises-then-plateaus
+  Y7_QC1c  thermometer — must visually read 81 °C ±1
+  Y7_QD4   solar model — Hoop A / Ball B / Ball C identifiable
+
+MEDIUM PRIORITY (visual quality):
+  Y7_QA5   6 push/pull illustrations — push vs pull legibility
+  Y7_QC2   filtering apparatus — labels on correct parts
+  Y7_QC3   two qualitative line graphs — direction of trends
+  Y7_QD4   bird silhouette + 2 force arrows
+
+LOWER PRIORITY:
+  All Part B items (1-mark MCQ, simple visuals)
+  All Part A NO_VISUAL items
+  Part D HTML tables (read-only data tables)
+
+
+================================================================
+SECTION 10 — HOLD LIST
+================================================================
+
+Carried from v1 (still valid):
+  HOLD-V1   QC1 thermometer reading exact value = 81 °C ✓ (closed)
+  HOLD-V2   QC3 graph data points = qualitative only ✓ (closed)
+  HOLD-V3   QD3 animal silhouette quality — Phase 9 to confirm
+  HOLD-V4   QA5 push/pull illustration legibility — Phase 9 to confirm
+  HOLD-V5   QD7 (now QD4 sub) planets data values ✓ (closed)
+  HOLD-V6   QD8 (now QD4 sub) Sun-Earth-Moon layout ✓ (closed)
+
+NEW HOLD items raised by v2:
+  HOLD-V2-1 Y7_QD2 properties-of-solids visual (PCP 2017 P2 Q15)
+            Source has a 4-row property table; v2 spec uses HTML_TABLE
+            read-only display. Phase 6 must confirm the table values
+            transcribe correctly.
+
+  HOLD-V2-2 Y7_QD3(c) waste table (Y6 2014 P2 Q10)
+            Source has 4-row table 1970 vs 2010 percentages. Phase 6
+            must transcribe exact percentages.
+
+
+================================================================
+SECTION 11 — DOWNSTREAM PHASE NOTES
+================================================================
+
+Phase 5 (Answer Field Contract v3):
+  - 27 questions need field IDs (~61 fields total)
+  - Part B: 15 single-input fields
+  - Part D: ~30 fields across 4 structured questions
+
+Phase 6 (HTML Build):
+  - NEW BRANCH: b3-y7-27q-rebuild
+  - All 27 questions implemented
+  - Old branch b2-y7-html-content-pass kept for history
+
+Phase 9 (Human Visual Review):
+  - Apply Section 9 priority list
+  - Verify all HOLD items
+  - Sign off before Phase 27 live submission test
+
+
+================================================================
+SECTION 12 — FINAL STATUS
+================================================================
+
+VISUAL_DECISION_LOCK_FINAL_v2_READY
+
+  - All 27 questions classified
+  - All 4 Parts have visual plans
+  - All carried HOLD items either closed or marked for Phase 9
+  - 0 SCREENSHOT_REQUIRED (everything recreatable in HTML/SVG/table)
+  - Topic-balanced visual load (no single Part overloaded)
+
+================================================================
+END OF FILE

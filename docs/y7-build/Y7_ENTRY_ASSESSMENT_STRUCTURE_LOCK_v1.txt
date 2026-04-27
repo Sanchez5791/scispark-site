@@ -1,0 +1,303 @@
+Y7_ENTRY_ASSESSMENT_STRUCTURE_LOCK_v1
+
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+ARCHITECTURE: 27 questions (5 + 15 + 3 + 4) / 60 marks / 45 minutes
+(Repeated 3x intentionally so any AI scanning this file CANNOT miss the
+ question count. Previous AI failed because it never saw a hard
+ question-count line and inferred 21 questions from marks alone.)
+
+Status: STRUCTURE LOCK FINAL
+File Type: Assessment Structure Lock / Stage 5 Control File
+System Line: SciSpark Cambridge Lower Secondary Science — Year 7 Entry
+Date: 2026-04-27
+Mirrors: SCISPARK_Y8_ENTRY_ASSESSMENT_STRUCTURE_LOCK_v1
+         (same 27-question pattern; mark distribution adjusted for Y7)
+
+================================================================
+1. FILE PURPOSE
+================================================================
+
+This file locks the assessment structure for Year 7 Entry Readiness.
+
+This file is the SINGLE SOURCE OF TRUTH for question count and
+part layout. Every downstream file (source mapping, visual lock,
+contract, HTML, marking package) MUST agree with this lock or be
+rejected.
+
+This file does not create HTML.
+This file does not create visual assets.
+This file does not create the final mark scheme.
+
+This file decides:
+- assessment identity
+- question count (27)
+- question-count-per-part
+- mark distribution
+- time allowed
+- topic balance
+- global reject rules
+
+================================================================
+2. WHY THIS FILE EXISTS (FAILURE PREVENTION)
+================================================================
+
+This file was added 2026-04-27 after a working AI mis-built Year 7
+with 21 questions instead of 27. Root causes of that failure:
+
+R1  Y7 had Y7_ENTRY_FINAL_BLUEPRINT_LOCK.txt (locks marks) but had
+    NO STRUCTURE LOCK file (locks question count). The AI inferred
+    question count from marks alone and chose a wrong granularity
+    (5 multi-mark items in Part B; should have been 15 single-mark
+    items).
+
+R2  Y8 already had a STRUCTURE LOCK file with the right pattern
+    (5+15+3+4=27). The AI did not look at Y8 to mirror its pattern.
+
+R3  The AI ran Phase 3 (Source Mapping) without first producing a
+    one-line "architecture confirmation" with the user. There was
+    no checkpoint that would force the question-count error to
+    surface before downstream work began.
+
+R4  Source mapping v1 file did not have a top-line architecture
+    summary. AIs reading downstream files could not detect the
+    error.
+
+R5  The AI did not list its assumptions ("21 questions because each
+    mark is one question is my assumption") before committing.
+
+================================================================
+3. PREVENTION MEASURES THIS FILE ENFORCES
+================================================================
+
+P1  HARD ARCHITECTURE LINE
+    The line "ARCHITECTURE: 27 questions (5+15+3+4) / 60 marks /
+    45 minutes" must appear at the TOP of EVERY downstream Y7 file
+    (source mapping, visual lock, contract, every report). If the
+    line is missing or different, downstream file is rejected.
+
+P2  STRUCTURE LOCK MUST EXIST BEFORE PHASE 3
+    Phase 3 (Source Mapping) cannot start until this file exists
+    AND user has signed off "structure approved" in writing.
+
+P3  MIRROR-BEFORE-INVENT RULE
+    Before designing structure for any Year, the AI must check if
+    a sibling Year (Y6/Y8/Y9) already has a STRUCTURE LOCK and
+    mirror it as the default. Inventing a new structure requires
+    explicit user instruction.
+
+P4  ARCHITECTURE-CHECKPOINT BEFORE WORK
+    Phase 1 must produce a 3-line "Architecture Confirmation":
+      Line 1: total questions = N
+      Line 2: per-part counts = a + b + c + d
+      Line 3: per-part marks  = A + B + C + D
+    The user signs off these 3 lines explicitly. No work proceeds
+    without this.
+
+P5  ASSUMPTION-LISTING DUTY
+    When choosing question granularity (e.g. one 5m big question
+    vs five 1m small questions), the AI must explicitly list the
+    assumption and ask before committing. Treat every "I picked X
+    because that seemed right" as a flag to stop and confirm.
+
+================================================================
+4. LOCKED ASSESSMENT IDENTITY
+================================================================
+
+Assessment name:
+SciSpark Year 7 Entry Readiness Assessment
+
+Assessment code:
+Y7_ENTRY_EN
+
+Language route:
+English first
+
+Chinese route:
+Teacher-triggered second round only if needed
+
+Teacher review:
+Required
+
+AI final placement:
+Not allowed
+
+Parent-facing automatic level confirmation:
+Not allowed
+
+Time allowed:
+45 minutes
+
+Total marks:
+60 marks
+
+Target question count:
+27 questions
+
+Final structure:
+Part A — Vocabulary / Basic Recognition
+Part B — Core Foundation Concepts
+Part C — Data / Scientific Skills / Investigation
+Part D — Extended Response / Application
+
+================================================================
+5. LOCKED PART STRUCTURE
+================================================================
+
+Part A:
+Vocabulary / Basic Recognition
+5 questions × 1 mark = 5 marks
+Question type: pure MCQ (single-select radio, label-from-wordlist,
+matching, tick-one-box). NO subparts. NO written explanation.
+NO short-answer beyond a single word.
+
+Part B:
+Core Foundation Concepts
+15 questions × 1 mark = 15 marks
+Question type: pure MCQ (radio_single, table_row_radio,
+matching_dropdown, fill-from-wordlist dropdown, true/false single,
+tick-one-correct). NO subparts. NO written explanation.
+Each question stands alone as 1 mark.
+
+Part C:
+Data / Scientific Skills / Investigation
+3 structured questions × ~4 marks = 12 marks
+Question type: structured items with subparts; may mix
+table-reading, graph-reading, fair-test reasoning, short-answer
+explanation. AI-markable required.
+
+Part D:
+Extended Response / Application
+4 structured questions × ~7 marks = 28 marks
+Question type: structured items with subparts; may include
+multi-step reasoning, written explanation, food-web reasoning,
+classification keys, structured tables. AI-markable required.
+
+GRAND TOTAL:
+Part A = 5 marks
+Part B = 15 marks
+Part C = 12 marks
+Part D = 28 marks
+Total = 60 marks
+Question count = 27
+Time = 45 minutes
+
+================================================================
+6. TOPIC BALANCE LOCK
+================================================================
+
+Year 7 Entry tests primary-school readiness for Year 7 science.
+Topic balance across all 27 questions:
+
+Biology: approximately 10–15 marks
+  (living things, classification, food chain/web, predator-prey,
+   habitat, environment)
+
+Chemistry: approximately 18–25 marks
+  (states of matter, melting/boiling/dissolving, materials,
+   reversible/irreversible changes, separation methods)
+
+Physics: approximately 8–14 marks
+  (forces, friction, gravity, motion, simple electricity OK,
+   simple sound OK, simple shadows)
+
+Earth & Space: approximately 4–6 marks
+  (Earth rotation, orbit, Moon cycle, planets, day/night)
+
+Scientific skills: embedded across Parts C and D
+  (fair test, variables, prediction, measurement, units, tables,
+   graphs, data interpretation, pattern recognition)
+
+Reference: Y7_ENTRY_TOPIC_SELECTION_RULES_FINAL.txt for preferred
+and forbidden topic lists.
+
+================================================================
+7. GLOBAL REJECT RULES
+================================================================
+
+Inherit verbatim from Y7_ENTRY_TOPIC_SELECTION_RULES_FINAL.txt
+section "HARD FORBIDDEN TOPICS". Do not duplicate the list here
+to avoid drift.
+
+Additional Y7-specific reject rules:
+- No 4-mark questions in Part A or Part B (these parts are 1m only)
+- No pure-written prose questions in Part A or Part B
+- No questions where the official MS uses "any reasonable answer"
+  catch-all wording (AI-marker cannot reliably score)
+
+================================================================
+8. CURRENT STATE OF Y7 BUILD AS OF 2026-04-27
+================================================================
+
+Work completed under WRONG 21-question architecture:
+  Y7_ENTRY_SOURCE_MAPPING_FINAL_BLUEPRINT_v1     ARCHITECTURE WRONG
+  Y7_ENTRY_SOURCE_MAPPING_FINAL_BLUEPRINT_v2     ARCHITECTURE WRONG
+  Y7_ENTRY_VISUAL_DECISION_LOCK_FINAL_v1         ARCHITECTURE WRONG
+  Y7_ENTRY_ANSWER_FIELD_CONTRACT_FINAL_v1        ARCHITECTURE WRONG
+  Y7_ENTRY_ANSWER_FIELD_CONTRACT_FINAL_v2        ARCHITECTURE WRONG
+  Y7_ENTRY_HTML_CONTENT_PASS_FINAL_REPORT        ARCHITECTURE WRONG
+  Y7_ENTRY_STUDENT_VIEW_CLEANUP_REPORT           ARCHITECTURE WRONG
+  Y7_ENTRY_VISUAL_PLACEMENT_AUDIT_FINAL          ARCHITECTURE WRONG
+  GitHub commit 087e59f (HTML on b2-y7-html-content-pass)
+                                                 ARCHITECTURE WRONG
+
+Reusable parts of the wrong work:
+  Part A (5 questions × 1m)
+    Selected questions QA1..QA5 in v2 source mapping all match the
+    correct structure (each is a 1-mark MCQ). Topics already pass
+    topic-balance. KEEP all 5 selections.
+
+  Part C (3 structured questions, 12m)
+    Selected questions QC1 (6m), QC2 (4m), QC3 (2m) sum to 12m
+    across 3 questions. Question COUNT is correct. Some subpart
+    structure may need rework based on which subparts are MCQ-able
+    vs require written.
+    KEEP question selections; review subpart granularity.
+
+Discarded parts:
+  Part B (5 multi-mark questions, 15m)
+    WRONG GRANULARITY. Must be re-selected as 15 separate 1-mark
+    MCQ items. Topic spread (sound, plastic, separation, circuits,
+    properties of solids) is acceptable for some 1-mark items but
+    several need replacement.
+
+  Part D (8 mid-size questions, 28m)
+    WRONG GRANULARITY. Must be re-selected as 4 structured questions
+    averaging 7 marks each. The current 8 small questions can be
+    merged or replaced; topic spread (food web, chem reaction,
+    classification key, forces, environment, states, planets,
+    solar model) is good but only 4 of these can survive as
+    structured 7m anchors.
+
+================================================================
+9. REWORK PLAN AFTER STRUCTURE LOCK APPROVAL
+================================================================
+
+R1  Re-do Source Mapping as v3 with 27 questions.
+R2  Re-do Visual Decision Lock as v2 to match v3 source mapping.
+R3  Re-do Answer Field Contract as v3 to match v3 source mapping.
+R4  Re-build HTML on a NEW branch (b3-y7-27q-rebuild) — do NOT
+    modify existing b2-y7-html-content-pass branch (preserve as
+    history record of the wrong-architecture build).
+R5  Re-do all reports (HTML build, student view, visual placement)
+    against the new HTML.
+R6  Old reports stay in 02_HTML_BUILD_REPORTS but renamed with
+    "_OLD_21Q_" prefix to mark them as historical.
+
+================================================================
+10. LOCK STATUS
+================================================================
+
+Structure status:
+LOCKED — awaiting user sign-off on rework plan
+
+Production status:
+NOT PRODUCTION LOCKED
+
+Before any rework starts the user must approve:
+  (a) the 27-question architecture in this file, and
+  (b) the rework plan in section 9, and
+  (c) the discard list in section 8.
+
+================================================================
+END OF FILE
