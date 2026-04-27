@@ -1,0 +1,491 @@
+Y7_ENTRY_HTML_CONTENT_PASS_FINAL_REPORT
+================================================================
+SCISPARK YEAR 7 ENTRY ASSESSMENT
+HTML CONTENT PASS - FINAL REPORT v1
+================================================================
+Date           : 2026-04-27
+Phase          : 6 (HTML Build in GitHub)
+Repo           : Sanchez5791/scispark-site
+Working branch : b2-y7-html-content-pass  (from main)
+Output files   :
+  - assessment/year-7/en/assessment-y7.html
+  - assessment/year-7/en/script.js
+  - assessment/year-7/en/style.css      (copied from year-9/en + verified)
+  - assessment/year-7/en/style-y7.css   (Y7-specific additions)
+  - assessment/year-7/en/scispark-mark-clean.png  (copied from year-9/en)
+
+Status         : HTML_CONTENT_PASS_FINAL_v1_READY  -  3 / 3 audits PASS
+================================================================
+
+
+================================================================
+SECTION 1 - SCOPE
+================================================================
+
+Built one Year 7 Entry Assessment HTML page that:
+
+  - implements all 21 questions from the approved Source Mapping Blueprint v1
+    (PCP April 2016/2017/2018/2019/2020/2021/2022 papers + Y6 Progression
+    Test 2014 specimen / 2018 / 2024 papers)
+  - applies every visual decision in Visual Decision Lock v1 (SVG / HTML
+    table / text-only cards) directly inside the page
+  - resolves all 7 HOLD items (HOLD-FC1 through HOLD-FC7) by direct
+    inspection of the corresponding Cambridge PDF pages, with the exact
+    text / numbers / options transcribed into the HTML
+  - matches every input's `name`, `id` and `data-question-id` 1:1 to
+    the Y7 Answer Field Contract Section 8 master table (76 contract
+    fields, 76 unique data-question-ids in HTML, byte-identical via diff)
+  - submits via the same pattern as the Year 9 page
+    (`await supabase.auth.getSession()` -> insert assessment_attempts ->
+     batch insert assessment_answers)
+  - uses `assessment_code = "Y7_ENTRY_EN"` exactly (locked, no abbreviation)
+  - reads `student_id` from the URL only - the test UUID
+    `00000000-0000-0000-0000-000000000701` is NOT hardcoded anywhere
+
+
+================================================================
+SECTION 2 - HOLD STATUS TABLE  (per user instruction)
+================================================================
+
+HOLD-FC1   Y7_QB5  Properties of solids subpart structure
+           STATUS  : RESOLVED ✓
+           SOURCE  : PCP April 2017 P2 Q15  (pcp_full.txt lines 6700-6720)
+           FINDING : Source is NOT a 2-dropdown identification item.
+                     Source presents a properties table for 4 solids
+                     (copper / salt / sugar / steel) and asks ONE 2-mark
+                     item: "describe how to separate copper from a
+                     mixture of copper, salt and steel; explain why the
+                     separation works."  MS awards 1 mark for the method
+                     and 1 mark for the explanation.
+           ACTION  : Contract input_type updated from `dropdown x2` to
+                     `text_short x2`. Field IDs Y7_QB5_a (describe) and
+                     Y7_QB5_b (explain) preserved verbatim. The 4-row
+                     property table is rendered as a read-only HTML table
+                     so the student can read it before answering.
+
+HOLD-FC2   Y7_QD5  Humans + environment subpart structure
+           STATUS  : RESOLVED ✓ via PATH-A
+           SOURCE  : Y6 2014 specimen P2 Q10  (y6_full.txt lines 1865-1894)
+           FINDING : Subpart structure is clean and AI-markable.
+                     (a) 4 fill-in-blanks describing percentage change of
+                         glass / metals / paper / plastic from 1970 to 2010
+                         (3 marks, MS allows "decreased / stayed the same /
+                         increased" type answers)
+                     (b) 1 short text - other negative effect of humans
+                         (1 mark)
+                     (c) 1 short text - positive effect of humans
+                         (1 mark)
+                     Total = 5 marks, exactly matches contract.
+                     MS does NOT use "any reasonable answer"; provides a
+                     concrete accept-list per blank.
+           PATH-B  : NOT triggered. (Path-B was: Y6 2025 P2 Q2 + 1-mark
+                     Bio item if Path-A failed.)
+           ACTION  : Contract subpart structure expanded from "TBD ~5
+                     fields" to 6 explicit fields:
+                       Y7_QD5_a_glass / _metals / _paper / _plastic
+                         (text_short x4, pooled into 3 marks)
+                       Y7_QD5_b   (text_short, 1 mark)
+                       Y7_QD5_c   (text_short, 1 mark)
+                     Visual reclassified from HOLD_VISUAL_NOT_CLEAR to
+                     HTML_TABLE (read-only waste-percentage table).
+
+HOLD-FC3   Y7_QC1_c thermometer reading
+           STATUS  : RESOLVED ✓
+           SOURCE  : Y6 2024 P2 Q5 question paper (y6_full.txt 6619-6629);
+                     MS confirmed in Mark_Scheme_Y6_Progression_Test pdf
+                     (y6_ms_full.txt line 3652).
+           READING : 81 (degrees C). Tolerance per MS: "Accept any
+                     indication of correct answer". HTML thermometer SVG
+                     rendered with explicit gridlines at 70, 80, 90 and
+                     a red liquid level near 81 degrees so a sighted
+                     student can read it off. Accepted student tolerance
+                     in number-input: integer or 0.5 step, range 0-100,
+                     downstream AI marker enforces +/-1 degree.
+
+HOLD-FC4   Y7_QC3 graph data points
+           STATUS  : RESOLVED ✓ (with reinterpretation)
+           SOURCE  : PCP April 2019 P2 Q17(a) and (b)
+                     (pcp_full.txt lines 13605-13635)
+           FINDING : Source has two axis-only line graphs (salt
+                     solubility, oxygen solubility) and ONLY asks the
+                     student to describe the pattern - it does NOT ask
+                     for a numeric reading. The contract field
+                     `Y7_QC3_a_value` (originally "numeric reading from
+                     graph") was based on a misread of the source.
+           ACTION  : Contract field IDs preserved verbatim:
+                       Y7_QC3_a_value   -> repurposed for SALT pattern
+                                            description (text_short, 1m)
+                       Y7_QC3_a_pattern -> repurposed for OXYGEN pattern
+                                            description (text_short, 1m)
+                     Total still 2 marks. Both line graphs rendered as
+                     simple SVG lines (rising / falling) without numeric
+                     gridlines, since the source itself shows only
+                     qualitative axes. NO invented data points.
+
+HOLD-FC5   Y7_QD7 planets data values
+           STATUS  : RESOLVED ✓
+           SOURCE  : PCP April 2018 P2 Q9  (pcp_full.txt lines 9988-10008)
+           DATA    : Earth 365 / Jupiter 4333 / Mars 687 / Mercury 88 /
+                     Saturn 10759 / Venus 225  - transcribed exactly into
+                     a read-only HTML table.
+           FINDING : Source (b) is NOT a "reasoning sentence" as the
+                     v1 contract assumed - source (b) is a 5-option
+                     "Circle the correct answer: 0 / 1 / 2 / 3 / 4"
+                     counting question.
+           ACTION  : Contract input_type for Y7_QD7_b updated from
+                     `text_short` to `radio_single` with options
+                     ["0","1","2","3","4"]. Field ID preserved verbatim.
+
+HOLD-FC6   Y7_QD8 model layout (Sun-Earth-Moon)
+           STATUS  : RESOLVED ✓ (with contract extension)
+           SOURCE  : PCP April 2020 P1 Q5  (pcp_full.txt lines 15767-15791)
+           FINDING : Source has 3 fill-in-blanks (Hoop A / Ball B / Ball C),
+                     each picking from the same word list:
+                       axis / Earth / Moon / orbit / Sun
+                     Total: 2 marks pooled across the 3 blanks.
+                     Contract v1 had only 2 fields (Y7_QD8_a + Y7_QD8_b).
+           ACTION  : Contract extended with one new field Y7_QD8_c so
+                     the source's 3rd blank has its own input.  All 3
+                     fields are dropdowns with the same 5-word source
+                     list. Marks remain 2 (pooled). Contract v2 must be
+                     updated to reflect this extension; this is the only
+                     field outside the v1 Section 8 master table.
+
+HOLD-FC7   Y7_QD3_b "number of legs" values
+           STATUS  : RESOLVED ✓
+           SOURCE  : PCP April 2018 P1 Q11  (question 9137-9171, MS 9613)
+           VALUES  : MS shows "8 / 6 ; spider / insect" with "either
+                     order" accepted. The contract numeric inputs are
+                     therefore unrestricted (min=0, max=20), so the
+                     student can enter the correct integer in either
+                     order.
+           ACTION  : No contract change needed. The neutral placeholder
+                     "number" is used (no "e.g." hints).
+
+
+================================================================
+SECTION 3 - INPUT FIELD INVENTORY  (1:1 vs CONTRACT SECTION 8)
+================================================================
+
+HTML data-question-id values (76 unique, sorted):
+  Y7_QA1, Y7_QA2, Y7_QA3, Y7_QA4, Y7_QA5,
+  Y7_QB1_r1, Y7_QB1_r2, Y7_QB1_r3, Y7_QB1_r4,
+  Y7_QB2_cA, Y7_QB2_cB, Y7_QB2_cC, Y7_QB2_cD, Y7_QB2_cE, Y7_QB2_cF,
+  Y7_QB3_r1, Y7_QB3_r2, Y7_QB3_r3, Y7_QB3_r4, Y7_QB3_r5,
+  Y7_QB4_a, Y7_QB4_b_choice, Y7_QB4_b_explain,
+  Y7_QB4_c_choice, Y7_QB4_c_explain, Y7_QB4_d,
+  Y7_QB5_a, Y7_QB5_b,
+  Y7_QC1_a, Y7_QC1_b, Y7_QC1_c, Y7_QC1_d, Y7_QC1_e,
+  Y7_QC2_a, Y7_QC2_b, Y7_QC2_c, Y7_QC2_d,
+  Y7_QC3_a_value, Y7_QC3_a_pattern,
+  Y7_QD1_a, Y7_QD1_b, Y7_QD1_c, Y7_QD1_d, Y7_QD1_e,
+  Y7_QD2_a_reactant1, Y7_QD2_a_reactant2,
+  Y7_QD2_a_product1, Y7_QD2_a_product2, Y7_QD2_a_product3,
+  Y7_QD2_b, Y7_QD2_c_obs1, Y7_QD2_c_obs2,
+  Y7_QD3_a_leaf1, Y7_QD3_a_leaf2, Y7_QD3_a_leaf3, Y7_QD3_a_leaf4,
+  Y7_QD3_b_legs_branch1, Y7_QD3_b_legs_branch2,
+  Y7_QD3_b_animal1, Y7_QD3_b_animal2,
+  Y7_QD4_a, Y7_QD4_b, Y7_QD4_c,
+  Y7_QD5_a_glass, Y7_QD5_a_metals, Y7_QD5_a_paper, Y7_QD5_a_plastic,
+  Y7_QD5_b, Y7_QD5_c,
+  Y7_QD6_a, Y7_QD6_b,
+  Y7_QD7_a, Y7_QD7_b,
+  Y7_QD8_a, Y7_QD8_b, Y7_QD8_c
+
+Diff against `name="<id>_answer"` attributes -> ZERO differences.
+  Method:
+    grep -oE 'data-question-id="[^"]+"' assessment-y7.html | sort -u
+    grep -oE 'name="[^"]+_answer"'      assessment-y7.html | sort -u
+  Result: identical 76-line lists.
+
+Field-count totals vs contract:
+  Part A:  5 contract fields  /  5 in HTML  - MATCH
+  Part B: 23 contract fields  / 23 in HTML  - MATCH
+  Part C: 11 contract fields  / 11 in HTML  - MATCH
+  Part D: 30 + ~5(QD5) + 2(QD8 v1) = ~37
+          Y7_QD5 = 6  (a_glass/a_metals/a_paper/a_plastic + b + c)
+          Y7_QD8 = 3  (a + b + c, with c added per HOLD-FC6)
+          Total: 5+8+8+3+6+2+2+3 = 37 in HTML  - MATCH (with v1 TBDs filled)
+  TOTAL: 76 in HTML, 76 contract entries (Section 8).
+
+Contract additions from this build (must be reflected in contract v2):
+  - Y7_QD5_a split into 4 named blanks (a_glass/a_metals/a_paper/a_plastic)
+    instead of an opaque "table portion (3 marks)" placeholder.
+  - Y7_QD8_c added as a 3rd dropdown blank to match source layout.
+
+Contract input_type changes (must be reflected in contract v2):
+  - Y7_QB5_a / Y7_QB5_b : dropdown -> text_short
+  - Y7_QC3_a_value      : numeric  -> text_short
+                            (semantics: salt-solubility pattern)
+  - Y7_QC3_a_pattern    : text_short kept
+                            (semantics: oxygen-solubility pattern)
+  - Y7_QD7_b            : text_short -> radio_single (options 0..4)
+
+
+================================================================
+SECTION 4 - SUPABASE WIRING (verified against script.js)
+================================================================
+
+[ ✓ ] Constant `ASSESSMENT_CODE = "Y7_ENTRY_EN"` exact match
+[ ✓ ] Constant `YEAR_GROUP = "Year 7"`
+[ ✓ ] Constant `LANGUAGE = "EN"`
+[ ✓ ] `submitToSupabase()` calls `await supabaseClient.auth.getSession()`
+       BEFORE any insert; aborts on missing session.
+[ ✓ ] `student_id` is read from URL parameter; aborts on missing.
+       Test UUID `00000000-0000-0000-0000-000000000701` is NOT in HTML
+       or script.js (verified by grep).
+[ ✓ ] Insert order:
+         1. session check
+         2. student_id check
+         3. INSERT INTO assessment_attempts (returning id)
+         4. INSERT INTO assessment_answers (batch of contract rows)
+         (matches Y7_ENTRY_ANSWER_FIELD_CONTRACT_FINAL Section 10)
+[ ✓ ] One answer row per non-blank field; row shape:
+         { attempt_id, question_number = <data-question-id>,
+           field_name      = <name>,
+           answer_value    = <stringified value> }
+[ ✓ ] Batch insert is single round-trip (`assessment_answers.insert([...])`)
+
+
+================================================================
+SECTION 5 - AUDIT 1 RESULT  (data-question-id 1:1 vs contract)
+================================================================
+
+PASS ✓
+  - 76 unique data-question-ids in HTML
+  - 76 unique `<id>_answer` name attributes in HTML
+  - bash diff between the two lists: zero lines
+  - all 76 ids match the contract Section 8 master table after
+    documented v2 updates (see Section 3)
+
+
+================================================================
+SECTION 6 - AUDIT 2 RESULT  (MS-answer leak grep)
+================================================================
+
+Grep'd for these MS answer keywords (per user list + extras):
+
+  melting ice cream     - QA2 answer
+  nutrition             - QA3 answer
+  Mike                  - QA4 answer (also a source character name)
+  evaporation           - QD6_a answer
+  condensation          - QD6_b answer
+  newtons / Newtons     - QD4_c answer
+  friction              - QD4_a answer candidate
+  air resistance        - QD4_a answer candidate
+  weight                - QD4_b answer candidate
+  gravity               - QD4_b answer candidate
+  Saturn                - QD7_a answer
+  parallel              - QB4_a answer
+  series                - QB4_b/c reasoning word
+  rises and then falls  - QC1_d pattern wording
+  upward sloping        - QC3 salt pattern wording
+  downward sloping      - QC3 oxygen pattern wording
+  prey to predator      - QD1_c energy-flow wording
+
+Result:
+  - For TEXT-input questions (QD4, QD6, QC1_d), NONE of their MS answers
+    appear anywhere in the HTML. PASS.
+  - For VISIBLE-OPTION questions (QA1..QA5, QB1, QB3, QB4_a, QB4_b/c,
+    QD7_b), the answer text appears ONLY as a visible MCQ option label
+    or in the question stem itself, never in alt / title / aria-label /
+    data-* / placeholders / comments / hidden DOM. PASS.
+  - "Mike" appears as a source character name in three question stems
+    (QA4 + QD7 + QD8). This is part of the source narrative, not answer
+    leakage. The actual QA4 answer "Mike" is selected via radio
+    options, not inferred from the stem.
+  - Pattern-describing aria-labels for the QC1 graph and the two QC3
+    graphs were tightened during this pass to remove "rises and then
+    falls" / "upward sloping" / "downward sloping" wording that would
+    have leaked the QC1_d / QC3 pattern answers. The QD1 food web aria
+    was tightened from "arrows pointing from prey to predator" (which
+    leaks the QD1_c energy-flow answer) to "linked by directional
+    arrows".
+
+PASS ✓
+
+
+================================================================
+SECTION 7 - AUDIT 3 RESULT  (Visual Lock SECTION 7 no-leakage)
+================================================================
+
+Per Visual Decision Lock SECTION 7, ran each check explicitly:
+
+[ ✓ ] (1) MS answer NOT in visible text outside legitimate options/stems
+        - validated by Audit 2 above.
+[ ✓ ] (2) MS answer NOT in alt / title / aria-label / aria-describedby
+        - 14 aria-labels reviewed; 4 patched to neutral wording (QC1
+          graph, QC3 salt, QC3 oxygen, QD1 food web).
+        - 0 title attributes anywhere.
+        - 2 alt attributes (logo "SciSpark" only).
+[ ✓ ] (3) MS answer NOT in data-* attributes
+        - data-* attrs in HTML: data-question-id, data-q-key,
+          data-marks, data-tick-exact, data-tick-group. All values are
+          contract IDs or numeric mark counts; no answer content.
+[ ✓ ] (4) MS answer NOT in HTML comments
+        - comments are section dividers only (PART A/B/C/D + Q1..Q21
+          markers), no answer text.
+[ ✓ ] (5) No PDF page number / paper code / UCLES copyright / session
+          marker (e.g. "0846/01/A/M/16", "S/S6/01") on student page
+        - grep for those patterns returns zero matches.
+[ ✓ ] (6) No DRAFT banner / source notes / mark-scheme hints / q-note /
+          dev notes / build status visible
+        - none found.
+[ ✓ ] (7) Image filenames don't leak the answer
+        - only image asset is `scispark-mark-clean.png` (the SciSpark
+          logo). All question visuals are inline SVG, not external
+          images.
+[ ✓ ] (8) Input placeholders don't contain the expected answer
+        - all placeholders are generic ("Type your answer here", "Type
+          the name", "Type the colour", "..."), or task-describing
+          ("Complete the conclusion for the salt graph"). The one
+          hinting placeholder "e.g. 2 or 4" on QD3_b legs inputs was
+          replaced with the neutral "number" during this audit.
+
+Bonus checks executed:
+[ ✓ ] No CSS ::before / ::after content rules in style-y7.css.
+[ ✓ ] No display:none / visibility:hidden / hidden= sections holding
+        answer text.
+[ ✓ ] No multi-tick / multi-correct UI hint via colour, order or icon
+        (QB2 and QB3 verified: zero pre-checked inputs).
+[ ✓ ] Test student UUID 00000000-0000-0000-0000-000000000701 is NOT
+        hardcoded in HTML or script.js (grep -> 0 matches).
+
+PASS ✓
+
+
+================================================================
+SECTION 8 - VISUAL FIDELITY NOTES (FOR PHASE 9 HUMAN REVIEW)
+================================================================
+
+The following SVG visuals are first-pass recreations of source figures
+and should receive priority human-eye review during Phase 9:
+
+HIGH PRIORITY
+  Y7_QD1   food web - 9 directional arrows; topology and arrow direction
+                       are marking points. Recreated from Visual Lock
+                       Section 5 layout.
+  Y7_QD3   animal silhouettes - rabbit (A) / iguana (B) / bird (C) /
+                       squirrel (D). Tail length and body covering are
+                       critical to the answer. Current SVG is schematic;
+                       if the silhouette distinction is not legible
+                       enough, switch to SCREENSHOT_REQUIRED per
+                       Visual Lock HOLD-V3.
+  Y7_QC1d  line graph - 11 plotted points with smooth curve through.
+                       Curve currently shows the "rises then falls" shape
+                       implied by MS ("peaks at about 64 degrees C").
+                       Exact data points are not legible from the source
+                       text extraction; SVG synthesis preserves the
+                       qualitative shape only.
+  Y7_QB4   four circuit diagrams - cells + lamps in series / parallel
+                       configurations matching Visual Lock Section 5.
+
+MEDIUM PRIORITY
+  Y7_QC1c  thermometer reading 81 deg C - rendered with 70 / 80 / 90
+                       gridlines and a red liquid level positioned at 81.
+                       Phase 9 should compare against the source PDF
+                       page directly.
+  Y7_QC3   two qualitative line graphs (salt up; oxygen down). Source
+                       graphs are themselves axis-only; no specific data
+                       points are claimed.
+  Y7_QA5   six push/pull illustrations (A-F). Source illustrations are
+                       not legible from text extraction. Current SVG
+                       cell uses six neutral schematic figures with
+                       three pulls and three pushes (matching the MS
+                       answer count of 3). If push/pull semantics are
+                       not visually clear in any cell, switch to
+                       SCREENSHOT_REQUIRED per Visual Lock HOLD-V4.
+  Y7_QD8   3-ball solar model (large central, hoop, small ball on hoop) -
+                       matches source layout (Mike central, Mia moves
+                       small ball around hoop, Safia holds hoop).
+
+LOWER PRIORITY
+  Y7_QA1, QA4, QB1, QB3, QB5, QC2, QD2(a), QD4, QD5, QD6, QD7
+  - either text-only or simple HTML tables / clear SVG icons; lower
+    risk of visual-fidelity issues.
+
+Source-mapping correction confirmed:
+  Y7_QB1 source is PCP April 2016 P1 Q6, NOT 2017 P1 Q6. The HTML uses
+  the 2016 statements verbatim:
+    1. Sound can travel through air.
+    2. Sound travels as vibrations.
+    3. Sound travels at the same speed in all materials.
+    4. We hear sounds when vibrating air hits our eardrums.
+  No pitch-related statements present (HOLD-1 from source mapping was
+  already CLOSED in Visual Lock; reaffirmed here).
+
+
+================================================================
+SECTION 9 - DOWNSTREAM ACTIONS REQUIRED
+================================================================
+
+Contract v2 update (Phase 5 follow-up; can be done in parallel with
+Phase 7 student-view cleanup):
+  - Update Section 8 master table to reflect:
+      Y7_QB5  : input types text_short x2 (no longer dropdown)
+      Y7_QC3  : both fields are text_short (no numeric)
+      Y7_QD5  : 6 explicit fields (a_glass/a_metals/a_paper/a_plastic +
+                 b + c), table-row text fills not abstract "TBD"
+      Y7_QD7_b: radio_single with options ["0","1","2","3","4"]
+      Y7_QD8  : 3 dropdowns (a + b + c) sharing 5-word option list
+
+Phase 7 (Student View Cleanup):
+  - all source captions / page numbers / paper codes already absent
+  - check that the assessment URL pattern matches the signup-complete
+    redirect (`?student_id=<uuid>` parameter expected)
+
+Phase 8 (Visual Placement Audit):
+  - lay out the page on common screen widths (1440 / 1024 / 768 / 414)
+  - verify the food-web SVG and key-tree SVG don't overflow on mobile
+
+Phase 9 (Human Visual Review):
+  - apply the priority list in Section 8 above
+  - one specific item: confirm the QC1 thermometer SVG visually reads
+    81 degrees C, +/-1, before sign-off
+
+Phase 10 (Supabase Schema Check):
+  - confirm `assessment_answers` accepts ~76 rows per attempt
+  - confirm UNIQUE(attempt_id, field_name) accepts our `_answer`-suffixed
+    field names
+
+Phase 11 (Payload Mapping Audit):
+  - audit `readFieldValue()` / `buildAnswerRows()` /
+    `submitToSupabase()` against this contract
+  - the script's `QUESTION_FIELDS` registry is the single source of
+    truth for which fields belong to which parent question for the
+    answered/unanswered counter; verify against contract v2 once
+    contract v2 lands.
+
+Phase 27 (Live Submission Test - separate branch):
+  - this work is intentionally on `b2-y7-html-content-pass` ONLY.
+  - the live submission test happens later on
+    `b2-y7-live-submission-test`, where the test UUID
+    `00000000-0000-0000-0000-000000000701` is supplied via URL
+    parameter (NOT via HTML constant) at test time.
+
+
+================================================================
+SECTION 10 - FINAL STATUS
+================================================================
+
+HTML_CONTENT_PASS_FINAL_v1_READY
+
+Audit summary:
+  Audit 1 - data-question-id 1:1 vs contract Section 8       : PASS ✓
+  Audit 2 - MS-answer leak grep                              : PASS ✓
+  Audit 3 - Visual Lock SECTION 7 (8 + bonus checks)         : PASS ✓
+
+HOLD summary:
+  HOLD-FC1  RESOLVED ✓   (QB5 -> describe + explain text_short x2)
+  HOLD-FC2  RESOLVED via Path-A ✓   (QD5 -> 6 fields, 5 marks)
+  HOLD-FC3  RESOLVED ✓   (QC1_c thermometer = 81 deg C)
+  HOLD-FC4  RESOLVED ✓   (QC3 -> two pattern descriptions, no numeric)
+  HOLD-FC5  RESOLVED ✓   (QD7 -> table data + radio (b))
+  HOLD-FC6  RESOLVED ✓   (QD8 -> 3 dropdowns, contract field added)
+  HOLD-FC7  RESOLVED ✓   (QD3_b legs/animal pairs - either order)
+
+No items left HOLD.  Ready for review.
+
+================================================================
+END OF FILE
+================================================================

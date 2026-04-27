@@ -1,0 +1,361 @@
+/* Year 7 Entry Assessment - additions on top of style.css */
+.y7-svg { width: 100%; height: auto; display: block; }
+
+/* Food chain (QA1) and food web (QD1) */
+.y7-food-chain {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 14px 12px;
+  margin: 12px 0 18px;
+}
+.y7-foodweb {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0 18px;
+}
+
+/* QA4 note cards */
+.y7-note-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+.y7-note-card {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: "EB Garamond", serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.y7-note-card p { margin: 4px 0; }
+.y7-note-name {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--orange, #d96b1f);
+  margin-bottom: 8px;
+  text-transform: none;
+}
+
+/* QA5 push/pull icon grid */
+.y7-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+.y7-icon-cell {
+  margin: 0;
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+}
+.y7-icon-cell figcaption {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Tables (QB1, QB3, QB5, QD2(a), QD5, QD7) */
+.y7-tf-table,
+.y7-method-table,
+.y7-properties-table,
+.y7-rp-table,
+.y7-waste-table,
+.y7-planets-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.y7-tf-table th, .y7-tf-table td,
+.y7-method-table th, .y7-method-table td,
+.y7-properties-table th, .y7-properties-table td,
+.y7-rp-table th, .y7-rp-table td,
+.y7-waste-table th, .y7-waste-table td,
+.y7-planets-table th, .y7-planets-table td {
+  border: 1px solid var(--line, #e3dfd6);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.y7-tf-table thead th,
+.y7-method-table thead th,
+.y7-properties-table thead th,
+.y7-rp-table thead th,
+.y7-waste-table thead th,
+.y7-planets-table thead th {
+  background: rgba(217, 107, 31, .08);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .02em;
+}
+.y7-tf-table tbody th,
+.y7-method-table tbody th,
+.y7-properties-table tbody th,
+.y7-waste-table tbody th,
+.y7-planets-table tbody th {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  background: #fafaf6;
+}
+.y7-tf-table td:nth-child(2),
+.y7-tf-table td:nth-child(3),
+.y7-method-table td:not(:first-child) {
+  text-align: center;
+}
+
+/* Cell radio (used inside table cells) */
+.y7-cell-radio {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.y7-cell-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+.y7-cell-radio span {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 1.6px solid var(--line, #c8c2b3);
+  border-radius: 50%;
+  background: #fff;
+  transition: background .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+.y7-cell-radio input[type="radio"]:checked + span {
+  background: var(--orange, #d96b1f);
+  border-color: var(--orange, #d96b1f);
+  box-shadow: inset 0 0 0 4px #fff;
+}
+
+/* QB2 checkbox list */
+.y7-checkbox-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+  margin: 8px 0 6px;
+}
+.y7-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.4px solid var(--line, #e3dfd6);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  transition: border-color .12s ease, background .12s ease;
+}
+.y7-check-row .opt-badge {
+  flex: 0 0 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgba(217, 107, 31, .08);
+  color: var(--orange, #d96b1f);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+}
+.y7-check-row.checked {
+  border-color: var(--orange, #d96b1f);
+  background: rgba(217, 107, 31, .06);
+}
+.y7-hint {
+  font-size: 13px;
+  color: var(--text-muted, #7a7567);
+  margin: 4px 4px 0;
+}
+.question-block.limit-reached { animation: y7LimitShake .35s ease; }
+@keyframes y7LimitShake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* QB4 circuits */
+.y7-circuit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+.y7-circuit-cell {
+  margin: 0;
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.y7-circuit-cell figcaption {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 6px;
+  letter-spacing: .02em;
+}
+
+/* QC1 thermometer + graph */
+.y7-thermometer-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 18px;
+  align-items: center;
+  margin: 10px 0;
+}
+.y7-thermometer { max-width: 110px; }
+.y7-numeric-block { display: flex; flex-direction: column; gap: 8px; }
+.y7-unit { font-size: 14px; color: var(--text-muted, #7a7567); margin-left: 8px; }
+.y7-graph {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 10px;
+  padding: 12px;
+  margin: 8px 0 10px;
+}
+.y7-graph-small svg { max-width: 360px; }
+
+/* QC2 apparatus */
+.y7-apparatus {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 10px 0 16px;
+  max-width: 480px;
+}
+
+/* QD3 animals + key tree */
+.y7-animals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+.y7-animal-cell {
+  margin: 0;
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+}
+.y7-animal-cell figcaption {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.y7-keytree {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 10px 0 16px;
+}
+.y7-keyleaves {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+.y7-keyleaf { display: flex; flex-direction: column; gap: 4px; }
+
+/* QD3(b) small key */
+.y7-keytree-b {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 8px 0 14px;
+}
+.y7-keyb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 6px;
+}
+.y7-keyb-pair { display: flex; flex-direction: column; gap: 8px; }
+.y7-keyb-row { display: flex; flex-direction: column; gap: 4px; }
+
+/* QD4 bird */
+.y7-bird {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 8px 0 14px;
+  max-width: 420px;
+}
+
+/* QD5 fill rows */
+.y7-fillrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 15px;
+}
+.y7-fillrow input.text-input { flex: 1 1 200px; max-width: 320px; }
+
+/* QD8 solar model + blanks */
+.y7-solar-model {
+  background: #fff;
+  border: 1px solid var(--line, #e3dfd6);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 10px 0 14px;
+  max-width: 400px;
+}
+.y7-blank-grid { display: flex; flex-direction: column; gap: 8px; }
+.y7-blank-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+.y7-blank-row select.text-input { max-width: 180px; }
+
+/* Bulleted list */
+.y7-bulleted {
+  list-style: disc;
+  padding-left: 24px;
+  margin: 8px 0 14px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.y7-bulleted li { margin-bottom: 4px; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .y7-icon-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .y7-circuit-grid { grid-template-columns: 1fr; }
+  .y7-animals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .y7-keyleaves { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .y7-keyb-grid { grid-template-columns: 1fr; }
+  .y7-checkbox-list { grid-template-columns: 1fr; }
+  .y7-note-cards { grid-template-columns: 1fr; }
+  .y7-thermometer-row { grid-template-columns: 1fr; }
+}
