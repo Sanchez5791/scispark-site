@@ -107,7 +107,7 @@ Return ONLY the JSON object. No prose. No markdown fences.`;
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 6000,
         temperature: 0,
         system: SYSTEM,
