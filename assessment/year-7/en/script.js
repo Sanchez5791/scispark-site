@@ -21,11 +21,11 @@
  *   one row per non-blank field is inserted into assessment_answers
  *
  * Y7_QB6 special handling:
- *   The visible UI for Y7_QB6 is three <select> elements (solid/liquid/gas
- *   matched to diagram 1/2/3). Per contract Section 8, Part B has 15
- *   fields (one per question), so Y7_QB6 has a single hidden composite
- *   input whose value is rebuilt on every change of the 3 selects:
- *     "solid=<v>;liquid=<v>;gas=<v>"
+ *   The visible UI for Y7_QB6 is a table-radio grid: 3 rows (solid /
+ *   liquid / gas) x 3 columns (A / B / C). Per contract Section 8,
+ *   Part B has 15 fields (one per question), so Y7_QB6 has a single
+ *   hidden composite input rebuilt on every radio change:
+ *     "solid=<A|B|C>;liquid=<A|B|C>;gas=<A|B|C>"
  *   The downstream AI marker pools the 3 selections from this string.
  */
 
@@ -133,20 +133,20 @@ function startTimer() {
 
 /* ------------------------------------------------------------------
    QB6 COMPOSITE
-   Three visible <select> elements (solid/liquid/gas, each picking
-   "diagram 1/2/3") feed one hidden <input name="Y7_QB6_answer">.
-   Updated on every change.
+   Three radio groups (Y7_QB6_solid_r / liquid_r / gas_r, each with
+   values A/B/C) feed one hidden <input name="Y7_QB6_answer">.
+   Updated on every radio change via the global change listener.
 ------------------------------------------------------------------- */
 function refreshQB6Composite() {
   const hidden = document.getElementById('input_Y7_QB6_answer');
   if (!hidden) return;
-  const get = (key) => {
-    const el = document.querySelector(`select[data-q-key="Y7_QB6"][data-match-key="${key}"]`);
-    return el ? el.value : '';
+  const getRadio = (name) => {
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    return checked ? checked.value : '';
   };
-  const solid  = get('solid');
-  const liquid = get('liquid');
-  const gas    = get('gas');
+  const solid  = getRadio('Y7_QB6_solid_r');
+  const liquid = getRadio('Y7_QB6_liquid_r');
+  const gas    = getRadio('Y7_QB6_gas_r');
   hidden.value = (solid || liquid || gas)
     ? `solid=${solid};liquid=${liquid};gas=${gas}`
     : '';
