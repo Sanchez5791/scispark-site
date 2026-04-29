@@ -19,7 +19,7 @@ const AUTOSAVE_KEY    = 'scispark_y8_draft';
 const AUTOSAVE_INTERVAL_MS = 15000;
 
 /* Flip to true ONLY after Supabase Live Submission Test passes */
-const BACKEND_ENABLED = false;
+const BACKEND_ENABLED = true;
 
 const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloKJ';
