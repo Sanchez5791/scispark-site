@@ -22,7 +22,7 @@ const AUTOSAVE_INTERVAL_MS = 15000;
 const BACKEND_ENABLED = true;
 
 const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloKJ';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpZmZ1YW9pYnhlZ2d3eGNmdmZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5MzYwOTAsImV4cCI6MjA5MjUxMjA5MH0.AJO3RGNo33rFdQ0DCyHj4gpGryAxnDnHIpUy2Px9wck';
 
 let supabaseClient = null;
 if (window.supabase) {
