@@ -132,6 +132,24 @@ function startTimer() {
 }
 
 /* ------------------------------------------------------------------
+   ARROW INSERT (food-chain text inputs)
+   Called by the "→ insert" button via onclick="insertArrow(id)".
+   Inserts " → " at the current cursor position in the target input
+   and moves the caret to just after the inserted text.
+------------------------------------------------------------------- */
+function insertArrow(inputId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const pos = (el.selectionStart != null) ? el.selectionStart : el.value.length;
+  const val = el.value;
+  el.value = val.slice(0, pos) + ' → ' + val.slice(pos);
+  el.selectionStart = el.selectionEnd = pos + 3;
+  el.focus();
+  // Trigger progress update so the answered counter reflects the new value
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+/* ------------------------------------------------------------------
    QB6 COMPOSITE
    Three radio groups (Y7_QB6_solid_r / liquid_r / gas_r, each with
    values A/B/C) feed one hidden <input name="Y7_QB6_answer">.

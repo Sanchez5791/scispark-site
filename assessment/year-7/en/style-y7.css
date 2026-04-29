@@ -125,17 +125,29 @@
   .y7-state-grid td { padding: 8px 12px; }
 }
 
-/* ─── QB6 Diagram A / B / C labels (below particle image, above grid) ─── */
-.y7-diagram-labels {
+/* ─── QB6 particle image + vertical A/B/C side labels ─── */
+.y7-particle-labeled {
   display: flex;
-  justify-content: space-evenly;
+  align-items: stretch;
+  margin: 1rem auto;
   max-width: min(100%, 600px);
-  margin: -2px auto 12px;
+  gap: 10px;
+}
+.y7-particle-labeled .y7-source-image {
+  margin: 0;           /* override the default auto-centering margin */
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.y7-particle-abc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 4px 0;
   font-family: "DM Sans", sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 18px;
   color: var(--orange, #d96b1f);
-  letter-spacing: .03em;
+  flex: 0 0 auto;
 }
 
 /* ─── QB6 match grid (legacy — now unused, kept harmless) ─── */
@@ -268,6 +280,35 @@
   .y7-keyb-grid { grid-template-columns: 1fr; }
   .y7-match-grid { grid-template-columns: 1fr; max-width: 100%; }
   .y7-note-cards { grid-template-columns: 1fr; }
+}
+
+/* ─── Arrow-insert button (food chain text inputs) ─── */
+.food-chain-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+.food-chain-input-group .text-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.arrow-insert-btn {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid var(--line, #ccc);
+  border-radius: 6px;
+  background: #f5f5ee;
+  color: var(--text, #333);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.arrow-insert-btn:hover {
+  background: rgba(217, 107, 31, .10);
+  border-color: var(--orange, #d96b1f);
+  color: var(--orange, #d96b1f);
 }
 
 /* ─── Legacy alias (kept harmless to avoid cache misses) ─── */
