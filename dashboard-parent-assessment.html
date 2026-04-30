@@ -175,7 +175,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
         <div class="nav-avatar">JL</div>
         <span>Jane Lim</span>
       </div>
-      <button class="btn-nav">Sign out</button>
+      <button class="btn-nav" onclick="handleSignOut()">Sign out</button>
     </div>
   </div>
 </nav>
@@ -685,6 +685,11 @@ function renderState(assessment, child, parent) {
   if (descEl && assessment?.recommendation) {
     descEl.textContent = assessment.recommendation
   }
+}
+
+async function handleSignOut() {
+  await sb.auth.signOut()
+  window.location.href = '/signin.html'
 }
 
 async function init() {
