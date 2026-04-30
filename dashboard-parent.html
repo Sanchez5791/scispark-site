@@ -13,136 +13,103 @@
   --orange:#e8521a;--orange-h:#d44717;--orange-l:#fdf2ed;--orange-m:#f9d9cc;
   --dark:#1a1917;--dark-c:#201e1b;
   --text:#2d2926;--muted:#9a8e84;--light:#c5bbb4;--border:#e2d9ce;
-  --green:#2E7D5B;--green-bg:#d9eed9;--amber-bg:#fdf2ed;
+  --green:#2E7D5B;--green-bg:#d9eed9;
   --serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
   --r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer;border:0;background:none}
-
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;background:var(--dark);height:60px;box-shadow:0 2px 16px rgba(0,0,0,.3)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav{background:var(--dark);height:60px;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(0,0,0,.3)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
 .logo-mark{width:32px;height:32px;flex-shrink:0}
 .brand-text{display:flex;flex-direction:column;line-height:1.15}
 .brand-name{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.01em}
 .brand-name span{color:var(--orange)}
 .brand-sub{font-size:9px;color:var(--light);letter-spacing:.07em;text-transform:uppercase}
 .nav-right{display:flex;align-items:center;gap:14px}
-.nav-user{display:flex;align-items:center;gap:9px}
-.avatar{width:30px;height:30px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:.02em}
-.nav-name{font-size:13px;color:rgba(255,255,255,.8);font-weight:500}
-.nav-signout{font-size:12px;color:rgba(255,255,255,.45);padding:5px 12px;border:1px solid rgba(255,255,255,.15);border-radius:100px;transition:.15s}
-.nav-signout:hover{color:#fff;border-color:rgba(255,255,255,.4)}
-
-/* LAYOUT */
-.layout{display:flex;max-width:1200px;margin:0 auto;min-height:calc(100vh - 60px)}
-
-/* SIDEBAR */
-.sidebar{width:256px;flex-shrink:0;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
-.sb-profile{padding:20px 18px 18px;border-bottom:1px solid var(--border)}
-.sp-av{width:38px;height:38px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:.02em}
-.sp-name{font-size:14px;font-weight:600;color:var(--dark);line-height:1.2}
-.sp-role{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
-.sb-menu{padding:10px 8px;flex:1}
-.sb-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-md);font-size:13.5px;color:var(--muted);transition:.14s;margin-bottom:2px}
-.sb-menu a:hover{background:var(--bg-subtle);color:var(--text)}
-.sb-menu a.active{background:var(--orange-l);color:var(--orange);font-weight:600;border-left:3px solid var(--orange);border-radius:0 var(--r-md) var(--r-md) 0;padding-left:9px}
-.sb-menu .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0}
-.sb-status{margin:0 14px 20px;padding:12px 14px;background:var(--bg-subtle);border-radius:var(--r-md);border:1px solid var(--border)}
-.ss-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.ss-val{font-size:12.5px;color:var(--text);font-weight:500}
-.ss-date{font-size:11px;color:var(--muted);margin-top:2px}
-
-/* MAIN */
-.main{flex:1;padding:28px 28px 60px;min-width:0}
-
-/* EYEBROW + PAGE HEADER */
-.eyebrow{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);background:var(--orange-l);border:1px solid var(--orange-m);padding:3px 8px;border-radius:4px;margin-bottom:10px}
-.page-h1{font-family:var(--serif);font-size:38px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.05;margin-bottom:8px}
-.page-sub{font-size:14px;color:var(--muted);max-width:54ch;line-height:1.55}
-
-/* STATUS STRIP */
-.status-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}
-.stat-pill{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
-.sp-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.sp-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px;width:fit-content}
+.nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.7)}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.btn-nav{font-size:13px;color:rgba(255,255,255,.6);padding:7px 14px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);transition:.15s;cursor:pointer}
+.btn-nav:hover{background:rgba(255,255,255,.08);color:#fff}
+.layout{display:flex;min-height:calc(100vh - 60px)}
+.sidebar{width:220px;flex-shrink:0;background:var(--dark-c);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sidebar-section{margin-bottom:28px;padding:0 14px}
+.sidebar-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:0 10px;margin-bottom:8px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r-md);font-size:13px;font-weight:500;color:rgba(255,255,255,.55);cursor:pointer;transition:.15s;text-decoration:none}
+.sidebar-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9)}
+.sidebar-item.active{background:rgba(255,255,255,.1);color:#fff}
+.sidebar-item .si-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.sidebar-footer{margin-top:auto;padding:0 14px}
+.sidebar-child{padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-md);font-size:12px;color:rgba(255,255,255,.55)}
+.sidebar-child b{display:block;font-size:13px;color:#fff;margin-bottom:2px}
+.main{flex:1;padding:32px;min-width:0}
+@media(max-width:768px){.sidebar{display:none}.main{padding:20px}}
+.page-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+.page-title{font-family:var(--serif);font-size:36px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.1;margin-bottom:8px}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:54ch}
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+@media(max-width:900px){.status-grid{grid-template-columns:repeat(2,1fr)}}
+.status-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
+.status-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
 .badge-green{background:var(--green-bg);color:var(--green)}
-.badge-amber{background:var(--orange-l);color:var(--orange);border:1px solid var(--orange-m)}
-.badge-grey{background:var(--bg-subtle);color:var(--muted);border:1px solid var(--border)}
-.sp-text{font-size:12px;color:var(--text);font-weight:500;line-height:1.3}
-.lock-icon{font-size:11px;opacity:.5}
-
-/* CARD */
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:14px}
-.card-dark{background:var(--dark-c);border-color:transparent;border-radius:var(--r-xl);padding:20px 22px;margin-bottom:14px}
-.card-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-.card-eyebrow{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.card-title{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--dark);letter-spacing:-.01em}
-.card-title-white{font-family:var(--serif);font-size:20px;font-weight:500;color:#fff;letter-spacing:-.01em}
-
-/* CHILD PROFILE GRID */
-.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.pf-col{display:flex;flex-direction:column;gap:10px}
-.pf-row{display:flex;flex-direction:column;gap:3px}
-.pf-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.pf-val{font-size:14px;color:var(--text);font-weight:500}
-.pf-val.empty{color:var(--light);font-style:italic;font-size:13px}
-.pf-upload{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--orange);font-weight:500;cursor:pointer;padding:5px 0}
-.pf-upload:hover{opacity:.8}
-.profile-note{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);font-style:italic}
-
-/* ASSESSMENT */
-.assess-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.am-item{display:flex;flex-direction:column;gap:3px}
-.am-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.am-val{font-size:14px;color:var(--text);font-weight:500}
-.info-strip{background:var(--dark-c);border-radius:var(--r-lg);padding:16px 18px;margin-top:4px}
-.info-strip p{font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.55}
-.info-strip p em{color:rgba(255,255,255,.95);font-style:normal;font-weight:500}
-
-/* LOCKED */
-.locked-card{background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:14px;opacity:.7}
-.locked-content{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
-.lc-item{display:flex;flex-direction:column;gap:3px}
-.lc-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.lc-val{font-size:14px;color:var(--light);font-style:italic}
-.locked-footer{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);font-style:italic}
-.btn-disabled{display:inline-flex;align-items:center;gap:8px;background:var(--border);color:var(--muted);border-radius:100px;padding:10px 22px;font-size:13px;font-weight:600;cursor:not-allowed;margin-top:14px}
-
-/* BOTTOM NOTE */
-.bottom-note{text-align:center;padding:24px 0;font-size:12px;color:var(--muted)}
-.bottom-note a{color:var(--orange)}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .layout{flex-direction:column}
-  .sidebar{width:100%;height:auto;position:relative;top:0;flex-direction:row;overflow-x:auto}
-  .sb-profile{display:none}
-  .sb-menu{display:flex;padding:6px}
-  .sb-menu a{white-space:nowrap}
-  .sb-status{display:none}
-  .status-strip{grid-template-columns:1fr 1fr}
-  .profile-grid{grid-template-columns:1fr}
-  .locked-content{grid-template-columns:1fr 1fr}
-}
-@media(max-width:560px){
-  .main{padding:18px 16px 40px}
-  .page-h1{font-size:28px}
-  .status-strip{grid-template-columns:1fr}
-}
+.badge-orange{background:var(--orange-m);color:var(--orange-h)}
+.badge-muted{background:var(--bg-subtle);color:var(--muted)}
+.status-text{font-size:13px;color:var(--muted);line-height:1.5}
+.content-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+@media(max-width:900px){.content-grid{grid-template-columns:1fr}}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.card-title{font-size:13px;font-weight:700;color:var(--dark);letter-spacing:-.01em}
+.card-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px}
+.child-name{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--dark);margin-bottom:14px;letter-spacing:-.01em}
+.profile-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.profile-row:last-child{border-bottom:0}
+.profile-key{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.profile-val{color:var(--text);font-weight:500;text-align:right}
+.profile-val.empty{color:var(--light);font-weight:400;font-style:italic}
+.assess-status-strip{background:var(--dark-c);border-radius:var(--r-md);padding:16px 18px;margin-bottom:16px}
+.assess-strip-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:4px 0}
+.assess-strip-row span{color:rgba(255,255,255,.5)}
+.assess-strip-row b{color:#fff;font-weight:600}
+.assess-strip-row b.orange{color:var(--orange)}
+.score-section{display:flex;align-items:center;gap:20px;margin-bottom:16px}
+.mini-ring{position:relative;width:80px;height:80px;flex-shrink:0}
+.mini-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.mini-ring-track{fill:none;stroke:var(--bg-subtle);stroke-width:8}
+.mini-ring-fill{fill:none;stroke-width:8;stroke-linecap:round;stroke-dasharray:220}
+.mini-ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mini-ring-score{font-family:var(--serif);font-size:20px;font-weight:500;line-height:1;color:var(--dark)}
+.mini-ring-denom{font-size:10px;color:var(--muted)}
+.score-details{flex:1}
+.score-level{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.score-sub{font-size:12px;color:var(--muted);line-height:1.5}
+.part-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px}
+.part-name{width:54px;color:var(--muted);font-weight:600;flex-shrink:0}
+.part-bar{flex:1;height:5px;background:var(--bg-subtle);border-radius:100px;overflow:hidden}
+.part-fill{height:100%;border-radius:100px;background:var(--orange)}
+.part-fill.green{background:var(--green)}
+.part-fill.pending{background:var(--light);opacity:.4;width:100%}
+.part-score{width:36px;text-align:right;color:var(--muted);flex-shrink:0}
+.locked-card{background:var(--bg-subtle);border:1px dashed var(--border);border-radius:var(--r-lg);padding:20px;text-align:center}
+.locked-icon{font-size:28px;margin-bottom:8px}
+.locked-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.locked-sub{font-size:12px;color:var(--muted);line-height:1.5}
+.loading{display:flex;align-items:center;justify-content:center;min-height:300px;font-size:14px;color:var(--muted)}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-msg{background:#fde8e8;border:1px solid #f5c6c6;border-radius:var(--r-md);padding:16px;font-size:13px;color:#c0392b;margin-bottom:20px}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <div class="brand">
-      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <a href="index.html" class="brand">
+      <svg class="logo-mark" viewBox="0 0 100 100" fill="none">
         <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" opacity="0.22" transform="rotate(-20 50 50)"/>
         <path d="M57 15 L43 46 L58 42 L40 85" stroke="#EA580C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         <circle cx="40" cy="85" r="3.5" fill="#EA580C" opacity="0.7"/>
@@ -152,210 +119,202 @@ button{font:inherit;cursor:pointer;border:0;background:none}
         <span class="brand-name">Sci<span>Spark</span></span>
         <span class="brand-sub">Year 7–9 Science · Cambridge 0893</span>
       </div>
-    </div>
+    </a>
     <div class="nav-right">
       <div class="nav-user">
-        <div class="avatar">SL</div>
-        <span class="nav-name">Sarah Lim</span>
+        <div class="nav-avatar" id="nav-avatar">?</div>
+        <span id="nav-name">Loading...</span>
       </div>
-      <a href="#" class="nav-signout">Sign Out</a>
+      <button class="btn-nav" id="btn-signout">Sign Out</button>
     </div>
   </div>
 </nav>
 
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="sb-profile">
-      <div class="sp-av">SL</div>
-      <div class="sp-name">Sarah Lim</div>
-      <div class="sp-role">Parent Account</div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Parent Dashboard</div>
+      <a href="dashboard-parent.html" class="sidebar-item active"><span class="si-icon">📊</span> Overview</a>
+      <a href="dashboard-parent-assessment.html" class="sidebar-item"><span class="si-icon">📋</span> Assessment</a>
+      <a href="#" class="sidebar-item"><span class="si-icon">📈</span> Progress</a>
+      <a href="#" class="sidebar-item"><span class="si-icon">📦</span> Package</a>
     </div>
-    <nav class="sb-menu">
-      <a href="#" class="active"><span class="ic">📊</span> Overview</a>
-      <a href="#"><span class="ic">👤</span> Child Profile</a>
-      <a href="#"><span class="ic">📋</span> Assessment</a>
-      <a href="#"><span class="ic">📦</span> Package</a>
-      <a href="#"><span class="ic">📈</span> Progress</a>
-      <a href="#"><span class="ic">⚙️</span> Settings</a>
-    </nav>
-    <div class="sb-status">
-      <div class="ss-label">Latest Activity</div>
-      <div class="ss-val">Assessment submitted</div>
-      <div class="ss-date">28 April 2026</div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="#" class="sidebar-item"><span class="si-icon">👤</span> Child Profile</a>
+      <a href="#" class="sidebar-item"><span class="si-icon">⚙️</span> Settings</a>
+    </div>
+    <div class="sidebar-footer">
+      <div class="sidebar-child" id="sidebar-child"><b>—</b>Loading...</div>
     </div>
   </aside>
 
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- Page Header -->
-    <div style="margin-bottom:24px">
-      <div class="eyebrow">📊 Parent Dashboard</div>
-      <h1 class="page-h1">Your SciSpark overview.</h1>
-      <p class="page-sub">Track Alex's assessment, review the recommendation, and manage your account.</p>
-    </div>
-
-    <!-- Status Strip -->
-    <div class="status-strip">
-      <div class="stat-pill">
-        <span class="sp-label">Account</span>
-        <span class="sp-badge badge-green">✓ Active</span>
-        <span class="sp-text">Your account is set up and ready.</span>
-      </div>
-      <div class="stat-pill">
-        <span class="sp-label">Assessment</span>
-        <span class="sp-badge badge-amber">⏳ Submitted</span>
-        <span class="sp-text">Under review — 28 Apr 2026</span>
-      </div>
-      <div class="stat-pill">
-        <span class="sp-label">Recommendation</span>
-        <span class="sp-badge badge-grey"><span class="lock-icon">🔒</span> Pending</span>
-        <span class="sp-text">Awaiting review completion</span>
-      </div>
-      <div class="stat-pill">
-        <span class="sp-label">Payment</span>
-        <span class="sp-badge badge-grey"><span class="lock-icon">🔒</span> Not Yet</span>
-        <span class="sp-text">Available after recommendation</span>
-      </div>
-    </div>
-
-    <!-- Child Profile Card -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-eyebrow">CHILD RECORD</div>
-          <div class="card-title">Alex Lim</div>
-        </div>
-        <span class="sp-badge badge-amber">Assessment submitted</span>
-      </div>
-      <div class="profile-grid">
-        <div class="pf-col">
-          <div class="pf-row">
-            <span class="pf-label">Year Group</span>
-            <span class="pf-val">Year 8</span>
-          </div>
-          <div class="pf-row">
-            <span class="pf-label">Assessment Language</span>
-            <span class="pf-val">English</span>
-          </div>
-          <div class="pf-row">
-            <span class="pf-label">Assessment Status</span>
-            <span class="pf-val">Submitted — under review</span>
-          </div>
-        </div>
-        <div class="pf-col">
-          <div class="pf-row">
-            <span class="pf-label">School Textbook</span>
-            <span class="pf-val empty">Not yet uploaded</span>
-            <a href="#" class="pf-upload">＋ Upload textbook →</a>
-          </div>
-          <div class="pf-row">
-            <span class="pf-label">Current Unit (School)</span>
-            <span class="pf-val empty">Not provided</span>
-          </div>
-          <div class="pf-row">
-            <span class="pf-label">Recent School Exam Scores</span>
-            <span class="pf-val empty">Not uploaded</span>
-            <a href="#" class="pf-upload">＋ Upload results →</a>
-          </div>
-        </div>
-      </div>
-      <p class="profile-note">Student login activates after package is confirmed and set up. These school profile fields help personalise your child's learning path.</p>
-    </div>
-
-    <!-- Assessment Status Card -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-eyebrow">ASSESSMENT</div>
-          <div class="card-title">Assessment status</div>
-        </div>
-        <span class="sp-badge badge-amber">⏳ Under review</span>
-      </div>
-      <div class="assess-meta">
-        <div class="am-item">
-          <span class="am-label">Submitted</span>
-          <span class="am-val">28 April 2026</span>
-        </div>
-        <div class="am-item">
-          <span class="am-label">Language</span>
-          <span class="am-val">English</span>
-        </div>
-        <div class="am-item">
-          <span class="am-label">Review status</span>
-          <span class="am-val" style="color:var(--orange);font-style:italic">Human review in progress</span>
-        </div>
-        <div class="am-item">
-          <span class="am-label">Estimated time</span>
-          <span class="am-val">1–2 business days</span>
-        </div>
-      </div>
-      <div class="info-strip">
-        <p>Your child's assessment is being reviewed by a <em>SciSpark tutor</em>. You'll be notified once the recommendation is ready. No action needed from you right now.</p>
-      </div>
-    </div>
-
-    <!-- Recommendation Block — LOCKED -->
-    <div class="locked-card">
-      <div class="card-header">
-        <div>
-          <div class="card-eyebrow">RECOMMENDATION</div>
-          <div class="card-title" style="color:var(--muted)">🔒 Learning path recommendation</div>
-        </div>
-        <span class="sp-badge badge-grey">Awaiting review</span>
-      </div>
-      <div class="locked-content">
-        <div class="lc-item">
-          <span class="lc-label">Assigned Level</span>
-          <span class="lc-val">——</span>
-        </div>
-        <div class="lc-item">
-          <span class="lc-label">Learning Path</span>
-          <span class="lc-val">——</span>
-        </div>
-        <div class="lc-item">
-          <span class="lc-label">Language Mode</span>
-          <span class="lc-val">——</span>
-        </div>
-      </div>
-      <div class="locked-footer">Awaiting review completion. The recommendation will appear here once your child's assessment has been reviewed by a tutor.</div>
-    </div>
-
-    <!-- Package & Payment — LOCKED -->
-    <div class="locked-card">
-      <div class="card-header">
-        <div>
-          <div class="card-eyebrow">PACKAGE &amp; PAYMENT</div>
-          <div class="card-title" style="color:var(--muted)">🔒 Package confirmation</div>
-        </div>
-        <span class="sp-badge badge-grey">Not yet available</span>
-      </div>
-      <div class="locked-content">
-        <div class="lc-item">
-          <span class="lc-label">Package</span>
-          <span class="lc-val">——</span>
-        </div>
-        <div class="lc-item">
-          <span class="lc-label">Price</span>
-          <span class="lc-val">——</span>
-        </div>
-        <div class="lc-item">
-          <span class="lc-label">Activation</span>
-          <span class="lc-val">——</span>
-        </div>
-      </div>
-      <div class="locked-footer">Available once your child's recommendation has been confirmed by a tutor.</div>
-      <button class="btn-disabled">Confirm &amp; Pay →</button>
-    </div>
-
-    <div class="bottom-note">
-      Questions? Contact us via <a href="#">WhatsApp</a> · <a href="mailto:info@scisparklab.com">info@scisparklab.com</a>
-    </div>
-
+  <main class="main" id="main-content">
+    <div class="loading"><div class="spinner"></div>Loading your dashboard...</div>
   </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient(
+  'https://fiffuaoibxeggwxcfvfh.supabase.co',
+  'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ'
+);
+
+document.getElementById('btn-signout').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  window.location.href = 'signin.html';
+});
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'signin.html'; return; }
+  try {
+    const uid = session.user.id;
+    const [{ data: profile }, { data: children }] = await Promise.all([
+      sb.from('profiles').select('*').eq('id', uid).single(),
+      sb.from('children').select('*').eq('parent_id', uid)
+    ]);
+    const name = profile?.full_name || session.user.email;
+    const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('nav-name').textContent = name;
+    document.getElementById('nav-avatar').textContent = initials;
+
+    const child = children?.[0] || null;
+    const sc = document.getElementById('sidebar-child');
+    if (child) sc.innerHTML = `<b>${child.full_name}</b>${child.year_group} · Assessment submitted`;
+
+    let assessment = null, pkg = null;
+    if (child) {
+      const [{ data: asArr }, { data: pkArr }] = await Promise.all([
+        sb.from('assessments').select('*').eq('child_id', child.id).order('created_at',{ascending:false}).limit(1),
+        sb.from('packages').select('*').eq('child_id', child.id).limit(1)
+      ]);
+      assessment = asArr?.[0] || null;
+      pkg = pkArr?.[0] || null;
+    }
+    render(name, child, assessment, pkg);
+  } catch(e) {
+    document.getElementById('main-content').innerHTML = `<div class="error-msg">Error: ${e.message}</div>`;
+  }
+}
+
+function fmt(dt) {
+  return dt ? new Date(dt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+}
+
+function partFill(score, max, pending) {
+  if (pending || score == null) return `<div class="part-fill pending"></div>`;
+  const w = Math.round(score/max*100);
+  return `<div class="part-fill ${w>=75?'green':''}" style="width:${w}%"></div>`;
+}
+
+function render(name, child, a, pkg) {
+  const childName = child?.full_name || '—';
+  const aStatus = a?.status || 'not_submitted';
+  const aLabel = {under_review:'Under review',pending_part_d:'Under review',reviewed:'Reviewed',not_submitted:'Not submitted'}[aStatus]||'Pending';
+  const total = a?.total_score ?? '—';
+  const maxS = a?.max_score ?? 60;
+  const pct = total !== '—' ? total/maxS : 0;
+  const offset = 220*(1-pct);
+  const pkgStatus = pkg?.status || 'not_yet';
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="page-eyebrow">Parent Dashboard</div>
+    <h1 class="page-title">Your SciSpark overview.</h1>
+    <p class="page-sub">Track ${childName}'s assessment, review the recommendation, and manage your account.</p>
+
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="status-label">Account</div>
+        <div class="status-badge badge-green">✓ Active</div>
+        <div class="status-text">Your account is set up and ready.</div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Assessment</div>
+        <div class="status-badge badge-orange">⏳ ${aLabel}</div>
+        <div class="status-text">${a ? `Under review — ${fmt(a.submitted_at)}` : 'Not yet submitted'}</div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Recommendation</div>
+        <div class="status-badge badge-muted">⏸ Pending</div>
+        <div class="status-text">Awaiting review completion</div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Payment</div>
+        <div class="status-badge badge-muted">— ${pkgStatus==='active'?'Active':'Not yet'}</div>
+        <div class="status-text">${pkgStatus==='active'?'Package active':'Available after recommendation'}</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📋 Child Record</span>
+            <span class="card-tag badge-orange">Assessment Submitted</span>
+          </div>
+          <div class="child-name">${childName}</div>
+          <div class="profile-row"><span class="profile-key">Year Group</span><span class="profile-val">${child?.year_group||'—'}</span></div>
+          <div class="profile-row"><span class="profile-key">Assessment Language</span><span class="profile-val">${child?.assessment_language||'English'}</span></div>
+          <div class="profile-row"><span class="profile-key">Assessment Status</span><span class="profile-val">Submitted — under review</span></div>
+          <div style="height:12px"></div>
+          <div class="profile-row"><span class="profile-key">School Textbook</span><span class="profile-val ${child?.school_textbook?'':'empty'}">${child?.school_textbook||'Not yet uploaded'}</span></div>
+          <div class="profile-row"><span class="profile-key">Current Unit (School)</span><span class="profile-val ${child?.current_unit?'':'empty'}">${child?.current_unit||'Not provided'}</span></div>
+          <div class="profile-row"><span class="profile-key">Recent Exam Scores</span><span class="profile-val ${child?.recent_exam_scores?'':'empty'}">${child?.recent_exam_scores||'Not uploaded'}</span></div>
+          <div style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic">Student login activates after package is confirmed and set up.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">💡 Recommendation</span><span class="card-tag badge-muted">Pending</span></div>
+          <div class="locked-card"><div class="locked-icon">🔒</div><div class="locked-title">Awaiting teacher review</div><div class="locked-sub">Your personalised recommendation will appear here once the assessment review is complete.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📊 Assessment Results</span>
+            <a href="dashboard-parent-assessment.html" style="font-size:12px;color:var(--orange);font-weight:500">View full →</a>
+          </div>
+          ${a ? `
+          <div class="assess-status-strip">
+            <div class="assess-strip-row"><span>Assessment</span><b>${a.assessment_name||'Year 7 Entry Assessment'}</b></div>
+            <div class="assess-strip-row"><span>Submitted</span><b>${fmt(a.submitted_at)}</b></div>
+            <div class="assess-strip-row"><span>Status</span><b class="orange">${aLabel}</b></div>
+          </div>
+          <div class="score-section">
+            <div class="mini-ring">
+              <svg viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="35" class="mini-ring-track"/>
+                <circle cx="40" cy="40" r="35" class="mini-ring-fill" style="stroke:var(--orange);stroke-dashoffset:${offset}"/>
+              </svg>
+              <div class="mini-ring-text">
+                <span class="mini-ring-score">${total}</span>
+                <span class="mini-ring-denom">/ ${maxS}</span>
+              </div>
+            </div>
+            <div class="score-details">
+              <div class="score-level">${a.level ? `Level ${a.level} — ${a.level_label||''}` : 'Level pending'}</div>
+              <div class="score-sub">Parts A–C confirmed<br>Part D under review</div>
+            </div>
+          </div>
+          <div>
+            <div class="part-row"><span class="part-name">Part A</span><div class="part-bar">${partFill(a.part_a_score,a.part_a_max||5,false)}</div><span class="part-score">${a.part_a_score??'—'}/${a.part_a_max||5}</span></div>
+            <div class="part-row"><span class="part-name">Part B</span><div class="part-bar">${partFill(a.part_b_score,a.part_b_max||15,false)}</div><span class="part-score">${a.part_b_score??'—'}/${a.part_b_max||15}</span></div>
+            <div class="part-row"><span class="part-name">Part C</span><div class="part-bar">${partFill(a.part_c_score,a.part_c_max||15,false)}</div><span class="part-score">${a.part_c_score??'—'}/${a.part_c_max||15}</span></div>
+            <div class="part-row"><span class="part-name" style="color:var(--orange)">Part D</span><div class="part-bar">${partFill(null,25,aStatus==='pending_part_d')}</div><span class="part-score" style="color:var(--orange)">⏳</span></div>
+          </div>
+          ` : `<div class="locked-card"><div class="locked-icon">📝</div><div class="locked-title">No assessment yet</div><div class="locked-sub">Results will appear here once submitted.</div></div>`}
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">📦 Package</span><span class="card-tag badge-muted">Not Yet</span></div>
+          <div class="locked-card"><div class="locked-icon">🔒</div><div class="locked-title">Available after recommendation</div><div class="locked-sub">Select and activate your learning package once the review is complete.</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+init();
+</script>
 </body>
 </html>
