@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SciSpark — Assessment Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f5efe5;--bg-card:#fff;--bg-subtle:#f0e9df;
+  --orange:#e8521a;--orange-h:#d44717;--orange-l:#fdf2ed;--orange-m:#f9d9cc;
+  --dark:#1a1917;--dark-c:#201e1b;
+  --text:#2d2926;--muted:#9a8e84;--light:#c5bbb4;--border:#e2d9ce;
+  --green:#2E7D5B;--green-bg:#d9eed9;
+  --blue:#1a4fa0;--blue-bg:#dce9ff;
+  --amber:#a05c1a;--amber-bg:#fff3e0;
+  --serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+  --r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none}
+
+/* NAV */
+.nav{background:var(--dark);height:60px;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(0,0,0,.3)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:32px;height:32px;flex-shrink:0}
+.brand-text{display:flex;flex-direction:column;line-height:1.15}
+.brand-name{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.brand-name span{color:var(--orange)}
+.brand-sub{font-size:9px;color:var(--light);letter-spacing:.07em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.7)}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.btn-nav{font-size:13px;color:rgba(255,255,255,.6);padding:7px 14px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);transition:.15s}
+.btn-nav:hover{background:rgba(255,255,255,.08);color:#fff}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 60px)}
+.sidebar{width:220px;flex-shrink:0;background:var(--dark-c);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sidebar-section{margin-bottom:28px;padding:0 14px}
+.sidebar-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:0 10px;margin-bottom:8px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r-md);font-size:13px;font-weight:500;color:rgba(255,255,255,.55);cursor:pointer;transition:.15s;text-decoration:none}
+.sidebar-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9)}
+.sidebar-item.active{background:rgba(255,255,255,.1);color:#fff}
+.sidebar-item .si-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.sidebar-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:100px}
+.sidebar-student{margin:0 14px 0;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-md);font-size:12px;color:rgba(255,255,255,.55)}
+.sidebar-student b{display:block;font-size:13px;color:#fff;margin-bottom:2px}
+.sidebar-footer{margin-top:auto;padding:0 14px}
+
+/* MAIN */
+.main{flex:1;padding:32px;max-width:900px;min-width:0}
+@media(max-width:768px){.sidebar{display:none}.main{padding:20px}}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:28px}
+.breadcrumb{font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.breadcrumb a{color:var(--muted)}
+.breadcrumb a:hover{color:var(--text)}
+.breadcrumb-sep{color:var(--light)}
+.page-title{font-family:var(--serif);font-size:32px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.1}
+.page-meta{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;font-size:13px;color:var(--muted)}
+.page-meta-item{display:flex;align-items:center;gap:5px}
+.meta-dot{width:5px;height:5px;border-radius:50%;background:var(--light);flex-shrink:0}
+
+/* ALERT STRIP */
+.alert{border-radius:var(--r-lg);padding:16px 20px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px;font-size:13.5px;line-height:1.55}
+.alert-orange{background:var(--orange-m);border:1px solid rgba(232,82,26,.25)}
+.alert-icon{font-size:18px;flex-shrink:0;line-height:1.2}
+.alert b{font-weight:600;color:var(--dark)}
+.alert p{color:var(--text)}
+
+/* UNDER REVIEW */
+.under-review{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:48px 32px;text-align:center;margin-bottom:24px}
+.ur-icon{font-size:40px;margin-bottom:16px}
+.ur-title{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--dark);margin-bottom:8px}
+.ur-text{font-size:14px;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.6}
+.ur-badge{display:inline-flex;align-items:center;gap:6px;background:var(--amber-bg);border:1px solid rgba(160,92,26,.2);color:var(--amber);font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;margin-top:14px;letter-spacing:.03em}
+
+/* RESULTS HEADER CARD */
+.results-header{background:var(--dark);border-radius:var(--r-xl);padding:28px;margin-bottom:20px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+@media(max-width:600px){.results-header{grid-template-columns:1fr;gap:20px}}
+.score-ring{position:relative;width:130px;height:130px;flex-shrink:0}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:rgba(255,255,255,.1);stroke-width:10}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;stroke-dasharray:346;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.ring-fill.l3{stroke:#2E7D5B}
+.ring-fill.l2{stroke:var(--orange)}
+.ring-fill.l1{stroke:#c0392b}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.ring-score{font-family:var(--serif);font-size:30px;font-weight:500;color:#fff;line-height:1}
+.ring-denom{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.04em}
+.results-info{min-width:0}
+.results-name{font-family:var(--serif);font-size:26px;font-weight:500;color:#fff;letter-spacing:-.01em;line-height:1.1;margin-bottom:10px}
+.level-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.level-chip.l3{background:rgba(46,125,91,.25);color:#5ecda0;border:1px solid rgba(46,125,91,.4)}
+.level-chip.l2{background:rgba(232,82,26,.2);color:#ff8c5a;border:1px solid rgba(232,82,26,.35)}
+.level-chip.l1{background:rgba(192,57,43,.2);color:#f28b7d;border:1px solid rgba(192,57,43,.35)}
+.level-chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.results-stats{display:flex;flex-wrap:wrap;gap:18px 32px}
+.results-stat{display:flex;flex-direction:column;gap:2px}
+.results-stat span{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em}
+.results-stat b{font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}
+.results-desc{margin-top:14px;font-size:13px;color:rgba(255,255,255,.55);line-height:1.55;border-top:1px solid rgba(255,255,255,.08);padding-top:14px}
+
+/* PARTS */
+.section-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.parts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+@media(max-width:560px){.parts-grid{grid-template-columns:1fr}}
+.part-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px}
+.part-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.part-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.part-name{font-size:15px;font-weight:600;color:var(--dark);margin-top:3px;letter-spacing:-.01em}
+.part-score{text-align:right;flex-shrink:0}
+.part-score .num{font-family:var(--serif);font-size:28px;font-weight:500;line-height:1;color:var(--dark)}
+.part-score .den{font-size:12px;color:var(--muted)}
+.part-score .pct{font-size:11px;font-weight:700;padding:2px 7px;border-radius:100px;margin-top:4px;display:inline-block}
+.pct-high{background:var(--green-bg);color:var(--green)}
+.pct-mid{background:var(--orange-m);color:var(--orange-h)}
+.pct-low{background:#fde8e8;color:#c0392b}
+.progress-bar{height:6px;background:var(--bg-subtle);border-radius:100px;overflow:hidden;margin-top:4px}
+.progress-fill{height:100%;border-radius:100px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.fill-high{background:var(--green)}
+.fill-mid{background:var(--orange)}
+.fill-low{background:#c0392b}
+.part-topics{margin-top:12px;display:flex;flex-wrap:wrap;gap:5px}
+.topic-tag{font-size:11px;color:var(--muted);background:var(--bg-subtle);border:1px solid var(--border);padding:3px 8px;border-radius:100px}
+
+/* DETAIL TABLE */
+.detail-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:24px}
+.detail-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.detail-header h3{font-size:14px;font-weight:600;color:var(--dark)}
+.detail-row{display:grid;grid-template-columns:36px 1fr 80px 80px;gap:12px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--border);font-size:13.5px}
+.detail-row:last-child{border-bottom:0}
+.detail-row.head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--bg-subtle);padding:10px 22px}
+.qnum{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--muted)}
+.qtext{color:var(--text);line-height:1.45}
+.qmarks{text-align:right;font-weight:600}
+.qstatus{text-align:right}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%}
+.dot-full{background:var(--green)}
+.dot-partial{background:var(--orange)}
+.dot-zero{background:#c0392b}
+
+/* INFO NOTE */
+.info-note{background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:24px;font-size:13px;color:var(--muted);line-height:1.6}
+.info-note b{color:var(--text)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" opacity="0.22" transform="rotate(-20 50 50)"/>
+        <path d="M57 15 L43 46 L58 42 L40 85" stroke="#EA580C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="40" cy="85" r="3.5" fill="#EA580C" opacity="0.7"/>
+        <circle cx="57" cy="15" r="2.5" fill="#EA580C" opacity="0.5"/>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-name">Sci<span>Spark</span></span>
+        <span class="brand-sub">Year 7–9 Science · Cambridge 0893</span>
+      </div>
+    </a>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="nav-avatar">JL</div>
+        <span>Jane Lim</span>
+      </div>
+      <button class="btn-nav">Sign out</button>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Parent Dashboard</div>
+      <a href="dashboard-parent.html" class="sidebar-item">
+        <span class="si-icon">📊</span> Overview
+      </a>
+      <a href="dashboard-parent-assessment.html" class="sidebar-item active">
+        <span class="si-icon">📋</span> Assessment
+      </a>
+      <a href="#" class="sidebar-item">
+        <span class="si-icon">📈</span> Progress
+      </a>
+      <a href="#" class="sidebar-item">
+        <span class="si-icon">📬</span> Reports
+        <span class="sidebar-badge">1</span>
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="#" class="sidebar-item">
+        <span class="si-icon">👤</span> Child Profile
+      </a>
+      <a href="#" class="sidebar-item">
+        <span class="si-icon">📦</span> Package
+      </a>
+      <a href="#" class="sidebar-item">
+        <span class="si-icon">⚙️</span> Settings
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-student">
+        <b>Alex Lim</b>
+        Year 7 · Assessment submitted
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="dashboard-parent.html">Dashboard</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Assessment Results</span>
+      </div>
+      <h1 class="page-title">Assessment Results</h1>
+      <div class="page-meta">
+        <div class="page-meta-item"><span class="meta-dot"></span>Alex Lim</div>
+        <div class="page-meta-item"><span class="meta-dot"></span>Year 7 Entry Assessment</div>
+        <div class="page-meta-item"><span class="meta-dot"></span>Submitted 29 Apr 2026</div>
+      </div>
+    </div>
+
+    <!-- STATE A: UNDER REVIEW — toggle display:none to show/hide -->
+    <div id="state-under-review" style="display:none">
+      <div class="under-review">
+        <div class="ur-icon">🔍</div>
+        <div class="ur-title">Assessment under review</div>
+        <div class="ur-text">Your child's assessment has been submitted and is currently being reviewed by a SciSpark teacher. Results are usually ready within 1–2 business days.</div>
+        <div class="ur-badge"><span>⏳</span> Review in progress</div>
+      </div>
+      <div class="info-note">
+        <b>What happens next?</b> Once the review is complete, you'll see the full results here — including the placement level, part scores, and a personalised learning recommendation.
+      </div>
+    </div>
+
+    <!-- STATE B: PENDING TEACHER REVIEW ALERT -->
+    <div id="state-pending-alert">
+      <div class="alert alert-orange">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <b>Teacher review in progress</b>
+          <p>Part D (Extended response) is currently being reviewed by a SciSpark teacher. Scores for Parts A–C are available now. The final Level recommendation will be confirmed once Part D review is complete.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS HEADER CARD -->
+    <div class="results-header">
+      <!-- Score ring: stroke-dashoffset = 346 * (1 - score/60) -->
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="55" class="ring-track"/>
+          <circle cx="60" cy="60" r="55" class="ring-fill l2" id="ring-fill"
+            style="stroke-dashoffset: calc(346 * (1 - 38/60))"/>
+        </svg>
+        <div class="ring-label">
+          <span class="ring-score" id="ring-score">38</span>
+          <span class="ring-denom">/ 60</span>
+        </div>
+      </div>
+
+      <div class="results-info">
+        <div class="results-name">Alex Lim — Year 7</div>
+        <div class="level-chip l2 mb-2" id="level-chip">
+          <span class="dot"></span> Level 2 — Guided
+        </div>
+        <div class="results-stats">
+          <div class="results-stat">
+            <span>Assessment</span>
+            <b>Year 7 Entry</b>
+          </div>
+          <div class="results-stat">
+            <span>Submitted</span>
+            <b>29 Apr 2026</b>
+          </div>
+          <div class="results-stat">
+            <span>Reviewed by</span>
+            <b>Teacher (pending)</b>
+          </div>
+          <div class="results-stat">
+            <span>Language</span>
+            <b>English</b>
+          </div>
+        </div>
+        <div class="results-desc">
+          Alex shows solid reasoning on forces and motion, and is developing well in biology. Chemical change was flagged as a gap. Recommended for Guided (Level 2) learning path with bilingual support.
+        </div>
+      </div>
+    </div>
+
+    <!-- PART SCORES -->
+    <div class="section-title">Part scores</div>
+    <div class="parts-grid">
+
+      <!-- Part A -->
+      <div class="part-card">
+        <div class="part-header">
+          <div>
+            <div class="part-label">Part A</div>
+            <div class="part-name">Multiple choice</div>
+          </div>
+          <div class="part-score">
+            <div class="num">4</div>
+            <div class="den">/ 5</div>
+            <div class="pct pct-high">80%</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill fill-high" style="width:80%"></div>
+        </div>
+        <div class="part-topics">
+          <span class="topic-tag">Forces</span>
+          <span class="topic-tag">Energy</span>
+          <span class="topic-tag">Cells</span>
+        </div>
+      </div>
+
+      <!-- Part B -->
+      <div class="part-card">
+        <div class="part-header">
+          <div>
+            <div class="part-label">Part B</div>
+            <div class="part-name">Short answer</div>
+          </div>
+          <div class="part-score">
+            <div class="num">11</div>
+            <div class="den">/ 15</div>
+            <div class="pct pct-mid">73%</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill fill-mid" style="width:73%"></div>
+        </div>
+        <div class="part-topics">
+          <span class="topic-tag">Motion</span>
+          <span class="topic-tag">Biology</span>
+          <span class="topic-tag">Chemistry</span>
+        </div>
+      </div>
+
+      <!-- Part C -->
+      <div class="part-card">
+        <div class="part-header">
+          <div>
+            <div class="part-label">Part C</div>
+            <div class="part-name">Structured questions</div>
+          </div>
+          <div class="part-score">
+            <div class="num">10</div>
+            <div class="den">/ 15</div>
+            <div class="pct pct-mid">67%</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill fill-mid" style="width:67%"></div>
+        </div>
+        <div class="part-topics">
+          <span class="topic-tag">Forces</span>
+          <span class="topic-tag">Chemical change</span>
+        </div>
+      </div>
+
+      <!-- Part D -->
+      <div class="part-card" style="border-color:rgba(232,82,26,.3);background:var(--orange-l)">
+        <div class="part-header">
+          <div>
+            <div class="part-label" style="color:var(--orange)">Part D · Under review</div>
+            <div class="part-name">Extended response</div>
+          </div>
+          <div class="part-score">
+            <div class="num" style="color:var(--muted)">13</div>
+            <div class="den">/ 25</div>
+            <div class="pct pct-mid">52%</div>
+          </div>
+        </div>
+        <div class="progress-bar" style="background:var(--orange-m)">
+          <div class="progress-fill fill-mid" style="width:52%"></div>
+        </div>
+        <div class="part-topics">
+          <span class="topic-tag" style="background:var(--orange-m);border-color:rgba(232,82,26,.2);color:var(--orange-h)">⏳ Teacher reviewing</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LEVEL EXPLANATION -->
+    <div class="info-note">
+      <b>About Level 2 — Guided:</b> Alex demonstrates solid understanding of core concepts but needs structured support on scientific explanation and extended writing. The Guided path provides step-by-step scaffolding and targeted practice before introducing more challenging material.
+      The final level placement will be confirmed once Part D review is complete.
+    </div>
+
+    <!-- QUESTION BREAKDOWN -->
+    <div class="section-title">Question breakdown — Parts A–C</div>
+    <div class="detail-card">
+      <div class="detail-header">
+        <h3>Individual question scores</h3>
+        <span style="font-size:12px;color:var(--muted)">Parts A–C confirmed · Part D pending</span>
+      </div>
+      <div class="detail-row head">
+        <div>#</div>
+        <div>Question topic</div>
+        <div style="text-align:right">Marks</div>
+        <div style="text-align:right">Status</div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">1</div>
+        <div class="qtext">Forces and Newton's first law</div>
+        <div class="qmarks">1 / 1</div>
+        <div class="qstatus"><span class="status-dot dot-full"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">2</div>
+        <div class="qtext">Energy types — kinetic vs potential</div>
+        <div class="qmarks">1 / 1</div>
+        <div class="qstatus"><span class="status-dot dot-full"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">3</div>
+        <div class="qtext">Cell structure — plant cell label</div>
+        <div class="qmarks">1 / 1</div>
+        <div class="qstatus"><span class="status-dot dot-full"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">4</div>
+        <div class="qtext">Chemical change — reactants and products</div>
+        <div class="qmarks">0 / 1</div>
+        <div class="qstatus"><span class="status-dot dot-zero"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">5</div>
+        <div class="qtext">Motion — speed, distance, time relationship</div>
+        <div class="qmarks">1 / 1</div>
+        <div class="qstatus"><span class="status-dot dot-full"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">6</div>
+        <div class="qtext">Short answer — Newton's third law explanation</div>
+        <div class="qmarks">3 / 4</div>
+        <div class="qstatus"><span class="status-dot dot-partial"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">7</div>
+        <div class="qtext">Short answer — Photosynthesis inputs and outputs</div>
+        <div class="qmarks">4 / 4</div>
+        <div class="qstatus"><span class="status-dot dot-full"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">8</div>
+        <div class="qtext">Short answer — Chemical vs physical change</div>
+        <div class="qmarks">2 / 4</div>
+        <div class="qstatus"><span class="status-dot dot-partial"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">9</div>
+        <div class="qtext">Structured — Force diagram interpretation</div>
+        <div class="qmarks">5 / 5</div>
+        <div class="qstatus"><span class="status-dot dot-full"></span></div>
+      </div>
+      <div class="detail-row">
+        <div class="qnum">10</div>
+        <div class="qtext">Structured — Chemical equation balancing</div>
+        <div class="qmarks">3 / 5</div>
+        <div class="qstatus"><span class="status-dot dot-partial"></span></div>
+      </div>
+      <div class="detail-row" style="background:var(--orange-l)">
+        <div class="qnum" style="color:var(--orange)">11</div>
+        <div class="qtext" style="color:var(--muted)">Extended response — Scientific explanation (Part D) <span style="font-size:11px;color:var(--orange);font-weight:600">⏳ Reviewing</span></div>
+        <div class="qmarks" style="color:var(--muted)">— / 25</div>
+        <div class="qstatus">—</div>
+      </div>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div class="info-note">
+      <b>What happens next?</b> Once Part D review is complete, SciSpark will send you the final Level recommendation and your suggested learning package. You'll be notified by email at <span style="color:var(--text)">parent@example.com</span>.
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Toggle states for demo — in production these would be driven by Supabase data
+// To show "under review" state: set state-under-review to display:'', hide results
+// To show "pending Part D review": show state-pending-alert (default)
+// To show fully reviewed: hide both alerts, update all Part D scores
+
+// Ring animation on load
+document.addEventListener('DOMContentLoaded', () => {
+  const fill = document.getElementById('ring-fill');
+  if (fill) {
+    // Animate ring
+    const score = 38, max = 60;
+    const circumference = 2 * Math.PI * 55;
+    const offset = circumference * (1 - score / max);
+    fill.style.strokeDasharray = circumference;
+    fill.style.strokeDashoffset = circumference; // start empty
+    setTimeout(() => { fill.style.strokeDashoffset = offset; }, 100);
+  }
+});
+</script>
+</body>
+</html>
