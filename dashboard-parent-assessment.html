@@ -520,13 +520,18 @@ function getLevelLabel(score, label) {
   return 'Level 1 — Foundation'
 }
 
-// 5-band classification per Learning Master Blueprint — internal use only, NOT shown to parents
+// 4-band classification per Learning Master Blueprint v2 — internal use only, NOT shown to parents
 function computeScoreBand(score) {
-  if (score <= 17) return { band: 'L1',    label: 'Preliminary Level 1',  borderline: false }
-  if (score <= 25) return { band: 'BL1L2', label: 'Borderline L1/L2',     borderline: true  }
-  if (score <= 36) return { band: 'L2',    label: 'Preliminary Level 2',  borderline: false }
-  if (score <= 47) return { band: 'BL2L3', label: 'Borderline L2/L3',     borderline: true  }
-  return             { band: 'L3',    label: 'Preliminary Level 3',  borderline: false }
+  if (score <= 20) {
+    return { band: 'L1',   label: 'Preliminary Level 1',                      ai_can_suggest: true,  hold: false }
+  }
+  if (score <= 29) {
+    return { band: 'HOLD', label: 'AI cannot classify — teacher decision required', ai_can_suggest: false, hold: true  }
+  }
+  if (score <= 45) {
+    return { band: 'L2',   label: 'Preliminary Level 2',                      ai_can_suggest: true,  hold: false }
+  }
+  return   { band: 'L3',   label: 'Preliminary Level 3',                      ai_can_suggest: true,  hold: false }
 }
 
 function getPctClass(pct) {
