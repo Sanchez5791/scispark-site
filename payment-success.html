@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — Payment Successful</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f5efe5; --orange:#e8521a; --dark:#1a1917; --text:#2d2926; --muted:#9a8e84; --border:#e2d9ce; --green:#2E7D5B; --green-bg:#d9eed9; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+  nav { background:var(--dark); height:60px; display:flex; align-items:center; padding:0 24px; }
+  .nav-logo { color:#fff; font-family:'EB Garamond',serif; font-size:1.3rem; font-weight:500; text-decoration:none; }
+  .page { max-width:480px; margin:0 auto; padding:60px 20px; text-align:center; }
+  .check { width:72px; height:72px; background:var(--green-bg); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 28px; font-size:2rem; }
+  h1 { font-family:'EB Garamond',serif; font-size:2.2rem; font-weight:500; margin-bottom:12px; }
+  .subtitle { color:var(--muted); font-size:0.95rem; line-height:1.6; margin-bottom:36px; }
+  .card { background:#fff; border:1px solid var(--border); border-radius:20px; padding:24px; margin-bottom:24px; text-align:left; }
+  .info-row { display:flex; justify-content:space-between; font-size:0.9rem; padding:8px 0; border-bottom:1px solid var(--border); }
+  .info-row:last-child { border-bottom:none; }
+  .info-row span:first-child { color:var(--muted); }
+  .info-row span:last-child { font-weight:600; }
+  .btn { display:inline-block; padding:14px 32px; background:var(--orange); color:#fff; border-radius:100px; font-weight:600; text-decoration:none; font-size:0.95rem; }
+  .btn:hover { background:#d44717; }
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-logo">SciSpark</a></nav>
+<div class="page">
+  <div class="check">✓</div>
+  <h1>Payment successful!</h1>
+  <p class="subtitle">Your SciSpark access is now active. Your child can start learning today.</p>
+
+  <div class="card">
+    <div class="info-row"><span>Status</span><span style="color:var(--green)">Active</span></div>
+    <div class="info-row"><span>Plan</span><span id="plan-display">—</span></div>
+    <div class="info-row"><span>Valid until</span><span id="expiry-display">—</span></div>
+  </div>
+
+  <a href="/dashboard-parent.html" class="btn">Go to Dashboard →</a>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  // Show expiry 1 year from now
+  const expiry = new Date();
+  expiry.setFullYear(expiry.getFullYear() + 1);
+  document.getElementById("expiry-display").textContent = expiry.toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" });
+
+  // Get plan from localStorage if available
+  const plan = localStorage.getItem("scispark_pending_plan") || "SciSpark Plan";
+  document.getElementById("plan-display").textContent = plan;
+</script>
+</body>
+</html>

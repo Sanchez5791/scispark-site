@@ -5,18 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>SciSpark — Parent Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#f5efe5;--bg-card:#fff;--bg-subtle:#f0e9df;
-  --orange:#e8521a;--orange-h:#d44717;--orange-l:#fdf2ed;--orange-m:#f9d9cc;
-  --dark:#1a1917;--dark-c:#201e1b;
-  --text:#2d2926;--muted:#9a8e84;--light:#c5bbb4;--border:#e2d9ce;
-  --green:#2E7D5B;--green-bg:#d9eed9;
-  --serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
-  --r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px;
-}
+:root{--bg:#f5efe5;--bg-card:#fff;--bg-subtle:#f0e9df;--orange:#e8521a;--orange-h:#d44717;--orange-l:#fdf2ed;--orange-m:#f9d9cc;--dark:#1a1917;--dark-c:#201e1b;--text:#2d2926;--muted:#9a8e84;--light:#c5bbb4;--border:#e2d9ce;--green:#2E7D5B;--green-bg:#d9eed9;--serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit;text-decoration:none}
@@ -50,6 +41,9 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .page-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
 .page-title{font-family:var(--serif);font-size:36px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.1;margin-bottom:8px}
 .page-sub{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:54ch}
+.pay-banner{background:var(--orange-l);border:1px solid var(--orange-m);border-radius:var(--r-lg);padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.btn-pay-banner{background:var(--orange);color:#fff;padding:12px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap}
+.btn-pay-banner:hover{background:var(--orange-h)}
 .status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 @media(max-width:900px){.status-grid{grid-template-columns:repeat(2,1fr)}}
 .status-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
@@ -71,7 +65,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .profile-key{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .profile-val{color:var(--text);font-weight:500;text-align:right}
 .profile-val.empty{color:var(--light);font-weight:400;font-style:italic}
-.assess-status-strip{background:var(--dark-c);border-radius:var(--r-md);padding:16px 18px;margin-bottom:16px}
+.assess-strip{background:var(--dark-c);border-radius:var(--r-md);padding:16px 18px;margin-bottom:16px}
 .assess-strip-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:4px 0}
 .assess-strip-row span{color:rgba(255,255,255,.5)}
 .assess-strip-row b{color:#fff;font-weight:600}
@@ -98,6 +92,8 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .locked-icon{font-size:28px;margin-bottom:8px}
 .locked-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
 .locked-sub{font-size:12px;color:var(--muted);line-height:1.5}
+.btn-pay-card{display:inline-block;background:var(--orange);color:#fff;padding:12px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;margin-top:16px}
+.btn-pay-card:hover{background:var(--orange-h)}
 .loading{display:flex;align-items:center;justify-content:center;min-height:300px;font-size:14px;color:var(--muted)}
 .spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;margin-right:10px}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -105,7 +101,6 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">
@@ -117,7 +112,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
       </svg>
       <div class="brand-text">
         <span class="brand-name">Sci<span>Spark</span></span>
-        <span class="brand-sub">Year 7–9 Science · Cambridge 0893</span>
+        <span class="brand-sub">Year 7-9 Science · Cambridge 0893</span>
       </div>
     </a>
     <div class="nav-right">
@@ -134,21 +129,20 @@ button{font:inherit;cursor:pointer;border:0;background:none}
   <aside class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Parent Dashboard</div>
-      <a href="dashboard-parent.html" class="sidebar-item active"><span class="si-icon">📊</span> Overview</a>
-      <a href="dashboard-parent-assessment.html" class="sidebar-item"><span class="si-icon">📋</span> Assessment</a>
-      <a href="#" class="sidebar-item"><span class="si-icon">📈</span> Progress</a>
-      <a href="#" class="sidebar-item"><span class="si-icon">📦</span> Package</a>
+      <a href="dashboard-parent.html" class="sidebar-item active"><span class="si-icon">&#127968;</span> Overview</a>
+      <a href="dashboard-parent-assessment.html" class="sidebar-item"><span class="si-icon">&#128203;</span> Assessment</a>
+      <a href="#" class="sidebar-item"><span class="si-icon">&#128200;</span> Progress</a>
+      <a href="payment.html" class="sidebar-item"><span class="si-icon">&#128179;</span> Payment</a>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Account</div>
-      <a href="#" class="sidebar-item"><span class="si-icon">👤</span> Child Profile</a>
-      <a href="#" class="sidebar-item"><span class="si-icon">⚙️</span> Settings</a>
+      <a href="#" class="sidebar-item"><span class="si-icon">&#128100;</span> Child Profile</a>
+      <a href="#" class="sidebar-item"><span class="si-icon">&#9881;</span> Settings</a>
     </div>
     <div class="sidebar-footer">
-      <div class="sidebar-child" id="sidebar-child"><b>—</b>Loading...</div>
+      <div class="sidebar-child" id="sidebar-child"><b>&#8212;</b>Loading...</div>
     </div>
   </aside>
-
   <main class="main" id="main-content">
     <div class="loading"><div class="spinner"></div>Loading your dashboard...</div>
   </main>
@@ -160,12 +154,10 @@ const sb = window.supabase.createClient(
   'https://fiffuaoibxeggwxcfvfh.supabase.co',
   'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ'
 );
-
 document.getElementById('btn-signout').addEventListener('click', async () => {
   await sb.auth.signOut();
   window.location.href = 'signin.html';
 });
-
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.href = 'signin.html'; return; }
@@ -179,11 +171,9 @@ async function init() {
     const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
     document.getElementById('nav-name').textContent = name;
     document.getElementById('nav-avatar').textContent = initials;
-
     const child = children?.[0] || null;
     const sc = document.getElementById('sidebar-child');
-    if (child) sc.innerHTML = `<b>${child.full_name}</b>${child.year_group} · Assessment submitted`;
-
+    if (child) sc.innerHTML = `<b>${child.full_name}</b>${child.year_group} &middot; Assessment submitted`;
     let assessment = null, pkg = null;
     if (child) {
       const [{ data: asArr }, { data: pkArr }] = await Promise.all([
@@ -193,57 +183,65 @@ async function init() {
       assessment = asArr?.[0] || null;
       pkg = pkArr?.[0] || null;
     }
-    render(name, child, assessment, pkg);
+    render(name, child, assessment, pkg, session.user.email);
   } catch(e) {
     document.getElementById('main-content').innerHTML = `<div class="error-msg">Error: ${e.message}</div>`;
   }
 }
-
 function fmt(dt) {
-  return dt ? new Date(dt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+  return dt ? new Date(dt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '&#8212;';
 }
-
 function partFill(score, max, pending) {
   if (pending || score == null) return `<div class="part-fill pending"></div>`;
   const w = Math.round(score/max*100);
   return `<div class="part-fill ${w>=75?'green':''}" style="width:${w}%"></div>`;
 }
-
-function render(name, child, a, pkg) {
-  const childName = child?.full_name || '—';
+function render(name, child, a, pkg, parentEmail) {
+  const childName = child?.full_name || '&#8212;';
   const aStatus = a?.status || 'not_submitted';
   const aLabel = {under_review:'Under review',pending_part_d:'Under review',reviewed:'Reviewed',not_submitted:'Not submitted'}[aStatus]||'Pending';
-  const total = a?.total_score ?? '—';
+  const total = a?.total_score ?? '&#8212;';
   const maxS = a?.max_score ?? 60;
-  const pct = total !== '—' ? total/maxS : 0;
+  const pct = a?.total_score != null ? a.total_score/maxS : 0;
   const offset = 220*(1-pct);
   const pkgStatus = pkg?.status || 'not_yet';
+  const pkgName = pkg?.package_name || 'Core';
+  const showPayBanner = pkgStatus !== 'active' && child;
 
   document.getElementById('main-content').innerHTML = `
     <div class="page-eyebrow">Parent Dashboard</div>
     <h1 class="page-title">Your SciSpark overview.</h1>
     <p class="page-sub">Track ${childName}'s assessment, review the recommendation, and manage your account.</p>
 
+    ${showPayBanner ? `
+    <div class="pay-banner">
+      <div>
+        <div style="font-weight:700;color:var(--dark);margin-bottom:4px">Ready to activate ${childName}'s learning plan</div>
+        <div style="font-size:13px;color:var(--orange-h)">Complete payment to unlock access &middot; ${pkgName} plan</div>
+      </div>
+      <a href="payment.html?plan=${encodeURIComponent(pkgName)}" class="btn-pay-banner">Pay Now &#8594;</a>
+    </div>` : ''}
+
     <div class="status-grid">
       <div class="status-card">
         <div class="status-label">Account</div>
-        <div class="status-badge badge-green">✓ Active</div>
+        <div class="status-badge badge-green">&#10003; Active</div>
         <div class="status-text">Your account is set up and ready.</div>
       </div>
       <div class="status-card">
         <div class="status-label">Assessment</div>
-        <div class="status-badge badge-orange">⏳ ${aLabel}</div>
-        <div class="status-text">${a ? `Under review — ${fmt(a.submitted_at)}` : 'Not yet submitted'}</div>
+        <div class="status-badge badge-orange">&#9203; ${aLabel}</div>
+        <div class="status-text">${a ? `Under review &middot; ${fmt(a.submitted_at)}` : 'Not yet submitted'}</div>
       </div>
       <div class="status-card">
         <div class="status-label">Recommendation</div>
-        <div class="status-badge badge-muted">⏸ Pending</div>
+        <div class="status-badge badge-muted">&#9208; Pending</div>
         <div class="status-text">Awaiting review completion</div>
       </div>
       <div class="status-card">
         <div class="status-label">Payment</div>
-        <div class="status-badge badge-muted">— ${pkgStatus==='active'?'Active':'Not yet'}</div>
-        <div class="status-text">${pkgStatus==='active'?'Package active':'Available after recommendation'}</div>
+        <div class="status-badge ${pkgStatus==='active'?'badge-green':'badge-orange'}">${pkgStatus==='active'?'&#9989; Active':'&#9203; Pay Now'}</div>
+        <div class="status-text">${pkgStatus==='active'?'Package active &middot; unlocked':'Tap Pay Now to activate access'}</div>
       </div>
     </div>
 
@@ -251,33 +249,33 @@ function render(name, child, a, pkg) {
       <div>
         <div class="card">
           <div class="card-header">
-            <span class="card-title">📋 Child Record</span>
+            <span class="card-title">&#128203; Child Record</span>
             <span class="card-tag badge-orange">Assessment Submitted</span>
           </div>
           <div class="child-name">${childName}</div>
-          <div class="profile-row"><span class="profile-key">Year Group</span><span class="profile-val">${child?.year_group||'—'}</span></div>
+          <div class="profile-row"><span class="profile-key">Year Group</span><span class="profile-val">${child?.year_group||'&#8212;'}</span></div>
           <div class="profile-row"><span class="profile-key">Assessment Language</span><span class="profile-val">${child?.assessment_language||'English'}</span></div>
-          <div class="profile-row"><span class="profile-key">Assessment Status</span><span class="profile-val">Submitted — under review</span></div>
+          <div class="profile-row"><span class="profile-key">Assessment Status</span><span class="profile-val">Submitted &middot; under review</span></div>
           <div style="height:12px"></div>
           <div class="profile-row"><span class="profile-key">School Textbook</span><span class="profile-val ${child?.school_textbook?'':'empty'}">${child?.school_textbook||'Not yet uploaded'}</span></div>
-          <div class="profile-row"><span class="profile-key">Current Unit (School)</span><span class="profile-val ${child?.current_unit?'':'empty'}">${child?.current_unit||'Not provided'}</span></div>
+          <div class="profile-row"><span class="profile-key">Current Unit</span><span class="profile-val ${child?.current_unit?'':'empty'}">${child?.current_unit||'Not provided'}</span></div>
           <div class="profile-row"><span class="profile-key">Recent Exam Scores</span><span class="profile-val ${child?.recent_exam_scores?'':'empty'}">${child?.recent_exam_scores||'Not uploaded'}</span></div>
           <div style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic">Student login activates after package is confirmed and set up.</div>
         </div>
         <div class="card">
-          <div class="card-header"><span class="card-title">💡 Recommendation</span><span class="card-tag badge-muted">Pending</span></div>
-          <div class="locked-card"><div class="locked-icon">🔒</div><div class="locked-title">Awaiting teacher review</div><div class="locked-sub">Your personalised recommendation will appear here once the assessment review is complete.</div></div>
+          <div class="card-header"><span class="card-title">&#128161; Recommendation</span><span class="card-tag badge-muted">Pending</span></div>
+          <div class="locked-card"><div class="locked-icon">&#128274;</div><div class="locked-title">Awaiting teacher review</div><div class="locked-sub">Your personalised recommendation will appear here once the assessment review is complete.</div></div>
         </div>
       </div>
       <div>
         <div class="card">
           <div class="card-header">
-            <span class="card-title">📊 Assessment Results</span>
-            <a href="dashboard-parent-assessment.html" style="font-size:12px;color:var(--orange);font-weight:500">View full →</a>
+            <span class="card-title">&#128202; Assessment Results</span>
+            <a href="dashboard-parent-assessment.html" style="font-size:12px;color:var(--orange);font-weight:500">View full &#8594;</a>
           </div>
           ${a ? `
-          <div class="assess-status-strip">
-            <div class="assess-strip-row"><span>Assessment</span><b>${a.assessment_name||'Year 7 Entry Assessment'}</b></div>
+          <div class="assess-strip">
+            <div class="assess-strip-row"><span>Assessment</span><b>${a.assessment_name||'Year 8 Entry Assessment'}</b></div>
             <div class="assess-strip-row"><span>Submitted</span><b>${fmt(a.submitted_at)}</b></div>
             <div class="assess-strip-row"><span>Status</span><b class="orange">${aLabel}</b></div>
           </div>
@@ -293,27 +291,37 @@ function render(name, child, a, pkg) {
               </div>
             </div>
             <div class="score-details">
-              <div class="score-level">${a.level ? `Level ${a.level} — ${a.level_label||''}` : 'Level pending'}</div>
-              <div class="score-sub">Parts A–C confirmed<br>Part D under review</div>
+              <div class="score-level">${a.level ? `Level ${a.level} &middot; ${a.level_label||''}` : 'Level pending'}</div>
+              <div class="score-sub">Parts A&#8211;C confirmed<br>Part D under review</div>
             </div>
           </div>
           <div>
-            <div class="part-row"><span class="part-name">Part A</span><div class="part-bar">${partFill(a.part_a_score,a.part_a_max||5,false)}</div><span class="part-score">${a.part_a_score??'—'}/${a.part_a_max||5}</span></div>
-            <div class="part-row"><span class="part-name">Part B</span><div class="part-bar">${partFill(a.part_b_score,a.part_b_max||15,false)}</div><span class="part-score">${a.part_b_score??'—'}/${a.part_b_max||15}</span></div>
-            <div class="part-row"><span class="part-name">Part C</span><div class="part-bar">${partFill(a.part_c_score,a.part_c_max||15,false)}</div><span class="part-score">${a.part_c_score??'—'}/${a.part_c_max||15}</span></div>
-            <div class="part-row"><span class="part-name" style="color:var(--orange)">Part D</span><div class="part-bar">${partFill(null,25,aStatus==='pending_part_d')}</div><span class="part-score" style="color:var(--orange)">⏳</span></div>
+            <div class="part-row"><span class="part-name">Part A</span><div class="part-bar">${partFill(a.part_a_score,a.part_a_max||5,false)}</div><span class="part-score">${a.part_a_score??'&#8212;'}/${a.part_a_max||5}</span></div>
+            <div class="part-row"><span class="part-name">Part B</span><div class="part-bar">${partFill(a.part_b_score,a.part_b_max||15,false)}</div><span class="part-score">${a.part_b_score??'&#8212;'}/${a.part_b_max||15}</span></div>
+            <div class="part-row"><span class="part-name">Part C</span><div class="part-bar">${partFill(a.part_c_score,a.part_c_max||15,false)}</div><span class="part-score">${a.part_c_score??'&#8212;'}/${a.part_c_max||15}</span></div>
+            <div class="part-row"><span class="part-name" style="color:var(--orange)">Part D</span><div class="part-bar">${partFill(null,25,aStatus==='pending_part_d')}</div><span class="part-score" style="color:var(--orange)">&#9203;</span></div>
           </div>
-          ` : `<div class="locked-card"><div class="locked-icon">📝</div><div class="locked-title">No assessment yet</div><div class="locked-sub">Results will appear here once submitted.</div></div>`}
+          ` : `<div class="locked-card"><div class="locked-icon">&#128221;</div><div class="locked-title">No assessment yet</div><div class="locked-sub">Results will appear here once submitted.</div></div>`}
         </div>
         <div class="card">
-          <div class="card-header"><span class="card-title">📦 Package</span><span class="card-tag badge-muted">Not Yet</span></div>
-          <div class="locked-card"><div class="locked-icon">🔒</div><div class="locked-title">Available after recommendation</div><div class="locked-sub">Select and activate your learning package once the review is complete.</div></div>
+          <div class="card-header"><span class="card-title">&#128230; Package</span><span class="card-tag ${pkgStatus==='active'?'badge-green':'badge-orange'}">${pkgStatus==='active'?'&#9989; Active':'Pay Now'}</span></div>
+          ${pkgStatus === 'active' ? `
+          <div style="text-align:center;padding:16px 0">
+            <div style="font-size:28px;margin-bottom:8px">&#9989;</div>
+            <div style="font-weight:600;margin-bottom:4px">${pkgName} Active</div>
+            <div style="font-size:13px;color:var(--muted)">Expires: ${fmt(pkg?.expires_at)}</div>
+          </div>` : `
+          <div class="locked-card">
+            <div class="locked-icon">&#128179;</div>
+            <div class="locked-title">Activate your learning plan</div>
+            <div class="locked-sub">Complete payment to unlock access to your SciSpark learning plan.</div>
+            <a href="payment.html?plan=${encodeURIComponent(pkgName)}" class="btn-pay-card">Pay Now &#8594;</a>
+          </div>`}
         </div>
       </div>
     </div>
   `;
 }
-
 init();
 </script>
 </body>

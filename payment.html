@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — Complete Your Payment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5efe5; --bg-card: #fff; --orange: #e8521a; --dark: #1a1917; --text: #2d2926; --muted: #9a8e84; --border: #e2d9ce; --green: #2E7D5B; --r-md: 10px; --r-xl: 20px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  nav { background: var(--dark); height: 60px; display: flex; align-items: center; padding: 0 24px; }
+  .nav-logo { color: #fff; font-family: 'EB Garamond', serif; font-size: 1.3rem; font-weight: 500; text-decoration: none; }
+  .page { max-width: 520px; margin: 0 auto; padding: 40px 20px 80px; }
+  .breadcrumb { font-size: 0.82rem; color: var(--muted); margin-bottom: 28px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  h1 { font-family: 'EB Garamond', serif; font-size: 2rem; font-weight: 500; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 32px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 28px; margin-bottom: 20px; }
+  .plan-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .plan-name { font-family: 'EB Garamond', serif; font-size: 1.5rem; font-weight: 500; }
+  .plan-badge { background: #fdf2ed; color: var(--orange); font-size: 0.78rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid #f9d9cc; }
+  .price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 20px; }
+  .price-amount { font-size: 2.8rem; font-weight: 700; color: var(--dark); line-height: 1; }
+  .price-period { color: var(--muted); font-size: 0.9rem; }
+  .features { list-style: none; }
+  .features li { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 0.92rem; border-bottom: 1px solid var(--border); }
+  .features li:last-child { border-bottom: none; }
+  .features li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .student-info { background: #f5efe5; border-radius: var(--r-md); padding: 16px; margin-bottom: 20px; }
+  .student-info-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 4px 0; }
+  .student-info-row span:first-child { color: var(--muted); }
+  .student-info-row span:last-child { font-weight: 500; }
+  .btn-pay { width: 100%; padding: 16px; background: var(--orange); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-pay:hover { background: #d44717; }
+  .btn-pay:disabled { background: #ccc; cursor: not-allowed; }
+  .security-note { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  #error-msg { background: #fdf2ed; border: 1px solid #f9d9cc; color: #c0392b; padding: 12px 16px; border-radius: var(--r-md); font-size: 0.88rem; margin-bottom: 16px; display: none; }
+  #error-msg.show { display: block; }
+  .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<nav><a href="/" class="nav-logo">SciSpark</a></nav>
+
+<div class="page">
+  <div class="breadcrumb"><a href="/dashboard-parent.html">Dashboard</a> › Complete Payment</div>
+  <h1>Complete your payment</h1>
+  <p class="subtitle">Secure checkout powered by Stripe.</p>
+  <div class="card">
+    <div class="plan-header"><div class="plan-name" id="plan-name">Loading...</div><div class="plan-badge">1 Year</div></div>
+    <div class="price-row"><div class="price-amount" id="plan-price">—</div><div class="price-period">/ year</div></div>
+    <ul class="features" id="plan-features"><li>Cambridge Lower Secondary Science 0893</li><li>AI-powered marking</li><li>Full curriculum access</li><li>Parent progress dashboard</li></ul>
+  </div>
+  <div class="card">
+    <div style="font-size:.82rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px">Student Details</div>
+    <div class="student-info">
+      <div class="student-info-row"><span>Student</span><span id="student-name">—</span></div>
+      <div class="student-info-row"><span>Year Group</span><span id="student-year">—</span></div>
+      <div class="student-info-row"><span>Plan</span><span id="student-plan">—</span></div>
+    </div>
+    <div id="error-msg"></div>
+    <button class="btn-pay" id="pay-btn" onclick="startPayment()"><span id="btn-text">Pay with Card</span><div class="spinner" style="display:none" id="spinner"></div></button>
+    <div class="security-note">🔒 Secured by Stripe · Your card details are never stored on our servers</div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL="https://fiffuaoibxeggwxcfvfh.supabase.co";const SUPABASE_KEY="sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ";const PLAN_PRICES={Core:"$109","Core Plus":"$149",Bilingual:"$149","Bilingual Plus":"$189"};let childId=null,packageName=null,parentEmail=null;
+async function init(){const r=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{"apikey":SUPABASE_KEY,Authorization:`Bearer ${getToken()}`}});if(!r.ok){window.location.href="/signin.html";return}const u=await r.json();parentEmail=u.email;const cr=await fetch(`${SUPABASE_URL}/rest/v1/children?parent_id=eq.${u.id}&select=id,full_name,year_group`,{headers:{"apikey":SUPABASE_KEY,Authorization:`Bearer ${getToken()}`}});const children=await cr.json();if(!children||!children.length){window.location.href="/dashboard-parent.html";return}const child=children[0];childId=child.id;const pr=await fetch(`${SUPABASE_URL}/rest/v1/packages?child_id=eq.${child.id}&select=package_name,status`,{headers:{"apikey":SUPABASE_KEY,Authorization:`Bearer ${getToken()}`}});const pkgs=await pr.json();if(pkgs&&pkgs.length&&pkgs[0].status==="active"){window.location.href="/dashboard-parent.html";return}const params=new URLSearchParams(window.location.search);packageName=params.get("plan")||(pkgs&&pkgs[0]?.package_name)||"Core";document.getElementById("plan-name").textContent=`SciSpark ${packageName}`;document.getElementById("plan-price").textContent=PLAN_PRICES[packageName]||"$109";document.getElementById("student-name").textContent=child.full_name;document.getElementById("student-year").textContent=`Year ${child.year_group}`;document.getElementById("student-plan").textContent=packageName}
+async function startPayment(){const btn=document.getElementById("pay-btn"),bT=document.getElementById("btn-text"),Sp=document.getElementById("spinner"),eM=document.getElementById("error-msg");btn.disabled=true;bT.textContent="Redirecting...";Sp.style.display="block";eM.classList.remove("show");try{const r=await fetch(`${SUPABASE_URL}/functions/v1/create-checkout`,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${getToken()}`},body:JSON.stringify({child_id:childId,package_name:packageName,parent_email:parentEmail,success_url:`${window.location.origin}/payment-success.html?session_id={CHECKOUT_SESSION_ID}`,cancel_url:`${window.location.origin}/dashboard-parent.html`})});const d=await r.json();if(d.url){window.location.href=d.url}else throw new Error(d.error||"Error")}catch(err){eM.textContent=`Error: ${err.message}`;eM.classList.add("show");btn.disabled=false;Sp.style.display="none";bT.textContent="Pay with Card"}}
+function getToken(){for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.includes("auth-token")){try{return JSON.parse(localStorage.getItem(key)).access_token}catch(_){}}}return""}
+init();
+</script>
+</body>
+</html>
