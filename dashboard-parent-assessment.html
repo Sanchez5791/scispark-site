@@ -93,6 +93,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .ring-fill.l3{stroke:#2E7D5B}
 .ring-fill.l2{stroke:var(--orange)}
 .ring-fill.l1{stroke:#c0392b}
+.ring-fill.pending{stroke:var(--muted)}
 .ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
 .ring-score{font-family:var(--serif);font-size:30px;font-weight:500;color:#fff;line-height:1}
 .ring-denom{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.04em}
@@ -103,6 +104,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .level-chip.l2{background:rgba(232,82,26,.2);color:#ff8c5a;border:1px solid rgba(232,82,26,.35)}
 .level-chip.l1{background:rgba(192,57,43,.2);color:#f28b7d;border:1px solid rgba(192,57,43,.35)}
 .level-chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pending-chip{display:inline-flex;align-items:center;gap:6px;background:var(--amber-bg);border:1px solid rgba(160,92,26,.2);color:var(--amber);font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;margin-bottom:14px;letter-spacing:.03em;text-transform:uppercase}
 .results-stats{display:flex;flex-wrap:wrap;gap:18px 32px}
 .results-stat{display:flex;flex-direction:column;gap:2px}
 .results-stat span{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em}
@@ -239,8 +241,8 @@ button{font:inherit;cursor:pointer;border:0;background:none}
       </div>
     </div>
 
-    <!-- STATE A: UNDER REVIEW — toggle display:none to show/hide -->
-    <div id="state-under-review" style="display:none">
+    <!-- STATE A: UNDER REVIEW — shown by default until JS resolves state -->
+    <div id="state-under-review">
       <div class="under-review">
         <div class="ur-icon">🔍</div>
         <div class="ur-title">Assessment under review</div>
@@ -252,8 +254,8 @@ button{font:inherit;cursor:pointer;border:0;background:none}
       </div>
     </div>
 
-    <!-- STATE B: PENDING TEACHER REVIEW ALERT -->
-    <div id="state-pending-alert">
+    <!-- STATE B: PENDING TEACHER REVIEW ALERT — shown when part_d_score is null -->
+    <div id="state-pending-alert" style="display:none">
       <div class="alert alert-orange">
         <span class="alert-icon">⚠️</span>
         <div>
@@ -269,7 +271,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
       <div class="score-ring">
         <svg viewBox="0 0 120 120" aria-hidden="true">
           <circle cx="60" cy="60" r="55" class="ring-track"/>
-          <circle cx="60" cy="60" r="55" class="ring-fill l2" id="ring-fill"
+          <circle cx="60" cy="60" r="55" class="ring-fill pending" id="ring-fill"
             style="stroke-dashoffset: calc(346 * (1 - 38/60))"/>
         </svg>
         <div class="ring-label">
@@ -280,8 +282,8 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 
       <div class="results-info">
         <div class="results-name">Alex Lim — Year 7</div>
-        <div class="level-chip l2 mb-2" id="level-chip">
-          <span class="dot"></span> Level 2 — Guided
+        <div class="pending-chip" id="level-chip">
+          <span>⏳</span> PENDING TEACHER REVIEW
         </div>
         <div class="results-stats">
           <div class="results-stat">
@@ -301,8 +303,8 @@ button{font:inherit;cursor:pointer;border:0;background:none}
             <b>English</b>
           </div>
         </div>
-        <div class="results-desc">
-          Alex shows solid reasoning on forces and motion, and is developing well in biology. Chemical change was flagged as a gap. Recommended for Guided (Level 2) learning path with bilingual support.
+        <div class="results-desc" id="results-desc">
+          Final level placement and learning recommendation will be confirmed once Part D review is complete. You will be notified by email once ready.
         </div>
       </div>
     </div>
@@ -402,10 +404,9 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 
     </div>
 
-    <!-- LEVEL EXPLANATION -->
+    <!-- TEACHER REVIEW NOTE -->
     <div class="info-note">
-      <b>About Level 2 — Guided:</b> Alex demonstrates solid understanding of core concepts but needs structured support on scientific explanation and extended writing. The Guided path provides step-by-step scaffolding and targeted practice before introducing more challenging material.
-      The final level placement will be confirmed once Part D review is complete.
+      <b>About teacher review:</b> A SciSpark teacher will review your child's assessment, including the extended response section, before confirming the placement level and recommended learning path. This usually takes 1–2 business days.
     </div>
 
     <!-- QUESTION BREAKDOWN -->
@@ -519,6 +520,15 @@ function getLevelLabel(score, label) {
   return 'Level 1 — Foundation'
 }
 
+// 5-band classification per Learning Master Blueprint — internal use only, NOT shown to parents
+function computeScoreBand(score) {
+  if (score <= 17) return { band: 'L1',    label: 'Preliminary Level 1',  borderline: false }
+  if (score <= 25) return { band: 'BL1L2', label: 'Borderline L1/L2',     borderline: true  }
+  if (score <= 36) return { band: 'L2',    label: 'Preliminary Level 2',  borderline: false }
+  if (score <= 47) return { band: 'BL2L3', label: 'Borderline L2/L3',     borderline: true  }
+  return             { band: 'L3',    label: 'Preliminary Level 3',  borderline: false }
+}
+
 function getPctClass(pct) {
   if (pct >= 0.75) return 'pct-high'
   if (pct >= 0.5)  return 'pct-mid'
@@ -538,15 +548,14 @@ function formatDate(iso) {
   })
 }
 
-function animateRing(score, max, lvlClass) {
+function animateRing(score, max, ringClass) {
   const fill = document.getElementById('ring-fill')
   if (!fill) return
   const circumference = 2 * Math.PI * 55 // r=55
   fill.style.strokeDasharray = circumference
-  fill.style.strokeDashoffset = circumference // start empty
-  // Remove old level classes
-  fill.classList.remove('l1','l2','l3')
-  fill.classList.add(lvlClass)
+  fill.style.strokeDashoffset = circumference
+  fill.classList.remove('l1','l2','l3','pending')
+  fill.classList.add(ringClass)
   setTimeout(() => {
     const offset = circumference * (1 - score / max)
     fill.style.strokeDashoffset = offset
@@ -588,23 +597,27 @@ function renderState(assessment, child, parent) {
   const max     = assessment?.max_score    ?? 60
   const lvlClass = getLevelClass(score)
   const lvlLabel = getLevelLabel(score, assessment?.level_label)
+  // teacher_confirmed_at: null means not yet confirmed; treat missing field as null
+  const teacherConfirmed = assessment?.teacher_confirmed_at ?? null
 
-  // Show/hide pending Part D alert
-  if (status === 'pending_part_d') {
-    document.getElementById('state-pending-alert').style.display = ''
-  } else {
-    document.getElementById('state-pending-alert').style.display = 'none'
-  }
+  // ── Show/hide pending Part D alert (based on part_d_score being absent) ──
+  const partDPending = assessment?.part_d_score === null || assessment?.part_d_score === undefined
+  document.getElementById('state-pending-alert').style.display = partDPending ? '' : 'none'
 
-  // ── Score ring ──
+  // ── Score ring — amber/grey until teacher confirms, then level colour ──
   document.getElementById('ring-score').textContent = score
-  animateRing(score, max, lvlClass)
+  animateRing(score, max, teacherConfirmed ? lvlClass : 'pending')
 
-  // ── Level chip ──
+  // ── Level chip — pending until teacher confirms ──
   const chip = document.getElementById('level-chip')
   if (chip) {
-    chip.className = `level-chip ${lvlClass}`
-    chip.innerHTML = `<span class="dot"></span> ${lvlLabel}`
+    if (teacherConfirmed) {
+      chip.className = `level-chip ${lvlClass}`
+      chip.innerHTML = `<span class="dot"></span> ${lvlLabel}`
+    } else {
+      chip.className = 'pending-chip'
+      chip.innerHTML = '<span>⏳</span> PENDING TEACHER REVIEW'
+    }
   }
 
   // ── Results name + stats ──
@@ -614,14 +627,25 @@ function renderState(assessment, child, parent) {
   const stats = document.querySelectorAll('.results-stat b')
   if (stats[0]) stats[0].textContent = assessment?.assessment_name || 'Year 7 Entry'
   if (stats[1]) stats[1].textContent = formatDate(assessment?.submitted_at)
+  if (stats[2]) stats[2].textContent = teacherConfirmed ? formatDate(assessment.teacher_confirmed_at) : 'Teacher (pending)'
   if (stats[3]) stats[3].textContent = child?.assessment_language || 'English'
+
+  // ── Recommendation — only show actual text after teacher confirms ──
+  const descEl = document.getElementById('results-desc')
+  if (descEl) {
+    if (teacherConfirmed && assessment?.recommendation) {
+      descEl.textContent = assessment.recommendation
+    } else {
+      descEl.textContent = 'Final level placement and learning recommendation will be confirmed once Part D review is complete. You will be notified by email once ready.'
+    }
+  }
 
   // ── Part scores ──
   const parts = [
     { key: 'a', label: 'Part A', name: 'Vocabulary',  score: assessment?.part_a_score, max: assessment?.part_a_max ?? 5  },
     { key: 'b', label: 'Part B', name: 'MCQ',          score: assessment?.part_b_score, max: assessment?.part_b_max ?? 15 },
     { key: 'c', label: 'Part C', name: 'Short answer', score: assessment?.part_c_score, max: assessment?.part_c_max ?? 15 },
-    { key: 'd', label: 'Part D', name: 'Extended',     score: assessment?.part_d_score, max: assessment?.part_d_max ?? 25, pending: status === 'pending_part_d' },
+    { key: 'd', label: 'Part D', name: 'Extended',     score: assessment?.part_d_score, max: assessment?.part_d_max ?? 25, pending: partDPending },
   ]
 
   const partCards = document.querySelectorAll('.part-card')
@@ -680,11 +704,6 @@ function renderState(assessment, child, parent) {
     }
   })
 
-  // ── Recommendation text ──
-  const descEl = document.querySelector('.results-desc')
-  if (descEl && assessment?.recommendation) {
-    descEl.textContent = assessment.recommendation
-  }
 }
 
 async function handleSignOut() {
