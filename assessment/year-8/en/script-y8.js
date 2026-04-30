@@ -468,6 +468,7 @@ async function confirmSubmit() {
     console.log('[SciSpark Y8] Submitted. Attempt ID:', attemptId);
 
     sessionStorage.removeItem(AUTOSAVE_KEY);
+    document.getElementById('success-screen')?.classList.add('open');
     callMarkingFunction(attemptId).then(result => {
       if (result?.success) showScoreOnSuccessScreen(result.scores);
     }).catch(() => {});
@@ -488,8 +489,7 @@ async function confirmSubmit() {
   }
 }
 
-async function autoSubmit() {
-  async function callMarkingFunction(attemptId) {
+async function callMarkingFunction(attemptId) {
   const MARK_URL = `${SUPABASE_URL}/functions/v1/mark-y8-assessment`;
   const { data: sessionData } = await supabaseClient.auth.getSession();
   const token = sessionData?.session?.access_token ?? '';
@@ -507,7 +507,12 @@ function showScoreOnSuccessScreen(scores) {
   const { mcq, part_c, part_d, total, out_of } = scores;
   const level = total >= 45 ? 'Level 3' : total >= 30 ? 'Level 2' : 'Level 1';
   const color = total >= 45 ? '#2e7d32' : total >= 30 ? '#e65100' : '#c62828';
-  const html = `<div id="score-display" style="margin-top:20px;padding:20px;background:#f9f9f9;border-radius:10px;text-align:center"><div style="font-size:42px;font-weight:700;color:${color}">${total} / ${out_of}</div><div style="font-size:18px;color:#444;margin-top:4px">${Math.round(total/out_of*100)}% · <strong>${level}</strong></div><div style="margin-
+  const html = `<div id="score-display" style="margin-top:20px;padding:20px;background:#f9f9f9;border-radius:10px;text-align:center"><div style="font-size:42px;font-weight:700;color:${color}">${total} / ${out_of}</div><div style="font-size:18px;color:#444;margin-top:4px">${Math.round(total/out_of*100)}% · <strong>${level}</strong></div><div style="margin-top:12px;font-size:13px;color:#666">MCQ: ${mcq}/20 · Part C: ${part_c}/12 · Part D: ${part_d}/28</div></div>`;
+  const screen = document.getElementById('success-screen');
+  if (screen) { const ex = document.getElementById('score-display'); if (ex) ex.remove(); screen.insertAdjacentHTML('beforeend', html); }
+}
+
+async function autoSubmit() {
   if (isSubmitting) return;
   isSubmitting = true;
 
