@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>SciSpark — Assessment Results</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
@@ -497,24 +498,248 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 </div>
 
 <script>
-// Toggle states for demo — in production these would be driven by Supabase data
-// To show "under review" state: set state-under-review to display:'', hide results
-// To show "pending Part D review": show state-pending-alert (default)
-// To show fully reviewed: hide both alerts, update all Part D scores
+// ── SUPABASE CONFIG ─────────────────────────────────────────────
+const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ'
+const { createClient } = supabase
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY)
+// ────────────────────────────────────────────────────────────────
 
-// Ring animation on load
-document.addEventListener('DOMContentLoaded', () => {
-  const fill = document.getElementById('ring-fill');
-  if (fill) {
-    // Animate ring
-    const score = 38, max = 60;
-    const circumference = 2 * Math.PI * 55;
-    const offset = circumference * (1 - score / max);
-    fill.style.strokeDasharray = circumference;
-    fill.style.strokeDashoffset = circumference; // start empty
-    setTimeout(() => { fill.style.strokeDashoffset = offset; }, 100);
+// Level rules (locked truth: L3=45-60, L2=30-44, L1=0-29)
+function getLevelClass(score) {
+  if (score >= 45) return 'l3'
+  if (score >= 30) return 'l2'
+  return 'l1'
+}
+
+function getLevelLabel(score, label) {
+  if (label) return label
+  if (score >= 45) return 'Level 3 — Advanced'
+  if (score >= 30) return 'Level 2 — Guided'
+  return 'Level 1 — Foundation'
+}
+
+function getPctClass(pct) {
+  if (pct >= 0.75) return 'pct-high'
+  if (pct >= 0.5)  return 'pct-mid'
+  return 'pct-low'
+}
+
+function getFillClass(pct) {
+  if (pct >= 0.75) return 'fill-high'
+  if (pct >= 0.5)  return 'fill-mid'
+  return 'fill-low'
+}
+
+function formatDate(iso) {
+  if (!iso) return '—'
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  })
+}
+
+function animateRing(score, max, lvlClass) {
+  const fill = document.getElementById('ring-fill')
+  if (!fill) return
+  const circumference = 2 * Math.PI * 55 // r=55
+  fill.style.strokeDasharray = circumference
+  fill.style.strokeDashoffset = circumference // start empty
+  // Remove old level classes
+  fill.classList.remove('l1','l2','l3')
+  fill.classList.add(lvlClass)
+  setTimeout(() => {
+    const offset = circumference * (1 - score / max)
+    fill.style.strokeDashoffset = offset
+  }, 100)
+}
+
+function renderState(assessment, child, parent) {
+  const status = assessment?.status || 'under_review'
+
+  // ── Nav: name + avatar ──
+  const initials = (parent?.full_name || 'P').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()
+  document.querySelectorAll('.nav-avatar').forEach(el => el.textContent = initials)
+  document.querySelectorAll('.nav-user span').forEach(el => el.textContent = parent?.full_name || '')
+
+  // ── Sidebar child info ──
+  const childName = child?.full_name || 'Student'
+  const yearGroup = child?.year_group || ''
+  document.querySelectorAll('.sidebar-student b').forEach(el => el.textContent = childName)
+
+  // ── Page meta ──
+  const metaItems = document.querySelectorAll('.page-meta-item')
+  if (metaItems[0]) metaItems[0].innerHTML = `<span class="meta-dot"></span>${childName}`
+  if (metaItems[1]) metaItems[1].innerHTML = `<span class="meta-dot"></span>${assessment?.assessment_name || 'Year 7 Entry Assessment'}`
+  if (metaItems[2]) metaItems[2].innerHTML = `<span class="meta-dot"></span>Submitted ${formatDate(assessment?.submitted_at)}`
+
+  // ── STATE A: full under review (no scores yet) ──
+  if (status === 'under_review') {
+    document.getElementById('state-under-review').style.display = ''
+    document.getElementById('state-pending-alert').style.display = 'none'
+    document.querySelector('.results-header').style.display = 'none'
+    document.querySelector('.parts-grid')?.closest('div')?.previousElementSibling?.remove?.()
+    return
   }
-});
+
+  // ── STATE B or C: scores available ──
+  document.getElementById('state-under-review').style.display = 'none'
+
+  const score   = assessment?.total_score  ?? 0
+  const max     = assessment?.max_score    ?? 60
+  const lvlClass = getLevelClass(score)
+  const lvlLabel = getLevelLabel(score, assessment?.level_label)
+
+  // Show/hide pending Part D alert
+  if (status === 'pending_part_d') {
+    document.getElementById('state-pending-alert').style.display = ''
+  } else {
+    document.getElementById('state-pending-alert').style.display = 'none'
+  }
+
+  // ── Score ring ──
+  document.getElementById('ring-score').textContent = score
+  animateRing(score, max, lvlClass)
+
+  // ── Level chip ──
+  const chip = document.getElementById('level-chip')
+  if (chip) {
+    chip.className = `level-chip ${lvlClass}`
+    chip.innerHTML = `<span class="dot"></span> ${lvlLabel}`
+  }
+
+  // ── Results name + stats ──
+  const nameEl = document.querySelector('.results-name')
+  if (nameEl) nameEl.textContent = `${childName} — Year ${yearGroup}`
+
+  const stats = document.querySelectorAll('.results-stat b')
+  if (stats[0]) stats[0].textContent = assessment?.assessment_name || 'Year 7 Entry'
+  if (stats[1]) stats[1].textContent = formatDate(assessment?.submitted_at)
+  if (stats[3]) stats[3].textContent = child?.assessment_language || 'English'
+
+  // ── Part scores ──
+  const parts = [
+    { key: 'a', label: 'Part A', name: 'Vocabulary',  score: assessment?.part_a_score, max: assessment?.part_a_max ?? 5  },
+    { key: 'b', label: 'Part B', name: 'MCQ',          score: assessment?.part_b_score, max: assessment?.part_b_max ?? 15 },
+    { key: 'c', label: 'Part C', name: 'Short answer', score: assessment?.part_c_score, max: assessment?.part_c_max ?? 15 },
+    { key: 'd', label: 'Part D', name: 'Extended',     score: assessment?.part_d_score, max: assessment?.part_d_max ?? 25, pending: status === 'pending_part_d' },
+  ]
+
+  const partCards = document.querySelectorAll('.part-card')
+  parts.forEach((p, i) => {
+    const card = partCards[i]
+    if (!card) return
+
+    const s = p.score ?? 0
+    const pct = p.max > 0 ? s / p.max : 0
+    const pctVal = Math.round(pct * 100)
+
+    // Label
+    const labelEl = card.querySelector('.part-label')
+    if (labelEl) {
+      if (p.pending) {
+        labelEl.innerHTML = `${p.label} <span style="color:var(--orange)">· Under review</span>`
+        labelEl.style.color = 'var(--orange)'
+        card.style.borderColor = 'rgba(232,82,26,.3)'
+        card.style.background = 'var(--orange-l)'
+      } else {
+        labelEl.textContent = p.label
+        labelEl.style.color = ''
+        card.style.borderColor = ''
+        card.style.background = ''
+      }
+    }
+
+    // Score number
+    const numEl = card.querySelector('.part-score .num')
+    if (numEl) {
+      numEl.textContent = p.pending ? '—' : s
+      numEl.style.color = p.pending ? 'var(--muted)' : ''
+    }
+
+    // Den
+    const denEl = card.querySelector('.part-score .den')
+    if (denEl) denEl.textContent = `/ ${p.max}`
+
+    // Pct badge
+    const pctEl = card.querySelector('.part-score .pct')
+    if (pctEl) {
+      if (p.pending) {
+        pctEl.textContent = '⏳'
+        pctEl.className = 'pct pct-mid'
+      } else {
+        pctEl.textContent = `${pctVal}%`
+        pctEl.className = `pct ${getPctClass(pct)}`
+      }
+    }
+
+    // Progress bar
+    const fillEl = card.querySelector('.progress-fill')
+    if (fillEl) {
+      fillEl.className = `progress-fill ${getFillClass(pct)}`
+      setTimeout(() => { fillEl.style.width = p.pending ? '0%' : `${pctVal}%` }, 100)
+    }
+  })
+
+  // ── Recommendation text ──
+  const descEl = document.querySelector('.results-desc')
+  if (descEl && assessment?.recommendation) {
+    descEl.textContent = assessment.recommendation
+  }
+}
+
+async function init() {
+  // 1. Auth check
+  const { data: { session } } = await sb.auth.getSession()
+  if (!session) {
+    window.location.href = '/signin.html'
+    return
+  }
+
+  // 2. Parent profile
+  const { data: parent } = await sb
+    .from('profiles')
+    .select('id, full_name, email')
+    .eq('id', session.user.id)
+    .single()
+
+  // 3. Child record
+  const { data: children } = await sb
+    .from('children')
+    .select('id, full_name, year_group, assessment_language')
+    .eq('parent_id', parent?.id)
+    .order('created_at')
+    .limit(1)
+
+  const child = children?.[0] || null
+
+  // 4. Assessment record
+  let assessment = null
+  if (child) {
+    const { data: aData } = await sb
+      .from('assessments')
+      .select('*')
+      .eq('child_id', child.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+    assessment = aData
+  }
+
+  // 5. Sign out button
+  document.querySelectorAll('.btn-nav').forEach(btn => {
+    if (btn.textContent.includes('Sign out') || btn.textContent.includes('sign out')) {
+      btn.addEventListener('click', async () => {
+        await sb.auth.signOut()
+        window.location.href = '/signin.html'
+      })
+    }
+  })
+
+  // 6. Render
+  renderState(assessment, child, parent)
+}
+
+init()
 </script>
 </body>
 </html>
