@@ -184,14 +184,16 @@ QD3 Sofia Circuit (5×1m) — 4 DIFFERENT MODIFICATIONS, READ CAREFULLY:
   QD3_a_1: ANOTHER LAMP added in series → "dimmer" (voltage shared between lamps).
   QD3_a_2: WIRE 5x LONGER → "dimmer" (more wire resistance, NOT about lamps).
   QD3_b: WIRE MUCH THICKER → "brighter" (less wire resistance, NOT about lamps).
-  QD3_c: ONE LAMP REMOVED → "brighter" (full voltage; lamp holder bypasses).
-         REJECT "goes off". REJECT "same brightness". Only "brighter" accepted.
-         If student says "off"/"goes off" → mark 0m + needs_review.
-  QD3_d: EXPLAIN WHY (c) — series-circuit reasoning.
-         ACCEPT: circuit is still complete | more current flows | less resistance |
-                 resistance decreases | only one lamp now (full voltage).
-         REJECT: parallel branches (WRONG context — this is series), "more power" (vague),
-                 "less lamps" (observation, not reason), circular reasoning.
+ QD3_c: ONE LAMP REMOVED → "all lamps go out". [CORRECTED — Cambridge 2012 P2 Q2 MS]
+        Removing lamp BREAKS the series circuit (no bypass contacts in lamp holder).
+        No current flows → ALL lamps go out.
+        REJECT "brighter" — this was WRONG. REJECT "stays the same".
+        ACCEPT: "all lamps go out" | "lamps go out" | "lamps turn off" | "no lamps light".
+QD3_d: EXPLAIN WHY lamps go out. [CORRECTED]
+        ACCEPT: circuit is broken | circuit is not complete | circuit has a gap |
+                current cannot flow | circuit is open.
+        REJECT: "circuit is still complete" (WRONG).
+        REJECT: "more current" / "less resistance" / "brighter" (WRONG — old answer).
 
 QD4 Samir Kite (pool_qd4a + 3 indep = 5m):
   ARROWS: A=upward (lift), B=horizontal (wind), C=downward (gravity/weight).
