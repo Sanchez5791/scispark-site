@@ -1,15 +1,7 @@
 // api/mark.js — SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
 // Vercel serverless function
 // Called by Supabase webhook when new assessment_attempt is inserted
-// 2026-05-01 — Updated to support both Y7_ENTRY_EN (v3, 27q) and
-//              Y7_ENTRY_EN_V4 (v4, 32q)
-//
-// Routing logic:
-//   assessment_code == "Y7_ENTRY_EN"    → v3 package (claude-sonnet-4)
-//   assessment_code == "Y7_ENTRY_EN_V4" → v4 package (claude-haiku-4-5)
-//   anything else                       → 200 with skip message
-//
-// DO NOT remove v3 — old HTML still live on main branch.
+// 2026-05-02 — Updated to use DeepSeek V4 Flash for all marking
 
 // =============================================================
 // V3 SYSTEM PROMPT — DO NOT MODIFY (used by old 27-question HTML)
@@ -78,7 +70,7 @@ Each field: {"field_id":"Y7_Q01_answer","student_value":"...","expected":"...","
 CONSTRAINTS: fields must contain EXACTLY 64 entries. total_awarded=sum of all part totals. Pool members: only ONE member carries awarded marks; others get marks_awarded=0 and match_type="pooled_member".`;
 
 // =============================================================
-// V4 SYSTEM PROMPT — NEW (used by 32-question HTML on b4 branch)
+// V4 SYSTEM PROMPT
 // Aligned with Vol 01 v4, Vol 02 v4 (revised), Vol 03 v4 (revised)
 // =============================================================
 const SYSTEM_PROMPT_V4 = `You are the SciSpark Y7 Entry Assessment marker (V4).
@@ -88,8 +80,8 @@ Your job: mark a single student's submission against the official Cambridge mark
 ASSESSMENT METADATA
 - assessment_code: Y7_ENTRY_EN_V4
 - total_marks: 60, total_questions: 32, total_fields: 62
-- Part A (10m, 10×1m QA1-QA10) Vocabulary MCQ
-- Part B (15m, 15×1m QB1-QB15) Core Concepts MCQ
+- Part A (10m, 10x1m QA1-QA10) Vocabulary MCQ
+- Part B (15m, 15x1m QB1-QB15) Core Concepts MCQ
 - Part C (15m, QC1=5m + QC2=5m + QC3=5m) Data & Experiment
 - Part D (20m, QD1=5m + QD2=5m + QD3=5m + QD4=5m) Extended Response
 
@@ -112,101 +104,66 @@ QB14=1 year (accept "one year") | QB15=Jupiter
 
 PART C:
 
-QC1 Oliver Chemical Reaction (5×1m):
-  QC1_a = measuring cylinder (accept graduated cylinder, measuring jug;
-          reject beaker, thermometer, balance, ruler)
-  QC1_b = uniform/even temperature (accept "to mix evenly", "consistent reading",
-          "to distribute heat evenly"; "to mix" alone without temp context → needs_review)
-  QC1_c = "blue to brown" — BOTH COLOURS IN ORDER REQUIRED.
-          Single colour alone = 0m. Wrong order ("brown to blue") = 0m.
-  QC1_d = gas/bubbles (accept effervescence, fizzing, gas given off;
-          reject "colour change" alone)
+QC1 Oliver Chemical Reaction (5x1m):
+  QC1_a = measuring cylinder (accept graduated cylinder, measuring jug; reject beaker, thermometer, balance, ruler)
+  QC1_b = uniform/even temperature (accept "to mix evenly", "consistent reading", "to distribute heat evenly"; "to mix" alone without temp context needs_review)
+  QC1_c = "blue to brown" — BOTH COLOURS IN ORDER REQUIRED. Single colour alone = 0m. Wrong order = 0m.
+  QC1_d = gas/bubbles (accept effervescence, fizzing, gas given off; reject "colour change" alone)
   QC1_f = decreasing (accept dropping, falls, gets lower, reducing)
 
 QC2 Blessy Bacteria & Acid Investigation (4 indep + pool_qc2c = 5m):
-  CONTEXT: Investigation tests TYPES OF ACID killing bacteria.
-           IV = type of acid. DV = bacteria growth.
-           Do NOT use disinfectant context.
+  CONTEXT: Investigation tests TYPES OF ACID killing bacteria. IV = type of acid. DV = bacteria growth.
   QC2_a_1 + QC2_a_2 = TWO DIFFERENT controlled variables.
-    ACCEPT: same amount/number of bacteria, same nutrients/food, same temperature,
-            same time, same dish size, same type of bacteria, warm place
+    ACCEPT: same amount/number of bacteria, same nutrients/food, same temperature, same time, same dish size, same type of bacteria, warm place
     REJECT: type of acid (IV), amount of bacteria growth (DV)
-    DUPLICATE rule: if a_1 and a_2 state the same underlying variable
-    (strip "same" and compare), award 1m total for the pair, not 2m.
+    DUPLICATE rule: if a_1 and a_2 state the same variable, award 1m total not 2m.
   QC2_b_risk = any biological/chemical lab risk.
-    ACCEPT: bacteria spread/harmful, infection, pathogens, acid spill/burn/corrosive,
-            dishes/glassware could break, broken glass risk
+    ACCEPT: bacteria spread/harmful, infection, pathogens, acid spill/burn/corrosive, dishes/glassware could break
     REJECT: experiment might fail, results might be wrong, getting wet
   QC2_b_reduce = any safety measure. SCORED INDEPENDENTLY from b_risk.
-    ACCEPT: wash hands, wear gloves, wear goggles (Cambridge MS explicitly accepts),
-            wear lab coat, wear PPE, handle acid carefully, use tongs/forceps,
-            seal dishes, dispose carefully, sterilise equipment
+    ACCEPT: wash hands, wear gloves, wear goggles, wear lab coat, wear PPE, handle acid carefully, use tongs/forceps, seal dishes, dispose carefully, sterilise equipment
     REJECT: be careful (vague), work faster, be more precise (vague)
-    If risk and reduce are mismatched (e.g. bacteria-risk + goggles-reduce),
-    still award 1m each but flag needs_review.
   pool_qc2c (1m, both-required): W=top-left + A=bottom-centre.
     Variants: W="top left"; A="bottom center"/"bottom centre"/"bottom middle".
-    Either wrong = 0m for both fields. Mark-holder = QC2_c_W.
+    Either wrong = 0m for both. Mark-holder = QC2_c_W.
 
-QC3 Planets Mass/Weight (5×1m):
-  QC3_a_mass = ACCEPT kg, kilogram, kilograms, AND g, gram, grams.
-               REJECT N, newtons, m, lb. Vol 01 explicitly accepts grams.
-  QC3_a_weight = N (case-aware). ACCEPT capital N, Newton, Newtons, newton, newtons.
-                 REJECT lowercase "n" alone, kg, g.
-  QC3_b = "No" + REASON REQUIRED. ACCEPT: no/mass does not change/mass is constant
-          /mass is the amount of matter (and that doesn't change). REJECT: "no" alone (0m); yes (0m); weight changes.
-  QC3_c = 160 (accept "160", "160 N", "160N", "160 newtons"). Calc: Y=80N/10kg=8N/kg → Z=2×8=16 → 10×16=160N.
-  QC3_d = 10 (accept "10", "10 kg", "10kg"). Calc: mass=100/10=10 kg.
+QC3 Planets Mass/Weight (5x1m):
+  QC3_a_mass = ACCEPT kg, kilogram, kilograms, AND g, gram, grams. REJECT N, newtons, m, lb.
+  QC3_a_weight = N (case-aware). ACCEPT capital N, Newton, Newtons, newton, newtons. REJECT lowercase "n" alone, kg, g.
+  QC3_b = "No" + REASON REQUIRED. ACCEPT: no/mass does not change/mass is constant/mass is the amount of matter. REJECT: "no" alone (0m).
+  QC3_c = 160 (accept "160", "160 N", "160N", "160 newtons").
+  QC3_d = 10 (accept "10", "10 kg", "10kg").
 
 PART D:
 
-QD1 Gennaro 4 Mixtures (5×1m):
-  MIXTURE IDENTITIES:
-    A = oil + water (immiscible — does not mix)
-    B = salt + water (true solution)
-    C = bicarbonate + vinegar (CHEMICAL REACTION — irreversible)
-    D = sugar + water (true solution)
-  QD1_a = C (which is irreversible). REJECT A, B, D.
-  QD1_b = chemical reaction / new substance formed.
-          REJECT "it bubbled" alone (observation, not explanation).
-  QD1_c = evaporation (accept evaporate, heat to evaporate, boil the water).
-          REJECT filtration (salt is dissolved).
-  QD1_d = layers form / oil floats / they don't mix / immiscible.
-          REJECT "they dissolve", "they react".
-  QD1_e = BOTH B AND D required (which are SOLUTIONS).
-          One alone = 0m. Question is "which are SOLUTIONS" not "filterable".
+QD1 Gennaro 4 Mixtures (5x1m):
+  MIXTURE IDENTITIES: A=oil+water | B=salt+water (solution) | C=bicarbonate+vinegar (CHEMICAL REACTION) | D=sugar+water (solution)
+  QD1_a = C. REJECT A, B, D.
+  QD1_b = chemical reaction / new substance formed. REJECT "it bubbled" alone.
+  QD1_c = evaporation. REJECT filtration.
+  QD1_d = layers form / oil floats / they don't mix / immiscible. REJECT "they dissolve".
+  QD1_e = BOTH B AND D required. One alone = 0m.
 
-QD2 Particle Diagrams (5×1m):
-  Image: A=top(solid), B=middle(liquid), C=bottom(gas) — labels via CSS only.
+QD2 Particle Diagrams (5x1m):
   QD2_a=A | QD2_b=B | QD2_c=C | QD2_d=solid | QD2_e=gas
 
-QD3 Sofia Circuit (5×1m) — 4 DIFFERENT MODIFICATIONS, READ CAREFULLY:
-  QD3_a_1: ANOTHER LAMP added in series → "dimmer" (voltage shared between lamps).
-  QD3_a_2: WIRE 5x LONGER → "dimmer" (more wire resistance, NOT about lamps).
-  QD3_b: WIRE MUCH THICKER → "brighter" (less wire resistance, NOT about lamps).
- QD3_c: ONE LAMP REMOVED → "all lamps go out". [CORRECTED — Cambridge 2012 P2 Q2 MS]
-        Removing lamp BREAKS the series circuit (no bypass contacts in lamp holder).
-        No current flows → ALL lamps go out.
-        REJECT "brighter" — this was WRONG. REJECT "stays the same".
-        ACCEPT: "all lamps go out" | "lamps go out" | "lamps turn off" | "no lamps light".
-QD3_d: EXPLAIN WHY lamps go out. [CORRECTED]
-        ACCEPT: circuit is broken | circuit is not complete | circuit has a gap |
-                current cannot flow | circuit is open.
-        REJECT: "circuit is still complete" (WRONG).
-        REJECT: "more current" / "less resistance" / "brighter" (WRONG — old answer).
+QD3 Sofia Circuit (5x1m):
+  QD3_a_1: ANOTHER LAMP added in series → "dimmer".
+  QD3_a_2: WIRE 5x LONGER → "dimmer".
+  QD3_b: WIRE MUCH THICKER → "brighter".
+  QD3_c: ONE LAMP REMOVED → "all lamps go out". [Cambridge 2012 P2 Q2 MS]
+    REJECT "brighter". ACCEPT: "all lamps go out" | "lamps go out" | "lamps turn off" | "no lamps light".
+  QD3_d: EXPLAIN WHY lamps go out.
+    ACCEPT: circuit is broken | circuit is not complete | circuit has a gap | current cannot flow | circuit is open.
+    REJECT: "circuit is still complete" (WRONG). REJECT: "more current" / "less resistance" / "brighter".
 
 QD4 Samir Kite (pool_qd4a + 3 indep = 5m):
   ARROWS: A=upward (lift), B=horizontal (wind), C=downward (gravity/weight).
   pool_qd4a (2m, graduated-3): gravity=C, lift=A, wind=B.
-    3 correct → 2m | 2 correct → 1m | 0 or 1 correct → 0m.
-    Mark-holder = QD4_a_gravity.
-    If 0m AND any field has valid letter (A/B/C) → needs_review (possible label mismatch).
-  QD4_b = BOTH A AND C required (geometric opposite directions: A=up, C=down).
-          One alone = 0m. NOT about equilibrium/balanced forces.
-  QD4_c = increases (lift increases when wind blows harder).
-  QD4_d = gravity / weight (heavier object → which force INCREASES).
-          ACCEPT gravitational force, downward force, pull of Earth.
-          REJECT friction, wind, lift, air resistance, tension.
+    3 correct=2m | 2 correct=1m | 0 or 1=0m. Mark-holder=QD4_a_gravity.
+  QD4_b = BOTH A AND C required. One alone = 0m.
+  QD4_c = increases.
+  QD4_d = gravity / weight. ACCEPT gravitational force, downward force, pull of Earth. REJECT friction, wind, lift.
 
 POOL TABLE:
 pool_qc2c | QC2_c_W + QC2_c_A | 1m | both-required | mark-holder=QC2_c_W
@@ -217,8 +174,8 @@ GLOBAL RULES:
 - Free text: case-insensitive, whitespace tolerant, semantic match for sentences.
 - Spelling tolerance: phonetic accept unless misspelling collides with another science term.
 - Blank/null/whitespace-only = match_type "blank", marks_awarded=0.
-- Case-aware: "N" for newton must be CAPITAL (Cambridge MS: do not accept "n").
-- Confidence < 80% on any field → needs_review=true with clear review_reason.
+- Case-aware: "N" for newton must be CAPITAL.
+- Confidence < 80% on any field: needs_review=true with clear review_reason.
 
 OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
 {
@@ -237,11 +194,9 @@ OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
   "submission_warnings":[]
 }
 Each field: {"field_id":"Y7_QA1_answer","student_value":"...","expected":"...","marks_awarded":<int>,"marks_possible":<int>,"match_type":"exact|alternative|semantic|wrong|blank|pooled_member|malformed_input","rationale":"<one sentence>","needs_review":<bool>,"review_reason":<string|null>}
-
 CONSTRAINTS:
 - fields must contain EXACTLY 62 entries.
 - total_awarded = sum of all part_totals[X].awarded.
-- Pool members: ONE member carries awarded marks; others get marks_awarded=0 with match_type="pooled_member".
 - pool_qc2c mark-holder = Y7_QC2_c_W_answer.
 - pool_qd4a mark-holder = Y7_QD4_a_gravity_answer.`;
 
@@ -255,9 +210,8 @@ const PACKAGES = {
     total_fields: 64,
     parts: { A: 5, B: 15, C: 15, D: 25 },
     system_prompt: SYSTEM_PROMPT_V3,
-    model: 'claude-sonnet-4-20250514',
     max_tokens: 4000,
-    marker_version: 'Vol03_v3'
+    marker_version: 'Vol03_v3_deepseek'
   },
   'Y7_ENTRY_EN_V4': {
     code: 'Y7_ENTRY_EN_V4',
@@ -265,20 +219,17 @@ const PACKAGES = {
     total_fields: 62,
     parts: { A: 10, B: 15, C: 15, D: 20 },
     system_prompt: SYSTEM_PROMPT_V4,
-    model: 'claude-haiku-4-5-20251001',
     max_tokens: 8000,
-    marker_version: 'Vol03_v4'
+    marker_version: 'Vol03_v4_deepseek'
   }
 };
 
 // =============================================================
-// HELPER: strip markdown fences from Claude response
+// HELPER: strip markdown fences from AI response
 // =============================================================
 function extractJson(rawText) {
   let text = (rawText || '').trim();
-  // Strip leading ```json or ```
   text = text.replace(/^```(?:json)?\s*\n?/i, '');
-  // Strip trailing ```
   text = text.replace(/\n?```\s*$/i, '');
   return text.trim();
 }
@@ -295,7 +246,7 @@ module.exports = async function handler(req, res) {
 
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
-  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (WEBHOOK_SECRET && req.headers['x-webhook-secret'] !== WEBHOOK_SECRET) {
@@ -359,7 +310,7 @@ module.exports = async function handler(req, res) {
     }
 
     // 5. Build user prompt
-    const userMsg = `Mark this Y7 Entry Assessment submission.
+    const userMsg = `Mark this assessment submission.
 
 INPUT
 -----
@@ -372,35 +323,33 @@ INPUT
 
 Return ONLY the JSON object. No prose. No markdown fences.`;
 
-    // 6. Call Claude
-    const claudeResp = await fetch('https://api.anthropic.com/v1/messages', {
+    // 6. Call DeepSeek V4 Flash
+    const aiResp = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
       },
       body: JSON.stringify({
-        model: pkg.model,
+        model: 'deepseek-v4-flash',
         max_tokens: pkg.max_tokens,
         temperature: 0,
-        system: pkg.system_prompt,
-        messages: [{ role: 'user', content: userMsg }]
+        messages: [
+          { role: 'system', content: pkg.system_prompt },
+          { role: 'user', content: userMsg }
+        ]
       })
     });
 
-    if (!claudeResp.ok) {
-      const errBody = await claudeResp.text();
-      throw new Error(`Claude API error ${claudeResp.status}: ${errBody}`);
+    if (!aiResp.ok) {
+      const errBody = await aiResp.text();
+      throw new Error(`DeepSeek API error ${aiResp.status}: ${errBody}`);
     }
 
-    const claudeData = await claudeResp.json();
-    const rawText = (claudeData.content || [])
-      .filter(c => c.type === 'text')
-      .map(c => c.text)
-      .join('');
+    const aiData = await aiResp.json();
+    const rawText = aiData.choices[0].message.content;
 
-    // 7. Parse JSON (with markdown fence stripping)
+    // 7. Parse JSON
     let marking;
     try {
       marking = JSON.parse(extractJson(rawText));
@@ -408,7 +357,7 @@ Return ONLY the JSON object. No prose. No markdown fences.`;
       throw new Error(`JSON parse failed: ${parseErr.message}. Raw: ${rawText.slice(0, 200)}`);
     }
 
-    // 8. Validate against package config
+    // 8. Validate
     const pt = marking.part_totals || {};
     const calcTotal =
       (pt.A?.awarded || 0) +
@@ -417,27 +366,16 @@ Return ONLY the JSON object. No prose. No markdown fences.`;
       (pt.D?.awarded || 0);
 
     if (marking.total_awarded !== calcTotal) {
-      throw new Error(`Total mismatch: total_awarded=${marking.total_awarded} vs sum of parts=${calcTotal}`);
+      throw new Error(`Total mismatch: total_awarded=${marking.total_awarded} vs sum=${calcTotal}`);
     }
     if (marking.total_awarded > pkg.total_marks || marking.total_awarded < 0) {
-      throw new Error(`Invalid total: ${marking.total_awarded} (max ${pkg.total_marks})`);
+      throw new Error(`Invalid total: ${marking.total_awarded}`);
     }
+    if ((pt.A?.awarded || 0) > pkg.parts.A) throw new Error(`Part A over: ${pt.A.awarded}`);
+    if ((pt.B?.awarded || 0) > pkg.parts.B) throw new Error(`Part B over: ${pt.B.awarded}`);
+    if ((pt.C?.awarded || 0) > pkg.parts.C) throw new Error(`Part C over: ${pt.C.awarded}`);
+    if ((pt.D?.awarded || 0) > pkg.parts.D) throw new Error(`Part D over: ${pt.D.awarded}`);
 
-    // Validate per-part bounds
-    if ((pt.A?.awarded || 0) > pkg.parts.A) {
-      throw new Error(`Part A over: ${pt.A.awarded} > ${pkg.parts.A}`);
-    }
-    if ((pt.B?.awarded || 0) > pkg.parts.B) {
-      throw new Error(`Part B over: ${pt.B.awarded} > ${pkg.parts.B}`);
-    }
-    if ((pt.C?.awarded || 0) > pkg.parts.C) {
-      throw new Error(`Part C over: ${pt.C.awarded} > ${pkg.parts.C}`);
-    }
-    if ((pt.D?.awarded || 0) > pkg.parts.D) {
-      throw new Error(`Part D over: ${pt.D.awarded} > ${pkg.parts.D}`);
-    }
-
-    // Field count check (warn-only — don't block storage)
     const fields = marking.fields || [];
     const fieldCountWarning =
       fields.length !== pkg.total_fields
