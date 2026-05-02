@@ -219,7 +219,7 @@ const PACKAGES = {
     total_fields: 62,
     parts: { A: 10, B: 15, C: 15, D: 20 },
     system_prompt: SYSTEM_PROMPT_V4,
-    max_tokens: 8000,
+    max_tokens: 16000,
     marker_version: 'Vol03_v4_deepseek'
   }
 };
