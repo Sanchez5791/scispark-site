@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 9 Entry Assessment · SciSpark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .y9-review-note{font-size:12px;color:var(--text-muted);margin-top:8px}
+    .data-table-wrap{overflow-x:auto;margin:14px 0}
+    .data-table{border-collapse:collapse;width:100%;font-size:14px}
+    .data-table th,.data-table td{border:1px solid var(--border,#ddd);padding:8px 10px;text-align:left}
+    .data-table th{background:var(--bg-subtle,#f7f4ef);font-weight:600}
+    .text-input,.short-input{width:100%;box-sizing:border-box;border:1px solid var(--border,#ddd);border-radius:8px;padding:10px;font:inherit;background:white}
+    .short-input{max-width:220px}
+    .two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .input-row{margin:10px 0}
+    .input-label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+    .sub-question{margin:14px 0;padding:12px;border-left:3px solid var(--orange,#f36b21);background:rgba(0,0,0,.02)}
+    .sub-label{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+    .sub-letter{font-weight:700}
+    .sub-marks{font-size:12px;color:var(--text-muted)}
+    .word-bank{margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .word-bank-label{font-weight:600;font-size:12px;color:var(--text-muted)}
+    .word-chip{border:1px solid var(--border,#ddd);border-radius:999px;padding:4px 9px;background:white;font-size:13px}
+    .answer-line{margin-top:8px}
+    .field-id-note{font-size:10px;color:rgba(0,0,0,.35);margin-top:4px;font-family:monospace}
+    @media(max-width:640px){.two-col{grid-template-columns:1fr}.data-table{font-size:12px}}
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <img src="scispark-mark-clean.png" alt="SciSpark" class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-name">SciSpark</span>
+        <span class="logo-sub">YEAR 7–9 SCIENCE · CAMBRIDGE 0893</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <span class="assessment-badge">ASSESSMENT · REVIEW</span>
+      <span class="assessment-title">Year 9 Entry Assessment</span>
+    </div>
+    <div class="header-right">
+      <div class="marks-block">
+        <span class="timer-label">ANSWERED</span>
+        <span class="marks-display"><span id="answered-count">0</span>&nbsp;/ 32 QUESTIONS</span>
+      </div>
+      <div class="timer-block">
+        <span class="timer-label">TIME LEFT</span>
+        <span class="timer-display" id="timer">45:00</span>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+</header>
+
+<main class="assessment-main">
+  <div class="instructions-card">
+    <div class="instructions-row">
+      <div class="instr-item">
+        <span class="instr-icon">⏱</span>
+        <div><strong>45 minutes</strong><span>Time allowed</span></div>
+      </div>
+      <div class="instr-item">
+        <span class="instr-icon">📋</span>
+        <div><strong>60 marks</strong><span>Total marks</span></div>
+      </div>
+      <div class="instr-divider"></div>
+      <ul class="instr-list">
+        <li>For Part A and Part B: click the correct answer.</li>
+        <li>For Part C and Part D: use the interactive fields provided.</li>
+        <li>This is an entry-readiness diagnostic. Final support route is confirmed by teacher review.</li>
+      </ul>
+    </div>
+    <div class="y9-review-note">Review build: content updated from Y9_ENTRY_EN_V1 accepted 32-question package. Layout follows existing assessment-y9.html shell.</div>
+  </div>
+
+  <!-- ─────────────────────── PART A ─────────────────────── -->
+  <section class="part-section" id="part-a">
+    <div class="part-header">
+      <div class="part-label">PART A</div>
+      <h2 class="part-title">Vocabulary</h2>
+      <div class="part-marks">10 marks</div>
+    </div>
+    <p class="part-instruction">Questions 1–10: Click the correct answer. (1 mark each)</p>
+
+    <div class="question-block" id="qblock-1" data-marks="1">
+      <div class="question-header"><div class="q-number">Q1</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A material that allows electric current to pass through it is called a:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">conductor</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">insulator</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">magnet</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">filter</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-2" data-marks="1">
+      <div class="question-header"><div class="q-number">Q2</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A material that does not allow electric current to pass through it easily is called an:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">conductor</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">insulator</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">element</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">mixture</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-3" data-marks="1">
+      <div class="question-header"><div class="q-number">Q3</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">The word that means how high or low a sound is:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">pitch</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mass</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">current</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">evaporation</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-4" data-marks="1">
+      <div class="question-header"><div class="q-number">Q4</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">The size or height of a sound wave is called:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">amplitude</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">filtration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">tissue</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">orbit</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-5" data-marks="1">
+      <div class="question-header"><div class="q-number">Q5</div><div class="q-topic">Separation</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">The method used to separate an insoluble solid from a liquid is:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">filtration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">melting</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">freezing</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">digestion</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-6" data-marks="1">
+      <div class="question-header"><div class="q-number">Q6</div><div class="q-topic">Separation</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">The process used to remove water from a salt solution to get salt crystals is:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">evaporation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">pollination</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">respiration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">condensation only</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-7" data-marks="1">
+      <div class="question-header"><div class="q-number">Q7</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A substance made of only one type of atom is called an:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">element</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mixture</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">solution</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">tissue</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-8" data-marks="1">
+      <div class="question-header"><div class="q-number">Q8</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A substance made when different elements are chemically joined together is called a:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">compound</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mixture</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">organ</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">force</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-9" data-marks="1">
+      <div class="question-header"><div class="q-number">Q9</div><div class="q-topic">Biology</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A group of similar cells working together is called a:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">tissue</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">element</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">conductor</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">filter paper</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-10" data-marks="1">
+      <div class="question-header"><div class="q-number">Q10</div><div class="q-topic">Biology</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A feature that helps an organism survive in its habitat is called an:</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">adaptation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">evaporation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">neutralisation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">current</span></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── PART B ─────────────────────── -->
+  <section class="part-section" id="part-b">
+    <div class="part-header">
+      <div class="part-label">PART B</div>
+      <h2 class="part-title">Core Concepts</h2>
+      <div class="part-marks">15 marks</div>
+    </div>
+    <p class="part-instruction">Questions 11–25: Click the correct answer. (1 mark each)</p>
+
+    <div class="question-block" id="qblock-11" data-marks="1">
+      <div class="question-header"><div class="q-number">Q11</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A lamp lights up in a circuit. What must be true?</p>
+        <div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The circuit is complete.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The wire is broken.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The switch is open.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">There is no cell.</span></label></div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-12" data-marks="1">
+      <div class="question-header"><div class="q-number">Q12</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A student puts different materials into a circuit. The lamp lights when copper is used. What does this show about copper?</p>
+        <div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Copper conducts electricity.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Copper is a gas.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Copper is an insulator.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Copper dissolves in water.</span></label></div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-13" data-marks="1"><div class="question-header"><div class="q-number">Q13</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which change usually makes a lamp brighter in a simple circuit?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Add another cell.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Remove the cell.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Break the wire.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Use a plastic connector.</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-14" data-marks="1"><div class="question-header"><div class="q-number">Q14</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A sound has a higher pitch. What is true about the sound?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">It has a higher frequency.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">It must be louder.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">It has no vibration.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">It travels only through a vacuum.</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-15" data-marks="1"><div class="question-header"><div class="q-number">Q15</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A student hits a drum harder. The sound becomes louder. What has increased?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">amplitude</span></label><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">boiling point</span></label><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">filtration</span></label><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">number of cells</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-16" data-marks="1"><div class="question-header"><div class="q-number">Q16</div><div class="q-topic">Floating and Sinking</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A ball floats with 90% of the ball below the water surface. Another ball floats with 10% below the water surface. Which ball is lower in the water?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">the 90% ball</span></label><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the 10% ball</span></label><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">both are the same</span></label><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">impossible to tell</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-17" data-marks="1"><div class="question-header"><div class="q-number">Q17</div><div class="q-topic">Floating and Sinking</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A boat made from thin metal foil floats with 10 coins in it but sinks with 16 coins in it. Why does it sink with 16 coins?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The load is too heavy.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The water becomes solid.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The coins dissolve.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The boat becomes magnetic.</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-18" data-marks="1"><div class="question-header"><div class="q-number">Q18</div><div class="q-topic">Forces</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Ruth and Anna use a forcemeter to pull different shoes. Which shoe has the best grip?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">the shoe that needs the smallest force to move</span></label><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the shoe that needs the largest force to move</span></label><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">the shoe with the lightest colour</span></label><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">the shoe with the smallest size</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-19" data-marks="1"><div class="question-header"><div class="q-number">Q19</div><div class="q-topic">Heat Transfer</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A metal spoon gets hot when one end is placed in hot water. What property of metal explains this?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Metals are good thermal conductors.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Metals are always soft.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Metals are gases.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Metals do not transfer heat.</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-20" data-marks="1"><div class="question-header"><div class="q-number">Q20</div><div class="q-topic">Particle Model</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which statement describes particles in a solid?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">They are close together and vibrate.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">They are very far apart and move freely.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">They disappear when heated.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">They have no mass.</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-21" data-marks="1"><div class="question-header"><div class="q-number">Q21</div><div class="q-topic">Mixtures</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Salt water is best described as:</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">an element</span></label><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">a mixture</span></label><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">a metal</span></label><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">an organ</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-22" data-marks="1"><div class="question-header"><div class="q-number">Q22</div><div class="q-topic">Periodic Table</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">What is the chemical symbol for sodium?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">S</span></label><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">So</span></label><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Na</span></label><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">N</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-23" data-marks="1"><div class="question-header"><div class="q-number">Q23</div><div class="q-topic">Chemical Reaction Evidence</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which observation is good evidence that a chemical reaction has happened?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">a colour change</span></label><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the beaker is round</span></label><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">the ruler is long</span></label><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">the paper is white</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-24" data-marks="1"><div class="question-header"><div class="q-number">Q24</div><div class="q-topic">Cells, Tissues, Organs</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which order goes from smallest to largest?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">cell → tissue → organ</span></label><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">organ → cell → tissue</span></label><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">tissue → organ → cell</span></label><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">organ → tissue → cell</span></label></div></div></div>
+
+    <div class="question-block" id="qblock-25" data-marks="1"><div class="question-header"><div class="q-number">Q25</div><div class="q-topic">Adaptation</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A desert animal is active at night. How does this help it survive?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">It avoids the hottest part of the day.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">It makes the animal heavier.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">It stops all sound.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">It changes water into salt.</span></label></div></div></div>
+  </section>
+
+  <!-- ─────────────────────── PART C ─────────────────────── -->
+  <section class="part-section" id="part-c">
+    <div class="part-header"><div class="part-label">PART C</div><h2 class="part-title">Data &amp; Experiment</h2><div class="part-marks">15 marks</div></div>
+    <p class="part-instruction">Questions 26–28: Type short structured answers.</p>
+
+    <div class="question-block" id="qblock-26" data-marks="5">
+      <div class="question-header"><div class="q-number">Q26</div><div class="q-topic">Electricity Investigation</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">A student tests different materials in a simple circuit.</p>
+        <div class="data-table-wrap"><table class="data-table"><thead><tr><th>Material</th><th>Does the lamp light?</th></tr></thead><tbody><tr><td>copper</td><td>yes</td></tr><tr><td>plastic</td><td>no</td></tr><tr><td>wood</td><td>no</td></tr><tr><td>aluminium</td><td>yes</td></tr></tbody></table></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">2 marks</span></div><p>Which two materials are electrical conductors?</p><div class="two-col"><div><label class="input-label" for="Y9_QC1_a_conductor1_answer">Conductor 1</label><input class="text-input" id="Y9_QC1_a_conductor1_answer" name="Y9_QC1_a_conductor1_answer" type="text"></div><div><label class="input-label" for="Y9_QC1_a_conductor2_answer">Conductor 2</label><input class="text-input" id="Y9_QC1_a_conductor2_answer" name="Y9_QC1_a_conductor2_answer" type="text"></div></div></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC1_b_answer">Which material is an insulator? Give one example from the table.</label><input class="text-input" id="Y9_QC1_b_answer" name="Y9_QC1_b_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC1_c_answer">What does the lamp lighting show about the material?</label><input class="text-input" id="Y9_QC1_c_answer" name="Y9_QC1_c_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC1_d_answer">Name one thing the student should keep the same to make the test fair.</label><input class="text-input" id="Y9_QC1_d_answer" name="Y9_QC1_d_answer" type="text"></div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-27" data-marks="5">
+      <div class="question-header"><div class="q-number">Q27</div><div class="q-topic">Separation Techniques</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">A student has a mixture of sand, salt and iron filings.</p>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_a_answer">Which material can be removed first using a magnet?</label><input class="text-input" id="Y9_QC2_a_answer" name="Y9_QC2_a_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_b_answer">What should the student add to dissolve the salt?</label><input class="text-input" id="Y9_QC2_b_answer" name="Y9_QC2_b_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_c_answer">Which method separates sand from the salt solution?</label><input class="text-input" id="Y9_QC2_c_answer" name="Y9_QC2_c_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_d_answer">What passes through the filter paper?</label><input class="text-input" id="Y9_QC2_d_answer" name="Y9_QC2_d_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_e_answer">How can the student get dry salt from the salt solution?</label><input class="text-input" id="Y9_QC2_e_answer" name="Y9_QC2_e_answer" type="text"></div>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-28" data-marks="5">
+      <div class="question-header"><div class="q-number">Q28</div><div class="q-topic">Floating and Sinking Investigation</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">Mia investigates floating and sinking using six balls. All the balls are the same size but made from different materials.</p>
+        <div class="data-table-wrap"><table class="data-table"><thead><tr><th>Ball</th><th>Percentage below water</th></tr></thead><tbody><tr><td>A</td><td>33%</td></tr><tr><td>B</td><td>10%</td></tr><tr><td>C</td><td>50%</td></tr><tr><td>D</td><td>40%</td></tr><tr><td>E</td><td>12%</td></tr><tr><td>F</td><td>90%</td></tr></tbody></table></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC3_a_answer">Which ball is lowest in the water?</label><input class="text-input" id="Y9_QC3_a_answer" name="Y9_QC3_a_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">2 marks</span></div><p>Which two balls are mostly above the water?</p><div class="two-col"><div><label class="input-label" for="Y9_QC3_b_ball1_answer">Ball 1</label><input class="text-input" id="Y9_QC3_b_ball1_answer" name="Y9_QC3_b_ball1_answer" type="text"></div><div><label class="input-label" for="Y9_QC3_b_ball2_answer">Ball 2</label><input class="text-input" id="Y9_QC3_b_ball2_answer" name="Y9_QC3_b_ball2_answer" type="text"></div></div></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC3_c_answer">Compare ball B and ball F. Which ball sinks lower in the water?</label><input class="text-input" id="Y9_QC3_c_answer" name="Y9_QC3_c_answer" type="text"></div>
+        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC3_d_answer">Mia changes the shape of a piece of modelling clay but keeps the same mass. What shape could help it float?</label><input class="text-input" id="Y9_QC3_d_answer" name="Y9_QC3_d_answer" type="text"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── PART D ─────────────────────── -->
+  <section class="part-section" id="part-d">
+    <div class="part-header"><div class="part-label">PART D</div><h2 class="part-title">Extended Response</h2><div class="part-marks">20 marks</div></div>
+    <p class="part-instruction">Questions 29–32: Write short structured explanations. (5 marks each)</p>
+
+    <div class="question-block" id="qblock-29" data-marks="5">
+      <div class="question-header"><div class="q-number">Q29</div><div class="q-topic">Sound Waves</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">A student compares two sounds. Sound A is quiet and low-pitched. Sound B is loud and high-pitched.</p>
+        <p class="question-text">Explain the difference between the two sounds using the words: <strong>vibration, frequency, pitch, amplitude and loudness</strong>.</p>
+        <textarea class="text-input" id="Y9_QD1_answer" name="Y9_QD1_answer" rows="5" placeholder="Write your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-30" data-marks="5">
+      <div class="question-header"><div class="q-number">Q30</div><div class="q-topic">Chemical Reaction Evidence</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">A student adds a metal to an acid. Bubbles are produced and the test tube becomes warmer.</p>
+        <p class="question-text">Explain how the student can tell that a chemical reaction has happened.</p>
+        <textarea class="text-input" id="Y9_QD2_answer" name="Y9_QD2_answer" rows="5" placeholder="Write your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-31" data-marks="5">
+      <div class="question-header"><div class="q-number">Q31</div><div class="q-topic">Cells, Tissues and Organs</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">Explain how cells, tissues and organs are related. Use one example from the human body.</p>
+        <textarea class="text-input" id="Y9_QD3_answer" name="Y9_QD3_answer" rows="5" placeholder="Write your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="question-block" id="qblock-32" data-marks="5">
+      <div class="question-header"><div class="q-number">Q32</div><div class="q-topic">Adaptation</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">A desert animal has large ears and is active at night.</p>
+        <p class="question-text">Explain how these features help the animal survive in a hot, dry desert.</p>
+        <textarea class="text-input" id="Y9_QD4_answer" name="Y9_QD4_answer" rows="5" placeholder="Write your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <div class="submit-info"><strong id="submit-answered">0 of 32</strong> questions answered</div>
+      <button class="btn-submit" id="submit-btn" type="button">Submit Assessment →</button>
+    </div>
+  </section>
+</main>
+
+<div class="sticky-footer">
+  <div class="footer-progress">
+    <span class="fp-text" id="fp-text">0 / 32 answered</span>
+    <div class="fp-bar-wrap"><div class="fp-bar-fill" id="fp-fill"></div></div>
+  </div>
+  <button class="btn-submit-sm" id="submit-btn-sm" type="button">Submit Assessment →</button>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card">
+    <h2>Submit your assessment?</h2>
+    <p>Once submitted your answers will be sent for review. You will not be able to make changes afterwards.</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><span class="val" id="modal-answered">0</span><span class="lab">Questions answered</span></div>
+      <div class="modal-stat"><span class="val" id="modal-unanswered">32</span><span class="lab">Unanswered</span></div>
+      <div class="modal-stat"><span class="val" id="modal-time">--:--</span><span class="lab">Time remaining</span></div>
+      <div class="modal-stat"><span class="val">60</span><span class="lab">Total marks</span></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="modal-cancel" type="button">Go back</button>
+      <button class="btn-confirm" id="modal-confirm" type="button">Confirm & Submit →</button>
+    </div>
+  </div>
+</div>
+
+<div class="success-screen" id="success-screen">
+  <img src="scispark-mark-clean.png" alt="SciSpark" class="success-logo">
+  <h1>Assessment <span class="orange-text">submitted.</span></h1>
+  <p>Your answers have been received. A reviewer will read your assessment and a recommendation will be stored in your account.</p>
+  <p style="font-size:14px;color:rgba(255,255,255,.3);">You may now close this window.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+<script>
+/* Y9_ENTRY_EN_V1 review override.
+   Keeps old page shell, but locks the new 32-question field contract and review-only submit payload.
+*/
+(function(){
+  const TOTAL_QUESTIONS = 32;
+  const ASSESSMENT_CODE = "Y9_ENTRY_EN_V1";
+  const FIELD_IDS = [
+    "Y9_QA1_answer","Y9_QA2_answer","Y9_QA3_answer","Y9_QA4_answer","Y9_QA5_answer","Y9_QA6_answer","Y9_QA7_answer","Y9_QA8_answer","Y9_QA9_answer","Y9_QA10_answer",
+    "Y9_QB1_answer","Y9_QB2_answer","Y9_QB3_answer","Y9_QB4_answer","Y9_QB5_answer","Y9_QB6_answer","Y9_QB7_answer","Y9_QB8_answer","Y9_QB9_answer","Y9_QB10_answer","Y9_QB11_answer","Y9_QB12_answer","Y9_QB13_answer","Y9_QB14_answer","Y9_QB15_answer",
+    "Y9_QC1_a_conductor1_answer","Y9_QC1_a_conductor2_answer","Y9_QC1_b_answer","Y9_QC1_c_answer","Y9_QC1_d_answer",
+    "Y9_QC2_a_answer","Y9_QC2_b_answer","Y9_QC2_c_answer","Y9_QC2_d_answer","Y9_QC2_e_answer",
+    "Y9_QC3_a_answer","Y9_QC3_b_ball1_answer","Y9_QC3_b_ball2_answer","Y9_QC3_c_answer","Y9_QC3_d_answer",
+    "Y9_QD1_answer","Y9_QD2_answer","Y9_QD3_answer","Y9_QD4_answer"
+  ];
+
+  function qAnswered(block){
+    const fields = block.querySelectorAll("input, textarea, select");
+    for (const el of fields){
+      if (el.type === "radio" || el.type === "checkbox"){
+        if (el.checked) return true;
+      } else if ((el.value || "").trim() !== "") return true;
+    }
+    return false;
+  }
+
+  function answeredCount(){
+    return Array.from(document.querySelectorAll(".question-block")).filter(qAnswered).length;
+  }
+
+  function setText(id, value){
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function updateProgress(){
+    const answered = answeredCount();
+    const pct = Math.round((answered / TOTAL_QUESTIONS) * 100);
+    setText("answered-count", answered);
+    setText("submit-answered", `${answered} of ${TOTAL_QUESTIONS}`);
+    setText("fp-text", `${answered} / ${TOTAL_QUESTIONS} answered`);
+    setText("modal-answered", answered);
+    setText("modal-unanswered", TOTAL_QUESTIONS - answered);
+    const progressFill = document.getElementById("progress-fill");
+    const fpFill = document.getElementById("fp-fill");
+    if (progressFill) progressFill.style.width = pct + "%";
+    if (fpFill) fpFill.style.width = pct + "%";
+  }
+
+  function getResponses(){
+    const responses = {};
+    FIELD_IDS.forEach(id => {
+      const radios = document.querySelectorAll(`input[type="radio"][name="${id}"]`);
+      if (radios.length){
+        const checked = Array.from(radios).find(r => r.checked);
+        responses[id] = checked ? checked.value : "";
+        return;
+      }
+      const checks = document.querySelectorAll(`input[type="checkbox"][name="${id}"]`);
+      if (checks.length){
+        responses[id] = Array.from(checks).filter(c => c.checked).map(c => c.value);
+        return;
+      }
+      const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+      responses[id] = el ? (el.value || "") : "";
+    });
+    return responses;
+  }
+
+  window.SCISPARK_Y9_ENTRY_PAYLOAD = function(){
+    return {
+      assessment_code: ASSESSMENT_CODE,
+      assessment_version: "v1_review",
+      student: {
+        student_id: "",
+        student_name: "",
+        school_year: "Year 9 Entry"
+      },
+      responses: getResponses(),
+      client_meta: {
+        form_language: "English",
+        completion_status: "submitted",
+        field_count: FIELD_IDS.length,
+        question_count: TOTAL_QUESTIONS,
+        total_marks: 60
+      }
+    };
+  };
+
+  function showModal(){
+    updateProgress();
+    const timer = document.getElementById("timer");
+    setText("modal-time", timer ? timer.textContent : "--:--");
+    const modal = document.getElementById("modal-overlay");
+    if (modal) modal.classList.add("active");
+  }
+  function hideModal(){
+    const modal = document.getElementById("modal-overlay");
+    if (modal) modal.classList.remove("active");
+  }
+  function showSuccess(){
+    const payload = window.SCISPARK_Y9_ENTRY_PAYLOAD();
+    console.log("Y9_ENTRY_EN_V1 payload", payload);
+    const success = document.getElementById("success-screen");
+    if (success) success.classList.add("active");
+  }
+
+  document.addEventListener("input", updateProgress, true);
+  document.addEventListener("change", updateProgress, true);
+
+  ["submit-btn","submit-btn-sm"].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); showModal(); }, true);
+  });
+  const cancel = document.getElementById("modal-cancel");
+  if (cancel) cancel.addEventListener("click", function(e){ e.preventDefault(); hideModal(); }, true);
+  const confirm = document.getElementById("modal-confirm");
+  if (confirm) confirm.addEventListener("click", function(e){ e.preventDefault(); hideModal(); showSuccess(); }, true);
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
