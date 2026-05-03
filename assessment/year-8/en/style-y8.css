@@ -1,0 +1,111 @@
+/* ============================================================
+   SciSpark Year 8 Entry Assessment — Y7 Style Lock Patch
+   Purpose: make Year 8 entry assessment top layout match the
+   existing Year 7 live style shown by user. This file does NOT
+   change science content, field IDs, payload, marks, or logic.
+   ============================================================ */
+
+/* Match the current Year 7 visible assessment rhythm below the sticky black header:
+   keep the header/timer/answered bar visible, then show page title, black instruction card, and Part A.
+   Do not touch science content, images, field IDs, marks, or payload logic. */
+
+.site-header {
+  display: block !important;
+}
+
+.assessment-main {
+  max-width: 700px;
+  padding-top: 46px;
+}
+
+.y7-page-title,
+.y8-page-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #050505;
+  margin: 0 0 26px 0;
+}
+
+.instructions-card {
+  margin-bottom: 36px;
+}
+
+/* Keep the visual rhythm close to the Y7 screenshot. */
+.part-header {
+  align-items: center;
+}
+
+.part-title {
+  font-size: 24px;
+}
+
+@media (max-width: 720px) {
+  .assessment-main {
+    padding-top: 28px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .y8-page-title {
+    font-size: 27px;
+    margin-bottom: 22px;
+  }
+}
+
+/* D4 food-web overlay fix: keep the original source diagram visible.
+   Inputs sit on the dotted blank lines without covering the numbered circles. */
+.food-web-overlay-wrap {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto 18px;
+  background: #fff;
+  border: 1px solid #e5e0da;
+  border-radius: 6px;
+  padding: 6px;
+  overflow: hidden;
+}
+.food-web-img {
+  width: 100%;
+  display: block;
+}
+.food-web-line-input {
+  position: absolute;
+  z-index: 4;
+  box-sizing: border-box;
+  height: 34px;
+  padding: 0 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 32px;
+  text-align: center;
+  color: var(--dark);
+  background: #fff8f1;
+  border: 1.6px solid #e87950;
+  border-radius: 8px;
+  outline: none;
+  box-shadow: none;
+  vertical-align: middle;
+}
+.food-web-line-input::placeholder { color: transparent; }
+.food-web-line-input:focus {
+  background: #fff;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 2px rgba(232,82,26,.16);
+}
+.food-web-line-input-1 { left: 12.45%; top: 5.35%; width: 13.4%; }
+.food-web-line-input-2 { left: 32.20%; top: 41.75%; width: 13.0%; }
+.food-web-line-input-3 { left: 68.20%; top: 5.35%; width: 13.4%; }
+.food-web-line-input-4 { left: 68.25%; top: 41.75%; width: 13.0%; }
+@media (max-width: 560px) {
+  .food-web-line-input {
+    height: 24px;
+    font-size: 10px;
+    line-height: 22px;
+    padding: 0 6px;
+  }
+}
+
+
