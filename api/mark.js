@@ -377,8 +377,7 @@ const PACKAGES = {
     parts: { A: 10, B: 15, C: 15, D: 20 },
     system_prompt: SYSTEM_PROMPT_Y8_V4,
     max_tokens: 16000,
-    marker_version: 'Y8_Vol03_v4_deepseek',
-    fieldSchema: { idCol: 'field_id', valueCol: 'raw_answer' }
+    marker_version: 'Y8_Vol03_v4_deepseek'
   }
 };
 

@@ -300,9 +300,8 @@ function getStudentIdFromUrl() {
 
 function flattenResponses(responses) {
   return Object.entries(responses).map(([fieldId, obj]) => ({
-    field_id:    fieldId,
-    raw_answer:  obj.raw,
-    norm_answer: obj.normalized
+    field_name:   fieldId,
+    answer_value: obj.raw
   }));
 }
 
@@ -342,9 +341,8 @@ async function submitToSupabase(payload) {
 
   const answerRows = flattenResponses(payload.responses).map(row => ({
     attempt_id:   attempt.id,
-    field_id:     row.field_id,
-    raw_answer:   row.raw_answer,
-    norm_answer:  row.norm_answer
+    field_name:   row.field_name,
+    answer_value: row.answer_value
   }));
 
   const { error: answersError } = await supabaseClient
