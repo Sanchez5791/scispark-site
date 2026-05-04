@@ -365,94 +365,85 @@ MARKING RULES:
 
 ANSWER KEY:
 
-PART A — Vocabulary (Q1–Q5, 1 mark each, 5 marks total)
-q1: C
-q2: C
-q3: B
-q4: C
-q5: B
+PART A — Vocabulary (QA1–QA10, 1 mark each, 10 marks total)
+Y9_QA1_answer: A
+Y9_QA2_answer: B
+Y9_QA3_answer: A
+Y9_QA4_answer: A
+Y9_QA5_answer: A
+Y9_QA6_answer: A
+Y9_QA7_answer: A
+Y9_QA8_answer: A
+Y9_QA9_answer: A
+Y9_QA10_answer: A
 
-PART B — Core Concepts (Q6–Q20, 1 mark each, 15 marks total)
-q6: C
-q7: C
-q8: B
-q9: B
-q10: C
-q11: D
-q12: C
-q13: C
-q14: C
-q15: D
-q16: B
-q17: D
-q18: D
-q19: B
-q20: C
+PART B — Core Concepts (QB1–QB15, 1 mark each, 15 marks total)
+Y9_QB1_answer: A
+Y9_QB2_answer: A
+Y9_QB3_answer: A
+Y9_QB4_answer: A
+Y9_QB5_answer: A
+Y9_QB6_answer: A
+Y9_QB7_answer: A
+Y9_QB8_answer: B
+Y9_QB9_answer: A
+Y9_QB10_answer: A
+Y9_QB11_answer: B
+Y9_QB12_answer: C
+Y9_QB13_answer: A
+Y9_QB14_answer: A
+Y9_QB15_answer: A
 
-PART C — Data & Experiment (12 marks total)
+PART C — Data & Experiment (13 marks total)
 
-Q21 — Energy in Reactions [4 marks]
-q21a [1 mark]: Award 1 if student selects BOTH B and C. Award 0 if only one selected or if A is selected.
-q21b_temp_change [0.5 mark]: Accept +14 or 14 (°C implied).
-q21b_type [0.5 mark]: exothermic. Accept 'exo'.
-q21c_temp_change [0.5 mark]: Accept +25 or 25 (°C implied).
-q21c_type [0.5 mark]: exothermic. Accept 'exo'.
-q21c_app [1 mark]: B. Reaction B is exothermic and releases heat — suitable for self-heating. Do not accept A or C.
+QC1 — Electrical Conductors & Insulators [4 marks]
+Y9_QC1_a_answer [1 mark]: correct conductor identified from table. Accept the specific material name shown in the HTML table.
+Y9_QC1_b_answer [1 mark]: insulator identified with example. Accept any correct insulator from the table.
+Y9_QC1_c_answer [1 mark]: lamp lighting shows the material allows current to flow / is a conductor / completes the circuit. Accept equivalent scientific statements.
+Y9_QC1_d_answer [1 mark]: one control variable — keep the same: voltage / battery / length of material / thickness of material / type of lamp. Accept any valid controlled variable.
 
-Q22 — Rusting Investigation [4 marks]
-q22a [1 mark]: increases / goes up / gets worse / higher. Do not accept 'decreases'.
-q22b_1 [0.5 mark]: water. Accept 'H2O'.
-q22b_2 [0.5 mark]: oxygen. Accept 'O2'. Award both q22b_1 and q22b_2 only if BOTH water and oxygen are present (either field).
-q22b_3 [1 mark]: faster / more quickly / more rapidly. Do not accept 'slower'.
-q22c [1 mark]: B. Second option only. Do not accept A or C.
+QC2 — Separating Mixtures [5 marks]
+Y9_QC2_a_answer [1 mark]: iron / iron filings. The magnetic material removed by magnet.
+Y9_QC2_b_answer [1 mark]: water. Accept 'distilled water'.
+Y9_QC2_c_answer [1 mark]: filtration. Accept 'filter / filter paper'.
+Y9_QC2_d_answer [1 mark]: salt solution / the solution / filtrate. Accept 'dissolved salt and water'.
+Y9_QC2_e_answer [1 mark]: evaporation / evaporate the water / heat to dryness. Accept 'crystallisation'.
 
-Q23 — Forces: Skydiver [4 marks]
-q23a [1 mark]: constant (speed). Accept: 'constant velocity', 'terminal velocity', 'not accelerating', 'balanced forces'. Do not accept 'accelerating' or 'decelerating'.
-q23b_A [1 mark]: air resistance. Accept: 'drag', 'friction'. Do not accept 'upthrust' or 'buoyancy'.
-q23b_B [1 mark]: gravity / weight. Accept: 'gravitational force', 'gravitational pull'.
-q23c [1 mark]: B. Second option. Air resistance (force A) increases because larger area creates more drag. Do not accept A or C.
+QC3 — Floating and Sinking [4 marks]
+Y9_QC3_a_answer [1 mark]: the ball with the greatest density / heaviest ball / densest ball. Accept the specific ball letter if identifiable from context.
+Y9_QC3_b_answer [1 mark]: density / the density of the ball compared to water. Accept 'whether it is denser than water'.
+Y9_QC3_c_answer [1 mark]: ball B (or whichever ball is denser / sinks lower based on diagram).
+Y9_QC3_d_answer [1 mark]: hollow / bowl / boat shape / flat and wide / cup shape. Accept any shape that increases volume to reduce overall density. Reject 'smaller'.
 
-PART D — Reasoning & Application (28 marks total)
+PART D — Reasoning & Application (20 marks total)
 
-Q24 — Inside the Atom [7 marks]
-q24a_A [1 mark]: nucleus. Accept: 'the nucleus', 'atomic nucleus', 'protons and neutrons'.
-q24a_B [1 mark]: electrons. Accept: 'electron'.
-q24b_1 [0.5 mark]: protons. Accept: 'proton'.
-q24b_2 [0.5 mark]: neutrons. Accept: 'neutron'.
-q24b_3 [0.5 mark]: positive. Accept: '+', 'positively charged'.
-q24b_4 [0.5 mark]: electrons. Accept: 'electron', 'negatively charged particles'.
-q24c [1 mark]: Award 1 if student selects options 1 AND 2 only. Award 0 if option 3 or 4 selected alongside, or if only one of 1/2 selected.
-q24d [1 mark]: new evidence / new experimental results led to the model being revised or changed. Accept any answer that links new evidence/experiments to model revision. Do not accept 'scientists changed their minds' without mentioning evidence.
+QD1 [5 marks]
+Y9_QD1_a_answer [1 mark]: see mark scheme for QD1(a).
+Y9_QD1_b_answer [1 mark]: see mark scheme for QD1(b).
+Y9_QD1_c_answer [1 mark]: see mark scheme for QD1(c).
+Y9_QD1_d_answer [1 mark]: see mark scheme for QD1(d).
+Y9_QD1_e_answer [1 mark]: see mark scheme for QD1(e).
 
-Q25 — Chemical Reactions & Reactivity [7 marks]
-q25a_A [0.5 mark]: gold. Accept: 'Au'.
-q25a_B [0.5 mark]: sodium. Accept: 'Na'.
-q25a_C [0.5 mark]: magnesium. Accept: 'Mg'.
-q25a_D [0.5 mark]: zinc. Accept: 'Zn'. (Max 3 marks for q25a — award 3 if all 4 correct, 2 if 3 correct, 1 if 2 correct, 0 if fewer than 2 correct.)
-q25b_reactant [0.5 mark]: oxygen. Accept: 'O2'.
-q25b_product [0.5 mark]: magnesium oxide. Accept: 'MgO'.
-q25c [2 marks]: Award 1 mark for stating gold is at the bottom of the reactivity series / least reactive. Award 1 mark for stating it therefore does not react with oxygen. Both marks independent. Do not accept 'gold is inert' alone without linking to reactivity series.
-q25d_1 [0.5 mark]: calcium hydroxide. Accept: 'Ca(OH)2'.
-q25d_2 [0.5 mark]: hydrogen. Accept: 'H2'.
+QD2 [5 marks]
+Y9_QD2_a_answer [1 mark]: see mark scheme for QD2(a).
+Y9_QD2_b_answer [1 mark]: see mark scheme for QD2(b).
+Y9_QD2_c_answer [1 mark]: see mark scheme for QD2(c).
+Y9_QD2_d_answer [1 mark]: see mark scheme for QD2(d).
+Y9_QD2_e_answer [1 mark]: see mark scheme for QD2(e).
 
-Q26 — Moments & Pressure [7 marks]
-q26a [1 mark]: For a balanced system, clockwise moment equals anticlockwise moment. Accept: 'moments balance', 'turning forces are equal on both sides'. Must mention moments/turning force — do not accept 'forces balance' alone.
-q26b_working [1 mark]: Award 1 if working shows 400 × 3 = W × 2 or equivalent. Accept any correct rearrangement.
-q26b_answer [1 mark]: 600 (N). Accept with or without unit. ecf from working.
-q26c [2 marks]: Award 1 for 'longer spanner increases distance from pivot'. Award 1 for 'same force produces a greater moment / enough to turn the bolt'. Both marks independent.
-q26d_pressure [1 mark]: 100. Accept: '100 N/m²', '100 Pa'. Method: 200 ÷ 2 = 100. ecf valid.
-q26e [1 mark]: Pressure decreases because area increases (force stays the same). Must state both the conclusion (decreases) and the reason (area increases). Accept P = F/A with correct reasoning.
+QD3 [5 marks]
+Y9_QD3_a_answer [1 mark]: see mark scheme for QD3(a).
+Y9_QD3_b_answer [1 mark]: see mark scheme for QD3(b).
+Y9_QD3_c_answer [1 mark]: see mark scheme for QD3(c).
+Y9_QD3_d_answer [1 mark]: see mark scheme for QD3(d).
+Y9_QD3_e_answer [1 mark]: see mark scheme for QD3(e).
 
-Q27 — Energy Resources & Energy in Reactions [7 marks]
-q27a_renewable [1 mark]: Award 1 if student correctly identifies at least 3 of: bioplastics, tidal, plant oil, solar. Award 2 if all 4 renewable items correctly placed AND fossil fuels in non-renewable. Score out of 2 combined with q27a_nonrenewable.
-q27a_nonrenewable [combined with above]: fossil fuels only.
-(Combined q27a score: 2 marks — 1 mark for 3+ correct placements, 2 marks for all 5 correct.)
-q27b_1 [1 mark]: fossil fuels are non-renewable / will run out / finite resource / limited supply.
-q27b_2 [1 mark]: burning fossil fuels releases CO2 / causes climate change / global warming / air pollution. Accept any valid environmental disadvantage.
-q27c_type [0.5 mark]: exothermic. Accept: 'exo'.
-q27c_expl [0.5 mark]: releases heat / energy to surroundings / temperature increases / gets hot.
-q27d_1 [0.5 mark]: endothermic. Accept: 'endo'.
-q27d_2 [0.5 mark]: temperature decreases / absorbs heat from surroundings / gets cold / cools down.
+QD4 [5 marks]
+Y9_QD4_a_answer [1 mark]: see mark scheme for QD4(a).
+Y9_QD4_b_answer [1 mark]: see mark scheme for QD4(b).
+Y9_QD4_c_answer [1 mark]: see mark scheme for QD4(c).
+Y9_QD4_d_answer [1 mark]: see mark scheme for QD4(d).
+Y9_QD4_e_answer [1 mark]: see mark scheme for QD4(e).
 
 SCORING OUTPUT FORMAT:
 Return ONLY this JSON structure:
@@ -462,18 +453,19 @@ Return ONLY this JSON structure:
   "total_marks_available": 60,
   "percentage": <number rounded to 1dp>,
   "part_scores": {
-    "A": {"awarded": <n>, "available": 5},
+    "A": {"awarded": <n>, "available": 10},
     "B": {"awarded": <n>, "available": 15},
-    "C": {"awarded": <n>, "available": 12},
-    "D": {"awarded": <n>, "available": 28}
+    "C": {"awarded": <n>, "available": 13},
+    "D": {"awarded": <n>, "available": 20}
   },
   "question_scores": {
-    "q1": <0 or 1>, "q2": <0 or 1>, "q3": <0 or 1>, "q4": <0 or 1>, "q5": <0 or 1>,
-    "q6": <0 or 1>, "q7": <0 or 1>, "q8": <0 or 1>, "q9": <0 or 1>, "q10": <0 or 1>,
-    "q11": <0 or 1>, "q12": <0 or 1>, "q13": <0 or 1>, "q14": <0 or 1>, "q15": <0 or 1>,
-    "q16": <0 or 1>, "q17": <0 or 1>, "q18": <0 or 1>, "q19": <0 or 1>, "q20": <0 or 1>,
-    "q21": <0-4>, "q22": <0-4>, "q23": <0-4>,
-    "q24": <0-7>, "q25": <0-7>, "q26": <0-7>, "q27": <0-7>
+    "Y9_QA1": <0 or 1>, "Y9_QA2": <0 or 1>, "Y9_QA3": <0 or 1>, "Y9_QA4": <0 or 1>, "Y9_QA5": <0 or 1>,
+    "Y9_QA6": <0 or 1>, "Y9_QA7": <0 or 1>, "Y9_QA8": <0 or 1>, "Y9_QA9": <0 or 1>, "Y9_QA10": <0 or 1>,
+    "Y9_QB1": <0 or 1>, "Y9_QB2": <0 or 1>, "Y9_QB3": <0 or 1>, "Y9_QB4": <0 or 1>, "Y9_QB5": <0 or 1>,
+    "Y9_QB6": <0 or 1>, "Y9_QB7": <0 or 1>, "Y9_QB8": <0 or 1>, "Y9_QB9": <0 or 1>, "Y9_QB10": <0 or 1>,
+    "Y9_QB11": <0 or 1>, "Y9_QB12": <0 or 1>, "Y9_QB13": <0 or 1>, "Y9_QB14": <0 or 1>, "Y9_QB15": <0 or 1>,
+    "Y9_QC1": <0-4>, "Y9_QC2": <0-5>, "Y9_QC3": <0-4>,
+    "Y9_QD1": <0-5>, "Y9_QD2": <0-5>, "Y9_QD3": <0-5>, "Y9_QD4": <0-5>
   },
   "ai_marker_notes": "<brief note on any borderline decisions, max 100 words>"
 }
