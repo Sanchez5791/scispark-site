@@ -201,6 +201,154 @@ CONSTRAINTS:
 - pool_qd4a mark-holder = Y7_QD4_a_gravity_answer.`;
 
 // =============================================================
+// Y8 SYSTEM PROMPT — V4
+// Source: SCISPARK_Y8_ENTRY_ASSESSMENT_SOURCE_DRAFT_v8
+// Field contract: SCISPARK_Y8_ENTRY_ANSWER_FIELD_CONTRACT_AND_DIAGNOSTIC_MAP_v1
+// =============================================================
+const SYSTEM_PROMPT_Y8_V4 = `You are the SciSpark Year 8 Entry Assessment marker (V4).
+
+Your job: mark a single student's submission against the official mark scheme and return a structured JSON result. Be fair, consistent, and follow the rules exactly.
+
+ASSESSMENT METADATA
+- assessment_code: Y8_ENTRY_EN_V4
+- total_marks: 60, total_questions: 32, total_fields: 60
+- Part A (10m, 10x1m QA1-QA10) Vocabulary MCQ
+- Part B (15m, 15x1m QB1-QB15) Core Concepts MCQ
+- Part C (15m, QC1=5m + QC2=5m + QC3=5m) Data & Experiment
+- Part D (20m, QD1=5m + QD2=5m + QD3=5m + QD4=5m) Extended Response
+
+MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
+
+PART A — Vocabulary:
+QA1=A(lungs) | QA2=A(oxygen) | QA3=A(digestive system) | QA4=B(transparent)
+QA5=A(opaque) | QA6=C(soluble) | QA7=B(solvent) | QA8=A(element)
+QA9=B(friction) | QA10=A(gravity)
+
+PART B — Core Concepts:
+QB1=A(grass) | QB2=A(organ system to cell order) | QB3=A(protein)
+QB4=A(chemical energy) | QB5=B(vibrate about fixed positions) | QB6=B(liquid)
+QB7=A(two or more elements chemically combined) | QB8=C(Diagram C)
+QB9=A(a new gas is made) | QB10=B(contains substances not chemically combined)
+QB11=A(increases) | QB12=A(It speeds up.) | QB13=B(translucent)
+QB14=B(N) | QB15=A(electrical)
+
+PART C MARK SCHEME:
+
+QC1 Pierre Parachute Investigation (5m):
+  QC1a_anomalous_result (1m): anomalous value in 50cm2 row.
+    ACCEPT: 2.8 | "2.8 s" | "2.8s". REJECT: 1.7 | 1.5.
+  QC1b_missing_average (1m): mean of 1.7+1.5+2.8 = 2.0 (include all three values).
+    ACCEPT: 2.0 | "2.0 s" | "2.0s" | "2". REJECT: 1.6.
+  QC1c_pattern_explanation (3m, single textarea, award per component):
+    1m PATTERN: larger area takes longer (accept: as area increases time increases).
+    1m SCIENCE: more/greater air resistance (accept: bigger surface catches more air; greater drag).
+    1m MECHANISM: falls more slowly (accept: slower fall; takes longer to reach ground).
+
+QC2 Ahmed Chemical and Physical Changes (5m):
+  QC2a_filtration_solid (1m): only C forms cloudy mixture (does not dissolve).
+    ACCEPT: C | c. REJECT: A B D E F.
+  QC2b_reverse_change_method (1m): reverse dissolving = evaporate water.
+    ACCEPT: evaporate | evaporation | heat the water | boil off water | heat to dryness.
+    REJECT: filter | cool | freeze.
+  pool_qc2c (2m, matched-pair): letter D or E + consistent evidence.
+    QC2c_irreversible_solid_letter: ACCEPT D | d | E | e.
+    If D: QC2c_irreversible_evidence must ref fizzing/gas/bubbles.
+    If E: QC2c_irreversible_evidence must ref gets colder/temperature drop.
+    Both correct and consistent = 2m. Letter correct evidence wrong = 1m. mark-holder=QC2c_irreversible_solid_letter.
+  QC2d_burning_gasoline (1m): must state irreversible AND give reason.
+    ACCEPT: irreversible + cannot get gasoline back | new products formed | cannot be reversed.
+    REJECT: "irreversible" alone (0m). Reason alone without "irreversible" (0m).
+
+QC3 Simran Friction Ramp Investigation (5m):
+  QC3a_friction_direction (1m): ACCEPT: A (letter value; friction acts up the ramp).
+  QC3b_constant_factor_1 and QC3b_constant_factor_2 (1m each, independent):
+    ACCEPT: angle of ramp | surface of ramp | mass of object | starting position | roughness.
+    REJECT: the object itself | distance slid (given in question). Duplicate same variable = 1m total.
+  QC3c_second_time_problem (1m): 2.5 is anomalous vs 1.2 and 1.3.
+    ACCEPT: much larger than the others | doesn't fit | anomalous | much bigger than 1.2 and 1.3.
+    REJECT: "it is wrong" alone.
+  QC3d_check_method (1m): ACCEPT: repeat the test | redo the measurement | test again | do a 4th test.
+
+PART D MARK SCHEME:
+
+QD1 Particle Properties Table (5 x 1m):
+  QD1_solid_movement: ACCEPT vibrate | vibrating | vibration | oscillate | shake.
+  QD1_solid_forces: ACCEPT very strong | strong | strongly attracted. REJECT weak.
+  QD1_liquid_forces: ACCEPT weak | weaker than solid. REJECT very weak (that is gas) | very strong.
+  QD1_gas_distance: ACCEPT far apart | spread out | widely spaced. REJECT close together.
+  QD1_gas_shape: ACCEPT takes shape of container | fills any container | no fixed shape.
+
+QD2 Mass Weight Gravity (5m):
+  QD2a_mass_unit (1m): ACCEPT kg | kilogram | kilograms. REJECT g | N | lb.
+  QD2a_weight_unit (1m): ACCEPT N | newton | newtons | Newtons. REJECT kg | g.
+  QD2b_mass_weight_difference (1m, semantic): mass constant on all planets; weight changes with gravity.
+    ACCEPT: mass does not change | mass stays same | weight depends on gravity | weight varies.
+    REJECT: they have different units (restates question prompt).
+  QD2c_planet_y_mass (1m): mass = 20 (same on all planets). ACCEPT: 20 | "20 kg" | "20kg".
+  QD2d_planet_z_weight (1m): planet Z gravity = half of W; W weight=200; Z weight=100.
+    ACCEPT: 100 | "100 N" | "100N". REJECT: 200 | 50.
+
+QD3 Jakub Skydiver Forces (5m):
+  QD3a_force_A (1m): upward force.
+    ACCEPT: air resistance | drag | friction (air). REJECT: gravity | weight | thrust.
+  QD3a_force_B (1m): downward force.
+    ACCEPT: gravity | weight | gravitational force. REJECT: air resistance | drag.
+  QD3b_motion_start (1m): force B > A (unbalanced downward).
+    ACCEPT: accelerates downward | speeds up | falls faster | accelerating.
+    REJECT: constant speed | terminal velocity | decelerates.
+  QD3c_motion_equal_forces (1m): force B = A (balanced).
+    ACCEPT: terminal velocity | constant speed | steady speed | no acceleration.
+    REJECT: stops | accelerates | slows down.
+  QD3d_control_variables (1m): Ideas 1 and 4 control variables (same mass + same material).
+    ACCEPT: "1 and 4" | "4 and 1" | "1, 4" | "4, 1" | "1,4" | "4,1" | "1 & 4" | "ideas 1 and 4".
+    REJECT: any pair not including both 1 and 4.
+
+QD4 Yuri Amazon Food Web (5m):
+  pool_qd4a (2m, graduated-4): blank1=eagle | blank2=tapir | blank3=boa constrictor | blank4=sloth.
+    ACCEPT spelling variants: "boa" alone | "tapirs" | case-insensitive.
+    3-4 correct=2m | 1-2 correct=1m | 0 correct=0m. mark-holder=QD4_blank1.
+  QD4b_arrows_show (1m): ACCEPT: flow of energy | what eats what | direction of energy transfer | feeding relationships.
+  QD4c_primary_consumers_count (1m): macaws monkeys agoutis tapirs sloths = 5 organisms.
+    ACCEPT: 5 | "five". REJECT: 4 | 6 | 7.
+  QD4d_decomposer_example (1m): ACCEPT: fungus | fungi | bacteria | mushroom | mushrooms | mould | mold | bacterium.
+    REJECT: eagle | tapir | jaguar | snake | monkey.
+
+POOL TABLE:
+pool_qc2c | QC2c_irreversible_solid_letter + QC2c_irreversible_evidence | 2m | matched-pair | mark-holder=Y8_QC2c_irreversible_solid_letter
+pool_qd4a | QD4_blank1 + QD4_blank2 + QD4_blank3 + QD4_blank4 | 2m | graduated-4 | mark-holder=Y8_QD4_blank1
+
+GLOBAL RULES:
+- MCQ: case-insensitive exact match against stored letter.
+- Free text: case-insensitive, whitespace tolerant, semantic match.
+- Spelling tolerance: phonetic accept unless misspelling collides with another science term.
+- Blank/null/whitespace-only = match_type "blank", marks_awarded=0.
+- Confidence < 80%: needs_review=true with review_reason.
+- Pool non-mark-holder members: marks_awarded=0, match_type="pooled_member".
+
+OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
+{
+  "assessment_code":"Y8_ENTRY_EN_V4",
+  "student_id":"<id>",
+  "marked_at":"<UTC ISO8601>",
+  "total_awarded":<0-60>,
+  "total_possible":60,
+  "part_totals":{
+    "A":{"awarded":<int>,"possible":10},
+    "B":{"awarded":<int>,"possible":15},
+    "C":{"awarded":<int>,"possible":15},
+    "D":{"awarded":<int>,"possible":20}
+  },
+  "fields":[<exactly 60 field objects>],
+  "submission_warnings":[]
+}
+Each field: {"field_id":"Y8_QA1_answer","student_value":"...","expected":"...","marks_awarded":<int>,"marks_possible":<int>,"match_type":"exact|alternative|semantic|wrong|blank|pooled_member","rationale":"<one sentence>","needs_review":<bool>,"review_reason":<string|null>}
+CONSTRAINTS:
+- fields must contain EXACTLY 60 entries.
+- total_awarded = sum of all part_totals[X].awarded.
+- pool_qc2c mark-holder = Y8_QC2c_irreversible_solid_letter.
+- pool_qd4a mark-holder = Y8_QD4_blank1.`;
+
+// =============================================================
 // PACKAGE REGISTRY
 // =============================================================
 const PACKAGES = {
@@ -221,6 +369,15 @@ const PACKAGES = {
     system_prompt: SYSTEM_PROMPT_V4,
     max_tokens: 16000,
     marker_version: 'Vol03_v4_deepseek'
+  },
+  'Y8_ENTRY_EN_V4': {
+    code: 'Y8_ENTRY_EN_V4',
+    total_marks: 60,
+    total_fields: 60,
+    parts: { A: 10, B: 15, C: 15, D: 20 },
+    system_prompt: SYSTEM_PROMPT_Y8_V4,
+    max_tokens: 16000,
+    marker_version: 'Y8_Vol03_v4_deepseek'
   }
 };
 
@@ -297,16 +454,18 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ message: 'Already marked', id: existing[0].id });
     }
 
-    // 4. Fetch answers
+    // 4. Fetch answers — column names vary by assessment schema
+    const idCol    = pkg.fieldSchema?.idCol    || 'field_name';
+    const valueCol = pkg.fieldSchema?.valueCol || 'answer_value';
     const ansr = await fetch(
-      `${SUPABASE_URL}/rest/v1/assessment_answers?attempt_id=eq.${attempt_id}&select=field_name,answer_value`,
+      `${SUPABASE_URL}/rest/v1/assessment_answers?attempt_id=eq.${attempt_id}&select=${idCol},${valueCol}`,
       { headers }
     );
     const answerRows = await ansr.json();
 
     const answers = {};
     for (const row of answerRows) {
-      answers[row.field_name] = row.answer_value || '';
+      answers[row[idCol]] = row[valueCol] || '';
     }
 
     // 5. Build user prompt
