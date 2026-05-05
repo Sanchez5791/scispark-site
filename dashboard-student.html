@@ -6,23 +6,21 @@
 <title>SciSpark — Student Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#f5efe5;--bg-card:#fff;--bg-subtle:#f0e9df;
   --orange:#e8521a;--orange-h:#d44717;--orange-l:#fdf2ed;--orange-m:#f9d9cc;
-  --dark:#1a1917;--dark-c:#201e1b;
+  --dark:#1a1917;
   --text:#2d2926;--muted:#9a8e84;--light:#c5bbb4;--border:#e2d9ce;
-  --green:#2E7D5B;--green-bg:#d9eed9;--amber-bg:#fdf2ed;
+  --green:#2E7D5B;--green-bg:#d9eed9;
   --serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
-  --r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer;border:0;background:none}
 
-/* NAV */
 .nav{position:sticky;top:0;z-index:100;background:var(--dark);box-shadow:0 2px 16px rgba(0,0,0,.3)}
 .nav-bar{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -34,161 +32,38 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .nav-right{display:flex;align-items:center;gap:14px}
 .nav-user{display:flex;align-items:center;gap:9px}
 .avatar{width:30px;height:30px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-.nav-name{font-size:13px;color:rgba(255,255,255,.8);font-weight:500}
-.nav-signout{font-size:12px;color:rgba(255,255,255,.45);padding:5px 12px;border:1px solid rgba(255,255,255,.15);border-radius:100px;transition:.15s}
-.nav-signout:hover{color:#fff;border-color:rgba(255,255,255,.4)}
-/* Progress bar under nav */
-.nav-progress{height:3px;background:rgba(255,255,255,.1)}
-.np-fill{height:100%;width:71%;background:var(--orange);transition:width .4s ease}
+.nav-name{font-size:13px;color:rgba(255,255,255,.85);font-weight:500;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-signout{font-size:12px;color:rgba(255,255,255,.5);padding:5px 12px;border:1px solid rgba(255,255,255,.18);border-radius:100px;cursor:pointer;transition:.15s}
+.nav-signout:hover{color:#fff;border-color:rgba(255,255,255,.45)}
 
-/* LAYOUT */
-.layout{display:flex;max-width:1200px;margin:0 auto;min-height:calc(100vh - 63px)}
+.wrap{max-width:680px;margin:0 auto;padding:60px 24px 80px}
+.hero{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:48px 40px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);background:var(--orange-l);border:1px solid var(--orange-m);padding:4px 10px;border-radius:4px;margin-bottom:18px}
+.h1{font-family:var(--serif);font-size:34px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.15;margin-bottom:10px}
+.sub{font-size:15px;color:var(--muted);margin-bottom:32px;line-height:1.55}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:#fff;background:var(--orange);padding:14px 32px;border-radius:100px;transition:.15s;border:0}
+.btn-primary:hover:not(:disabled){background:var(--orange-h)}
+.btn-primary:disabled{cursor:default;opacity:.95}
+.btn-primary.done{background:var(--green)}
+.btn-primary.done:hover{background:var(--green)}
+.status-msg{margin-top:18px;font-size:13px;color:var(--muted)}
+.status-msg.ok{color:var(--green);font-weight:500}
+.error{padding:14px 18px;background:#fff3f0;border:1px solid var(--orange-m);border-radius:10px;color:#a83711;font-size:13px;text-align:left;margin-top:8px}
+.loading-block{padding:60px 20px;text-align:center;color:var(--muted);font-size:14px}
+.footer-note{text-align:center;margin-top:24px;font-size:12px;color:var(--muted)}
+.help-note{margin-top:28px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.55}
 
-/* SIDEBAR */
-.sidebar{width:256px;flex-shrink:0;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:63px;height:calc(100vh - 63px);overflow-y:auto}
-.sb-profile{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
-.sp-av{width:42px;height:42px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:.02em}
-.sp-name{font-size:14px;font-weight:600;color:var(--dark);line-height:1.2}
-.sp-level{font-size:12px;color:var(--muted);margin-top:3px}
-.sp-badges{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.badge-pill{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;border:1px solid}
-.badge-bilingual{background:var(--bg-subtle);color:var(--text);border-color:var(--border)}
-.badge-level{background:var(--orange-l);color:var(--orange);border-color:var(--orange-m)}
-.sb-menu{padding:10px 8px;flex:1}
-.sb-menu a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-md);font-size:13.5px;color:var(--muted);transition:.14s;margin-bottom:2px}
-.sb-menu a:hover{background:var(--bg-subtle);color:var(--text)}
-.sb-menu a.active{background:var(--orange-l);color:var(--orange);font-weight:600;border-left:3px solid var(--orange);border-radius:0 var(--r-md) var(--r-md) 0;padding-left:9px}
-.sb-menu .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0}
-.sb-ring-block{margin:0 14px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px;background:var(--bg-subtle);border-radius:var(--r-md);border:1px solid var(--border)}
-.ring-sm{position:relative;width:60px;height:60px}
-.ring-sm svg{width:60px;height:60px;transform:rotate(-90deg)}
-.ring-sm .r-bg{fill:none;stroke:var(--border);stroke-width:7}
-.ring-sm .r-fg{fill:none;stroke:var(--orange);stroke-width:7;stroke-linecap:round;stroke-dasharray:157;stroke-dashoffset:calc(157 - 157*.71)}
-.ring-sm-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-sm-text b{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--dark)}
-.ring-sm-text span{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.sb-ring-label{font-size:11px;color:var(--muted);text-align:center}
-
-/* MAIN */
-.main{flex:1;padding:28px 28px 60px;min-width:0}
-
-/* PAGE HEADER */
-.eyebrow{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);background:var(--orange-l);border:1px solid var(--orange-m);padding:3px 8px;border-radius:4px;margin-bottom:10px}
-.page-h1{font-family:var(--serif);font-size:38px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.05;margin-bottom:8px}
-.page-sub{font-size:14px;color:var(--muted);line-height:1.55}
-
-/* QUICK STATS */
-.quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
-.qs-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.qs-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.qs-val{font-family:var(--serif);font-size:28px;font-weight:500;color:var(--dark);line-height:1;letter-spacing:-.01em}
-.qs-sub{font-size:11px;color:var(--muted)}
-
-/* CARD */
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:14px}
-.card-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.card-eyebrow{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.card-title{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--dark);letter-spacing:-.01em}
-
-/* UNIT CARDS */
-.units-grid{display:grid;gap:10px}
-.unit-row{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg);transition:.15s}
-.unit-row:hover{background:var(--bg-card);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.unit-row.current{background:var(--bg-card);border-color:var(--orange-m);box-shadow:0 1px 0 rgba(0,0,0,.04)}
-.unit-row.locked{opacity:.55}
-.unit-ix{width:44px;height:44px;border-radius:var(--r-md);background:var(--bg-card);border:1px solid var(--border);display:grid;place-items:center;font-family:var(--sans);font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em;flex-shrink:0}
-.unit-row.current .unit-ix{background:var(--orange-l);border-color:var(--orange-m);color:var(--orange)}
-.unit-body{display:flex;flex-direction:column;gap:2px;min-width:0}
-.unit-body b{font-size:14px;font-weight:600;color:var(--dark);letter-spacing:-.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.unit-body .u-sub{font-size:12px;color:var(--muted)}
-.unit-row.locked .unit-body b{color:var(--muted)}
-.unit-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
-.u-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap;border:1px solid}
-.tag-green{background:var(--green-bg);color:var(--green);border-color:#b2d8b2}
-.tag-orange{background:var(--orange-l);color:var(--orange);border-color:var(--orange-m)}
-.tag-amber{background:#fff8ec;color:#c47a1b;border-color:#f5d98a}
-.tag-grey{background:var(--bg-subtle);color:var(--muted);border-color:var(--border)}
-.u-progress{width:80px;height:4px;background:var(--border);border-radius:100px;overflow:hidden}
-.u-progress-fill{height:100%;background:var(--orange);border-radius:100px}
-.btn-unit{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:7px 14px;border-radius:100px;transition:.14s;white-space:nowrap}
-.btn-primary{background:var(--orange);color:#fff}
-.btn-primary:hover{background:var(--orange-h)}
-.btn-secondary{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
-.btn-secondary:hover{border-color:var(--text);color:var(--text)}
-.btn-disabled-sm{background:var(--border);color:var(--muted);font-size:12px;font-weight:600;padding:7px 14px;border-radius:100px;cursor:not-allowed}
-
-/* TWO COL GRID */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-
-/* PROGRESS RING */
-.prog-card{display:flex;flex-direction:column;align-items:center;gap:16px;padding:22px}
-.ring-lg{position:relative;width:140px;height:140px}
-.ring-lg svg{width:140px;height:140px;transform:rotate(-90deg)}
-.ring-lg .r-bg{fill:none;stroke:var(--border);stroke-width:8}
-.ring-lg .r-fg{fill:none;stroke:var(--orange);stroke-width:8;stroke-linecap:round;stroke-dasharray:264;stroke-dashoffset:calc(264 - 264*.71)}
-.ring-lg-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.ring-lg-text b{font-family:var(--serif);font-size:36px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1}
-.ring-lg-text span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
-.prog-stats{width:100%;border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:8px}
-.ps-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);gap:10px}
-.ps-row b{font-weight:600;color:var(--dark);font-family:var(--sans);font-size:13px}
-.ps-row b.ok{color:var(--green)}
-
-/* CHAT */
-.chat{display:flex;flex-direction:column;gap:10px;padding:4px 0}
-.bubble{max-width:90%;border-radius:14px;padding:11px 14px;border:1px solid var(--border)}
-.bubble .who{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.bubble p{font-size:13.5px;color:var(--text);line-height:1.5;margin:0}
-.bubble.tutor{background:var(--orange-l);border-color:var(--orange-m);align-self:flex-start}
-.bubble.tutor .who{color:#c44d14}
-.bubble.student{background:var(--bg-card);align-self:flex-end}
-.typing{display:flex;align-items:center;gap:4px;align-self:flex-end;padding:8px 14px;border:1px solid var(--border);border-radius:100px;font-family:var(--sans);font-size:10.5px;color:var(--muted);background:var(--bg-card)}
-.typing span{width:5px;height:5px;border-radius:50%;background:var(--muted);opacity:.35;animation:typ 1.2s infinite}
-.typing span:nth-child(2){animation-delay:.15s}
-.typing span:nth-child(3){animation-delay:.3s}
-.typing em{font-style:normal;margin-left:6px;letter-spacing:.06em;text-transform:uppercase;font-size:10px}
-@keyframes typ{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
-.chat-footer{margin-top:10px;font-size:11.5px;color:var(--muted);font-style:italic;text-align:center}
-
-/* SCHOOL PROFILE */
-.school-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
-.sg-item{display:flex;flex-direction:column;gap:6px;padding:14px;background:var(--bg-subtle);border-radius:var(--r-md);border:1px solid var(--border)}
-.sg-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.sg-val{font-size:13px;color:var(--light);font-style:italic}
-.sg-link{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;color:var(--orange);font-weight:500;cursor:pointer}
-.sg-link:hover{opacity:.8}
-.sg-input{width:100%;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 10px;font:inherit;font-size:13px;color:var(--text);background:var(--bg-card);transition:.15s}
-.sg-input:focus{outline:none;border-color:var(--orange)}
-.card-note{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);font-style:italic}
-
-/* BOTTOM */
-.bottom-note{text-align:center;padding:20px 0;font-size:12px;color:var(--muted)}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .layout{flex-direction:column}
-  .sidebar{width:100%;height:auto;position:relative;top:0}
-  .sb-profile{display:flex;gap:12px;align-items:center}
-  .sp-av{margin-bottom:0;width:32px;height:32px;font-size:11px}
-  .sb-ring-block{display:none}
-  .sb-menu{display:flex;overflow-x:auto;padding:6px 8px}
-  .sb-menu a{white-space:nowrap}
-  .sb-menu a.active{border-left:0;border-bottom:2px solid var(--orange);border-radius:var(--r-md);padding-left:12px}
-  .quick-stats{grid-template-columns:1fr 1fr}
-  .two-col{grid-template-columns:1fr}
-  .school-grid{grid-template-columns:1fr 1fr}
-}
 @media(max-width:560px){
-  .main{padding:16px 14px 40px}
-  .page-h1{font-size:28px}
-  .quick-stats{grid-template-columns:1fr 1fr}
-  .school-grid{grid-template-columns:1fr}
+  .wrap{padding:30px 16px 40px}
+  .hero{padding:32px 22px}
+  .h1{font-size:26px}
+  .sub{font-size:14px}
+  .btn-primary{font-size:15px;padding:13px 26px}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-bar">
     <div class="brand">
@@ -200,244 +75,200 @@ button{font:inherit;cursor:pointer;border:0;background:none}
       </svg>
       <div class="brand-text">
         <span class="brand-name">Sci<span>Spark</span></span>
-        <span class="brand-sub">Year 7–9 Science · Cambridge 0893</span>
+        <span class="brand-sub">Year 7&ndash;9 Science &middot; Cambridge 0893</span>
       </div>
     </div>
     <div class="nav-right">
       <div class="nav-user">
-        <div class="avatar">AL</div>
-        <span class="nav-name">Alex Lim</span>
+        <div class="avatar" id="navAvatar">&middot;&middot;</div>
+        <span class="nav-name" id="navName">Loading&hellip;</span>
       </div>
-      <a href="#" class="nav-signout">Sign Out</a>
+      <a href="#" class="nav-signout" id="signOutBtn">Sign Out</a>
     </div>
   </div>
-  <div class="nav-progress"><div class="np-fill"></div></div>
 </nav>
 
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sb-profile">
-      <div class="sp-av">AL</div>
-      <div>
-        <div class="sp-name">Alex Lim</div>
-        <div class="sp-level">Year 8 · Level 2 — Guided</div>
-        <div class="sp-badges">
-          <span class="badge-pill badge-level">Level 2</span>
-          <span class="badge-pill badge-bilingual">Bilingual</span>
-        </div>
-      </div>
+<div class="wrap">
+  <div class="hero">
+    <div class="loading-block" id="loading">Loading your dashboard&hellip;</div>
+    <div id="content" style="display:none">
+      <div class="eyebrow" id="yearBadge">Entry Assessment</div>
+      <h1 class="h1" id="welcomeMsg">Welcome.</h1>
+      <p class="sub" id="subMsg"></p>
+      <button class="btn-primary" id="startBtn" disabled>&hellip;</button>
+      <div class="status-msg" id="statusMsg"></div>
+      <div class="help-note" id="helpNote"></div>
     </div>
-    <nav class="sb-menu">
-      <a href="#" class="active"><span class="ic">📚</span> My Units</a>
-      <a href="#"><span class="ic">💬</span> AI Guide</a>
-      <a href="#"><span class="ic">🎮</span> Games</a>
-      <a href="#"><span class="ic">📊</span> Progress</a>
-      <a href="#"><span class="ic">👤</span> Profile</a>
-    </nav>
-    <div class="sb-ring-block">
-      <div class="ring-sm">
-        <svg viewBox="0 0 60 60">
-          <circle cx="30" cy="30" r="25" class="r-bg"/>
-          <circle cx="30" cy="30" r="25" class="r-fg"/>
-        </svg>
-        <div class="ring-sm-text">
-          <b>71%</b>
-          <span>week</span>
-        </div>
-      </div>
-      <div class="sb-ring-label">On track this week</div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- Page Header -->
-    <div style="margin-bottom:22px">
-      <div class="eyebrow">📚 Student Dashboard</div>
-      <h1 class="page-h1">Ready to learn, Alex.</h1>
-      <p class="page-sub">Level 2 — Guided &nbsp;·&nbsp; Bilingual &nbsp;·&nbsp; Year 8 &nbsp;·&nbsp; Cambridge 0893</p>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="quick-stats">
-      <div class="qs-item">
-        <span class="qs-label">Days active</span>
-        <span class="qs-val">5<span style="font-size:18px;color:var(--muted)">/7</span></span>
-        <span class="qs-sub">This week</span>
-      </div>
-      <div class="qs-item">
-        <span class="qs-label">Time on task</span>
-        <span class="qs-val">78</span>
-        <span class="qs-sub">minutes this week</span>
-      </div>
-      <div class="qs-item">
-        <span class="qs-label">Concepts mastered</span>
-        <span class="qs-val" style="color:var(--green)">+4</span>
-        <span class="qs-sub">New this week</span>
-      </div>
-      <div class="qs-item">
-        <span class="qs-label">Accuracy</span>
-        <span class="qs-val" style="color:var(--green)">82%</span>
-        <span class="qs-sub">Re-explain accuracy</span>
-      </div>
-    </div>
-
-    <!-- Unit Browser -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-eyebrow">MY UNITS — Cambridge 0893</div>
-          <div class="card-title">Your assigned learning path</div>
-        </div>
-        <span style="font-size:12px;color:var(--muted)">Year 8 · Level 2</span>
-      </div>
-      <div class="units-grid">
-
-        <!-- B1 — Done -->
-        <div class="unit-row">
-          <div class="unit-ix">B1</div>
-          <div class="unit-body">
-            <b>Cells &amp; Life Processes</b>
-            <span class="u-sub">8 of 8 lessons · mastered</span>
-          </div>
-          <div class="unit-right">
-            <span class="u-tag tag-green">Strong</span>
-            <button class="btn-unit btn-secondary">View Unit</button>
-          </div>
-        </div>
-
-        <!-- P2 — Current -->
-        <div class="unit-row current">
-          <div class="unit-ix">P2</div>
-          <div class="unit-body">
-            <b>Forces &amp; Motion</b>
-            <span class="u-sub">Lesson 5 of 7 · in progress</span>
-            <div class="u-progress" style="margin-top:6px"><div class="u-progress-fill" style="width:70%"></div></div>
-          </div>
-          <div class="unit-right">
-            <span class="u-tag tag-orange">Today</span>
-            <button class="btn-unit btn-primary">Continue →</button>
-          </div>
-        </div>
-
-        <!-- C3 — Gap -->
-        <div class="unit-row">
-          <div class="unit-ix">C3</div>
-          <div class="unit-body">
-            <b>Chemical Change</b>
-            <span class="u-sub">Assessment flagged — gap detected</span>
-          </div>
-          <div class="unit-right">
-            <span class="u-tag tag-amber">Gap</span>
-            <button class="btn-unit btn-secondary">Start Revision</button>
-          </div>
-        </div>
-
-        <!-- E4 — Locked -->
-        <div class="unit-row locked">
-          <div class="unit-ix">E4</div>
-          <div class="unit-body">
-            <b>Energy Transfer</b>
-            <span class="u-sub">Unlocks after Forces &amp; Motion</span>
-          </div>
-          <div class="unit-right">
-            <span class="u-tag tag-grey">🔒 Locked</span>
-            <span class="btn-disabled-sm">Locked</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- This Week + AI Guide -->
-    <div class="two-col">
-
-      <!-- Progress Ring -->
-      <div class="card prog-card">
-        <div class="card-eyebrow" style="align-self:flex-start">THIS WEEK</div>
-        <div class="ring-lg">
-          <svg viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="42" class="r-bg"/>
-            <circle cx="50" cy="50" r="42" class="r-fg"/>
-          </svg>
-          <div class="ring-lg-text">
-            <b>71%</b>
-            <span>on track</span>
-          </div>
-        </div>
-        <div class="prog-stats">
-          <div class="ps-row"><span>Days active</span><b>5 / 7</b></div>
-          <div class="ps-row"><span>Time on task</span><b>78 min</b></div>
-          <div class="ps-row"><span>Concepts mastered</span><b class="ok">+4</b></div>
-          <div class="ps-row"><span>Re-explain accuracy</span><b class="ok">82%</b></div>
-        </div>
-      </div>
-
-      <!-- AI Guide Preview -->
-      <div class="card" style="display:flex;flex-direction:column;gap:12px">
-        <div>
-          <div class="card-eyebrow">AI LEARNING GUIDE · Level 2 · Bilingual</div>
-          <div class="card-title">Forces &amp; Motion</div>
-        </div>
-        <div class="chat">
-          <div class="bubble tutor">
-            <span class="who">Tutor</span>
-            <p>Before we compute it — predict. If I double the mass but keep the force the same, what happens to the acceleration?</p>
-          </div>
-          <div class="bubble student">
-            <span class="who">Student</span>
-            <p>It gets bigger?</p>
-          </div>
-          <div class="bubble tutor">
-            <span class="who">Tutor</span>
-            <p>Think about pushing a supermarket trolley vs. a car with the same push. Which one moves faster?</p>
-          </div>
-          <div class="typing">
-            <span></span><span></span><span></span>
-            <em>student is typing…</em>
-          </div>
-        </div>
-        <div class="chat-footer">AI guide adapts to your level · EN · 中文</div>
-      </div>
-
-    </div>
-
-    <!-- School Profile -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-eyebrow">SCHOOL PROFILE</div>
-          <div class="card-title">Your school context</div>
-        </div>
-      </div>
-      <div class="school-grid">
-        <div class="sg-item">
-          <span class="sg-label">School Textbook</span>
-          <span class="sg-val">Not yet uploaded</span>
-          <a href="#" class="sg-link">＋ Upload textbook →</a>
-        </div>
-        <div class="sg-item">
-          <span class="sg-label">Current Unit (School)</span>
-          <input type="text" class="sg-input" placeholder="e.g. Forces &amp; Motion">
-        </div>
-        <div class="sg-item">
-          <span class="sg-label">Recent School Exam</span>
-          <span class="sg-val">Not uploaded</span>
-          <a href="#" class="sg-link">＋ Upload result →</a>
-        </div>
-      </div>
-      <p class="card-note">These help your AI guide personalise support to match your school syllabus and current topic.</p>
-    </div>
-
-    <div class="bottom-note">
-      Signed in as student · alex@scisparklab.com · <a href="#" style="color:var(--orange)">Sign Out</a>
-    </div>
-
-  </main>
+    <div class="error" id="error" style="display:none"></div>
+  </div>
+  <div class="footer-note" id="footerNote"></div>
 </div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ'
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+const YEAR_TO_URL = {
+  Y7: '/assessment/year-7/en/assessment-y7.html',
+  Y8: '/assessment/year-8/en/assessment-y8.html',
+  Y9: '/assessment/year-9/en/assessment-y9.html'
+}
+
+const $ = id => document.getElementById(id)
+
+function showError(msg){
+  $('loading').style.display = 'none'
+  $('content').style.display = 'none'
+  const e = $('error')
+  e.style.display = 'block'
+  e.textContent = msg
+}
+
+function getInitials(name){
+  if(!name) return '··'
+  const parts = String(name).trim().split(/[\s\-_]+/).filter(Boolean)
+  if(parts.length === 0) return '··'
+  if(parts.length === 1) return parts[0].slice(0,2).toUpperCase()
+  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+}
+
+function normalizeYear(yr){
+  if(!yr) return ''
+  const s = String(yr).trim().toLowerCase().replace(/[\s\-]/g,'')
+  if(s === 'y7' || s === 'year7' || s === '7') return 'Y7'
+  if(s === 'y8' || s === 'year8' || s === '8') return 'Y8'
+  if(s === 'y9' || s === 'year9' || s === '9') return 'Y9'
+  return String(yr).toUpperCase()
+}
+
+async function findChild(userId){
+  // Path 1: F&F flow — children.parent_id = auth.uid() (user is own parent)
+  const r1 = await supabase
+    .from('children')
+    .select('id, full_name, year_group')
+    .eq('parent_id', userId)
+    .limit(1)
+    .maybeSingle()
+  if(r1.data) return { child: r1.data }
+
+  // Path 2: paid flow — student_accounts.student_user_id JOIN children
+  const r2 = await supabase
+    .from('student_accounts')
+    .select('child_id, children!inner(id, full_name, year_group)')
+    .eq('student_user_id', userId)
+    .limit(1)
+    .maybeSingle()
+  if(r2.data && r2.data.children) return { child: r2.data.children }
+
+  return { child: null, error: r1.error || r2.error }
+}
+
+async function findAttempt(userId, childId){
+  // Schema is inconsistent: assessment_attempts.student_id may hold auth.uid OR children.id.
+  // Query both with OR — whichever exists wins.
+  const r = await supabase
+    .from('assessment_attempts')
+    .select('*')
+    .or(`student_id.eq.${userId},student_id.eq.${childId}`)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  if(r.error){
+    console.warn('findAttempt error:', r.error.message)
+    return null
+  }
+  return r.data || null
+}
+
+function isSubmitted(att){
+  if(!att) return false
+  if(att.submitted_at) return true
+  if(att.completed_at) return true
+  if(att.status && ['submitted','completed','marked','reviewed'].includes(String(att.status).toLowerCase())) return true
+  return false
+}
+
+function isInProgress(att){
+  if(!att) return false
+  if(isSubmitted(att)) return false
+  if(att.status && ['abandoned','expired','cancelled'].includes(String(att.status).toLowerCase())) return false
+  return true
+}
+
+async function init(){
+  // 1. Auth
+  const { data: { user }, error: authErr } = await supabase.auth.getUser()
+  if(authErr || !user){
+    window.location.href = '/signin.html'
+    return
+  }
+
+  // 2. Child record
+  const { child, error: childErr } = await findChild(user.id)
+  if(!child){
+    showError('Could not find your student record. Please contact your teacher.' + (childErr ? ' [' + childErr.message + ']' : ''))
+    return
+  }
+
+  const name = child.full_name || 'Student'
+  const yr = normalizeYear(child.year_group)
+  const childId = child.id
+
+  // 3. Identity UI
+  $('navName').textContent = name
+  $('navAvatar').textContent = getInitials(name)
+  $('welcomeMsg').textContent = `Hi, ${name}.`
+  $('yearBadge').textContent = yr ? `${yr} · Entry Assessment` : 'Entry Assessment'
+  $('footerNote').textContent = `Signed in as ${user.email || ''}`
+  $('helpNote').textContent = 'Need help? Contact your teacher.'
+
+  // 4. Attempt status
+  const attempt = await findAttempt(user.id, childId)
+  const url = YEAR_TO_URL[yr]
+
+  // 5. Render button state
+  if(isSubmitted(attempt)){
+    $('subMsg').textContent = 'Your assessment has been submitted.'
+    $('startBtn').textContent = 'Submitted ✓'
+    $('startBtn').classList.add('done')
+    $('startBtn').disabled = true
+    $('statusMsg').textContent = 'Awaiting teacher review.'
+    $('statusMsg').classList.add('ok')
+  } else if(!url){
+    $('subMsg').textContent = `Your year group is "${child.year_group || 'not set'}". Your teacher needs to set this before you can take the assessment.`
+    $('startBtn').textContent = 'Not available yet'
+    $('startBtn').disabled = true
+  } else if(isInProgress(attempt)){
+    $('subMsg').textContent = 'You have an assessment in progress. Click below to continue.'
+    $('startBtn').textContent = 'Continue Assessment →'
+    $('startBtn').disabled = false
+    $('startBtn').onclick = () => { window.location.href = `${url}?student_id=${encodeURIComponent(childId)}` }
+  } else {
+    $('subMsg').textContent = 'Click below when you are ready to start your entry assessment. It takes about 45 minutes.'
+    $('startBtn').textContent = 'Start Your Assessment →'
+    $('startBtn').disabled = false
+    $('startBtn').onclick = () => { window.location.href = `${url}?student_id=${encodeURIComponent(childId)}` }
+  }
+
+  $('loading').style.display = 'none'
+  $('content').style.display = 'block'
+}
+
+$('signOutBtn').addEventListener('click', async (e) => {
+  e.preventDefault()
+  await supabase.auth.signOut()
+  window.location.href = '/signin.html'
+})
+
+init().catch(err => {
+  console.error(err)
+  showError('Unexpected error: ' + (err.message || String(err)))
+})
+</script>
 
 </body>
 </html>
