@@ -195,7 +195,10 @@ async function handleSubscriptionDeleted(
   const { error } = await supabase
     .from("subscriptions")
     .update({ status: "cancelled", cancelled_at: now, updated_at: now })
-    .eq("stripe_subscription_id", subId);
+    .eq("stripe_subscription_id", subId)
+    .neq("status", "cancelled_for_upgrade");
+
+  // 如果状态已经是 cancelled_for_upgrade,跳过,保留 upgrade 痕迹
 
   if (error) {
     throw new Error(
@@ -218,7 +221,10 @@ async function handlePaymentFailed(
   const { error } = await supabase
     .from("subscriptions")
     .update({ status: "past_due", updated_at: new Date().toISOString() })
-    .eq("stripe_subscription_id", subId);
+    .eq("stripe_subscription_id", subId)
+    .not("status", "in", `("cancelled","cancelled_for_upgrade")`);
+
+  // 防御性:如果已经是 cancelled / cancelled_for_upgrade,不要改回 past_due
 
   if (error) {
     throw new Error(
