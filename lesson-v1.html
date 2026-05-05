@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson · SciSpark</title>
+<meta name="description" content="SciSpark Cambridge Lower Secondary Science Lesson">
+
+<!-- Google Fonts: EB Garamond (serif body) + DM Sans (sans chrome) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================================================================
+   DESIGN TOKENS — must match style.css exactly (Site Source Kit)
+   ================================================================ */
+:root {
+  --bg:           #f5efe5;
+  --bg-card:      #ffffff;
+  --bg-subtle:    #f0e9df;
+  --orange:       #e8521a;
+  --orange-hover: #d44717;
+  --orange-light: #fdf2ed;
+  --orange-mid:   #f9d9cc;
+  --dark:         #1a1917;
+  --dark-card:    #201e1b;
+  --text:         #2d2926;
+  --text-muted:   #9a8e84;
+  --text-light:   #c5bbb4;
+  --border:       #e2d9ce;
+  --border-focus: #e8521a;
+  --font-serif:   'EB Garamond', Georgia, serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+  --max-w:        740px;
+  --transition:   150ms ease;
+}
+
+/* ================================================================
+   RESET + BASE
+   ================================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.65;
+  min-height: 100vh;
+  padding-bottom: 96px; /* clear sticky footer */
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--orange); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--orange-hover); }
+
+button { font-family: inherit; cursor: pointer; }
+
+/* ================================================================
+   HEADER (sticky, dark — matches assessment page)
+   ================================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--dark);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+}
+.site-header__brand {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.site-header__brand::before {
+  content: '';
+  display: inline-block;
+  width: 22px; height: 22px;
+  background: var(--orange);
+  border-radius: 4px;
+  transform: rotate(8deg);
+}
+.site-header__nav {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-light);
+}
+.site-header__nav a { color: var(--text-light); }
+.site-header__nav a:hover { color: #fff; }
+
+/* ================================================================
+   MAIN
+   ================================================================ */
+.lesson-main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 48px 24px 24px;
+}
+
+.lesson-meta {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.lesson-meta .badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--orange-light);
+  color: var(--orange);
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.lesson-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 44px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  color: var(--dark);
+}
+.lesson-title__zh {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  display: block;
+}
+
+.lang-toggle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  background: var(--bg-subtle);
+  border-radius: 6px;
+  padding: 4px;
+  gap: 2px;
+  margin-bottom: 32px;
+}
+.lang-toggle button {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  transition: background var(--transition), color var(--transition);
+}
+.lang-toggle button.active {
+  background: #fff;
+  color: var(--dark);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.lang-toggle button[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+/* ================================================================
+   LESSON CONTENT (parsed from prose)
+   ================================================================ */
+.lesson-body { font-size: 18px; line-height: 1.7; }
+
+.lesson-body h2 {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  margin: 56px 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--orange-mid);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--dark);
+  margin: 36px 0 12px;
+}
+
+.lesson-body p { margin: 0 0 16px; }
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 16px;
+  padding-left: 24px;
+}
+.lesson-body ul li, .lesson-body ol li {
+  margin-bottom: 6px;
+}
+.lesson-body ul li::marker { color: var(--orange); }
+
+.lesson-body .arrow-line {
+  padding-left: 12px;
+  border-left: 3px solid var(--orange);
+  background: var(--orange-light);
+  padding: 8px 14px;
+  margin: 8px 0;
+  font-weight: 500;
+  border-radius: 0 4px 4px 0;
+}
+
+.lesson-body .tag {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dark);
+  background: var(--bg-subtle);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 16px 0 8px;
+}
+
+.lesson-body strong { font-weight: 600; color: var(--dark); }
+.lesson-body em { font-style: italic; }
+
+.lesson-body .key-rule {
+  background: var(--dark);
+  color: #fff;
+  padding: 20px 24px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 17px;
+  margin: 24px 0;
+}
+
+/* ================================================================
+   STATES — loading, error
+   ================================================================ */
+.state-screen {
+  max-width: var(--max-w);
+  margin: 80px auto;
+  padding: 48px 24px;
+  text-align: center;
+}
+.state-screen__title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--dark);
+}
+.state-screen__msg {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+.state-screen__btn {
+  font-family: var(--font-sans);
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background var(--transition);
+}
+.state-screen__btn:hover { background: var(--orange-hover); }
+
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--orange-mid);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 700ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ================================================================
+   STICKY FOOTER (Mark as Complete)
+   ================================================================ */
+.lesson-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  padding: 16px 24px;
+  z-index: 40;
+}
+.lesson-footer__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lesson-footer__status {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lesson-footer__status .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--text-light);
+}
+.lesson-footer__status[data-status="in_progress"] .dot { background: var(--orange); }
+.lesson-footer__status[data-status="completed"] .dot { background: #2d8d4f; }
+
+.btn-complete {
+  font-family: var(--font-sans);
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background var(--transition), transform var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-complete:hover { background: var(--orange-hover); }
+.btn-complete:disabled { opacity: 0.6; cursor: wait; }
+
+.btn-completed-badge {
+  font-family: var(--font-sans);
+  background: #e6f5ec;
+  color: #2d8d4f;
+  border: 1px solid #b8e0c5;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 600px) {
+  .lesson-title { font-size: 32px; }
+  .lesson-main { padding: 32px 20px 20px; }
+  .lesson-body { font-size: 17px; }
+  .lesson-body h3 { font-size: 20px; }
+  .lesson-footer__inner { flex-direction: column; align-items: stretch; gap: 10px; }
+  .btn-complete, .btn-completed-badge { width: 100%; justify-content: center; }
+}
+
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+     ================================================================ -->
+<header class="site-header">
+  <div class="site-header__brand">SciSpark</div>
+  <nav class="site-header__nav">
+    <a href="/dashboard-student.html">← Dashboard</a>
+  </nav>
+</header>
+
+<!-- ================================================================
+     LOADING STATE
+     ================================================================ -->
+<div id="state-loading" class="state-screen">
+  <div class="spinner"></div>
+  <div class="state-screen__title">Loading lesson…</div>
+  <div class="state-screen__msg">Fetching content from server.</div>
+</div>
+
+<!-- ================================================================
+     ERROR STATE
+     ================================================================ -->
+<div id="state-error" class="state-screen" hidden>
+  <div class="state-screen__title" id="error-title">Something went wrong</div>
+  <div class="state-screen__msg" id="error-msg">Please try again.</div>
+  <button class="state-screen__btn" onclick="location.reload()">Retry</button>
+</div>
+
+<!-- ================================================================
+     LESSON (rendered after fetch)
+     ================================================================ -->
+<main id="lesson-main" class="lesson-main" hidden>
+  <div class="lesson-meta" id="lesson-meta"></div>
+  <h1 class="lesson-title" id="lesson-title-en"></h1>
+  <span class="lesson-title__zh" id="lesson-title-zh" hidden></span>
+
+  <div class="lang-toggle" id="lang-toggle" hidden>
+    <button data-lang="en" class="active">English</button>
+    <button data-lang="zh" id="btn-lang-zh">中文</button>
+  </div>
+
+  <article class="lesson-body" id="lesson-body"></article>
+</main>
+
+<!-- ================================================================
+     STICKY FOOTER (only when lesson loaded)
+     ================================================================ -->
+<footer class="lesson-footer" id="lesson-footer" hidden>
+  <div class="lesson-footer__inner">
+    <div class="lesson-footer__status" id="lesson-status" data-status="in_progress">
+      <span class="dot"></span>
+      <span id="status-text">In progress</span>
+    </div>
+    <div id="footer-action">
+      <button class="btn-complete" id="btn-complete">
+        <span>Mark as Complete</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================================
+     SUPABASE JS CLIENT
+     ================================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<script>
+'use strict';
+
+/* ================================================================
+   CONFIG
+   ================================================================ */
+const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* ================================================================
+   STATE
+   ================================================================ */
+let state = {
+  user: null,
+  childId: null,
+  lesson: null,
+  progress: null,    // { id, status, started_at, completed_at }
+  currentLang: 'en'
+};
+
+/* ================================================================
+   DOM HELPERS
+   ================================================================ */
+const $ = (id) => document.getElementById(id);
+const show = (id) => $(id).hidden = false;
+const hide = (id) => $(id).hidden = true;
+
+function showError(title, msg) {
+  hide('state-loading');
+  hide('lesson-main');
+  hide('lesson-footer');
+  $('error-title').textContent = title;
+  $('error-msg').textContent = msg;
+  show('state-error');
+}
+
+/* ================================================================
+   STEP 1 — AUTH CHECK
+   ================================================================ */
+async function checkAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    // Not logged in — bounce to signin, preserve intended URL
+    const next = encodeURIComponent(location.pathname + location.search);
+    location.replace(`/signin.html?next=${next}`);
+    return null;
+  }
+  return session.user;
+}
+
+/* ================================================================
+   STEP 2 — RESOLVE CHILD_ID FROM AUTH USER
+   ================================================================
+   Assumption: children.parent_id = auth.uid().
+   If your schema uses a different column, update both this query
+   AND the RLS policies in step1_create_tables.sql.
+   ================================================================ */
+async function resolveChildId(userId) {
+  const { data, error } = await sb
+    .from('children')
+    .select('id')
+    .eq('parent_id', userId)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.error('[lesson] children lookup error:', error);
+    return null;
+  }
+  return data ? data.id : null;
+}
+
+/* ================================================================
+   STEP 3 — FETCH LESSON BY SLUG
+   ================================================================ */
+async function fetchLesson(slug) {
+  const { data, error } = await sb
+    .from('lessons')
+    .select('id, year_group, unit_number, lesson_number, slug, lesson_title_en, lesson_title_zh, content_en, content_zh, content_format, is_published')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .maybeSingle();
+
+  if (error) {
+    console.error('[lesson] fetch error:', error);
+    return null;
+  }
+  return data;
+}
+
+/* ================================================================
+   STEP 4 — UPSERT IN_PROGRESS RECORD ON LOAD
+   ================================================================ */
+async function startLessonProgress(childId, lessonId) {
+  // Try INSERT; if row already exists (UNIQUE child_id+lesson_id), fetch existing
+  const { data: existing } = await sb
+    .from('lesson_progress')
+    .select('id, status, started_at, completed_at')
+    .eq('child_id', childId)
+    .eq('lesson_id', lessonId)
+    .maybeSingle();
+
+  if (existing) return existing;
+
+  const { data: inserted, error } = await sb
+    .from('lesson_progress')
+    .insert({
+      child_id:  childId,
+      lesson_id: lessonId,
+      status:    'in_progress'
+      // started_at, created_at, updated_at use defaults
+    })
+    .select('id, status, started_at, completed_at')
+    .single();
+
+  if (error) {
+    console.error('[lesson] progress insert error:', error);
+    return null;
+  }
+  return inserted;
+}
+
+/* ================================================================
+   STEP 5 — MARK COMPLETE (button click)
+   ================================================================ */
+async function markComplete() {
+  if (!state.childId || !state.lesson) return;
+
+  const btn = $('btn-complete');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Saving…';
+
+  const { data, error } = await sb
+    .from('lesson_progress')
+    .update({
+      status:       'completed',
+      completed_at: new Date().toISOString()
+    })
+    .eq('child_id',  state.childId)
+    .eq('lesson_id', state.lesson.id)
+    .select('id, status, completed_at')
+    .maybeSingle();
+
+  if (error) {
+    console.error('[lesson] mark complete error:', error);
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Mark as Complete';
+    alert('Could not save progress. Check connection and try again.');
+    return;
+  }
+
+  state.progress = { ...state.progress, ...data };
+  renderFooter();
+}
+
+/* ================================================================
+   STEP 6 — RENDER FOOTER (status + action)
+   ================================================================ */
+function renderFooter() {
+  const status = state.progress?.status || 'in_progress';
+  const statusEl = $('lesson-status');
+  statusEl.dataset.status = status;
+  $('status-text').textContent =
+    status === 'completed' ? 'Completed ✓' :
+    status === 'in_progress' ? 'In progress' : 'Not started';
+
+  const action = $('footer-action');
+  if (status === 'completed') {
+    action.innerHTML = `
+      <span class="btn-completed-badge">
+        <span>✓ Completed</span>
+      </span>`;
+  } else {
+    action.innerHTML = `
+      <button class="btn-complete" id="btn-complete">
+        <span>Mark as Complete</span>
+      </button>`;
+    $('btn-complete').addEventListener('click', markComplete);
+  }
+  show('lesson-footer');
+}
+
+/* ================================================================
+   STEP 7 — RENDER LESSON HEADER
+   ================================================================ */
+function renderHeader(lesson) {
+  $('lesson-meta').innerHTML = `
+    <span class="badge">${escapeHtml(lesson.year_group)}</span>
+    Unit ${lesson.unit_number} · Lesson ${lesson.lesson_number}
+  `;
+  $('lesson-title-en').textContent = lesson.lesson_title_en;
+
+  if (lesson.lesson_title_zh) {
+    $('lesson-title-zh').textContent = lesson.lesson_title_zh;
+    show('lesson-title-zh');
+  }
+
+  // Language toggle: only show if both en + zh content exist
+  if (lesson.content_zh) {
+    show('lang-toggle');
+    $('btn-lang-zh').addEventListener('click', () => switchLang('zh'));
+    document.querySelector('[data-lang="en"]').addEventListener('click', () => switchLang('en'));
+  }
+}
+
+/* ================================================================
+   STEP 8 — RENDER LESSON BODY (prose parser)
+   ================================================================ */
+function renderBody(content, format) {
+  const html = format === 'prose' ? proseToHtml(content) : escapeHtml(content);
+  $('lesson-body').innerHTML = html;
+}
+
+/* Lightweight prose-to-HTML for SciSpark v2 lesson format.
+   Recognises:
+     ===... NUM. TITLE ===   → <h2>NUM. TITLE</h2>
+     ---... TITLE ---        → <h3>TITLE</h3>
+     [TAG]                   → <span class="tag">TAG</span>
+     - item                  → <li>item</li> (grouped into <ul>)
+     1. item                 → <li>item</li> (grouped into <ol>)
+     → text                  → <div class="arrow-line">text</div>
+     blank line              → paragraph break
+   Everything else: <p>text</p>
+*/
+function proseToHtml(text) {
+  const lines = text.split('\n');
+  const out = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    // H2: ====... then "NUM. TITLE" then ====...
+    if (/^=+$/.test(trimmed) && i + 2 < lines.length && /^=+$/.test(lines[i+2].trim())) {
+      out.push(`<h2>${escapeHtml(lines[i+1].trim())}</h2>`);
+      i += 3;
+      continue;
+    }
+
+    // H3: ----... then "TITLE" then ----...
+    if (/^-+$/.test(trimmed) && trimmed.length >= 5 && i + 2 < lines.length && /^-+$/.test(lines[i+2].trim())) {
+      out.push(`<h3>${escapeHtml(lines[i+1].trim())}</h3>`);
+      i += 3;
+      continue;
+    }
+
+    // Bracket tag on its own line: [QUESTION TYPE]
+    const tagMatch = trimmed.match(/^\[([^\]]+)\]$/);
+    if (tagMatch) {
+      out.push(`<div><span class="tag">${escapeHtml(tagMatch[1])}</span></div>`);
+      i++;
+      continue;
+    }
+
+    // Arrow line: → text
+    if (trimmed.startsWith('→')) {
+      out.push(`<div class="arrow-line">${escapeHtml(trimmed)}</div>`);
+      i++;
+      continue;
+    }
+
+    // Bullet list
+    if (/^-\s+/.test(trimmed)) {
+      const items = [];
+      while (i < lines.length && /^-\s+/.test(lines[i].trim())) {
+        items.push(`<li>${escapeHtml(lines[i].trim().replace(/^-\s+/, ''))}</li>`);
+        i++;
+      }
+      out.push(`<ul>${items.join('')}</ul>`);
+      continue;
+    }
+
+    // Ordered list
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const items = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        items.push(`<li>${escapeHtml(lines[i].trim().replace(/^\d+\.\s+/, ''))}</li>`);
+        i++;
+      }
+      out.push(`<ol>${items.join('')}</ol>`);
+      continue;
+    }
+
+    // Blank line — skip (paragraph break is implicit in <p> wrapping)
+    if (trimmed === '') {
+      i++;
+      continue;
+    }
+
+    // Otherwise: collect consecutive non-blank, non-special lines into a paragraph
+    const para = [];
+    while (i < lines.length) {
+      const t = lines[i].trim();
+      if (t === ''
+          || /^=+$/.test(t)
+          || (/^-+$/.test(t) && t.length >= 5)
+          || /^\[([^\]]+)\]$/.test(t)
+          || t.startsWith('→')
+          || /^-\s+/.test(t)
+          || /^\d+\.\s+/.test(t)) break;
+      para.push(t);
+      i++;
+    }
+    if (para.length) {
+      out.push(`<p>${escapeHtml(para.join(' '))}</p>`);
+    }
+  }
+
+  return out.join('\n');
+}
+
+/* ================================================================
+   STEP 9 — LANGUAGE SWITCH
+   ================================================================ */
+function switchLang(lang) {
+  if (lang === state.currentLang) return;
+  state.currentLang = lang;
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  const content = lang === 'zh' ? state.lesson.content_zh : state.lesson.content_en;
+  renderBody(content, state.lesson.content_format);
+}
+
+/* ================================================================
+   UTIL
+   ================================================================ */
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getSlugFromUrl() {
+  const params = new URLSearchParams(location.search);
+  return params.get('slug') || params.get('lesson');
+}
+
+/* ================================================================
+   MAIN — orchestrate everything on page load
+   ================================================================ */
+async function main() {
+  // 1. Get slug from URL
+  const slug = getSlugFromUrl();
+  if (!slug) {
+    showError('No lesson selected', 'Add ?slug=<lesson-slug> to the URL.');
+    return;
+  }
+
+  // 2. Auth check (redirects if not logged in)
+  state.user = await checkAuth();
+  if (!state.user) return; // redirect in flight
+
+  // 3. Resolve child_id
+  state.childId = await resolveChildId(state.user.id);
+  if (!state.childId) {
+    showError('No student profile found',
+      'Your account is not linked to a student record. Contact your teacher.');
+    return;
+  }
+
+  // 4. Fetch lesson
+  state.lesson = await fetchLesson(slug);
+  if (!state.lesson) {
+    showError('Lesson not found',
+      `No published lesson with slug "${slug}". Check the URL or ask your teacher.`);
+    return;
+  }
+
+  // 5. Start (or resume) progress tracking
+  state.progress = await startLessonProgress(state.childId, state.lesson.id);
+  if (!state.progress) {
+    showError('Cannot save progress',
+      'Could not start a progress record. Reload the page; if it persists, contact support.');
+    return;
+  }
+
+  // 6. Render UI
+  hide('state-loading');
+  renderHeader(state.lesson);
+  renderBody(state.lesson.content_en, state.lesson.content_format);
+  show('lesson-main');
+  renderFooter();
+}
+
+main().catch(err => {
+  console.error('[lesson] fatal error:', err);
+  showError('Unexpected error', err.message || 'Reload the page.');
+});
+</script>
+
+</body>
+</html>
