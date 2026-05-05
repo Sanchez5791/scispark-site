@@ -1,0 +1,56 @@
+name: Weekly Supabase Backup
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v3
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Backup Supabase database
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          BACKUP_DATE=$(date +%Y-%m-%d_%H%M%S)
+          BACKUP_FILE="supabase_backup_${BACKUP_DATE}.sql.gz"
+          pg_dump "$SUPABASE_DB_URL" | gzip > "$BACKUP_FILE"
+          echo "BACKUP_FILE=$BACKUP_FILE" >> $GITHUB_ENV
+
+      - name: Encrypt backup
+        env:
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          gpg --symmetric --cipher-algo AES256 \
+            --passphrase "$BACKUP_PASSPHRASE" \
+            --batch --yes \
+            "${{ env.BACKUP_FILE }}"
+          rm "${{ env.BACKUP_FILE }}"
+          echo "ENCRYPTED_FILE=${{ env.BACKUP_FILE }}.gpg" >> $GITHUB_ENV
+
+      - name: Checkout backup repo
+        uses: actions/checkout@v3
+        with:
+          repository: Sanchez5791/scispark-backups
+          token: ${{ secrets.BACKUP_REPO_TOKEN }}
+          path: backup-repo
+
+      - name: Commit backup
+        working-directory: backup-repo
+        run: |
+          cp ../${{ env.ENCRYPTED_FILE }} ./
+          ls -t supabase_backup_*.sql.gz.gpg | tail -n +13 | xargs rm -f 2>/dev/null || true
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Backup: ${{ env.ENCRYPTED_FILE }}" || echo "No changes"
+          git push
