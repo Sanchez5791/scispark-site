@@ -1,92 +1,26 @@
-/**
- * SciSpark Year 7 Entry Assessment
- * script-y7-v4.js - timer, progress, payload builder, Supabase submission.
- *
- * Architecture (aligned to LMB v2 / 2026-05-01):
- *   32 questions / 61 fields / 60 marks / 45 minutes
- *   Part A: 10 x 1m  (10 fields)
- *   Part B: 15 x 1m  (15 fields)
- *   Part C: 3 structured questions x 5m  (17 fields)
- *   Part D: 4 structured questions x 5m  (19 fields)
- *
- * Field naming: HTML name attribute = <field_id>_answer
- *               HTML id attribute   = input_<field_id>_answer
- */
-
 'use strict';
 
-const TOTAL_MARKS     = 60;
-const TOTAL_QUESTIONS = 32;
-const TIMER_SECONDS   = 45 * 60;
-const ASSESSMENT_CODE = 'Y7_ENTRY_EN_V4';
-const YEAR_GROUP      = 'Year 7';
-const LANGUAGE        = 'EN';
-const AUTOSAVE_KEY    = 'scispark_y7_v4_draft';
-const AUTOSAVE_INTERVAL_MS = 15000;
-
+/* ── Constants ─────────────────────────────────────────────────── */
 const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+const ASSESSMENT_CODE   = 'Y7_ENTRY_EN';
+const TIMER_SECONDS     = 45 * 60;
+const TOTAL_QUESTIONS   = 32;
+const AUTOSAVE_KEY      = 'scispark_y7_draft';
+const AUTOSAVE_INTERVAL = 15000;
 
-let supabaseClient = null;
+/* ── Supabase client ────────────────────────────────────────────── */
+let sb = null;
 if (window.supabase) {
-  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-/* ------------------------------------------------------------------
-   QUESTION REGISTRY (32 parent questions -> 61 contract fields)
-------------------------------------------------------------------- */
-const QUESTION_FIELDS = {
-  // Part A — 10 vocabulary MCQ
-  Y7_QA1:  ['Y7_QA1'],
-  Y7_QA2:  ['Y7_QA2'],
-  Y7_QA3:  ['Y7_QA3'],
-  Y7_QA4:  ['Y7_QA4'],
-  Y7_QA5:  ['Y7_QA5'],
-  Y7_QA6:  ['Y7_QA6'],
-  Y7_QA7:  ['Y7_QA7'],
-  Y7_QA8:  ['Y7_QA8'],
-  Y7_QA9:  ['Y7_QA9'],
-  Y7_QA10: ['Y7_QA10'],
-  // Part B — 15 core concept MCQ
-  Y7_QB1:  ['Y7_QB1'],
-  Y7_QB2:  ['Y7_QB2'],
-  Y7_QB3:  ['Y7_QB3'],
-  Y7_QB4:  ['Y7_QB4'],
-  Y7_QB5:  ['Y7_QB5'],
-  Y7_QB6:  ['Y7_QB6'],
-  Y7_QB7:  ['Y7_QB7'],
-  Y7_QB8:  ['Y7_QB8'],
-  Y7_QB9:  ['Y7_QB9'],
-  Y7_QB10: ['Y7_QB10'],
-  Y7_QB11: ['Y7_QB11'],
-  Y7_QB12: ['Y7_QB12'],
-  Y7_QB13: ['Y7_QB13'],
-  Y7_QB14: ['Y7_QB14'],
-  Y7_QB15: ['Y7_QB15'],
-  // Part C — 3 structured (17 fields)
-  Y7_QC1: ['Y7_QC1_a', 'Y7_QC1_b', 'Y7_QC1_c', 'Y7_QC1_d', 'Y7_QC1_f'],
-  Y7_QC2: ['Y7_QC2_a_1', 'Y7_QC2_a_2', 'Y7_QC2_b_risk', 'Y7_QC2_b_reduce',
-           'Y7_QC2_c_W', 'Y7_QC2_c_A'],
-  Y7_QC3: ['Y7_QC3_a_mass', 'Y7_QC3_a_weight', 'Y7_QC3_b', 'Y7_QC3_c', 'Y7_QC3_d'],
-  // Part D — 4 structured (19 fields)
-  Y7_QD1: ['Y7_QD1_a', 'Y7_QD1_b', 'Y7_QD1_c', 'Y7_QD1_d', 'Y7_QD1_e'],
-  Y7_QD2: ['Y7_QD2_a', 'Y7_QD2_b', 'Y7_QD2_c', 'Y7_QD2_d', 'Y7_QD2_e'],
-  Y7_QD3: ['Y7_QD3_a_1', 'Y7_QD3_a_2', 'Y7_QD3_b', 'Y7_QD3_c', 'Y7_QD3_d'],
-  Y7_QD4: ['Y7_QD4_a_gravity', 'Y7_QD4_a_lift', 'Y7_QD4_a_wind',
-           'Y7_QD4_b', 'Y7_QD4_c', 'Y7_QD4_d'],
-};
+/* ── State ──────────────────────────────────────────────────────── */
+let timerRemaining = TIMER_SECONDS;
+let timerInterval  = null;
+let isSubmitting   = false;
 
-/* ------------------------------------------------------------------
-   STATE
-------------------------------------------------------------------- */
-let timerRemaining    = TIMER_SECONDS;
-let timerInterval     = null;
-let answeredQuestions = new Set();
-let isSubmitting      = false;
-
-/* ------------------------------------------------------------------
-   TIMER
-------------------------------------------------------------------- */
+/* ── Timer ──────────────────────────────────────────────────────── */
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60).toString().padStart(2, '0');
   const s = (seconds % 60).toString().padStart(2, '0');
@@ -113,194 +47,174 @@ function startTimer() {
   timerInterval = setInterval(tickTimer, 1000);
 }
 
-/* ------------------------------------------------------------------
-   FIELD VALUE READERS
-------------------------------------------------------------------- */
-function readFieldValue(fieldId) {
-  const inputName = `${fieldId}_answer`;
-  const radios = document.querySelectorAll(`input[type="radio"][name="${inputName}"]`);
+/* ── Parent question grouping ───────────────────────────────────── */
+/* Maps any sub-field code (Y7_QC1_a, Y7_QD4_a_gravity) to its
+   parent question code (Y7_QC1, Y7_QD4). Used for progress count. */
+function parentCode(code) {
+  const m = code.match(/^(Y7_Q[A-D]\d+)/);
+  return m ? m[1] : code;
+}
+
+/* ── Field value reader ─────────────────────────────────────────── */
+/* Reads the current answer value for a given data-question-id code.
+   Returns null (not '') when the field is blank or unchecked —
+   null rows are still inserted per DECISION 3. */
+function readValue(code) {
+  // Radio group: all options share data-question-id; find the checked one
+  const radios = document.querySelectorAll(
+    `input[type="radio"][data-question-id="${code}"]`
+  );
   if (radios.length > 0) {
-    for (const r of radios) {
-      if (r.checked) return r.value;
-    }
+    const checked = Array.from(radios).find(r => r.checked);
+    return checked ? checked.value : null;
+  }
+
+  // Checkbox
+  const cb = document.querySelector(
+    `input[type="checkbox"][data-question-id="${code}"]`
+  );
+  if (cb) return cb.checked ? 'true' : null;
+
+  // Text input / textarea / select (exclude radio/checkbox to avoid double-match)
+  const el = document.querySelector(
+    `[data-question-id="${code}"]:not([type="radio"]):not([type="checkbox"])`
+  );
+  if (el) {
+    const v = (el.value || '').trim();
+    return v.length > 0 ? v : null;
+  }
+
+  return null;
+}
+
+/* ── Collect all unique question codes from the live DOM ────────── */
+function getAllQuestionCodes() {
+  const seen = new Set();
+  document.querySelectorAll('[data-question-id]').forEach(el => {
+    seen.add(el.getAttribute('data-question-id'));
+  });
+  return [...seen];
+}
+
+/* ── Progress counter ───────────────────────────────────────────── */
+function updateProgress() {
+  const codes = getAllQuestionCodes();
+
+  // Build set of unique parent questions
+  const parents = new Set(codes.map(parentCode));
+
+  // A parent question is "answered" if any of its sub-codes has a non-null value
+  let answeredCount = 0;
+  for (const p of parents) {
+    const subCodes = codes.filter(c => parentCode(c) === p);
+    if (subCodes.some(c => readValue(c) !== null)) answeredCount++;
+  }
+
+  const el = document.getElementById('submit-answered');
+  if (el) el.textContent = `${answeredCount} of ${TOTAL_QUESTIONS}`;
+
+  return answeredCount;
+}
+
+/* ── Build answer rows for DB insert ────────────────────────────── */
+/* One row per unique data-question-id (~62 rows for a full Y7 submission).
+   question_number = parent question (e.g. "Y7_QC3")
+   field_name      = specific sub-field (e.g. "Y7_QC3_a_mass")
+   For Part A/B with no sub-fields these two values are identical.
+   answer_value may be null (blank field) per DECISION 3. */
+function collectAnswerRows(attemptId) {
+  return getAllQuestionCodes().map(code => ({
+    attempt_id:      attemptId,
+    question_number: parentCode(code),
+    field_name:      code,
+    answer_value:    readValue(code)
+  }));
+}
+
+/* ── Error display ──────────────────────────────────────────────── */
+function showError(msg) {
+  alert('Submission error:\n\n' + msg);
+}
+
+/* ── Supabase submit — F&F auth path ────────────────────────────── */
+/* Returns attempt UUID on success, null on any failure.
+   Caller must NOT show success screen when null is returned. */
+async function submitToSupabase() {
+  if (!sb) {
+    showError('Supabase library failed to load. Please refresh the page and try again.');
     return null;
   }
-  const checkbox = document.querySelector(`input[type="checkbox"][name="${inputName}"]`);
-  if (checkbox) {
-    return checkbox.checked ? 'true' : null;
-  }
-  const el = document.getElementById(`input_${inputName}`);
-  if (!el) return null;
-  const v = (el.value || '').trim();
-  return v.length > 0 ? v : null;
-}
 
-function getAnsweredQuestions() {
-  const answered = new Set();
-  for (const [qid, fields] of Object.entries(QUESTION_FIELDS)) {
-    for (const f of fields) {
-      if (readFieldValue(f) !== null) {
-        answered.add(qid);
-        break;
-      }
-    }
-  }
-  return answered;
-}
-
-function updateProgress() {
-  answeredQuestions = getAnsweredQuestions();
-  const count = answeredQuestions.size;
-  const pct   = (count / TOTAL_QUESTIONS) * 100;
-
-  const answeredCount  = document.getElementById('answered-count');
-  const progressFill   = document.getElementById('progress-fill');
-  const fpText         = document.getElementById('fp-text');
-  const fpFill         = document.getElementById('fp-fill');
-  const submitAnswered = document.getElementById('submit-answered');
-
-  if (answeredCount)  answeredCount.textContent  = count;
-  if (progressFill)   progressFill.style.width   = `${pct}%`;
-  if (fpText)         fpText.textContent         = `${count} / ${TOTAL_QUESTIONS} answered`;
-  if (fpFill)         fpFill.style.width         = `${pct}%`;
-  if (submitAnswered) submitAnswered.textContent = `${count} of ${TOTAL_QUESTIONS}`;
-
-  document.querySelectorAll('.question-block').forEach(block => {
-    const qKey = block.getAttribute('data-q-key');
-    if (qKey) block.classList.toggle('answered', answeredQuestions.has(qKey));
-  });
-}
-
-/* ------------------------------------------------------------------
-   PAYLOAD BUILDER
-------------------------------------------------------------------- */
-function buildAnswerRows() {
-  const rows = [];
-  for (const [, fields] of Object.entries(QUESTION_FIELDS)) {
-    for (const f of fields) {
-      const v = readFieldValue(f);
-      if (v === null) continue;
-      rows.push({
-        question_number: f,
-        field_name:      `${f}_answer`,
-        answer_value:    String(v)
-      });
-    }
-  }
-  return rows;
-}
-
-function buildPayload() {
-  const timestamp = new Date().toISOString();
-  return {
-    meta: {
-      assessment_code:        ASSESSMENT_CODE,
-      year_group:             YEAR_GROUP,
-      language:               LANGUAGE,
-      submitted_at:           timestamp,
-      time_remaining_seconds: timerRemaining,
-      time_spent_seconds:     TIMER_SECONDS - timerRemaining,
-      answered_count:         answeredQuestions.size,
-      total_questions:        TOTAL_QUESTIONS,
-      total_marks:            TOTAL_MARKS
-    },
-    answers: buildAnswerRows()
-  };
-}
-
-/* ------------------------------------------------------------------
-   SUPABASE SUBMISSION
-------------------------------------------------------------------- */
-function getStudentIdFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('student_id') || params.get('studentId');
-}
-
-async function submitToSupabase(payload) {
-  if (!supabaseClient) {
-    throw new Error('Supabase library not loaded.');
+  /* 1. Verify auth session */
+  const { data: { user }, error: authErr } = await sb.auth.getUser();
+  if (authErr || !user) {
+    location.href = '/signin.html';
+    return null;
   }
 
-  const studentId = getStudentIdFromUrl();
-  if (!studentId) {
-    throw new Error('Missing student_id in URL. The assessment page must be opened from signup-complete redirect.');
+  /* 2. Look up the child record for this parent account */
+  const { data: child, error: cErr } = await sb
+    .from('children')
+    .select('id, full_name')
+    .eq('parent_id', user.id)
+    .eq('year_group', 'Y7')
+    .maybeSingle();
+
+  if (cErr || !child) {
+    console.error('[SciSpark Y7] children lookup failed:', cErr);
+    showError(
+      'No Year 7 record found for this account.\n' +
+      'Please contact SciSpark support and do not close this page.'
+    );
+    return null;
   }
 
-  const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
-  if (sessionError) throw sessionError;
-  if (!sessionData?.session) {
-    throw new Error('No active login session. Please sign in again before submitting.');
-  }
-
-  const { data: attempt, error: attemptError } = await supabaseClient
+  /* 3. Insert attempt row */
+  const { data: attempt, error: attemptErr } = await sb
     .from('assessment_attempts')
     .insert({
-      student_id:            studentId,
-      year_group:            payload.meta.year_group,
-      language:              payload.meta.language,
-      assessment_code:       payload.meta.assessment_code,
+      student_id:            user.id,
+      children_id:           child.id,
+      assessment_code:       ASSESSMENT_CODE,
+      year_group:            'Y7',
+      language:              'EN',
       status:                'submitted',
-      total_questions:       payload.meta.total_questions,
-      total_marks:           payload.meta.total_marks,
-      submitted_at:          payload.meta.submitted_at,
-      time_spent_seconds:    payload.meta.time_spent_seconds,
-      teacher_review_status: 'pending',
-      assessment_round:      1,
-      trigger_source:        'signup'
+      teacher_review_status: 'pending'
     })
-    .select('id')
+    .select()
     .single();
-  if (attemptError) throw attemptError;
 
-  const answerRows = payload.answers.map(row => ({
-    attempt_id:      attempt.id,
-    question_number: row.question_number,
-    field_name:      row.field_name,
-    answer_value:    row.answer_value
-  }));
+  if (attemptErr) {
+    console.error('[SciSpark Y7] assessment_attempts insert failed:', attemptErr);
+    showError(
+      'Could not save your assessment attempt.\n' +
+      'Please try again. If the problem persists, contact SciSpark support.'
+    );
+    return null;
+  }
 
-  if (answerRows.length > 0) {
-    const { error: answersError } = await supabaseClient
-      .from('assessment_answers')
-      .insert(answerRows);
-    if (answersError) throw answersError;
+  /* 4. Insert all answer rows (one per data-question-id field) */
+  const rows = collectAnswerRows(attempt.id);
+  const { error: ansErr } = await sb
+    .from('assessment_answers')
+    .insert(rows);
+
+  if (ansErr) {
+    console.error('[SciSpark Y7] assessment_answers insert failed:', ansErr);
+    showError(
+      'Your attempt was saved (ID: ' + attempt.id + ') but the individual ' +
+      'answers could not be stored. Please contact SciSpark immediately and ' +
+      'quote this ID. Do not close this page.'
+    );
+    return null;
   }
 
   return attempt.id;
 }
 
-/* ------------------------------------------------------------------
-   AUTOSAVE
-------------------------------------------------------------------- */
-function autosave() {
-  try {
-    sessionStorage.setItem(AUTOSAVE_KEY, JSON.stringify(buildPayload()));
-  } catch (e) { /* ignore quota errors */ }
-}
-
-/* ------------------------------------------------------------------
-   INPUT VISUAL SYNC
-------------------------------------------------------------------- */
-function syncInputStyles(input) {
-  const label = input.closest('label');
-  if (!label) return;
-  if (input.type === 'checkbox') {
-    label.classList.toggle('checked', input.checked);
-  } else if (input.type === 'radio' && input.checked) {
-    document.querySelectorAll(`input[name="${input.name}"]`).forEach(radio => {
-      const lbl = radio.closest('label');
-      if (lbl) lbl.classList.remove('checked');
-    });
-    label.classList.add('checked');
-  }
-}
-
-/* ------------------------------------------------------------------
-   SUBMISSION FLOW
-------------------------------------------------------------------- */
+/* ── Modal ──────────────────────────────────────────────────────── */
 function openModal() {
-  updateProgress();
-  const count = answeredQuestions.size;
+  const count = updateProgress();
   const modalAnswered   = document.getElementById('modal-answered');
   const modalUnanswered = document.getElementById('modal-unanswered');
   const modalTime       = document.getElementById('modal-time');
@@ -315,99 +229,125 @@ function closeModal() {
   document.getElementById('modal-overlay')?.classList.remove('open');
 }
 
+/* ── Confirm submit (student-initiated) ─────────────────────────── */
 async function confirmSubmit() {
   if (isSubmitting) return;
   isSubmitting = true;
 
   const confirmBtn = document.getElementById('modal-confirm');
   if (confirmBtn) {
-    confirmBtn.disabled = true;
-    confirmBtn.textContent = 'Submitting...';
+    confirmBtn.disabled    = true;
+    confirmBtn.textContent = 'Submitting…';
   }
 
+  closeModal();
+  clearInterval(timerInterval);
+
+  let attemptId = null;
   try {
-    closeModal();
-    clearInterval(timerInterval);
-    const payload = buildPayload();
-    const attemptId = await submitToSupabase(payload);
-    console.log('[SciSpark Y7 v4] Submitted. Attempt ID:', attemptId);
+    attemptId = await submitToSupabase();
+  } catch (err) {
+    console.error('[SciSpark Y7] Unexpected submit error:', err);
+    showError(
+      'An unexpected error occurred. Please do not close this page and ' +
+      'contact SciSpark support immediately.'
+    );
+  }
+
+  if (attemptId) {
+    console.log('[SciSpark Y7] Submitted successfully. Attempt ID:', attemptId);
     sessionStorage.removeItem(AUTOSAVE_KEY);
     document.getElementById('success-screen')?.classList.add('open');
-  } catch (error) {
-    console.error('[SciSpark Y7 v4] Submission failed:', error);
-    alert(
-      'Submission failed. Please do not close this page.\n\n' +
-      'Reason: ' + (error.message || error)
-    );
+  } else {
+    // Error was shown by submitToSupabase or catch above — restore UI
     startTimer();
     if (confirmBtn) {
-      confirmBtn.disabled = false;
-      confirmBtn.textContent = 'Confirm & Submit';
+      confirmBtn.disabled    = false;
+      confirmBtn.textContent = 'Confirm & Submit →';
     }
     isSubmitting = false;
   }
 }
 
+/* ── Auto submit (timer expiry) ─────────────────────────────────── */
 async function autoSubmit() {
   if (isSubmitting) return;
   isSubmitting = true;
+
+  let attemptId = null;
   try {
-    const payload = buildPayload();
-    const attemptId = await submitToSupabase(payload);
-    console.log('[SciSpark Y7 v4] Auto-submitted. Attempt ID:', attemptId);
+    attemptId = await submitToSupabase();
+  } catch (err) {
+    console.error('[SciSpark Y7] Auto-submit unexpected error:', err);
+  }
+
+  if (attemptId) {
+    console.log('[SciSpark Y7] Auto-submitted. Attempt ID:', attemptId);
     sessionStorage.removeItem(AUTOSAVE_KEY);
     document.getElementById('success-screen')?.classList.add('open');
-  } catch (error) {
-    console.error('[SciSpark Y7 v4] Auto-submit failed:', error);
-    alert(
-      'Time is up, but automatic submission failed. Please call the teacher.\n\n' +
-      'Reason: ' + (error.message || error)
+  } else {
+    showError(
+      'Time is up, but automatic submission failed.\n' +
+      'Please call the teacher or contact SciSpark support immediately.'
     );
+    isSubmitting = false;
   }
 }
 
-/* ------------------------------------------------------------------
-   INIT
-------------------------------------------------------------------- */
+/* ── Input visual sync ──────────────────────────────────────────── */
+function syncInputStyles(input) {
+  const label = input.closest('label');
+  if (!label) return;
+  if (input.type === 'checkbox') {
+    label.classList.toggle('checked', input.checked);
+  } else if (input.type === 'radio' && input.checked) {
+    document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
+      r.closest('label')?.classList.remove('checked');
+    });
+    label.classList.add('checked');
+  }
+}
+
+/* ── Autosave (sessionStorage) ──────────────────────────────────── */
+function autosave() {
+  try {
+    const snapshot = {};
+    getAllQuestionCodes().forEach(c => { snapshot[c] = readValue(c); });
+    sessionStorage.setItem(AUTOSAVE_KEY, JSON.stringify(snapshot));
+  } catch (e) { /* ignore quota errors */ }
+}
+
+/* ── Init ───────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   updateProgress();
   startTimer();
-  setInterval(autosave, AUTOSAVE_INTERVAL_MS);
+  setInterval(autosave, AUTOSAVE_INTERVAL);
 
+  // Sync any pre-checked inputs on load
   document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked')
     .forEach(syncInputStyles);
 
-  document.addEventListener('change', (e) => {
+  // Live progress update on every answer change
+  document.addEventListener('change', e => {
     if (e.target.matches('input, select, textarea')) {
       syncInputStyles(e.target);
       updateProgress();
-      autosave();
     }
   });
-
-  document.addEventListener('input', (e) => {
+  document.addEventListener('input', e => {
     if (e.target.matches('input[type="text"], input[type="number"], textarea')) {
       updateProgress();
     }
   });
 
+  // Submit flow
   document.getElementById('submit-btn')?.addEventListener('click', openModal);
   document.getElementById('submit-btn-sm')?.addEventListener('click', openModal);
-  document.getElementById('modal-cancel')?.addEventListener('click', closeModal);
   document.getElementById('modal-confirm')?.addEventListener('click', confirmSubmit);
+  document.getElementById('modal-cancel')?.addEventListener('click', closeModal);
 
-  document.getElementById('modal-overlay')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  window.addEventListener('beforeunload', (e) => {
-    if (answeredQuestions.size > 0 && !isSubmitting) {
-      e.preventDefault();
-      e.returnValue = '';
-    }
+  // Close modal on overlay click
+  document.getElementById('modal-overlay')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
   });
 });
