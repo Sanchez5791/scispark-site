@@ -1,4 +1,4 @@
-// api/mark.js — SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
+﻿// api/mark.js — SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
 // Vercel serverless function
 // Called by Supabase webhook when new assessment_attempt is inserted
 // 2026-05-02 — Updated to use DeepSeek V4 Flash for all marking
@@ -111,20 +111,21 @@ QC1 Oliver Chemical Reaction (5x1m):
   QC1_d = gas/bubbles (accept effervescence, fizzing, gas given off; reject "colour change" alone)
   QC1_f = decreasing (accept dropping, falls, gets lower, reducing)
 
-QC2 Blessy Bacteria & Acid Investigation (4 indep + pool_qc2c = 5m):
+QC2 Bacteria & Acid Investigation (4 indep + pool_qc2c = 5m):
   CONTEXT: Investigation tests TYPES OF ACID killing bacteria. IV = type of acid. DV = bacteria growth.
-  QC2_a_1 + QC2_a_2 = TWO DIFFERENT controlled variables.
-    ACCEPT: same amount/number of bacteria, same nutrients/food, same temperature, same time, same dish size, same type of bacteria, warm place
-    REJECT: type of acid (IV), amount of bacteria growth (DV)
+  QC2_a_1 (1m, independent): any valid controlled variable. ACCEPT: temperature, time, type of bacteria, dish size, amount of solution/bacteria, light, nutrients.
+    REJECT: type of acid (IV), amount of bacteria growth (DV).
+  QC2_a_2 (1m, independent): same logic; must be DIFFERENT from a_1.
     DUPLICATE rule: if a_1 and a_2 state the same variable, award 1m total not 2m.
-  QC2_b_risk = any biological/chemical lab risk.
-    ACCEPT: bacteria spread/harmful, infection, pathogens, acid spill/burn/corrosive, dishes/glassware could break
-    REJECT: experiment might fail, results might be wrong, getting wet
-  QC2_b_reduce = any safety measure. SCORED INDEPENDENTLY from b_risk.
-    ACCEPT: wash hands, wear gloves, wear goggles, wear lab coat, wear PPE, handle acid carefully, use tongs/forceps, seal dishes, dispose carefully, sterilise equipment
-    REJECT: be careful (vague), work faster, be more precise (vague)
+  QC2_b_risk (1m, independent): any biological/chemical lab risk.
+    ACCEPT: bacteria spread/harmful/infection, pathogens, contamination, acid spill/burn/corrosive, sharp/glass cuts, dishes/glassware could break.
+    REJECT: experiment might fail, results might be wrong, getting wet.
+  QC2_b_reduce (1m, independent): any safety measure. SCORED INDEPENDENTLY from b_risk.
+    ACCEPT: wash hands, wear gloves, wear goggles/safety glasses, wear lab coat, wear PPE, handle acid carefully, use tongs/forceps, seal dishes, dispose carefully, sterilise equipment.
+    REJECT: be careful (vague), work faster, be more precise (vague).
   pool_qc2c (1m, both-required): W=top-left + A=bottom-centre.
-    Variants: W="top left"; A="bottom center"/"bottom centre"/"bottom middle".
+    W accepts: "top left" / "topleft" / "top-left" (case-insensitive, whitespace-tolerant).
+    A accepts: "bottom centre" / "bottom center" / "bottom-centre" / "bottomcentre" / "bottom middle".
     Either wrong = 0m for both. Mark-holder = QC2_c_W.
 
 QC3 Planets Mass/Weight (5x1m):
@@ -147,25 +148,29 @@ QD1 Gennaro 4 Mixtures (5x1m):
 QD2 Particle Diagrams (5x1m):
   QD2_a=A | QD2_b=B | QD2_c=C | QD2_d=solid | QD2_e=gas
 
-QD3 Sofia Circuit (5x1m):
-  QD3_a_1: ANOTHER LAMP added in series → "dimmer".
-  QD3_a_2: WIRE 5x LONGER → "dimmer".
-  QD3_b: WIRE MUCH THICKER → "brighter".
-  QD3_c: ONE LAMP REMOVED → "all lamps go out". [Cambridge 2012 P2 Q2 MS]
-    REJECT "brighter". ACCEPT: "all lamps go out" | "lamps go out" | "lamps turn off" | "no lamps light".
-  QD3_d: EXPLAIN WHY lamps go out.
-    ACCEPT: circuit is broken | circuit is not complete | circuit has a gap | current cannot flow | circuit is open.
-    REJECT: "circuit is still complete" (WRONG). REJECT: "more current" / "less resistance" / "brighter".
+QD3 Sofia Circuit (pool_qd3a + 3 indep = 5m):
+  pool_qd3a (2m, graduated-4): read BOTH QD3_a_1 and QD3_a_2; combine and deduplicate all components named (case-insensitive).
+    Acceptable components: cell/battery | lamp/bulb | switch | wire/connecting wire/wires
+    4 unique correct → 2m | 2 or 3 unique correct → 1m | 0 or 1 → 0m. Mark-holder=QD3_a_1.
+  QD3_b: YES + valid explanation. ACCEPT: circuit complete / current flows / closed loop / electricity can flow.
+  QD3_c: brighter / gets brighter / increases / more bright / brighter light. ACCEPT any similar phrasing.
+  QD3_d: lamp lights / still works / circuit still complete / brighter. ACCEPT any answer indicating the circuit still functions when switch is removed.
 
 QD4 Samir Kite (pool_qd4a + 3 indep = 5m):
-  ARROWS: A=upward (lift), B=horizontal (wind), C=downward (gravity/weight).
-  pool_qd4a (2m, graduated-3): gravity=C, lift=A, wind=B.
+  ARROWS: A=upward (lift/upward force), B=horizontal (wind force, pushes kite away from Samir), C=downward (gravity/weight), D=toward Samir (Samir's pulling force on string).
+  pool_qd4a (2m, graduated-3): gravity=C, Samir's pull=D (field Y7_QD4_a_lift_answer), wind=B.
     3 correct=2m | 2 correct=1m | 0 or 1=0m. Mark-holder=QD4_a_gravity.
-  QD4_b = BOTH A AND C required. One alone = 0m.
-  QD4_c = increases.
-  QD4_d = gravity / weight. ACCEPT gravitational force, downward force, pull of Earth. REJECT friction, wind, lift.
+    Letter matching is case-insensitive; accept "c", "C", " C ", etc.
+  QD4_b = BOTH B AND D required, in any order with any separator. One alone = 0m.
+    ACCEPT: "B and D" / "D and B" / "B, D" / "D, B" / "B D" / "D B" / "BD" / "DB".
+  QD4_c = Samir's pulling force INCREASES.
+    ACCEPT: increases / gets bigger / gets stronger / pulls harder / more force / grows / larger / bigger.
+    REJECT: stays the same / decreases / no change.
+  QD4_d = kite may move down / drop / fall. ACCEPT: moves down / falls / comes down / fall lower / drop / lose height / descend / fall down.
+    REJECT: stays the same / goes up / moves higher.
 
 POOL TABLE:
+pool_qd3a | QD3_a_1 + QD3_a_2 | 2m | graduated-4 | mark-holder=QD3_a_1
 pool_qc2c | QC2_c_W + QC2_c_A | 1m | both-required | mark-holder=QC2_c_W
 pool_qd4a | QD4_a_gravity + QD4_a_lift + QD4_a_wind | 2m | graduated-3 | mark-holder=QD4_a_gravity
 
@@ -197,6 +202,7 @@ Each field: {"field_id":"Y7_QA1_answer","student_value":"...","expected":"...","
 CONSTRAINTS:
 - fields must contain EXACTLY 62 entries.
 - total_awarded = sum of all part_totals[X].awarded.
+- pool_qd3a mark-holder = Y7_QD3_a_1_answer.
 - pool_qc2c mark-holder = Y7_QC2_c_W_answer.
 - pool_qd4a mark-holder = Y7_QD4_a_gravity_answer.`;
 

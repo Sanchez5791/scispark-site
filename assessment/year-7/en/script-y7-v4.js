@@ -3,7 +3,7 @@
 /* ── Constants ─────────────────────────────────────────────────── */
 const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
-const ASSESSMENT_CODE   = 'Y7_ENTRY_EN';
+const ASSESSMENT_CODE   = 'Y7_ENTRY_EN_V4';
 const TIMER_SECONDS     = 45 * 60;
 const TOTAL_QUESTIONS   = 32;
 const AUTOSAVE_KEY      = 'scispark_y7_draft';
