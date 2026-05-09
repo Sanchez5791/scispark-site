@@ -122,6 +122,17 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   .qopt.sel .key{background:var(--accent);color:#fff}
   .device-foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding:12px 6px 4px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);}
 
+  /* ---------- Socratic chat demo ---------- */
+  @keyframes chat-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .chat-feed{display:flex;flex-direction:column;gap:14px;padding:18px 8px 10px}
+  .chat-msg{opacity:0;animation:chat-in .45s ease forwards;animation-delay:var(--delay,0s)}
+  .chat-row{display:flex;align-items:flex-end;gap:10px}
+  .chat-msg.stud .chat-row{justify-content:flex-end}
+  .prof-av{width:34px;height:34px;border-radius:50%;background:#EA580C;color:#fff;display:grid;place-items:center;font-size:16px;flex-shrink:0;line-height:1}
+  .bubble{max-width:80%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.5;color:#fff}
+  .chat-msg.prof .bubble{background:#EA580C;border-bottom-left-radius:4px}
+  .chat-msg.stud .bubble{background:#1A1A1A;border-bottom-right-radius:4px}
+
   .trust{display:flex;flex-wrap:wrap;gap:18px 40px;align-items:center;justify-content:space-between;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--ff-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);}
   .trust .t-item{display:inline-flex;gap:10px;align-items:center}
   .trust .t-item .dot{width:6px;height:6px;border-radius:99px;background:var(--accent)}
@@ -474,28 +485,54 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
 
       <div class="device" aria-hidden="true">
         <div class="device-head">
-          <span><span class="pulse"></span>&nbsp;&nbsp;Assessment · Live</span>
-          <span>18 / 60 marks · 27:12 left</span>
+          <span><span class="pulse"></span>&nbsp;&nbsp;Professor P · Socratic Tutor</span>
+          <span>AI · Live</span>
         </div>
-        <div class="qcard">
-          <div class="qmeta">
-            <span>Topic — Forces &amp; Motion</span>
-            <span>Adaptive · Level 2</span>
+        <div class="chat-feed">
+
+          <div class="chat-msg stud" style="--delay:0s">
+            <div class="chat-row">
+              <div class="bubble" data-en="Why does water disappear when I boil it?" data-zh="水烧开了为什么会消失？">Why does water disappear when I boil it?</div>
+            </div>
           </div>
-          <div class="qprog" aria-label="progress">
-            <i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+
+          <div class="chat-msg prof" style="--delay:0.8s">
+            <div class="chat-row">
+              <div class="prof-av">🤖</div>
+              <div class="bubble" data-en="Good question. Before I explain — where do you think it goes?" data-zh="好问题。在我解释之前——你觉得它去哪了？">Good question. Before I explain — where do you think it goes?</div>
+            </div>
           </div>
-          <div class="qtitle">A book rests on a table. Which best explains why it does <em>not</em> sink through the surface?</div>
-          <div class="qopts">
-            <div class="qopt"><span class="key">A</span> The table is solid and cannot move.</div>
-            <div class="qopt sel"><span class="key">B</span> The table pushes up with an equal and opposite force.</div>
-            <div class="qopt"><span class="key">C</span> Gravity is weaker on objects at rest.</div>
-            <div class="qopt"><span class="key">D</span> The book has no weight when stationary.</div>
+
+          <div class="chat-msg stud" style="--delay:1.6s">
+            <div class="chat-row">
+              <div class="bubble" data-en="Into the air?" data-zh="进入空气里了？">Into the air?</div>
+            </div>
           </div>
+
+          <div class="chat-msg prof" style="--delay:2.4s">
+            <div class="chat-row">
+              <div class="prof-av">🤖</div>
+              <div class="bubble" data-en="So it's still there, just... different? What changed — the water itself, or how it moves?" data-zh="所以它还在，只是……变了？是水本身变了，还是它的运动方式变了？">So it's still there, just... different? What changed — the water itself, or how it moves?</div>
+            </div>
+          </div>
+
+          <div class="chat-msg stud" style="--delay:3.2s">
+            <div class="chat-row">
+              <div class="bubble" data-en="Maybe how it moves?" data-zh="也许是运动方式？">Maybe how it moves?</div>
+            </div>
+          </div>
+
+          <div class="chat-msg prof" style="--delay:4s">
+            <div class="chat-row">
+              <div class="prof-av">🤖</div>
+              <div class="bubble" data-en="You're closer than you think. What if water is made of billions of tiny particles? What do you think heat does to them?" data-zh="你比你想象的更接近答案了。如果水是由数十亿个微小粒子组成的，你觉得加热会对它们做什么？">You're closer than you think. What if water is made of billions of tiny particles? What do you think heat does to them?</div>
+            </div>
+          </div>
+
         </div>
         <div class="device-foot">
-          <span>↵ to confirm</span>
-          <span style="color:var(--ink-2);font-weight:500">Continue →</span>
+          <span data-en="AI Socratic Tutor" data-zh="AI 苏格拉底导师">AI Socratic Tutor</span>
+          <span style="color:var(--accent);font-weight:500" data-en="Thinking together →" data-zh="一起思考 →">Thinking together →</span>
         </div>
       </div>
     </div>
