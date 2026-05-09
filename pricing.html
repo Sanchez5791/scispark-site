@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SciSpark — Pricing</title>
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="shortcut icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FBF8F4;
+    --bg-2:#F4EFE7;
+    --ink:#171413;
+    --ink-2:#3a342f;
+    --ink-3:#6b6358;
+    --line:#E6DFD3;
+    --line-2:#D9D0BF;
+    --accent:#EA580C;
+    --accent-ink:#7a2e08;
+    --accent-soft:#FFE9D6;
+    --ok:#2E7D5B;
+    --ff-display:'Instrument Serif','Times New Roman',serif;
+    --ff-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --ff-mono:'JetBrains Mono',ui-monospace,monospace;
+    --max:1280px;
+    --pad:clamp(20px,4vw,56px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--ff-body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11";line-height:1.5;}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+  .display{font-family:var(--ff-display);font-weight:400;letter-spacing:-0.015em;line-height:0.98;text-wrap:balance;}
+  .eyebrow{font-family:var(--ff-mono);text-transform:uppercase;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);font-weight:500;}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;background:color-mix(in oklab,var(--bg) 85%,transparent);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid color-mix(in oklab,var(--line) 60%,transparent);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-0.01em}
+  .brand-img{width:34px;height:34px;border-radius:99px;display:block}
+  .brand-name{display:flex;flex-direction:column;line-height:1.05}
+  .brand-name b{font-weight:600;font-size:14.5px;letter-spacing:-.005em;color:var(--ink)}
+  .brand-name i{font-style:normal;font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:2px}
+  @media(max-width:760px){.brand-name i{display:none}}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.active{color:var(--ink);font-weight:500}
+  .nav-right{display:flex;align-items:center;gap:14px}
+  .lang{display:inline-flex;align-items:center;gap:0;border:1px solid var(--line-2);border-radius:999px;padding:3px;background:#fff;font-size:12px;font-weight:500;}
+  .lang button{padding:5px 11px;border-radius:999px;color:var(--ink-3);transition:all .18s ease;white-space:nowrap;}
+  .lang button.on{background:var(--ink);color:#fff}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:500;transition:all .18s ease;white-space:nowrap;}
+  .btn-accent{background:var(--accent);color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.18)}
+  .btn-accent:hover{filter:brightness(.95) saturate(1.05)}
+  .btn-ghost{color:var(--ink-2)}
+  .btn-ghost:hover{color:var(--ink)}
+  .btn .arr{transition:transform .2s}
+  .btn:hover .arr{transform:translateX(3px)}
+
+  /* PAGE HEADER */
+  .page-header{padding:clamp(56px,9vh,96px) 0 clamp(40px,6vh,64px);text-align:center}
+  .page-header h1{font-size:clamp(40px,6vw,72px);margin:16px 0 18px}
+  .page-header p{font-size:18px;color:var(--ink-2);max-width:48ch;margin:0 auto;line-height:1.55}
+
+  /* PRICING GRID */
+  .pricing-section{padding:0 0 clamp(80px,12vh,140px)}
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;margin-top:0}
+  @media(max-width:900px){.pricing-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}}
+
+  .plan{background:#fff;border:1px solid var(--line-2);border-radius:18px;padding:32px;position:relative;display:flex;flex-direction:column;gap:0}
+  .plan.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 8px 32px -8px rgba(234,88,12,.18)}
+
+  .badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-family:var(--ff-mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:999px;white-space:nowrap}
+
+  .plan-name{font-family:var(--ff-mono);text-transform:uppercase;font-size:11px;letter-spacing:.14em;color:var(--ink-3);font-weight:500;margin-bottom:20px}
+  .plan-price{margin-bottom:8px}
+  .plan-price .amount{font-family:var(--ff-display);font-size:clamp(40px,5vw,56px);line-height:1;letter-spacing:-.02em}
+  .plan-price .period{font-size:14px;color:var(--ink-3);margin-left:4px}
+  .plan-price .free-label{font-family:var(--ff-display);font-size:clamp(40px,5vw,56px);line-height:1;letter-spacing:-.02em;color:var(--ink)}
+  .plan-tagline{font-size:13px;color:var(--ink-3);margin-bottom:28px;min-height:1.4em}
+  .plan-tagline .save{color:var(--ok);font-weight:500}
+
+  .plan-divider{border:0;border-top:1px solid var(--line);margin:0 0 24px}
+
+  .plan-features{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:12px;flex:1}
+  .plan-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink-2);line-height:1.4}
+  .plan-features li::before{content:"";display:inline-block;width:16px;height:16px;min-width:16px;border-radius:99px;background:var(--bg-2);background-image:url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3.5L3.8 6.5L9 1' stroke='%236b6358' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;margin-top:1px}
+  .plan.featured .plan-features li::before{background-image:url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3.5L3.8 6.5L9 1' stroke='%23EA580C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+
+  .plan-cta{display:block;text-align:center;padding:13px 20px;border-radius:9px;font-size:15px;font-weight:500;transition:all .18s ease;margin-top:auto}
+  .cta-free{border:1.5px solid var(--line-2);color:var(--ink-2)}
+  .cta-free:hover{border-color:var(--ink-3);color:var(--ink)}
+  .cta-primary{background:var(--ink);color:var(--bg)}
+  .cta-primary:hover{background:var(--accent);color:#fff}
+  .cta-accent{background:var(--accent);color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.18)}
+  .cta-accent:hover{filter:brightness(.95) saturate(1.05)}
+
+  /* FOOTER */
+  footer{padding:56px 0 32px;border-top:1px solid var(--line);margin-top:24px}
+  .footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr;gap:32px}
+  @media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr}}
+  .footer-grid h5{font-family:var(--ff-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);font-weight:500;margin:0 0 14px}
+  .footer-grid ul{list-style:none;padding:0;margin:0;display:grid;gap:9px;font-size:14px;color:var(--ink-2)}
+  .footer-grid ul a:hover{color:var(--ink)}
+  .footer-bot{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);font-family:var(--ff-mono);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/scispark-logo-mark.svg" alt="SciSpark" class="brand-img">
+      <span class="brand-name">
+        <b data-en="SciSpark" data-zh="SciSpark">SciSpark</b>
+        <i data-en="Year 7–9 Science · Cambridge 0893" data-zh="七–九年级科学 · 剑桥 0893">Year 7–9 Science · Cambridge 0893</i>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="index.html#how" data-en="How It Works" data-zh="运作方式">How It Works</a>
+      <a href="index.html#levels" data-en="Learning Paths" data-zh="学习路径">Learning Paths</a>
+      <a href="pricing.html" class="active" data-en="Pricing" data-zh="价格">Pricing</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button class="on" data-lang="en">EN</button>
+        <button data-lang="zh">中文</button>
+      </div>
+      <a href="signin.html" class="btn btn-ghost" data-en="Sign In" data-zh="登录">Sign In</a>
+      <a href="index.html#" class="btn btn-accent" data-en="Get Started" data-zh="开始">Get Started <span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="wrap">
+    <span class="eyebrow" data-en="Simple, transparent pricing" data-zh="简单透明的价格">Simple, transparent pricing</span>
+    <h1 class="display" data-en="Start free. Upgrade when ready." data-zh="免费开始。随时升级。">Start free. Upgrade when ready.</h1>
+    <p data-en="Every student begins with a full diagnostic assessment. Subscribe to unlock the complete learning path." data-zh="每位学生都从完整诊断评估开始。订阅后即可解锁完整学习路径。">Every student begins with a full diagnostic assessment. Subscribe to unlock the complete learning path.</p>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="wrap">
+    <div class="pricing-grid">
+
+      <!-- FREE -->
+      <div class="plan">
+        <div class="plan-name" data-en="Free" data-zh="免费">Free</div>
+        <div class="plan-price">
+          <span class="free-label" data-en="Free" data-zh="免费">Free</span>
+        </div>
+        <div class="plan-tagline" data-en="Get started, discover your level" data-zh="入门，了解学习程度">Get started, discover your level</div>
+        <hr class="plan-divider">
+        <ul class="plan-features">
+          <li data-en="Full 30-minute diagnostic assessment" data-zh="完整 30 分钟诊断评估">Full 30-minute diagnostic assessment</li>
+          <li data-en="Personalised level result" data-zh="个性化水平结果报告">Personalised level result</li>
+          <li data-en="English &amp; 中文" data-zh="中英双语">English &amp; 中文</li>
+          <li data-en="No credit card required" data-zh="无需信用卡">No credit card required</li>
+        </ul>
+        <a href="index.html" class="plan-cta cta-free" data-en="Start Free" data-zh="免费开始">Start Free</a>
+      </div>
+
+      <!-- MONTHLY -->
+      <div class="plan">
+        <div class="plan-name" data-en="Monthly" data-zh="月付">Monthly</div>
+        <div class="plan-price">
+          <span class="amount">USD 37</span><span class="period" data-en="/mo" data-zh="/月">/mo</span>
+        </div>
+        <div class="plan-tagline" data-en="7-day free trial · Cancel anytime" data-zh="7 天免费试用 · 随时取消">7-day free trial · Cancel anytime</div>
+        <hr class="plan-divider">
+        <ul class="plan-features">
+          <li data-en="Everything in Free" data-zh="包含免费版全部内容">Everything in Free</li>
+          <li data-en="Full guided learning path" data-zh="完整引导式学习路径">Full guided learning path</li>
+          <li data-en="3 support levels, AI-adapted" data-zh="三级支持体系，AI 自适应">3 support levels, AI-adapted</li>
+          <li data-en="Progress tracking &amp; reports" data-zh="进度追踪与报告">Progress tracking &amp; reports</li>
+          <li data-en="Teacher oversight dashboard" data-zh="老师监督仪表盘">Teacher oversight dashboard</li>
+        </ul>
+        <a href="index.html" class="plan-cta cta-primary" data-en="Subscribe" data-zh="订阅">Subscribe</a>
+      </div>
+
+      <!-- ANNUAL -->
+      <div class="plan featured">
+        <div class="badge" data-en="Best Value" data-zh="最优选择">Best Value</div>
+        <div class="plan-name" data-en="Annual" data-zh="年付">Annual</div>
+        <div class="plan-price">
+          <span class="amount">USD 355</span><span class="period" data-en="/yr" data-zh="/年">/yr</span>
+        </div>
+        <div class="plan-tagline">
+          <span class="save" data-en="Save 20%" data-zh="节省 20%">Save 20%</span>
+          <span data-en=" · 7-day free trial" data-zh=" · 7 天免费试用"> · 7-day free trial</span>
+        </div>
+        <hr class="plan-divider">
+        <ul class="plan-features">
+          <li data-en="Everything in Monthly" data-zh="包含月付版全部内容">Everything in Monthly</li>
+          <li data-en="Full guided learning path" data-zh="完整引导式学习路径">Full guided learning path</li>
+          <li data-en="3 support levels, AI-adapted" data-zh="三级支持体系，AI 自适应">3 support levels, AI-adapted</li>
+          <li data-en="Progress tracking &amp; reports" data-zh="进度追踪与报告">Progress tracking &amp; reports</li>
+          <li data-en="Teacher oversight dashboard" data-zh="老师监督仪表盘">Teacher oversight dashboard</li>
+        </ul>
+        <a href="index.html" class="plan-cta cta-accent" data-en="Subscribe" data-zh="订阅">Subscribe</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="brand" style="font-size:16px">
+          <img src="assets/scispark-logo-mark.svg" alt="SciSpark" class="brand-img">
+          <span class="brand-name"><b data-en="SciSpark" data-zh="SciSpark">SciSpark</b></span>
+        </a>
+        <p style="font-size:13px;color:var(--ink-3);margin:14px 0 0;max-width:32ch" data-en="An AI-managed science learning system for Year 7–9 science. Assessment-first. Cambridge 0893 aligned. English &amp; 中文." data-zh="面向七 — 九年级科学的 AI 管理型学习系统。先评估。对接剑桥 0893。中英双语支持。">
+          An AI-managed science learning system for Year 7–9 science. Assessment-first. Cambridge 0893 aligned. English &amp; 中文.
+        </p>
+      </div>
+      <div>
+        <h5 data-en="Product" data-zh="产品">Product</h5>
+        <ul>
+          <li><a href="index.html#how" data-en="How it works" data-zh="运作方式">How it works</a></li>
+          <li><a href="index.html#levels" data-en="Levels" data-zh="支持等级">Levels</a></li>
+          <li><a href="index.html#assess" data-en="Assessment" data-zh="评估">Assessment</a></li>
+          <li><a href="pricing.html" data-en="Pricing" data-zh="价格">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 data-en="Curriculum" data-zh="课程">Curriculum</h5>
+        <ul>
+          <li><a href="#" data-en="Cambridge 0893" data-zh="剑桥 0893">Cambridge 0893</a></li>
+          <li><a href="#" data-en="Year 7 path" data-zh="七年级路径">Year 7 path</a></li>
+          <li><a href="#" data-en="Year 8 path" data-zh="八年级路径">Year 8 path</a></li>
+          <li><a href="#" data-en="Year 9 path" data-zh="九年级路径">Year 9 path</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 data-en="Company" data-zh="关于">Company</h5>
+        <ul>
+          <li><a href="#" data-en="Support" data-zh="客服支持">Support</a></li>
+          <li><a href="#" data-en="Privacy" data-zh="隐私">Privacy</a></li>
+          <li><a href="#" data-en="Terms" data-zh="条款">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© 2026 SciSpark · An IG SPARK CENTRE product</span>
+      <span>EN · 中文 · Cambridge 0893</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const btns = document.querySelectorAll('.lang button');
+  function setLang(lang){
+    document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+    document.querySelectorAll('[data-en]').forEach(el=>{
+      const txt = el.getAttribute('data-' + lang);
+      if (txt !== null && txt !== undefined) el.innerHTML = txt;
+    });
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
+    try{ localStorage.setItem('scispark-lang', lang); }catch(e){}
+  }
+  btns.forEach(b=>b.addEventListener('click', ()=>setLang(b.dataset.lang)));
+  let saved = 'en';
+  try{ saved = localStorage.getItem('scispark-lang') || 'en'; }catch(e){}
+  if (saved === 'zh') setLang('zh');
+})();
+</script>
+</body>
+</html>
