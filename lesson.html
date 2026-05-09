@@ -6,14 +6,13 @@
 <title>Lesson · SciSpark</title>
 <meta name="description" content="SciSpark Cambridge Lower Secondary Science Lesson">
 
-<!-- Google Fonts: EB Garamond (serif body) + DM Sans (sans chrome) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* ================================================================
-   DESIGN TOKENS — must match style.css exactly (Site Source Kit)
+   DESIGN TOKENS
    ================================================================ */
 :root {
   --bg:           #f5efe5;
@@ -30,8 +29,16 @@
   --text-light:   #c5bbb4;
   --border:       #e2d9ce;
   --border-focus: #e8521a;
+  --green:        #2E7D5B;
+  --green-bg:     #d9eed9;
+  --green-text:   #2a6a2a;
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-xl:    20px;
   --font-serif:   'EB Garamond', Georgia, serif;
   --font-sans:    'DM Sans', system-ui, sans-serif;
+  --font-zh:      'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
   --max-w:        740px;
   --transition:   150ms ease;
 }
@@ -40,212 +47,275 @@
    RESET + BASE
    ================================================================ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-serif);
-  font-size: 18px;
-  line-height: 1.65;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
   min-height: 100vh;
-  padding-bottom: 96px; /* clear sticky footer */
+  padding-bottom: 96px;
   -webkit-font-smoothing: antialiased;
 }
-
 a { color: var(--orange); text-decoration: none; transition: color var(--transition); }
 a:hover { color: var(--orange-hover); }
-
 button { font-family: inherit; cursor: pointer; }
 
 /* ================================================================
-   HEADER (sticky, dark — matches assessment page)
+   NAV (sticky dark header)
    ================================================================ */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+.nav {
+  position: sticky; top: 0; z-index: 100;
   background: var(--dark);
-  color: #fff;
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+  color: white;
 }
-.site-header__brand {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.nav-inner {
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  max-width: 1200px; margin: 0 auto;
 }
-.site-header__brand::before {
-  content: '';
-  display: inline-block;
-  width: 22px; height: 22px;
+.nav-progress {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  position: relative;
+}
+.nav-progress-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 0%;
   background: var(--orange);
-  border-radius: 4px;
-  transform: rotate(8deg);
+  transition: width 0.4s;
 }
-.site-header__nav {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  color: var(--text-light);
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-brand .logo-svg { width: 28px; height: 28px; }
+.nav-brand .brand-text { font-weight: 700; font-size: 18px; color: white; font-family: var(--font-sans); }
+.nav-brand .brand-text .spark { color: var(--orange); }
+.nav-breadcrumb {
+  display: none;
+  font-size: 12px; color: var(--text-light); letter-spacing: 0.04em;
 }
-.site-header__nav a { color: var(--text-light); }
-.site-header__nav a:hover { color: #fff; }
+.nav-breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+.nav-breadcrumb .current { color: white; }
+@media (min-width: 900px) { .nav-breadcrumb { display: flex; align-items: center; } }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--orange); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 12px; font-family: var(--font-sans);
+}
 
 /* ================================================================
-   MAIN
+   MOBILE PROGRESS BAR
    ================================================================ */
-.lesson-main {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 48px 24px 24px;
+.mobile-outline-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-card); border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  font-size: 13px;
+}
+.mobile-outline-bar .step-mini {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--orange); font-weight: 500; flex-shrink: 0;
+}
+.mobile-outline-bar .step-mini .num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--orange); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+}
+.mobile-outline-bar .bar-progress {
+  flex: 1; height: 4px; background: var(--bg-subtle);
+  border-radius: 100px; margin: 0 14px; overflow: hidden;
+}
+.mobile-outline-bar .bar-progress-fill {
+  display: block; height: 100%;
+  background: var(--orange); border-radius: 100px;
+  width: 0%; transition: width 0.4s;
+}
+.mobile-outline-bar .pct { font-weight: 600; color: var(--text); font-size: 12px; flex-shrink: 0; }
+@media (min-width: 768px) { .mobile-outline-bar { display: none !important; } }
+
+/* ================================================================
+   LAYOUT: 3 columns on desktop
+   ================================================================ */
+.lesson-layout {
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+@media (min-width: 768px) {
+  .lesson-layout {
+    grid-template-columns: 220px 1fr;
+    gap: 28px;
+    padding: 0 16px;
+  }
+}
+@media (min-width: 1100px) {
+  .lesson-layout {
+    grid-template-columns: 220px 1fr 320px;
+  }
 }
 
+/* ================================================================
+   OUTLINE (left rail)
+   ================================================================ */
+.outline {
+  display: none;
+  padding: 28px 0;
+  position: sticky; top: 72px; align-self: start;
+  max-height: calc(100vh - 72px); overflow-y: auto;
+}
+@media (min-width: 768px) { .outline { display: block; } }
+
+.outline-header {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.outline-lesson-title {
+  font-family: var(--font-serif);
+  font-size: 18px; font-weight: 500;
+  margin-bottom: 4px; line-height: 1.25;
+}
+.outline-lesson-zh {
+  font-family: var(--font-zh); font-size: 12px;
+  color: var(--text-muted); margin-bottom: 18px;
+}
+.outline-list { list-style: none; }
+.outline-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+  font-size: 13px; cursor: pointer;
+}
+.outline-list li:last-child { border-bottom: 1px solid var(--border); }
+.outline-list .step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--bg-subtle); color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  border: 1.5px solid transparent;
+}
+.outline-list li.is-done .step-num {
+  background: var(--green-bg); color: var(--green-text);
+}
+.outline-list li.is-done .step-num::before { content: "✓"; }
+.outline-list li.is-done .step-num span { display: none; }
+.outline-list li.is-active .step-num {
+  background: var(--orange); color: white;
+  box-shadow: 0 0 0 4px var(--orange-light);
+}
+.outline-list li.is-active .step-text { color: var(--orange); font-weight: 500; }
+.outline-list .step-text { line-height: 1.3; }
+.outline-list .step-zh {
+  font-family: var(--font-zh); font-size: 11px;
+  color: var(--text-muted); display: block; margin-top: 2px;
+}
+.outline-back {
+  margin-top: 20px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 12px; color: var(--text-muted);
+  text-decoration: none;
+}
+.outline-back:hover { border-color: var(--orange-mid); color: var(--orange); }
+
+/* ================================================================
+   LESSON CONTENT (centre column)
+   ================================================================ */
+.content {
+  padding: 28px 16px 80px;
+  max-width: 720px;
+  width: 100%;
+}
+@media (min-width: 768px) { .content { padding: 32px 0 80px; } }
+
+/* Existing lesson header elements (populated by JS renderHeader) */
 .lesson-meta {
   font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  margin-bottom: 16px;
+  font-size: 13px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); margin-bottom: 16px;
 }
 .lesson-meta .badge {
   display: inline-block;
   padding: 4px 10px;
-  background: var(--orange-light);
-  color: var(--orange);
-  border-radius: 4px;
-  margin-right: 8px;
+  background: var(--orange-light); color: var(--orange);
+  border-radius: 4px; margin-right: 8px;
 }
-
 .lesson-title {
   font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 44px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  color: var(--dark);
+  font-weight: 600; font-size: 44px;
+  line-height: 1.15; letter-spacing: -0.02em;
+  margin-bottom: 8px; color: var(--dark);
 }
 .lesson-title__zh {
-  font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-bottom: 32px;
+  font-family: var(--font-zh);
+  font-size: 22px; font-weight: 500;
+  color: var(--text-muted); margin-bottom: 32px;
   display: block;
 }
-
 .lang-toggle {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-  display: inline-flex;
-  background: var(--bg-subtle);
-  border-radius: 6px;
-  padding: 4px;
-  gap: 2px;
-  margin-bottom: 32px;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+  display: inline-flex; background: var(--bg-subtle);
+  border-radius: 6px; padding: 4px; gap: 2px; margin-bottom: 32px;
 }
 .lang-toggle button {
-  background: transparent;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-  font-family: var(--font-sans);
+  background: transparent; border: none;
+  padding: 6px 14px; border-radius: 4px;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-muted); font-family: var(--font-sans);
   transition: background var(--transition), color var(--transition);
 }
 .lang-toggle button.active {
-  background: #fff;
-  color: var(--dark);
+  background: #fff; color: var(--dark);
   box-shadow: 0 1px 2px rgba(0,0,0,0.06);
 }
 .lang-toggle button[disabled] { opacity: 0.4; cursor: not-allowed; }
 
 /* ================================================================
-   LESSON CONTENT (parsed from prose)
+   LESSON BODY (prose content rendered by JS)
    ================================================================ */
-.lesson-body { font-size: 18px; line-height: 1.7; }
-
+.lesson-body { font-family: var(--font-serif); font-size: 18px; line-height: 1.7; }
 .lesson-body h2 {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--orange);
-  margin: 56px 0 16px;
-  padding-bottom: 12px;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange);
+  margin: 56px 0 16px; padding-bottom: 12px;
   border-bottom: 2px solid var(--orange-mid);
 }
 .lesson-body h2:first-child { margin-top: 0; }
-
 .lesson-body h3 {
-  font-family: var(--font-serif);
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--dark);
-  margin: 36px 0 12px;
+  font-family: var(--font-serif); font-size: 24px; font-weight: 600;
+  letter-spacing: -0.01em; color: var(--dark); margin: 36px 0 12px;
 }
-
 .lesson-body p { margin: 0 0 16px; }
-
-.lesson-body ul, .lesson-body ol {
-  margin: 0 0 16px;
-  padding-left: 24px;
-}
-.lesson-body ul li, .lesson-body ol li {
-  margin-bottom: 6px;
-}
+.lesson-body ul, .lesson-body ol { margin: 0 0 16px; padding-left: 24px; }
+.lesson-body ul li, .lesson-body ol li { margin-bottom: 6px; }
 .lesson-body ul li::marker { color: var(--orange); }
-
 .lesson-body .arrow-line {
-  padding-left: 12px;
-  border-left: 3px solid var(--orange);
-  background: var(--orange-light);
-  padding: 8px 14px;
-  margin: 8px 0;
-  font-weight: 500;
+  border-left: 3px solid var(--orange); background: var(--orange-light);
+  padding: 8px 14px; margin: 8px 0; font-weight: 500;
   border-radius: 0 4px 4px 0;
 }
-
 .lesson-body .tag {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dark);
-  background: var(--bg-subtle);
-  padding: 4px 10px;
-  border-radius: 4px;
-  display: inline-block;
-  margin: 16px 0 8px;
+  font-family: var(--font-sans); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--dark); background: var(--bg-subtle);
+  padding: 4px 10px; border-radius: 4px;
+  display: inline-block; margin: 16px 0 8px;
 }
-
 .lesson-body strong { font-weight: 600; color: var(--dark); }
 .lesson-body em { font-style: italic; }
-
 .lesson-body .key-rule {
-  background: var(--dark);
-  color: #fff;
-  padding: 20px 24px;
-  border-radius: 8px;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 17px;
+  background: var(--dark); color: #fff;
+  padding: 20px 24px; border-radius: 8px;
+  font-family: var(--font-sans); font-weight: 500; font-size: 17px;
   margin: 24px 0;
 }
 
@@ -253,115 +323,194 @@ button { font-family: inherit; cursor: pointer; }
    STATES — loading, error
    ================================================================ */
 .state-screen {
-  max-width: var(--max-w);
-  margin: 80px auto;
-  padding: 48px 24px;
-  text-align: center;
+  max-width: var(--max-w); margin: 80px auto;
+  padding: 48px 24px; text-align: center;
 }
 .state-screen__title {
-  font-family: var(--font-serif);
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--dark);
+  font-family: var(--font-serif); font-size: 32px; font-weight: 600;
+  margin-bottom: 12px; color: var(--dark);
 }
 .state-screen__msg {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
+  font-family: var(--font-sans); font-size: 15px;
+  color: var(--text-muted); margin-bottom: 24px;
 }
 .state-screen__btn {
-  font-family: var(--font-sans);
-  background: var(--orange);
-  color: #fff;
-  border: none;
-  padding: 12px 28px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 15px;
+  font-family: var(--font-sans); background: var(--orange); color: #fff;
+  border: none; padding: 12px 28px; border-radius: 6px;
+  font-weight: 600; font-size: 15px;
   transition: background var(--transition);
 }
 .state-screen__btn:hover { background: var(--orange-hover); }
-
 .spinner {
   width: 36px; height: 36px;
-  border: 3px solid var(--orange-mid);
-  border-top-color: var(--orange);
-  border-radius: 50%;
-  margin: 0 auto 16px;
+  border: 3px solid var(--orange-mid); border-top-color: var(--orange);
+  border-radius: 50%; margin: 0 auto 16px;
   animation: spin 700ms linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ================================================================
+   AI GUIDE PANEL (right rail)
+   ================================================================ */
+.ai-panel {
+  display: none;
+  padding: 28px 0;
+  position: sticky; top: 72px; align-self: start;
+  max-height: calc(100vh - 80px);
+}
+@media (min-width: 1100px) { .ai-panel { display: flex; flex-direction: column; } }
+
+.ai-panel-card {
+  background: var(--dark-card); color: white;
+  border-radius: var(--radius-lg);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  height: calc(100vh - 120px); max-height: 720px;
+}
+.ai-panel-header {
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid #2c2925;
+}
+.ai-panel-title {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+}
+.ai-panel-title .live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #5cd687; animation: pulse 1.6s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.ai-panel-zh {
+  font-family: var(--font-zh); font-size: 11px;
+  color: var(--text-light); margin-top: 2px;
+}
+.ai-panel-context {
+  font-size: 11px; color: var(--text-light);
+  margin-top: 8px; letter-spacing: 0.05em; text-transform: uppercase;
+}
+.ai-panel-messages {
+  flex: 1; padding: 16px 18px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.bubble {
+  max-width: 92%; padding: 11px 13px; border-radius: 14px;
+  font-size: 13px; line-height: 1.5;
+}
+.bubble-tutor {
+  background: var(--orange-light); color: var(--text);
+  border: 1px solid var(--orange-mid); align-self: flex-start;
+}
+.bubble-tutor::before {
+  content: "AI Guide"; display: block;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--orange); text-transform: uppercase; margin-bottom: 4px;
+}
+.bubble-student {
+  background: white; color: var(--text);
+  border: 1px solid var(--border); align-self: flex-end;
+}
+.bubble-student::before {
+  content: "You"; display: block;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;
+}
+.typing-dots {
+  display: inline-flex; gap: 3px; padding: 11px 14px;
+  background: var(--orange-light); border: 1px solid var(--orange-mid);
+  border-radius: 14px; align-self: flex-start;
+}
+.typing-dots span {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--orange);
+  opacity: 0.4; animation: typing 1.4s infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+.ai-panel-input {
+  padding: 14px 18px; border-top: 1px solid #2c2925;
+  display: flex; gap: 8px; align-items: center;
+}
+.ai-panel-input input {
+  flex: 1; background: rgba(255,255,255,0.06);
+  border: 1px solid #2c2925; border-radius: 100px;
+  padding: 10px 16px; color: white;
+  font-family: var(--font-sans); font-size: 13px; outline: none;
+}
+.ai-panel-input input::placeholder { color: var(--text-light); }
+.ai-panel-input button {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--orange); color: white; border: none;
+  cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ================================================================
+   MOBILE FLOATING AI BUTTON
+   ================================================================ */
+.ai-fab {
+  position: fixed; bottom: 80px; right: 16px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--orange); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; box-shadow: 0 6px 24px rgba(232,82,26,0.35);
+  border: none; cursor: pointer; z-index: 50;
+}
+@media (min-width: 1100px) { .ai-fab { display: none !important; } }
+.ai-fab .badge-mini {
+  position: absolute; top: -2px; right: -2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--green); color: white;
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--bg);
+}
+
+/* ================================================================
    STICKY FOOTER (Mark as Complete)
    ================================================================ */
 .lesson-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: fixed; bottom: 0; left: 0; right: 0;
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(8px);
   border-top: 1px solid var(--border);
-  padding: 16px 24px;
-  z-index: 40;
+  padding: 16px 24px; z-index: 40;
 }
 .lesson-footer__inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: flex-end;
   gap: 16px;
 }
 .lesson-footer__status {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  color: var(--text-muted);
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-family: var(--font-sans); font-size: 13px;
+  color: var(--text-muted); font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
 }
 .lesson-footer__status .dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
+  width: 8px; height: 8px; border-radius: 50%;
   background: var(--text-light);
 }
 .lesson-footer__status[data-status="in_progress"] .dot { background: var(--orange); }
 .lesson-footer__status[data-status="completed"] .dot { background: #2d8d4f; }
-
 .btn-complete {
-  font-family: var(--font-sans);
-  background: var(--orange);
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 15px;
+  font-family: var(--font-sans); background: var(--orange); color: #fff;
+  border: none; padding: 12px 24px; border-radius: 6px;
+  font-weight: 600; font-size: 15px;
   transition: background var(--transition), transform var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
 }
 .btn-complete:hover { background: var(--orange-hover); }
 .btn-complete:disabled { opacity: 0.6; cursor: wait; }
-
 .btn-completed-badge {
-  font-family: var(--font-sans);
-  background: #e6f5ec;
-  color: #2d8d4f;
-  border: 1px solid #b8e0c5;
-  padding: 10px 22px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  font-family: var(--font-sans); background: #e6f5ec; color: #2d8d4f;
+  border: 1px solid #b8e0c5; padding: 10px 22px; border-radius: 6px;
+  font-weight: 600; font-size: 14px;
+  display: inline-flex; align-items: center; gap: 8px;
 }
 
 /* ================================================================
@@ -369,12 +518,115 @@ button { font-family: inherit; cursor: pointer; }
    ================================================================ */
 @media (max-width: 600px) {
   .lesson-title { font-size: 32px; }
-  .lesson-main { padding: 32px 20px 20px; }
   .lesson-body { font-size: 17px; }
   .lesson-body h3 { font-size: 20px; }
   .lesson-footer__inner { flex-direction: column; align-items: stretch; gap: 10px; }
   .btn-complete, .btn-completed-badge { width: 100%; justify-content: center; }
 }
+
+/* ================================================================
+   SECTION BLOCKS (rendered dynamically by renderSections)
+   ================================================================ */
+.section-block {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.section-block:last-child { border-bottom: none; }
+
+.section-label {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.section-num-circle {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: var(--orange); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-sans); font-size: 12px; font-weight: 700;
+}
+.section-num-circle.is-done { background: var(--green-bg); color: var(--green-text); }
+.section-num-circle.is-future { background: var(--bg-subtle); color: var(--text-muted); }
+.section-label-text {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 500;
+  color: var(--dark); line-height: 1.3;
+}
+.section-label-zh { font-family: var(--font-zh); font-size: 14px; color: var(--text-muted); }
+
+.section-body-en {
+  font-family: var(--font-serif); font-size: 18px; line-height: 1.7;
+  color: var(--text); margin-bottom: 14px;
+}
+.section-body-zh {
+  font-family: var(--font-zh); font-size: 14px; color: var(--text-muted);
+  background: var(--bg-subtle); border-left: 3px solid var(--orange-mid);
+  padding: 12px 16px; border-radius: 0 8px 8px 0;
+  margin-bottom: 20px; line-height: 1.65;
+}
+
+.section-done .section-label-text { color: var(--text-muted); }
+.section-future { opacity: 0.4; pointer-events: none; }
+
+/* Predict box */
+.predict-box { display: flex; flex-direction: column; gap: 8px; margin: 16px 0 20px; }
+.predict-option {
+  background: var(--bg-card); border: 1.5px solid var(--border);
+  border-radius: var(--radius-md); padding: 12px 16px;
+  cursor: pointer; display: flex; align-items: center; gap: 12px;
+  transition: border-color var(--transition), background var(--transition);
+  font-size: 14px;
+}
+.predict-option:hover { border-color: var(--orange); }
+.predict-option.is-selected { border-color: var(--orange); background: var(--orange-light); }
+.predict-option .key {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg-subtle); color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+  font-family: var(--font-sans);
+}
+.predict-option.is-selected .key { background: var(--orange); color: white; }
+.predict-option .opt-text strong { font-weight: 500; font-family: var(--font-sans); }
+.predict-option .opt-zh {
+  font-family: var(--font-zh); font-size: 12px; color: var(--text-muted);
+  display: block; margin-top: 2px;
+}
+
+/* DouDou speech bubble */
+.doudou-bubble-row {
+  display: flex; align-items: flex-end; gap: 10px;
+  margin-bottom: 16px;
+}
+.doudou-avatar { width: 52px; height: 52px;
+  object-fit: contain; flex-shrink: 0; }
+.doudou-bubble {
+  background: #ffffff;
+  border: 2px solid #EA580C;
+  border-radius: 16px 16px 16px 4px;
+  padding: 10px 14px;
+  font-size: 13px; line-height: 1.5; color: #171413;
+  max-width: 280px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.doudou-bubble .zh {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px; color: #6b6358;
+}
+
+/* Section navigation */
+.section-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border);
+}
+.btn-section {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 11px 22px; border-radius: 100px;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  border: none; cursor: pointer; transition: all var(--transition);
+}
+.btn-section-next { background: var(--orange); color: white; }
+.btn-section-next:hover { background: var(--orange-hover); }
+.btn-section-prev { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+.btn-section-prev:hover { border-color: var(--orange); color: var(--orange); }
 
 [hidden] { display: none !important; }
 </style>
@@ -382,14 +634,48 @@ button { font-family: inherit; cursor: pointer; }
 <body>
 
 <!-- ================================================================
-     HEADER
+     NAV
      ================================================================ -->
-<header class="site-header">
-  <div class="site-header__brand">SciSpark</div>
-  <nav class="site-header__nav">
-    <a href="/dashboard-student.html">← Dashboard</a>
-  </nav>
-</header>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/dashboard-student.html" class="nav-brand">
+      <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" opacity="0.4" transform="rotate(-20 50 50)"/>
+        <path d="M57 15 L43 46 L58 42 L40 85" stroke="#EA580C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="40" cy="85" r="3.5" fill="#EA580C" opacity="0.7"/>
+        <circle cx="57" cy="15" r="2.5" fill="#EA580C" opacity="0.5"/>
+      </svg>
+      <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    </a>
+    <div class="nav-breadcrumb" id="nav-breadcrumb" hidden>
+      <span id="nav-year"></span>
+      <span class="sep">/</span>
+      <span id="nav-unit"></span>
+      <span class="sep">/</span>
+      <span class="current" id="nav-lesson"></span>
+    </div>
+    <div class="nav-right">
+      <div class="nav-avatar" id="nav-avatar">·</div>
+    </div>
+  </div>
+  <div class="nav-progress">
+    <div class="nav-progress-fill" id="nav-progress-fill"></div>
+  </div>
+</nav>
+
+<!-- ================================================================
+     MOBILE PROGRESS BAR (hidden until lesson loads)
+     ================================================================ -->
+<div class="mobile-outline-bar" id="mobile-outline-bar" hidden>
+  <div class="step-mini">
+    <span class="num" id="mobile-active-num">1</span>
+    <span id="mobile-active-name">Loading…</span>
+  </div>
+  <div class="bar-progress">
+    <span class="bar-progress-fill" id="mobile-progress-fill"></span>
+  </div>
+  <span class="pct" id="mobile-pct"></span>
+</div>
 
 <!-- ================================================================
      LOADING STATE
@@ -410,23 +696,73 @@ button { font-family: inherit; cursor: pointer; }
 </div>
 
 <!-- ================================================================
-     LESSON (rendered after fetch)
+     3-COLUMN LESSON LAYOUT (shown after fetch)
      ================================================================ -->
-<main id="lesson-main" class="lesson-main" hidden>
-  <div class="lesson-meta" id="lesson-meta"></div>
-  <h1 class="lesson-title" id="lesson-title-en"></h1>
-  <span class="lesson-title__zh" id="lesson-title-zh" hidden></span>
+<div class="lesson-layout" id="lesson-main" hidden>
 
-  <div class="lang-toggle" id="lang-toggle" hidden>
-    <button data-lang="en" class="active">English</button>
-    <button data-lang="zh" id="btn-lang-zh">中文</button>
-  </div>
+  <!-- LEFT: LESSON OUTLINE -->
+  <aside class="outline">
+    <div class="outline-header">Lesson outline</div>
+    <div class="outline-lesson-title" id="outline-title"></div>
+    <div class="outline-lesson-zh" id="outline-title-zh"></div>
 
-  <article class="lesson-body" id="lesson-body"></article>
-</main>
+    <ul class="outline-list" id="outline-list"></ul>
+
+    <a href="/dashboard-student.html" class="outline-back">← Back to dashboard</a>
+  </aside>
+
+  <!-- CENTRE: LESSON CONTENT (existing IDs preserved for JS) -->
+  <main class="content">
+    <div class="lesson-meta" id="lesson-meta"></div>
+    <h1 class="lesson-title" id="lesson-title-en"></h1>
+    <span class="lesson-title__zh" id="lesson-title-zh" hidden></span>
+
+    <div class="lang-toggle" id="lang-toggle" hidden>
+      <button data-lang="en" class="active">English</button>
+      <button data-lang="zh" id="btn-lang-zh">中文</button>
+    </div>
+
+    <article class="lesson-body" id="lesson-body"></article>
+  </main>
+
+  <!-- RIGHT: AI GUIDE PANEL -->
+  <aside class="ai-panel">
+    <div class="ai-panel-card">
+      <div class="ai-panel-header">
+        <div class="ai-panel-title">
+          <img src="assets/profp-idle.png" width="32" height="32" style="border-radius:50%;object-fit:cover;object-position:top center">
+          AI Guide
+          <span class="live-dot"></span>
+        </div>
+        <div class="ai-panel-zh">智能导师</div>
+        <div class="ai-panel-context" id="ai-panel-context">Ready to help</div>
+      </div>
+      <div class="ai-panel-messages" id="ai-panel-messages">
+        <div class="bubble bubble-tutor">
+          Welcome! I'm your AI Guide for this lesson. Work through the content and ask me anything as you go.
+        </div>
+        <div class="bubble bubble-tutor">
+          欢迎！我是你这节课的智能导师。有任何问题都可以问我。
+        </div>
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="ai-panel-input">
+        <input type="text" placeholder="Ask the AI Guide… · 问一问导师" id="ai-input">
+        <button id="ai-send" aria-label="Send">↑</button>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- MOBILE AI FAB (hidden until lesson loads) -->
+<button class="ai-fab" id="ai-fab" title="Open AI Guide" hidden>
+  <img src="assets/doudou-idle.png" style="width:36px;height:36px;object-fit:contain;">
+  <span class="badge-mini">1</span>
+</button>
 
 <!-- ================================================================
-     STICKY FOOTER (only when lesson loaded)
+     STICKY FOOTER (Mark as Complete — only when lesson loaded)
      ================================================================ -->
 <footer class="lesson-footer" id="lesson-footer" hidden>
   <div class="lesson-footer__inner">
@@ -466,7 +802,8 @@ let state = {
   childId: null,
   lesson: null,
   progress: null,    // { id, status, started_at, completed_at }
-  currentLang: 'en'
+  currentLang: 'en',
+  activeSection: 0
 };
 
 /* ================================================================
@@ -480,6 +817,8 @@ function showError(title, msg) {
   hide('state-loading');
   hide('lesson-main');
   hide('lesson-footer');
+  hide('mobile-outline-bar');
+  hide('ai-fab');
   $('error-title').textContent = title;
   $('error-msg').textContent = msg;
   show('state-error');
@@ -524,13 +863,19 @@ async function resolveChildId(userId) {
 /* ================================================================
    STEP 3 — FETCH LESSON BY SLUG
    ================================================================ */
-async function fetchLesson(slug) {
-  const { data, error } = await sb
-    .from('lessons')
-    .select('id, year_group, unit_number, lesson_number, slug, lesson_title_en, lesson_title_zh, content_en, content_zh, content_format, is_published')
-    .eq('slug', slug)
-    .eq('is_published', true)
-    .maybeSingle();
+async function fetchLesson({ slug, unit_code, lesson_num }) {
+  let query = sb
+    .from('lesson_content')
+    .select('id, unit_code, lesson_num, slug, title_en, title_zh, content_en, content_zh, content_format, is_published, sections')
+    .eq('is_published', true);
+
+  if (slug) {
+    query = query.eq('slug', slug);
+  } else {
+    query = query.eq('unit_code', unit_code).eq('lesson_num', lesson_num);
+  }
+
+  const { data, error } = await query.maybeSingle();
 
   if (error) {
     console.error('[lesson] fetch error:', error);
@@ -636,13 +981,13 @@ function renderFooter() {
    ================================================================ */
 function renderHeader(lesson) {
   $('lesson-meta').innerHTML = `
-    <span class="badge">${escapeHtml(lesson.year_group)}</span>
-    Unit ${lesson.unit_number} · Lesson ${lesson.lesson_number}
+    <span class="badge">${escapeHtml(lesson.unit_code)}</span>
+    Lesson ${lesson.lesson_num}
   `;
-  $('lesson-title-en').textContent = lesson.lesson_title_en;
+  $('lesson-title-en').textContent = lesson.title_en;
 
-  if (lesson.lesson_title_zh) {
-    $('lesson-title-zh').textContent = lesson.lesson_title_zh;
+  if (lesson.title_zh) {
+    $('lesson-title-zh').textContent = lesson.title_zh;
     show('lesson-title-zh');
   }
 
@@ -652,10 +997,180 @@ function renderHeader(lesson) {
     $('btn-lang-zh').addEventListener('click', () => switchLang('zh'));
     document.querySelector('[data-lang="en"]').addEventListener('click', () => switchLang('en'));
   }
+
+  // Populate outline rail title
+  $('outline-title').textContent = lesson.title_en;
+  if (lesson.title_zh) {
+    $('outline-title-zh').textContent = lesson.title_zh;
+  }
+
+  // Populate nav breadcrumb
+  $('nav-year').textContent = lesson.unit_code;
+  $('nav-unit').textContent = `Lesson ${lesson.lesson_num}`;
+  $('nav-lesson').textContent = lesson.title_en;
+  show('nav-breadcrumb');
+
+  // Populate AI panel context line
+  $('ai-panel-context').textContent =
+    `${lesson.unit_code} · Lesson ${lesson.lesson_num}`;
+
+  // Build outline list from sections data
+  if (lesson.sections && lesson.sections.length) {
+    renderOutline(lesson.sections);
+  }
 }
 
 /* ================================================================
-   STEP 8 — RENDER LESSON BODY (prose parser)
+   STEP 8a — RENDER OUTLINE (left rail) from sections array
+   ================================================================ */
+function renderOutline(sections) {
+  const ul = $('outline-list');
+  ul.innerHTML = sections.map((s, i) => {
+    const isDone   = i < state.activeSection;
+    const isActive = i === state.activeSection;
+    const cls = isDone ? 'is-done' : isActive ? 'is-active' : '';
+    return `
+      <li class="${cls}" data-step="${i}">
+        <span class="step-num"><span>${i + 1}</span></span>
+        <div>
+          <span class="step-text">${escapeHtml(s.title_en)}</span>
+          ${s.title_zh ? `<span class="step-zh">${escapeHtml(s.title_zh)}</span>` : ''}
+        </div>
+      </li>`;
+  }).join('');
+
+  // Clicking a done/active step jumps back to it
+  ul.querySelectorAll('li').forEach(li => {
+    const idx = parseInt(li.dataset.step, 10);
+    if (idx <= state.activeSection) {
+      li.addEventListener('click', () => setActiveSection(idx));
+    }
+  });
+
+  // Sync mobile progress bar
+  const active = sections[state.activeSection];
+  $('mobile-active-num').textContent = state.activeSection + 1;
+  $('mobile-active-name').textContent = active ? escapeHtml(active.title_en) : '';
+  const pct = Math.round(((state.activeSection + 1) / sections.length) * 100);
+  $('mobile-progress-fill').style.width = pct + '%';
+  $('mobile-pct').textContent = `${state.activeSection + 1} / ${sections.length}`;
+}
+
+/* ================================================================
+   STEP 8b — SET ACTIVE SECTION & RE-RENDER
+   ================================================================ */
+function setActiveSection(index) {
+  const sections = state.lesson.sections;
+  if (!sections || index < 0 || index >= sections.length) return;
+  state.activeSection = index;
+  renderOutline(sections);
+  renderSections(sections);
+}
+
+/* ================================================================
+   STEP 8c — RENDER SECTIONS (centre content)
+   ================================================================ */
+function renderSections(sections) {
+  if (!sections || !sections.length) {
+    renderBody(state.lesson.content_en, state.lesson.content_format);
+    return;
+  }
+
+  const body = $('lesson-body');
+  body.innerHTML = sections.map((s, i) => {
+    const isDone   = i < state.activeSection;
+    const isActive = i === state.activeSection;
+    return isActive ? buildActiveSection(s, i, sections.length)
+                    : buildCollapsedSection(s, i, isDone);
+  }).join('');
+
+  // Wire predict option clicks
+  body.querySelectorAll('.predict-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      body.querySelectorAll('.predict-option').forEach(o => o.classList.remove('is-selected'));
+      opt.classList.add('is-selected');
+    });
+  });
+
+  // Wire prev/next buttons
+  const nextBtn = $('btn-next-section');
+  if (nextBtn) nextBtn.addEventListener('click', () => setActiveSection(state.activeSection + 1));
+  const prevBtn = $('btn-prev-section');
+  if (prevBtn) prevBtn.addEventListener('click', () => setActiveSection(state.activeSection - 1));
+}
+
+function buildActiveSection(s, i, total) {
+  const num = i + 1;
+  let html = `<div class="section-block">`;
+
+  html += `<div class="section-label">
+    <span class="section-num-circle">${num}</span>
+    <span class="section-label-text">${escapeHtml(s.title_en)}${s.title_zh ? ` · <span class="section-label-zh">${escapeHtml(s.title_zh)}</span>` : ''}</span>
+  </div>`;
+
+  if (s.content_en) {
+    html += `<p class="section-body-en">${escapeHtml(s.content_en)}</p>`;
+  }
+  if (s.content_zh) {
+    html += `<div class="section-body-zh">${escapeHtml(s.content_zh)}</div>`;
+  }
+
+  // Predict options (A/B/C/D)
+  if (s.type === 'predict' && Array.isArray(s.options) && s.options.length) {
+    html += `<div class="doudou-bubble-row">
+      <img src="assets/doudou-ask.png" class="doudou-avatar">
+      <div class="doudou-bubble">
+        <span class="en">Wait — if I double the mass, what actually happens to acceleration?</span>
+        <span class="zh">诶？质量加倍，加速度到底怎么变？</span>
+      </div>
+    </div>`;
+    html += `<div class="predict-box">`;
+    s.options.forEach((opt, j) => {
+      const key    = ['A','B','C','D'][j] || String(j + 1);
+      const textEn = typeof opt === 'string' ? opt : (opt.text_en || opt.en || opt.text || '');
+      const textZh = typeof opt === 'object'  ? (opt.text_zh || opt.zh || '') : '';
+      html += `<div class="predict-option">
+        <span class="key">${key}</span>
+        <div class="opt-text">
+          <strong>${escapeHtml(textEn)}</strong>
+          ${textZh ? `<span class="opt-zh">${escapeHtml(textZh)}</span>` : ''}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Prev / Next navigation
+  html += `<div class="section-nav">`;
+  if (i > 0) {
+    html += `<button class="btn-section btn-section-prev" id="btn-prev-section">← Previous</button>`;
+  } else {
+    html += `<span></span>`;
+  }
+  if (i < total - 1) {
+    html += `<button class="btn-section btn-section-next" id="btn-next-section">Continue →</button>`;
+  }
+  html += `</div>`;
+
+  html += `</div>`; // .section-block
+  return html;
+}
+
+function buildCollapsedSection(s, i, isDone) {
+  const num = i + 1;
+  const cls = isDone ? 'section-done' : 'section-future';
+  const circleCls = isDone ? 'is-done' : 'is-future';
+  const circleContent = isDone ? '✓' : num;
+  return `<div class="section-block ${cls}">
+    <div class="section-label">
+      <span class="section-num-circle ${circleCls}">${circleContent}</span>
+      <span class="section-label-text">${escapeHtml(s.title_en)}${s.title_zh ? ` · <span class="section-label-zh">${escapeHtml(s.title_zh)}</span>` : ''}</span>
+    </div>
+  </div>`;
+}
+
+/* ================================================================
+   STEP 8 — RENDER LESSON BODY (prose parser — fallback)
    ================================================================ */
 function renderBody(content, format) {
   const html = format === 'prose' ? proseToHtml(content) : escapeHtml(content);
@@ -787,21 +1302,22 @@ function escapeHtml(s) {
     .replace(/'/g, '&#39;');
 }
 
-function getSlugFromUrl() {
+function getLessonParamsFromUrl() {
   const params = new URLSearchParams(location.search);
-  return params.get('slug') || params.get('lesson');
+  return {
+    slug:       params.get('slug') || null,
+    unit_code:  params.get('unit')       || 'P2',
+    lesson_num: parseInt(params.get('lesson_num') || params.get('num') || '5', 10)
+  };
 }
 
 /* ================================================================
    MAIN — orchestrate everything on page load
    ================================================================ */
 async function main() {
-  // 1. Get slug from URL
-  const slug = getSlugFromUrl();
-  if (!slug) {
-    showError('No lesson selected', 'Add ?slug=<lesson-slug> to the URL.');
-    return;
-  }
+  console.log('[main] started');
+  // 1. Get lesson params from URL (defaults: unit_code='P2', lesson_num=5)
+  const lessonParams = getLessonParamsFromUrl();
 
   // 2. Auth check (redirects if not logged in)
   state.user = await checkAuth();
@@ -816,12 +1332,17 @@ async function main() {
   }
 
   // 4. Fetch lesson
-  state.lesson = await fetchLesson(slug);
+  state.lesson = await fetchLesson(lessonParams);
+  console.log('fetch result:', state.lesson);
   if (!state.lesson) {
+    const desc = lessonParams.slug
+      ? `slug "${lessonParams.slug}"`
+      : `unit_code="${lessonParams.unit_code}", lesson_num=${lessonParams.lesson_num}`;
     showError('Lesson not found',
-      `No published lesson with slug "${slug}". Check the URL or ask your teacher.`);
+      `No published lesson found for ${desc}. Check the URL or ask your teacher.`);
     return;
   }
+  window.__lesson = state.lesson;
 
   // 5. Start (or resume) progress tracking
   state.progress = await startLessonProgress(state.childId, state.lesson.id);
@@ -834,9 +1355,13 @@ async function main() {
   // 6. Render UI
   hide('state-loading');
   renderHeader(state.lesson);
-  renderBody(state.lesson.content_en, state.lesson.content_format);
+  console.log('sections:', state.lesson.sections);
+  renderSections(state.lesson.sections);
   show('lesson-main');
+  show('mobile-outline-bar');
+  show('ai-fab');
   renderFooter();
+  console.log('rendering done');
 }
 
 main().catch(err => {
