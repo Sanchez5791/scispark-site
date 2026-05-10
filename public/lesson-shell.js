@@ -158,22 +158,27 @@ function setupAutoSave() {
 //   - ZH: young curious Mandarin (pending A/B test — do NOT lock TTS voice yet)
 //   - Never sounds like a teacher — sounds like a fellow student
 // ═════════════════════════════════════════════════════════════
-const bubbleScripts = {
-  hook:  { en: "[DouDou hook — curious question to student]",  zh: "[DouDou 钩子 — 好奇地问学生]" },
-  learn: { en: "[DouDou learn — 'Oh I get it now!' reaction]", zh: "[DouDou 学习 — '哦我明白了！']" },
-  try:   { en: "[DouDou try — 'Let's try together!']",         zh: "[DouDou 练习 — '我们一起试试！']" },
-  test:  { en: "[DouDou test — 'You can do it solo!']",        zh: "[DouDou 测试 — '你自己来！加油！']" },
-  wrap:  { en: "[DouDou wrap — excited about next lesson]",    zh: "[DouDou 总结 — 对下一课感到兴奋]" }
-};
+// Default bubble scripts — lesson HTML can override by setting window.bubbleScripts
+// (e.g. <script>window.bubbleScripts = {...}</script> AFTER lesson-shell.js loads)
+if (typeof window.bubbleScripts === 'undefined') {
+  window.bubbleScripts = {
+    hook:  { en: "[DouDou hook — curious question to student]",  zh: "[DouDou 钩子 — 好奇地问学生]" },
+    learn: { en: "[DouDou learn — 'Oh I get it now!' reaction]", zh: "[DouDou 学习 — '哦我明白了！']" },
+    try:   { en: "[DouDou try — 'Let's try together!']",         zh: "[DouDou 练习 — '我们一起试试！']" },
+    test:  { en: "[DouDou test — 'You can do it solo!']",        zh: "[DouDou 测试 — '你自己来！加油！']" },
+    wrap:  { en: "[DouDou wrap — excited about next lesson]",    zh: "[DouDou 总结 — 对下一课感到兴奋]" }
+  };
+}
 // ▲▲▲ REPLACE ▲▲▲
 
 function showBubbleForScreen(id) {
   const bubble = document.getElementById('prof-p-bubble');
   const text = document.getElementById('prof-p-bubble-text');
   const zh = document.getElementById('prof-p-bubble-zh');
-  if (bubbleScripts[id]) {
-    text.textContent = bubbleScripts[id].en;
-    zh.textContent = bubbleScripts[id].zh;
+  const scripts = window.bubbleScripts || {};
+  if (scripts[id]) {
+    text.textContent = scripts[id].en;
+    zh.textContent = scripts[id].zh;
     bubble.classList.add('show');
     // Auto-hide after 5 seconds (except WRAP — keep visible)
     if (id !== 'wrap') {
@@ -220,9 +225,9 @@ function completeLesson() {
     }, 800);
   } else {
     setTimeout(() => {
-      // ▼▼▼ REPLACE: lesson number in alert text ▼▼▼
-      alert('Great work! Lesson [N] complete. ✓\n干得好!第 [N] 课完成。');
-      // ▲▲▲ REPLACE ▲▲▲
+      // Read lesson number from <body data-lesson="N">; fallback to '?' if not set
+      const lessonNum = document.body.dataset.lesson || '?';
+      alert(`Great work! Lesson ${lessonNum} complete. ✓\n干得好!第 ${lessonNum} 课完成。`);
     }, 600);
   }
 }
