@@ -63,6 +63,7 @@
   height: 917px;
   margin: 0 auto;
   background: #fff;
+  overflow: hidden;
 }
 
 .q28-final-graph-img {
@@ -948,6 +949,27 @@
   setMode('pencil');
   syncAxisLabels();
 })();
+function scaleQ28Graph() {
+  var wrap = document.querySelector('.q28-final-graph-wrap');
+  if (!wrap) return;
+  var parent = wrap.parentElement;
+  var available = parent.clientWidth;
+  var natural = 1094;
+  if (available < natural) {
+    var scale = available / natural;
+    wrap.style.transform = 'scale(' + scale + ')';
+    wrap.style.transformOrigin = 'top left';
+    wrap.style.marginBottom = '-' + (natural * (1 - scale)) + 'px';
+    wrap.style.height = (natural * scale) + 'px';
+  } else {
+    wrap.style.transform = '';
+    wrap.style.marginBottom = '';
+    wrap.style.height = '';
+  }
+}
+window.addEventListener('resize', scaleQ28Graph);
+document.addEventListener('DOMContentLoaded', scaleQ28Graph);
+setTimeout(scaleQ28Graph, 200);
 </script>
 
 <script src="script-y8.js"></script>
