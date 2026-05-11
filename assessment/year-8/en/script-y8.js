@@ -1,24 +1,27 @@
 /**
  * SciSpark Year 8 Entry Assessment
- * script-y8.js v2 — UPDATED for assessment-y8_v2.html field names
+ * script-y8.js v4.1 CORRECTED — Y8_ENTRY_EN (32 questions / 60 marks)
  *
- * Changes from v1:
- * - Part A/B: mixed naming fixed (Y8_QA2_answer, Y8_QB1_answer etc now handled)
- * - Part C: Q21 = parachutes, Q22 = evaporation, Q23 = electricity (Y8_QC prefix)
- * - Part D: Q24-Q27 use Y8_QD prefix
- * - BACKEND_ENABLED = false (flip to true after live test passes)
+ * FIXES from v4:
+ * FIX #1: assessment_code changed from 'Y8_ENTRY_EN_V4' → 'Y8_ENTRY_EN'
+ * FIX #2: Q28 fields updated from old friction investigation → v9 neutralisation graph fields
+ *         Old (wrong): Y8_QC3a_friction_direction, Y8_QC3b_constant_factor_1/2, etc.
+ *         New (correct): Y8_QC3a_temperature_change, Y8_QC3b_graph_points, etc.
+ *
+ * Field contract: SCISPARK_Y8_ENTRY_ANSWER_FIELD_CONTRACT_v9
+ * Assessment code: Y8_ENTRY_EN
+ * Architecture: Part A 10m | Part B 15m | Part C 15m | Part D 20m = 60m total
  */
 
 'use strict';
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━ CONFIG ━━━━━━━━━━━━━━━━━━━━━━━━━ */
 const TOTAL_MARKS     = 60;
-const TOTAL_QUESTIONS = 27;
+const TOTAL_QUESTIONS = 32;
 const TIMER_SECONDS   = 45 * 60;
-const AUTOSAVE_KEY    = 'scispark_y8_draft';
+const AUTOSAVE_KEY    = 'scispark_y8v4_draft';
 const AUTOSAVE_INTERVAL_MS = 15000;
 
-/* Flip to true ONLY after Supabase Live Submission Test passes */
 const BACKEND_ENABLED = true;
 
 const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
@@ -45,7 +48,8 @@ function formatTime(seconds) {
 function tickTimer() {
   if (timerRemaining <= 0) {
     clearInterval(timerInterval);
-    document.getElementById('timer').textContent = '00:00';
+    const el = document.getElementById('timer');
+    if (el) el.textContent = '00:00';
     autoSubmit();
     return;
   }
@@ -65,112 +69,82 @@ function startTimer() {
 function getAnsweredQuestions() {
   const answered = new Set();
 
-  /* ── Part A: Q1–Q5 ──
-     Q1,Q3,Q4,Q5 use name="qX" directly
-     Q2 uses name="Y8_QA2_answer" (unchanged question) */
-  const partA = [
-    { q: 'q1', name: 'q1' },
-    { q: 'q2', name: 'Y8_QA2_answer' },
-    { q: 'q3', name: 'q3' },
-    { q: 'q4', name: 'q4' },
-    { q: 'q5', name: 'q5' },
-  ];
-  partA.forEach(({ q, name }) => {
-    if (document.querySelector(`input[name="${name}"]:checked`)) answered.add(q);
-  });
+  const radio = (name) => !!document.querySelector(`input[name="${name}"]:checked`);
+  const val   = (id)   => !!(document.getElementById(id)?.value?.trim());
 
-  /* ── Part B: Q6–Q20 ──
-     Unchanged questions kept Y8_QBx_answer names; replaced questions use qX */
-  const partB = [
-    { q: 'q6',  name: 'Y8_QB1_answer' },  // Body Systems (unchanged)
-    { q: 'q7',  name: 'Y8_QB2_answer' },  // Body Systems (unchanged)
-    { q: 'q8',  name: 'Y8_QB3_answer' },  // Habitats (unchanged)
-    { q: 'q9',  name: 'q9' },             // Food Chain (replaced)
-    { q: 'q10', name: 'Y8_QB5_answer' },  // Dissolving (unchanged)
-    { q: 'q11', name: 'q11' },            // Elements/Compounds/Mixtures (replaced)
-    { q: 'q12', name: 'q12' },            // Elements (replaced)
-    { q: 'q13', name: 'q13' },            // Light (replaced)
-    { q: 'q14', name: 'Y8_QB9_answer' },  // Magnetism (unchanged)
-    { q: 'q15', name: 'q15' },            // Compounds (replaced)
-    { q: 'q16', name: 'q16' },            // Digestive System (replaced)
-    { q: 'q17', name: 'Y8_QB12_answer' }, // Forces (unchanged)
-    { q: 'q18', name: 'q18' },            // Chemical Reactions (replaced)
-    { q: 'q19', name: 'Y8_QB14_answer' }, // Solubility (unchanged)
-    { q: 'q20', name: 'q20' },            // Heart Rate (replaced)
-  ];
-  partB.forEach(({ q, name }) => {
-    if (document.querySelector(`input[name="${name}"]:checked`)) answered.add(q);
-  });
+  /* ── Part A: Q1–Q10 (10 MCQ) ── */
+  for (let i = 1; i <= 10; i++) {
+    if (radio(`Y8_QA${i}_answer`)) answered.add(`q${i}`);
+  }
 
-  /* ── Part C: Q21 — Parachutes ──
-     Table text inputs + radio (yes/no) + text reason + radio direction */
-  const q21fields = [
-    'Y8_QC1_a_100','Y8_QC1_a_400','Y8_QC1_a_900','Y8_QC1_a_1600',
-    'Y8_QC1_b_reason'
-  ];
-  const q21radios = ['Y8_QC1_b_yesno','Y8_QC1_c_answer'];
+  /* ── Part B: Q11–Q25 (15 MCQ) ── */
+  for (let i = 1; i <= 15; i++) {
+    if (radio(`Y8_QB${i}_answer`)) answered.add(`q${10 + i}`);
+  }
+
+  /* ── Part C: Q26 — C1 Parachutes ── */
   if (
-    q21fields.some(id => document.getElementById(id)?.value?.trim()) ||
-    q21radios.some(name => document.querySelector(`input[name="${name}"]:checked`))
-  ) answered.add('q21');
-
-  /* ── Part C: Q22 — Gabriella Evaporation ── */
-  const q22radios = ['Y8_QC2_a_answer','Y8_QC2_b_answer'];
-  const q22checkboxAnswered = document.querySelectorAll('input[name="Y8_QC2_c_answer"]:checked').length > 0;
-  if (
-    q22radios.some(name => document.querySelector(`input[name="${name}"]:checked`)) ||
-    q22checkboxAnswered
-  ) answered.add('q22');
-
-  /* ── Part C: Q23 — Maria Electricity ── */
-  const q23radios = ['Y8_QC3_a_answer'];
-  const q23checkboxAnswered = document.querySelectorAll('input[name="Y8_QC3_b_answer"]:checked').length > 0;
-  const q23texts = ['Y8_QC3_c_answer','Y8_QC3_d_answer'];
-  if (
-    q23radios.some(name => document.querySelector(`input[name="${name}"]:checked`)) ||
-    q23checkboxAnswered ||
-    q23texts.some(id => document.getElementById(id)?.value?.trim())
-  ) answered.add('q23');
-
-  /* ── Part D: Q24 — Reversible/Irreversible ── */
-  const q24radios = [
-    'Y8_QD1_a_baking','Y8_QD1_a_condense','Y8_QD1_a_boil','Y8_QD1_a_burn',
-    'Y8_QD1_a_digest','Y8_QD1_a_rust','Y8_QD1_a_filter','Y8_QD1_a_dissolve'
-  ];
-  const q24bVal = document.getElementById('Y8_QD1_b_answer')?.value?.trim();
-  if (
-    q24radios.some(name => document.querySelector(`input[name="${name}"]:checked`)) ||
-    q24bVal
-  ) answered.add('q24');
-
-  /* ── Part D: Q25 — Food Chain ── */
-  const q25radio = document.querySelector('input[name="Y8_QD2_a_answer"]:checked');
-  const q25selects = ['Y8_QD2_b_pos1','Y8_QD2_b_pos2','Y8_QD2_b_pos3','Y8_QD2_b_pos4',
-                      'Y8_QD2_e_mice','Y8_QD2_e_snake','Y8_QD2_e_eagle'];
-  const q25cVal = document.getElementById('Y8_QD2_c_answer')?.value?.trim();
-  const q25dRadio = document.querySelector('input[name="Y8_QD2_d_answer"]:checked');
-  if (
-    q25radio || q25cVal || q25dRadio ||
-    q25selects.some(id => document.getElementById(id)?.value)
-  ) answered.add('q25');
-
-  /* ── Part D: Q26 — Ammonium Chloride ── */
-  const q26selects = ['Y8_QD3_a_stir','Y8_QD3_a_water','Y8_QD3_a_temp','Y8_QD3_a_chloride'];
-  const q26tableFields = [
-    'Y8_QD3_b_heading','Y8_QD3_b_row1','Y8_QD3_b_row2',
-    'Y8_QD3_b_row3','Y8_QD3_b_row4','Y8_QD3_b_row5'
-  ];
-  if (
-    q26selects.some(id => document.getElementById(id)?.value) ||
-    q26tableFields.some(id => document.getElementById(id)?.value?.trim())
+    val('Y8_QC1a_anomalous_result') ||
+    val('Y8_QC1b_missing_average')  ||
+    val('Y8_QC1c_pattern_explanation')
   ) answered.add('q26');
 
-  /* ── Part D: Q27 — Separating Mixture ── */
-  const q27fields = [
-    'Y8_QD4_a_answer','Y8_QD4_b_answer','Y8_QD4_c_answer',
-    'Y8_QD4_d_answer','Y8_QD4_e_answer'
-  ];
-  if (q27fields.some(id => document.getElementById(id)?.value?.trim())) answered.add('q27');
+  /* ── Part C: Q27 — C2 Chemical/Physical Changes ── */
+  if (
+    val('Y8_QC2a_filtration_solid')          ||
+    val('Y8_QC2b_reverse_change_method')      ||
+    val('Y8_QC2c_irreversible_solid_letter')  ||
+    val('Y8_QC2c_irreversible_evidence')      ||
+    val('Y8_QC2d_burning_gasoline')
+  ) answered.add('q27');
+
+  /* ── Part C: Q28 — C3 Neutralisation Graph [FIX #2] ── */
+  if (
+    val('Y8_QC3a_temperature_change')  ||
+    val('Y8_QC3b_graph_points')        ||
+    val('Y8_QC3b_graph_axis_labels')   ||
+    val('Y8_QC3b_graph_raw')           ||
+    val('Y8_QC3c_line_best_fit')       ||
+    val('Y8_QC3d_pattern')
+  ) answered.add('q28');
+
+  /* ── Part D: Q29 — D1 Particle Properties Table ── */
+  if (
+    val('Y8_QD1_solid_movement') ||
+    val('Y8_QD1_solid_forces')   ||
+    val('Y8_QD1_liquid_forces')  ||
+    val('Y8_QD1_gas_distance')   ||
+    val('Y8_QD1_gas_shape')
+  ) answered.add('q29');
+
+  /* ── Part D: Q30 — D2 Gravity Mass Weight ── */
+  if (
+    val('Y8_QD2a_mass_unit')              ||
+    val('Y8_QD2a_weight_unit')            ||
+    val('Y8_QD2b_mass_weight_difference') ||
+    val('Y8_QD2c_planet_y_mass')          ||
+    val('Y8_QD2d_planet_z_weight')
+  ) answered.add('q30');
+
+  /* ── Part D: Q31 — D3 Skydiver Forces ── */
+  if (
+    val('Y8_QD3a_force_A')             ||
+    val('Y8_QD3a_force_B')             ||
+    val('Y8_QD3b_motion_start')        ||
+    val('Y8_QD3c_motion_equal_forces') ||
+    val('Y8_QD3d_control_variables')
+  ) answered.add('q31');
+
+  /* ── Part D: Q32 — D4 Amazon Food Web ── */
+  if (
+    val('Y8_QD4_blank1')                   ||
+    val('Y8_QD4_blank2')                   ||
+    val('Y8_QD4_blank3')                   ||
+    val('Y8_QD4_blank4')                   ||
+    val('Y8_QD4b_arrows_show')             ||
+    val('Y8_QD4c_primary_consumers_count') ||
+    val('Y8_QD4d_decomposer_example')
+  ) answered.add('q32');
 
   return answered;
 }
@@ -187,10 +161,10 @@ function updateProgress() {
   const submitAnswered = document.getElementById('submit-answered');
 
   if (answeredCount)  answeredCount.textContent = count;
-  if (progressFill)   progressFill.style.width = `${pct}%`;
-  if (fpText)         fpText.textContent = `${count} / ${TOTAL_QUESTIONS} answered`;
-  if (fpFill)         fpFill.style.width = `${pct}%`;
-  if (submitAnswered) submitAnswered.textContent = `${count} of ${TOTAL_QUESTIONS}`;
+  if (progressFill)   progressFill.style.width  = `${pct}%`;
+  if (fpText)         fpText.textContent         = `${count} / ${TOTAL_QUESTIONS} answered`;
+  if (fpFill)         fpFill.style.width         = `${pct}%`;
+  if (submitAnswered) submitAnswered.textContent  = `${count} of ${TOTAL_QUESTIONS}`;
 
   document.querySelectorAll('.question-block').forEach(block => {
     const qid = block.id.replace('qblock-', 'q');
@@ -198,7 +172,18 @@ function updateProgress() {
   });
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━ PAYLOAD BUILDER ━━━━━━━━━━━━━━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━ NORMALIZATION ━━━━━━━━━━━━━━━━━━━━ */
+function normalize(raw) {
+  if (raw === null || raw === undefined || raw === '') return '';
+  return String(raw).trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function wrapField(raw) {
+  const r = (raw === null || raw === undefined) ? '' : String(raw);
+  return { raw: r, normalized: normalize(r) };
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━ PAYLOAD BUILDER ━━━━━━━━━━━━━━━━━━━ */
 function buildPayload() {
   const timestamp = new Date().toISOString();
 
@@ -207,192 +192,157 @@ function buildPayload() {
     return el ? el.value : null;
   };
 
-  const getCheckboxValues = (name) =>
-    [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return (el && el.value.trim()) ? el.value.trim() : null;
+  };
 
-  const getVal = (id) => document.getElementById(id)?.value?.trim() || null;
+  const responses = {};
+
+  /* — Part A: 10 MCQ — */
+  ['Y8_QA1_answer','Y8_QA2_answer','Y8_QA3_answer','Y8_QA4_answer','Y8_QA5_answer',
+   'Y8_QA6_answer','Y8_QA7_answer','Y8_QA8_answer','Y8_QA9_answer','Y8_QA10_answer']
+    .forEach(name => { responses[name] = wrapField(getRadio(name)); });
+
+  /* — Part B: 15 MCQ — */
+  ['Y8_QB1_answer','Y8_QB2_answer','Y8_QB3_answer','Y8_QB4_answer','Y8_QB5_answer',
+   'Y8_QB6_answer','Y8_QB7_answer','Y8_QB8_answer','Y8_QB9_answer','Y8_QB10_answer',
+   'Y8_QB11_answer','Y8_QB12_answer','Y8_QB13_answer','Y8_QB14_answer','Y8_QB15_answer']
+    .forEach(name => { responses[name] = wrapField(getRadio(name)); });
+
+  /* — Part C — */
+  responses['Y8_QC1a_anomalous_result']        = wrapField(getVal('Y8_QC1a_anomalous_result'));
+  responses['Y8_QC1b_missing_average']         = wrapField(getVal('Y8_QC1b_missing_average'));
+  responses['Y8_QC1c_pattern_explanation']     = wrapField(getVal('Y8_QC1c_pattern_explanation'));
+
+  responses['Y8_QC2a_filtration_solid']        = wrapField(getVal('Y8_QC2a_filtration_solid'));
+  responses['Y8_QC2b_reverse_change_method']   = wrapField(getVal('Y8_QC2b_reverse_change_method'));
+  responses['Y8_QC2c_irreversible_solid_letter']= wrapField(getVal('Y8_QC2c_irreversible_solid_letter'));
+  responses['Y8_QC2c_irreversible_evidence']   = wrapField(getVal('Y8_QC2c_irreversible_evidence'));
+  responses['Y8_QC2d_burning_gasoline']        = wrapField(getVal('Y8_QC2d_burning_gasoline'));
+
+  /* Q28 v9 CORRECTED FIELDS [FIX #2] */
+  responses['Y8_QC3a_temperature_change']      = wrapField(getVal('Y8_QC3a_temperature_change'));
+  responses['Y8_QC3b_graph_points']            = wrapField(getVal('Y8_QC3b_graph_points'));
+  responses['Y8_QC3b_graph_axis_labels']       = wrapField(getVal('Y8_QC3b_graph_axis_labels'));
+  responses['Y8_QC3b_graph_raw']               = wrapField(getVal('Y8_QC3b_graph_raw'));
+  responses['Y8_QC3c_line_best_fit']           = wrapField(getVal('Y8_QC3c_line_best_fit'));
+  responses['Y8_QC3c_line_raw']                = wrapField(getVal('Y8_QC3c_line_raw'));
+  responses['Y8_QC3d_pattern']                 = wrapField(getVal('Y8_QC3d_pattern'));
+
+  /* — Part D — */
+  responses['Y8_QD1_solid_movement']           = wrapField(getVal('Y8_QD1_solid_movement'));
+  responses['Y8_QD1_solid_forces']             = wrapField(getVal('Y8_QD1_solid_forces'));
+  responses['Y8_QD1_liquid_forces']            = wrapField(getVal('Y8_QD1_liquid_forces'));
+  responses['Y8_QD1_gas_distance']             = wrapField(getVal('Y8_QD1_gas_distance'));
+  responses['Y8_QD1_gas_shape']                = wrapField(getVal('Y8_QD1_gas_shape'));
+
+  responses['Y8_QD2a_mass_unit']               = wrapField(getVal('Y8_QD2a_mass_unit'));
+  responses['Y8_QD2a_weight_unit']             = wrapField(getVal('Y8_QD2a_weight_unit'));
+  responses['Y8_QD2b_mass_weight_difference']  = wrapField(getVal('Y8_QD2b_mass_weight_difference'));
+  responses['Y8_QD2c_planet_y_mass']           = wrapField(getVal('Y8_QD2c_planet_y_mass'));
+  responses['Y8_QD2d_planet_z_weight']         = wrapField(getVal('Y8_QD2d_planet_z_weight'));
+
+  responses['Y8_QD3a_force_A']                 = wrapField(getVal('Y8_QD3a_force_A'));
+  responses['Y8_QD3a_force_B']                 = wrapField(getVal('Y8_QD3a_force_B'));
+  responses['Y8_QD3b_motion_start']            = wrapField(getVal('Y8_QD3b_motion_start'));
+  responses['Y8_QD3c_motion_equal_forces']     = wrapField(getVal('Y8_QD3c_motion_equal_forces'));
+  responses['Y8_QD3d_control_variables']       = wrapField(getVal('Y8_QD3d_control_variables'));
+
+  responses['Y8_QD4_blank1']                   = wrapField(getVal('Y8_QD4_blank1'));
+  responses['Y8_QD4_blank2']                   = wrapField(getVal('Y8_QD4_blank2'));
+  responses['Y8_QD4_blank3']                   = wrapField(getVal('Y8_QD4_blank3'));
+  responses['Y8_QD4_blank4']                   = wrapField(getVal('Y8_QD4_blank4'));
+  responses['Y8_QD4b_arrows_show']             = wrapField(getVal('Y8_QD4b_arrows_show'));
+  responses['Y8_QD4c_primary_consumers_count'] = wrapField(getVal('Y8_QD4c_primary_consumers_count'));
+  responses['Y8_QD4d_decomposer_example']      = wrapField(getVal('Y8_QD4d_decomposer_example'));
+
+  /* Client-side field count validation */
+  const fieldKeys = Object.keys(responses);
+  const missingFields = fieldKeys.filter(k => responses[k].raw === '');
 
   return {
-    meta: {
-      assessment:            'Y8-Entry',
-      assessment_code:       'Y8_ENTRY_ASSESSMENT',
-      year_group:            'Year 8',
-      language:              document.documentElement.lang === 'zh' ? 'ZH' : 'EN',
-      submitted_at:          timestamp,
-      time_remaining_seconds: timerRemaining,
-      time_spent_seconds:    TIMER_SECONDS - timerRemaining,
-      total_questions:       TOTAL_QUESTIONS,
-      total_marks:           TOTAL_MARKS,
-      backend_enabled:       BACKEND_ENABLED
+    assessment_code:    'Y8_ENTRY_EN',           /* FIX #1 — was Y8_ENTRY_EN_V4 */
+    assessment_version: 'v9_corrected_2026-05-10',
+    submitted_at:       timestamp,
+    student: {
+      student_id:  getStudentIdFromUrl() || '',
+      school_year: 'Year 8 entry candidate'
     },
-    answers: {
-      /* Part A */
-      q1:  getRadio('q1'),
-      q2:  getRadio('Y8_QA2_answer'),
-      q3:  getRadio('q3'),
-      q4:  getRadio('q4'),
-      q5:  getRadio('q5'),
-      /* Part B */
-      q6:  getRadio('Y8_QB1_answer'),
-      q7:  getRadio('Y8_QB2_answer'),
-      q8:  getRadio('Y8_QB3_answer'),
-      q9:  getRadio('q9'),
-      q10: getRadio('Y8_QB5_answer'),
-      q11: getRadio('q11'),
-      q12: getRadio('q12'),
-      q13: getRadio('q13'),
-      q14: getRadio('Y8_QB9_answer'),
-      q15: getRadio('q15'),
-      q16: getRadio('q16'),
-      q17: getRadio('Y8_QB12_answer'),
-      q18: getRadio('q18'),
-      q19: getRadio('Y8_QB14_answer'),
-      q20: getRadio('q20'),
-      /* Part C */
-      q21: {
-        avg_100:  getVal('Y8_QC1_a_100'),
-        avg_400:  getVal('Y8_QC1_a_400'),
-        avg_900:  getVal('Y8_QC1_a_900'),
-        avg_1600: getVal('Y8_QC1_a_1600'),
-        b_yesno:  getRadio('Y8_QC1_b_yesno'),
-        b_reason: getVal('Y8_QC1_b_reason'),
-        c_dir:    getRadio('Y8_QC1_c_answer')
-      },
-      q22: {
-        a: getRadio('Y8_QC2_a_answer'),
-        b: getRadio('Y8_QC2_b_answer'),
-        c: getCheckboxValues('Y8_QC2_c_answer')
-      },
-      q23: {
-        a: getRadio('Y8_QC3_a_answer'),
-        b: getCheckboxValues('Y8_QC3_b_answer'),
-        c: getVal('Y8_QC3_c_answer'),
-        d: getVal('Y8_QC3_d_answer')
-      },
-      /* Part D */
-      q24: {
-        baking:   getRadio('Y8_QD1_a_baking'),
-        condense: getRadio('Y8_QD1_a_condense'),
-        boil:     getRadio('Y8_QD1_a_boil'),
-        burn:     getRadio('Y8_QD1_a_burn'),
-        digest:   getRadio('Y8_QD1_a_digest'),
-        rust:     getRadio('Y8_QD1_a_rust'),
-        filter:   getRadio('Y8_QD1_a_filter'),
-        dissolve: getRadio('Y8_QD1_a_dissolve'),
-        b:        getVal('Y8_QD1_b_answer')
-      },
-      q25: {
-        a:     getRadio('Y8_QD2_a_answer'),
-        pos1:  getVal('Y8_QD2_b_pos1'),
-        pos2:  getVal('Y8_QD2_b_pos2'),
-        pos3:  getVal('Y8_QD2_b_pos3'),
-        pos4:  getVal('Y8_QD2_b_pos4'),
-        c:     getVal('Y8_QD2_c_answer'),
-        d:     getRadio('Y8_QD2_d_answer'),
-        mice:  getVal('Y8_QD2_e_mice'),
-        snake: getVal('Y8_QD2_e_snake'),
-        eagle: getVal('Y8_QD2_e_eagle')
-      },
-      q26: {
-        stir:     getVal('Y8_QD3_a_stir'),
-        water:    getVal('Y8_QD3_a_water'),
-        temp:     getVal('Y8_QD3_a_temp'),
-        chloride: getVal('Y8_QD3_a_chloride'),
-        heading:  getVal('Y8_QD3_b_heading'),
-        row1:     getVal('Y8_QD3_b_row1'),
-        row2:     getVal('Y8_QD3_b_row2'),
-        row3:     getVal('Y8_QD3_b_row3'),
-        row4:     getVal('Y8_QD3_b_row4'),
-        row5:     getVal('Y8_QD3_b_row5')
-      },
-      q27: {
-        a: getVal('Y8_QD4_a_answer'),
-        b: getVal('Y8_QD4_b_answer'),
-        c: getVal('Y8_QD4_c_answer'),
-        d: getVal('Y8_QD4_d_answer'),
-        e: getVal('Y8_QD4_e_answer')
-      }
+    responses,
+    client_validation: {
+      required_fields_missing:             missingFields,
+      field_count_submitted:               fieldKeys.length,
+      has_all_required_mark_holder_fields: fieldKeys.length === 62
+    },
+    source_lock: {
+      question_paper:   'DOC1_Updated_Question_Paper_v9',
+      field_contract:   'DOC3_Updated_Field_Contract_v9',
+      html_build_brief: 'SCISPARK_Y8_ENTRY_HTML_BUILD_BRIEF_v1'
+    },
+    meta: {
+      year_group:              'Year 8',
+      language:                'EN',
+      time_remaining_seconds:  timerRemaining,
+      time_spent_seconds:      TIMER_SECONDS - timerRemaining,
+      total_questions:         TOTAL_QUESTIONS,
+      total_marks:             TOTAL_MARKS,
+      backend_enabled:         BACKEND_ENABLED
     }
   };
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━ SUPABASE SUBMISSION ━━━━━━━━━━━━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━ SUPABASE SUBMISSION ━━━━━━━━━━━━━━━━ */
 function getStudentIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
-  return params.get('student_id') || params.get('studentId');
+  return params.get('student_id') || params.get('studentId') || null;
 }
 
-function flattenAnswers(answers) {
-  const rows = [];
-  Object.entries(answers).forEach(([questionKey, value]) => {
-    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
-      Object.entries(value).forEach(([fieldName, fieldValue]) => {
-        rows.push({
-          question_number: questionKey,
-          field_name: fieldName,
-          answer_value: Array.isArray(fieldValue)
-            ? JSON.stringify(fieldValue)
-            : (fieldValue == null ? null : String(fieldValue))
-        });
-      });
-    } else {
-      rows.push({
-        question_number: questionKey,
-        field_name: questionKey,
-        answer_value: Array.isArray(value)
-          ? JSON.stringify(value)
-          : (value == null ? null : String(value))
-      });
-    }
-  });
-  return rows;
+function flattenResponses(responses) {
+  return Object.entries(responses).map(([fieldId, obj]) => ({
+    field_name:    fieldId,
+    answer_value:  obj.raw
+  }));
 }
 
 async function submitToSupabase(payload) {
   if (!BACKEND_ENABLED) {
-    console.log('[SciSpark Y8] BACKEND_ENABLED = false — skipping live Supabase submit. Payload logged above.');
+    console.log('[SciSpark Y8v9] BACKEND_ENABLED=false — payload logged, skipping live submit.');
     return 'DRAFT_NO_BACKEND';
   }
 
-  if (!supabaseClient) {
-    throw new Error('Supabase library not loaded.');
-  }
+  if (!supabaseClient) throw new Error('Supabase library not loaded.');
 
-  const studentId = getStudentIdFromUrl();
-  if (!studentId) {
-    throw new Error('Missing student_id in URL. The assessment page must be opened from signup-complete redirect.');
-  }
+  const studentId = payload.student.student_id;
+  if (!studentId) throw new Error('Missing student_id in URL. Assessment must be opened from signup-complete redirect.');
 
   const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
   if (sessionError) throw sessionError;
-  if (!sessionData?.session) {
-    throw new Error('No active login session. Please sign in again before submitting.');
-  }
+  if (!sessionData?.session) throw new Error('No active login session. Please sign in again.');
 
   const { data: attempt, error: attemptError } = await supabaseClient
     .from('assessment_attempts')
     .insert({
-      student_id:             studentId,
-      year_group:             payload.meta.year_group,
-      language:               payload.meta.language,
-      assessment_code:        payload.meta.assessment_code,
-      status:                 'submitted',
-      total_questions:        payload.meta.total_questions,
-      total_marks:            payload.meta.total_marks,
-      submitted_at:           payload.meta.submitted_at,
-      time_spent_seconds:     payload.meta.time_spent_seconds,
-      teacher_review_status:  'pending'
+      student_id:            studentId,
+      year_group:            payload.meta.year_group,
+      language:              payload.meta.language,
+      assessment_code:       payload.assessment_code,
+      status:                'submitted',
+      total_questions:       payload.meta.total_questions,
+      total_marks:           payload.meta.total_marks,
+      submitted_at:          payload.submitted_at,
+      time_spent_seconds:    payload.meta.time_spent_seconds,
+      teacher_review_status: 'pending'
     })
     .select('id')
     .single();
 
   if (attemptError) throw attemptError;
 
-  const answerRows = flattenAnswers(payload.answers).map(row => ({
-    attempt_id:      attempt.id,
-    question_number: row.question_number,
-    field_name:      row.field_name,
-    answer_value:    row.answer_value
+  const answerRows = flattenResponses(payload.responses).map(row => ({
+    attempt_id:   attempt.id,
+    field_name:   row.field_name,
+    answer_value: row.answer_value
   }));
 
   const { error: answersError } = await supabaseClient
@@ -404,30 +354,44 @@ async function submitToSupabase(payload) {
   return attempt.id;
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━ AUTOSAVE ━━━━━━━━━━━━━━━━━━━━━━━━ */
+async function sendToMarkingEngine(attemptId) {
+  const MARK_URL = `${SUPABASE_URL}/functions/v1/mark-assessment`;
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+  const token = sessionData?.session?.access_token ?? '';
+  const res = await fetch(MARK_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'apikey': SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify({ attempt_id: attemptId, assessment_code: 'Y8_ENTRY_EN' })
+  });
+  if (!res.ok) return null;
+  return await res.json();
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━ AUTOSAVE ━━━━━━━━━━━━━━━━━━━━━━━━ */
 function autosave() {
   try {
     sessionStorage.setItem(AUTOSAVE_KEY, JSON.stringify(buildPayload()));
   } catch (e) {}
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━ INPUT VISUAL SYNC ━━━━━━━━━━━━━━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━ INPUT VISUAL SYNC ━━━━━━━━━━━━━━━━━ */
 function syncInputStyles(input) {
   const label = input.closest('label');
   if (!label) return;
-
-  if (input.type === 'checkbox') {
-    label.classList.toggle('checked', input.checked);
-  } else if (input.type === 'radio' && input.checked) {
-    document.querySelectorAll(`input[name="${input.name}"]`).forEach(radio => {
-      const lbl = radio.closest('label');
+  if (input.type === 'radio' && input.checked) {
+    document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
+      const lbl = r.closest('label');
       if (lbl) lbl.classList.remove('checked');
     });
     label.classList.add('checked');
   }
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━ SUBMISSION ━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━ SUBMISSION ━━━━━━━━━━━━━━━━━━━━━━━ */
 function openModal() {
   updateProgress();
   const count = answeredQuestions.size;
@@ -453,7 +417,7 @@ async function confirmSubmit() {
 
   const confirmBtn = document.getElementById('modal-confirm');
   if (confirmBtn) {
-    confirmBtn.disabled = true;
+    confirmBtn.disabled    = true;
     confirmBtn.textContent = 'Submitting...';
   }
 
@@ -462,88 +426,57 @@ async function confirmSubmit() {
     clearInterval(timerInterval);
 
     const payload = buildPayload();
-    console.log('[SciSpark Y8] Assessment payload:', JSON.stringify(payload, null, 2));
+    console.log('[SciSpark Y8v9] Submitting payload:', JSON.stringify(payload, null, 2));
 
     const attemptId = await submitToSupabase(payload);
-    console.log('[SciSpark Y8] Submitted. Attempt ID:', attemptId);
+    console.log('[SciSpark Y8v9] Submitted. Attempt ID:', attemptId);
 
     sessionStorage.removeItem(AUTOSAVE_KEY);
     document.getElementById('success-screen')?.classList.add('open');
-    callMarkingFunction(attemptId).then(result => {
-      if (result?.success) showScoreOnSuccessScreen(result.scores);
-    }).catch(() => {});
+
+    sendToMarkingEngine(attemptId).catch(() => {});
 
   } catch (error) {
-    console.error('[SciSpark Y8] Submission failed:', error);
+    console.error('[SciSpark Y8v9] Submission failed:', error);
     alert(
       'Submission failed. Please do not close this page.\n\n' +
       'Reason: ' + (error.message || error)
     );
     startTimer();
-
     if (confirmBtn) {
-      confirmBtn.disabled = false;
+      confirmBtn.disabled    = false;
       confirmBtn.textContent = 'Confirm & Submit →';
     }
     isSubmitting = false;
   }
 }
 
-async function callMarkingFunction(attemptId) {
-  const MARK_URL = `${SUPABASE_URL}/functions/v1/mark-y8-assessment`;
-  const { data: sessionData } = await supabaseClient.auth.getSession();
-  const token = sessionData?.session?.access_token ?? '';
-  const res = await fetch(MARK_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, 'apikey': SUPABASE_ANON_KEY },
-    body: JSON.stringify({ attempt_id: attemptId }),
-  });
-  if (!res.ok) return null;
-  return await res.json();
-}
-
-function showScoreOnSuccessScreen(scores) {
-  if (!scores) return;
-  const { mcq, part_c, part_d, total, out_of } = scores;
-  const level = total >= 45 ? 'Level 3' : total >= 30 ? 'Level 2' : 'Level 1';
-  const color = total >= 45 ? '#2e7d32' : total >= 30 ? '#e65100' : '#c62828';
-  const html = `<div id="score-display" style="margin-top:20px;padding:20px;background:#f9f9f9;border-radius:10px;text-align:center"><div style="font-size:42px;font-weight:700;color:${color}">${total} / ${out_of}</div><div style="font-size:18px;color:#444;margin-top:4px">${Math.round(total/out_of*100)}% · <strong>${level}</strong></div><div style="margin-top:12px;font-size:13px;color:#666">MCQ: ${mcq}/20 · Part C: ${part_c}/12 · Part D: ${part_d}/28</div></div>`;
-  const screen = document.getElementById('success-screen');
-  if (screen) { const ex = document.getElementById('score-display'); if (ex) ex.remove(); screen.insertAdjacentHTML('beforeend', html); }
-}
-
 async function autoSubmit() {
   if (isSubmitting) return;
   isSubmitting = true;
-
   try {
     const payload = buildPayload();
-    console.log('[SciSpark Y8] Auto-submit payload:', JSON.stringify(payload, null, 2));
-
     const attemptId = await submitToSupabase(payload);
-    console.log('[SciSpark Y8] Auto-submitted. Attempt ID:', attemptId);
-
+    console.log('[SciSpark Y8v9] Auto-submitted. Attempt ID:', attemptId);
     sessionStorage.removeItem(AUTOSAVE_KEY);
     document.getElementById('success-screen')?.classList.add('open');
-
   } catch (error) {
-    console.error('[SciSpark Y8] Auto-submit failed:', error);
+    console.error('[SciSpark Y8v9] Auto-submit failed:', error);
     alert(
-      'Auto-submission failed when the timer reached 00:00.\n\n' +
-      'Reason: ' + (error.message || error) + '\n\n' +
-      'Please contact your teacher.'
+      'Auto-submission failed when the timer reached 00:00.\n\nReason: ' +
+      (error.message || error) + '\n\nPlease contact your teacher.'
     );
     isSubmitting = false;
   }
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━ INIT ━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ INIT ━━━━━━━━━━━━━━━━━━━━━━━━ */
 function init() {
   startTimer();
 
   document.querySelectorAll('input, textarea, select').forEach(el => {
     el.addEventListener('change', () => {
-      if (el.type === 'radio' || el.type === 'checkbox') syncInputStyles(el);
+      if (el.type === 'radio') syncInputStyles(el);
       updateProgress();
       autosave();
     });
@@ -561,7 +494,11 @@ function init() {
   setInterval(autosave, AUTOSAVE_INTERVAL_MS);
   updateProgress();
 
-  console.log(`[SciSpark Y8 v2] Ready. BACKEND_ENABLED=${BACKEND_ENABLED}. ${TOTAL_QUESTIONS} questions, ${TOTAL_MARKS} marks, ${TIMER_SECONDS / 60} min.`);
+  console.log(
+    `[SciSpark Y8 v9 CORRECTED] Ready. BACKEND_ENABLED=${BACKEND_ENABLED}. ` +
+    `${TOTAL_QUESTIONS} questions, ${TOTAL_MARKS} marks, ${TIMER_SECONDS / 60} min. ` +
+    `Assessment code: Y8_ENTRY_EN.`
+  );
 }
 
 if (document.readyState === 'loading') {
