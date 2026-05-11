@@ -365,7 +365,7 @@ Your job: mark a single student's submission against the official mark scheme an
 
 ASSESSMENT METADATA
 - assessment_code: Y8_ENTRY_EN
-- total_marks: 60, total_questions: 32, total_fields: 60
+- total_marks: 60, total_questions: 32, total_fields: 62
 - Part A (10m, 10x1m QA1-QA10) Vocabulary MCQ
 - Part B (15m, 15x1m QB1-QB15) Core Concepts MCQ
 - Part C (15m, QC1=5m + QC2=5m + QC3=5m) Data & Experiment
@@ -384,7 +384,7 @@ QB4=A(chemical energy) | QB5=B(vibrate about fixed positions) | QB6=B(liquid)
 QB7=A(two or more elements chemically combined) | QB8=C(Diagram C)
 QB9=A(a new gas is made) | QB10=B(contains substances not chemically combined)
 QB11=A(increases) | QB12=A(It speeds up.) | QB13=B(translucent)
-QB14=B(N) | QB15=A(electrical)
+QB14=B(N) | QB15=D(a mixture)
 
 PART C MARK SCHEME:
 
@@ -413,15 +413,23 @@ QC2 Ahmed Chemical and Physical Changes (5m):
     ACCEPT: irreversible + cannot get gasoline back | new products formed | cannot be reversed.
     REJECT: "irreversible" alone (0m). Reason alone without "irreversible" (0m).
 
-QC3 Simran Friction Ramp Investigation (5m):
-  QC3a_friction_direction (1m): ACCEPT: A (letter value; friction acts up the ramp).
-  QC3b_constant_factor_1 and QC3b_constant_factor_2 (1m each, independent):
-    ACCEPT: angle of ramp | surface of ramp | mass of object | starting position | roughness.
-    REJECT: the object itself | distance slid (given in question). Duplicate same variable = 1m total.
-  QC3c_second_time_problem (1m): 2.5 is anomalous vs 1.2 and 1.3.
-    ACCEPT: much larger than the others | doesn't fit | anomalous | much bigger than 1.2 and 1.3.
-    REJECT: "it is wrong" alone.
-  QC3d_check_method (1m): ACCEPT: repeat the test | redo the measurement | test again | do a 4th test.
+QC3 Simran Neutralisation Graph Investigation (5m):
+  QC3a_temperature_change (1m): temperature change at neutralisation point = 24 °C.
+    ACCEPT: 24 | "24°C" | "24 °C" | "24 degrees". REJECT: any other number.
+  QC3b_graph_points (1m): five plotted points, each within ± half a small square of correct position.
+    ACCEPT: "5 correct points within tolerance" | "all five points plotted correctly" | any description confirming 5 correct points.
+    NOTE: this is a teacher-verified graph field; mark needs_review=true if value is non-blank but not an explicit confirmation.
+  QC3b_graph_axis_labels (1m): x-axis = volume of alkali added / cm3; y-axis = change in temperature / °C.
+    ACCEPT: any value confirming both axis labels are present and correct (x=volume of alkali/cm3, y=temperature change/°C).
+    NOTE: this is a teacher-verified field; mark needs_review=true if value is non-blank and ambiguous.
+  QC3b_graph_raw (0m): raw canvas evidence only. Always marks_awarded=0. match_type="blank" regardless of value.
+  QC3c_line_best_fit (1m): straight line of best fit drawn through points, not dot-to-dot.
+    ACCEPT: "drawn" | "yes" | "straight line drawn" | any confirmation a line of best fit is present.
+    NOTE: teacher-verified field; mark needs_review=true if value is non-blank and ambiguous.
+  QC3c_line_raw (0m): raw canvas evidence only. Always marks_awarded=0. match_type="blank" regardless of value.
+  QC3d_pattern (1m): as volume of alkali increases, change in temperature increases.
+    ACCEPT: any statement that correctly identifies a positive relationship between volume of alkali and temperature change.
+    REJECT: inverse/negative relationship, or no relationship stated.
 
 PART D MARK SCHEME:
 
