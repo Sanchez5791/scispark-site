@@ -416,16 +416,19 @@ QC2 Ahmed Chemical and Physical Changes (5m):
 QC3 Simran Neutralisation Graph Investigation (5m):
   QC3a_temperature_change (1m): temperature change at neutralisation point = 24 °C.
     ACCEPT: 24 | "24°C" | "24 °C" | "24 degrees". REJECT: any other number.
-  QC3b_graph_points (1m): five plotted points, each within ± half a small square of correct position.
-    ACCEPT: "5 correct points within tolerance" | "all five points plotted correctly" | any description confirming 5 correct points.
-    NOTE: this is a teacher-verified graph field; mark needs_review=true if value is non-blank but not an explicit confirmation.
-  QC3b_graph_axis_labels (1m): x-axis = volume of alkali added / cm3; y-axis = change in temperature / °C.
-    ACCEPT: any value confirming both axis labels are present and correct (x=volume of alkali/cm3, y=temperature change/°C).
-    NOTE: this is a teacher-verified field; mark needs_review=true if value is non-blank and ambiguous.
+
+=== Q28 GRAPH FIELDS — PRECOMPUTED MARKS ===
+The following Q28 fields are marked deterministically before this prompt runs.
+Use the precomputed values verbatim. DO NOT re-evaluate the graph yourself.
+
+graph_points:      mark={{Q28_GRAPH_POINTS_MARK}}, reason="{{Q28_GRAPH_POINTS_REASON}}", needs_teacher={{Q28_GRAPH_POINTS_TEACHER}}
+graph_axis_labels: mark={{Q28_AXIS_LABELS_MARK}},  reason="{{Q28_AXIS_LABELS_REASON}}",  needs_teacher={{Q28_AXIS_LABELS_TEACHER}}
+line_best_fit:     mark={{Q28_LINE_MARK}},          reason="{{Q28_LINE_REASON}}",          needs_teacher={{Q28_LINE_TEACHER}}
+
+For Y8_QC3a (temperature change) and Y8_QC3d (pattern): mark normally per mark scheme.
+=== END Q28 GRAPH FIELDS ===
+
   QC3b_graph_raw (0m): raw canvas evidence only. Always marks_awarded=0. match_type="blank" regardless of value.
-  QC3c_line_best_fit (1m): straight line of best fit drawn through points, not dot-to-dot.
-    ACCEPT: "drawn" | "yes" | "straight line drawn" | any confirmation a line of best fit is present.
-    NOTE: teacher-verified field; mark needs_review=true if value is non-blank and ambiguous.
   QC3c_line_raw (0m): raw canvas evidence only. Always marks_awarded=0. match_type="blank" regardless of value.
   QC3d_pattern (1m): as volume of alkali increases, change in temperature increases.
     ACCEPT: any statement that correctly identifies a positive relationship between volume of alkali and temperature change.
@@ -755,6 +758,110 @@ function extractJson(rawText) {
   return text.trim();
 }
 
+
+// =============================================================
+// DETERMINISTIC MARKER — Q28 graph fields (Y8_ENTRY_EN)
+// =============================================================
+function markQ28Graph(responses) {
+  var EXPECTED = [
+    {x:10,y:6},{x:20,y:11},{x:30,y:16},{x:40,y:20},{x:50,y:24}
+  ];
+  var PT_TOL  = 0.5;
+  var LN_TOL  = 2;
+  var AXIS_X_ACCEPT = ['volume of alkali added / cm3','volume of alkali added /cm3','volume of alkali / cm3','volume of alkali added cm3'];
+  var AXIS_Y_ACCEPT = ['change in temperature / °c','change in temperature /°c','change in temperature (°c)','temperature change / °c'];
+
+  var result = {
+    graph_points:  { mark: 0, reason: '', needs_teacher: false },
+    axis_labels:   { mark: 0, reason: '', needs_teacher: false },
+    line_best_fit: { mark: 0, reason: '', needs_teacher: false }
+  };
+
+  // --- graph_points ---
+  var ptsRaw = responses['Y8_QC3b_graph_points'] ? responses['Y8_QC3b_graph_points'].raw : '';
+  if (!ptsRaw || ptsRaw === '[]' || ptsRaw === '') {
+    result.graph_points.needs_teacher = true;
+    result.graph_points.reason = 'No coordinate data captured — teacher review required';
+  } else {
+    try {
+      var pts = JSON.parse(ptsRaw);
+      var correct = pts.filter(function(p) {
+        return EXPECTED.some(function(e) {
+          return Math.abs(p.x-e.x) <= PT_TOL && Math.abs(p.y-e.y) <= PT_TOL;
+        });
+      }).length;
+      if (correct >= 4) {
+        result.graph_points.mark = 1;
+        result.graph_points.reason = correct + '/5 points within tolerance';
+      } else {
+        result.graph_points.mark = 0;
+        result.graph_points.reason = 'Only ' + correct + '/5 points within tolerance — minimum 4 required';
+      }
+    } catch(e) {
+      result.graph_points.needs_teacher = true;
+      result.graph_points.reason = 'Malformed graph_points JSON — teacher review required';
+    }
+  }
+
+  // --- axis_labels ---
+  var axRaw = responses['Y8_QC3b_graph_axis_labels'] ? responses['Y8_QC3b_graph_axis_labels'].raw : '';
+  if (!axRaw) {
+    result.axis_labels.mark = 0;
+    result.axis_labels.reason = 'No axis labels provided';
+  } else {
+    try {
+      var ax = JSON.parse(axRaw);
+      var xLabel = (ax.x_axis_label || '').toLowerCase().trim();
+      var yLabel = (ax.y_axis_label || '').toLowerCase().trim();
+      var xOk = AXIS_X_ACCEPT.some(function(a){ return xLabel.indexOf(a) !== -1 || a.indexOf(xLabel) !== -1; });
+      var yOk = AXIS_Y_ACCEPT.some(function(a){ return yLabel.indexOf(a) !== -1 || a.indexOf(yLabel) !== -1; });
+      if (xOk && yOk) {
+        result.axis_labels.mark = 1;
+        result.axis_labels.reason = 'Both axis labels correct';
+      } else if (!xOk && !yOk) {
+        result.axis_labels.mark = 0;
+        result.axis_labels.reason = 'Both axis labels incorrect';
+      } else {
+        result.axis_labels.needs_teacher = true;
+        result.axis_labels.reason = 'One axis label borderline — teacher review required';
+      }
+    } catch(e) {
+      result.axis_labels.needs_teacher = true;
+      result.axis_labels.reason = 'Malformed axis_labels JSON — teacher review required';
+    }
+  }
+
+  // --- line_best_fit ---
+  var lineRaw = responses['Y8_QC3c_line_best_fit'] ? responses['Y8_QC3c_line_best_fit'].raw : '';
+  if (!lineRaw || lineRaw === '' || lineRaw === 'drawn') {
+    result.line_best_fit.needs_teacher = true;
+    result.line_best_fit.reason = 'No line coordinate data — teacher review required';
+  } else {
+    try {
+      var ln = JSON.parse(lineRaw);
+      var allClose = EXPECTED.every(function(p) {
+        var dx = ln.end.x-ln.start.x, dy = ln.end.y-ln.start.y;
+        var lenSq = dx*dx+dy*dy;
+        if (lenSq===0) return false;
+        var t = Math.max(0,Math.min(1,((p.x-ln.start.x)*dx+(p.y-ln.start.y)*dy)/lenSq));
+        var distSq = Math.pow(p.x-(ln.start.x+t*dx),2)+Math.pow(p.y-(ln.start.y+t*dy),2);
+        return Math.sqrt(distSq) <= LN_TOL;
+      });
+      if (allClose) {
+        result.line_best_fit.mark = 1;
+        result.line_best_fit.reason = 'Line of best fit passes within tolerance of all data points';
+      } else {
+        result.line_best_fit.mark = 0;
+        result.line_best_fit.reason = 'Line does not pass close enough to data points';
+      }
+    } catch(e) {
+      result.line_best_fit.needs_teacher = true;
+      result.line_best_fit.reason = 'Malformed line JSON — teacher review required';
+    }
+  }
+
+  return result;
+}
 // =============================================================
 // HANDLER
 // =============================================================
@@ -832,6 +939,28 @@ module.exports = async function handler(req, res) {
       answers[row[idCol]] = row[valueCol] || '';
     }
 
+
+    // 5a. Pre-compute Q28 graph marks (Y8_ENTRY_EN only)
+    let q28Marks = null;
+    let systemPrompt = pkg.system_prompt;
+    if (pkg.code === 'Y8_ENTRY_EN') {
+      const responses = {};
+      for (const k in answers) {
+        responses[k] = { raw: answers[k] || '', normalized: (answers[k] || '').toLowerCase().trim() };
+      }
+      q28Marks = markQ28Graph(responses);
+      systemPrompt = systemPrompt
+        .replace('{{Q28_GRAPH_POINTS_MARK}}',    String(q28Marks.graph_points.mark))
+        .replace('{{Q28_GRAPH_POINTS_REASON}}',  q28Marks.graph_points.reason)
+        .replace('{{Q28_GRAPH_POINTS_TEACHER}}', String(q28Marks.graph_points.needs_teacher))
+        .replace('{{Q28_AXIS_LABELS_MARK}}',     String(q28Marks.axis_labels.mark))
+        .replace('{{Q28_AXIS_LABELS_REASON}}',   q28Marks.axis_labels.reason)
+        .replace('{{Q28_AXIS_LABELS_TEACHER}}',  String(q28Marks.axis_labels.needs_teacher))
+        .replace('{{Q28_LINE_MARK}}',            String(q28Marks.line_best_fit.mark))
+        .replace('{{Q28_LINE_REASON}}',          q28Marks.line_best_fit.reason)
+        .replace('{{Q28_LINE_TEACHER}}',         String(q28Marks.line_best_fit.needs_teacher));
+    }
+
     // 5. Build user prompt
     const userMsg = `Mark this assessment submission.
 
@@ -858,7 +987,7 @@ Return ONLY the JSON object. No prose. No markdown fences.`;
         max_tokens: pkg.max_tokens,
         temperature: 0,
         messages: [
-          { role: 'system', content: pkg.system_prompt },
+          { role: 'system', content: systemPrompt },
           { role: 'user', content: userMsg }
         ]
       })
@@ -878,6 +1007,32 @@ Return ONLY the JSON object. No prose. No markdown fences.`;
       marking = JSON.parse(extractJson(rawText));
     } catch (parseErr) {
       throw new Error(`JSON parse failed: ${parseErr.message}. Raw: ${rawText.slice(0, 200)}`);
+    }
+
+
+    // 7a. Override Q28 graph field marks with deterministic values
+    if (pkg.code === 'Y8_ENTRY_EN' && q28Marks) {
+      const q28Overrides = {
+        'Y8_QC3b_graph_points':      q28Marks.graph_points,
+        'Y8_QC3b_graph_axis_labels': q28Marks.axis_labels,
+        'Y8_QC3c_line_best_fit':     q28Marks.line_best_fit
+      };
+      let markDelta = 0;
+      for (const field of marking.fields || []) {
+        const ov = q28Overrides[field.field_id];
+        if (ov !== undefined) {
+          markDelta += ov.mark - (field.marks_awarded || 0);
+          field.marks_awarded = ov.mark;
+          field.needs_review  = ov.needs_teacher;
+          field.rationale     = ov.reason;
+          field.review_reason = ov.needs_teacher ? ov.reason : null;
+        }
+      }
+      if (markDelta !== 0) {
+        marking.total_awarded = (marking.total_awarded || 0) + markDelta;
+        if (marking.part_totals && marking.part_totals['C'])
+          marking.part_totals['C'].awarded = (marking.part_totals['C'].awarded || 0) + markDelta;
+      }
     }
 
     // 8. Validate

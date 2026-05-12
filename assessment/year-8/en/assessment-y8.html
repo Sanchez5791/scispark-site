@@ -804,6 +804,69 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script id="q28-final-graph-script">
+window.Q28Tracker = (function () {
+  var ORIGIN_PX   = { x: 47,  y: 794 };
+  var PX_PER_UNIT = { x: 13,  y: 26  };
+  var ERASER_PX_RADIUS = 12;
+  var plottedPoints = [];
+  var bestFitLine   = null;
+
+  function pxToGraph(pxX, pxY) {
+    return {
+      x: (pxX - ORIGIN_PX.x) / PX_PER_UNIT.x,
+      y: (ORIGIN_PX.y - pxY) / PX_PER_UNIT.y
+    };
+  }
+  function roundHalf(v) { return Math.round(v * 2) / 2; }
+
+  function syncFields() {
+    var ptsField  = document.getElementById('Y8_QC3b_graph_points');
+    var lineField = document.getElementById('Y8_QC3c_line_best_fit');
+    if (ptsField)  ptsField.value  = JSON.stringify(plottedPoints);
+    if (lineField) lineField.value = bestFitLine ? JSON.stringify(bestFitLine) : '';
+  }
+
+  function pointToSegmentDistance(p, a, b) {
+    var dx = b.x-a.x, dy = b.y-a.y;
+    var lenSq = dx*dx + dy*dy;
+    if (lenSq === 0) return Math.sqrt((p.x-a.x)*(p.x-a.x)+(p.y-a.y)*(p.y-a.y));
+    var t = Math.max(0, Math.min(1, ((p.x-a.x)*dx+(p.y-a.y)*dy)/lenSq));
+    return Math.sqrt((p.x-(a.x+t*dx))*(p.x-(a.x+t*dx))+(p.y-(a.y+t*dy))*(p.y-(a.y+t*dy)));
+  }
+
+  return {
+    recordPoint: function(pxX, pxY) {
+      var g = pxToGraph(pxX, pxY);
+      plottedPoints.push({ x: roundHalf(g.x), y: roundHalf(g.y) });
+      syncFields();
+    },
+    recordLine: function(startPx, endPx) {
+      var s = pxToGraph(startPx.x, startPx.y);
+      var e = pxToGraph(endPx.x,   endPx.y);
+      bestFitLine = {
+        start: { x: roundHalf(s.x), y: roundHalf(s.y) },
+        end:   { x: roundHalf(e.x), y: roundHalf(e.y) }
+      };
+      syncFields();
+    },
+    eraseAt: function(pxX, pxY) {
+      var radiusUnits = ERASER_PX_RADIUS / PX_PER_UNIT.x;
+      var center = pxToGraph(pxX, pxY);
+      plottedPoints = plottedPoints.filter(function(p) {
+        var dx = p.x-center.x, dy = p.y-center.y;
+        return Math.sqrt(dx*dx+dy*dy) > radiusUnits;
+      });
+      if (bestFitLine) {
+        if (pointToSegmentDistance(center, bestFitLine.start, bestFitLine.end) < radiusUnits)
+          bestFitLine = null;
+      }
+      syncFields();
+    },
+    getPoints: function() { return plottedPoints; },
+    getLine:   function() { return bestFitLine; },
+    reset:     function() { plottedPoints=[]; bestFitLine=null; syncFields(); }
+  };
+})();
 (function(){
   const canvas = document.getElementById('q28-draw');
   if (!canvas) return;
@@ -820,6 +883,7 @@
   let drawing = false;
   let start = null;
   let snapshot = null;
+  let lastPos = null;
 
   function syncAxisLabels(){
     if (!axisLabels) return;
@@ -866,6 +930,7 @@
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
+      Q28Tracker.recordPoint(start.x, start.y);
     } else if (mode === 'ruler') {
       ctx.globalCompositeOperation = 'source-over';
       ctx.strokeStyle = '#1a1917';
@@ -893,9 +958,11 @@
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
+      lastPos = p;
     } else if (mode === 'eraser') {
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
+      Q28Tracker.eraseAt(p.x, p.y);
     }
   }
 
@@ -906,6 +973,7 @@
 
     if (mode === 'ruler' && lineBestFit) {
       lineBestFit.value = 'drawn';
+      if (start && lastPos) Q28Tracker.recordLine(start, lastPos);
     }
 
     saveCanvas();
@@ -931,6 +999,7 @@
     if (graphRaw) graphRaw.value = '';
     if (lineRaw) lineRaw.value = '';
     if (lineBestFit) lineBestFit.value = '';
+    Q28Tracker.reset();
   });
 
   xAxis?.addEventListener('input', syncAxisLabels);
