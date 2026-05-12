@@ -146,9 +146,15 @@ function ttsInjectButtons() {
     '.hint-text[data-en][data-zh]:not(.tts-text), ' +
     '.vocab-def[data-en][data-zh]:not(.tts-text), ' +
     '.screen-desc[data-en][data-zh]:not(.tts-text), ' +
+    '.screen-title[data-en][data-zh]:not(.tts-text), ' +
     '.card-title[data-en][data-zh]:not(.tts-text), ' +
     '.answer-reveal-text[data-en][data-zh]:not(.tts-text), ' +
-    '.question-text[data-en][data-zh]:not(.tts-text)'
+    '.question-text[data-en][data-zh]:not(.tts-text), ' +
+    '.definition-text[data-en][data-zh]:not(.tts-text), ' +
+    '.summary-text[data-en][data-zh]:not(.tts-text), ' +
+    '.concept-label[data-en][data-zh]:not(.tts-text), ' +
+    '.cliff-text[data-en][data-zh]:not(.tts-text), ' +
+    '.badge-reveal-desc[data-en][data-zh]:not(.tts-text)'
   );
 
   paragraphs.forEach(p => {
