@@ -93,13 +93,29 @@ function pickBestVoice(langCode) {
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
 
-  let v = voices.find(x =>
-    x.lang.startsWith(langCode) && x.name.includes('Google'));
+  const maleEN = ['Male','Daniel','Alex','David','Mark','George','Guy','Ryan','Brian','Tony','James'];
+  const maleZH = ['Kangkang','Yunyang','Yunxi','Yunjian'];
+  const maleNames = langCode.startsWith('zh') ? maleZH : maleEN;
+  const isMale = x => maleNames.some(n => x.name.includes(n));
+  const isNeural = x => x.name.includes('Google') || x.name.includes('Microsoft');
+
+  // 1. Male + Google/Microsoft + exact lang
+  let v = voices.find(x => x.lang.startsWith(langCode) && isMale(x) && isNeural(x));
   if (v) return v;
 
+  // 2. Male + exact lang (any provider)
+  v = voices.find(x => x.lang.startsWith(langCode) && isMale(x));
+  if (v) return v;
+
+  // 3. Fallback: Google/Microsoft + exact lang (non-male)
+  v = voices.find(x => x.lang.startsWith(langCode) && isNeural(x));
+  if (v) return v;
+
+  // 4. Fallback: any voice matching lang
   v = voices.find(x => x.lang.startsWith(langCode));
   if (v) return v;
 
+  // 5. Fallback: main language code only
   const mainLang = langCode.split('-')[0];
   v = voices.find(x => x.lang.startsWith(mainLang));
   return v || null;
