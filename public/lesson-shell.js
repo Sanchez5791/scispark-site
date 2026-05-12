@@ -19,6 +19,139 @@ Includes:
 */
 
 // ═════════════════════════════════════════════════════════════
+// TTS STATE — only ONE utterance at a time
+// ═════════════════════════════════════════════════════════════
+let ttsCurrentUtterance = null;
+let ttsCurrentButton = null;
+let ttsSupported = (
+  'speechSynthesis' in window &&
+  'SpeechSynthesisUtterance' in window
+);
+
+function ttsToggle(buttonEl, paragraphEl) {
+  if (!ttsSupported) return;
+
+  if (ttsCurrentButton === buttonEl) {
+    ttsStop();
+    return;
+  }
+
+  if (ttsCurrentUtterance) {
+    ttsStop();
+  }
+
+  const isZhMode = document.body.classList.contains('zh-mode');
+  const text = isZhMode
+    ? (paragraphEl.dataset.zh || '')
+    : (paragraphEl.dataset.en || '');
+
+  if (!text.trim()) return;
+
+  const cleanText = stripHtmlTags(text);
+  ttsPlay(cleanText, isZhMode ? 'zh-CN' : 'en-US', buttonEl);
+}
+
+function ttsPlay(text, langCode, buttonEl) {
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = langCode;
+  u.rate = 0.9;
+  u.pitch = 1.0;
+  u.volume = 1.0;
+
+  const voice = pickBestVoice(langCode);
+  if (voice) u.voice = voice;
+
+  u.onend = () => ttsStop();
+  u.onerror = () => ttsStop();
+
+  ttsCurrentUtterance = u;
+  ttsCurrentButton = buttonEl;
+  buttonEl.classList.add('tts-playing');
+  buttonEl.textContent = '⏸';
+  buttonEl.setAttribute('aria-label',
+    langCode === 'zh-CN' ? '停止朗读' : 'Stop reading');
+
+  window.speechSynthesis.speak(u);
+}
+
+function ttsStop() {
+  if (window.speechSynthesis.speaking ||
+      window.speechSynthesis.pending) {
+    window.speechSynthesis.cancel();
+  }
+  if (ttsCurrentButton) {
+    ttsCurrentButton.classList.remove('tts-playing');
+    ttsCurrentButton.textContent = '▶';
+    ttsCurrentButton.setAttribute('aria-label',
+      document.body.classList.contains('zh-mode') ? '朗读这段' : 'Read aloud');
+  }
+  ttsCurrentUtterance = null;
+  ttsCurrentButton = null;
+}
+
+function pickBestVoice(langCode) {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+
+  let v = voices.find(x =>
+    x.lang.startsWith(langCode) && x.name.includes('Google'));
+  if (v) return v;
+
+  v = voices.find(x => x.lang.startsWith(langCode));
+  if (v) return v;
+
+  const mainLang = langCode.split('-')[0];
+  v = voices.find(x => x.lang.startsWith(mainLang));
+  return v || null;
+}
+
+function stripHtmlTags(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
+function ttsInjectButtons() {
+  if (!ttsSupported) {
+    document.querySelectorAll('.tts-btn').forEach(b => {
+      b.classList.add('tts-disabled');
+      b.disabled = true;
+      b.title = 'Your browser does not support text-to-speech';
+    });
+    return;
+  }
+
+  const paragraphs = document.querySelectorAll(
+    'p[data-en][data-zh]:not(.tts-text)'
+  );
+
+  paragraphs.forEach(p => {
+    if (p.closest('.question-block')) return;
+    if (p.closest('.hint-box')) return;
+    if (p.closest('.answer-reveal')) return;
+    if (p.closest('.nav-brand')) return;
+
+    const txt = (p.dataset.en || '').trim();
+    if (txt.length < 5) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tts-row';
+
+    const btn = document.createElement('button');
+    btn.className = 'tts-btn';
+    btn.textContent = '▶';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Read aloud');
+    btn.addEventListener('click', () => ttsToggle(btn, p));
+
+    p.parentNode.insertBefore(wrapper, p);
+    wrapper.appendChild(btn);
+    p.classList.add('tts-text');
+    wrapper.appendChild(p);
+  });
+}
+
+// ═════════════════════════════════════════════════════════════
 // SCREEN NAVIGATION
 // ═════════════════════════════════════════════════════════════
 const screens = ['hook','learn','try','test','wrap'];
@@ -55,6 +188,10 @@ function setLang(mode) {
     el.innerHTML = (mode === 'zh') ? el.dataset.zh : el.dataset.en;
   });
   localStorage.setItem('scispark_lang', mode);
+
+  if (ttsCurrentUtterance) {
+    ttsStop();
+  }
 }
 
 // ═════════════════════════════════════════════════════════════
@@ -328,4 +465,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Show first Professor P bubble after 1 second
   setTimeout(() => showBubbleForScreen('hook'), 1500);
+
+  // TTS: voice list is async in Chrome — listen for voiceschanged
+  if (ttsSupported) {
+    window.speechSynthesis.onvoiceschanged = () => {};
+    window.speechSynthesis.getVoices();
+  }
+
+  ttsInjectButtons();
 });
