@@ -926,13 +926,27 @@ module.exports = async function handler(req, res) {
     }
 
     // 4. Fetch answers — column names vary by assessment schema
+    // Retry loop guards against race condition where webhook fires before
+    // answer rows are committed (answers inserted immediately after attempt).
     const idCol    = pkg.fieldSchema?.idCol    || 'field_name';
     const valueCol = pkg.fieldSchema?.valueCol || 'answer_value';
-    const ansr = await fetch(
-      `${SUPABASE_URL}/rest/v1/assessment_answers?attempt_id=eq.${attempt_id}&select=${idCol},${valueCol}`,
-      { headers }
-    );
-    const answerRows = await ansr.json();
+    const MIN_EXPECTED_ROWS = Math.ceil(pkg.total_fields * 0.5); // at least half
+    const MAX_RETRIES = 6;
+    const RETRY_DELAY_MS = 2000;
+
+    let answerRows = [];
+    for (let attempt_n = 0; attempt_n <= MAX_RETRIES; attempt_n++) {
+      if (attempt_n > 0) {
+        await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
+      }
+      const ansr = await fetch(
+        `${SUPABASE_URL}/rest/v1/assessment_answers?attempt_id=eq.${attempt_id}&select=${idCol},${valueCol}`,
+        { headers }
+      );
+      answerRows = await ansr.json();
+      if (answerRows.length >= MIN_EXPECTED_ROWS) break;
+      console.log(`[SciSpark mark] Attempt ${attempt_id}: only ${answerRows.length} answer rows on try ${attempt_n + 1}/${MAX_RETRIES + 1}, retrying…`);
+    }
 
     const answers = {};
     for (const row of answerRows) {
