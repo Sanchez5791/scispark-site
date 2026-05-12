@@ -75,10 +75,14 @@ function ttsPlay(text, langCode, buttonEl) {
 }
 
 function ttsStop() {
-  if (window.speechSynthesis.speaking ||
-      window.speechSynthesis.pending) {
+  try {
     window.speechSynthesis.cancel();
-  }
+    setTimeout(() => {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    }, 50);
+  } catch(e) {}
   if (ttsCurrentButton) {
     ttsCurrentButton.classList.remove('tts-playing');
     ttsCurrentButton.textContent = '▶';
