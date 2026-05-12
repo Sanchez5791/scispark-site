@@ -122,13 +122,16 @@ function ttsInjectButtons() {
   }
 
   const paragraphs = document.querySelectorAll(
-    'p[data-en][data-zh]:not(.tts-text)'
+    '.hook-scenario[data-en][data-zh]:not(.tts-text), ' +
+    '.hint-text[data-en][data-zh]:not(.tts-text), ' +
+    '.vocab-def[data-en][data-zh]:not(.tts-text), ' +
+    '.screen-desc[data-en][data-zh]:not(.tts-text), ' +
+    '.card-title[data-en][data-zh]:not(.tts-text), ' +
+    '.answer-reveal-text[data-en][data-zh]:not(.tts-text), ' +
+    '.question-text[data-en][data-zh]:not(.tts-text)'
   );
 
   paragraphs.forEach(p => {
-    if (p.closest('.question-block')) return;
-    if (p.closest('.hint-box')) return;
-    if (p.closest('.answer-reveal')) return;
     if (p.closest('.nav-brand')) return;
 
     const txt = (p.dataset.en || '').trim();
