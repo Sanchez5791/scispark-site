@@ -783,8 +783,7 @@
         trigger_source,
         submitted_at,
         created_at,
-        teacher_review_status,
-        children ( full_name )
+        teacher_review_status
       `)
       .eq('id', attemptId)
       .single(),
@@ -827,7 +826,7 @@
   const answers = answersResult.data || [];
 
   /* ── Update page title ── */
-  const studentName = attempt.children?.full_name || '—';
+  const studentName = attempt.student_id ? attempt.student_id.slice(0, 8) + '…' : '—';
   document.getElementById('page-title').textContent = studentName + ' — Assessment Review';
   document.getElementById('page-sub').textContent   =
     'Year ' + (attempt.year_group || '—') + ' · ' +

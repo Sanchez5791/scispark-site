@@ -323,8 +323,7 @@
       trigger_source,
       submitted_at,
       created_at,
-      teacher_review_status,
-      children ( full_name )
+      teacher_review_status
     `)
     .order('created_at', { ascending: false });
 
@@ -345,7 +344,7 @@
   const tbody = document.getElementById('tbl-body');
 
   data.forEach(row => {
-    const studentName  = row.children?.full_name || '—';
+    const studentName  = row.student_id ? row.student_id.slice(0, 8) + '…' : '—';
     const yearGroup    = row.year_group             || '—';
     const attemptId    = row.id                     || '—';
     const studentId    = row.student_id             || '—';
