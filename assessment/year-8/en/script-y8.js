@@ -298,10 +298,20 @@ function getStudentIdFromUrl() {
   return params.get('student_id') || params.get('studentId') || null;
 }
 
+/* Derive parent question code from a field_name.
+   e.g. 'Y8_QC3b_graph_points' → 'Y8_QC3'
+        'Y8_QA1_answer'        → 'Y8_QA1'
+   Mirrors the parentCode() approach used in script-y7-v4.js. */
+function parentCode(fieldId) {
+  const m = fieldId.match(/^(Y8_Q[A-D]\d+)/);
+  return m ? m[1] : fieldId;
+}
+
 function flattenResponses(responses) {
   return Object.entries(responses).map(([fieldId, obj]) => ({
-    field_name:    fieldId,
-    answer_value:  obj.raw
+    field_name:      fieldId,
+    question_number: parentCode(fieldId),
+    answer_value:    obj.raw
   }));
 }
 
@@ -340,9 +350,10 @@ async function submitToSupabase(payload) {
   if (attemptError) throw attemptError;
 
   const answerRows = flattenResponses(payload.responses).map(row => ({
-    attempt_id:   attempt.id,
-    field_name:   row.field_name,
-    answer_value: row.answer_value
+    attempt_id:      attempt.id,
+    question_number: row.question_number,
+    field_name:      row.field_name,
+    answer_value:    row.answer_value
   }));
 
   const { error: answersError } = await supabaseClient
