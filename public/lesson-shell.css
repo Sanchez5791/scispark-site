@@ -797,3 +797,84 @@ body[data-user-level="1"] .hint-box { display: block; }
 .level-1 { background: var(--ok-bg); color: var(--ok-text); }
 .level-2 { background: var(--accent-soft); color: var(--accent-ink); }
 .level-3 { background: #F3E5F5; color: #6b00a8; }
+
+/* ============================================
+   TTS Button — Text-to-speech for paragraphs
+   v2.1 — 2026-05-12
+   ============================================ */
+
+.tts-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 8px 0;
+}
+
+.tts-text {
+  flex: 1;
+  margin: 0;
+}
+
+.tts-btn {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  transition: transform 0.15s ease, background 0.15s ease;
+  user-select: none;
+  padding: 0;
+}
+
+.tts-btn:hover:not(.tts-disabled):not(.tts-playing) {
+  background: var(--accent-ink);
+  transform: scale(1.05);
+}
+
+.tts-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tts-btn.tts-playing {
+  background: var(--accent-ink);
+  animation: tts-pulse 1s ease-in-out infinite;
+}
+
+.tts-btn.tts-disabled {
+  background: var(--bg-2);
+  color: var(--ink-3);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes tts-pulse {
+  0%, 100% { transform: scale(1.0); }
+  50%      { transform: scale(1.05); }
+}
+
+/* Mobile: tap target should be 44x44 minimum
+   (Rule 0 + WCAG); we expand hit area via padding,
+   button visual stays 28x28 */
+@media (max-width: 768px) {
+  .tts-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+}
+
+/* Prefers-reduced-motion: stop pulse animation */
+@media (prefers-reduced-motion: reduce) {
+  .tts-btn.tts-playing {
+    animation: none;
+  }
+}
