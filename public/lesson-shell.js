@@ -503,3 +503,113 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ttsInjectButtons();
 });
+
+// ═════════════════════════════════════════════════════════════
+// DOUDOU REACTIONS — answer feedback + screen transitions
+// ═════════════════════════════════════════════════════════════
+const DOUDOU_MSGS = {
+  correct: {
+    en: ['Awesome!', 'Got it!', 'Yes!', 'Keep going!'],
+    zh: ['太棒了!', '对了!', '厉害!', '继续!']
+  },
+  wrong: {
+    en: ['Try again', 'Almost!', "Don't give up", 'Take your time'],
+    zh: ['再试试', '差一点!', '别放弃', '慢慢想']
+  }
+};
+
+const DOUDOU_SCREEN_MSGS = {
+  learn: { en: "Now let's learn",  zh: '现在正式开始学新知识' },
+  try:   { en: 'Try it out',       zh: '试试看你学得怎样' },
+  test:  { en: 'On your own now',  zh: '靠自己做, 不给提示' },
+  wrap:  { en: "Let's review",     zh: '看看今天学了什么' }
+};
+
+function doudouGetBubble() {
+  let b = document.getElementById('doudou-reaction-bubble');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'doudou-reaction-bubble';
+    const profP = document.querySelector('.prof-p');
+    if (profP) profP.appendChild(b);
+  }
+  return b;
+}
+
+function doudouShowBubble(text, duration) {
+  const b = doudouGetBubble();
+  b.textContent = text;
+  b.classList.add('show');
+  clearTimeout(b._t);
+  b._t = setTimeout(() => b.classList.remove('show'), duration || 2000);
+}
+
+function doudouAnimate(type) {
+  const avatar = document.querySelector('.prof-p-avatar');
+  if (!avatar) return;
+  avatar.classList.remove('doudou-correct', 'doudou-wrong', 'doudou-transition');
+  void avatar.offsetWidth;
+  avatar.classList.add('doudou-' + type);
+  setTimeout(() => avatar.classList.remove('doudou-' + type), 1000);
+}
+
+function doudouReact(isCorrect) {
+  const type = isCorrect ? 'correct' : 'wrong';
+  const isZh = document.body.classList.contains('zh-mode');
+  const list = DOUDOU_MSGS[type][isZh ? 'zh' : 'en'];
+  const msg = list[Math.floor(Math.random() * list.length)];
+  doudouAnimate(type);
+  doudouShowBubble(msg, 2000);
+}
+
+// Patch selectOpt — MCQ correct/wrong detection via data-correct="true"
+const _origSelectOpt = selectOpt;
+selectOpt = function(qId, el, letter) {
+  _origSelectOpt(qId, el, letter);
+  doudouReact(el.dataset.correct === 'true');
+};
+
+// Patch toggleAns — inject self-assessment buttons when answer revealed
+const _origToggleAns = toggleAns;
+toggleAns = function(id) {
+  const box = document.getElementById(id);
+  const wasHidden = !box.classList.contains('show');
+  _origToggleAns(id);
+  if (wasHidden && !box.querySelector('.doudou-selfassess')) {
+    const isZh = document.body.classList.contains('zh-mode');
+    const row = document.createElement('div');
+    row.className = 'doudou-selfassess';
+
+    const btnR = document.createElement('button');
+    btnR.className = 'btn btn-sm doudou-got-right';
+    btnR.textContent = isZh ? '✓ 我答对了' : '✓ I got it right';
+    btnR.setAttribute('data-en', '✓ I got it right');
+    btnR.setAttribute('data-zh', '✓ 我答对了');
+    btnR.addEventListener('click', () => doudouReact(true));
+
+    const btnW = document.createElement('button');
+    btnW.className = 'btn btn-sm doudou-got-wrong';
+    btnW.textContent = isZh ? '✗ 还没答到' : '✗ Not yet';
+    btnW.setAttribute('data-en', '✗ Not yet');
+    btnW.setAttribute('data-zh', '✗ 还没答到');
+    btnW.addEventListener('click', () => doudouReact(false));
+
+    row.appendChild(btnR);
+    row.appendChild(btnW);
+    box.appendChild(row);
+  }
+};
+
+// Patch showScreen — DouDou speaks on screen transitions
+let _prevScreen = 'hook';
+const _origShowScreen = showScreen;
+showScreen = function(id) {
+  const prev = _prevScreen;
+  _origShowScreen(id);
+  _prevScreen = id;
+  if (id !== prev && DOUDOU_SCREEN_MSGS[id]) {
+    const isZh = document.body.classList.contains('zh-mode');
+    doudouAnimate('transition');
+    doudouShowBubble(DOUDOU_SCREEN_MSGS[id][isZh ? 'zh' : 'en'], 3000);
+  }
+};

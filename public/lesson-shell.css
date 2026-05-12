@@ -878,3 +878,85 @@ body[data-user-level="1"] .hint-box { display: block; }
     animation: none;
   }
 }
+
+/* ============================================
+   DouDou Reaction — animations + bubble + self-assess
+   v2.1 — 2026-05-12
+   ============================================ */
+
+/* Reaction mini-bubble (above avatar) */
+#doudou-reaction-bubble {
+  position: absolute;
+  bottom: 74px;
+  right: 0;
+  background: #ffffff;
+  border: 2px solid var(--accent);
+  border-radius: 12px 12px 4px 12px;
+  padding: 7px 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 201;
+}
+#doudou-reaction-bubble.show {
+  opacity: 1;
+}
+
+/* Keyframes */
+@keyframes doudou-bounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25%       { transform: scale(1.15) rotate(-8deg); }
+  55%       { transform: scale(1.2) rotate(0deg); }
+  80%       { transform: scale(1.08) rotate(6deg); }
+}
+@keyframes doudou-shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  20%      { transform: translateX(-7px) rotate(-4deg); }
+  40%      { transform: translateX(7px) rotate(4deg); }
+  60%      { transform: translateX(-4px) rotate(-2deg); }
+  80%      { transform: translateX(4px) rotate(2deg); }
+}
+@keyframes doudou-pulse-anim {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.1); }
+}
+
+.doudou-correct   { animation: doudou-bounce 0.8s ease; }
+.doudou-wrong     { animation: doudou-shake 0.8s ease; }
+.doudou-transition { animation: doudou-pulse-anim 0.6s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .doudou-correct, .doudou-wrong, .doudou-transition { animation: none; }
+}
+
+/* Self-assessment row inside answer-reveal */
+.doudou-selfassess {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.doudou-got-right {
+  flex: 1;
+  background: var(--ok-bg);
+  color: var(--ok-text);
+  border: 1px solid var(--ok);
+}
+.doudou-got-right:hover {
+  background: #c2e8c2;
+}
+.doudou-got-wrong {
+  flex: 1;
+  background: var(--warn-bg);
+  color: var(--warn);
+  border: 1px solid var(--warn);
+}
+.doudou-got-wrong:hover {
+  background: #f5c8c5;
+}
