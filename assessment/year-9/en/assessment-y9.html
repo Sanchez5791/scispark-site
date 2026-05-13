@@ -9,27 +9,10 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-y8.css">
   <style>
-    .assessment-page-title{
-      max-width:700px;
-      margin:46px auto 24px;
-      font-family:'EB Garamond', Georgia, serif;
-      font-size:34px;
-      line-height:1.12;
-      font-weight:600;
-      color:#0f0e0c;
-      letter-spacing:-0.02em;
-    }
-    .assessment-main>.instructions-card{
-      max-width:700px;
-      margin:0 auto 34px;
-      border-radius:18px;
-    }
-    .assessment-main>.instructions-card .instructions-row{
-      align-items:flex-start;
-    }
-    .assessment-main>.instructions-card .instr-list li{
-      margin-bottom:8px;
-    }
+    .assessment-page-title{max-width:700px;margin:46px auto 24px;font-family:'EB Garamond',Georgia,serif;font-size:34px;line-height:1.12;font-weight:600;color:#0f0e0c;letter-spacing:-0.02em}
+    .assessment-main>.instructions-card{max-width:700px;margin:0 auto 34px;border-radius:18px}
+    .assessment-main>.instructions-card .instructions-row{align-items:flex-start}
+    .assessment-main>.instructions-card .instr-list li{margin-bottom:8px}
     .data-table-wrap{overflow-x:auto;margin:14px 0}
     .data-table{border-collapse:collapse;width:100%;font-size:14px}
     .data-table th,.data-table td{border:1px solid var(--border,#ddd);padding:8px 10px;text-align:left}
@@ -46,9 +29,26 @@
     .word-bank{margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .word-bank-label{font-weight:600;font-size:12px;color:var(--text-muted)}
     .word-chip{border:1px solid var(--border,#ddd);border-radius:999px;padding:4px 9px;background:white;font-size:13px}
-    .answer-line{margin-top:8px}
-    .field-id-note{font-size:10px;color:rgba(0,0,0,.35);margin-top:4px;font-family:monospace}
-    @media(max-width:640px){.two-col{grid-template-columns:1fr}.data-table{font-size:12px}}
+    .context-box{background:#f7f4ef;border:1px solid var(--border,#ddd);border-radius:10px;padding:14px 16px;margin:12px 0;font-style:italic}
+    .fill-sentence{line-height:2.2;margin:10px 0}
+    .inline-blank{display:inline-block;width:120px;border:none;border-bottom:2px solid #aaa;background:transparent;font:inherit;padding:2px 4px;text-align:center;vertical-align:baseline}
+    .textarea-field{width:100%;box-sizing:border-box;border:1px solid var(--border,#ddd);border-radius:8px;padding:10px;font:inherit;background:white;min-height:72px;resize:vertical}
+    /* Q26 canvas graph */
+    .q26-graph-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+    .q26-graph-toolbar button{border:1px solid #d6c8b8;border-radius:6px;padding:6px 12px;background:white;cursor:pointer;font:inherit;font-size:13px;color:#1a1917}
+    .q26-graph-toolbar button:hover{background:#f7f4ef}
+    .q26-graph-toolbar button.q26-active{border-color:#1a1a1a;background:#1a1917;color:white}
+    .q26-graph-outer{width:100%;overflow-x:auto;margin:8px 0}
+    .q26-final-graph-wrap{position:relative;width:700px;height:480px;display:block}
+    #q26-grid{position:absolute;top:0;left:0;display:block}
+    #q26-draw{position:absolute;top:0;left:0;cursor:crosshair;touch-action:none;background:transparent}
+    .q26-graph-hidden{display:none!important}
+    /* Q32 SVG graphs */
+    .svg-graphs-row{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}
+    .svg-graph-box{flex:1;min-width:260px}
+    .svg-graph-box h4{font-size:13px;font-weight:700;margin:0 0 6px;text-align:center;color:#1a1917}
+    .svg-graph-box svg{width:100%;height:auto;display:block}
+    @media(max-width:640px){.two-col{grid-template-columns:1fr}.data-table{font-size:12px}.svg-graphs-row{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -57,15 +57,15 @@
 <header class="site-header">
 <div class="header-inner">
 <div class="header-logo">
-<svg class="logo-svg" fill="none" height="48" style="display:block" viewbox="0 0 260 48" width="260" xmlns="http://www.w3.org/2000/svg">
+<svg class="logo-svg" fill="none" height="48" style="display:block" viewBox="0 0 260 48" width="260" xmlns="http://www.w3.org/2000/svg">
 <g transform="translate(0,0) scale(0.48)">
 <ellipse cx="50" cy="50" opacity="0.22" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" transform="rotate(-20 50 50)"></ellipse>
 <path d="M57 15 L43 46 L58 42 L40 85" fill="none" stroke="#EA580C" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.5"></path>
 <circle cx="40" cy="85" fill="#EA580C" opacity="0.7" r="3.5"></circle>
 <circle cx="57" cy="15" fill="#EA580C" opacity="0.5" r="2.5"></circle>
 </g>
-<text fill="#ffffff" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="-0.6" x="58" y="24">Sci<tspan fill="#EA580C">Spark</tspan></text>
-<text fill="rgba(255,255,255,0.45)" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-size="9.5" font-weight="400" letter-spacing="0.6" x="58" y="40">Year 7–9 Science · Cambridge 0893</text>
+<text fill="#ffffff" font-family="'DM Sans','Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="-0.6" x="58" y="24">Sci<tspan fill="#EA580C">Spark</tspan></text>
+<text fill="rgba(255,255,255,0.45)" font-family="'DM Sans','Helvetica Neue',Arial,sans-serif" font-size="9.5" font-weight="400" letter-spacing="0.6" x="58" y="40">Year 7–9 Science · Cambridge 0893</text>
 </svg>
 </div>
 <div class="header-center">
@@ -93,14 +93,8 @@
 
   <div class="instructions-card">
     <div class="instructions-row">
-      <div class="instr-item">
-        <span class="instr-icon">⏱</span>
-        <div><strong>45 minutes</strong><span>Time allowed</span></div>
-      </div>
-      <div class="instr-item">
-        <span class="instr-icon">📋</span>
-        <div><strong>60 marks</strong><span>Total marks</span></div>
-      </div>
+      <div class="instr-item"><span class="instr-icon">⏱</span><div><strong>45 minutes</strong><span>Time allowed</span></div></div>
+      <div class="instr-item"><span class="instr-icon">📋</span><div><strong>60 marks</strong><span>Total marks</span></div></div>
       <div class="instr-divider"></div>
       <ul class="instr-list">
         <li>Parts A and B: choose the one option that you think is correct.</li>
@@ -110,7 +104,7 @@
     </div>
   </div>
 
-  <!-- ─────────────────────── PART A ─────────────────────── -->
+  <!-- ═══════════════════════ PART A ═══════════════════════ -->
   <section class="part-section" id="part-a">
     <div class="part-header">
       <div class="part-label">PART A</div>
@@ -119,138 +113,148 @@
     </div>
     <p class="part-instruction">Questions 1–10: Click the correct answer. (1 mark each)</p>
 
+    <!-- Q1 -->
     <div class="question-block" id="qblock-1" data-marks="1">
-      <div class="question-header"><div class="q-number">Q1</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
+      <div class="question-header"><div class="q-number">Q1</div><div class="q-topic">Chemistry Vocabulary</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A material that allows electric current to pass through it is called a:</p>
+        <p class="question-text">Which word means not reactive?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">conductor</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">insulator</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">magnet</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA1_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">filter</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q1_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">explosive</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q1_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">soluble</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q1_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">inert</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q1_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">acidic</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q2 -->
     <div class="question-block" id="qblock-2" data-marks="1">
-      <div class="question-header"><div class="q-number">Q2</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
+      <div class="question-header"><div class="q-number">Q2</div><div class="q-topic">Chemistry Vocabulary</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A material that does not allow electric current to pass through it easily is called an:</p>
+        <p class="question-text">Which word means a pure substance containing two or more different elements chemically joined together?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">conductor</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">insulator</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">element</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA2_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">mixture</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q2_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">alloy</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q2_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">element</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q2_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">compound</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q2_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">mixture</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q3 -->
     <div class="question-block" id="qblock-3" data-marks="1">
       <div class="question-header"><div class="q-number">Q3</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">The word that means how high or low a sound is:</p>
+        <p class="question-text">Which word describes how high or low a sound is?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">pitch</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mass</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">current</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA3_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">evaporation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q3_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">pitch</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q3_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">volume</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q3_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">echo</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q3_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">vibration</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q4 -->
     <div class="question-block" id="qblock-4" data-marks="1">
       <div class="question-header"><div class="q-number">Q4</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">The size or height of a sound wave is called:</p>
+        <p class="question-text">Which word describes the height of a wave and is linked to how loud a sound is?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">amplitude</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">filtration</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">tissue</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA4_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">orbit</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q4_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">frequency</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q4_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">amplitude</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q4_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">wavelength</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q4_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">reflection</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q5 -->
     <div class="question-block" id="qblock-5" data-marks="1">
       <div class="question-header"><div class="q-number">Q5</div><div class="q-topic">Separation</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">The method used to separate an insoluble solid from a liquid is:</p>
+        <p class="question-text">Which method is used to separate an insoluble solid from a liquid?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">filtration</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">melting</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">freezing</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA5_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">digestion</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q5_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">filtration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q5_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">evaporation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q5_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">freezing</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q5_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">melting</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q6 -->
     <div class="question-block" id="qblock-6" data-marks="1">
       <div class="question-header"><div class="q-number">Q6</div><div class="q-topic">Separation</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">The process used to remove water from a salt solution to get salt crystals is:</p>
+        <p class="question-text">Which method can be used to get salt crystals from salt water?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">evaporation</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">pollination</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">respiration</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA6_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">condensation only</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q6_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">filtration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q6_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">evaporation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q6_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">magnetism</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q6_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">chromatography</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q7 -->
     <div class="question-block" id="qblock-7" data-marks="1">
       <div class="question-header"><div class="q-number">Q7</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A substance made of only one type of atom is called an:</p>
+        <p class="question-text">Which word describes a substance made of only one type of atom?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">element</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mixture</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">solution</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA7_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">tissue</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q7_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">element</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q7_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">compound</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q7_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">mixture</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q7_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">solution</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q8 -->
     <div class="question-block" id="qblock-8" data-marks="1">
       <div class="question-header"><div class="q-number">Q8</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A substance made when different elements are chemically joined together is called a:</p>
+        <p class="question-text">Which word describes a substance made when two or more different elements are chemically joined?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">compound</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">mixture</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">organ</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA8_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">force</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q8_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">mixture</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q8_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">compound</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q8_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">solvent</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q8_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">alloy</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q9 -->
     <div class="question-block" id="qblock-9" data-marks="1">
       <div class="question-header"><div class="q-number">Q9</div><div class="q-topic">Biology</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A species is best described as a group of organisms that can:</p>
+        <p class="question-text">Which word describes a group of organisms that can reproduce and produce fertile offspring?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">reproduce with each other to produce fertile offspring</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">live only in the same habitat</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">have exactly the same size and colour</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA9_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">all eat the same food</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q9_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">habitat</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q9_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">species</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q9_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">population</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q9_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">community</span></label>
         </div>
       </div>
     </div>
 
+    <!-- Q10 -->
     <div class="question-block" id="qblock-10" data-marks="1">
       <div class="question-header"><div class="q-number">Q10</div><div class="q-topic">Biology</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A feature that helps an organism survive in its habitat is called an:</p>
+        <p class="question-text">Which word describes a feature that helps an organism survive in its habitat?</p>
         <div class="mcq-options" role="radiogroup">
-          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">adaptation</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">evaporation</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">neutralisation</span></label>
-          <label class="mcq-option"><input type="radio" name="Y9_QA10_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">current</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q10_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">adaptation</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q10_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">digestion</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q10_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">filtration</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q10_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">evaporation</span></label>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─────────────────────── PART B ─────────────────────── -->
+  <!-- ═══════════════════════ PART B ═══════════════════════ -->
   <section class="part-section" id="part-b">
     <div class="part-header">
       <div class="part-label">PART B</div>
@@ -259,240 +263,706 @@
     </div>
     <p class="part-instruction">Questions 11–25: Click the correct answer. (1 mark each)</p>
 
+    <!-- Q11 -->
     <div class="question-block" id="qblock-11" data-marks="1">
       <div class="question-header"><div class="q-number">Q11</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A lamp lights up in a circuit. What must be true?</p>
-        <div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The circuit is complete.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The wire is broken.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The switch is open.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB1_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">There is no cell.</span></label></div>
+        <p class="question-text">A student wants to measure the current in the whole circuit and the voltage across a lamp. Which statement is correct?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q11_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The ammeter is connected in series, and the voltmeter is connected in parallel across the lamp.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q11_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The ammeter is connected in parallel, and the voltmeter is connected in series.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q11_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Both meters are connected in series.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q11_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Both meters are connected in parallel.</span></label>
+        </div>
       </div>
     </div>
 
+    <!-- Q12 -->
     <div class="question-block" id="qblock-12" data-marks="1">
       <div class="question-header"><div class="q-number">Q12</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div>
       <div class="question-body">
-        <p class="question-text">A student puts different materials into a circuit. The lamp lights when copper is used. What does this show about copper?</p>
-        <div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Copper conducts electricity.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Copper is a gas.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Copper is an insulator.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB2_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Copper dissolves in water.</span></label></div>
+        <p class="question-text">A student adds another lamp in series to a circuit. What happens to the current in the circuit?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q12_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The current decreases because the total resistance increases.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q12_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The current increases because the total resistance increases.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q12_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The current stays the same because the lamps are identical.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q12_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The current stops because there are two lamps.</span></label>
+        </div>
       </div>
     </div>
 
-    <div class="question-block" id="qblock-13" data-marks="1"><div class="question-header"><div class="q-number">Q13</div><div class="q-topic">Electricity</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which change usually makes a lamp brighter in a simple circuit?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Add another cell.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Remove the cell.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Break the wire.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB3_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Use a plastic connector.</span></label></div></div></div>
+    <!-- Q13 -->
+    <div class="question-block" id="qblock-13" data-marks="1">
+      <div class="question-header"><div class="q-number">Q13</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">The reactivity series shows that magnesium is more reactive than zinc. Which reaction will happen?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q13_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">copper + iron nitrate</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q13_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">magnesium + zinc nitrate</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q13_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">silver + magnesium nitrate</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q13_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">iron + zinc nitrate</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-14" data-marks="1"><div class="question-header"><div class="q-number">Q14</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A sound has a higher pitch. What is true about the sound?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">It has a higher frequency.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">It must be louder.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">It has no vibration.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB4_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">It travels only through a vacuum.</span></label></div></div></div>
+    <!-- Q14 -->
+    <div class="question-block" id="qblock-14" data-marks="1">
+      <div class="question-header"><div class="q-number">Q14</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A sound wave has a higher frequency than another sound wave. What happens to the pitch?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q14_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The pitch is lower.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q14_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The pitch is higher.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q14_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The sound stops.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q14_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The sound becomes a solid.</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-15" data-marks="1"><div class="question-header"><div class="q-number">Q15</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A student hits a drum harder. The sound becomes louder. What has increased?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">amplitude</span></label><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">boiling point</span></label><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">filtration</span></label><label class="mcq-option"><input type="radio" name="Y9_QB5_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">number of cells</span></label></div></div></div>
+    <!-- Q15 -->
+    <div class="question-block" id="qblock-15" data-marks="1">
+      <div class="question-header"><div class="q-number">Q15</div><div class="q-topic">Sound</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A drum is hit harder. The sound becomes louder. What has increased?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q15_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">wavelength</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q15_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">amplitude</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q15_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">mass</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q15_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">melting point</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-16" data-marks="1"><div class="question-header"><div class="q-number">Q16</div><div class="q-topic">Floating and Sinking</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A ball floats with 90% of the ball below the water surface. Another ball floats with 10% below the water surface. Which ball is lower in the water?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">the 90% ball</span></label><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the 10% ball</span></label><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">both are the same</span></label><label class="mcq-option"><input type="radio" name="Y9_QB6_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">impossible to tell</span></label></div></div></div>
+    <!-- Q16 — data table required -->
+    <div class="question-block" id="qblock-16" data-marks="1">
+      <div class="question-header"><div class="q-number">Q16</div><div class="q-topic">Floating and Sinking</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A student puts three parts of a lemon into water. Water has a density of 997 kg/m³.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Part of lemon</th><th>Density (kg/m³)</th></tr></thead>
+            <tbody>
+              <tr><td>Peel</td><td>956</td></tr>
+              <tr><td>Segment</td><td>998</td></tr>
+              <tr><td>Seed</td><td>925</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="question-text">Which part will sink in water?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q16_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">peel</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q16_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">segment</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q16_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">seed</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q16_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">all three parts</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-17" data-marks="1"><div class="question-header"><div class="q-number">Q17</div><div class="q-topic">Floating and Sinking</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A boat made from thin metal foil floats with 10 coins in it but sinks with 16 coins in it. Why does it sink with 16 coins?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The load is too heavy.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The water becomes solid.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The coins dissolve.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB7_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The boat becomes magnetic.</span></label></div></div></div>
+    <!-- Q17 -->
+    <div class="question-block" id="qblock-17" data-marks="1">
+      <div class="question-header"><div class="q-number">Q17</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">Zinc reacts with dilute hydrochloric acid. Which word equation is correct?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q17_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">zinc + hydrochloric acid → zinc chloride + hydrogen</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q17_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">zinc + hydrochloric acid → zinc oxide + water</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q17_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">zinc + hydrochloric acid → zinc carbonate + oxygen</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q17_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">zinc + hydrochloric acid → sodium chloride + hydrogen</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-18" data-marks="1"><div class="question-header"><div class="q-number">Q18</div><div class="q-topic">Forces</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Ruth and Anna use a forcemeter to pull different shoes. Which shoe has the best grip?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">the shoe that needs the smallest force to move</span></label><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the shoe that needs the largest force to move</span></label><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">the shoe with the lightest colour</span></label><label class="mcq-option"><input type="radio" name="Y9_QB8_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">the shoe with the smallest size</span></label></div></div></div>
+    <!-- Q18 -->
+    <div class="question-block" id="qblock-18" data-marks="1">
+      <div class="question-header"><div class="q-number">Q18</div><div class="q-topic">Forces</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A student tests three shoes on the same surface. One shoe needs the largest force to start moving. What does this show about that shoe?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q18_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">It has the best grip / greatest friction.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q18_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">It has no mass.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q18_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">It is magnetic.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q18_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">It is made of gas.</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-19" data-marks="1"><div class="question-header"><div class="q-number">Q19</div><div class="q-topic">Heat Transfer</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A metal spoon gets hot when one end is placed in hot water. What property of metal explains this?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Metals are good thermal conductors.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Metals are always soft.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Metals are gases.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB9_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Metals do not transfer heat.</span></label></div></div></div>
+    <!-- Q19 -->
+    <div class="question-block" id="qblock-19" data-marks="1">
+      <div class="question-header"><div class="q-number">Q19</div><div class="q-topic">Heat Transfer</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A student attaches pins to two metal rods using wax. She heats one end of each rod for the same amount of time. The pin on the copper rod falls first. The pin on the iron rod falls later. What does this show?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q19_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Copper is a better thermal conductor than iron.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q19_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">Iron is a better thermal conductor than copper.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q19_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Copper has a lower temperature than iron.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q19_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Iron does not transfer thermal energy.</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-20" data-marks="1"><div class="question-header"><div class="q-number">Q20</div><div class="q-topic">Particle Model</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which statement describes particles in a solid?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">They are close together and vibrate.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">They are very far apart and move freely.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">They disappear when heated.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB10_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">They have no mass.</span></label></div></div></div>
+    <!-- Q20 -->
+    <div class="question-block" id="qblock-20" data-marks="1">
+      <div class="question-header"><div class="q-number">Q20</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A student uses paper chromatography to separate the dyes in an ink sample. The ink spot separates into several different coloured spots. Why does this happen?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q20_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">Different dyes move up the paper at different speeds.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q20_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The paper changes the dyes into new substances.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q20_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">All dyes move the same distance up the paper.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q20_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The solvent destroys the dyes.</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-21" data-marks="1"><div class="question-header"><div class="q-number">Q21</div><div class="q-topic">Mixtures</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Salt water is best described as:</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">an element</span></label><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">a mixture</span></label><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">a metal</span></label><label class="mcq-option"><input type="radio" name="Y9_QB11_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">an organ</span></label></div></div></div>
+    <!-- Q21 -->
+    <div class="question-block" id="qblock-21" data-marks="1">
+      <div class="question-header"><div class="q-number">Q21</div><div class="q-topic">Model of Atom</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">In the model of an atom, electrons are found around the nucleus. Why do electrons stay near the nucleus?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q21_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">The positive nucleus attracts the negative electrons.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q21_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The negative nucleus attracts the positive electrons.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q21_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The electrons are neutral, so they cannot move away.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q21_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The nucleus and electrons have the same charge, so they attract.</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-22" data-marks="1"><div class="question-header"><div class="q-number">Q22</div><div class="q-topic">Periodic Table</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">What is the chemical symbol for sodium?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">S</span></label><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">So</span></label><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">Na</span></label><label class="mcq-option"><input type="radio" name="Y9_QB12_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">N</span></label></div></div></div>
+    <!-- Q22 — data table required -->
+    <div class="question-block" id="qblock-22" data-marks="1">
+      <div class="question-header"><div class="q-number">Q22</div><div class="q-topic">Chemistry</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A student adds the same mass of different metals to the same volume of dilute hydrochloric acid.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Metal</th><th>Time to stop reacting (s)</th></tr></thead>
+            <tbody>
+              <tr><td>Calcium</td><td>25</td></tr>
+              <tr><td>Magnesium</td><td>42</td></tr>
+              <tr><td>Zinc</td><td>125</td></tr>
+              <tr><td>Copper</td><td>does not react</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="question-text">Which order shows the metals from most reactive to least reactive?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q22_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">calcium → magnesium → zinc → copper</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q22_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">copper → zinc → magnesium → calcium</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q22_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">calcium → zinc → magnesium → copper</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q22_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">magnesium → calcium → zinc → copper</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-23" data-marks="1"><div class="question-header"><div class="q-number">Q23</div><div class="q-topic">Chemical Reaction Evidence</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which observation is good evidence that a chemical reaction has happened?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">a colour change</span></label><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">the beaker is round</span></label><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">the ruler is long</span></label><label class="mcq-option"><input type="radio" name="Y9_QB13_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">the paper is white</span></label></div></div></div>
+    <!-- Q23 -->
+    <div class="question-block" id="qblock-23" data-marks="1">
+      <div class="question-header"><div class="q-number">Q23</div><div class="q-topic">Chemical Reaction Evidence</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">Two colourless solutions are mixed together. After mixing, the liquid becomes cloudy and a white solid appears. Which observation is the best evidence that a chemical reaction has happened?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q23_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">A new insoluble solid forms.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q23_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The two liquids are colourless before mixing.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q23_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The beaker is made of glass.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q23_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">The solutions are poured into the same container.</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-24" data-marks="1"><div class="question-header"><div class="q-number">Q24</div><div class="q-topic">Cells, Tissues, Organs</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">Which order goes from smallest to largest?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">cell → tissue → organ</span></label><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">organ → cell → tissue</span></label><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">tissue → organ → cell</span></label><label class="mcq-option"><input type="radio" name="Y9_QB14_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">organ → tissue → cell</span></label></div></div></div>
+    <!-- Q24 -->
+    <div class="question-block" id="qblock-24" data-marks="1">
+      <div class="question-header"><div class="q-number">Q24</div><div class="q-topic">Cells, Tissues and Organs</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">Which order shows biological organisation from smallest to largest?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q24_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">cell → tissue → organ</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q24_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">organ → tissue → cell</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q24_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">tissue → cell → organ</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q24_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">organ → cell → tissue</span></label>
+        </div>
+      </div>
+    </div>
 
-    <div class="question-block" id="qblock-25" data-marks="1"><div class="question-header"><div class="q-number">Q25</div><div class="q-topic">Adaptation</div><div class="q-marks">1 mark</div></div><div class="question-body"><p class="question-text">A desert animal is active at night. How does this help it survive?</p><div class="mcq-options"><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">It avoids the hottest part of the day.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">It makes the animal heavier.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">It stops all sound.</span></label><label class="mcq-option"><input type="radio" name="Y9_QB15_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">It changes water into salt.</span></label></div></div></div>
+    <!-- Q25 -->
+    <div class="question-block" id="qblock-25" data-marks="1">
+      <div class="question-header"><div class="q-number">Q25</div><div class="q-topic">Respiratory System</div><div class="q-marks">1 mark</div></div>
+      <div class="question-body">
+        <p class="question-text">A mountaineer climbs a very high mountain. At the top, the air pressure is much lower than at sea level. Why does low air pressure make breathing more difficult?</p>
+        <div class="mcq-options" role="radiogroup">
+          <label class="mcq-option"><input type="radio" name="Y9_Q25_answer" value="A"><span class="opt-badge">A</span><span class="opt-text">There are fewer air particles, so less oxygen is taken in with each breath.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q25_answer" value="B"><span class="opt-badge">B</span><span class="opt-text">The lungs stop making oxygen, so the mountaineer cannot breathe.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q25_answer" value="C"><span class="opt-badge">C</span><span class="opt-text">The air contains more carbon dioxide than oxygen, so respiration stops.</span></label>
+          <label class="mcq-option"><input type="radio" name="Y9_Q25_answer" value="D"><span class="opt-badge">D</span><span class="opt-text">Oxygen particles become too large to enter the alveoli.</span></label>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- ─────────────────────── PART C ─────────────────────── -->
+  <!-- ═══════════════════════ PART C ═══════════════════════ -->
   <section class="part-section" id="part-c">
     <div class="part-header"><div class="part-label">PART C</div><h2 class="part-title">Data &amp; Experiment</h2><div class="part-marks">15 marks</div></div>
-    <p class="part-instruction">Questions 26–28: Type short structured answers.</p>
+    <p class="part-instruction">Questions 26–28: Type your answers into the boxes provided. (5 marks each)</p>
 
+    <!-- Q26 — Electricity Investigation / canvas graph -->
     <div class="question-block" id="qblock-26" data-marks="5">
       <div class="question-header"><div class="q-number">Q26</div><div class="q-topic">Electricity Investigation</div><div class="q-marks">5 marks</div></div>
       <div class="question-body">
-        <p class="question-text">A student tests different materials in a simple circuit.</p>
-        <div class="data-table-wrap"><table class="data-table"><thead><tr><th>Material</th><th>Does the lamp light?</th></tr></thead><tbody><tr><td>copper</td><td>yes</td></tr><tr><td>plastic</td><td>no</td></tr><tr><td>wood</td><td>no</td></tr><tr><td>aluminium</td><td>yes</td></tr></tbody></table></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">2 marks</span></div><p>Which two materials are electrical conductors?</p><div class="two-col"><div><label class="input-label" for="Y9_QC1_a_conductor1_answer">Conductor 1</label><input class="text-input" id="Y9_QC1_a_conductor1_answer" name="Y9_QC1_a_conductor1_answer" type="text"></div><div><label class="input-label" for="Y9_QC1_a_conductor2_answer">Conductor 2</label><input class="text-input" id="Y9_QC1_a_conductor2_answer" name="Y9_QC1_a_conductor2_answer" type="text"></div></div></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC1_b_answer">Which material is an insulator? Give one example from the table.</label><input class="text-input" id="Y9_QC1_b_answer" name="Y9_QC1_b_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC1_c_answer">What does the lamp lighting show about the material?</label><input class="text-input" id="Y9_QC1_c_answer" name="Y9_QC1_c_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC1_d_answer">Name one thing the student should keep the same to make the test fair.</label><input class="text-input" id="Y9_QC1_d_answer" name="Y9_QC1_d_answer" type="text"></div>
-      </div>
-    </div>
-
-    <div class="question-block" id="qblock-27" data-marks="5">
-      <div class="question-header"><div class="q-number">Q27</div><div class="q-topic">Separation Techniques</div><div class="q-marks">5 marks</div></div>
-      <div class="question-body">
-        <p class="question-text">A student has a mixture of sand, salt and iron filings.</p>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_a_answer">Which material can be removed first using a magnet?</label><input class="text-input" id="Y9_QC2_a_answer" name="Y9_QC2_a_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_b_answer">What should the student add to dissolve the salt?</label><input class="text-input" id="Y9_QC2_b_answer" name="Y9_QC2_b_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_c_answer">Which method separates sand from the salt solution?</label><input class="text-input" id="Y9_QC2_c_answer" name="Y9_QC2_c_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_d_answer">What passes through the filter paper?</label><input class="text-input" id="Y9_QC2_d_answer" name="Y9_QC2_d_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC2_e_answer">How can the student get dry salt from the salt solution?</label><input class="text-input" id="Y9_QC2_e_answer" name="Y9_QC2_e_answer" type="text"></div>
-      </div>
-    </div>
-
-    <div class="question-block" id="qblock-28" data-marks="5">
-      <div class="question-header"><div class="q-number">Q28</div><div class="q-topic">Floating and Sinking Investigation</div><div class="q-marks">5 marks</div></div>
-      <div class="question-body">
-        <p class="question-text">Mia investigates floating and sinking using six balls. All the balls are the same size but made from different materials.</p>
-        <div class="data-table-wrap"><table class="data-table"><thead><tr><th>Ball</th><th>Percentage below water</th></tr></thead><tbody><tr><td>A</td><td>33%</td></tr><tr><td>B</td><td>10%</td></tr><tr><td>C</td><td>50%</td></tr><tr><td>D</td><td>40%</td></tr><tr><td>E</td><td>12%</td></tr><tr><td>F</td><td>90%</td></tr></tbody></table></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC3_a_answer">Which ball is lowest in the water?</label><input class="text-input" id="Y9_QC3_a_answer" name="Y9_QC3_a_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">2 marks</span></div><p>Which two balls are mostly above the water?</p><div class="two-col"><div><label class="input-label" for="Y9_QC3_b_ball1_answer">Ball 1</label><input class="text-input" id="Y9_QC3_b_ball1_answer" name="Y9_QC3_b_ball1_answer" type="text"></div><div><label class="input-label" for="Y9_QC3_b_ball2_answer">Ball 2</label><input class="text-input" id="Y9_QC3_b_ball2_answer" name="Y9_QC3_b_ball2_answer" type="text"></div></div></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC3_c_answer">Compare ball B and ball F. Which ball sinks lower in the water?</label><input class="text-input" id="Y9_QC3_c_answer" name="Y9_QC3_c_answer" type="text"></div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div><label class="input-label" for="Y9_QC3_d_answer">Mia changes the shape of a piece of modelling clay but keeps the same mass. What shape could help it float?</label><input class="text-input" id="Y9_QC3_d_answer" name="Y9_QC3_d_answer" type="text"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────── PART D ─────────────────────── -->
-  <section class="part-section" id="part-d">
-    <div class="part-header"><div class="part-label">PART D</div><h2 class="part-title">Extended Response</h2><div class="part-marks">20 marks</div></div>
-    <p class="part-instruction">Questions 29–32: Write short structured explanations. (5 marks each)</p>
-
-
-    <div class="question-block" id="qblock-29" data-marks="5">
-      <div class="question-header"><div class="q-number">Q29</div><div class="q-topic">Sound Waves</div><div class="q-marks">5 marks</div></div>
-      <div class="question-body">
-        <p class="question-text">A student compares two sounds. Sound A is quiet and low-pitched. Sound B is loud and high-pitched.</p>
-        <p class="question-text">Answer each part.</p>
-
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD1_a_answer">What must an object do to make a sound?</label>
-          <input class="text-input" id="Y9_QD1_a_answer" name="Y9_QD1_a_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD1_b_answer">Which sound has the higher pitch?</label>
-          <input class="text-input" id="Y9_QD1_b_answer" name="Y9_QD1_b_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD1_c_answer">What happens to frequency when pitch becomes higher?</label>
-          <input class="text-input" id="Y9_QD1_c_answer" name="Y9_QD1_c_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD1_d_answer">Which sound has the larger amplitude?</label>
-          <input class="text-input" id="Y9_QD1_d_answer" name="Y9_QD1_d_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD1_e_answer">What does a larger amplitude mean for the loudness of a sound?</label>
-          <input class="text-input" id="Y9_QD1_e_answer" name="Y9_QD1_e_answer" type="text">
-        </div>
-      </div>
-    </div>
-
-    <div class="question-block" id="qblock-30" data-marks="5">
-      <div class="question-header"><div class="q-number">Q30</div><div class="q-topic">Chemical Reaction Evidence</div><div class="q-marks">5 marks</div></div>
-      <div class="question-body">
-        <p class="question-text">A student adds a metal to an acid. Bubbles are produced and the test tube becomes warmer.</p>
-        <p class="question-text">Answer each part.</p>
-
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD2_a_answer">Name one observation that shows a reaction may have happened.</label>
-          <input class="text-input" id="Y9_QD2_a_answer" name="Y9_QD2_a_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD2_b_answer">What do the bubbles show has been produced?</label>
-          <input class="text-input" id="Y9_QD2_b_answer" name="Y9_QD2_b_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD2_c_answer">The test tube becomes warmer. What type of energy change does this show?</label>
-          <input class="text-input" id="Y9_QD2_c_answer" name="Y9_QD2_c_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD2_d_answer">Why is this more than just dissolving?</label>
-          <input class="text-input" id="Y9_QD2_d_answer" name="Y9_QD2_d_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD2_e_answer">Name one variable the student should keep the same to make the test fair.</label>
-          <input class="text-input" id="Y9_QD2_e_answer" name="Y9_QD2_e_answer" type="text">
-        </div>
-      </div>
-    </div>
-
-    <div class="question-block" id="qblock-31" data-marks="5">
-      <div class="question-header"><div class="q-number">Q31</div><div class="q-topic">Cells, Tissues and Organs</div><div class="q-marks">5 marks</div></div>
-      <div class="question-body">
-        <p class="question-text">This question is about how cells, tissues and organs are related.</p>
-        <p class="question-text">Answer each part.</p>
-
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD3_a_answer">What is a cell?</label>
-          <input class="text-input" id="Y9_QD3_a_answer" name="Y9_QD3_a_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD3_b_answer">What is a tissue?</label>
-          <input class="text-input" id="Y9_QD3_b_answer" name="Y9_QD3_b_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD3_c_answer">What is an organ?</label>
-          <input class="text-input" id="Y9_QD3_c_answer" name="Y9_QD3_c_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD3_d_answer">Put these in order from smallest to largest: organ, cell, tissue.</label>
-          <input class="text-input" id="Y9_QD3_d_answer" name="Y9_QD3_d_answer" type="text">
-        </div>
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD3_e_answer">Give one example of a human organ and its function.</label>
-          <input class="text-input" id="Y9_QD3_e_answer" name="Y9_QD3_e_answer" type="text">
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="question-block" id="qblock-32" data-marks="5">
-      <div class="question-header"><div class="q-number">Q32</div><div class="q-topic">Food Web, Population Change and Biomagnification</div><div class="q-marks">5 marks</div></div>
-      <div class="question-body">
-        <p class="question-text">The food web shows feeding relationships in a pond ecosystem. The arrows show the direction of energy transfer.</p>
-
+        <p class="question-text">Pierre adds lamps to a series circuit and records the current each time.</p>
         <div class="data-table-wrap">
           <table class="data-table">
-            <thead>
-              <tr><th>Food web links</th></tr>
-            </thead>
+            <thead><tr><th>Number of lamps</th><th>Current in ______</th></tr></thead>
             <tbody>
-              <tr><td>algae → water fleas → small fish → large fish → heron</td></tr>
-              <tr><td>algae → snails → small fish → heron</td></tr>
-              <tr><td>algae → snails → duck</td></tr>
-              <tr><td>small fish → heron</td></tr>
+              <tr><td>1</td><td>12</td></tr>
+              <tr><td>2</td><td>9</td></tr>
+              <tr><td>3</td><td>7</td></tr>
+              <tr><td>4</td><td>5</td></tr>
+              <tr><td>5</td><td>2</td></tr>
             </tbody>
           </table>
         </div>
 
-        <p class="question-text">A pesticide enters the pond through the algae. The pesticide does not break down easily and it builds up in the bodies of organisms.</p>
-
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD4_a_answer">Write one complete food chain from algae to heron using at least four organisms.</label>
-          <input class="text-input" id="Y9_QD4_a_answer" name="Y9_QD4_a_answer" type="text">
+        <!-- (a) -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q26a_current_unit">Write down the unit for current in the table.</label>
+          <input type="text" class="text-input short-input" id="Y9_Q26a_current_unit" name="Y9_Q26a_current_unit" autocomplete="off">
         </div>
 
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD4_b_answer">If the number of water fleas decreases, what may happen to the number of small fish and the amount of algae? Explain the link.</label>
-          <input class="text-input" id="Y9_QD4_b_answer" name="Y9_QD4_b_answer" type="text">
+        <!-- (b) graph -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">3 marks</span></div>
+          <p>Draw a line graph of the results. You should: label the axes / plot the results / draw a straight line of best fit.</p>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q26b_axis_labels">Type both axis labels (e.g. "x: number of lamps, y: current / A"):</label>
+            <input type="text" class="text-input" id="Y9_Q26b_axis_labels" name="Y9_Q26b_axis_labels" autocomplete="off" placeholder="x: number of lamps, y: current / A">
+          </div>
+
+          <div class="q26-graph-toolbar">
+            <button type="button" id="q26-pencil" class="q26-active">Pencil</button>
+            <button type="button" id="q26-ruler">Ruler</button>
+            <button type="button" id="q26-eraser">Eraser</button>
+            <button type="button" id="q26-undo">Undo</button>
+            <button type="button" id="q26-clear">Clear all</button>
+          </div>
+
+          <div class="q26-graph-outer">
+            <div class="q26-final-graph-wrap">
+              <canvas id="q26-grid" width="700" height="480"></canvas>
+              <canvas id="q26-draw" width="700" height="480"></canvas>
+            </div>
+          </div>
+
+          <input class="q26-graph-hidden" type="hidden" id="Y9_Q26b_plotted_points" name="Y9_Q26b_plotted_points" value="">
+          <input class="q26-graph-hidden" type="hidden" id="Y9_Q26b_best_fit_line" name="Y9_Q26b_best_fit_line" value="">
         </div>
 
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD4_c_answer">If the number of large fish decreases, what may happen to small fish and herons? Explain the link.</label>
-          <input class="text-input" id="Y9_QD4_c_answer" name="Y9_QD4_c_answer" type="text">
-        </div>
-
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD4_d_answer">Which organism is likely to have the highest pesticide concentration? Explain using biomagnification.</label>
-          <input class="text-input" id="Y9_QD4_d_answer" name="Y9_QD4_d_answer" type="text">
-        </div>
-
-        <div class="sub-question"><div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_QD4_e_answer">If many herons die from the pesticide, predict one further population change in the food web and explain why.</label>
-          <input class="text-input" id="Y9_QD4_e_answer" name="Y9_QD4_e_answer" type="text">
+        <!-- (c) -->
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q26c_relationship">Describe the relationship between the number of lamps and the current in the circuit.</label>
+          <input type="text" class="text-input" id="Y9_Q26c_relationship" name="Y9_Q26c_relationship">
         </div>
       </div>
     </div>
 
+    <!-- Q27 — Chemistry Investigation -->
+    <div class="question-block" id="qblock-27" data-marks="5">
+      <div class="question-header"><div class="q-number">Q27</div><div class="q-topic">Chemistry Investigation</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">Carlos investigates temperature change during reactions. The table shows his results.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Liquid used</th><th>Start (°C)</th><th>Solid added</th><th>End (°C)</th><th>Change (°C)</th><th>Type</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>copper sulfate solution</td><td>19</td><td>magnesium powder</td><td>30</td><td>—</td><td>—</td></tr>
+              <tr><td>dilute ethanoic acid</td><td>19</td><td>sodium carbonate</td><td>12</td><td>−7</td><td>—</td></tr>
+              <tr><td>potassium carbonate solution</td><td>18</td><td>citric acid</td><td>14</td><td>—</td><td>—</td></tr>
+              <tr><td>dilute sulfuric acid</td><td>18</td><td>magnesium ribbon</td><td>34</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q27a_temperature_changes">Complete the three missing changes in temperature (rows 1, 3 and 4). Write all three values.</label>
+          <input type="text" class="text-input" id="Y9_Q27a_temperature_changes" name="Y9_Q27a_temperature_changes" placeholder="e.g. +11, −4, +16">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q27b_reaction_types">Complete the type of reaction column using exothermic or endothermic. Write all four reaction types in order.</label>
+          <input type="text" class="text-input" id="Y9_Q27b_reaction_types" name="Y9_Q27b_reaction_types" placeholder="e.g. exothermic, endothermic, ...">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q27c_mixture_releases_most_energy">Which mixture releases the most energy?</label>
+          <input type="text" class="text-input" id="Y9_Q27c_mixture_releases_most_energy" name="Y9_Q27c_mixture_releases_most_energy">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q27d_explanation">Explain how you know this mixture releases the most energy.</label>
+          <input type="text" class="text-input" id="Y9_Q27d_explanation" name="Y9_Q27d_explanation">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q27e_reliability">What should Carlos do to make his results more reliable?</label>
+          <input type="text" class="text-input" id="Y9_Q27e_reliability" name="Y9_Q27e_reliability">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q28 — Pressure Investigation -->
+    <div class="question-block" id="qblock-28" data-marks="5">
+      <div class="question-header"><div class="q-number">Q28</div><div class="q-topic">Pressure Investigation</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">Azim knows that pressure is related to force and area. He pushes a wooden block into modelling clay to investigate how force and area affect pressure. Equipment: wooden blocks with different areas, different masses, modelling clay, a ruler.</p>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">2 marks</span></div>
+          <p>Write an outline plan for his investigation. Use the two boxes below — one mark each.</p>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q28a_plan_place_measure_dent">Step 1: How to place the block and measure the dent</label>
+            <input type="text" class="text-input" id="Y9_Q28a_plan_place_measure_dent" name="Y9_Q28a_plan_place_measure_dent">
+          </div>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q28a_plan_repeat_different_blocks_masses">Step 2: How to repeat with different blocks or masses</label>
+            <input type="text" class="text-input" id="Y9_Q28a_plan_repeat_different_blocks_masses" name="Y9_Q28a_plan_repeat_different_blocks_masses">
+          </div>
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q28b_measurements">What measurements does he need to take?</label>
+          <input type="text" class="text-input" id="Y9_Q28b_measurements" name="Y9_Q28b_measurements">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q28c_repeat_reason">Azim repeats all of his measurements. Why does he do this?</label>
+          <input type="text" class="text-input" id="Y9_Q28c_repeat_reason" name="Y9_Q28c_repeat_reason">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q28d_results_table">Draw a results table for Azim's investigation (use text to describe the table headings and layout).</label>
+          <textarea class="textarea-field" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PART D ═══════════════════════ -->
+  <section class="part-section" id="part-d">
+    <div class="part-header"><div class="part-label">PART D</div><h2 class="part-title">Extended Response</h2><div class="part-marks">20 marks</div></div>
+    <p class="part-instruction">Questions 29–32: Write short structured answers. (5 marks each)</p>
+
+    <!-- Q29 — Sound Waves -->
+    <div class="question-block" id="qblock-29" data-marks="5">
+      <div class="question-header"><div class="q-number">Q29</div><div class="q-topic">Sound Waves</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">A speaker makes two sounds shown by oscilloscope traces. Sound B has waves that are closer together and taller than Sound A.</p>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q29a_vibration">What must an object do to make a sound?</label>
+          <input type="text" class="text-input" id="Y9_Q29a_vibration" name="Y9_Q29a_vibration">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q29b_higher_pitch">Which sound has the higher pitch, Sound A or Sound B?</label>
+          <input type="text" class="text-input short-input" id="Y9_Q29b_higher_pitch" name="Y9_Q29b_higher_pitch">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q29c_pitch_explanation">Explain your answer to part (b).</label>
+          <input type="text" class="text-input" id="Y9_Q29c_pitch_explanation" name="Y9_Q29c_pitch_explanation">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q29d_louder_sound">Which sound is louder, Sound A or Sound B?</label>
+          <input type="text" class="text-input short-input" id="Y9_Q29d_louder_sound" name="Y9_Q29d_louder_sound">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(e)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q29e_loudness_explanation">Explain your answer to part (d).</label>
+          <input type="text" class="text-input" id="Y9_Q29e_loudness_explanation" name="Y9_Q29e_loudness_explanation">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q30 — Acid Neutralisation -->
+    <div class="question-block" id="qblock-30" data-marks="5">
+      <div class="question-header"><div class="q-number">Q30</div><div class="q-topic">Acid Neutralisation</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <div class="context-box">"Acids in the stomach can cause indigestion. Indigestion tablets can get rid of the acid."</div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">3 marks</span></div>
+          <p>Complete the sentences. Choose from the word bank.</p>
+          <div class="word-bank">
+            <span class="word-bank-label">Word bank:</span>
+            <span class="word-chip">absorb</span>
+            <span class="word-chip">acidic</span>
+            <span class="word-chip">alkaline</span>
+            <span class="word-chip">neutralise</span>
+            <span class="word-chip">salt</span>
+            <span class="word-chip">sugar</span>
+          </div>
+          <p class="fill-sentence">
+            Indigestion tablets
+            <input type="text" class="inline-blank" id="Y9_Q30a_blank1_neutralise" name="Y9_Q30a_blank1_neutralise" autocomplete="off">
+            the acid in the stomach because indigestion tablets are
+            <input type="text" class="inline-blank" id="Y9_Q30a_blank2_alkaline" name="Y9_Q30a_blank2_alkaline" autocomplete="off">.
+            Indigestion tablets react with the acid to form water and a
+            <input type="text" class="inline-blank" id="Y9_Q30a_blank3_salt" name="Y9_Q30a_blank3_salt" autocomplete="off">.
+          </p>
+        </div>
+
+        <p class="question-text" style="margin-top:14px">Tom investigates two different indigestion tablets. He adds 3 drops of Universal Indicator solution to 50 cm³ of acid. Tom adds one indigestion tablet and stirs. He repeats this for the other indigestion tablet.</p>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)(i)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q30b_i_decide_best_tablet">How can Tom decide which tablet gets rid of the most acid?</label>
+          <input type="text" class="text-input" id="Y9_Q30b_i_decide_best_tablet" name="Y9_Q30b_i_decide_best_tablet">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)(ii)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q30b_ii_control_variable">Write down one variable he should keep the same.</label>
+          <input type="text" class="text-input" id="Y9_Q30b_ii_control_variable" name="Y9_Q30b_ii_control_variable">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q31 — Respiratory System / Alveoli -->
+    <div class="question-block" id="qblock-31" data-marks="5">
+      <div class="question-header"><div class="q-number">Q31</div><div class="q-topic">Respiratory System</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">Alveoli are air sacs found at the end of the bronchioles in the lungs. Gas exchange happens in the alveoli.</p>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q31a_diffusion">Name the process by which oxygen moves from the air in the alveoli into the blood.</label>
+          <input type="text" class="text-input short-input" id="Y9_Q31a_diffusion" name="Y9_Q31a_diffusion">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q31b_alveoli_function">Write down one function of the alveoli.</label>
+          <input type="text" class="text-input" id="Y9_Q31b_alveoli_function" name="Y9_Q31b_alveoli_function">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">2 marks</span></div>
+          <p>Describe one adaptation of the alveoli and explain how this adaptation helps gas exchange.</p>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q31c_adaptation">Adaptation:</label>
+            <input type="text" class="text-input" id="Y9_Q31c_adaptation" name="Y9_Q31c_adaptation">
+          </div>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q31c_explanation">How it helps:</label>
+            <input type="text" class="text-input" id="Y9_Q31c_explanation" name="Y9_Q31c_explanation">
+          </div>
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q31d_iron">Red blood cells transport oxygen around the body. Which mineral in the diet is needed to make red blood cells?</label>
+          <input type="text" class="text-input short-input" id="Y9_Q31d_iron" name="Y9_Q31d_iron">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q32 — Weather and Climate Change -->
+    <div class="question-block" id="qblock-32" data-marks="5">
+      <div class="question-header"><div class="q-number">Q32</div><div class="q-topic">Weather and Climate Change</div><div class="q-marks">5 marks</div></div>
+      <div class="question-body">
+        <p class="question-text">Rajiv collects information about mean monthly temperature in one country for the years 1920 and 2020. The graphs show his data.</p>
+
+        <div class="svg-graphs-row">
+          <!-- 1920 graph -->
+          <div class="svg-graph-box">
+            <h4>Year 1920</h4>
+            <svg viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" aria-label="Year 1920 mean monthly temperature graph">
+              <!-- grid lines y -->
+              <line x1="55" y1="285" x2="540" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="232" x2="540" y2="232" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="179" x2="540" y2="179" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="126" x2="540" y2="126" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="73"  x2="540" y2="73"  stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="20"  x2="540" y2="20"  stroke="#ddd" stroke-width="1"/>
+              <!-- grid lines x -->
+              <line x1="55"  y1="20" x2="55"  y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="99"  y1="20" x2="99"  y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="143" y1="20" x2="143" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="187" y1="20" x2="187" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="231" y1="20" x2="231" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="276" y1="20" x2="276" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="320" y1="20" x2="320" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="364" y1="20" x2="364" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="408" y1="20" x2="408" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="452" y1="20" x2="452" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="496" y1="20" x2="496" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="540" y1="20" x2="540" y2="285" stroke="#ddd" stroke-width="1"/>
+              <!-- axes -->
+              <line x1="55" y1="20" x2="55" y2="290" stroke="#333" stroke-width="2"/>
+              <line x1="50" y1="285" x2="545" y2="285" stroke="#333" stroke-width="2"/>
+              <!-- y axis labels -->
+              <text x="48" y="289" text-anchor="end" font-size="11" fill="#555">0</text>
+              <text x="48" y="236" text-anchor="end" font-size="11" fill="#555">5</text>
+              <text x="48" y="183" text-anchor="end" font-size="11" fill="#555">10</text>
+              <text x="48" y="130" text-anchor="end" font-size="11" fill="#555">15</text>
+              <text x="48" y="77"  text-anchor="end" font-size="11" fill="#555">20</text>
+              <text x="48" y="24"  text-anchor="end" font-size="11" fill="#555">25</text>
+              <!-- x axis labels -->
+              <text x="55"  y="300" text-anchor="middle" font-size="10" fill="#555">Jan</text>
+              <text x="99"  y="300" text-anchor="middle" font-size="10" fill="#555">Feb</text>
+              <text x="143" y="300" text-anchor="middle" font-size="10" fill="#555">Mar</text>
+              <text x="187" y="300" text-anchor="middle" font-size="10" fill="#555">Apr</text>
+              <text x="231" y="300" text-anchor="middle" font-size="10" fill="#555">May</text>
+              <text x="276" y="300" text-anchor="middle" font-size="10" fill="#555">Jun</text>
+              <text x="320" y="300" text-anchor="middle" font-size="10" fill="#555">Jul</text>
+              <text x="364" y="300" text-anchor="middle" font-size="10" fill="#555">Aug</text>
+              <text x="408" y="300" text-anchor="middle" font-size="10" fill="#555">Sep</text>
+              <text x="452" y="300" text-anchor="middle" font-size="10" fill="#555">Oct</text>
+              <text x="496" y="300" text-anchor="middle" font-size="10" fill="#555">Nov</text>
+              <text x="540" y="300" text-anchor="middle" font-size="10" fill="#555">Dec</text>
+              <!-- axis titles -->
+              <text x="298" y="320" text-anchor="middle" font-size="11" fill="#333">month</text>
+              <text transform="translate(12,175) rotate(-90)" text-anchor="middle" font-size="11" fill="#333">mean temperature / °C</text>
+              <!-- 1920 data line -->
+              <polyline fill="none" stroke="#0f0e0c" stroke-width="2.5" stroke-linejoin="round"
+                points="55,243 99,200 143,179 187,147 231,115 276,94 320,84 364,73 408,105 452,147 496,190 540,232"/>
+              <!-- data point dots -->
+              <circle cx="55"  cy="243" r="3" fill="#0f0e0c"/>
+              <circle cx="99"  cy="200" r="3" fill="#0f0e0c"/>
+              <circle cx="143" cy="179" r="3" fill="#0f0e0c"/>
+              <circle cx="187" cy="147" r="3" fill="#0f0e0c"/>
+              <circle cx="231" cy="115" r="3" fill="#0f0e0c"/>
+              <circle cx="276" cy="94"  r="3" fill="#0f0e0c"/>
+              <circle cx="320" cy="84"  r="3" fill="#0f0e0c"/>
+              <circle cx="364" cy="73"  r="3" fill="#0f0e0c"/>
+              <circle cx="408" cy="105" r="3" fill="#0f0e0c"/>
+              <circle cx="452" cy="147" r="3" fill="#0f0e0c"/>
+              <circle cx="496" cy="190" r="3" fill="#0f0e0c"/>
+              <circle cx="540" cy="232" r="3" fill="#0f0e0c"/>
+            </svg>
+          </div>
+
+          <!-- 2020 graph -->
+          <div class="svg-graph-box">
+            <h4>Year 2020</h4>
+            <svg viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" aria-label="Year 2020 mean monthly temperature graph">
+              <!-- grid lines y -->
+              <line x1="55" y1="285" x2="540" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="232" x2="540" y2="232" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="179" x2="540" y2="179" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="126" x2="540" y2="126" stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="73"  x2="540" y2="73"  stroke="#ddd" stroke-width="1"/>
+              <line x1="55" y1="20"  x2="540" y2="20"  stroke="#ddd" stroke-width="1"/>
+              <!-- grid lines x -->
+              <line x1="55"  y1="20" x2="55"  y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="99"  y1="20" x2="99"  y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="143" y1="20" x2="143" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="187" y1="20" x2="187" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="231" y1="20" x2="231" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="276" y1="20" x2="276" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="320" y1="20" x2="320" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="364" y1="20" x2="364" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="408" y1="20" x2="408" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="452" y1="20" x2="452" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="496" y1="20" x2="496" y2="285" stroke="#ddd" stroke-width="1"/>
+              <line x1="540" y1="20" x2="540" y2="285" stroke="#ddd" stroke-width="1"/>
+              <!-- axes -->
+              <line x1="55" y1="20" x2="55" y2="290" stroke="#333" stroke-width="2"/>
+              <line x1="50" y1="285" x2="545" y2="285" stroke="#333" stroke-width="2"/>
+              <!-- y axis labels -->
+              <text x="48" y="289" text-anchor="end" font-size="11" fill="#555">0</text>
+              <text x="48" y="236" text-anchor="end" font-size="11" fill="#555">5</text>
+              <text x="48" y="183" text-anchor="end" font-size="11" fill="#555">10</text>
+              <text x="48" y="130" text-anchor="end" font-size="11" fill="#555">15</text>
+              <text x="48" y="77"  text-anchor="end" font-size="11" fill="#555">20</text>
+              <text x="48" y="24"  text-anchor="end" font-size="11" fill="#555">25</text>
+              <!-- x axis labels -->
+              <text x="55"  y="300" text-anchor="middle" font-size="10" fill="#555">Jan</text>
+              <text x="99"  y="300" text-anchor="middle" font-size="10" fill="#555">Feb</text>
+              <text x="143" y="300" text-anchor="middle" font-size="10" fill="#555">Mar</text>
+              <text x="187" y="300" text-anchor="middle" font-size="10" fill="#555">Apr</text>
+              <text x="231" y="300" text-anchor="middle" font-size="10" fill="#555">May</text>
+              <text x="276" y="300" text-anchor="middle" font-size="10" fill="#555">Jun</text>
+              <text x="320" y="300" text-anchor="middle" font-size="10" fill="#555">Jul</text>
+              <text x="364" y="300" text-anchor="middle" font-size="10" fill="#555">Aug</text>
+              <text x="408" y="300" text-anchor="middle" font-size="10" fill="#555">Sep</text>
+              <text x="452" y="300" text-anchor="middle" font-size="10" fill="#555">Oct</text>
+              <text x="496" y="300" text-anchor="middle" font-size="10" fill="#555">Nov</text>
+              <text x="540" y="300" text-anchor="middle" font-size="10" fill="#555">Dec</text>
+              <!-- axis titles -->
+              <text x="298" y="320" text-anchor="middle" font-size="11" fill="#333">month</text>
+              <text transform="translate(12,175) rotate(-90)" text-anchor="middle" font-size="11" fill="#333">mean temperature / °C</text>
+              <!-- 2020 data line (orange) -->
+              <polyline fill="none" stroke="#EA580C" stroke-width="2.5" stroke-linejoin="round"
+                points="55,211 99,179 143,147 187,115 231,84 276,62 320,52 364,41 408,73 452,115 496,158 540,200"/>
+              <!-- data point dots -->
+              <circle cx="55"  cy="211" r="3" fill="#EA580C"/>
+              <circle cx="99"  cy="179" r="3" fill="#EA580C"/>
+              <circle cx="143" cy="147" r="3" fill="#EA580C"/>
+              <circle cx="187" cy="115" r="3" fill="#EA580C"/>
+              <circle cx="231" cy="84"  r="3" fill="#EA580C"/>
+              <circle cx="276" cy="62"  r="3" fill="#EA580C"/>
+              <circle cx="320" cy="52"  r="3" fill="#EA580C"/>
+              <circle cx="364" cy="41"  r="3" fill="#EA580C"/>
+              <circle cx="408" cy="73"  r="3" fill="#EA580C"/>
+              <circle cx="452" cy="115" r="3" fill="#EA580C"/>
+              <circle cx="496" cy="158" r="3" fill="#EA580C"/>
+              <circle cx="540" cy="200" r="3" fill="#EA580C"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)(i)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q32a_i_weather_definition">Describe the meaning of the word "weather".</label>
+          <input type="text" class="text-input" id="Y9_Q32a_i_weather_definition" name="Y9_Q32a_i_weather_definition">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(a)(ii)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q32a_ii_graph_values">Use the 1920 graph. Complete the sentences: "The mean temperature in Feb is ___ °C. The mean temperature in Aug is ___ °C. The difference in mean temperature is ___ °C."</label>
+          <input type="text" class="text-input" id="Y9_Q32a_ii_graph_values" name="Y9_Q32a_ii_graph_values" placeholder="Feb = __, Aug = __, difference = __">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)(i)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q32b_i_climate_evidence">Explain how the graphs provide evidence of climate change.</label>
+          <input type="text" class="text-input" id="Y9_Q32b_i_climate_evidence" name="Y9_Q32b_i_climate_evidence">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(b)(ii)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q32b_ii_climate_reason">Write down one reason why the climate has changed.</label>
+          <input type="text" class="text-input" id="Y9_Q32b_ii_climate_reason" name="Y9_Q32b_ii_climate_reason">
+        </div>
+
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(c)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label" for="Y9_Q32c_accuracy_reason">Rajiv thinks the temperatures measured in 1920 are not as accurate as 2020. Suggest one reason why.</label>
+          <input type="text" class="text-input" id="Y9_Q32c_accuracy_reason" name="Y9_Q32c_accuracy_reason">
+        </div>
+      </div>
+    </div>
 
     <div class="submit-section">
       <div class="submit-info"><strong id="submit-answered">0 of 32</strong> questions answered</div>
       <button class="btn-submit" id="submit-btn" type="button">Submit Assessment →</button>
     </div>
-
   </section>
 </main>
 
@@ -516,7 +986,7 @@
     </div>
     <div class="modal-btns">
       <button class="btn-cancel" id="modal-cancel" type="button">Go back</button>
-      <button class="btn-confirm" id="modal-confirm" type="button">Confirm & Submit →</button>
+      <button class="btn-confirm" id="modal-confirm" type="button">Confirm &amp; Submit →</button>
     </div>
   </div>
 </div>
@@ -531,126 +1001,298 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assessment/submit-validation.js"></script>
 <script src="script-y9.js"></script>
+
+<!-- Q26 interactive graph tracker and controller -->
 <script>
-/* Y9_ENTRY_EN_V1 style-fixed review override.
-   Keeps old page shell, but locks the new 32-question field contract and review-only submit payload.
-*/
-(function(){
-  const TOTAL_QUESTIONS = 32;
-  const ASSESSMENT_CODE = "Y9_ENTRY_EN_V1";
-  const FIELD_IDS = [
-    "Y9_QA1_answer","Y9_QA2_answer","Y9_QA3_answer","Y9_QA4_answer","Y9_QA5_answer","Y9_QA6_answer","Y9_QA7_answer","Y9_QA8_answer","Y9_QA9_answer","Y9_QA10_answer",
-    "Y9_QB1_answer","Y9_QB2_answer","Y9_QB3_answer","Y9_QB4_answer","Y9_QB5_answer","Y9_QB6_answer","Y9_QB7_answer","Y9_QB8_answer","Y9_QB9_answer","Y9_QB10_answer","Y9_QB11_answer","Y9_QB12_answer","Y9_QB13_answer","Y9_QB14_answer","Y9_QB15_answer",
-    "Y9_QC1_a_conductor1_answer","Y9_QC1_a_conductor2_answer","Y9_QC1_b_answer","Y9_QC1_c_answer","Y9_QC1_d_answer",
-    "Y9_QC2_a_answer","Y9_QC2_b_answer","Y9_QC2_c_answer","Y9_QC2_d_answer","Y9_QC2_e_answer",
-    "Y9_QC3_a_answer","Y9_QC3_b_ball1_answer","Y9_QC3_b_ball2_answer","Y9_QC3_c_answer","Y9_QC3_d_answer",
-    "Y9_QD1_a_answer","Y9_QD1_b_answer","Y9_QD1_c_answer","Y9_QD1_d_answer","Y9_QD1_e_answer","Y9_QD2_a_answer","Y9_QD2_b_answer","Y9_QD2_c_answer","Y9_QD2_d_answer","Y9_QD2_e_answer","Y9_QD3_a_answer","Y9_QD3_b_answer","Y9_QD3_c_answer","Y9_QD3_d_answer","Y9_QD3_e_answer","Y9_QD4_a_answer","Y9_QD4_b_answer","Y9_QD4_c_answer","Y9_QD4_d_answer","Y9_QD4_e_answer"
-  ];
+(function () {
+  /* ── Calibration ── */
+  var ORIGIN_PX   = { x: 70,  y: 430 };
+  var PX_PER_UNIT = { x: 100, y: 400 / 14 }; /* ≈28.571 */
+  var ERASER_PX_RADIUS = 14;
 
-  function qAnswered(block){
-    const fields = block.querySelectorAll("input, textarea, select");
-    for (const el of fields){
-      if (el.type === "radio" || el.type === "checkbox"){
-        if (el.checked) return true;
-      } else if ((el.value || "").trim() !== "") return true;
-    }
-    return false;
-  }
+  /* ── Q26Tracker module ── */
+  var plottedPoints = [];
+  var bestFitLine   = null;
 
-  function answeredCount(){
-    return Array.from(document.querySelectorAll(".question-block")).filter(qAnswered).length;
-  }
-
-  function setText(id, value){
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  }
-
-  function updateProgress(){
-    const answered = answeredCount();
-    const pct = Math.round((answered / TOTAL_QUESTIONS) * 100);
-    setText("answered-count", answered);
-    setText("submit-answered", `${answered} of ${TOTAL_QUESTIONS}`);
-    setText("fp-text", `${answered} / ${TOTAL_QUESTIONS} answered`);
-    setText("modal-answered", answered);
-    setText("modal-unanswered", TOTAL_QUESTIONS - answered);
-    const progressFill = document.getElementById("progress-fill");
-    const fpFill = document.getElementById("fp-fill");
-    if (progressFill) progressFill.style.width = pct + "%";
-    if (fpFill) fpFill.style.width = pct + "%";
-  }
-
-  function getResponses(){
-    const responses = {};
-    FIELD_IDS.forEach(id => {
-      const radios = document.querySelectorAll(`input[type="radio"][name="${id}"]`);
-      if (radios.length){
-        const checked = Array.from(radios).find(r => r.checked);
-        responses[id] = checked ? checked.value : "";
-        return;
-      }
-      const checks = document.querySelectorAll(`input[type="checkbox"][name="${id}"]`);
-      if (checks.length){
-        responses[id] = Array.from(checks).filter(c => c.checked).map(c => c.value);
-        return;
-      }
-      const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
-      responses[id] = el ? (el.value || "") : "";
-    });
-    return responses;
-  }
-
-  window.SCISPARK_Y9_ENTRY_PAYLOAD = function(){
+  function pxToGraph(pxX, pxY) {
     return {
-      assessment_code: ASSESSMENT_CODE,
-      assessment_version: "v7_q32_clean_table_review",
-      student: {
-        student_id: "",
-        student_name: "",
-        school_year: "Year 9 Entry"
-      },
-      responses: getResponses(),
-      client_meta: {
-        form_language: "English",
-        completion_status: "submitted",
-        field_count: FIELD_IDS.length,
-        question_count: TOTAL_QUESTIONS,
-        total_marks: 60
-      }
+      x: (pxX - ORIGIN_PX.x) / PX_PER_UNIT.x,
+      y: (ORIGIN_PX.y - pxY) / PX_PER_UNIT.y
     };
+  }
+  function roundHalf(v) { return Math.round(v * 2) / 2; }
+
+  function syncFields() {
+    var ptsField  = document.getElementById('Y9_Q26b_plotted_points');
+    var lineField = document.getElementById('Y9_Q26b_best_fit_line');
+    if (ptsField)  ptsField.value  = JSON.stringify(plottedPoints);
+    if (lineField) lineField.value = bestFitLine ? JSON.stringify(bestFitLine) : '';
+    /* notify progress tracker */
+    document.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function pointToSegmentDist(p, a, b) {
+    var dx = b.x - a.x, dy = b.y - a.y, lenSq = dx * dx + dy * dy;
+    if (lenSq === 0) return Math.hypot(p.x - a.x, p.y - a.y);
+    var t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / lenSq));
+    return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+  }
+
+  window.Q26Tracker = {
+    recordPoint: function (pxX, pxY) {
+      var g = pxToGraph(pxX, pxY);
+      plottedPoints.push({ x: roundHalf(g.x), y: roundHalf(g.y) });
+      syncFields();
+    },
+    recordLine: function (startPx, endPx) {
+      var s = pxToGraph(startPx.x, startPx.y);
+      var e = pxToGraph(endPx.x,   endPx.y);
+      bestFitLine = {
+        start: { x: roundHalf(s.x), y: roundHalf(s.y) },
+        end:   { x: roundHalf(e.x), y: roundHalf(e.y) }
+      };
+      syncFields();
+    },
+    eraseAt: function (pxX, pxY) {
+      var radiusU = ERASER_PX_RADIUS / PX_PER_UNIT.x;
+      var center  = pxToGraph(pxX, pxY);
+      plottedPoints = plottedPoints.filter(function (p) {
+        return Math.hypot(p.x - center.x, p.y - center.y) > radiusU;
+      });
+      if (bestFitLine && pointToSegmentDist(center, bestFitLine.start, bestFitLine.end) < radiusU) {
+        bestFitLine = null;
+      }
+      syncFields();
+    },
+    reset: function () { plottedPoints = []; bestFitLine = null; syncFields(); }
   };
 
-  function showModal(){
-    updateProgress();
-    const timer = document.getElementById("timer");
-    setText("modal-time", timer ? timer.textContent : "--:--");
-    const modal = document.getElementById("modal-overlay");
-    if (modal) modal.classList.add("active");
-  }
-  function hideModal(){
-    const modal = document.getElementById("modal-overlay");
-    if (modal) modal.classList.remove("active");
-  }
-  function showSuccess(){
-    const payload = window.SCISPARK_Y9_ENTRY_PAYLOAD();
-    console.log("Y9_ENTRY_EN_V1 payload", payload);
-    const success = document.getElementById("success-screen");
-    if (success) success.classList.add("active");
+  /* ── Grid drawing ── */
+  function drawGrid(ctx) {
+    var W = 700, H = 480;
+    ctx.clearRect(0, 0, W, H);
+
+    /* background */
+    ctx.fillStyle = '#fffaf4';
+    ctx.fillRect(0, 0, W, H);
+
+    /* gridlines */
+    ctx.strokeStyle = '#ddd';
+    ctx.lineWidth = 1;
+    for (var xi = 0; xi <= 6; xi++) {
+      var px = ORIGIN_PX.x + xi * PX_PER_UNIT.x;
+      ctx.beginPath(); ctx.moveTo(px, 30); ctx.lineTo(px, ORIGIN_PX.y); ctx.stroke();
+    }
+    for (var yi = 0; yi <= 14; yi += 2) {
+      var py = ORIGIN_PX.y - yi * PX_PER_UNIT.y;
+      ctx.beginPath(); ctx.moveTo(ORIGIN_PX.x, py); ctx.lineTo(670, py); ctx.stroke();
+    }
+
+    /* axes */
+    ctx.strokeStyle = '#555';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ORIGIN_PX.x, 25);
+    ctx.lineTo(ORIGIN_PX.x, ORIGIN_PX.y);
+    ctx.lineTo(675, ORIGIN_PX.y);
+    ctx.stroke();
+
+    /* axis tick labels */
+    ctx.fillStyle = '#444';
+    ctx.font = '13px "DM Sans", sans-serif';
+    ctx.textAlign = 'center';
+    for (var xi2 = 0; xi2 <= 6; xi2++) {
+      ctx.fillText(xi2, ORIGIN_PX.x + xi2 * PX_PER_UNIT.x, ORIGIN_PX.y + 18);
+    }
+    ctx.textAlign = 'right';
+    for (var yi2 = 0; yi2 <= 14; yi2 += 2) {
+      ctx.fillText(yi2, ORIGIN_PX.x - 6, ORIGIN_PX.y - yi2 * PX_PER_UNIT.y + 4);
+    }
+
+    /* axis title — x */
+    ctx.textAlign = 'center';
+    ctx.font = '13px "DM Sans", sans-serif';
+    ctx.fillText('number of lamps', 370, 472);
+
+    /* axis title — y (rotated) */
+    ctx.save();
+    ctx.translate(16, 230);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('current / A', 0, 0);
+    ctx.restore();
   }
 
-  document.addEventListener("input", updateProgress, true);
-  document.addEventListener("change", updateProgress, true);
+  /* ── Canvas controller ── */
+  var gridCanvas = document.getElementById('q26-grid');
+  var drawCanvas = document.getElementById('q26-draw');
+  if (!gridCanvas || !drawCanvas) return;
 
-  ["submit-btn","submit-btn-sm"].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) btn.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); showModal(); }, true);
+  var gCtx = gridCanvas.getContext('2d');
+  var dCtx = drawCanvas.getContext('2d');
+
+  drawGrid(gCtx);
+
+  var mode     = 'pencil';
+  var drawing  = false;
+  var start    = null;
+  var lastPos  = null;
+  var snapshot = null;
+  var undoStack = [];
+  var MAX_UNDO  = 20;
+
+  function pushUndo() {
+    undoStack.push(dCtx.getImageData(0, 0, 700, 480));
+    if (undoStack.length > MAX_UNDO) undoStack.shift();
+  }
+
+  function getPos(e) {
+    var rect = drawCanvas.getBoundingClientRect();
+    var p = e.touches ? e.touches[0] : e;
+    return {
+      x: (p.clientX - rect.left) * (drawCanvas.width  / rect.width),
+      y: (p.clientY - rect.top)  * (drawCanvas.height / rect.height)
+    };
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('q26-pencil')?.classList.toggle('q26-active', mode === 'pencil');
+    document.getElementById('q26-ruler')?.classList.toggle('q26-active',  mode === 'ruler');
+    document.getElementById('q26-eraser')?.classList.toggle('q26-active', mode === 'eraser');
+    drawCanvas.style.cursor = mode === 'eraser' ? 'cell' : 'crosshair';
+  }
+
+  function startDraw(e) {
+    if (e.target !== drawCanvas) return;
+    e.preventDefault();
+    pushUndo();
+    drawing = true;
+    start = getPos(e);
+    dCtx.setLineDash([]);
+    dCtx.lineCap  = 'round';
+    dCtx.lineJoin = 'round';
+
+    if (mode === 'pencil') {
+      dCtx.globalCompositeOperation = 'source-over';
+      dCtx.strokeStyle = '#1a1917';
+      dCtx.lineWidth   = 2;
+      dCtx.beginPath();
+      dCtx.moveTo(start.x, start.y);
+      Q26Tracker.recordPoint(start.x, start.y);
+    } else if (mode === 'ruler') {
+      dCtx.globalCompositeOperation = 'source-over';
+      dCtx.strokeStyle = '#1a1917';
+      dCtx.lineWidth   = 2;
+      snapshot = dCtx.getImageData(0, 0, 700, 480);
+    } else if (mode === 'eraser') {
+      dCtx.globalCompositeOperation = 'destination-out';
+      dCtx.lineWidth = 22;
+      dCtx.beginPath();
+      dCtx.moveTo(start.x, start.y);
+    }
+  }
+
+  function moveDraw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    var p = getPos(e);
+
+    if (mode === 'pencil') {
+      dCtx.lineTo(p.x, p.y);
+      dCtx.stroke();
+    } else if (mode === 'ruler' && snapshot) {
+      dCtx.putImageData(snapshot, 0, 0);
+      dCtx.beginPath();
+      dCtx.moveTo(start.x, start.y);
+      dCtx.lineTo(p.x, p.y);
+      dCtx.stroke();
+      lastPos = p;
+    } else if (mode === 'eraser') {
+      dCtx.lineTo(p.x, p.y);
+      dCtx.stroke();
+      Q26Tracker.eraseAt(p.x, p.y);
+    }
+  }
+
+  function endDraw() {
+    if (!drawing) return;
+    drawing = false;
+    dCtx.globalCompositeOperation = 'source-over';
+    if (mode === 'ruler' && start && lastPos) {
+      Q26Tracker.recordLine(start, lastPos);
+    }
+    snapshot = null;
+    start    = null;
+  }
+
+  function cancelDraw() {
+    if (!drawing) return;
+    drawing = false;
+    if (mode === 'ruler' && snapshot) dCtx.putImageData(snapshot, 0, 0);
+    snapshot = null;
+    start    = null;
+  }
+
+  document.getElementById('q26-pencil')?.addEventListener('click', function () { setMode('pencil'); });
+  document.getElementById('q26-ruler')?.addEventListener('click',  function () { setMode('ruler'); });
+  document.getElementById('q26-eraser')?.addEventListener('click', function () { setMode('eraser'); });
+
+  document.getElementById('q26-undo')?.addEventListener('click', function () {
+    if (undoStack.length > 0) {
+      dCtx.putImageData(undoStack.pop(), 0, 0);
+      Q26Tracker.reset();
+    }
   });
-  const cancel = document.getElementById("modal-cancel");
-  if (cancel) cancel.addEventListener("click", function(e){ e.preventDefault(); hideModal(); }, true);
-  const confirm = document.getElementById("modal-confirm");
-  if (confirm) confirm.addEventListener("click", function(e){ e.preventDefault(); hideModal(); showSuccess(); }, true);
 
-  updateProgress();
+  document.getElementById('q26-clear')?.addEventListener('click', function () {
+    dCtx.clearRect(0, 0, 700, 480);
+    Q26Tracker.reset();
+    undoStack = [];
+  });
+
+  drawCanvas.addEventListener('mousedown',  startDraw);
+  drawCanvas.addEventListener('mousemove',  moveDraw);
+  window.addEventListener('mouseup',        endDraw);
+  drawCanvas.addEventListener('mouseleave', cancelDraw);
+  drawCanvas.addEventListener('touchstart', startDraw, { passive: false });
+  drawCanvas.addEventListener('touchmove',  moveDraw,  { passive: false });
+  window.addEventListener('touchend',       endDraw);
+
+  setMode('pencil');
+
+  /* ── Responsive scaling ── */
+  (function scaleGraph() {
+    var wrap  = document.querySelector('.q26-final-graph-wrap');
+    if (!wrap) return;
+    var outer = wrap.parentElement;
+    var avail = outer.clientWidth;
+    var nat   = 700;
+    if (avail < nat) {
+      var scale = avail / nat;
+      wrap.style.transform       = 'scale(' + scale + ')';
+      wrap.style.transformOrigin = 'top left';
+      outer.style.height         = Math.round(480 * scale) + 'px';
+    } else {
+      wrap.style.transform = '';
+      outer.style.height   = '';
+    }
+  })();
+  window.addEventListener('resize', function () {
+    var wrap  = document.querySelector('.q26-final-graph-wrap');
+    if (!wrap) return;
+    var outer = wrap.parentElement;
+    var avail = outer.clientWidth;
+    var nat   = 700;
+    if (avail < nat) {
+      var scale = avail / nat;
+      wrap.style.transform       = 'scale(' + scale + ')';
+      wrap.style.transformOrigin = 'top left';
+      outer.style.height         = Math.round(480 * scale) + 'px';
+    } else {
+      wrap.style.transform = '';
+      outer.style.height   = '';
+    }
+  });
 })();
 </script>
 </body>
