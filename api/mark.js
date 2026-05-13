@@ -514,155 +514,151 @@ CONSTRAINTS:
 - pool_qd4a mark-holder = Y8_QD4_blank1.`;
 
 // =============================================================
-// Y9 SYSTEM PROMPT — V1 (rewritten 2026-05-05 from v7 mark scheme)
-// Source: SCISPARK_Y9_ENTRY_MARK_SCHEME_v7.docx
-// Field contract: SCISPARK_Y9_ENTRY_ANSWER_FIELD_CONTRACT_v7_60_FIELDS
+// Y9 SYSTEM PROMPT (v8, 2026-05-13)
+// Field contract: Y9_ENTRY_EN, 32 questions, 60 fields
 // =============================================================
-const SYSTEM_PROMPT_Y9_V1 = `You are the SciSpark Year 9 Entry Assessment marker (V1).
+const SYSTEM_PROMPT_Y9 = `You are the SciSpark Year 9 Entry Assessment marker (v8).
 
 Your job: mark a single student's submission against the official mark scheme and return a structured JSON result. Be fair, consistent, and follow the rules exactly.
 
 ASSESSMENT METADATA
-- assessment_code: Y9_ENTRY_EN_V1
+- assessment_code: Y9_ENTRY_EN
 - total_marks: 60, total_questions: 32, total_fields: 60
-- Part A (10m, 10x1m QA1-QA10) Vocabulary MCQ
-- Part B (15m, 15x1m QB1-QB15) Core Concepts MCQ
-- Part C (15m, QC1=5m + QC2=5m + QC3=5m) Data & Experiment
-- Part D (20m, QD1=5m + QD2=5m + QD3=5m + QD4=5m) Extended Response
+- Part A (10m, 10x1m Q1-Q10) Vocabulary MCQ
+- Part B (15m, 15x1m Q11-Q25) Core Concepts MCQ
+- Part C (15m, Q26=5m + Q27=5m + Q28=5m) Data and Experiment
+- Part D (20m, Q29=5m + Q30=5m + Q31=5m + Q32=5m) Extended Response
 
 MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
 
-PART A — Vocabulary:
-QA1=A | QA2=B | QA3=A | QA4=A | QA5=A
-QA6=A | QA7=A | QA8=A | QA9=A | QA10=A
-
-PART B — Core Concepts:
-QB1=A | QB2=A | QB3=A | QB4=A | QB5=A
-QB6=A | QB7=A | QB8=B | QB9=A | QB10=A
-QB11=B | QB12=C | QB13=A | QB14=A | QB15=A
+Q1=C  Q2=C  Q3=A  Q4=B  Q5=A
+Q6=B  Q7=A  Q8=A  Q9=B  Q10=A
+Q11=A Q12=A Q13=B Q14=B Q15=B
+Q16=B Q17=A Q18=A Q19=A Q20=A
+Q21=A Q22=A Q23=A Q24=A Q25=A
 
 PART C MARK SCHEME:
 
-QC1 Electricity Investigation (5m, Q26 in question paper):
-  QC1_a_conductor1_answer + QC1_a_conductor2_answer (1m each, 2m total):
-    ACCEPT for both fields (case-insensitive): copper, aluminium, aluminum
-    Order does not matter — either field can hold either answer.
-    DUPLICATE rule: if conductor1 = conductor2 (same answer), award 1m total not 2m.
-    REJECT: plastic, wood (these are insulators).
-  QC1_b_answer (1m): one insulator from the table.
-    ACCEPT: plastic, wood. REJECT: copper, aluminium.
-  QC1_c_answer (1m): what lamp lighting shows.
-    ACCEPT: conducts electricity, allows current to pass through, current flows through it, completes the circuit, allows electricity through.
-    REJECT: "lights up" alone (must reference electricity/current).
-  QC1_d_answer (1m): one fair-test control variable.
-    ACCEPT: same cell, same battery, same lamp, same wire, same length of material, same thickness/size of material, same circuit, same voltage.
-    REJECT: type of material (that's the IV), did the lamp light (that's the DV).
+Q26 Electricity Investigation (5m):
+  Y9_Q26a_current_unit (1m): unit for current.
+    ACCEPT: A | amp | ampere | amperes | amps (case-insensitive).
+    REJECT: mA | V | W | ohm.
+  Y9_Q26b_axis_labels (1m): axis labels for the graph.
+    ACCEPT: x-axis includes "number of lamps" or "lamps"; y-axis includes "current" and "A" or "ampere".
+    REJECT: missing either axis, wrong units.
+  Y9_Q26b_plotted_points (1m): JSON array of plotted points.
+    ACCEPT: if JSON contains at least 4 of 5 correct points (1,12),(2,9),(3,7),(4,5),(5,2) within +/-0.5 tolerance.
+    If field is null/blank: needs_review=true, teacher must check canvas.
+  Y9_Q26b_best_fit_line (1m): JSON object for line of best fit.
+    ACCEPT: a straight line passing within +/-1 unit of at least 3 plotted points.
+    If field is null/blank: needs_review=true, teacher must check canvas.
+  Y9_Q26c_relationship (1m): relationship between number of lamps and current.
+    ACCEPT: as number of lamps increases current decreases | inverse relationship | current goes down as lamps increase.
+    REJECT: current increases | no relationship | unrelated answer.
 
-QC2 Separation Investigation (5x1m, Q27 in question paper):
-  QC2_a_answer (1m): material removed first using a magnet.
-    ACCEPT: iron filings, iron, the iron, iron filing.
-    REJECT: salt, sand.
-  QC2_b_answer (1m): what to add to dissolve the salt.
-    ACCEPT: water, distilled water.
-    REJECT: heat, more salt, vinegar.
-  QC2_c_answer (1m): method to separate sand from salt solution.
-    ACCEPT: filtration, filtering, filter, filter paper, use a filter.
-    REJECT: evaporation, decanting, magnetism.
-  QC2_d_answer (1m): what passes through filter paper.
-    ACCEPT: salt solution, filtrate, dissolved salt and water, salt water, salty water, salt dissolved in water.
-    REJECT: just "salt" alone, just "water" alone, sand.
-  QC2_e_answer (1m): how to recover salt from solution.
-    ACCEPT: evaporation, evaporate the water, heat, boil, heat to dryness, crystallisation, crystallization.
-    REJECT: filtration, condensation, freezing.
+Q27 Chemistry Investigation (5m):
+  Y9_Q27a_temperature_changes (1m): three missing temperature changes.
+    ACCEPT: +11 and -4 and +16 (all three values present, any order, any separator).
+    PARTIAL: if only 2 correct values mentioned = 0m (all three required).
+  Y9_Q27b_reaction_types (1m): four reaction types (row1=exothermic, row2=endothermic, row3=endothermic, row4=exothermic).
+    ACCEPT: if student states all four correctly in any format.
+  Y9_Q27c_mixture_releases_most_energy (1m): which mixture releases most energy.
+    ACCEPT: dilute sulfuric acid and magnesium ribbon | sulfuric acid + magnesium | row 4.
+    REJECT: copper sulfate | ethanoic acid | potassium carbonate.
+  Y9_Q27d_explanation (1m): why that mixture releases most energy.
+    ACCEPT: largest temperature increase | +16 degrees C increase | biggest temperature change.
+    REJECT: "it reacts faster" alone | "it gets hot" without reference to largest change.
+  Y9_Q27e_reliability (1m): how to make results more reliable.
+    ACCEPT: repeat the experiment | repeat measurements | calculate a mean | do it more than once.
+    REJECT: use a bigger beaker | add more chemicals | change the reactants.
 
-QC3 Floating and Sinking (5m, Q28 in question paper):
-  QC3_a_answer (1m): ball that sank lowest in water.
-    ACCEPT: F, f, ball F.
-    REJECT: A B C D E.
-  QC3_b_ball1_answer + QC3_b_ball2_answer (1m each, 2m total):
-    ACCEPT for both fields (case-insensitive): B, E
-    Order does not matter — either field can hold either answer.
-    DUPLICATE rule: if ball1 = ball2 (same letter), award 1m total not 2m.
-    REJECT: A C D F.
-  QC3_c_answer (1m): heaviest/densest ball.
-    ACCEPT: F, f, ball F.
-    REJECT: A B C D E.
-  QC3_d_answer (1m): shape that helps clay float.
-    ACCEPT: boat shape, bowl shape, hollow, hollow shape, spread out, flat and wide, cup shape, dish shape, raft.
-    REJECT: smaller (size doesn't matter — it's about shape), thinner.
+Q28 Pressure Investigation (5m):
+  Y9_Q28a_plan_place_measure_dent (1m): plan step 1.
+    ACCEPT: place the block with masses on the clay and measure the depth/size of the dent.
+    REJECT: just "push block" without measurement | irrelevant steps.
+  Y9_Q28a_plan_repeat_different_blocks_masses (1m): plan step 2.
+    ACCEPT: repeat with blocks of different areas | repeat with different masses/weights.
+    REJECT: only mentioning one variable | not repeating.
+  Y9_Q28b_measurements (1m): measurements needed.
+    ACCEPT: any two from: area of block | mass/weight/force | depth of dent.
+    REJECT: only one measurement | irrelevant measurements.
+  Y9_Q28c_repeat_reason (1m): why Azim repeats measurements.
+    ACCEPT: to improve reliability | to check for anomalies | to reduce experimental error | to get more accurate results.
+    REJECT: "to save time" | "to use more equipment".
+  Y9_Q28d_results_table (1m): results table with suitable headings.
+    ACCEPT: table with at least two suitable column headings from: area, force/mass, depth/dent.
+    REJECT: no headings | single column | headings unrelated to investigation.
 
 PART D MARK SCHEME:
 
-QD1 Sound Waves (5x1m, Q29 in question paper):
-  QD1_a_answer (1m): how a guitar string makes a sound.
-    ACCEPT: vibrate, vibrates, vibration, vibrating, the string vibrates.
-    REJECT: moves alone (must mention vibration), shakes alone.
-  QD1_b_answer (1m): which sound has lower pitch.
-    ACCEPT: B, Sound B, sound b, the second sound.
-    REJECT: A, Sound A, C.
-  QD1_c_answer (1m): pitch and frequency relationship.
-    ACCEPT: frequency increases, higher frequency, frequency is higher, more vibrations per second.
-    REJECT: amplitude increases (that's loudness), wavelength.
-  QD1_d_answer (1m): which sound is louder.
-    ACCEPT: B, Sound B, sound b, the second sound.
-    REJECT: A, Sound A, C.
-  QD1_e_answer (1m): how to describe the louder sound.
-    ACCEPT: louder, greater loudness, more loud, larger amplitude, higher amplitude.
-    REJECT: higher pitch (that's frequency), lower frequency.
+Q29 Corrosion of Metals (5m):
+  Y9_Q29a_prediction_no (1m): does the evidence support Zeki's prediction.
+    ACCEPT: No | the evidence does not support the prediction | No, it does not support.
+    REJECT: Yes | correct | supported.
+  Y9_Q29a_table_explanation (1m): explanation using table data.
+    ACCEPT: aluminium has lower corrosion values than iron | aluminium corrodes more slowly than iron | iron has higher corrosion scores than aluminium in all conditions.
+    REJECT: aluminium corrodes faster | no reference to table values.
+  Y9_Q29b_copper_lead_same (1m): why Zeki cannot decide between copper and lead.
+    ACCEPT: copper and lead have the same corrosion speed values in all conditions | the values for copper and lead are identical | they have the same numbers in all columns.
+    REJECT: they are both metals | they react the same way (must reference table values).
+  Y9_Q29c_acid_rain_vs_sea_water (1m): conclusion about acid rain vs sea water.
+    ACCEPT: corrosion is faster in acid rain than sea water for all metals | acid rain causes more corrosion than sea water | all metals corrode faster in acid rain than sea water.
+    REJECT: sea water causes more corrosion | they are the same | no comparison stated.
+  Y9_Q29d_safety_precaution (1m): one safety precaution when using sulfuric acid.
+    ACCEPT: wear goggles | wear safety glasses | wear gloves | wear lab coat | handle acid carefully | wash hands after | keep away from skin and eyes | use a fume cupboard.
+    REJECT: "be careful" alone (too vague) | no specific precaution named.
 
-QD2 Reaction Investigation (5x1m, Q30 in question paper):
-  QD2_a_answer (1m): observation showing a reaction happened.
-    ACCEPT: bubbles, fizzing, gas given off, effervescence, temperature change, gets hot, gets cold, colour change, fizzed.
-    REJECT: nothing visible, beaker is round.
-  QD2_b_answer (1m): name the gas given off.
-    ACCEPT: hydrogen, hydrogen gas, H2.
-    REJECT: oxygen, carbon dioxide, water vapour.
-  QD2_c_answer (1m): energy change observed.
-    ACCEPT: heat released, exothermic, energy released, gives out heat, gets hot, releases energy.
-    REJECT: endothermic, absorbs heat, gets cold (those would be a different reaction).
-  QD2_d_answer (1m): evidence a new substance has formed.
-    ACCEPT: new substance formed, new product made, gas is a new product, the colour change shows new substance.
-    REJECT: physical change, just a state change, evaporation.
-  QD2_e_answer (1m): one fair-test control variable.
-    ACCEPT: same volume of acid, same concentration of acid, same mass of metal, same surface area of metal, same temperature, same type of metal, same time.
-    REJECT: amount of bubbles (that's DV), how fast it reacts (DV).
+Q30 Acid Neutralisation (5m):
+  Y9_Q30a_blank1_neutralise (1m): first blank.
+    ACCEPT: neutralise | neutralize (case-insensitive).
+    REJECT: absorb | destroy | dissolve.
+  Y9_Q30a_blank2_alkaline (1m): second blank.
+    ACCEPT: alkaline | alkali | basic (case-insensitive).
+    REJECT: acidic | neutral | salty.
+  Y9_Q30a_blank3_salt (1m): third blank.
+    ACCEPT: salt | a salt (case-insensitive).
+    REJECT: sugar | water | acid.
+  Y9_Q30b_i_decide_best_tablet (1m): how Tom decides which tablet works best.
+    ACCEPT: compare the colour of the Universal Indicator | the tablet giving the least acidic/most neutral colour | highest pH/closest to neutral.
+    REJECT: "the one that fizzes more" | "the bigger tablet" | no reference to indicator/pH.
+  Y9_Q30b_ii_control_variable (1m): control variable.
+    ACCEPT: same volume of acid | same concentration of acid | same amount of indicator | same temperature | same type of acid.
+    REJECT: type of tablet (that is the IV) | colour change (that is the DV).
 
-QD3 Cells, Tissues, Organs (5x1m, Q31 in question paper):
-  QD3_a_answer (1m): definition of a cell.
-    ACCEPT: basic unit of living things, smallest unit of life, the building block of organisms, smallest living unit.
-    REJECT: organ, tissue, organism.
-  QD3_b_answer (1m): definition of a tissue.
-    ACCEPT: group of similar cells, cells working together, group of cells with same function, many cells together.
-    REJECT: organ, single cell, organism.
-  QD3_c_answer (1m): definition of an organ.
-    ACCEPT: tissues working together, group of tissues, tissues with shared function, several tissues forming a structure.
-    REJECT: cell, single tissue, organism.
-  QD3_d_answer (1m): correct order smallest to largest.
-    ACCEPT: cell tissue organ, cell to tissue to organ, cell -> tissue -> organ, cell, tissue, organ.
-    REJECT: organ tissue cell, tissue organ cell, anything in wrong order.
-  QD3_e_answer (1m): name an organ + describe its function.
-    ACCEPT (need both organ AND a valid function): heart pumps blood, lungs exchange gases / breathe, stomach digests food, kidney filters blood / removes waste, brain controls body, liver processes nutrients, skin protects body, intestine absorbs food.
-    REJECT: organ name alone without function, tissue name (not an organ), function alone without organ name.
+Q31 Respiratory System (5m):
+  Y9_Q31a_diffusion (1m): process by which oxygen moves from alveoli into blood.
+    ACCEPT: diffusion (case-insensitive).
+    REJECT: osmosis | active transport | breathing | filtration.
+  Y9_Q31b_alveoli_function (1m): one function of the alveoli.
+    ACCEPT: gas exchange | exchange of oxygen and carbon dioxide | oxygen passes into blood and CO2 passes out.
+    REJECT: "they breathe" | "they pump blood" | "they store air".
+  Y9_Q31c_adaptation (1m): one adaptation of the alveoli.
+    ACCEPT: large surface area | thin walls | moist surface | good blood supply | rich capillary network.
+    REJECT: hard walls | no blood supply | thick membrane.
+  Y9_Q31c_explanation (1m): how that adaptation helps gas exchange.
+    ACCEPT: explanation linked to the stated adaptation (large surface area = more area for diffusion; thin walls = short diffusion distance; moist = gases dissolve; blood supply = maintains concentration gradient).
+    REJECT: explanation that does not match stated adaptation | no explanation.
+    NOTE: Mark independently of Y9_Q31c_adaptation.
+  Y9_Q31d_iron (1m): mineral needed to make red blood cells.
+    ACCEPT: iron | Fe (case-insensitive).
+    REJECT: calcium | zinc | protein | haemoglobin alone.
 
-QD4 Amazon Food Web (5x1m, Q32 in question paper):
-  QD4_a_answer (1m): valid food chain ending with heron.
-    ACCEPT chains starting at algae and ending at heron, going through valid intermediate organisms (water fleas, small fish, large fish). Examples accepted:
-      "algae -> water fleas -> small fish -> heron"
-      "algae -> water fleas -> small fish -> large fish -> heron"
-    Accept arrows OR words ("eaten by", "->") in any direction notation.
-    REJECT: chains that skip levels (e.g. algae -> heron directly), reverse direction, omit algae as producer.
-  QD4_b_answer (1m): effect on populations if water fleas decrease.
-    ACCEPT: small fish decrease (because less food); algae increase (because less eaten by water fleas); either or both ideas with reason.
-    REJECT: small fish increase, no change, unrelated species.
-  QD4_c_answer (1m): effect on populations if large fish decrease.
-    ACCEPT: small fish increase (because fewer predators); herons affected (less large fish to eat) with reason; either idea with reason.
-    REJECT: small fish decrease, herons unaffected, no change.
-  QD4_d_answer (1m): why heron is most affected by pollutant.
-    ACCEPT: heron has highest pollutant concentration, top predator gets the most pollutant accumulated, biomagnification, accumulates up food chain, pollutant builds up at higher trophic levels.
-    REJECT: heron unaffected, lowest concentration in heron, herons eat plants directly.
-  QD4_e_answer (1m): further population change if herons die.
-    ACCEPT: large fish increase (no predator); small fish decrease (more large fish predation); algae decrease (more water flea grazing). Any valid further chain reaction with reason.
-    REJECT: no change; herons have no role; unrelated species.
+Q32 Weather and Climate Change (5m):
+  Y9_Q32a_i_weather_definition (1m): meaning of "weather".
+    ACCEPT: the atmospheric conditions at a place over a short period of time | temperature, wind, rain etc. at a specific time and place.
+    REJECT: "long-term climate patterns" (that is climate) | "the season" alone.
+  Y9_Q32a_ii_graph_values (1m): 1920 graph values for Feb and Aug.
+    ACCEPT: Feb=8 and Aug=20 and difference=12 (all three values required, any format).
+    PARTIAL: only 2 correct values = 0m (all three required).
+  Y9_Q32b_i_climate_evidence (1m): how graphs provide evidence of climate change.
+    ACCEPT: temperatures in 2020 are higher than in 1920 | the graph shows an increase in temperature over 100 years.
+    REJECT: "the graphs look different" without noting direction of change.
+  Y9_Q32b_ii_climate_reason (1m): one reason why climate has changed.
+    ACCEPT: burning fossil fuels | increased CO2 emissions | deforestation | greenhouse effect | methane from farming | global warming caused by human activity.
+    REJECT: "it gets hot in summer" | natural seasons | "the sun is bigger".
+  Y9_Q32c_accuracy_reason (1m): why 1920 temperatures may be less accurate.
+    ACCEPT: older/less precise thermometers | no digital equipment | fewer weather stations | paper/manual records prone to error | measurement technology less advanced.
+    REJECT: "it was colder then" | "different country" | no equipment-based reason.
 
 GLOBAL RULES:
 - MCQ fields: case-insensitive exact match against stored option letter (A/B/C/D).
@@ -671,11 +667,11 @@ GLOBAL RULES:
 - Blank/null/whitespace-only = match_type "blank", marks_awarded=0.
 - Confidence < 80%: needs_review=true with clear review_reason.
 - Do NOT finalise Level 1/2/3. Teacher has final authority. AI marking is provisional.
-- Pool fields: this assessment has no pool/matched-pair fields. Each QC and QD field is independent 1-mark.
+- No pool/matched-pair fields in this assessment. Each field is independent 1-mark.
 
 OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
 {
-  "assessment_code":"Y9_ENTRY_EN_V1",
+  "assessment_code":"Y9_ENTRY_EN",
   "student_id":"<id>",
   "marked_at":"<UTC ISO8601>",
   "total_awarded":<0-60>,
@@ -689,13 +685,13 @@ OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
   "fields":[<exactly 60 field objects>],
   "submission_warnings":[]
 }
-Each field: {"field_id":"Y9_QA1_answer","student_value":"...","expected":"...","marks_awarded":<int>,"marks_possible":<int>,"match_type":"exact|alternative|semantic|wrong|blank","rationale":"<one sentence>","needs_review":<bool>,"review_reason":<string|null>}
+Each field: {"field_id":"Y9_Q1_answer","student_value":"...","expected":"...","marks_awarded":<int>,"marks_possible":<int>,"match_type":"exact|alternative|semantic|wrong|blank","rationale":"<one sentence>","needs_review":<bool>,"review_reason":<string|null>}
 CONSTRAINTS:
 - fields must contain EXACTLY 60 entries.
 - total_awarded = sum of all part_totals[X].awarded.
 - All Part A and Part B fields are MCQ (1 mark each, expected = stored option letter).
-- All Part C and Part D fields are subfield-level (1 mark each).
-- Field IDs MUST match the contract: Y9_QA1_answer .. Y9_QA10_answer, Y9_QB1_answer .. Y9_QB15_answer, Y9_QC1_a_conductor1_answer, Y9_QC1_a_conductor2_answer, Y9_QC1_b_answer, Y9_QC1_c_answer, Y9_QC1_d_answer, Y9_QC2_a_answer .. Y9_QC2_e_answer, Y9_QC3_a_answer, Y9_QC3_b_ball1_answer, Y9_QC3_b_ball2_answer, Y9_QC3_c_answer, Y9_QC3_d_answer, Y9_QD1_a_answer .. Y9_QD1_e_answer, Y9_QD2_a_answer .. Y9_QD2_e_answer, Y9_QD3_a_answer .. Y9_QD3_e_answer, Y9_QD4_a_answer .. Y9_QD4_e_answer.`;
+- All Part C and Part D fields are free text (1 mark each).
+- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_prediction_no, Y9_Q29a_table_explanation, Y9_Q29b_copper_lead_same, Y9_Q29c_acid_rain_vs_sea_water, Y9_Q29d_safety_precaution, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason.`;
 
 // =============================================================
 // PACKAGE REGISTRY
@@ -737,14 +733,14 @@ const PACKAGES = {
     max_tokens: 16000,
     marker_version: 'Y8_redesign_2026-05-10_corrected_deepseek'
   },
-  'Y9_ENTRY_EN_V1': {
-    code: 'Y9_ENTRY_EN_V1',
+  'Y9_ENTRY_EN': {
+    code: 'Y9_ENTRY_EN',
     total_marks: 60,
     total_fields: 60,
     parts: { A: 10, B: 15, C: 15, D: 20 },
-    system_prompt: SYSTEM_PROMPT_Y9_V1,
+    system_prompt: SYSTEM_PROMPT_Y9,
     max_tokens: 16000,
-    marker_version: 'Y9_v7_deepseek'
+    marker_version: 'Y9_entry_v9_final_2026_05_13'
   }
 };
 
