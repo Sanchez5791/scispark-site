@@ -532,7 +532,7 @@ ASSESSMENT METADATA
 MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
 
 Q1=C  Q2=C  Q3=A  Q4=B  Q5=A
-Q6=B  Q7=A  Q8=B  Q9=B  Q10=A
+Q6=B  Q7=A  Q8=A  Q9=B  Q10=A
 Q11=A Q12=A Q13=B Q14=B Q15=B
 Q16=B Q17=A Q18=A Q19=A Q20=A
 Q21=A Q22=A Q23=A Q24=A Q25=A
@@ -591,22 +591,22 @@ Q28 Pressure Investigation (5m):
 
 PART D MARK SCHEME:
 
-Q29 Sound Waves (5m):
-  Y9_Q29a_vibration (1m): what an object must do to make a sound.
-    ACCEPT: vibrate | vibration | vibrating | the object must vibrate.
-    REJECT: move (without vibration) | shake alone | make contact.
-  Y9_Q29b_higher_pitch (1m): which sound has higher pitch.
-    ACCEPT: Sound B | B | the second sound.
-    REJECT: Sound A | A.
-  Y9_Q29c_pitch_explanation (1m): explanation for higher pitch.
-    ACCEPT: Sound B has higher frequency | waves are closer together meaning higher frequency | more vibrations per second.
-    REJECT: "it is louder" | "bigger amplitude" (amplitude is loudness not pitch).
-  Y9_Q29d_louder_sound (1m): which sound is louder.
-    ACCEPT: Sound B | B | the second sound.
-    REJECT: Sound A | A.
-  Y9_Q29e_loudness_explanation (1m): explanation for louder sound.
-    ACCEPT: Sound B has greater amplitude | taller waves | larger amplitude.
-    REJECT: "higher frequency" (that is pitch) | "closer together" (that is pitch).
+Q29 Corrosion of Metals (5m):
+  Y9_Q29a_prediction_no (1m): does the evidence support Zeki's prediction.
+    ACCEPT: No | the evidence does not support the prediction | No, it does not support.
+    REJECT: Yes | correct | supported.
+  Y9_Q29a_table_explanation (1m): explanation using table data.
+    ACCEPT: aluminium has lower corrosion values than iron | aluminium corrodes more slowly than iron | iron has higher corrosion scores than aluminium in all conditions.
+    REJECT: aluminium corrodes faster | no reference to table values.
+  Y9_Q29b_copper_lead_same (1m): why Zeki cannot decide between copper and lead.
+    ACCEPT: copper and lead have the same corrosion speed values in all conditions | the values for copper and lead are identical | they have the same numbers in all columns.
+    REJECT: they are both metals | they react the same way (must reference table values).
+  Y9_Q29c_acid_rain_vs_sea_water (1m): conclusion about acid rain vs sea water.
+    ACCEPT: corrosion is faster in acid rain than sea water for all metals | acid rain causes more corrosion than sea water | all metals corrode faster in acid rain than sea water.
+    REJECT: sea water causes more corrosion | they are the same | no comparison stated.
+  Y9_Q29d_safety_precaution (1m): one safety precaution when using sulfuric acid.
+    ACCEPT: wear goggles | wear safety glasses | wear gloves | wear lab coat | handle acid carefully | wash hands after | keep away from skin and eyes | use a fume cupboard.
+    REJECT: "be careful" alone (too vague) | no specific precaution named.
 
 Q30 Acid Neutralisation (5m):
   Y9_Q30a_blank1_neutralise (1m): first blank.
@@ -691,7 +691,7 @@ CONSTRAINTS:
 - total_awarded = sum of all part_totals[X].awarded.
 - All Part A and Part B fields are MCQ (1 mark each, expected = stored option letter).
 - All Part C and Part D fields are free text (1 mark each).
-- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_vibration, Y9_Q29b_higher_pitch, Y9_Q29c_pitch_explanation, Y9_Q29d_louder_sound, Y9_Q29e_loudness_explanation, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason.`;
+- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_prediction_no, Y9_Q29a_table_explanation, Y9_Q29b_copper_lead_same, Y9_Q29c_acid_rain_vs_sea_water, Y9_Q29d_safety_precaution, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason.`;
 
 // =============================================================
 // PACKAGE REGISTRY
@@ -740,7 +740,7 @@ const PACKAGES = {
     parts: { A: 10, B: 15, C: 15, D: 20 },
     system_prompt: SYSTEM_PROMPT_Y9,
     max_tokens: 16000,
-    marker_version: 'Y9_entry_v8_final_2026_05_13'
+    marker_version: 'Y9_entry_v9_final_2026_05_13'
   }
 };
 
