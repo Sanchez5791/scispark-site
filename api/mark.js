@@ -1,4 +1,4 @@
-﻿// api/mark.js — SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
+// api/mark.js — SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
 // Vercel serverless function
 // Called by Supabase webhook when new assessment_attempt is inserted
 // 2026-05-02 — Updated to use DeepSeek V4 Flash for all marking
@@ -609,18 +609,18 @@ Q29 Corrosion of Metals (5m):
     REJECT: "be careful" alone (too vague) | no specific precaution named.
 
 Q30 Acid Neutralisation (5m):
-  Y9_Q30a_blank1_neutralise (1m): first blank.
-    ACCEPT: neutralise | neutralize (case-insensitive).
-    REJECT: absorb | destroy | dissolve.
-  Y9_Q30a_blank2_alkaline (1m): second blank.
-    ACCEPT: alkaline | alkali | basic (case-insensitive).
-    REJECT: acidic | neutral | salty.
-  Y9_Q30a_blank3_salt (1m): third blank.
-    ACCEPT: salt | a salt (case-insensitive).
-    REJECT: sugar | water | acid.
-  Y9_Q30b_i_decide_best_tablet (1m): how Tom decides which tablet works best.
-    ACCEPT: compare the colour of the Universal Indicator | the tablet giving the least acidic/most neutral colour | highest pH/closest to neutral.
-    REJECT: "the one that fizzes more" | "the bigger tablet" | no reference to indicator/pH.
+  Y9_Q30a_all_three_blanks (1m): all three blanks combined (pipe-separated: b1|b2|b3).
+    ACCEPT: award 1 if answer contains all three: neutralise/neutralizes AND alkaline AND salt.
+    REJECT: award 0 if any one is missing or wrong.
+  Y9_Q30b_i_indicator_compare (1m): what Tom uses to compare the tablets.
+    ACCEPT: Universal Indicator | indicator | pH | colour (case-insensitive).
+    REJECT: no mention of indicator, pH, or colour.
+  Y9_Q30b_i_least_acidic_neutral (1m): what Tom looks for.
+    ACCEPT: least acidic | closest to neutral | green | highest pH (case-insensitive).
+    REJECT: vague answers with no reference to acidity/neutrality/pH/colour.
+  Y9_Q30b_i_greatest_neutralisation (1m): what the best tablet shows.
+    ACCEPT: greatest neutralisation | biggest colour change | most change away from acidic (case-insensitive).
+    REJECT: vague answers | no reference to neutralisation or colour change.
   Y9_Q30b_ii_control_variable (1m): control variable.
     ACCEPT: same volume of acid | same concentration of acid | same amount of indicator | same temperature | same type of acid.
     REJECT: type of tablet (that is the IV) | colour change (that is the DV).
@@ -740,7 +740,7 @@ const PACKAGES = {
     parts: { A: 10, B: 15, C: 15, D: 20 },
     system_prompt: SYSTEM_PROMPT_Y9,
     max_tokens: 16000,
-    marker_version: 'Y9_entry_v9_final_2026_05_13'
+    marker_version: 'Y9_entry_v10_final_2026_05_14'
   }
 };
 

@@ -736,20 +736,31 @@ ${FAVICON_BLOCK}
           </div>
           <p class="fill-sentence">
             Indigestion tablets
-            <input type="text" class="inline-blank" id="Y9_Q30a_blank1_neutralise" name="Y9_Q30a_blank1_neutralise" autocomplete="off">
+            <input type="text" class="inline-blank" id="q30_b1" autocomplete="off" oninput="syncQ30a()">
             the acid in the stomach because indigestion tablets are
-            <input type="text" class="inline-blank" id="Y9_Q30a_blank2_alkaline" name="Y9_Q30a_blank2_alkaline" autocomplete="off">.
+            <input type="text" class="inline-blank" id="q30_b2" autocomplete="off" oninput="syncQ30a()">.
             Indigestion tablets react with the acid to form water and a
-            <input type="text" class="inline-blank" id="Y9_Q30a_blank3_salt" name="Y9_Q30a_blank3_salt" autocomplete="off">.
+            <input type="text" class="inline-blank" id="q30_b3" autocomplete="off" oninput="syncQ30a()">.
           </p>
+          <input type="hidden" id="Y9_Q30a_all_three_blanks" name="Y9_Q30a_all_three_blanks">
         </div>
 
         <p class="question-text" style="margin-top:14px">Tom investigates two different indigestion tablets. He adds 3 drops of Universal Indicator solution to 50 cm³ of acid. Tom adds one indigestion tablet and stirs. He repeats this for the other indigestion tablet.</p>
 
         <div class="sub-question">
-          <div class="sub-label"><span class="sub-letter">(b)(i)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_Q30b_i_decide_best_tablet">How can Tom decide which tablet gets rid of the most acid?</label>
-          <input type="text" class="text-input" id="Y9_Q30b_i_decide_best_tablet" name="Y9_Q30b_i_decide_best_tablet">
+          <div class="sub-label"><span class="sub-letter">(b)(i)</span><span class="sub-marks">3 marks</span></div>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q30b_i_indicator_compare">What does Tom use to compare the tablets?</label>
+            <input type="text" class="text-input" id="Y9_Q30b_i_indicator_compare" name="Y9_Q30b_i_indicator_compare">
+          </div>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q30b_i_least_acidic_neutral">What does he look for? (e.g. least acidic / closest to neutral)</label>
+            <input type="text" class="text-input" id="Y9_Q30b_i_least_acidic_neutral" name="Y9_Q30b_i_least_acidic_neutral">
+          </div>
+          <div class="input-row">
+            <label class="input-label" for="Y9_Q30b_i_greatest_neutralisation">What does the best tablet show? (e.g. greatest neutralisation / biggest colour change away from acidic)</label>
+            <input type="text" class="text-input" id="Y9_Q30b_i_greatest_neutralisation" name="Y9_Q30b_i_greatest_neutralisation">
+          </div>
         </div>
 
         <div class="sub-question">
@@ -1228,6 +1239,14 @@ ${FAVICON_BLOCK}
     if (h) h.value = 'x: ' + x + ', y: ' + y;
   }
 })();
+</script>
+<script>
+function syncQ30a(){
+  var b1 = document.getElementById('q30_b1').value;
+  var b2 = document.getElementById('q30_b2').value;
+  var b3 = document.getElementById('q30_b3').value;
+  document.getElementById('Y9_Q30a_all_three_blanks').value = b1 + '|' + b2 + '|' + b3;
+}
 </script>
 </body>
 </html>
