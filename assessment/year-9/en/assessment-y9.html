@@ -687,7 +687,14 @@ ${FAVICON_BLOCK}
 
           <div class="picker-section" id="q28d-pickerSection">
             <div class="picker-label">Hover to choose size, click to confirm</div>
-            <div class="picker-grid" id="q28d-picker"></div>
+            <div class="picker-grid" id="q28d-picker">
+              <div class="picker-cell q28d-cell" data-row="0" data-col="0"></div><div class="picker-cell q28d-cell" data-row="0" data-col="1"></div><div class="picker-cell q28d-cell" data-row="0" data-col="2"></div><div class="picker-cell q28d-cell" data-row="0" data-col="3"></div><div class="picker-cell q28d-cell" data-row="0" data-col="4"></div><div class="picker-cell q28d-cell" data-row="0" data-col="5"></div><div class="picker-cell q28d-cell" data-row="0" data-col="6"></div><div class="picker-cell q28d-cell" data-row="0" data-col="7"></div>
+              <div class="picker-cell q28d-cell" data-row="1" data-col="0"></div><div class="picker-cell q28d-cell" data-row="1" data-col="1"></div><div class="picker-cell q28d-cell" data-row="1" data-col="2"></div><div class="picker-cell q28d-cell" data-row="1" data-col="3"></div><div class="picker-cell q28d-cell" data-row="1" data-col="4"></div><div class="picker-cell q28d-cell" data-row="1" data-col="5"></div><div class="picker-cell q28d-cell" data-row="1" data-col="6"></div><div class="picker-cell q28d-cell" data-row="1" data-col="7"></div>
+              <div class="picker-cell q28d-cell" data-row="2" data-col="0"></div><div class="picker-cell q28d-cell" data-row="2" data-col="1"></div><div class="picker-cell q28d-cell" data-row="2" data-col="2"></div><div class="picker-cell q28d-cell" data-row="2" data-col="3"></div><div class="picker-cell q28d-cell" data-row="2" data-col="4"></div><div class="picker-cell q28d-cell" data-row="2" data-col="5"></div><div class="picker-cell q28d-cell" data-row="2" data-col="6"></div><div class="picker-cell q28d-cell" data-row="2" data-col="7"></div>
+              <div class="picker-cell q28d-cell" data-row="3" data-col="0"></div><div class="picker-cell q28d-cell" data-row="3" data-col="1"></div><div class="picker-cell q28d-cell" data-row="3" data-col="2"></div><div class="picker-cell q28d-cell" data-row="3" data-col="3"></div><div class="picker-cell q28d-cell" data-row="3" data-col="4"></div><div class="picker-cell q28d-cell" data-row="3" data-col="5"></div><div class="picker-cell q28d-cell" data-row="3" data-col="6"></div><div class="picker-cell q28d-cell" data-row="3" data-col="7"></div>
+              <div class="picker-cell q28d-cell" data-row="4" data-col="0"></div><div class="picker-cell q28d-cell" data-row="4" data-col="1"></div><div class="picker-cell q28d-cell" data-row="4" data-col="2"></div><div class="picker-cell q28d-cell" data-row="4" data-col="3"></div><div class="picker-cell q28d-cell" data-row="4" data-col="4"></div><div class="picker-cell q28d-cell" data-row="4" data-col="5"></div><div class="picker-cell q28d-cell" data-row="4" data-col="6"></div><div class="picker-cell q28d-cell" data-row="4" data-col="7"></div>
+              <div class="picker-cell q28d-cell" data-row="5" data-col="0"></div><div class="picker-cell q28d-cell" data-row="5" data-col="1"></div><div class="picker-cell q28d-cell" data-row="5" data-col="2"></div><div class="picker-cell q28d-cell" data-row="5" data-col="3"></div><div class="picker-cell q28d-cell" data-row="5" data-col="4"></div><div class="picker-cell q28d-cell" data-row="5" data-col="5"></div><div class="picker-cell q28d-cell" data-row="5" data-col="6"></div><div class="picker-cell q28d-cell" data-row="5" data-col="7"></div>
+            </div>
             <div class="picker-readout" id="q28d-readout">&nbsp;</div>
           </div>
 
@@ -1170,9 +1177,6 @@ ${FAVICON_BLOCK}
 
 // Q28d Results Table Builder v2
 document.addEventListener('DOMContentLoaded', function () {
-  var MAX_COLS = 8;
-  var MAX_ROWS = 6;
-
   var picker        = document.getElementById('q28d-picker');
   var readout       = document.getElementById('q28d-readout');
   var pickerSection = document.getElementById('q28d-pickerSection');
@@ -1184,19 +1188,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!picker) return;
 
   var lastFocusedHeader = null;
-
-  function buildPicker() {
-    picker.innerHTML = '';
-    for (var r = 0; r < MAX_ROWS; r++) {
-      for (var c = 0; c < MAX_COLS; c++) {
-        var cell = document.createElement('div');
-        cell.className = 'picker-cell';
-        cell.dataset.row = r;
-        cell.dataset.col = c;
-        picker.appendChild(cell);
-      }
-    }
-  }
+  var pickerCells = document.querySelectorAll('.q28d-cell');
 
   function highlight(maxRow, maxCol) {
     var cells = picker.children;
@@ -1289,7 +1281,6 @@ document.addEventListener('DOMContentLoaded', function () {
     clearHighlight();
   });
 
-  buildPicker();
 });
 
 })();
