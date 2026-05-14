@@ -43,23 +43,28 @@ ${FAVICON_BLOCK}
     .q26-graph-toolbar button.q26-active{border-color:#1a1a1a;background:#1a1917;color:white}
     .q26-graph-outer{margin:8px 0}
     .q26-graph-hidden{display:none!important}
-    /* Table grid-picker widget (Q28d) */
-    .tpick-wrap{margin:10px 0}
-    .tpick-grid{display:inline-grid;grid-template-columns:repeat(5,22px);gap:3px;margin-bottom:6px;cursor:pointer}
-    .tpick-cell{width:22px;height:22px;border:1px solid #d6c8b8;border-radius:3px;background:#fff;transition:background .08s,border-color .08s}
-    .tpick-cell.hi{background:#f97316;border-color:#c2560a}
-    .tpick-dim{font-size:12px;color:#888;min-height:16px;margin-bottom:6px}
-    .tpick-mobile{display:none}
-    @media(pointer:coarse){.tpick-grid{display:none}.tpick-mobile{display:block}}
-    .tpick-mob-row{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}
-    .tpick-mob-btn{border:1px solid #d6c8b8;border-radius:6px;width:30px;height:30px;background:#fff;cursor:pointer;font-size:18px;line-height:1;padding:0}
-    .tpick-mob-confirm{margin-top:8px;border:1px solid #1a1917;border-radius:6px;padding:6px 16px;background:#1a1917;color:#fff;font:inherit;font-size:13px;cursor:pointer}
-    .tresult-wrap{overflow-x:auto;margin-top:6px}
-    .tresult{border-collapse:collapse;font-size:13px}
-    .tresult th{border:1px solid #888;background:#f7f4ef;padding:0;min-width:110px}
-    .tresult th input{width:100%;border:none;outline:none;background:transparent;padding:5px 7px;font:inherit;font-size:13px;text-align:center;box-sizing:border-box}
-    .tresult td{border:1px solid #ccc;height:26px;background:#fafafa;min-width:110px}
-    .tresult-reset{display:inline-block;margin-top:5px;font-size:12px;color:#666;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+    /* Q28d Results Table Builder v2 */
+    .picker-section{margin-top:8px}
+    .picker-label{font-size:13px;color:#666;margin-bottom:10px}
+    .picker-grid{display:grid;grid-template-columns:repeat(8,26px);grid-template-rows:repeat(6,26px);gap:3px;background:#F5F4F1;padding:8px;border-radius:6px;width:fit-content;user-select:none}
+    .picker-cell{background:#fff;border:1px solid #d0d0d0;border-radius:2px;cursor:pointer;transition:background .04s ease,border-color .04s ease}
+    .picker-cell.highlight{background:#EA580C;border-color:#C2410C}
+    .picker-readout{font-size:14px;color:#EA580C;font-weight:600;margin-top:10px;height:20px;letter-spacing:0.5px}
+    .built-section{margin-top:24px;display:none}
+    .built-section.show{display:block}
+    .built-table{border-collapse:collapse;margin-bottom:14px}
+    .built-table th,.built-table td{border:1.5px solid #999;padding:0;min-width:140px;height:38px;background:#fff}
+    .built-table th{background:#FFF7ED}
+    .built-table input.header-input{width:100%;height:100%;border:none;background:transparent;padding:6px 10px;box-sizing:border-box;font-weight:600;color:#1A1A1A;font-size:14px;outline:none;font-family:inherit}
+    .built-table input.header-input:focus{background:#FFEDD5}
+    .built-table input.header-input::placeholder{color:#b5b5b5;font-weight:400;font-style:italic}
+    .symbol-toolbar{display:flex;align-items:center;gap:6px;margin-bottom:14px;padding:8px 10px;background:#F5F4F1;border-radius:6px;width:fit-content}
+    .symbol-toolbar-label{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:0.8px;margin-right:4px}
+    .symbol-btn{min-width:34px;height:30px;padding:0 8px;background:#fff;border:1px solid #c8c8c8;border-radius:4px;cursor:pointer;font-size:15px;font-family:"Times New Roman",serif;color:#1A1A1A;transition:background .08s,transform .08s}
+    .symbol-btn:hover{background:#FFEDD5;border-color:#EA580C}
+    .symbol-btn:active{transform:scale(0.94)}
+    .reset-btn{background:#fff;border:1px solid #999;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;color:#1A1A1A;transition:background .1s}
+    .reset-btn:hover{background:#F5F4F1}
     /* Q32 SVG graphs */
     .svg-graphs-row{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}
     .svg-graph-box{flex:1;min-width:260px}
@@ -680,41 +685,29 @@ ${FAVICON_BLOCK}
           <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
           <label class="input-label">Draw a results table for Azim's investigation.</label>
 
-          <div id="q28d-picker">
-            <div id="q28d-grid" style="display:inline-grid;grid-template-columns:repeat(5,28px);gap:3px;cursor:pointer">
-              <div class="q28cell" data-r="1" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="1" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="1" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="1" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="1" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="2" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="2" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="2" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="2" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="2" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="3" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="3" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="3" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="3" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="3" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="4" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="4" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="4" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="4" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="4" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="5" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="5" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="5" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="5" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
-              <div class="q28cell" data-r="5" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+          <div class="picker-section" id="q28d-pickerSection">
+            <div class="picker-label">Hover to choose size, click to confirm</div>
+            <div class="picker-grid" id="q28d-picker"></div>
+            <div class="picker-readout" id="q28d-readout">&nbsp;</div>
+          </div>
+
+          <div class="built-section" id="q28d-builtSection">
+            <table class="built-table" id="q28d-builtTable"></table>
+            <div class="symbol-toolbar" id="q28d-symbolToolbar">
+              <span class="symbol-toolbar-label">Insert</span>
+              <button type="button" class="symbol-btn" data-sym="²" title="squared">x²</button>
+              <button type="button" class="symbol-btn" data-sym="³" title="cubed">x³</button>
+              <button type="button" class="symbol-btn" data-sym="°" title="degree">°</button>
+              <button type="button" class="symbol-btn" data-sym="⁻¹" title="per (inverse)">⁻¹</button>
+              <button type="button" class="symbol-btn" data-sym="·" title="middle dot">·</button>
+              <button type="button" class="symbol-btn" data-sym="/" title="per (slash)">/</button>
             </div>
-            <div id="q28d-size-label" style="font-size:12px;color:#EA580C;margin-top:6px">— col × — row</div>
+            <div class="controls">
+              <button type="button" class="reset-btn" id="q28d-resetBtn">↺ Reset</button>
+            </div>
           </div>
-          <div id="q28d-table-wrap" style="display:none;margin-top:10px">
-            <table id="q28d-table" style="border-collapse:collapse;width:100%"></table>
-            <div style="margin-top:6px"><a href="#" id="q28d-reset" style="font-size:12px;color:#666;text-decoration:underline">Change size</a></div>
-          </div>
-          <input type="hidden" name="Y9_Q28d_results_table" id="Y9_Q28d_results_table">
+
+          <input type="hidden" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table" value="">
         </div>
       </div>
     </div>
@@ -1175,58 +1168,128 @@ ${FAVICON_BLOCK}
   }
 });
 
-// Q28d Word-style table picker
-document.addEventListener('DOMContentLoaded', function(){
-  var cols=0,rows=0;
-  var grid=document.getElementById('q28d-grid');
-  var label=document.getElementById('q28d-size-label');
-  var picker=document.getElementById('q28d-picker');
-  var wrap=document.getElementById('q28d-table-wrap');
-  var tbl=document.getElementById('q28d-table');
-  var hidden=document.getElementById('Y9_Q28d_results_table');
-  var reset=document.getElementById('q28d-reset');
-  if(!grid)return;
-  var cells=grid.querySelectorAll('.q28cell');
-  cells.forEach(function(cell){
-    cell.addEventListener('mouseover',function(){
-      var cr=+this.dataset.r,cc=+this.dataset.c;
-      label.textContent=cc+' col × '+cr+' row';
-      cells.forEach(function(d){
-        d.style.background=(+d.dataset.r<=cr&&+d.dataset.c<=cc)?'#EA580C':'#eee';
-      });
-    });
-    cell.addEventListener('click',function(){rows=+this.dataset.r;cols=+this.dataset.c;buildTable();});
-  });
-  grid.addEventListener('mouseleave',function(){
-    cells.forEach(function(d){
-      d.style.background=(cols&&rows&&+d.dataset.r<=rows&&+d.dataset.c<=cols)?'#EA580C':'#eee';
-    });
-    label.textContent=cols?cols+' col × '+rows+' row':'— col × — row';
-  });
-  function buildTable(){
-    tbl.innerHTML='';
-    var hr=tbl.insertRow();
-    for(var c=0;c<cols;c++){
-      var th=document.createElement('th');
-      th.style.cssText='border:1px solid #ccc;padding:4px';
-      var inp=document.createElement('input');
-      inp.type='text';inp.placeholder='Heading / unit';
-      inp.style.cssText='width:100%;border:none;outline:none;font-size:12px;background:transparent';
-      inp.addEventListener('input',syncHidden);
-      th.appendChild(inp);hr.appendChild(th);
+// Q28d Results Table Builder v2
+document.addEventListener('DOMContentLoaded', function () {
+  var MAX_COLS = 8;
+  var MAX_ROWS = 6;
+
+  var picker        = document.getElementById('q28d-picker');
+  var readout       = document.getElementById('q28d-readout');
+  var pickerSection = document.getElementById('q28d-pickerSection');
+  var builtSection  = document.getElementById('q28d-builtSection');
+  var builtTable    = document.getElementById('q28d-builtTable');
+  var symbolToolbar = document.getElementById('q28d-symbolToolbar');
+  var resetBtn      = document.getElementById('q28d-resetBtn');
+  var hiddenField   = document.getElementById('Y9_Q28d_results_table');
+  if (!picker) return;
+
+  var lastFocusedHeader = null;
+
+  function buildPicker() {
+    picker.innerHTML = '';
+    for (var r = 0; r < MAX_ROWS; r++) {
+      for (var c = 0; c < MAX_COLS; c++) {
+        var cell = document.createElement('div');
+        cell.className = 'picker-cell';
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        picker.appendChild(cell);
+      }
     }
-    for(var r=0;r<rows;r++){
-      var dr=tbl.insertRow();
-      for(var c=0;c<cols;c++){var td=dr.insertCell();td.style.cssText='border:1px solid #ccc;height:24px;background:#fafafa';}
+  }
+
+  function highlight(maxRow, maxCol) {
+    var cells = picker.children;
+    for (var i = 0; i < cells.length; i++) {
+      var r = +cells[i].dataset.row;
+      var c = +cells[i].dataset.col;
+      cells[i].classList.toggle('highlight', r <= maxRow && c <= maxCol);
     }
-    picker.style.display='none';wrap.style.display='block';syncHidden();
+    readout.textContent = (maxCol + 1) + ' × ' + (maxRow + 1) +
+                          '   (' + (maxCol + 1) + ' cols × ' + (maxRow + 1) + ' rows)';
   }
-  function syncHidden(){
-    var headers=[];
-    tbl.querySelectorAll('th input').forEach(function(i){headers.push(i.value||'');});
-    hidden.value='cols:'+cols+'|headers:'+headers.join(',')+'|rows:'+rows;
+
+  function clearHighlight() {
+    var cells = picker.children;
+    for (var i = 0; i < cells.length; i++) cells[i].classList.remove('highlight');
+    readout.innerHTML = '&nbsp;';
   }
-  reset.addEventListener('click',function(e){e.preventDefault();picker.style.display='block';wrap.style.display='none';hidden.value='';cols=0;rows=0;grid.querySelectorAll('div').forEach(function(d){d.style.background='#eee';});label.textContent='— col × — row';});
+
+  picker.addEventListener('mouseover', function (e) {
+    if (!e.target.classList.contains('picker-cell')) return;
+    highlight(+e.target.dataset.row, +e.target.dataset.col);
+  });
+  picker.addEventListener('mouseleave', clearHighlight);
+  picker.addEventListener('click', function (e) {
+    if (!e.target.classList.contains('picker-cell')) return;
+    buildTable(+e.target.dataset.col + 1, +e.target.dataset.row + 1);
+  });
+
+  function buildTable(nCols, nRows) {
+    builtTable.innerHTML = '';
+    var thead = document.createElement('thead');
+    var headRow = document.createElement('tr');
+    for (var c = 0; c < nCols; c++) {
+      var th = document.createElement('th');
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'header-input';
+      inp.placeholder = 'e.g. Mass / kg';
+      inp.dataset.colIdx = c;
+      inp.addEventListener('input', updateHiddenField);
+      inp.addEventListener('focus', function () { lastFocusedHeader = this; });
+      th.appendChild(inp);
+      headRow.appendChild(th);
+    }
+    thead.appendChild(headRow);
+    builtTable.appendChild(thead);
+    var tbody = document.createElement('tbody');
+    for (var r = 0; r < nRows; r++) {
+      var tr = document.createElement('tr');
+      for (var c2 = 0; c2 < nCols; c2++) tr.appendChild(document.createElement('td'));
+      tbody.appendChild(tr);
+    }
+    builtTable.appendChild(tbody);
+    pickerSection.style.display = 'none';
+    builtSection.classList.add('show');
+    var firstInput = builtTable.querySelector('.header-input');
+    if (firstInput) firstInput.focus();
+    updateHiddenField();
+  }
+
+  symbolToolbar.addEventListener('click', function (e) {
+    if (!e.target.classList.contains('symbol-btn')) return;
+    var sym = e.target.dataset.sym;
+    var inp = lastFocusedHeader || builtTable.querySelector('.header-input');
+    if (!inp) return;
+    var start = inp.selectionStart, end = inp.selectionEnd, val = inp.value;
+    inp.value = val.substring(0, start) + sym + val.substring(end);
+    inp.focus();
+    inp.setSelectionRange(start + sym.length, start + sym.length);
+    updateHiddenField();
+  });
+
+  function updateHiddenField() {
+    var inputs = builtTable.querySelectorAll('.header-input');
+    var headers = [];
+    for (var i = 0; i < inputs.length; i++) headers.push(inputs[i].value.trim());
+    hiddenField.value = JSON.stringify({
+      cols: inputs.length,
+      rows: builtTable.querySelectorAll('tbody tr').length,
+      headers: headers
+    });
+  }
+
+  resetBtn.addEventListener('click', function () {
+    builtTable.innerHTML = '';
+    builtSection.classList.remove('show');
+    pickerSection.style.display = '';
+    hiddenField.value = '';
+    lastFocusedHeader = null;
+    clearHighlight();
+  });
+
+  buildPicker();
 });
 
 })();
