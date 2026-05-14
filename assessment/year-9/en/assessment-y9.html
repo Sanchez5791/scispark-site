@@ -760,7 +760,14 @@ ${FAVICON_BLOCK}
 
           <div class="picker-section" id="pickerSection">
             <div class="picker-label">Hover to choose size, click to confirm</div>
-            <div class="picker-grid" id="picker"></div>
+            <div class="picker-grid" id="picker">
+              <div class="picker-cell" data-row="0" data-col="0"></div><div class="picker-cell" data-row="0" data-col="1"></div><div class="picker-cell" data-row="0" data-col="2"></div><div class="picker-cell" data-row="0" data-col="3"></div><div class="picker-cell" data-row="0" data-col="4"></div><div class="picker-cell" data-row="0" data-col="5"></div><div class="picker-cell" data-row="0" data-col="6"></div><div class="picker-cell" data-row="0" data-col="7"></div>
+              <div class="picker-cell" data-row="1" data-col="0"></div><div class="picker-cell" data-row="1" data-col="1"></div><div class="picker-cell" data-row="1" data-col="2"></div><div class="picker-cell" data-row="1" data-col="3"></div><div class="picker-cell" data-row="1" data-col="4"></div><div class="picker-cell" data-row="1" data-col="5"></div><div class="picker-cell" data-row="1" data-col="6"></div><div class="picker-cell" data-row="1" data-col="7"></div>
+              <div class="picker-cell" data-row="2" data-col="0"></div><div class="picker-cell" data-row="2" data-col="1"></div><div class="picker-cell" data-row="2" data-col="2"></div><div class="picker-cell" data-row="2" data-col="3"></div><div class="picker-cell" data-row="2" data-col="4"></div><div class="picker-cell" data-row="2" data-col="5"></div><div class="picker-cell" data-row="2" data-col="6"></div><div class="picker-cell" data-row="2" data-col="7"></div>
+              <div class="picker-cell" data-row="3" data-col="0"></div><div class="picker-cell" data-row="3" data-col="1"></div><div class="picker-cell" data-row="3" data-col="2"></div><div class="picker-cell" data-row="3" data-col="3"></div><div class="picker-cell" data-row="3" data-col="4"></div><div class="picker-cell" data-row="3" data-col="5"></div><div class="picker-cell" data-row="3" data-col="6"></div><div class="picker-cell" data-row="3" data-col="7"></div>
+              <div class="picker-cell" data-row="4" data-col="0"></div><div class="picker-cell" data-row="4" data-col="1"></div><div class="picker-cell" data-row="4" data-col="2"></div><div class="picker-cell" data-row="4" data-col="3"></div><div class="picker-cell" data-row="4" data-col="4"></div><div class="picker-cell" data-row="4" data-col="5"></div><div class="picker-cell" data-row="4" data-col="6"></div><div class="picker-cell" data-row="4" data-col="7"></div>
+              <div class="picker-cell" data-row="5" data-col="0"></div><div class="picker-cell" data-row="5" data-col="1"></div><div class="picker-cell" data-row="5" data-col="2"></div><div class="picker-cell" data-row="5" data-col="3"></div><div class="picker-cell" data-row="5" data-col="4"></div><div class="picker-cell" data-row="5" data-col="5"></div><div class="picker-cell" data-row="5" data-col="6"></div><div class="picker-cell" data-row="5" data-col="7"></div>
+            </div>
             <div class="picker-readout" id="readout">&nbsp;</div>
           </div>
           <div class="built-section" id="builtSection">
@@ -1241,9 +1248,6 @@ ${FAVICON_BLOCK}
 
 // Q28d Results Table Builder
 (function () {
-  var MAX_COLS = 8;
-  var MAX_ROWS = 6;
-
   var picker        = document.getElementById('picker');
   var readout       = document.getElementById('readout');
   var pickerSection = document.getElementById('pickerSection');
@@ -1255,21 +1259,7 @@ ${FAVICON_BLOCK}
 
   var lastFocusedHeader = null;
 
-  // 1. Build picker grid
-  function buildPicker() {
-    picker.innerHTML = '';
-    for (var r = 0; r < MAX_ROWS; r++) {
-      for (var c = 0; c < MAX_COLS; c++) {
-        var cell = document.createElement('div');
-        cell.className = 'picker-cell';
-        cell.dataset.row = r;
-        cell.dataset.col = c;
-        picker.appendChild(cell);
-      }
-    }
-  }
-
-  // 2. Highlight cells from (0,0) to (r,c)
+  // 1. Highlight cells from (0,0) to (r,c)
   function highlight(maxRow, maxCol) {
     var cells = picker.children;
     for (var i = 0; i < cells.length; i++) {
@@ -1387,7 +1377,6 @@ ${FAVICON_BLOCK}
     clearHighlight();
   });
 
-  buildPicker();
 })();
 
 })();
