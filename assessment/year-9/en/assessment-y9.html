@@ -686,31 +686,16 @@ ${FAVICON_BLOCK}
 
         <div class="sub-question">
           <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label">Draw a results table for Azim's investigation. Choose the number of columns and rows, then fill in the column headings.</label>
-
-          <div class="tpick-wrap" id="q28d-picker">
-            <div class="tpick-grid" id="q28d-grid"></div>
-            <div class="tpick-dim" id="q28d-dim">Select table size</div>
-            <div class="tpick-mobile">
-              <div class="tpick-mob-row">
-                <span>Columns:</span>
-                <button type="button" id="q28d-cdec" class="tpick-mob-btn">&#8722;</button>
-                <span id="q28d-cval">2</span>
-                <button type="button" id="q28d-cinc" class="tpick-mob-btn">+</button>
-              </div>
-              <div class="tpick-mob-row">
-                <span>Rows:</span>
-                <button type="button" id="q28d-rdec" class="tpick-mob-btn">&#8722;</button>
-                <span id="q28d-rval">3</span>
-                <button type="button" id="q28d-rinc" class="tpick-mob-btn">+</button>
-              </div>
-              <button type="button" id="q28d-mconfirm" class="tpick-mob-confirm">Confirm</button>
-            </div>
+          <div id="q28d-picker">
+            <p style="font-size:13px;color:#555;margin-bottom:8px">把鼠标扫过格子，选列数和行数，点一下确认：</p>
+            <div id="q28d-grid" style="display:inline-grid;grid-template-columns:repeat(5,28px);gap:3px;cursor:pointer"></div>
+            <div id="q28d-size-label" style="font-size:12px;color:#EA580C;margin-top:6px">— 列 × — 行</div>
           </div>
-
-          <div id="q28d-tbl-wrap" style="display:none"></div>
-
-          <input type="hidden" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table">
+          <div id="q28d-table-wrap" style="display:none;margin-top:10px">
+            <table id="q28d-table" style="border-collapse:collapse;width:100%"></table>
+            <div style="margin-top:6px"><a href="#" id="q28d-reset" style="font-size:12px;color:#EA580C">重新选大小</a></div>
+          </div>
+          <input type="hidden" name="Y9_Q28d_results_table" id="Y9_Q28d_results_table">
         </div>
       </div>
     </div>
@@ -1232,110 +1217,51 @@ ${FAVICON_BLOCK}
 }());
 })();
 
-// Q28d Word-style table picker
-(function () {
-  var CMAX = 5, RMAX = 5;
-  var selC = 0, selR = 0, headers = [];
-
-  var gridEl  = document.getElementById('q28d-grid');
-  var dimEl   = document.getElementById('q28d-dim');
-  var picker  = document.getElementById('q28d-picker');
-  var tblWrap = document.getElementById('q28d-tbl-wrap');
-  var field   = document.getElementById('Y9_Q28d_results_table');
-  if (!gridEl) return;
-
-  for (var r = 1; r <= RMAX; r++) {
-    for (var c = 1; c <= CMAX; c++) {
-      var cell = document.createElement('div');
-      cell.className = 'tpick-cell';
-      cell.dataset.c = c; cell.dataset.r = r;
-      gridEl.appendChild(cell);
-    }
-  }
-
-  function highlight(hc, hr) {
-    gridEl.querySelectorAll('.tpick-cell').forEach(function (el) {
-      el.classList.toggle('hi', +el.dataset.c <= hc && +el.dataset.r <= hr);
+(function(){
+  var cols=0,rows=0;
+  var grid=document.getElementById('q28d-grid');
+  var label=document.getElementById('q28d-size-label');
+  var picker=document.getElementById('q28d-picker');
+  var wrap=document.getElementById('q28d-table-wrap');
+  var tbl=document.getElementById('q28d-table');
+  var hidden=document.getElementById('Y9_Q28d_results_table');
+  var reset=document.getElementById('q28d-reset');
+  for(var r=1;r<=5;r++){for(var c=1;c<=5;c++){
+    var cell=document.createElement('div');
+    cell.dataset.r=r; cell.dataset.c=c;
+    cell.style.cssText='width:28px;height:28px;background:#eee;border-radius:3px';
+    cell.addEventListener('mouseover',function(){
+      var cr=+this.dataset.r,cc=+this.dataset.c;
+      label.textContent=cc+' 列 × '+cr+' 行';
+      grid.querySelectorAll('div').forEach(function(d){
+        d.style.background=(+d.dataset.r<=cr&&+d.dataset.c<=cc)?'#EA580C':'#eee';
+      });
     });
-  }
-
-  gridEl.addEventListener('mouseover', function (e) {
-    var el = e.target.closest('.tpick-cell'); if (!el) return;
-    highlight(+el.dataset.c, +el.dataset.r);
-    dimEl.textContent = el.dataset.c + ' col x ' + el.dataset.r + ' row';
-  });
-  gridEl.addEventListener('mouseleave', function () {
-    highlight(selC, selR);
-    dimEl.textContent = selC ? selC + ' col x ' + selR + ' row' : 'Select table size';
-  });
-  gridEl.addEventListener('click', function (e) {
-    var el = e.target.closest('.tpick-cell'); if (!el) return;
-    selC = +el.dataset.c; selR = +el.dataset.r; confirmSel();
-  });
-
-  function mobAdj(valId, btnId, delta, min, max) {
-    document.getElementById(btnId).addEventListener('click', function () {
-      var sp = document.getElementById(valId);
-      sp.textContent = Math.min(max, Math.max(min, parseInt(sp.textContent) + delta));
-    });
-  }
-  mobAdj('q28d-cval','q28d-cdec',-1,1,5);
-  mobAdj('q28d-cval','q28d-cinc', 1,1,5);
-  mobAdj('q28d-rval','q28d-rdec',-1,1,8);
-  mobAdj('q28d-rval','q28d-rinc', 1,1,8);
-  document.getElementById('q28d-mconfirm').addEventListener('click', function () {
-    selC = parseInt(document.getElementById('q28d-cval').textContent);
-    selR = parseInt(document.getElementById('q28d-rval').textContent);
-    confirmSel();
-  });
-
-  function confirmSel() {
-    picker.style.display = 'none';
-    headers = Array(selC).fill('');
-    renderTable();
-  }
-
-  function renderTable() {
-    tblWrap.style.display = '';
-    tblWrap.innerHTML = '';
-    var wrap = document.createElement('div');
-    wrap.className = 'tresult-wrap';
-    var tbl = document.createElement('table');
-    tbl.className = 'tresult';
-    var thead = tbl.createTHead();
-    var hrow = thead.insertRow();
-    for (var c = 0; c < selC; c++) {
-      var th = document.createElement('th');
-      var inp = document.createElement('input');
-      inp.type = 'text';
-      inp.placeholder = 'Heading / unit';
-      inp.value = headers[c] || '';
-      inp.dataset.col = c;
-      inp.addEventListener('input', (function(idx){ return function(){ headers[idx]=this.value; sync(); }; })(c));
-      th.appendChild(inp); hrow.appendChild(th);
+    cell.addEventListener('click',function(){rows=+this.dataset.r;cols=+this.dataset.c;buildTable();});
+    grid.appendChild(cell);
+  }}
+  function buildTable(){
+    tbl.innerHTML='';
+    var hr=tbl.insertRow();
+    for(var c=0;c<cols;c++){
+      var th=document.createElement('th');
+      th.style.cssText='border:1px solid #ccc;padding:4px';
+      var inp=document.createElement('input');
+      inp.type='text';inp.placeholder='表头 / 单位';
+      inp.style.cssText='width:100%;border:none;outline:none;font-size:12px;background:transparent';
+      inp.addEventListener('input',syncHidden);
+      th.appendChild(inp);hr.appendChild(th);
     }
-    var tbody = tbl.createTBody();
-    for (var rr = 0; rr < selR; rr++) {
-      var row = tbody.insertRow();
-      for (var cc = 0; cc < selC; cc++) row.insertCell();
-    }
-    wrap.appendChild(tbl);
-    tblWrap.appendChild(wrap);
-    var btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'tresult-reset'; btn.textContent = 'Change size';
-    btn.addEventListener('click', function () {
-      tblWrap.style.display = 'none'; picker.style.display = '';
-      selC = 0; selR = 0; highlight(0,0); dimEl.textContent = 'Select table size';
-    });
-    tblWrap.appendChild(btn);
-    sync();
+    for(var r=0;r<rows;r++){var dr=tbl.insertRow();for(var c=0;c<cols;c++){var td=dr.insertCell();td.style.cssText='border:1px solid #ccc;height:24px;background:#fafafa';}}
+    picker.style.display='none';wrap.style.display='block';syncHidden();
   }
-
-  function sync() {
-    field.value = 'cols:' + selC + '|headers:' + headers.slice(0,selC).join(',') + '|rows:' + selR;
-    field.dispatchEvent(new Event('change'));
+  function syncHidden(){
+    var headers=[];
+    tbl.querySelectorAll('th input').forEach(function(i){headers.push(i.value||'');});
+    hidden.value='cols:'+cols+'|headers:'+headers.join(',')+'|rows:'+rows;
   }
-}());
+  reset.addEventListener('click',function(e){e.preventDefault();picker.style.display='block';wrap.style.display='none';hidden.value='';});
+})();
 })();
 </script>
 <script>
