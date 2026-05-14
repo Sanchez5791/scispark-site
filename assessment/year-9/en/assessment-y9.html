@@ -689,7 +689,33 @@ ${FAVICON_BLOCK}
           <label class="input-label">Draw a results table for Azim's investigation.</label>
 
           <div id="q28d-picker">
-            <div id="q28d-grid" style="display:inline-grid;grid-template-columns:repeat(5,28px);gap:3px;cursor:pointer"></div>
+            <div id="q28d-grid" style="display:inline-grid;grid-template-columns:repeat(5,28px);gap:3px;cursor:pointer">
+              <div class="q28cell" data-r="1" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="1" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="1" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="1" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="1" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="2" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="2" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="2" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="2" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="2" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="3" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="3" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="3" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="3" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="3" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="4" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="4" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="4" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="4" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="4" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="5" data-c="1" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="5" data-c="2" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="5" data-c="3" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="5" data-c="4" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+              <div class="q28cell" data-r="5" data-c="5" style="width:28px;height:28px;background:#eee;border-radius:3px;cursor:pointer"></div>
+            </div>
             <div id="q28d-size-label" style="font-size:12px;color:#EA580C;margin-top:6px">— col × — row</div>
           </div>
           <div id="q28d-table-wrap" style="display:none;margin-top:10px">
@@ -1173,22 +1199,19 @@ document.addEventListener('DOMContentLoaded', function(){
   var hidden=document.getElementById('Y9_Q28d_results_table');
   var reset=document.getElementById('q28d-reset');
   if(!grid)return;
-  for(var r=1;r<=5;r++){for(var c=1;c<=5;c++){
-    var cell=document.createElement('div');
-    cell.dataset.r=r; cell.dataset.c=c;
-    cell.style.cssText='width:28px;height:28px;background:#eee;border-radius:3px';
+  var cells=grid.querySelectorAll('.q28cell');
+  cells.forEach(function(cell){
     cell.addEventListener('mouseover',function(){
       var cr=+this.dataset.r,cc=+this.dataset.c;
       label.textContent=cc+' col × '+cr+' row';
-      grid.querySelectorAll('div').forEach(function(d){
+      cells.forEach(function(d){
         d.style.background=(+d.dataset.r<=cr&&+d.dataset.c<=cc)?'#EA580C':'#eee';
       });
     });
     cell.addEventListener('click',function(){rows=+this.dataset.r;cols=+this.dataset.c;buildTable();});
-    grid.appendChild(cell);
-  }}
+  });
   grid.addEventListener('mouseleave',function(){
-    grid.querySelectorAll('div').forEach(function(d){
+    cells.forEach(function(d){
       d.style.background=(cols&&rows&&+d.dataset.r<=rows&&+d.dataset.c<=cols)?'#EA580C':'#eee';
     });
     label.textContent=cols?cols+' col × '+rows+' row':'— col × — row';
