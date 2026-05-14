@@ -60,14 +60,6 @@ ${FAVICON_BLOCK}
     .tresult th input{width:100%;border:none;outline:none;background:transparent;padding:5px 7px;font:inherit;font-size:13px;text-align:center;box-sizing:border-box}
     .tresult td{border:1px solid #ccc;height:26px;background:#fafafa;min-width:110px}
     .tresult-reset{display:inline-block;margin-top:5px;font-size:12px;color:#666;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
-    /* Q32d table builder */
-    .tb-row{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
-    .tb-label{font-size:13px;font-weight:600;color:#1a1917;min-width:140px}
-    .tb-radio-group{display:flex;gap:12px;flex-wrap:wrap}
-    .tb-radio-group label{font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px}
-    .tb-headers{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
-    .tb-header-input{border:1px solid #d6c8b8;border-radius:6px;padding:5px 8px;font:inherit;font-size:13px;width:140px;outline:none}
-    .tb-header-input:focus{border-color:#1a1917}
     /* Q32 SVG graphs */
     .svg-graphs-row{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}
     .svg-graph-box{flex:1;min-width:260px}
@@ -928,11 +920,6 @@ ${FAVICON_BLOCK}
           <label class="input-label" for="Y9_Q32c_accuracy_reason">Rajiv thinks the temperatures measured in the year 1920 are not as accurate as the temperatures measured in the year 2020. Suggest one reason why.</label>
           <textarea class="textarea-field" id="Y9_Q32c_accuracy_reason" name="Y9_Q32c_accuracy_reason" rows="4"></textarea>
         </div>
-        <div class="sub-question">
-          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label">Design a results table that Rajiv could use to record the temperature data. Include suitable column headings and units.</label>
-          <textarea name="Y9_Q32d_results_table" rows="4" style="width:100%;border:1px solid #ccc;border-radius:6px;padding:8px;font-size:13px;resize:vertical"></textarea>
-        </div>
       </div>
     </div>
 
@@ -1242,43 +1229,6 @@ document.addEventListener('DOMContentLoaded', function(){
   reset.addEventListener('click',function(e){e.preventDefault();picker.style.display='block';wrap.style.display='none';hidden.value='';cols=0;rows=0;grid.querySelectorAll('div').forEach(function(d){d.style.background='#eee';});label.textContent='— col × — row';});
 });
 
-// Q32d table builder
-(function () {
-  var cols = 3, rows = 5;
-  var headers = ['', '', ''];
-  function renderHeaders() {
-    var c = document.getElementById('q32d-headers');
-    if (!c) return;
-    c.innerHTML = '';
-    for (var i = 0; i < cols; i++) {
-      var inp = document.createElement('input');
-      inp.type = 'text';
-      inp.className = 'tb-header-input';
-      inp.placeholder = 'Heading / unit';
-      inp.value = headers[i] || '';
-      inp.dataset.col = i;
-      inp.addEventListener('input', function () {
-        headers[parseInt(this.dataset.col)] = this.value;
-        syncField();
-      });
-      c.appendChild(inp);
-    }
-  }
-  function syncField() {
-    var hdrs = headers.slice(0, cols).map(function (h) { return h || ''; });
-    var val = 'cols:' + cols + '|headers:' + hdrs.join(',') + '|rows:' + rows;
-    var f = document.getElementById('Y9_Q32d_results_table');
-    if (f) { f.value = val; f.dispatchEvent(new Event('change')); }
-  }
-  document.querySelectorAll('input[name="q32d-cols"]').forEach(function (r) {
-    r.addEventListener('change', function () { cols = parseInt(this.value); renderHeaders(); syncField(); });
-  });
-  document.querySelectorAll('input[name="q32d-rows"]').forEach(function (r) {
-    r.addEventListener('change', function () { rows = parseInt(this.value); syncField(); });
-  });
-  renderHeaders();
-  syncField();
-}());
 })();
 
 

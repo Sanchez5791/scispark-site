@@ -1,10 +1,10 @@
-// api/mark.js — SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
+﻿// api/mark.js â€” SciSpark Y7 AI Marking Endpoint (V3 + V4 routing)
 // Vercel serverless function
 // Called by Supabase webhook when new assessment_attempt is inserted
-// 2026-05-02 — Updated to use DeepSeek V4 Flash for all marking
+// 2026-05-02 â€” Updated to use DeepSeek V4 Flash for all marking
 
 // =============================================================
-// V3 SYSTEM PROMPT — DO NOT MODIFY (used by old 27-question HTML)
+// V3 SYSTEM PROMPT â€” DO NOT MODIFY (used by old 27-question HTML)
 // =============================================================
 const SYSTEM_PROMPT_V3 = `You are the SciSpark Y7 Entry Assessment marker.
 
@@ -87,13 +87,13 @@ ASSESSMENT METADATA
 
 CONFIRMED ANSWERS (Vol 01 v4):
 
-PART A — Vocabulary MCQ (full option text, case-insensitive):
+PART A â€” Vocabulary MCQ (full option text, case-insensitive):
 QA1=food chain (accept food-chain) | QA2=animal | QA3=where they live
 QA4=melting | QA5=water | QA6=iron | QA7=iron
 QA8=gravity (accept gravitational force) | QA9=Sun (accept the Sun, sun)
 QA10=Moon (accept the Moon, moon)
 
-PART B — Core Concepts MCQ:
+PART B â€” Core Concepts MCQ:
 QB1=cheetah | QB2=only meat | QB3=rock
 QB4=thick layer of fat (accept fat layer, blubber) | QB5=oxygen
 QB6=melting ice | QB7=copper | QB8=plastic | QB9="4" (accept "four")
@@ -107,7 +107,7 @@ PART C:
 QC1 Oliver Chemical Reaction (5x1m):
   QC1_a = measuring cylinder (accept graduated cylinder, measuring jug; reject beaker, thermometer, balance, ruler)
   QC1_b = uniform/even temperature (accept "to mix evenly", "consistent reading", "to distribute heat evenly"; "to mix" alone without temp context needs_review)
-  QC1_c = "blue to brown" — BOTH COLOURS IN ORDER REQUIRED. Single colour alone = 0m. Wrong order = 0m.
+  QC1_c = "blue to brown" â€” BOTH COLOURS IN ORDER REQUIRED. Single colour alone = 0m. Wrong order = 0m.
   QC1_d = gas/bubbles (accept effervescence, fizzing, gas given off; reject "colour change" alone)
   QC1_f = decreasing (accept dropping, falls, gets lower, reducing)
 
@@ -151,7 +151,7 @@ QD2 Particle Diagrams (5x1m):
 QD3 Sofia Circuit (pool_qd3a + 3 indep = 5m):
   pool_qd3a (2m, graduated-4): read BOTH QD3_a_1 and QD3_a_2; combine and deduplicate all components named (case-insensitive).
     Acceptable components: cell/battery | lamp/bulb | switch | wire/connecting wire/wires
-    4 unique correct → 2m | 2 or 3 unique correct → 1m | 0 or 1 → 0m. Mark-holder=QD3_a_1.
+    4 unique correct â†’ 2m | 2 or 3 unique correct â†’ 1m | 0 or 1 â†’ 0m. Mark-holder=QD3_a_1.
   QD3_b: YES + valid explanation. ACCEPT: circuit complete / current flows / closed loop / electricity can flow.
   QD3_c: brighter / gets brighter / increases / more bright / brighter light. ACCEPT any similar phrasing.
   QD3_d: lamp lights / still works / circuit still complete / brighter. ACCEPT any answer indicating the circuit still functions when switch is removed.
@@ -207,7 +207,7 @@ CONSTRAINTS:
 - pool_qd4a mark-holder = Y7_QD4_a_gravity_answer.`;
 
 // =============================================================
-// Y8 SYSTEM PROMPT — V4
+// Y8 SYSTEM PROMPT â€” V4
 // Source: SCISPARK_Y8_ENTRY_ASSESSMENT_SOURCE_DRAFT_v8
 // Field contract: SCISPARK_Y8_ENTRY_ANSWER_FIELD_CONTRACT_AND_DIAGNOSTIC_MAP_v1
 // =============================================================
@@ -225,12 +225,12 @@ ASSESSMENT METADATA
 
 MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
 
-PART A — Vocabulary:
+PART A â€” Vocabulary:
 QA1=A(lungs) | QA2=A(oxygen) | QA3=A(digestive system) | QA4=B(transparent)
 QA5=A(opaque) | QA6=C(soluble) | QA7=B(solvent) | QA8=A(element)
 QA9=B(friction) | QA10=A(gravity)
 
-PART B — Core Concepts:
+PART B â€” Core Concepts:
 QB1=A(grass) | QB2=A(organ system to cell order) | QB3=A(protein)
 QB4=A(chemical energy) | QB5=B(vibrate about fixed positions) | QB6=B(liquid)
 QB7=A(two or more elements chemically combined) | QB8=C(Diagram C)
@@ -355,7 +355,7 @@ CONSTRAINTS:
 - pool_qd4a mark-holder = Y8_QD4_blank1.`;
 
 // =============================================================
-// Y8 SYSTEM PROMPT — redesign 2026-05-10 (Y8_ENTRY_EN)
+// Y8 SYSTEM PROMPT â€” redesign 2026-05-10 (Y8_ENTRY_EN)
 // Source: SCISPARK_Y8_ENTRY_ASSESSMENT_SOURCE_DRAFT_v8
 // Field contract: SCISPARK_Y8_ENTRY_ANSWER_FIELD_CONTRACT_v9
 // =============================================================
@@ -373,12 +373,12 @@ ASSESSMENT METADATA
 
 MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
 
-PART A — Vocabulary:
+PART A â€” Vocabulary:
 QA1=A(lungs) | QA2=A(oxygen) | QA3=A(digestive system) | QA4=B(transparent)
 QA5=A(opaque) | QA6=C(soluble) | QA7=B(solvent) | QA8=A(element)
 QA9=B(friction) | QA10=A(gravity)
 
-PART B — Core Concepts:
+PART B â€” Core Concepts:
 QB1=A(grass) | QB2=A(organ system to cell order) | QB3=A(protein)
 QB4=A(chemical energy) | QB5=B(vibrate about fixed positions) | QB6=B(liquid)
 QB7=A(two or more elements chemically combined) | QB8=C(Diagram C)
@@ -414,10 +414,10 @@ QC2 Ahmed Chemical and Physical Changes (5m):
     REJECT: "irreversible" alone (0m). Reason alone without "irreversible" (0m).
 
 QC3 Simran Neutralisation Graph Investigation (5m):
-  QC3a_temperature_change (1m): temperature change at neutralisation point = 24 °C.
-    ACCEPT: 24 | "24°C" | "24 °C" | "24 degrees". REJECT: any other number.
+  QC3a_temperature_change (1m): temperature change at neutralisation point = 24 Â°C.
+    ACCEPT: 24 | "24Â°C" | "24 Â°C" | "24 degrees". REJECT: any other number.
 
-=== Q28 GRAPH FIELDS — PRECOMPUTED MARKS ===
+=== Q28 GRAPH FIELDS â€” PRECOMPUTED MARKS ===
 The following Q28 fields are marked deterministically before this prompt runs.
 Use the precomputed values verbatim. DO NOT re-evaluate the graph yourself.
 
@@ -523,11 +523,11 @@ Your job: mark a single student's submission against the official mark scheme an
 
 ASSESSMENT METADATA
 - assessment_code: Y9_ENTRY_EN
-- total_marks: 61, total_questions: 32, total_fields: 61
+- total_marks: 60, total_questions: 32, total_fields: 60
 - Part A (10m, 10x1m Q1-Q10) Vocabulary MCQ
 - Part B (15m, 15x1m Q11-Q25) Core Concepts MCQ
 - Part C (15m, Q26=5m + Q27=5m + Q28=5m) Data and Experiment
-- Part D (21m, Q29=5m + Q30=5m + Q31=5m + Q32=6m) Extended Response
+- Part D (20m, Q29=5m + Q30=5m + Q31=5m + Q32=5m) Extended Response
 
 MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
 
@@ -659,12 +659,6 @@ Q32 Weather and Climate Change (5m):
   Y9_Q32c_accuracy_reason (1m): why 1920 temperatures may be less accurate.
     ACCEPT: older/less precise thermometers | no digital equipment | fewer weather stations | paper/manual records prone to error | measurement technology less advanced.
     REJECT: "it was colder then" | "different country" | no equipment-based reason.
-  Y9_Q32d_results_table (1m): design a results table for recording temperature data.
-    Student answer format: cols:N|headers:h1,h2,...|rows:N
-    ACCEPT (1m): at least 2 headers contain correct variables with units, e.g. Month, Temperature/°C or Year, Mean temperature (°C) or Month/name, Temp/°C.
-    REJECT (0m): headers missing units entirely | headers unrelated to temperature investigation | only 1 correct header | blank or malformed string.
-    NOTE: ignore cols and rows values; mark solely on header content.
-
 GLOBAL RULES:
 - MCQ fields: case-insensitive exact match against stored option letter (A/B/C/D).
 - Free text: case-insensitive, whitespace tolerant, semantic match for sentences.
@@ -679,24 +673,24 @@ OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
   "assessment_code":"Y9_ENTRY_EN",
   "student_id":"<id>",
   "marked_at":"<UTC ISO8601>",
-  "total_awarded":<0-61>,
-  "total_possible":61,
+  "total_awarded":<0-60>,
+  "total_possible":60,
   "part_totals":{
     "A":{"awarded":<int>,"possible":10},
     "B":{"awarded":<int>,"possible":15},
     "C":{"awarded":<int>,"possible":15},
-    "D":{"awarded":<int>,"possible":21}
+    "D":{"awarded":<int>,"possible":20}
   },
-  "fields":[<exactly 61 field objects>],
+  "fields":[<exactly 60 field objects>],
   "submission_warnings":[]
 }
 Each field: {"field_id":"Y9_Q1_answer","student_value":"...","expected":"...","marks_awarded":<int>,"marks_possible":<int>,"match_type":"exact|alternative|semantic|wrong|blank","rationale":"<one sentence>","needs_review":<bool>,"review_reason":<string|null>}
 CONSTRAINTS:
-- fields must contain EXACTLY 61 entries.
+- fields must contain EXACTLY 60 entries.
 - total_awarded = sum of all part_totals[X].awarded.
 - All Part A and Part B fields are MCQ (1 mark each, expected = stored option letter).
 - All Part C and Part D fields are free text (1 mark each).
-- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_prediction_no, Y9_Q29a_table_explanation, Y9_Q29b_copper_lead_same, Y9_Q29c_acid_rain_vs_sea_water, Y9_Q29d_safety_precaution, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason, Y9_Q32d_results_table.`;
+- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_prediction_no, Y9_Q29a_table_explanation, Y9_Q29b_copper_lead_same, Y9_Q29c_acid_rain_vs_sea_water, Y9_Q29d_safety_precaution, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason.`;
 
 // =============================================================
 // PACKAGE REGISTRY
@@ -740,12 +734,12 @@ const PACKAGES = {
   },
   'Y9_ENTRY_EN': {
     code: 'Y9_ENTRY_EN',
-    total_marks: 61,
-    total_fields: 61,
-    parts: { A: 10, B: 15, C: 15, D: 21 },
+    total_marks: 60,
+    total_fields: 60,
+    parts: { A: 10, B: 15, C: 15, D: 20 },
     system_prompt: SYSTEM_PROMPT_Y9,
     max_tokens: 16000,
-    marker_version: 'Y9_entry_v11_Q32d_2026_05_14'
+    marker_version: 'Y9_entry_v12_noQ32d_2026_05_14'
   }
 };
 
@@ -761,7 +755,7 @@ function extractJson(rawText) {
 
 
 // =============================================================
-// DETERMINISTIC MARKER — Q28 graph fields (Y8_ENTRY_EN)
+// DETERMINISTIC MARKER â€” Q28 graph fields (Y8_ENTRY_EN)
 // =============================================================
 function markQ28Graph(responses) {
   var EXPECTED = [
@@ -770,7 +764,7 @@ function markQ28Graph(responses) {
   var PT_TOL  = 0.5;
   var LN_TOL  = 2;
   var AXIS_X_ACCEPT = ['volume of alkali added / cm3','volume of alkali added /cm3','volume of alkali / cm3','volume of alkali added cm3'];
-  var AXIS_Y_ACCEPT = ['change in temperature / °c','change in temperature /°c','change in temperature (°c)','temperature change / °c'];
+  var AXIS_Y_ACCEPT = ['change in temperature / Â°c','change in temperature /Â°c','change in temperature (Â°c)','temperature change / Â°c'];
 
   var result = {
     graph_points:  { mark: 0, reason: '', needs_teacher: false },
@@ -782,7 +776,7 @@ function markQ28Graph(responses) {
   var ptsRaw = responses['Y8_QC3b_graph_points'] ? responses['Y8_QC3b_graph_points'].raw : '';
   if (!ptsRaw || ptsRaw === '[]' || ptsRaw === '') {
     result.graph_points.needs_teacher = true;
-    result.graph_points.reason = 'No coordinate data captured — teacher review required';
+    result.graph_points.reason = 'No coordinate data captured â€” teacher review required';
   } else {
     try {
       var pts = JSON.parse(ptsRaw);
@@ -796,11 +790,11 @@ function markQ28Graph(responses) {
         result.graph_points.reason = correct + '/5 points within tolerance';
       } else {
         result.graph_points.mark = 0;
-        result.graph_points.reason = 'Only ' + correct + '/5 points within tolerance — minimum 4 required';
+        result.graph_points.reason = 'Only ' + correct + '/5 points within tolerance â€” minimum 4 required';
       }
     } catch(e) {
       result.graph_points.needs_teacher = true;
-      result.graph_points.reason = 'Malformed graph_points JSON — teacher review required';
+      result.graph_points.reason = 'Malformed graph_points JSON â€” teacher review required';
     }
   }
 
@@ -824,11 +818,11 @@ function markQ28Graph(responses) {
         result.axis_labels.reason = 'Both axis labels incorrect';
       } else {
         result.axis_labels.needs_teacher = true;
-        result.axis_labels.reason = 'One axis label borderline — teacher review required';
+        result.axis_labels.reason = 'One axis label borderline â€” teacher review required';
       }
     } catch(e) {
       result.axis_labels.needs_teacher = true;
-      result.axis_labels.reason = 'Malformed axis_labels JSON — teacher review required';
+      result.axis_labels.reason = 'Malformed axis_labels JSON â€” teacher review required';
     }
   }
 
@@ -836,7 +830,7 @@ function markQ28Graph(responses) {
   var lineRaw = responses['Y8_QC3c_line_best_fit'] ? responses['Y8_QC3c_line_best_fit'].raw : '';
   if (!lineRaw || lineRaw === '' || lineRaw === 'drawn') {
     result.line_best_fit.needs_teacher = true;
-    result.line_best_fit.reason = 'No line coordinate data — teacher review required';
+    result.line_best_fit.reason = 'No line coordinate data â€” teacher review required';
   } else {
     try {
       var ln = JSON.parse(lineRaw);
@@ -857,7 +851,7 @@ function markQ28Graph(responses) {
       }
     } catch(e) {
       result.line_best_fit.needs_teacher = true;
-      result.line_best_fit.reason = 'Malformed line JSON — teacher review required';
+      result.line_best_fit.reason = 'Malformed line JSON â€” teacher review required';
     }
   }
 
@@ -926,7 +920,7 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ message: 'Already marked', id: existing[0].id });
     }
 
-    // 4. Fetch answers — column names vary by assessment schema
+    // 4. Fetch answers â€” column names vary by assessment schema
     // Retry loop guards against race condition where webhook fires before
     // answer rows are committed (answers inserted immediately after attempt).
     const idCol    = pkg.fieldSchema?.idCol    || 'field_name';
@@ -946,7 +940,7 @@ module.exports = async function handler(req, res) {
       );
       answerRows = await ansr.json();
       if (answerRows.length >= MIN_EXPECTED_ROWS) break;
-      console.log(`[SciSpark mark] Attempt ${attempt_id}: only ${answerRows.length} answer rows on try ${attempt_n + 1}/${MAX_RETRIES + 1}, retrying…`);
+      console.log(`[SciSpark mark] Attempt ${attempt_id}: only ${answerRows.length} answer rows on try ${attempt_n + 1}/${MAX_RETRIES + 1}, retryingâ€¦`);
     }
 
     const answers = {};
