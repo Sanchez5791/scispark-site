@@ -43,101 +43,31 @@ ${FAVICON_BLOCK}
     .q26-graph-toolbar button.q26-active{border-color:#1a1a1a;background:#1a1917;color:white}
     .q26-graph-outer{margin:8px 0}
     .q26-graph-hidden{display:none!important}
-    /* ============ PICKER ============ */
-    .picker-section { margin-top: 8px; }
-    .picker-label { font-size: 13px; color: #666; margin-bottom: 10px; }
-    .picker-grid {
-      display: grid;
-      grid-template-columns: repeat(8, 26px);
-      grid-template-rows: repeat(6, 26px);
-      gap: 3px;
-      background: #F5F4F1;
-      padding: 8px;
-      border-radius: 6px;
-      width: fit-content;
-      user-select: none;
-    }
-    .picker-cell {
-      background: #fff;
-      border: 1px solid #d0d0d0;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: background 0.04s ease, border-color 0.04s ease;
-    }
-    .picker-cell.highlight { background: #EA580C; border-color: #C2410C; }
-    .picker-readout {
-      font-size: 14px;
-      color: #EA580C;
-      font-weight: 600;
-      margin-top: 10px;
-      height: 20px;
-      letter-spacing: 0.5px;
-    }
-    /* ============ BUILT TABLE ============ */
-    .built-section { margin-top: 24px; display: none; }
-    .built-section.show { display: block; }
-    .built-table { border-collapse: collapse; margin-bottom: 14px; }
-    .built-table th,
-    .built-table td { border: 1.5px solid #999; padding: 0; min-width: 140px; height: 38px; background: #fff; }
-    .built-table th { background: #FFF7ED; }
-    .built-table input.header-input {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: transparent;
-      padding: 6px 10px;
-      box-sizing: border-box;
-      font-weight: 600;
-      color: #1A1A1A;
-      font-size: 14px;
-      outline: none;
-      font-family: inherit;
-    }
-    .built-table input.header-input:focus { background: #FFEDD5; }
-    .built-table input.header-input::placeholder { color: #b5b5b5; font-weight: 400; font-style: italic; }
-    /* ============ SYMBOL TOOLBAR ============ */
-    .symbol-toolbar {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 14px;
-      padding: 8px 10px;
-      background: #F5F4F1;
-      border-radius: 6px;
-      width: fit-content;
-    }
-    .symbol-toolbar-label { font-size: 11px; color: #777; text-transform: uppercase; letter-spacing: 0.8px; margin-right: 4px; }
-    .symbol-btn {
-      min-width: 34px;
-      height: 30px;
-      padding: 0 8px;
-      background: #fff;
-      border: 1px solid #c8c8c8;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 15px;
-      font-family: "Times New Roman", serif;
-      color: #1A1A1A;
-      transition: background 0.08s, transform 0.08s;
-    }
-    .symbol-btn:hover { background: #FFEDD5; border-color: #EA580C; }
-    .symbol-btn:active { transform: scale(0.94); }
-    /* ============ CONTROLS ============ */
-    .controls { margin-top: 8px; display: flex; gap: 10px; }
-    .reset-btn {
-      background: #fff;
-      border: 1px solid #999;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      font-family: inherit;
-      color: #1A1A1A;
-      transition: background 0.1s;
-    }
-    .reset-btn:hover { background: #F5F4F1; }
-    .hint { font-size: 12px; color: #888; margin-top: 14px; line-height: 1.5; }
-    .hint code { background: #f3f3f3; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+    /* ============================================================
+       Q28(d) Table Builder — namespaced, no global collisions
+       ============================================================ */
+    .q28d-wrap { --q28d-orange:#EA580C; --q28d-orange-dark:#C2410C; --q28d-orange-soft:#FFEDD5; --q28d-orange-bg:#FFF7ED; --q28d-black:#1A1A1A; --q28d-gray-line:#999; --q28d-gray-bg:#F5F4F1; }
+    .q28d-wrap .q28d-picker-label { font-size:13px; color:#666; margin-bottom:10px; }
+    .q28d-wrap .q28d-picker-grid { display:grid; grid-template-columns:repeat(8,26px); grid-template-rows:repeat(6,26px); gap:3px; background:var(--q28d-gray-bg); padding:8px; border-radius:6px; width:fit-content; user-select:none; }
+    .q28d-wrap .q28d-picker-cell { background:#fff; border:1px solid #d0d0d0; border-radius:2px; cursor:pointer; transition:background 0.04s ease,border-color 0.04s ease; }
+    .q28d-wrap .q28d-picker-cell.q28d-highlight { background:var(--q28d-orange); border-color:var(--q28d-orange-dark); }
+    .q28d-wrap .q28d-picker-readout { font-size:14px; color:var(--q28d-orange); font-weight:600; margin-top:10px; height:20px; letter-spacing:0.5px; }
+    .q28d-wrap .q28d-built-section { margin-top:24px; display:none; }
+    .q28d-wrap .q28d-built-section.q28d-show { display:block; }
+    .q28d-wrap .q28d-built-table { border-collapse:collapse; margin-bottom:14px; }
+    .q28d-wrap .q28d-built-table th, .q28d-wrap .q28d-built-table td { border:1.5px solid var(--q28d-gray-line); padding:0; min-width:140px; height:38px; background:#fff; }
+    .q28d-wrap .q28d-built-table th { background:var(--q28d-orange-bg); }
+    .q28d-wrap .q28d-header-input { width:100%; height:100%; border:none; background:transparent; padding:6px 10px; box-sizing:border-box; font-weight:600; color:var(--q28d-black); font-size:14px; outline:none; font-family:inherit; }
+    .q28d-wrap .q28d-header-input:focus { background:var(--q28d-orange-soft); }
+    .q28d-wrap .q28d-header-input::placeholder { color:#b5b5b5; font-weight:400; font-style:italic; }
+    .q28d-wrap .q28d-symbol-toolbar { display:flex; align-items:center; gap:6px; margin-bottom:14px; padding:8px 10px; background:var(--q28d-gray-bg); border-radius:6px; width:fit-content; }
+    .q28d-wrap .q28d-symbol-label { font-size:11px; color:#777; text-transform:uppercase; letter-spacing:0.8px; margin-right:4px; }
+    .q28d-wrap .q28d-symbol-btn { min-width:34px; height:30px; padding:0 8px; background:#fff; border:1px solid #c8c8c8; border-radius:4px; cursor:pointer; font-size:15px; font-family:"Times New Roman",serif; color:var(--q28d-black); transition:background 0.08s,transform 0.08s; }
+    .q28d-wrap .q28d-symbol-btn:hover { background:var(--q28d-orange-soft); border-color:var(--q28d-orange); }
+    .q28d-wrap .q28d-symbol-btn:active { transform:scale(0.94); }
+    .q28d-wrap .q28d-reset-btn { background:#fff; border:1px solid var(--q28d-gray-line); padding:8px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-family:inherit; color:var(--q28d-black); transition:background 0.1s; }
+    .q28d-wrap .q28d-reset-btn:hover { background:var(--q28d-gray-bg); }
+    .q28d-wrap .q28d-hint { font-size:12px; color:#888; margin-top:14px; line-height:1.5; }
     /* Q32 SVG graphs */
     .svg-graphs-row{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}
     .svg-graph-box{flex:1;min-width:260px}
@@ -758,34 +688,29 @@ ${FAVICON_BLOCK}
           <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
           <label class="input-label">Draw a results table for Azim's investigation.</label>
 
-          <div class="picker-section" id="pickerSection">
-            <div class="picker-label">Hover to choose size, click to confirm</div>
-            <div class="picker-grid" id="picker">
-              <div class="picker-cell" data-row="0" data-col="0"></div><div class="picker-cell" data-row="0" data-col="1"></div><div class="picker-cell" data-row="0" data-col="2"></div><div class="picker-cell" data-row="0" data-col="3"></div><div class="picker-cell" data-row="0" data-col="4"></div><div class="picker-cell" data-row="0" data-col="5"></div><div class="picker-cell" data-row="0" data-col="6"></div><div class="picker-cell" data-row="0" data-col="7"></div>
-              <div class="picker-cell" data-row="1" data-col="0"></div><div class="picker-cell" data-row="1" data-col="1"></div><div class="picker-cell" data-row="1" data-col="2"></div><div class="picker-cell" data-row="1" data-col="3"></div><div class="picker-cell" data-row="1" data-col="4"></div><div class="picker-cell" data-row="1" data-col="5"></div><div class="picker-cell" data-row="1" data-col="6"></div><div class="picker-cell" data-row="1" data-col="7"></div>
-              <div class="picker-cell" data-row="2" data-col="0"></div><div class="picker-cell" data-row="2" data-col="1"></div><div class="picker-cell" data-row="2" data-col="2"></div><div class="picker-cell" data-row="2" data-col="3"></div><div class="picker-cell" data-row="2" data-col="4"></div><div class="picker-cell" data-row="2" data-col="5"></div><div class="picker-cell" data-row="2" data-col="6"></div><div class="picker-cell" data-row="2" data-col="7"></div>
-              <div class="picker-cell" data-row="3" data-col="0"></div><div class="picker-cell" data-row="3" data-col="1"></div><div class="picker-cell" data-row="3" data-col="2"></div><div class="picker-cell" data-row="3" data-col="3"></div><div class="picker-cell" data-row="3" data-col="4"></div><div class="picker-cell" data-row="3" data-col="5"></div><div class="picker-cell" data-row="3" data-col="6"></div><div class="picker-cell" data-row="3" data-col="7"></div>
-              <div class="picker-cell" data-row="4" data-col="0"></div><div class="picker-cell" data-row="4" data-col="1"></div><div class="picker-cell" data-row="4" data-col="2"></div><div class="picker-cell" data-row="4" data-col="3"></div><div class="picker-cell" data-row="4" data-col="4"></div><div class="picker-cell" data-row="4" data-col="5"></div><div class="picker-cell" data-row="4" data-col="6"></div><div class="picker-cell" data-row="4" data-col="7"></div>
-              <div class="picker-cell" data-row="5" data-col="0"></div><div class="picker-cell" data-row="5" data-col="1"></div><div class="picker-cell" data-row="5" data-col="2"></div><div class="picker-cell" data-row="5" data-col="3"></div><div class="picker-cell" data-row="5" data-col="4"></div><div class="picker-cell" data-row="5" data-col="5"></div><div class="picker-cell" data-row="5" data-col="6"></div><div class="picker-cell" data-row="5" data-col="7"></div>
+          <div class="q28d-wrap">
+            <div class="q28d-picker-section" id="q28d_picker_section">
+              <div class="q28d-picker-label">Hover to choose size, click to confirm</div>
+              <div class="q28d-picker-grid" id="q28d_picker"></div>
+              <div class="q28d-picker-readout" id="q28d_readout">&nbsp;</div>
             </div>
-            <div class="picker-readout" id="readout">&nbsp;</div>
+            <div class="q28d-built-section" id="q28d_built_section">
+              <table class="q28d-built-table" id="q28d_built_table"></table>
+              <div class="q28d-symbol-toolbar" id="q28d_symbol_toolbar">
+                <span class="q28d-symbol-label">Insert</span>
+                <button type="button" class="q28d-symbol-btn" data-sym="²">x²</button>
+                <button type="button" class="q28d-symbol-btn" data-sym="³">x³</button>
+                <button type="button" class="q28d-symbol-btn" data-sym="°">°</button>
+                <button type="button" class="q28d-symbol-btn" data-sym="⁻¹">⁻¹</button>
+                <button type="button" class="q28d-symbol-btn" data-sym="·">·</button>
+                <button type="button" class="q28d-symbol-btn" data-sym="/">/</button>
+              </div>
+              <div class="controls">
+                <button type="button" class="q28d-reset-btn" id="q28d_reset_btn">↺ Reset</button>
+              </div>
+            </div>
+            <input type="hidden" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table" value="">
           </div>
-          <div class="built-section" id="builtSection">
-            <table class="built-table" id="builtTable"></table>
-            <div class="symbol-toolbar" id="symbolToolbar">
-              <span class="symbol-toolbar-label">Insert</span>
-              <button type="button" class="symbol-btn" data-sym="²">x²</button>
-              <button type="button" class="symbol-btn" data-sym="³">x³</button>
-              <button type="button" class="symbol-btn" data-sym="°">°</button>
-              <button type="button" class="symbol-btn" data-sym="⁻¹">⁻¹</button>
-              <button type="button" class="symbol-btn" data-sym="·">·</button>
-              <button type="button" class="symbol-btn" data-sym="/">/</button>
-            </div>
-            <div class="controls">
-              <button type="button" class="reset-btn" id="resetBtn">↺ Reset</button>
-            </div>
-          </div>
-          <input type="hidden" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table" value="">
         </div>
       </div>
     </div>
@@ -1246,139 +1171,6 @@ ${FAVICON_BLOCK}
   }
 });
 
-// Q28d Results Table Builder
-(function () {
-  var picker        = document.getElementById('picker');
-  var readout       = document.getElementById('readout');
-  var pickerSection = document.getElementById('pickerSection');
-  var builtSection  = document.getElementById('builtSection');
-  var builtTable    = document.getElementById('builtTable');
-  var symbolToolbar = document.getElementById('symbolToolbar');
-  var resetBtn      = document.getElementById('resetBtn');
-  var hiddenField   = document.getElementById('Y9_Q28d_results_table');
-
-  var lastFocusedHeader = null;
-
-  // 1. Highlight cells from (0,0) to (r,c)
-  function highlight(maxRow, maxCol) {
-    var cells = picker.children;
-    for (var i = 0; i < cells.length; i++) {
-      var cell = cells[i];
-      var r = +cell.dataset.row;
-      var c = +cell.dataset.col;
-      cell.classList.toggle('highlight', r <= maxRow && c <= maxCol);
-    }
-    readout.textContent = (maxCol + 1) + ' × ' + (maxRow + 1) +
-                          '   (' + (maxCol + 1) + ' cols × ' + (maxRow + 1) + ' rows)';
-  }
-
-  function clearHighlight() {
-    var cells = picker.children;
-    for (var i = 0; i < cells.length; i++) cells[i].classList.remove('highlight');
-    readout.innerHTML = '&nbsp;';
-  }
-
-  // 3. Event delegation on picker
-  picker.addEventListener('mouseover', function (e) {
-    if (!e.target.classList.contains('picker-cell')) return;
-    highlight(+e.target.dataset.row, +e.target.dataset.col);
-  });
-  picker.addEventListener('mouseleave', clearHighlight);
-  picker.addEventListener('click', function (e) {
-    if (!e.target.classList.contains('picker-cell')) return;
-    buildTable(+e.target.dataset.col + 1, +e.target.dataset.row + 1);
-  });
-
-  // 4. Build the actual table
-  function buildTable(nCols, nRows) {
-    builtTable.innerHTML = '';
-
-    var thead = document.createElement('thead');
-    var headRow = document.createElement('tr');
-    for (var c = 0; c < nCols; c++) {
-      var th = document.createElement('th');
-      var inp = document.createElement('input');
-      inp.type = 'text';
-      inp.className = 'header-input';
-      inp.placeholder = 'e.g. Month   or   Temp / °C';
-      inp.dataset.colIdx = c;
-      inp.addEventListener('input', updateHiddenField);
-      inp.addEventListener('focus', function () { lastFocusedHeader = this; });
-      th.appendChild(inp);
-      headRow.appendChild(th);
-    }
-    thead.appendChild(headRow);
-    builtTable.appendChild(thead);
-
-    var tbody = document.createElement('tbody');
-    for (var r = 0; r < nRows; r++) {
-      var tr = document.createElement('tr');
-      for (var c2 = 0; c2 < nCols; c2++) {
-        tr.appendChild(document.createElement('td'));
-      }
-      tbody.appendChild(tr);
-    }
-    builtTable.appendChild(tbody);
-
-    pickerSection.style.display = 'none';
-    builtSection.classList.add('show');
-
-    var firstInput = builtTable.querySelector('.header-input');
-    if (firstInput) firstInput.focus();
-
-    updateHiddenField();
-  }
-
-  // 5. Symbol toolbar — insert at cursor
-  symbolToolbar.addEventListener('click', function (e) {
-    if (!e.target.classList.contains('symbol-btn')) return;
-    insertSymbol(e.target.dataset.sym);
-  });
-
-  function insertSymbol(sym) {
-    var inp = lastFocusedHeader || builtTable.querySelector('.header-input');
-    if (!inp) return;
-
-    var start = inp.selectionStart;
-    var end   = inp.selectionEnd;
-    var val   = inp.value;
-
-    inp.value = val.substring(0, start) + sym + val.substring(end);
-
-    inp.focus();
-    var newPos = start + sym.length;
-    inp.setSelectionRange(newPos, newPos);
-
-    updateHiddenField();
-  }
-
-  // 6. Sync JSON to hidden field
-  function updateHiddenField() {
-    var inputs = builtTable.querySelectorAll('.header-input');
-    var headers = [];
-    for (var i = 0; i < inputs.length; i++) {
-      headers.push(inputs[i].value.trim());
-    }
-    var data = {
-      cols: inputs.length,
-      rows: builtTable.querySelectorAll('tbody tr').length,
-      headers: headers
-    };
-    hiddenField.value = JSON.stringify(data);
-  }
-
-  // 7. Reset
-  resetBtn.addEventListener('click', function () {
-    builtTable.innerHTML = '';
-    builtSection.classList.remove('show');
-    pickerSection.style.display = '';
-    hiddenField.value = '';
-    lastFocusedHeader = null;
-    clearHighlight();
-  });
-
-})();
-
 })();
 </script>
 <script>
@@ -1388,6 +1180,157 @@ function syncQ30a(){
   var b3 = document.getElementById('q30_b3').value;
   document.getElementById('Y9_Q30a_all_three_blanks').value = b1 + '|' + b2 + '|' + b3;
 }
+</script>
+<script>
+/* Q28(d) Table Builder — namespaced, scoped to .q28d-wrap */
+(function () {
+  var MAX_COLS = 8;
+  var MAX_ROWS = 6;
+
+  function init() {
+    var root          = document.querySelector('.q28d-wrap');
+    if (!root) return;
+    var picker        = root.querySelector('#q28d_picker');
+    var readout       = root.querySelector('#q28d_readout');
+    var pickerSection = root.querySelector('#q28d_picker_section');
+    var builtSection  = root.querySelector('#q28d_built_section');
+    var builtTable    = root.querySelector('#q28d_built_table');
+    var symbolToolbar = root.querySelector('#q28d_symbol_toolbar');
+    var resetBtn      = root.querySelector('#q28d_reset_btn');
+    var hiddenField   = document.getElementById('Y9_Q28d_results_table');
+
+    var lastFocusedHeader = null;
+
+    function buildPicker() {
+      picker.innerHTML = '';
+      for (var r = 0; r < MAX_ROWS; r++) {
+        for (var c = 0; c < MAX_COLS; c++) {
+          var cell = document.createElement('div');
+          cell.className = 'q28d-picker-cell';
+          cell.dataset.row = r;
+          cell.dataset.col = c;
+          picker.appendChild(cell);
+        }
+      }
+    }
+
+    function highlight(maxRow, maxCol) {
+      var cells = picker.children;
+      for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        var r = +cell.dataset.row;
+        var c = +cell.dataset.col;
+        cell.classList.toggle('q28d-highlight', r <= maxRow && c <= maxCol);
+      }
+      readout.textContent = (maxCol + 1) + ' \xd7 ' + (maxRow + 1) +
+                            '   (' + (maxCol + 1) + ' cols \xd7 ' + (maxRow + 1) + ' rows)';
+    }
+
+    function clearHighlight() {
+      var cells = picker.children;
+      for (var i = 0; i < cells.length; i++) cells[i].classList.remove('q28d-highlight');
+      readout.innerHTML = '&nbsp;';
+    }
+
+    picker.addEventListener('mouseover', function (e) {
+      if (!e.target.classList.contains('q28d-picker-cell')) return;
+      highlight(+e.target.dataset.row, +e.target.dataset.col);
+    });
+    picker.addEventListener('mouseleave', clearHighlight);
+    picker.addEventListener('click', function (e) {
+      if (!e.target.classList.contains('q28d-picker-cell')) return;
+      buildTable(+e.target.dataset.col + 1, +e.target.dataset.row + 1);
+    });
+
+    function buildTable(nCols, nRows) {
+      builtTable.innerHTML = '';
+
+      var thead = document.createElement('thead');
+      var headRow = document.createElement('tr');
+      for (var c = 0; c < nCols; c++) {
+        var th = document.createElement('th');
+        var inp = document.createElement('input');
+        inp.type = 'text';
+        inp.className = 'q28d-header-input';
+        inp.placeholder = 'e.g. Mass / kg';
+        inp.dataset.colIdx = c;
+        inp.addEventListener('input', updateHiddenField);
+        inp.addEventListener('focus', function () { lastFocusedHeader = this; });
+        th.appendChild(inp);
+        headRow.appendChild(th);
+      }
+      thead.appendChild(headRow);
+      builtTable.appendChild(thead);
+
+      var tbody = document.createElement('tbody');
+      for (var r = 0; r < nRows; r++) {
+        var tr = document.createElement('tr');
+        for (var c2 = 0; c2 < nCols; c2++) {
+          tr.appendChild(document.createElement('td'));
+        }
+        tbody.appendChild(tr);
+      }
+      builtTable.appendChild(tbody);
+
+      pickerSection.style.display = 'none';
+      builtSection.classList.add('q28d-show');
+
+      var firstInput = builtTable.querySelector('.q28d-header-input');
+      if (firstInput) firstInput.focus();
+
+      updateHiddenField();
+    }
+
+    symbolToolbar.addEventListener('click', function (e) {
+      if (!e.target.classList.contains('q28d-symbol-btn')) return;
+      insertSymbol(e.target.dataset.sym);
+    });
+
+    function insertSymbol(sym) {
+      var inp = lastFocusedHeader || builtTable.querySelector('.q28d-header-input');
+      if (!inp) return;
+      var start = inp.selectionStart;
+      var end   = inp.selectionEnd;
+      var val   = inp.value;
+      inp.value = val.substring(0, start) + sym + val.substring(end);
+      inp.focus();
+      var newPos = start + sym.length;
+      inp.setSelectionRange(newPos, newPos);
+      updateHiddenField();
+    }
+
+    function updateHiddenField() {
+      var inputs = builtTable.querySelectorAll('.q28d-header-input');
+      var headers = [];
+      for (var i = 0; i < inputs.length; i++) {
+        headers.push(inputs[i].value.trim());
+      }
+      var data = {
+        cols: inputs.length,
+        rows: builtTable.querySelectorAll('tbody tr').length,
+        headers: headers
+      };
+      hiddenField.value = JSON.stringify(data);
+    }
+
+    resetBtn.addEventListener('click', function () {
+      builtTable.innerHTML = '';
+      builtSection.classList.remove('q28d-show');
+      pickerSection.style.display = '';
+      hiddenField.value = '';
+      lastFocusedHeader = null;
+      clearHighlight();
+    });
+
+    buildPicker();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 </script>
 </body>
 </html>
