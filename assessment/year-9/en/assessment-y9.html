@@ -43,6 +43,23 @@ ${FAVICON_BLOCK}
     .q26-graph-toolbar button.q26-active{border-color:#1a1a1a;background:#1a1917;color:white}
     .q26-graph-outer{margin:8px 0}
     .q26-graph-hidden{display:none!important}
+    /* Table grid-picker widget (Q28d) */
+    .tpick-wrap{margin:10px 0}
+    .tpick-grid{display:inline-grid;grid-template-columns:repeat(5,22px);gap:3px;margin-bottom:6px;cursor:pointer}
+    .tpick-cell{width:22px;height:22px;border:1px solid #d6c8b8;border-radius:3px;background:#fff;transition:background .08s,border-color .08s}
+    .tpick-cell.hi{background:#f97316;border-color:#c2560a}
+    .tpick-dim{font-size:12px;color:#888;min-height:16px;margin-bottom:6px}
+    .tpick-mobile{display:none}
+    @media(pointer:coarse){.tpick-grid{display:none}.tpick-mobile{display:block}}
+    .tpick-mob-row{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}
+    .tpick-mob-btn{border:1px solid #d6c8b8;border-radius:6px;width:30px;height:30px;background:#fff;cursor:pointer;font-size:18px;line-height:1;padding:0}
+    .tpick-mob-confirm{margin-top:8px;border:1px solid #1a1917;border-radius:6px;padding:6px 16px;background:#1a1917;color:#fff;font:inherit;font-size:13px;cursor:pointer}
+    .tresult-wrap{overflow-x:auto;margin-top:6px}
+    .tresult{border-collapse:collapse;font-size:13px}
+    .tresult th{border:1px solid #888;background:#f7f4ef;padding:0;min-width:110px}
+    .tresult th input{width:100%;border:none;outline:none;background:transparent;padding:5px 7px;font:inherit;font-size:13px;text-align:center;box-sizing:border-box}
+    .tresult td{border:1px solid #ccc;height:26px;background:#fafafa;min-width:110px}
+    .tresult-reset{display:inline-block;margin-top:5px;font-size:12px;color:#666;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
     /* Q32d table builder */
     .tb-row{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
     .tb-label{font-size:13px;font-weight:600;color:#1a1917;min-width:140px}
@@ -669,8 +686,31 @@ ${FAVICON_BLOCK}
 
         <div class="sub-question">
           <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
-          <label class="input-label" for="Y9_Q28d_results_table">Draw a results table for Azim's investigation (use text to describe the table headings and layout).</label>
-          <textarea class="textarea-field" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table" rows="4"></textarea>
+          <label class="input-label">Draw a results table for Azim's investigation. Choose the number of columns and rows, then fill in the column headings.</label>
+
+          <div class="tpick-wrap" id="q28d-picker">
+            <div class="tpick-grid" id="q28d-grid"></div>
+            <div class="tpick-dim" id="q28d-dim">Select table size</div>
+            <div class="tpick-mobile">
+              <div class="tpick-mob-row">
+                <span>Columns:</span>
+                <button type="button" id="q28d-cdec" class="tpick-mob-btn">&#8722;</button>
+                <span id="q28d-cval">2</span>
+                <button type="button" id="q28d-cinc" class="tpick-mob-btn">+</button>
+              </div>
+              <div class="tpick-mob-row">
+                <span>Rows:</span>
+                <button type="button" id="q28d-rdec" class="tpick-mob-btn">&#8722;</button>
+                <span id="q28d-rval">3</span>
+                <button type="button" id="q28d-rinc" class="tpick-mob-btn">+</button>
+              </div>
+              <button type="button" id="q28d-mconfirm" class="tpick-mob-confirm">Confirm</button>
+            </div>
+          </div>
+
+          <div id="q28d-tbl-wrap" style="display:none"></div>
+
+          <input type="hidden" id="Y9_Q28d_results_table" name="Y9_Q28d_results_table">
         </div>
       </div>
     </div>
@@ -1189,6 +1229,112 @@ ${FAVICON_BLOCK}
   });
   renderHeaders();
   syncField();
+}());
+})();
+
+// Q28d Word-style table picker
+(function () {
+  var CMAX = 5, RMAX = 5;
+  var selC = 0, selR = 0, headers = [];
+
+  var gridEl  = document.getElementById('q28d-grid');
+  var dimEl   = document.getElementById('q28d-dim');
+  var picker  = document.getElementById('q28d-picker');
+  var tblWrap = document.getElementById('q28d-tbl-wrap');
+  var field   = document.getElementById('Y9_Q28d_results_table');
+  if (!gridEl) return;
+
+  for (var r = 1; r <= RMAX; r++) {
+    for (var c = 1; c <= CMAX; c++) {
+      var cell = document.createElement('div');
+      cell.className = 'tpick-cell';
+      cell.dataset.c = c; cell.dataset.r = r;
+      gridEl.appendChild(cell);
+    }
+  }
+
+  function highlight(hc, hr) {
+    gridEl.querySelectorAll('.tpick-cell').forEach(function (el) {
+      el.classList.toggle('hi', +el.dataset.c <= hc && +el.dataset.r <= hr);
+    });
+  }
+
+  gridEl.addEventListener('mouseover', function (e) {
+    var el = e.target.closest('.tpick-cell'); if (!el) return;
+    highlight(+el.dataset.c, +el.dataset.r);
+    dimEl.textContent = el.dataset.c + ' col x ' + el.dataset.r + ' row';
+  });
+  gridEl.addEventListener('mouseleave', function () {
+    highlight(selC, selR);
+    dimEl.textContent = selC ? selC + ' col x ' + selR + ' row' : 'Select table size';
+  });
+  gridEl.addEventListener('click', function (e) {
+    var el = e.target.closest('.tpick-cell'); if (!el) return;
+    selC = +el.dataset.c; selR = +el.dataset.r; confirmSel();
+  });
+
+  function mobAdj(valId, btnId, delta, min, max) {
+    document.getElementById(btnId).addEventListener('click', function () {
+      var sp = document.getElementById(valId);
+      sp.textContent = Math.min(max, Math.max(min, parseInt(sp.textContent) + delta));
+    });
+  }
+  mobAdj('q28d-cval','q28d-cdec',-1,1,5);
+  mobAdj('q28d-cval','q28d-cinc', 1,1,5);
+  mobAdj('q28d-rval','q28d-rdec',-1,1,8);
+  mobAdj('q28d-rval','q28d-rinc', 1,1,8);
+  document.getElementById('q28d-mconfirm').addEventListener('click', function () {
+    selC = parseInt(document.getElementById('q28d-cval').textContent);
+    selR = parseInt(document.getElementById('q28d-rval').textContent);
+    confirmSel();
+  });
+
+  function confirmSel() {
+    picker.style.display = 'none';
+    headers = Array(selC).fill('');
+    renderTable();
+  }
+
+  function renderTable() {
+    tblWrap.style.display = '';
+    tblWrap.innerHTML = '';
+    var wrap = document.createElement('div');
+    wrap.className = 'tresult-wrap';
+    var tbl = document.createElement('table');
+    tbl.className = 'tresult';
+    var thead = tbl.createTHead();
+    var hrow = thead.insertRow();
+    for (var c = 0; c < selC; c++) {
+      var th = document.createElement('th');
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.placeholder = 'Heading / unit';
+      inp.value = headers[c] || '';
+      inp.dataset.col = c;
+      inp.addEventListener('input', (function(idx){ return function(){ headers[idx]=this.value; sync(); }; })(c));
+      th.appendChild(inp); hrow.appendChild(th);
+    }
+    var tbody = tbl.createTBody();
+    for (var rr = 0; rr < selR; rr++) {
+      var row = tbody.insertRow();
+      for (var cc = 0; cc < selC; cc++) row.insertCell();
+    }
+    wrap.appendChild(tbl);
+    tblWrap.appendChild(wrap);
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'tresult-reset'; btn.textContent = 'Change size';
+    btn.addEventListener('click', function () {
+      tblWrap.style.display = 'none'; picker.style.display = '';
+      selC = 0; selR = 0; highlight(0,0); dimEl.textContent = 'Select table size';
+    });
+    tblWrap.appendChild(btn);
+    sync();
+  }
+
+  function sync() {
+    field.value = 'cols:' + selC + '|headers:' + headers.slice(0,selC).join(',') + '|rows:' + selR;
+    field.dispatchEvent(new Event('change'));
+  }
 }());
 })();
 </script>
