@@ -905,24 +905,7 @@ ${FAVICON_BLOCK}
         <div class="sub-question">
           <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
           <label class="input-label">Design a results table that Rajiv could use to record the temperature data. Include suitable column headings and units.</label>
-          <div class="tb-row">
-            <span class="tb-label">Number of columns:</span>
-            <div class="tb-radio-group">
-              <label><input type="radio" name="q32d-cols" value="2"> 2 columns</label>
-              <label><input type="radio" name="q32d-cols" value="3" checked> 3 columns</label>
-              <label><input type="radio" name="q32d-cols" value="4"> 4 columns</label>
-            </div>
-          </div>
-          <div id="q32d-headers" class="tb-headers"></div>
-          <div class="tb-row">
-            <span class="tb-label">Number of rows:</span>
-            <div class="tb-radio-group">
-              <label><input type="radio" name="q32d-rows" value="3"> 3 rows</label>
-              <label><input type="radio" name="q32d-rows" value="5" checked> 5 rows</label>
-              <label><input type="radio" name="q32d-rows" value="8"> 8 rows</label>
-            </div>
-          </div>
-          <input type="hidden" id="Y9_Q32d_results_table" name="Y9_Q32d_results_table">
+          <textarea name="Y9_Q32d_results_table" rows="4" style="width:100%;border:1px solid #ccc;border-radius:6px;padding:8px;font-size:13px;resize:vertical"></textarea>
         </div>
       </div>
     </div>
@@ -1180,7 +1163,7 @@ ${FAVICON_BLOCK}
 });
 
 // Q28d Word-style table picker
-(function(){
+document.addEventListener('DOMContentLoaded', function(){
   var cols=0,rows=0;
   var grid=document.getElementById('q28d-grid');
   var label=document.getElementById('q28d-size-label');
@@ -1234,7 +1217,7 @@ ${FAVICON_BLOCK}
     hidden.value='cols:'+cols+'|headers:'+headers.join(',')+'|rows:'+rows;
   }
   reset.addEventListener('click',function(e){e.preventDefault();picker.style.display='block';wrap.style.display='none';hidden.value='';cols=0;rows=0;grid.querySelectorAll('div').forEach(function(d){d.style.background='#eee';});label.textContent='— col × — row';});
-})();
+});
 
 // Q32d table builder
 (function () {
