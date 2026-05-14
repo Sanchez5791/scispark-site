@@ -43,6 +43,14 @@ ${FAVICON_BLOCK}
     .q26-graph-toolbar button.q26-active{border-color:#1a1a1a;background:#1a1917;color:white}
     .q26-graph-outer{margin:8px 0}
     .q26-graph-hidden{display:none!important}
+    /* Q32d table builder */
+    .tb-row{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
+    .tb-label{font-size:13px;font-weight:600;color:#1a1917;min-width:140px}
+    .tb-radio-group{display:flex;gap:12px;flex-wrap:wrap}
+    .tb-radio-group label{font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px}
+    .tb-headers{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+    .tb-header-input{border:1px solid #d6c8b8;border-radius:6px;padding:5px 8px;font:inherit;font-size:13px;width:140px;outline:none}
+    .tb-header-input:focus{border-color:#1a1917}
     /* Q32 SVG graphs */
     .svg-graphs-row{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}
     .svg-graph-box{flex:1;min-width:260px}
@@ -868,6 +876,28 @@ ${FAVICON_BLOCK}
           <label class="input-label" for="Y9_Q32c_accuracy_reason">Rajiv thinks the temperatures measured in 1920 are not as accurate as 2020. Suggest one reason why.</label>
           <input type="text" class="text-input" id="Y9_Q32c_accuracy_reason" name="Y9_Q32c_accuracy_reason">
         </div>
+        <div class="sub-question">
+          <div class="sub-label"><span class="sub-letter">(d)</span><span class="sub-marks">1 mark</span></div>
+          <label class="input-label">Design a results table that Rajiv could use to record the temperature data. Include suitable column headings and units.</label>
+          <div class="tb-row">
+            <span class="tb-label">Number of columns:</span>
+            <div class="tb-radio-group">
+              <label><input type="radio" name="q32d-cols" value="2"> 2 columns</label>
+              <label><input type="radio" name="q32d-cols" value="3" checked> 3 columns</label>
+              <label><input type="radio" name="q32d-cols" value="4"> 4 columns</label>
+            </div>
+          </div>
+          <div id="q32d-headers" class="tb-headers"></div>
+          <div class="tb-row">
+            <span class="tb-label">Number of rows:</span>
+            <div class="tb-radio-group">
+              <label><input type="radio" name="q32d-rows" value="3"> 3 rows</label>
+              <label><input type="radio" name="q32d-rows" value="5" checked> 5 rows</label>
+              <label><input type="radio" name="q32d-rows" value="8"> 8 rows</label>
+            </div>
+          </div>
+          <input type="hidden" id="Y9_Q32d_results_table" name="Y9_Q32d_results_table">
+        </div>
       </div>
     </div>
 
@@ -1121,6 +1151,45 @@ ${FAVICON_BLOCK}
     var h = document.getElementById('Y9_Q26b_axis_labels');
     if (h) h.value = 'x: ' + x + ', y: ' + y;
   }
+});
+
+// Q32d table builder
+(function () {
+  var cols = 3, rows = 5;
+  var headers = ['', '', ''];
+  function renderHeaders() {
+    var c = document.getElementById('q32d-headers');
+    if (!c) return;
+    c.innerHTML = '';
+    for (var i = 0; i < cols; i++) {
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'tb-header-input';
+      inp.placeholder = 'Heading / unit';
+      inp.value = headers[i] || '';
+      inp.dataset.col = i;
+      inp.addEventListener('input', function () {
+        headers[parseInt(this.dataset.col)] = this.value;
+        syncField();
+      });
+      c.appendChild(inp);
+    }
+  }
+  function syncField() {
+    var hdrs = headers.slice(0, cols).map(function (h) { return h || ''; });
+    var val = 'cols:' + cols + '|headers:' + hdrs.join(',') + '|rows:' + rows;
+    var f = document.getElementById('Y9_Q32d_results_table');
+    if (f) { f.value = val; f.dispatchEvent(new Event('change')); }
+  }
+  document.querySelectorAll('input[name="q32d-cols"]').forEach(function (r) {
+    r.addEventListener('change', function () { cols = parseInt(this.value); renderHeaders(); syncField(); });
+  });
+  document.querySelectorAll('input[name="q32d-rows"]').forEach(function (r) {
+    r.addEventListener('change', function () { rows = parseInt(this.value); syncField(); });
+  });
+  renderHeaders();
+  syncField();
+}());
 })();
 </script>
 <script>

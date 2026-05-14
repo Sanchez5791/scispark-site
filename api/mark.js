@@ -523,11 +523,11 @@ Your job: mark a single student's submission against the official mark scheme an
 
 ASSESSMENT METADATA
 - assessment_code: Y9_ENTRY_EN
-- total_marks: 60, total_questions: 32, total_fields: 60
+- total_marks: 61, total_questions: 32, total_fields: 61
 - Part A (10m, 10x1m Q1-Q10) Vocabulary MCQ
 - Part B (15m, 15x1m Q11-Q25) Core Concepts MCQ
 - Part C (15m, Q26=5m + Q27=5m + Q28=5m) Data and Experiment
-- Part D (20m, Q29=5m + Q30=5m + Q31=5m + Q32=5m) Extended Response
+- Part D (21m, Q29=5m + Q30=5m + Q31=5m + Q32=6m) Extended Response
 
 MCQ ANSWER KEY (values stored as option letters A/B/C/D, case-insensitive):
 
@@ -659,6 +659,11 @@ Q32 Weather and Climate Change (5m):
   Y9_Q32c_accuracy_reason (1m): why 1920 temperatures may be less accurate.
     ACCEPT: older/less precise thermometers | no digital equipment | fewer weather stations | paper/manual records prone to error | measurement technology less advanced.
     REJECT: "it was colder then" | "different country" | no equipment-based reason.
+  Y9_Q32d_results_table (1m): design a results table for recording temperature data.
+    Student answer format: cols:N|headers:h1,h2,...|rows:N
+    ACCEPT (1m): at least 2 headers contain correct variables with units, e.g. Month, Temperature/°C or Year, Mean temperature (°C) or Month/name, Temp/°C.
+    REJECT (0m): headers missing units entirely | headers unrelated to temperature investigation | only 1 correct header | blank or malformed string.
+    NOTE: ignore cols and rows values; mark solely on header content.
 
 GLOBAL RULES:
 - MCQ fields: case-insensitive exact match against stored option letter (A/B/C/D).
@@ -674,24 +679,24 @@ OUTPUT FORMAT: Return ONLY valid JSON. No prose. No markdown fences.
   "assessment_code":"Y9_ENTRY_EN",
   "student_id":"<id>",
   "marked_at":"<UTC ISO8601>",
-  "total_awarded":<0-60>,
-  "total_possible":60,
+  "total_awarded":<0-61>,
+  "total_possible":61,
   "part_totals":{
     "A":{"awarded":<int>,"possible":10},
     "B":{"awarded":<int>,"possible":15},
     "C":{"awarded":<int>,"possible":15},
-    "D":{"awarded":<int>,"possible":20}
+    "D":{"awarded":<int>,"possible":21}
   },
-  "fields":[<exactly 60 field objects>],
+  "fields":[<exactly 61 field objects>],
   "submission_warnings":[]
 }
 Each field: {"field_id":"Y9_Q1_answer","student_value":"...","expected":"...","marks_awarded":<int>,"marks_possible":<int>,"match_type":"exact|alternative|semantic|wrong|blank","rationale":"<one sentence>","needs_review":<bool>,"review_reason":<string|null>}
 CONSTRAINTS:
-- fields must contain EXACTLY 60 entries.
+- fields must contain EXACTLY 61 entries.
 - total_awarded = sum of all part_totals[X].awarded.
 - All Part A and Part B fields are MCQ (1 mark each, expected = stored option letter).
 - All Part C and Part D fields are free text (1 mark each).
-- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_prediction_no, Y9_Q29a_table_explanation, Y9_Q29b_copper_lead_same, Y9_Q29c_acid_rain_vs_sea_water, Y9_Q29d_safety_precaution, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason.`;
+- Field IDs MUST match the contract: Y9_Q1_answer .. Y9_Q25_answer, Y9_Q26a_current_unit, Y9_Q26b_axis_labels, Y9_Q26b_plotted_points, Y9_Q26b_best_fit_line, Y9_Q26c_relationship, Y9_Q27a_temperature_changes, Y9_Q27b_reaction_types, Y9_Q27c_mixture_releases_most_energy, Y9_Q27d_explanation, Y9_Q27e_reliability, Y9_Q28a_plan_place_measure_dent, Y9_Q28a_plan_repeat_different_blocks_masses, Y9_Q28b_measurements, Y9_Q28c_repeat_reason, Y9_Q28d_results_table, Y9_Q29a_prediction_no, Y9_Q29a_table_explanation, Y9_Q29b_copper_lead_same, Y9_Q29c_acid_rain_vs_sea_water, Y9_Q29d_safety_precaution, Y9_Q30a_blank1_neutralise, Y9_Q30a_blank2_alkaline, Y9_Q30a_blank3_salt, Y9_Q30b_i_decide_best_tablet, Y9_Q30b_ii_control_variable, Y9_Q31a_diffusion, Y9_Q31b_alveoli_function, Y9_Q31c_adaptation, Y9_Q31c_explanation, Y9_Q31d_iron, Y9_Q32a_i_weather_definition, Y9_Q32a_ii_graph_values, Y9_Q32b_i_climate_evidence, Y9_Q32b_ii_climate_reason, Y9_Q32c_accuracy_reason, Y9_Q32d_results_table.`;
 
 // =============================================================
 // PACKAGE REGISTRY
@@ -735,12 +740,12 @@ const PACKAGES = {
   },
   'Y9_ENTRY_EN': {
     code: 'Y9_ENTRY_EN',
-    total_marks: 60,
-    total_fields: 60,
-    parts: { A: 10, B: 15, C: 15, D: 20 },
+    total_marks: 61,
+    total_fields: 61,
+    parts: { A: 10, B: 15, C: 15, D: 21 },
     system_prompt: SYSTEM_PROMPT_Y9,
     max_tokens: 16000,
-    marker_version: 'Y9_entry_v10_final_2026_05_14'
+    marker_version: 'Y9_entry_v11_Q32d_2026_05_14'
   }
 };
 
