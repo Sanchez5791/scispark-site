@@ -862,13 +862,16 @@ function markQ28Graph(responses) {
 // =============================================================
 // DETERMINISTIC MARKER — Q26 graph fields (Y9_ENTRY_EN)
 // Data points: (1,12),(2,9),(3,7),(4,5),(5,2) — lamps vs current (A)
+// Ref: SCISPARK_GRAPH_MARKING_REFERENCE_v1 §6.1 §6.2 §6.3 §9
 // =============================================================
 function markQ26Graph(responses) {
   var EXPECTED = [
     {x:1,y:12},{x:2,y:9},{x:3,y:7},{x:4,y:5},{x:5,y:2}
   ];
-  var PT_TOL = 0.5;
-  var LN_TOL = 1;
+  var PT_TOL       = 0.5;  // §1.3 / §7: ±0.5 small square
+  var LN_TOL       = 1.0;  // §1.3 / §7: within 1 small square of each point
+  var LN_MIN_LEN   = 4;    // §6.3 / §13.6: line must span ≥4 graph units
+  var PT_MAX_COUNT = EXPECTED.length * 2; // §9 rule 7: >2× expected → review
 
   var result = {
     axis_labels:   { mark: 0, reason: '', needs_teacher: false },
@@ -876,30 +879,53 @@ function markQ26Graph(responses) {
     line_best_fit: { mark: 0, reason: '', needs_teacher: false }
   };
 
-  // --- axis_labels ---
-  // Format: "x: <user input>, y: <user input>"  (plain string, not JSON)
+  // --- axis_labels (A1–A4) ---
+  // Format: JSON object {"x_axis_label":"...","y_axis_label":"..."} (§4.2)
   var axRaw = responses['Y9_Q26b_axis_labels'] ? responses['Y9_Q26b_axis_labels'].raw : '';
   if (!axRaw) {
-    result.axis_labels.mark = 0;
-    result.axis_labels.reason = 'No axis labels provided';
+    // A2: empty → needs_teacher, never auto-zero (§9 rule 1)
+    result.axis_labels.needs_teacher = true;
+    result.axis_labels.reason = 'No axis labels provided — teacher review required';
   } else {
-    var axLower = axRaw.toLowerCase();
-    var yIdx   = axLower.indexOf(', y:');
-    var xPart  = yIdx !== -1 ? axLower.substring(0, yIdx) : axLower;
-    var yPart  = yIdx !== -1 ? axLower.substring(yIdx)    : '';
-    var xOk = xPart.indexOf('lamp') !== -1;
-    var yOk = yPart.indexOf('current') !== -1 &&
-              (yPart.indexOf(' a') !== -1 || yPart.indexOf('/a') !== -1 || yPart.indexOf('amp') !== -1);
-    if (xOk && yOk) {
-      result.axis_labels.mark = 1;
-      result.axis_labels.reason = 'Both axis labels correct (x: lamps, y: current with unit A)';
-    } else {
-      result.axis_labels.mark = 0;
-      result.axis_labels.reason = 'Axis labels incorrect — x needs "lamp", y needs "current" and "A"/"amp". Got: ' + axRaw;
+    try {
+      var ax = JSON.parse(axRaw);
+      var xLabel = (ax.x_axis_label || '').toLowerCase().trim();
+      var yLabel = (ax.y_axis_label || '').toLowerCase().trim();
+
+      // x-axis: variable keyword only, no unit required (§16.2 config)
+      var xOk = ['lamp', 'lamps', 'number of lamps'].some(function(k) {
+        return xLabel.indexOf(k) !== -1;
+      });
+
+      // y-axis: variable keyword + unit required (§16.2 config, §11.1)
+      var yHasVar  = yLabel.indexOf('current') !== -1;
+      // A4: full unit_keywords list including "(a)" (§16.2)
+      var yHasUnit = ['a', '/ a', '/a', '(a)', 'amp', 'amps', 'ampere', 'amperes'].some(function(k) {
+        return yLabel.indexOf(k) !== -1;
+      });
+      var yOk = yHasVar && yHasUnit;
+
+      if (xOk && yOk) {
+        result.axis_labels.mark = 1;
+        result.axis_labels.reason = 'Both axis labels correct (x: lamps, y: current with unit A)';
+      } else if (xOk || yOk) {
+        // A3: partial match → needs_teacher (§6.1, §9 rule 6)
+        result.axis_labels.mark = 0;
+        result.axis_labels.needs_teacher = true;
+        result.axis_labels.reason = 'Partial axis labels — x:' + (xOk ? 'ok' : 'fail') +
+          ' y:' + (yOk ? 'ok' : 'fail') + ' (var=' + yHasVar + ' unit=' + yHasUnit + ') — teacher review';
+      } else {
+        result.axis_labels.mark = 0;
+        result.axis_labels.reason = 'Both axis labels incorrect — x needs "lamp", y needs "current" + unit A';
+      }
+    } catch(e) {
+      // Malformed JSON → needs_teacher (§9 rule 2)
+      result.axis_labels.needs_teacher = true;
+      result.axis_labels.reason = 'Malformed axis_labels JSON — teacher review required';
     }
   }
 
-  // --- graph_points ---
+  // --- graph_points (B1–B2) ---
   // Format: [{"x":1,"y":12}, ...]  — coordinates in graph units, precision 0.5
   var ptsRaw = responses['Y9_Q26b_plotted_points'] ? responses['Y9_Q26b_plotted_points'].raw : '';
   if (!ptsRaw || ptsRaw === '[]' || ptsRaw === '') {
@@ -908,17 +934,26 @@ function markQ26Graph(responses) {
   } else {
     try {
       var pts = JSON.parse(ptsRaw);
-      var correct = pts.filter(function(p) {
-        return EXPECTED.some(function(e) {
-          return Math.abs(p.x - e.x) <= PT_TOL && Math.abs(p.y - e.y) <= PT_TOL;
-        });
-      }).length;
-      if (correct >= 4) {
-        result.graph_points.mark = 1;
-        result.graph_points.reason = correct + '/5 points within ±0.5 tolerance';
+      // B2: too many points → review (§9 rule 7)
+      if (pts.length > PT_MAX_COUNT) {
+        result.graph_points.needs_teacher = true;
+        result.graph_points.reason = 'Student plotted ' + pts.length + ' points (>' + PT_MAX_COUNT + ') — may not have erased; teacher review';
       } else {
-        result.graph_points.mark = 0;
-        result.graph_points.reason = 'Only ' + correct + '/5 points within tolerance — minimum 4 required';
+        // B1: iterate EXPECTED points, not student points (§6.2)
+        var matched = 0;
+        EXPECTED.forEach(function(exp) {
+          var hit = pts.some(function(sp) {
+            return Math.abs(sp.x - exp.x) <= PT_TOL && Math.abs(sp.y - exp.y) <= PT_TOL;
+          });
+          if (hit) matched++;
+        });
+        if (matched >= 4) {
+          result.graph_points.mark = 1;
+          result.graph_points.reason = matched + '/5 expected points matched within ±0.5';
+        } else {
+          result.graph_points.mark = 0;
+          result.graph_points.reason = 'Only ' + matched + '/5 expected points matched — minimum 4 required';
+        }
       }
     } catch(e) {
       result.graph_points.needs_teacher = true;
@@ -926,7 +961,7 @@ function markQ26Graph(responses) {
     }
   }
 
-  // --- best_fit_line ---
+  // --- best_fit_line (C1–C3) ---
   // Format: {"start":{"x":...,"y":...},"end":{"x":...,"y":...}}
   var lineRaw = responses['Y9_Q26b_best_fit_line'] ? responses['Y9_Q26b_best_fit_line'].raw : '';
   if (!lineRaw || lineRaw === '') {
@@ -935,23 +970,32 @@ function markQ26Graph(responses) {
   } else {
     try {
       var ln = JSON.parse(lineRaw);
-      var dx = ln.end.x - ln.start.x;
-      var dy = ln.end.y - ln.start.y;
-      var lenSq = dx * dx + dy * dy;
-      var closeCount = EXPECTED.filter(function(p) {
-        if (lenSq === 0) return false;
-        var t = Math.max(0, Math.min(1,
-          ((p.x - ln.start.x) * dx + (p.y - ln.start.y) * dy) / lenSq));
-        var distSq = Math.pow(p.x - (ln.start.x + t * dx), 2) +
-                     Math.pow(p.y - (ln.start.y + t * dy), 2);
-        return Math.sqrt(distSq) <= LN_TOL;
-      }).length;
-      if (closeCount >= 3) {
-        result.line_best_fit.mark = 1;
-        result.line_best_fit.reason = 'Line of best fit passes within ±1 unit of ' + closeCount + '/5 data points';
+      var dx  = ln.end.x - ln.start.x;
+      var dy  = ln.end.y - ln.start.y;
+      var len = Math.sqrt(dx * dx + dy * dy);
+
+      // C1: line too short → needs_teacher (§6.3, §9 rule 4, §13.6)
+      if (len < LN_MIN_LEN) {
+        result.line_best_fit.needs_teacher = true;
+        result.line_best_fit.reason = 'Line too short (' + len.toFixed(1) + ' units, minimum ' + LN_MIN_LEN + ') — teacher review required';
       } else {
-        result.line_best_fit.mark = 0;
-        result.line_best_fit.reason = 'Line passes within ±1 unit of only ' + closeCount + '/5 points — minimum 3 required';
+        // C2: perpendicular distance to INFINITE LINE (§6.3 formula)
+        // C3: ALL 5 expected points must be within ±1 unit (§6.3 every, §7)
+        var allWithin = EXPECTED.every(function(p) {
+          var dist = Math.abs(dy * (p.x - ln.start.x) - dx * (p.y - ln.start.y)) / len;
+          return dist <= LN_TOL;
+        });
+        if (allWithin) {
+          result.line_best_fit.mark = 1;
+          result.line_best_fit.reason = 'Line of best fit passes within ±1 unit of all 5 data points';
+        } else {
+          // Count for informative reason string
+          var closeCount = EXPECTED.filter(function(p) {
+            return Math.abs(dy * (p.x - ln.start.x) - dx * (p.y - ln.start.y)) / len <= LN_TOL;
+          }).length;
+          result.line_best_fit.mark = 0;
+          result.line_best_fit.reason = 'Line passes within ±1 unit of only ' + closeCount + '/5 data points — all 5 required';
+        }
       }
     } catch(e) {
       result.line_best_fit.needs_teacher = true;
