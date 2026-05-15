@@ -222,11 +222,15 @@ async function submitToSupabase(payload) {
 
   if (attemptError) throw attemptError;
 
-  const answerRows = flattenAnswers(payload.answers).map(row => ({
-    attempt_id: attempt.id,
-    field_name: row.field_name,
-    answer_value: row.answer_value
-  }));
+  const answerRows = flattenAnswers(payload.answers).map(row => {
+    const idx = FIELD_IDS.indexOf(row.field_name);
+    return {
+      attempt_id: attempt.id,
+      question_number: idx >= 0 ? `q${idx + 1}` : row.field_name,
+      field_name: row.field_name,
+      answer_value: row.answer_value
+    };
+  });
 
   const { error: answersError } = await supabaseClient
     .from('assessment_answers')
