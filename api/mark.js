@@ -543,15 +543,16 @@ Q26 Electricity Investigation (5m):
   Y9_Q26a_current_unit (1m): unit for current.
     ACCEPT: A | amp | ampere | amperes | amps (case-insensitive).
     REJECT: mA | V | W | ohm.
-  Y9_Q26b_axis_labels (1m): axis labels for the graph.
-    ACCEPT: x-axis includes "number of lamps" or "lamps"; y-axis includes "current" and "A" or "ampere".
-    REJECT: missing either axis, wrong units.
-  Y9_Q26b_plotted_points (1m): JSON array of plotted points.
-    ACCEPT: if JSON contains at least 4 of 5 correct points (1,12),(2,9),(3,7),(4,5),(5,2) within +/-0.5 tolerance.
-    If field is null/blank: needs_review=true, teacher must check canvas.
-  Y9_Q26b_best_fit_line (1m): JSON object for line of best fit.
-    ACCEPT: a straight line passing within +/-1 unit of at least 3 plotted points.
-    If field is null/blank: needs_review=true, teacher must check canvas.
+=== Q26 GRAPH FIELDS — PRECOMPUTED MARKS ===
+The following Q26 fields are marked deterministically before this prompt runs.
+Use the precomputed values verbatim. DO NOT re-evaluate the graph yourself.
+
+axis_labels:     mark={{Q26_AXIS_LABELS_MARK}},  reason="{{Q26_AXIS_LABELS_REASON}}",  needs_teacher={{Q26_AXIS_LABELS_TEACHER}}
+plotted_points:  mark={{Q26_GRAPH_POINTS_MARK}}, reason="{{Q26_GRAPH_POINTS_REASON}}", needs_teacher={{Q26_GRAPH_POINTS_TEACHER}}
+best_fit_line:   mark={{Q26_LINE_MARK}},          reason="{{Q26_LINE_REASON}}",          needs_teacher={{Q26_LINE_TEACHER}}
+
+For Y9_Q26a_current_unit and Y9_Q26c_relationship: mark normally per mark scheme.
+=== END Q26 GRAPH FIELDS ===
   Y9_Q26c_relationship (1m): relationship between number of lamps and current.
     ACCEPT: as number of lamps increases current decreases | inverse relationship | current goes down as lamps increase.
     REJECT: current increases | no relationship | unrelated answer.
@@ -857,6 +858,109 @@ function markQ28Graph(responses) {
 
   return result;
 }
+
+// =============================================================
+// DETERMINISTIC MARKER — Q26 graph fields (Y9_ENTRY_EN)
+// Data points: (1,12),(2,9),(3,7),(4,5),(5,2) — lamps vs current (A)
+// =============================================================
+function markQ26Graph(responses) {
+  var EXPECTED = [
+    {x:1,y:12},{x:2,y:9},{x:3,y:7},{x:4,y:5},{x:5,y:2}
+  ];
+  var PT_TOL = 0.5;
+  var LN_TOL = 1;
+
+  var result = {
+    axis_labels:   { mark: 0, reason: '', needs_teacher: false },
+    graph_points:  { mark: 0, reason: '', needs_teacher: false },
+    line_best_fit: { mark: 0, reason: '', needs_teacher: false }
+  };
+
+  // --- axis_labels ---
+  // Format: "x: <user input>, y: <user input>"  (plain string, not JSON)
+  var axRaw = responses['Y9_Q26b_axis_labels'] ? responses['Y9_Q26b_axis_labels'].raw : '';
+  if (!axRaw) {
+    result.axis_labels.mark = 0;
+    result.axis_labels.reason = 'No axis labels provided';
+  } else {
+    var axLower = axRaw.toLowerCase();
+    var yIdx   = axLower.indexOf(', y:');
+    var xPart  = yIdx !== -1 ? axLower.substring(0, yIdx) : axLower;
+    var yPart  = yIdx !== -1 ? axLower.substring(yIdx)    : '';
+    var xOk = xPart.indexOf('lamp') !== -1;
+    var yOk = yPart.indexOf('current') !== -1 &&
+              (yPart.indexOf(' a') !== -1 || yPart.indexOf('/a') !== -1 || yPart.indexOf('amp') !== -1);
+    if (xOk && yOk) {
+      result.axis_labels.mark = 1;
+      result.axis_labels.reason = 'Both axis labels correct (x: lamps, y: current with unit A)';
+    } else {
+      result.axis_labels.mark = 0;
+      result.axis_labels.reason = 'Axis labels incorrect — x needs "lamp", y needs "current" and "A"/"amp". Got: ' + axRaw;
+    }
+  }
+
+  // --- graph_points ---
+  // Format: [{"x":1,"y":12}, ...]  — coordinates in graph units, precision 0.5
+  var ptsRaw = responses['Y9_Q26b_plotted_points'] ? responses['Y9_Q26b_plotted_points'].raw : '';
+  if (!ptsRaw || ptsRaw === '[]' || ptsRaw === '') {
+    result.graph_points.needs_teacher = true;
+    result.graph_points.reason = 'No coordinate data captured — teacher review required';
+  } else {
+    try {
+      var pts = JSON.parse(ptsRaw);
+      var correct = pts.filter(function(p) {
+        return EXPECTED.some(function(e) {
+          return Math.abs(p.x - e.x) <= PT_TOL && Math.abs(p.y - e.y) <= PT_TOL;
+        });
+      }).length;
+      if (correct >= 4) {
+        result.graph_points.mark = 1;
+        result.graph_points.reason = correct + '/5 points within ±0.5 tolerance';
+      } else {
+        result.graph_points.mark = 0;
+        result.graph_points.reason = 'Only ' + correct + '/5 points within tolerance — minimum 4 required';
+      }
+    } catch(e) {
+      result.graph_points.needs_teacher = true;
+      result.graph_points.reason = 'Malformed plotted_points JSON — teacher review required';
+    }
+  }
+
+  // --- best_fit_line ---
+  // Format: {"start":{"x":...,"y":...},"end":{"x":...,"y":...}}
+  var lineRaw = responses['Y9_Q26b_best_fit_line'] ? responses['Y9_Q26b_best_fit_line'].raw : '';
+  if (!lineRaw || lineRaw === '') {
+    result.line_best_fit.needs_teacher = true;
+    result.line_best_fit.reason = 'No line coordinate data — teacher review required';
+  } else {
+    try {
+      var ln = JSON.parse(lineRaw);
+      var dx = ln.end.x - ln.start.x;
+      var dy = ln.end.y - ln.start.y;
+      var lenSq = dx * dx + dy * dy;
+      var closeCount = EXPECTED.filter(function(p) {
+        if (lenSq === 0) return false;
+        var t = Math.max(0, Math.min(1,
+          ((p.x - ln.start.x) * dx + (p.y - ln.start.y) * dy) / lenSq));
+        var distSq = Math.pow(p.x - (ln.start.x + t * dx), 2) +
+                     Math.pow(p.y - (ln.start.y + t * dy), 2);
+        return Math.sqrt(distSq) <= LN_TOL;
+      }).length;
+      if (closeCount >= 3) {
+        result.line_best_fit.mark = 1;
+        result.line_best_fit.reason = 'Line of best fit passes within ±1 unit of ' + closeCount + '/5 data points';
+      } else {
+        result.line_best_fit.mark = 0;
+        result.line_best_fit.reason = 'Line passes within ±1 unit of only ' + closeCount + '/5 points — minimum 3 required';
+      }
+    } catch(e) {
+      result.line_best_fit.needs_teacher = true;
+      result.line_best_fit.reason = 'Malformed best_fit_line JSON — teacher review required';
+    }
+  }
+
+  return result;
+}
 // =============================================================
 // HANDLER
 // =============================================================
@@ -970,6 +1074,26 @@ module.exports = async function handler(req, res) {
         .replace('{{Q28_LINE_TEACHER}}',         String(q28Marks.line_best_fit.needs_teacher));
     }
 
+    // 5b. Pre-compute Q26 graph marks (Y9_ENTRY_EN only)
+    let q26Marks = null;
+    if (pkg.code === 'Y9_ENTRY_EN') {
+      const responsesY9 = {};
+      for (const k in answers) {
+        responsesY9[k] = { raw: answers[k] || '', normalized: (answers[k] || '').toLowerCase().trim() };
+      }
+      q26Marks = markQ26Graph(responsesY9);
+      systemPrompt = systemPrompt
+        .replace('{{Q26_AXIS_LABELS_MARK}}',     String(q26Marks.axis_labels.mark))
+        .replace('{{Q26_AXIS_LABELS_REASON}}',   q26Marks.axis_labels.reason)
+        .replace('{{Q26_AXIS_LABELS_TEACHER}}',  String(q26Marks.axis_labels.needs_teacher))
+        .replace('{{Q26_GRAPH_POINTS_MARK}}',    String(q26Marks.graph_points.mark))
+        .replace('{{Q26_GRAPH_POINTS_REASON}}',  q26Marks.graph_points.reason)
+        .replace('{{Q26_GRAPH_POINTS_TEACHER}}', String(q26Marks.graph_points.needs_teacher))
+        .replace('{{Q26_LINE_MARK}}',            String(q26Marks.line_best_fit.mark))
+        .replace('{{Q26_LINE_REASON}}',          q26Marks.line_best_fit.reason)
+        .replace('{{Q26_LINE_TEACHER}}',         String(q26Marks.line_best_fit.needs_teacher));
+    }
+
     // 5. Build user prompt
     const userMsg = `Mark this assessment submission.
 
@@ -1029,6 +1153,31 @@ Return ONLY the JSON object. No prose. No markdown fences.`;
       let markDelta = 0;
       for (const field of marking.fields || []) {
         const ov = q28Overrides[field.field_id];
+        if (ov !== undefined) {
+          markDelta += ov.mark - (field.marks_awarded || 0);
+          field.marks_awarded = ov.mark;
+          field.needs_review  = ov.needs_teacher;
+          field.rationale     = ov.reason;
+          field.review_reason = ov.needs_teacher ? ov.reason : null;
+        }
+      }
+      if (markDelta !== 0) {
+        marking.total_awarded = (marking.total_awarded || 0) + markDelta;
+        if (marking.part_totals && marking.part_totals['C'])
+          marking.part_totals['C'].awarded = (marking.part_totals['C'].awarded || 0) + markDelta;
+      }
+    }
+
+    // 7b. Override Q26 graph field marks with deterministic values (Y9_ENTRY_EN only)
+    if (pkg.code === 'Y9_ENTRY_EN' && q26Marks) {
+      const q26Overrides = {
+        'Y9_Q26b_axis_labels':    q26Marks.axis_labels,
+        'Y9_Q26b_plotted_points': q26Marks.graph_points,
+        'Y9_Q26b_best_fit_line':  q26Marks.line_best_fit
+      };
+      let markDelta = 0;
+      for (const field of marking.fields || []) {
+        const ov = q26Overrides[field.field_id];
         if (ov !== undefined) {
           markDelta += ov.mark - (field.marks_awarded || 0);
           field.marks_awarded = ov.mark;
