@@ -1,0 +1,353 @@
+/*
+  SciSpark · ray-diagram-picker.css
+  Component: INPUT_TYPE=ray_diagram widget
+  Prefix: .rd-*  (matches family .tb-* / .gw-* convention)
+  Design System: v3.1
+*/
+
+/* ═══════════════════════════════════════════════════
+   SciSpark design tokens (v3.1) — defensive copy.
+   lesson-shell.css should also declare these; kept
+   here so the widget renders correctly even if the
+   shell tokens are absent.
+   ═══════════════════════════════════════════════════ */
+:root {
+  --bg:        #FBF8F4;
+  --bg-2:      #F4EFE7;
+  --bg-card:   #ffffff;
+
+  --ink:       #171413;
+  --ink-2:     #3a342f;
+  --ink-3:     #6b6358;
+
+  --line:      #E6DFD3;
+  --line-2:    #D9D0BF;
+
+  --accent:      #EA580C;
+  --accent-soft: #FFE9D6;
+  --accent-ink:  #7a2e08;
+
+  --ok:        #2E7D5B;
+  --ok-bg:     #d9eed9;
+  --ok-text:   #2a6a2a;
+  --warn:      #a32d2d;
+  --warn-bg:   #fce8e6;
+
+  --ff-display: 'Instrument Serif','Times New Roman',serif;
+  --ff-body:    'Inter',-apple-system,sans-serif;
+  --ff-mono:    'JetBrains Mono',monospace;
+  --ff-zh:      'Noto Sans SC','PingFang SC',system-ui,sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+/* ═══════════════════════════════════════════════════
+   RAY DIAGRAM PICKER COMPONENT — production styles
+   ═══════════════════════════════════════════════════ */
+
+.ray-diagram-picker {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin: 8px 0 0;
+}
+
+/* ── SVG scene wrap (responsive) ────────────────── */
+.rd-svg-wrap {
+  width: 100%;
+  max-width: 100%;
+  background: var(--bg-2);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  margin-bottom: 14px;
+}
+.rd-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Candidate ray paths ────────────────────────── */
+.rd-line {
+  stroke: var(--ink-3);
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+  fill: none;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.15s, stroke 0.15s, stroke-width 0.15s;
+  outline: none;
+  pointer-events: stroke;
+}
+.rd-line:hover { opacity: 0.85; }
+.rd-line:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.rd-line.rd-selected {
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-dasharray: none;
+  opacity: 1;
+}
+
+/* Invisible thicker hit-area to make touch targets ≥ 44px-equivalent
+   (the visible stroke stays 3px; the hit overlay catches taps) */
+.rd-line-hit {
+  stroke: transparent;
+  stroke-width: 24;
+  fill: none;
+  cursor: pointer;
+  pointer-events: stroke;
+}
+
+/* ── Line labels (A / B / C / D) ────────────────── */
+.rd-line-label {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--ink-2);
+  pointer-events: none;
+  user-select: none;
+}
+.rd-line-label.rd-label-selected {
+  fill: var(--accent);
+}
+
+/* ── Step boxes (host the instructions + buttons) ── */
+.rd-step {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--bg-2);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.rd-step.rd-locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.rd-step-label {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.rd-step-prompt {
+  color: var(--ink);
+  font-size: 14px;
+}
+.rd-step-prompt .zh {
+  font-family: var(--ff-zh);
+  font-size: 12px;
+  color: var(--ink-3);
+  display: block;
+  margin-top: 2px;
+}
+.rd-picked-readout {
+  margin-top: 6px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+.rd-picked-readout.rd-has-value { color: var(--accent); font-weight: 700; }
+
+/* ── Direction button row ───────────────────────── */
+.rd-dir-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 10px;
+}
+.rd-dir-btn {
+  background: var(--bg-card);
+  color: var(--ink-2);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 18px;
+  min-height: 44px;
+  min-width: 44px;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+}
+.rd-dir-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+}
+.rd-dir-btn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.rd-dir-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.rd-dir-btn.rd-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.rd-dir-icon {
+  font-family: var(--ff-mono);
+  font-size: 15px;
+  line-height: 1;
+}
+.rd-dir-label-en, .rd-dir-label-zh {
+  display: inline;
+}
+.rd-dir-label-zh {
+  font-family: var(--ff-zh);
+}
+
+/* ── Bilingual EN/ZH spans (family pattern) ──────
+   Default: inline ZH after EN (smaller, ZH font, ink-3).
+   In lesson-shell context, lesson-shell.css decides which
+   one shows based on body lang class. In standalone demo,
+   both show — ZH styled to read as a translation.
+   Block-level .zh inside .rd-step-prompt defined above. */
+.ray-diagram-picker .zh {
+  font-family: var(--ff-zh);
+  font-size: 0.92em;
+  color: var(--ink-3);
+  margin-left: 4px;
+}
+
+/* ── Submit / reset row ─────────────────────────── */
+.rd-submit-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  flex-wrap: wrap;
+}
+.rd-submit {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 28px;
+  min-height: 44px;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.rd-submit:hover:not(:disabled) { background: #c2460a; }
+.rd-submit:focus-visible {
+  outline: 3px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+.rd-submit:disabled {
+  background: var(--line-2);
+  cursor: not-allowed;
+}
+.rd-reset {
+  background: transparent;
+  color: var(--ink-3);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 16px;
+  min-height: 44px;
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+.rd-reset:hover:not(:disabled) {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.rd-reset:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.rd-status {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+.rd-status.rd-ok { color: var(--ok-text); }
+.rd-status.rd-warn { color: var(--warn); }
+
+/* ── Live region for screen readers (visually hidden) ── */
+.rd-live {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* ── Config-error fallback (when JSON parsing fails) ── */
+.rd-error {
+  padding: 14px 16px;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius-md);
+  color: var(--warn);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ── Locked-state after submit ──────────────────── */
+.ray-diagram-picker.rd-locked-state .rd-submit,
+.ray-diagram-picker.rd-locked-state .rd-reset {
+  display: none;
+}
+.ray-diagram-picker.rd-locked-state .rd-line,
+.ray-diagram-picker.rd-locked-state .rd-line-hit,
+.ray-diagram-picker.rd-locked-state .rd-dir-btn {
+  pointer-events: none;
+  cursor: default;
+}
+.ray-diagram-picker.rd-locked-state .rd-step {
+  opacity: 0.85;
+}
+
+/* ── Mobile tweaks ──────────────────────────────── */
+@media (max-width: 600px) {
+  .ray-diagram-picker { padding: 14px; }
+  .rd-dir-row { gap: 6px; }
+  .rd-dir-btn {
+    flex: 1 1 calc(50% - 6px);
+    padding: 10px 12px;
+    font-size: 12px;
+    justify-content: center;
+  }
+  .rd-submit-row { gap: 8px; }
+  .rd-submit { flex: 1 1 auto; padding: 11px 18px; }
+  .rd-reset { flex: 0 0 auto; }
+  .rd-line { stroke-width: 4; }
+  .rd-line-label { font-size: 14px; }
+}
+
+/* ── Respect prefers-reduced-motion ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .rd-line,
+  .rd-dir-btn,
+  .rd-submit,
+  .rd-reset {
+    transition: none !important;
+  }
+}
