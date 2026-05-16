@@ -10,6 +10,16 @@ Version: v3 (PRODUCTION)
 Status: PERMANENT LOCKED — change here propagates to ALL lessons
 
 Changelog:
+  v6 (2026-05-16) — fetchLevelFromSupabase 改 layered lookup:
+                    [a] assessment_attempts 查最新 attempt (filter
+                        student_id = auth UID, 历史命名)
+                    [b] assessment_reviews 优先 (teacher_final_level
+                        > provisional_level), 这 2 列是 text 类型,
+                        加 normLevel() 把 'l1'/'L1'/'1' 全部标准化
+                        成 '1'/'2'/'3' (匹配 CSS)
+                    [c] 都没有 → 从 assessment_marking_results.
+                        total_awarded 算 (≥45=3, ≥30=2, <30=1)
+                    支持老师覆盖。其他 function 全部不动。
   v5 (2026-05-16) — fetchLevelFromSupabase 改读 total_awarded
                     (assessment_marking_results 表没有 level 列)。
                     分数→level 换算: ≥45=3, ≥30=2, <30=1。
@@ -381,30 +391,82 @@ async function fetchLevelFromSupabase() {
   const user = userData && userData.user;
   if (!user) throw new Error('user not signed in');
 
-  // Step 2: 查最新一笔 assessment_marking_results 拿 total_awarded
-  // (表里没有 level 列, 要用分数换算)
-  const { data, error } = await client
-    .from('assessment_marking_results')
-    .select('total_awarded, total_possible')
-    .eq('user_id', user.id)
+  // Step 2: 找最新一笔 attempt
+  // 注意: assessment_attempts.student_id 历史命名, 实际存的是 auth.users.id
+  const { data: attemptRow, error: attemptErr } = await client
+    .from('assessment_attempts')
+    .select('id, year_group')
+    .eq('student_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  if (error) throw new Error('query: ' + error.message);
-  if (!data) throw new Error('no assessment row for user ' + user.id);
+  if (attemptErr) throw new Error('attempts query: ' + attemptErr.message);
+  if (!attemptRow) throw new Error('no attempts for user ' + user.id);
 
-  // Step 3: 分数换算 level (阈值同步 api/mark.js + teacher-review.html)
+  const attemptShort = String(attemptRow.id).substring(0, 8);
+  const yearTag = attemptRow.year_group || '?';
+
+  // 标准化 level: 'l1'/'L1'/'1' → '1' (匹配 CSS body[data-user-level="X"])
+  function normLevel(raw) {
+    if (raw === null || raw === undefined) return null;
+    const m = String(raw).trim().toLowerCase().match(/^l?([123])$/);
+    return m ? m[1] : null;
+  }
+
+  // Step 3a: 优先 assessment_reviews (teacher_final > provisional)
+  const { data: reviewRow, error: reviewErr } = await client
+    .from('assessment_reviews')
+    .select('provisional_level, teacher_final_level')
+    .eq('attempt_id', attemptRow.id)
+    .maybeSingle();
+
+  if (reviewErr) {
+    console.warn('[SciSpark Level] assessment_reviews query error (falling to score): ' +
+                 reviewErr.message);
+  } else if (reviewRow) {
+    const teacherLvl = normLevel(reviewRow.teacher_final_level);
+    const provLvl = normLevel(reviewRow.provisional_level);
+    if (teacherLvl) {
+      console.log('%c[SciSpark Level] From assessment_reviews.teacher_final: ' + teacherLvl +
+                  ' (raw="' + reviewRow.teacher_final_level + '", attempt ' +
+                  attemptShort + '..., ' + yearTag + ')',
+                  'color:#EA580C;font-weight:bold');
+      return teacherLvl;
+    }
+    if (provLvl) {
+      console.log('%c[SciSpark Level] From assessment_reviews.provisional: ' + provLvl +
+                  ' (raw="' + reviewRow.provisional_level + '", attempt ' +
+                  attemptShort + '..., ' + yearTag + ')',
+                  'color:#EA580C;font-weight:bold');
+      return provLvl;
+    }
+  }
+
+  // Step 3b: fallback — 从 marking_results.total_awarded 算
+  const { data: markRow, error: markErr } = await client
+    .from('assessment_marking_results')
+    .select('total_awarded, total_possible')
+    .eq('attempt_id', attemptRow.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (markErr) throw new Error('marking query: ' + markErr.message);
+  if (!markRow) throw new Error('no marking for attempt ' + attemptRow.id);
+
+  // Step 4: 分数换算 level (阈值同步 api/mark.js + teacher-review.html)
   // ★ 哪天要改阈值, 这 3 个文件全部要改
-  const score = Number(data.total_awarded);
+  const score = Number(markRow.total_awarded);
   if (!Number.isFinite(score)) {
-    throw new Error('invalid total_awarded: ' + data.total_awarded);
+    throw new Error('invalid total_awarded: ' + markRow.total_awarded);
   }
   const level = score >= 45 ? '3' : score >= 30 ? '2' : '1';
 
-  console.log('%c[SciSpark Level] Score ' + score + '/' +
-              (data.total_possible || '?') + ' → Level ' + level,
-              'color:#EA580C');
+  console.log('%c[SciSpark Level] Computed from score ' + score + '/' +
+              (markRow.total_possible || '?') + ' → Level ' + level +
+              ' (attempt ' + attemptShort + '..., ' + yearTag + ', no review)',
+              'color:#EA580C;font-weight:bold');
 
   return level;
 }
