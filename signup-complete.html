@@ -329,6 +329,12 @@
 
   /* We have a session — show the form */
   const user = session.user;
+
+  if (user && user.email === 'info@scisparklab.com') {
+    window.location.replace('/teacher-review-list');
+    return;
+  }
+
   document.getElementById('display-email').textContent = user.email || user.id;
 
   /* Pre-fill parent email from Google account */
