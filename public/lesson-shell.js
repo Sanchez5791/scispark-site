@@ -10,6 +10,10 @@ Version: v3 (PRODUCTION)
 Status: PERMANENT LOCKED — change here propagates to ALL lessons
 
 Changelog:
+  v4 (2026-05-16) — 在 lesson-shell.js 顶部加 Supabase auto-init
+                    (IIFE)。自动 load SDK CDN, createClient,
+                    赋值 window.sb。lesson HTML 零改动。
+                    applyLevelFromURL + 3 个 helper 不动。
   v3 (2026-05-16) — applyLevelFromURL 改读 Supabase
                     assessment_marking_results.level (per student)。
                     URL ?level=N 仍然有效 (老师测试用, 不写 cache)。
@@ -27,6 +31,49 @@ Includes:
   - localStorage streak counter
 ═══════════════════════════════════════════════════════════════
 */
+
+// ═════════════════════════════════════════════════════════════
+// SUPABASE AUTO-INIT (v4)
+// Self-contained: load SDK CDN if needed → createClient → window.sb
+// Anon key is publishable by design (RLS = real security boundary).
+// ═════════════════════════════════════════════════════════════
+(function initSupabase() {
+  // 已有 client? 跳过 (lesson HTML 自己 init 过的情况)
+  if (window.sb && window.sb.auth && typeof window.sb.from === 'function') {
+    console.log('%c[SciSpark Supabase] existing client detected, skipping init',
+                'color:#888');
+    return;
+  }
+
+  const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+
+  function createClient() {
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+      return false;
+    }
+    window.sb = window.supabase.createClient(SB_URL, SB_KEY);
+    console.log('%c[SciSpark Supabase] client ready',
+                'color:#EA580C;font-weight:bold');
+    return true;
+  }
+
+  // SDK 已 load? 直接 create
+  if (createClient()) return;
+
+  // SDK 没 load → 动态 inject CDN <script>
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+  s.onload = () => {
+    if (!createClient()) {
+      console.warn('[SciSpark Supabase] SDK loaded but createClient failed');
+    }
+  };
+  s.onerror = () => {
+    console.warn('[SciSpark Supabase] CDN load failed — applyLevelFromURL will fallback');
+  };
+  document.head.appendChild(s);
+})();
 
 // ═════════════════════════════════════════════════════════════
 // TTS STATE — only ONE utterance at a time
