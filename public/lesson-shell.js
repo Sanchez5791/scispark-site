@@ -5,8 +5,18 @@ SCISPARK LESSON SHARED JAVASCRIPT
 File: /public/lesson-shell.js (Vercel auto-served at /lesson-shell.js)
 Type: SHARED script — used by ALL lesson HTML files
 Source: extracted from SCISPARK_LESSON_SHELL_v1 → v2 (B-mode shared)
-Date: 2026-05-11
+Date: 2026-05-16
+Version: v3 (PRODUCTION)
 Status: PERMANENT LOCKED — change here propagates to ALL lessons
+
+Changelog:
+  v3 (2026-05-16) — applyLevelFromURL 改读 Supabase
+                    assessment_marking_results.level (per student)。
+                    URL ?level=N 仍然有效 (老师测试用, 不写 cache)。
+                    Supabase 失败 → localStorage → '2' default。
+                    新增 fetchLevelFromSupabase + waitForSupabaseClient
+                    2 个 helper。其他 function 全部没动。
+  v2 (2026-05-11) — B-mode shared 初版
 
 Includes:
   - showScreen() navigation
@@ -224,16 +234,117 @@ function setLang(mode) {
 }
 
 // ═════════════════════════════════════════════════════════════
-// LEVEL SYSTEM (URL ?level=1/2/3)
+// LEVEL SYSTEM — v3 (Supabase-backed)
+// ═════════════════════════════════════════════════════════════
+// 顺序:
+//   [1] URL ?level=1/2/3  → 老师测试用, 立刻应用, 不写 localStorage,
+//                            跳过 Supabase
+//   [2] localStorage cache 立刻应用 (避免页面闪烁)
+//   [3] async 去 Supabase 抽真值 → 覆盖 [2] + 写 cache
+//   [4] Supabase 失败 → 保持 [2] (cache 或 default '2'), 不 break
 // ═════════════════════════════════════════════════════════════
 function applyLevelFromURL() {
   const params = new URLSearchParams(window.location.search);
-  const level = params.get('level') || localStorage.getItem('scispark_level') || '2';
-  if (['1','2','3'].includes(level)) {
-    document.body.setAttribute('data-user-level', level);
-    localStorage.setItem('scispark_level', level);
+  const urlLevel = params.get('level');
+  const cachedLevel = localStorage.getItem('scispark_level');
+
+  // [1] 老师 URL override — 立刻应用, 不写 cache (避免污染学生)
+  if (urlLevel && ['1','2','3'].includes(urlLevel)) {
+    document.body.setAttribute('data-user-level', urlLevel);
+    console.log('%c[SciSpark Level] URL override: ' + urlLevel,
+                'color:#EA580C;font-weight:bold');
+    return; // 不查 Supabase
   }
-  // PHASE 2 ACTIVATE: read level from Supabase student profile instead of URL
+
+  // [2] cache 或 default 先应用 (避免闪烁)
+  const startLevel = (cachedLevel && ['1','2','3'].includes(cachedLevel))
+    ? cachedLevel
+    : '2';
+  document.body.setAttribute('data-user-level', startLevel);
+  console.log('%c[SciSpark Level] Start (cache/default): ' + startLevel,
+              'color:#888');
+
+  // [3] async 去 Supabase 抽真正的 level
+  fetchLevelFromSupabase()
+    .then(dbLevel => {
+      if (!['1','2','3'].includes(dbLevel)) {
+        console.warn('[SciSpark Level] Invalid DB level "' + dbLevel +
+                     '" — keeping ' + startLevel);
+        return;
+      }
+      document.body.setAttribute('data-user-level', dbLevel);
+      localStorage.setItem('scispark_level', dbLevel);
+      console.log('%c[SciSpark Level] From Supabase: ' + dbLevel,
+                  'color:#EA580C;font-weight:bold');
+    })
+    .catch(err => {
+      console.warn('[SciSpark Level] Supabase fetch failed — staying on ' +
+                   startLevel + ' (reason: ' + err.message + ')');
+    });
+}
+
+// 找 Supabase client 实例 — lesson HTML 自己 init, 我们只读
+// 兼容 3 种常见名字: window.supabaseClient / window.supabase / window.sb
+function getSupabaseClient() {
+  const candidates = [
+    window.supabaseClient,
+    window.supabase,
+    window.sb
+  ];
+  for (const c of candidates) {
+    if (c &&
+        typeof c.from === 'function' &&
+        c.auth &&
+        typeof c.auth.getUser === 'function') {
+      return c;
+    }
+  }
+  return null;
+}
+
+// 等 Supabase client load (lesson HTML 可能晚 init)
+function waitForSupabaseClient(timeoutMs) {
+  return new Promise(resolve => {
+    const start = Date.now();
+    const tryNow = () => {
+      const c = getSupabaseClient();
+      if (c) return resolve(c);
+      if (Date.now() - start >= timeoutMs) return resolve(null);
+      setTimeout(tryNow, 100);
+    };
+    tryNow();
+  });
+}
+
+// 真去 Supabase 抽 level
+async function fetchLevelFromSupabase() {
+  const client = await waitForSupabaseClient(3000);
+  if (!client) {
+    throw new Error('supabase client not initialized on this page');
+  }
+
+  // Step 1: 抽 auth user
+  const { data: userData, error: authErr } = await client.auth.getUser();
+  if (authErr) throw new Error('auth: ' + authErr.message);
+  const user = userData && userData.user;
+  if (!user) throw new Error('user not signed in');
+
+  // Step 2: 查最新一笔 assessment_marking_results
+  const { data, error } = await client
+    .from('assessment_marking_results')
+    .select('level')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw new Error('query: ' + error.message);
+  if (!data) throw new Error('no assessment row for user ' + user.id);
+  if (data.level === null || data.level === undefined) {
+    throw new Error('level field empty in DB');
+  }
+
+  return String(data.level);
 }
 
 // ═════════════════════════════════════════════════════════════
@@ -480,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setLang(savedLang);
 
-  // Apply level (URL or localStorage)
+  // Apply level (URL override or Supabase fetch)
   applyLevelFromURL();
 
   // Setup auto-save for all textareas
