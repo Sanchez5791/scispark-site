@@ -10,6 +10,11 @@ Version: v3 (PRODUCTION)
 Status: PERMANENT LOCKED — change here propagates to ALL lessons
 
 Changelog:
+  v5 (2026-05-16) — fetchLevelFromSupabase 改读 total_awarded
+                    (assessment_marking_results 表没有 level 列)。
+                    分数→level 换算: ≥45=3, ≥30=2, <30=1。
+                    阈值跟 api/mark.js + teacher-review.html 一致。
+                    其他 function 全部不动。
   v4 (2026-05-16) — 在 lesson-shell.js 顶部加 Supabase auto-init
                     (IIFE)。自动 load SDK CDN, createClient,
                     赋值 window.sb。lesson HTML 零改动。
@@ -376,10 +381,11 @@ async function fetchLevelFromSupabase() {
   const user = userData && userData.user;
   if (!user) throw new Error('user not signed in');
 
-  // Step 2: 查最新一笔 assessment_marking_results
+  // Step 2: 查最新一笔 assessment_marking_results 拿 total_awarded
+  // (表里没有 level 列, 要用分数换算)
   const { data, error } = await client
     .from('assessment_marking_results')
-    .select('level')
+    .select('total_awarded, total_possible')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -387,11 +393,20 @@ async function fetchLevelFromSupabase() {
 
   if (error) throw new Error('query: ' + error.message);
   if (!data) throw new Error('no assessment row for user ' + user.id);
-  if (data.level === null || data.level === undefined) {
-    throw new Error('level field empty in DB');
-  }
 
-  return String(data.level);
+  // Step 3: 分数换算 level (阈值同步 api/mark.js + teacher-review.html)
+  // ★ 哪天要改阈值, 这 3 个文件全部要改
+  const score = Number(data.total_awarded);
+  if (!Number.isFinite(score)) {
+    throw new Error('invalid total_awarded: ' + data.total_awarded);
+  }
+  const level = score >= 45 ? '3' : score >= 30 ? '2' : '1';
+
+  console.log('%c[SciSpark Level] Score ' + score + '/' +
+              (data.total_possible || '?') + ' → Level ' + level,
+              'color:#EA580C');
+
+  return level;
 }
 
 // ═════════════════════════════════════════════════════════════
