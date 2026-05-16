@@ -1370,6 +1370,77 @@ main().catch(err => {
   console.error('[lesson] fatal error:', err);
   showError('Unexpected error', err.message || 'Reload the page.');
 });
+
+/* ================================================================
+   ray_diagram Phase 2 — server marking
+   Listens for rd:submit dispatched by ray_diagram_picker_v1 widget.
+   Ignores local_marks (anti-cheat: server recomputes score itself).
+   Dispatches rd:marked with server result for lesson-shell feedback.
+   ================================================================ */
+window.addEventListener('rd:submit', async function(e) {
+  var detail = e.detail || {};
+  var question_id        = detail.question_id;
+  var student_submission = detail.student_submission;
+
+  if (!question_id || !student_submission) {
+    console.warn('[lesson] rd:submit missing question_id or student_submission');
+    return;
+  }
+
+  // Require active session + resolved child
+  var sessionData = await sb.auth.getSession();
+  var token = sessionData && sessionData.data && sessionData.data.session
+    ? sessionData.data.session.access_token
+    : null;
+  if (!token || !state.childId) {
+    console.warn('[lesson] rd:submit: no auth session or childId — skipping server mark');
+    return;
+  }
+
+  var result;
+  try {
+    var resp = await fetch('/api/mark-lesson', {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        child_id:           state.childId,
+        question_id:        question_id,
+        student_submission: student_submission
+      })
+    });
+    result = await resp.json();
+  } catch (err) {
+    console.error('[lesson] mark-lesson fetch error:', err);
+    return;
+  }
+
+  // Dispatch result for lesson-shell feedback handling
+  // result = { score, max_score, feedback_key, feedback_variant, reasoning }
+  window.dispatchEvent(new CustomEvent('rd:marked', { detail: result }));
+
+  // Toast feedback — visible immediately, no DOM dependency
+  (function showRdToast(r) {
+    var correct = r.feedback_key === 'RIGHT';
+    var toast = document.createElement('div');
+    toast.textContent = correct
+      ? '✓ 已交，得分 ' + r.score + '/' + r.max_score
+      : '✗ 得分 ' + r.score + '/' + r.max_score;
+    toast.style.cssText = [
+      'position:fixed', 'bottom:32px', 'left:50%', 'transform:translateX(-50%)',
+      'padding:12px 24px', 'border-radius:8px', 'font-size:15px', 'font-weight:600',
+      'color:#fff', 'z-index:9999', 'pointer-events:none',
+      'box-shadow:0 4px 16px rgba(0,0,0,0.18)',
+      'transition:opacity 0.5s ease',
+      'background:' + (correct ? '#16A34A' : '#DC2626')
+    ].join(';');
+    document.body.appendChild(toast);
+    setTimeout(function() { toast.style.opacity = '0'; }, 3500);
+    setTimeout(function() { document.body.removeChild(toast); }, 4100);
+  })(result);
+});
 </script>
 
 </body>
