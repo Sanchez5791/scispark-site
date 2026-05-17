@@ -335,17 +335,25 @@
     return;
   }
 
-  /* Returning-user gate (小改 1, 2026-05-17): if parent already has a child
-     registered, skip the signup form and go directly to dashboard. Prevents
-     duplicate parents/students/children rows from accumulating on every signin. */
-  const { data: existingChildren } = await sb
-    .from('children')
-    .select('id')
-    .eq('parent_id', user.id)
-    .limit(1);
-  if (existingChildren && existingChildren.length > 0) {
-    window.location.replace('/dashboard-parent');
-    return;
+  /* D.03 fix (2026-05-17) — returning-user redirect to dashboard.
+     If this parent already has at least one child row, they have completed signup.
+     Send them to the dashboard instead of re-showing the registration form.
+     On query error, fall through to form (safe default = current behaviour). */
+  try {
+    const { data: existingChildren, error: childrenCheckError } = await sb
+      .from('children')
+      .select('id')
+      .eq('parent_id', user.id)
+      .limit(1);
+
+    if (childrenCheckError) {
+      console.warn('[signup-complete] returning-user check failed, falling through to form:', childrenCheckError);
+    } else if (existingChildren && existingChildren.length > 0) {
+      window.location.replace('/dashboard-parent.html');
+      return;
+    }
+  } catch (e) {
+    console.warn('[signup-complete] returning-user check threw, falling through to form:', e);
   }
 
   document.getElementById('display-email').textContent = user.email || user.id;
