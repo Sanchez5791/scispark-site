@@ -607,6 +607,47 @@ function closeAITutor() {
   document.getElementById('ai-tutor-panel').classList.remove('open');
 }
 
+function showToast(message, opts) {
+  opts = opts || {};
+  let container = document.getElementById('scispark-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'scispark-toast-container';
+    container.style.cssText = 'position:fixed;top:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;pointer-events:none;';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.style.cssText = [
+    'background:#ffffff',
+    'border-left:4px solid #EA580C',
+    'box-shadow:0 4px 12px rgba(0,0,0,0.15)',
+    'padding:14px 20px',
+    'border-radius:12px',
+    'font-family:Arial,sans-serif',
+    'font-size:14px',
+    'color:#1f2937',
+    'min-width:240px',
+    'max-width:360px',
+    'opacity:0',
+    'transform:translateX(20px)',
+    'transition:opacity 0.3s ease, transform 0.3s ease',
+    'pointer-events:auto'
+  ].join(';');
+  toast.textContent = message;
+  container.appendChild(toast);
+  requestAnimationFrame(function(){
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(0)';
+  });
+  setTimeout(function(){
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(20px)';
+    setTimeout(function(){
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 300);
+  }, 3000);
+}
+
 // ═════════════════════════════════════════════════════════════
 // COMPLETE LESSON (XP + Badge + Surprise Drop + Streak)
 // ═════════════════════════════════════════════════════════════
@@ -676,7 +717,7 @@ function completeLesson() {
     setTimeout(() => {
       // Read lesson number from <body data-lesson="N">; fallback to '?' if not set
       const lessonNum = document.body.dataset.lesson || '?';
-      alert(`Great work! Lesson ${lessonNum} complete. ✓\n干得好!第 ${lessonNum} 课完成。`);
+      showToast(`Great work! Lesson ${lessonNum} complete. ✓ · XP +10`);
     }, 600);
   }
 }
