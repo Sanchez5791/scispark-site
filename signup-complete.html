@@ -415,6 +415,19 @@
 
 if (studentErr) throw studentErr;
 
+/* 2b. Dual-write to new schema (D-04 Phase 1, 2026-05-17) */
+const { data: childRow, error: childErr } = await sb
+  .from('children')
+  .insert({
+    parent_id: user.id,
+    full_name: studentName,
+    year_group: 'Y' + yearGroup,
+    assessment_language: assessLang || 'English',
+  })
+  .select('id')
+  .single();
+if (childErr) throw childErr;
+
      /* 3. Redirect to the correct year-based assessment.
    First-round assessment is English only.
    Chinese second-round is teacher-triggered after English result review. */
