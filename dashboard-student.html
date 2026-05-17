@@ -632,7 +632,7 @@ html, body {
           <circle cx="25" cy="25" r="20" stroke="#e8521a" stroke-width="4" fill="none"
                   stroke-dasharray="125.66" stroke-dashoffset="36.4" stroke-linecap="round"/>
         </svg>
-        <div class="ring-text">71%</div>
+        <div class="ring-text" data-week-pct>71%</div>
       </div>
       <div class="small-text">
         <strong>71% this week</strong><br>
@@ -654,7 +654,7 @@ html, body {
     <div class="subtitle-meta">
       <span class="tag-pill is-orange">Level 2 · Guided</span>
       <span class="tag-pill">Bilingual · 双语</span>
-      <span class="tag-pill">Year 7</span>
+      <span class="tag-pill" data-year-tag>Year 7</span>
       <span class="tag-pill">Cambridge 0893</span>
     </div>
 
@@ -691,79 +691,7 @@ html, body {
     </div>
 
     <div class="unit-grid" id="dash-unit-grid" style="display:none">
-
-      <!-- B1 mastered -->
-      <div class="unit-card">
-        <div class="unit-card-top">
-          <div class="unit-code b">B1</div>
-          <span class="badge badge-green">Strong · 已掌握</span>
-        </div>
-        <div class="unit-title">Cells &amp; Life Processes</div>
-        <div class="unit-title-zh">细胞与生命过程</div>
-        <div class="unit-progress-row">
-          <span>8 of 8 lessons · 8 / 8 课</span>
-          <span style="color: var(--green);">✓ Mastered</span>
-        </div>
-        <div class="progress-bar"><div class="fill is-green" style="width: 100%;"></div></div>
-        <div class="unit-card-bottom">
-          <button class="btn btn-secondary">View Unit · 查看单元</button>
-        </div>
-      </div>
-
-      <!-- C1 today (Y7 Chemistry Unit 1 — Matter & Particle Model) -->
-      <div class="unit-card is-today">
-        <div class="unit-card-top">
-          <div class="unit-code c">C1</div>
-          <span class="badge badge-orange-solid">Today · 今日</span>
-        </div>
-        <div class="unit-title">Matter &amp; Particle Model</div>
-        <div class="unit-title-zh">物质与粒子模型</div>
-        <div class="unit-progress-row">
-          <span>Lesson 1 of 8 · 课节 1 / 8</span>
-          <span style="color: var(--orange); font-weight: 600;">5%</span>
-        </div>
-        <div class="progress-bar"><div class="fill" style="width: 5%;"></div></div>
-        <div class="unit-card-bottom">
-          <a href="/lessons/y7/u1/l01.html" class="btn btn-primary" style="text-decoration: none;">Start Lesson 1 · 开始第 1 课 →</a>
-        </div>
-      </div>
-
-      <!-- C3 gap -->
-      <div class="unit-card">
-        <div class="unit-card-top">
-          <div class="unit-code c">C3</div>
-          <span class="badge badge-amber">Gap detected · 发现盲点</span>
-        </div>
-        <div class="unit-title">Chemical Change</div>
-        <div class="unit-title-zh">化学变化</div>
-        <div class="unit-progress-row">
-          <span>Assessment flagged 2 concepts</span>
-          <span style="color: var(--orange);">!  Revise</span>
-        </div>
-        <div class="progress-bar"><div class="fill" style="width: 35%; background: #d4a050;"></div></div>
-        <div class="unit-card-bottom">
-          <button class="btn btn-amber">Start Revision · 开始复习</button>
-        </div>
-      </div>
-
-      <!-- E4 locked -->
-      <div class="unit-card is-locked">
-        <div class="unit-card-top">
-          <div class="unit-code e">E4</div>
-          <span class="badge badge-grey">🔒 Locked · 待解锁</span>
-        </div>
-        <div class="unit-title">Energy Transfer</div>
-        <div class="unit-title-zh">能量转移</div>
-        <div class="unit-progress-row">
-          <span>Unlocks after P2</span>
-          <span>—</span>
-        </div>
-        <div class="progress-bar"><div class="fill" style="width: 0%;"></div></div>
-        <div class="unit-card-bottom">
-          <button class="btn is-disabled" disabled>Unlocks after P2</button>
-        </div>
-      </div>
-
+      <!-- populated by UNITS_MANIFEST in dashboardInit() -->
     </div>
 
     <!-- THIS WEEK + AI GUIDE -->
@@ -778,22 +706,22 @@ html, body {
                     stroke-dasharray="389.56" stroke-dashoffset="112.97" stroke-linecap="round"/>
           </svg>
           <div class="ring-center">
-            <div class="pct">71%</div>
+            <div class="pct" data-week-pct>71%</div>
             <div class="label">Goal · 目标</div>
           </div>
         </div>
         <div class="week-stats">
           <div class="week-stat-row">
             <span class="label">Days · 活跃天数</span>
-            <span class="value">5 / 7</span>
+            <span class="value" data-lessons-done>5 / 7</span>
           </div>
           <div class="week-stat-row">
             <span class="label">Time · 学习时长</span>
-            <span class="value">78 min</span>
+            <span class="value" data-time-min>78 min</span>
           </div>
           <div class="week-stat-row">
             <span class="label">Concepts · 概念</span>
-            <span class="value">+4</span>
+            <span class="value" data-streak>+4</span>
           </div>
           <div class="week-stat-row">
             <span class="label">Accuracy · 准确率</span>
@@ -878,6 +806,29 @@ html, body {
   const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
   const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
+  /* ── UNITS_MANIFEST (D.04) — titles are PLACEHOLDERS; Sanchez to confirm.
+     Maps year_group → ordered unit list used to render the unit card grid. */
+  const UNITS_MANIFEST = {
+    'Y7': [
+      { code:'U1', title_en:'Matter & Particle Model', title_zh:'物质与粒子模型' },
+      { code:'U2', title_en:'Forces & Motion',         title_zh:'力与运动' },
+      { code:'U3', title_en:'Living Things',           title_zh:'生物' },
+      { code:'U4', title_en:'Energy & Sound',          title_zh:'能量与声音' },
+    ],
+    'Y8': [
+      { code:'U1', title_en:'Cells & Organisms',       title_zh:'细胞与生物体' },
+      { code:'U2', title_en:'Atoms & Reactions',       title_zh:'原子与反应' },
+      { code:'U3', title_en:'Forces & Pressure',       title_zh:'力与压强' },
+      { code:'U4', title_en:'Light & Waves',           title_zh:'光与波' },
+    ],
+    'Y9': [
+      { code:'U1', title_en:'Genetics & Evolution',    title_zh:'遗传与进化' },
+      { code:'U2', title_en:'Periodic Table',          title_zh:'元素周期表' },
+      { code:'U3', title_en:'Electricity & Magnetism', title_zh:'电与磁' },
+      { code:'U4', title_en:'Earth & Universe',        title_zh:'地球与宇宙' },
+    ],
+  };
+
   /* 1. Auth check ---------------------------------------------------- */
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
@@ -886,16 +837,29 @@ html, body {
   }
   const user = session.user;
 
-  /* 2. Child record -------------------------------------------------- */
-  const { data: child, error: childErr } = await sb
-    .from('children')
-    .select('id, full_name, year_group')
-    .eq('parent_id', user.id)
-    .limit(1)
-    .maybeSingle();
-
-  if (childErr || !child) {
-    console.warn('[SciSpark Dashboard] No child record for uid:', user.id);
+  /* 2. Child record — D.04: support ?child_id= for multi-child parents */
+  const urlParams = new URLSearchParams(window.location.search);
+  const requestedChildId = urlParams.get('child_id');
+  console.log('[SciSpark Dashboard] ?child_id param:', requestedChildId || '(none — using first child)');
+  let child = null;
+  if (requestedChildId) {
+    const { data: byId } = await sb.from('children')
+      .select('id, full_name, year_group, assessment_language, current_unit')
+      .eq('id', requestedChildId)
+      .maybeSingle();
+    child = byId;
+  }
+  if (!child) {
+    const { data: firstChild } = await sb.from('children')
+      .select('id, full_name, year_group, assessment_language, current_unit')
+      .eq('parent_id', user.id)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .maybeSingle();
+    child = firstChild;
+  }
+  if (!child) {
+    window.location.replace('/dashboard-parent.html');
     return;
   }
 
@@ -914,6 +878,66 @@ html, body {
     .forEach(el => { el.textContent = initials; });
   const accentEl = document.querySelector('.h1 .accent');
   if (accentEl) accentEl.textContent = firstName + '.';
+
+  /* D.04: Language badge -------------------------------------------- */
+  try {
+    const lr = (child.assessment_language || '').toLowerCase();
+    const langLabel = (lr.includes('chin') || lr.includes('bil'))
+      ? 'Bilingual · 双语' : 'English';
+    document.querySelectorAll('.lang-badge, [data-lang-badge]')
+      .forEach(el => { el.textContent = langLabel; });
+  } catch(e) {}
+
+  /* D.04: Year tag --------------------------------------------------- */
+  try {
+    const yg = child.year_group || 'Year ?';
+    document.querySelectorAll('[data-year-tag]')
+      .forEach(el => { el.textContent = yg; });
+  } catch(e) {}
+
+  /* D.04: Unit cards + lesson_progress ------------------------------ */
+  let lp = [];
+  try {
+    const unitGridD04 = document.getElementById('dash-unit-grid');
+    const units = UNITS_MANIFEST[child.year_group] || UNITS_MANIFEST['Y7'];
+    const { data: lpData } = await sb.from('lesson_progress')
+      .select('lesson_id, status, completed_at')
+      .eq('child_id', child.id);
+    lp = lpData || [];
+    if (unitGridD04) {
+      unitGridD04.innerHTML = units.map(u =>
+        '<div class="unit-card">' +
+          '<div class="unit-card-top">' +
+            '<div class="unit-code">' + u.code + '</div>' +
+            '<span class="badge badge-grey">—</span>' +
+          '</div>' +
+          '<div class="unit-title">' + u.title_en + '</div>' +
+          '<div class="unit-title-zh">' + u.title_zh + '</div>' +
+          '<div class="unit-progress-row"><span>—</span><span>—</span></div>' +
+          '<div class="progress-bar"><div class="fill" style="width:0%"></div></div>' +
+          '<div class="unit-card-bottom">' +
+            '<button class="btn btn-secondary">View Unit · 查看单元</button>' +
+          '</div>' +
+        '</div>'
+      ).join('');
+      unitGridD04.style.display = '';
+    }
+  } catch(e) { console.warn('[SciSpark Dashboard] unit cards failed:', e); }
+
+  /* D.04: Weekly stats (graceful — if no lesson_progress data show —) */
+  try {
+    const lpDone  = lp.filter(r => r.status === 'completed').length;
+    const lpTotal = lp.length;
+    const weekPct = lpTotal > 0 ? Math.round(lpDone / lpTotal * 100) + '%' : '—';
+    document.querySelectorAll('[data-week-pct]')
+      .forEach(el => { el.textContent = weekPct; });
+    document.querySelectorAll('[data-lessons-done]')
+      .forEach(el => { el.textContent = lpTotal > 0 ? (lpDone + ' / ' + lpTotal) : '—'; });
+    document.querySelectorAll('[data-time-min]')
+      .forEach(el => { el.textContent = '—'; });
+    document.querySelectorAll('[data-streak]')
+      .forEach(el => { el.textContent = '—'; });
+  } catch(e) { console.warn('[SciSpark Dashboard] stats failed:', e); }
 
   /* 4. Latest assessment attempt for this child --------------------- */
   const { data: attempt } = await sb

@@ -480,6 +480,29 @@ html, body {
   background: var(--orange); color: white;
 }
 @media (min-width: 768px) { .mobile-tabs { display: none; } }
+
+/* ================ CHILDREN LIST (D.04) ================ */
+.children-list { display:flex; flex-direction:column; gap:12px; }
+.child-card {
+  display:flex; align-items:center; gap:16px; padding:16px;
+  background:var(--bg-card); border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  text-decoration:none; color:var(--text); transition:.15s;
+}
+.child-card:hover { border-color:var(--orange); box-shadow:0 4px 16px rgba(232,82,26,0.08); }
+.child-card-avatar {
+  width:44px; height:44px; border-radius:99px;
+  background:var(--orange-mid); color:var(--orange);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:16px; flex-shrink:0;
+}
+.child-card-body { flex:1; min-width:0; }
+.child-card-name { font-weight:600; font-size:16px; margin-bottom:4px; }
+.child-card-meta { font-size:13px; color:var(--text-muted); }
+.child-card-arrow { color:var(--orange); font-size:20px; }
+.children-list-loading, .children-list-error {
+  padding:20px; color:var(--text-muted); text-align:center; font-size:14px;
+}
 </style>
 </head>
 <body>
@@ -500,7 +523,7 @@ html, body {
       </div>
     </a>
     <div class="nav-right">
-      <span class="nav-user-name">Sarah Lim</span>
+      <span class="nav-user-name" data-parent-name>Sarah Lim</span>
       <div class="nav-avatar">SL</div>
       <button class="nav-signout">Sign out</button>
     </div>
@@ -524,7 +547,7 @@ html, body {
     <div class="sidebar-profile">
       <div class="avatar">SL</div>
       <div>
-        <div class="name">Sarah Lim</div>
+        <div class="name" data-parent-name>Sarah Lim</div>
         <div class="role">Parent Account</div>
       </div>
     </div>
@@ -594,53 +617,9 @@ html, body {
       </div>
     </div>
 
-    <!-- CHILD RECORD CARD -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="eyebrow" style="margin-bottom: 6px;">
-            <span class="dot"></span>
-            Child Record <span class="zh">孩子档案</span>
-          </div>
-          <div class="child-name">Alex Lim</div>
-          <div class="child-name-zh">林俊宇 · Year 8</div>
-        </div>
-        <span class="badge badge-amber">Y8</span>
-      </div>
-      <div class="child-grid">
-        <div>
-          <div class="field-row">
-            <span class="field-label">Year Group · 年级</span>
-            <span class="field-value">Year 8</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Language · 语言</span>
-            <span class="field-value">English</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Status · 状态</span>
-            <span class="field-value"><span class="badge badge-amber">Submitted</span></span>
-          </div>
-        </div>
-        <div>
-          <div class="field-row">
-            <span class="field-label">School Textbook · 校用课本</span>
-            <a href="#" class="field-value is-empty">Upload <span class="arrow">→</span></a>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Current Unit · 当前单元</span>
-            <span class="field-value" style="color: var(--text-muted);">Not provided</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Recent Exam Score · 最近成绩</span>
-            <a href="#" class="field-value is-empty">Upload <span class="arrow">→</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="card-footnote">
-        Student login activates after package is confirmed.
-        <span class="zh">套餐确认后，学生登录将自动激活。</span>
-      </div>
+    <!-- CHILDREN LIST — populated by JS -->
+    <div id="children-list" class="children-list">
+      <div class="children-list-loading">Loading…</div>
     </div>
 
     <!-- ASSESSMENT CARD -->
@@ -728,6 +707,88 @@ html, body {
 
   </main>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+/* ── SciSpark Parent Dashboard — live data init (D.04) ───────────────
+   Auth → profile name → children list (each card → ?child_id=<uuid>).
+   No new dependencies — reuses same @supabase CDN as dashboard-student.
+──────────────────────────────────────────────────────────────────────── */
+(async function parentDashboardInit() {
+  const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  /* 1. Auth check ---------------------------------------------------- */
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('/signin.html'); return; }
+  const user = session.user;
+
+  /* Sanchez admin shortcut ------------------------------------------- */
+  if (user.email === 'info@scisparklab.com') {
+    window.location.replace('/teacher-review-list');
+    return;
+  }
+
+  /* 2. Parent display name ------------------------------------------- */
+  try {
+    const { data: prof } = await sb.from('profiles')
+      .select('full_name, email').eq('id', user.id).maybeSingle();
+    const displayName = (prof && prof.full_name) ? prof.full_name : (user.email || 'Parent');
+    document.querySelectorAll('[data-parent-name]')
+      .forEach(el => { el.textContent = displayName; });
+  } catch (e) { console.warn('[dashboard-parent] profile fetch failed:', e); }
+
+  /* Wire sign-out ---------------------------------------------------- */
+  document.querySelectorAll('.nav-signout').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      await sb.auth.signOut();
+      window.location.replace('/signin.html');
+    });
+  });
+
+  /* 3. Children ------------------------------------------------------ */
+  const { data: children, error: childrenErr } = await sb.from('children')
+    .select('id, full_name, year_group, assessment_language, created_at')
+    .eq('parent_id', user.id)
+    .order('created_at', { ascending: true });
+
+  const listEl = document.getElementById('children-list');
+  if (childrenErr) {
+    console.error('[dashboard-parent] children query failed:', childrenErr);
+    if (listEl) listEl.innerHTML = '<div class="children-list-error">Could not load children. Please refresh.</div>';
+    return;
+  }
+  if (!children || children.length === 0) {
+    window.location.replace('/signup-complete.html');
+    return;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function renderChild(child) {
+    const name     = child.full_name || 'Unnamed';
+    const initials = name.split(/\s+/).map(s => s[0]).filter(Boolean)
+                         .slice(0,2).join('').toUpperCase() || '?';
+    const yearLabel = child.year_group || 'Year ?';
+    const langRaw   = (child.assessment_language || '').toLowerCase();
+    const langLabel = (langRaw.includes('chin') || langRaw.includes('bil'))
+                      ? 'Bilingual · 双语' : 'English';
+    const href = '/dashboard-student.html?child_id=' + encodeURIComponent(child.id);
+    return '<a class="child-card" href="' + href + '">' +
+      '<div class="child-card-avatar">' + escapeHtml(initials) + '</div>' +
+      '<div class="child-card-body">' +
+        '<div class="child-card-name">' + escapeHtml(name) + '</div>' +
+        '<div class="child-card-meta">' + escapeHtml(yearLabel) + ' · ' + escapeHtml(langLabel) + '</div>' +
+      '</div>' +
+      '<div class="child-card-arrow">→</div>' +
+    '</a>';
+  }
+  if (listEl) listEl.innerHTML = children.map(renderChild).join('');
+})();
+</script>
 
 </body>
 </html>
