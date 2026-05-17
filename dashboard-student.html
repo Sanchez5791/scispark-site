@@ -801,6 +801,47 @@ html, body {
      assessment_marking_results(id, attempt_id, total_awarded, total_possible, ...)
      Levels: ≥45 → 3 (Advanced), ≥30 → 2 (Guided), <30 → 1 (Foundation)
 ──────────────────────────────────────────────────────────────────────── */
+function showToast(message, opts) {
+  opts = opts || {};
+  let container = document.getElementById('scispark-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'scispark-toast-container';
+    container.style.cssText = 'position:fixed;top:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;pointer-events:none;';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.style.cssText = [
+    'background:#ffffff',
+    'border-left:4px solid #EA580C',
+    'box-shadow:0 4px 12px rgba(0,0,0,0.15)',
+    'padding:14px 20px',
+    'border-radius:12px',
+    'font-family:Arial,sans-serif',
+    'font-size:14px',
+    'color:#1f2937',
+    'min-width:240px',
+    'max-width:360px',
+    'opacity:0',
+    'transform:translateX(20px)',
+    'transition:opacity 0.3s ease, transform 0.3s ease',
+    'pointer-events:auto'
+  ].join(';');
+  toast.textContent = message;
+  container.appendChild(toast);
+  requestAnimationFrame(function(){
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(0)';
+  });
+  setTimeout(function(){
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(20px)';
+    setTimeout(function(){
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 300);
+  }, 3000);
+}
+
 (async function dashboardInit() {
   const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
   const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
@@ -864,20 +905,98 @@ html, body {
   }
 
   /* 3. Inject name + initials --------------------------------------- */
-  const words    = child.full_name.trim().split(/\s+/);
-  const initials = words.map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  const firstName = words[0];
+  function renderChildName(c) {
+    const words    = c.full_name.trim().split(/\s+/);
+    const initials = words.map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    const firstName = words[0];
 
-  document.querySelectorAll('.nav-user-name')
-    .forEach(el => { el.textContent = child.full_name; });
-  document.querySelectorAll('.nav-avatar')
-    .forEach(el => { el.textContent = initials; });
-  document.querySelectorAll('.sidebar-profile .name')
-    .forEach(el => { el.textContent = child.full_name; });
-  document.querySelectorAll('.sidebar-profile .avatar')
-    .forEach(el => { el.textContent = initials; });
-  const accentEl = document.querySelector('.h1 .accent');
-  if (accentEl) accentEl.textContent = firstName + '.';
+    document.querySelectorAll('.nav-user-name')
+      .forEach(el => { el.textContent = c.full_name; });
+    document.querySelectorAll('.nav-avatar')
+      .forEach(el => { el.textContent = initials; });
+    document.querySelectorAll('.sidebar-profile .name')
+      .forEach(el => { el.textContent = c.full_name; });
+    document.querySelectorAll('.sidebar-profile .avatar')
+      .forEach(el => { el.textContent = initials; });
+    const accentEl = document.querySelector('.h1 .accent');
+    if (accentEl) accentEl.textContent = firstName + '.';
+  }
+  renderChildName(child);
+
+  /* F2: inline edit on .sidebar-profile .name ----------------------- */
+  function attachNameEdit(c) {
+    const nameEl = document.querySelector('.sidebar-profile .name');
+    if (!nameEl) return;
+    nameEl.style.cursor = 'pointer';
+    nameEl.title = 'Click to edit · 点击修改';
+
+    nameEl.addEventListener('click', function() {
+      const oldName = c.full_name;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.maxLength = 50;
+      input.value = oldName;
+      input.style.cssText = 'width:100%;padding:4px 8px;border:1px solid #EA580C;border-radius:6px;font-family:Arial,sans-serif;font-size:14px;font-weight:600;background:white;color:#1f2937;box-sizing:border-box;';
+
+      nameEl.replaceWith(input);
+      input.focus();
+      input.select();
+
+      let done = false;
+
+      function restoreOriginal() {
+        const newNameEl = document.createElement('div');
+        newNameEl.className = 'name';
+        newNameEl.textContent = c.full_name;
+        if (input.parentNode) input.replaceWith(newNameEl);
+        attachNameEdit(c);
+      }
+
+      async function save() {
+        if (done) return;
+        done = true;
+        const newName = input.value.trim();
+
+        if (!newName) {
+          restoreOriginal();
+          showToast('名字不能为空 · Name required');
+          return;
+        }
+        if (newName === oldName) {
+          restoreOriginal();
+          return;
+        }
+
+        try {
+          const { error } = await sb.from('children')
+            .update({ full_name: newName })
+            .eq('id', c.id);
+          if (error) throw error;
+          c.full_name = newName;
+          restoreOriginal();
+          renderChildName(c);
+          showToast('名字已保存 · Saved ✓');
+        } catch (e) {
+          console.error('[SciSpark Dashboard] name save failed:', e);
+          restoreOriginal();
+          showToast('保存失败,请重试 · Save failed');
+        }
+      }
+
+      function cancel() {
+        if (done) return;
+        done = true;
+        restoreOriginal();
+      }
+
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter')       { e.preventDefault(); save(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+      });
+      input.addEventListener('blur', function() { save(); });
+    });
+  }
+  attachNameEdit(child);
 
   /* D.04: Language badge -------------------------------------------- */
   try {
