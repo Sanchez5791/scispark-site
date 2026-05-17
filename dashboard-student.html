@@ -895,32 +895,73 @@ html, body {
       .forEach(el => { el.textContent = yg; });
   } catch(e) {}
 
-  /* D.04: Unit cards + lesson_progress ------------------------------ */
+  /* D.04 P2: Unit cards + lesson_progress + filter by published lessons */
   let lp = [];
   try {
     const unitGridD04 = document.getElementById('dash-unit-grid');
     const units = UNITS_MANIFEST[child.year_group] || UNITS_MANIFEST['Y7'];
+
+    // Step 1: query lessons table for this year_group (published only)
+    const { data: lessonsData } = await sb.from('lessons')
+      .select('id, unit_number, lesson_number')
+      .eq('year_group', child.year_group)
+      .eq('is_published', true);
+    const lessons = lessonsData || [];
+
+    // Step 2: build unit_number -> [lesson_id...] map
+    const unitLessonsMap = {};
+    for (const lesson of lessons) {
+      const un = lesson.unit_number;
+      if (!unitLessonsMap[un]) unitLessonsMap[un] = [];
+      unitLessonsMap[un].push(lesson.id);
+    }
+
+    // Step 3: query lesson_progress
     const { data: lpData } = await sb.from('lesson_progress')
       .select('lesson_id, status, completed_at')
       .eq('child_id', child.id);
     lp = lpData || [];
+
+    // Step 4: completed lesson_id set
+    const completedSet = new Set(
+      lp.filter(function(p){ return p.status === 'completed'; })
+        .map(function(p){ return p.lesson_id; })
+    );
+
     if (unitGridD04) {
-      unitGridD04.innerHTML = units.map(u =>
-        '<div class="unit-card">' +
-          '<div class="unit-card-top">' +
-            '<div class="unit-code">' + u.code + '</div>' +
-            '<span class="badge badge-grey">—</span>' +
-          '</div>' +
-          '<div class="unit-title">' + u.title_en + '</div>' +
-          '<div class="unit-title-zh">' + u.title_zh + '</div>' +
-          '<div class="unit-progress-row"><span>—</span><span>—</span></div>' +
-          '<div class="progress-bar"><div class="fill" style="width:0%"></div></div>' +
-          '<div class="unit-card-bottom">' +
-            '<button class="btn btn-secondary">View Unit · 查看单元</button>' +
-          '</div>' +
-        '</div>'
-      ).join('');
-      unitGridD04.style.display = '';
+      // Step 5: filter UNITS_MANIFEST to only units with published lessons
+      const visibleUnits = units.filter(function(u){
+        const unitNum = parseInt(u.code.replace('U', ''), 10);
+        return unitLessonsMap[unitNum] && unitLessonsMap[unitNum].length > 0;
+      });
+
+      if (visibleUnits.length === 0) {
+        // no published lessons for this year_group yet, keep grid hidden
+        unitGridD04.style.display = 'none';
+      } else {
+        unitGridD04.innerHTML = visibleUnits.map(function(u){
+          const unitNum = parseInt(u.code.replace('U', ''), 10);
+          const unitLessonIds = unitLessonsMap[unitNum] || [];
+          const total = unitLessonIds.length;
+          const completed = unitLessonIds.filter(function(id){ return completedSet.has(id); }).length;
+          const percent = total > 0 ? Math.round(completed / total * 100) : 0;
+          const badgeText = completed + ' / ' + total;
+          return '<div class="unit-card">' +
+            '<div class="unit-card-top">' +
+              '<div class="unit-code">' + u.code + '</div>' +
+              '<span class="badge badge-grey">' + badgeText + '</span>' +
+            '</div>' +
+            '<div class="unit-title">' + u.title_en + '</div>' +
+            '<div class="unit-title-zh">' + u.title_zh + '</div>' +
+            '<div class="unit-progress-row"><span>Lesson ' + completed + ' of ' + total + '</span><span>' + percent + '%</span></div>' +
+            '<div class="progress-bar"><div class="fill" style="width:' + percent + '%"></div></div>' +
+            '<div class="unit-card-bottom">' +
+              '<button class="btn btn-secondary">View Unit · 查看单元</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+        unitGridD04.style.display = '';
+      }
     }
   } catch(e) { console.warn('[SciSpark Dashboard] unit cards failed:', e); }
 
