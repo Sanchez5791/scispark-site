@@ -257,7 +257,7 @@ async function confirmSubmit() {
   if (attemptId) {
     console.log('[SciSpark Y7] Submitted successfully. Attempt ID:', attemptId);
     sessionStorage.removeItem(AUTOSAVE_KEY);
-    document.getElementById('success-screen')?.classList.add('open');
+    window.location.href = '/dashboard-student.html';
   } else {
     // Error was shown by submitToSupabase or catch above — restore UI
     startTimer();
@@ -284,7 +284,7 @@ async function autoSubmit() {
   if (attemptId) {
     console.log('[SciSpark Y7] Auto-submitted. Attempt ID:', attemptId);
     sessionStorage.removeItem(AUTOSAVE_KEY);
-    document.getElementById('success-screen')?.classList.add('open');
+    window.location.href = '/dashboard-student.html';
   } else {
     showError(
       'Time is up, but automatic submission failed.\n' +
