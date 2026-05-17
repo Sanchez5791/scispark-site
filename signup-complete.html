@@ -335,6 +335,19 @@
     return;
   }
 
+  /* Returning-user gate (小改 1, 2026-05-17): if parent already has a child
+     registered, skip the signup form and go directly to dashboard. Prevents
+     duplicate parents/students/children rows from accumulating on every signin. */
+  const { data: existingChildren } = await sb
+    .from('children')
+    .select('id')
+    .eq('parent_id', user.id)
+    .limit(1);
+  if (existingChildren && existingChildren.length > 0) {
+    window.location.replace('/dashboard-parent');
+    return;
+  }
+
   document.getElementById('display-email').textContent = user.email || user.id;
 
   /* Pre-fill parent email from Google account */
