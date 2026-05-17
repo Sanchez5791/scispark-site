@@ -120,6 +120,11 @@ html, body {
   display: flex; align-items: center; justify-content: center;
   font-weight: 600; font-size: 15px;
 }
+.nav-avatar img,
+.sidebar-profile .avatar img {
+  width: 100%; height: 100%; object-fit: cover;
+  border-radius: 50%; display: block;
+}
 .sidebar-profile .name { font-weight: 500; font-size: 15px; }
 .sidebar-profile .role {
   font-size: 11px; color: var(--text-muted);
@@ -885,14 +890,14 @@ function showToast(message, opts) {
   let child = null;
   if (requestedChildId) {
     const { data: byId } = await sb.from('children')
-      .select('id, full_name, year_group, assessment_language, current_unit')
+      .select('id, full_name, year_group, assessment_language, current_unit, parent_id, avatar_url')
       .eq('id', requestedChildId)
       .maybeSingle();
     child = byId;
   }
   if (!child) {
     const { data: firstChild } = await sb.from('children')
-      .select('id, full_name, year_group, assessment_language, current_unit')
+      .select('id, full_name, year_group, assessment_language, current_unit, parent_id, avatar_url')
       .eq('parent_id', user.id)
       .order('created_at', { ascending: true })
       .limit(1)
@@ -920,6 +925,7 @@ function showToast(message, opts) {
       .forEach(el => { el.textContent = initials; });
     const accentEl = document.querySelector('.h1 .accent');
     if (accentEl) accentEl.textContent = firstName + '.';
+    if (typeof renderChildAvatar === 'function') renderChildAvatar(c);
   }
   renderChildName(child);
 
@@ -997,6 +1003,83 @@ function showToast(message, opts) {
     });
   }
   attachNameEdit(child);
+
+  /* F1: avatar render + upload ------------------------------- */
+  function renderChildAvatar(c) {
+    ['.nav-avatar', '.sidebar-profile .avatar'].forEach(function(sel) {
+      document.querySelectorAll(sel).forEach(function(el) {
+        if (c.avatar_url) {
+          el.textContent = '';
+          let img = el.querySelector('img');
+          if (!img) {
+            img = document.createElement('img');
+            img.alt = c.full_name;
+            el.appendChild(img);
+          }
+          img.src = c.avatar_url;
+        } else {
+          const existingImg = el.querySelector('img');
+          if (existingImg) existingImg.remove();
+          el.textContent = c.full_name.trim().split(/\s+/)
+            .map(function(w){ return w[0]; }).join('').toUpperCase().slice(0, 2);
+        }
+      });
+    });
+  }
+
+  function attachAvatarUpload(c) {
+    const avatarEl = document.querySelector('.sidebar-profile .avatar');
+    if (!avatarEl) return;
+    avatarEl.style.cursor = 'pointer';
+    avatarEl.title = 'Click to change photo · 点击更换头像';
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/jpeg,image/png,image/webp';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    avatarEl.addEventListener('click', function() { fileInput.click(); });
+
+    fileInput.addEventListener('change', async function() {
+      const file = fileInput.files[0];
+      fileInput.value = '';
+      if (!file) return;
+
+      if (file.size > 1048576) { showToast('Avatar 太大 · Max 1 MB'); return; }
+      if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+        showToast('只支持 JPG / PNG / WebP'); return;
+      }
+
+      try {
+        const ext = file.type === 'image/png' ? 'png'
+                  : file.type === 'image/webp' ? 'webp' : 'jpg';
+        const path = c.parent_id + '/' + c.id + '.' + ext;
+
+        const { error: upErr } = await sb.storage
+          .from('avatars')
+          .upload(path, file, { upsert: true, contentType: file.type });
+        if (upErr) throw upErr;
+
+        const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
+        const publicUrl = urlData.publicUrl + '?t=' + Date.now();
+
+        const { error: dbErr } = await sb.from('children')
+          .update({ avatar_url: publicUrl }).eq('id', c.id);
+        if (dbErr) throw dbErr;
+
+        c.avatar_url = publicUrl;
+        renderChildAvatar(c);
+        showToast('Avatar 已保存 · Saved ✓');
+      } catch (e) {
+        console.error('[SciSpark Dashboard] avatar upload failed:', e);
+        showToast('上传失败,请重试 · Upload failed');
+      }
+    });
+  }
+
+  renderChildAvatar(child);
+  attachAvatarUpload(child);
 
   /* D.04: Language badge -------------------------------------------- */
   try {
