@@ -594,7 +594,7 @@ html, body {
       <button class="nav-signout">Sign out</button>
     </div>
   </div>
-  <div class="nav-progress" title="71% this week"></div>
+  <div class="nav-progress" title="71% this week" style="display:none"></div>
 </nav>
 
 <div class="mobile-tabs">
@@ -625,7 +625,7 @@ html, body {
       <li><a href="#">Progress <span class="zh-label">学习进度</span></a></li>
       <li><a href="#">Profile <span class="zh-label">个人资料</span></a></li>
     </ul>
-    <div class="sidebar-footer">
+    <div class="sidebar-footer" style="display:none">
       <div class="mini-ring">
         <svg width="50" height="50">
           <circle cx="25" cy="25" r="20" stroke="#f0e9df" stroke-width="4" fill="none"/>
@@ -660,22 +660,22 @@ html, body {
 
     <!-- QUICK STATS -->
     <div class="stats-row">
-      <div class="stat-card">
+      <div class="stat-card" style="display:none">
         <div class="stat-label">Days active</div>
         <div class="stat-value">5<span class="small"> / 7</span></div>
         <div class="stat-zh">本周活跃</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" style="display:none">
         <div class="stat-label">Time on task</div>
         <div class="stat-value">78<span class="small"> min</span></div>
         <div class="stat-zh">学习时长</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" style="display:none">
         <div class="stat-label">Concepts mastered</div>
         <div class="stat-value">+4</div>
         <div class="stat-zh">新掌握概念</div>
       </div>
-      <div class="stat-card" id="dash-score-card">
+      <div class="stat-card" id="dash-score-card" style="display:none">
         <div class="stat-label">Accuracy</div>
         <div class="stat-value">82<span class="small">%</span></div>
         <div class="stat-zh">答题准确率</div>
@@ -769,7 +769,7 @@ html, body {
     <!-- THIS WEEK + AI GUIDE -->
     <div class="two-col">
 
-      <div class="card week-card">
+      <div class="card week-card" style="display:none">
         <div class="eyebrow" style="align-self: flex-start;"><span class="dot"></span>This week · 本周</div>
         <div class="ring-wrap">
           <svg width="150" height="150" viewBox="0 0 150 150">
@@ -988,6 +988,7 @@ html, body {
       const val = scoreCard.querySelector('.stat-value');
       if (lbl) lbl.textContent = 'Entry Score';
       if (val) val.innerHTML = '—';
+      scoreCard.style.display = '';
     }
     // Show unit grid anyway — assessment submitted, marking pending
     if (unitGrid) unitGrid.style.display = '';
@@ -1014,6 +1015,7 @@ html, body {
     if (lbl) lbl.textContent = 'Entry Score';
     if (val) val.innerHTML = score + '<span class="small"> / ' + possible + '</span>';
     if (zh)  zh.textContent = '入学测评成绩';
+    scoreCard.style.display = '';
   }
 
   /* 8. Show lesson cards -------------------------------------------- */
