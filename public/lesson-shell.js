@@ -612,6 +612,54 @@ function closeAITutor() {
 // ═════════════════════════════════════════════════════════════
 function completeLesson() {
   // PHASE 2 ACTIVATE: write to Supabase user_xp, user_badges, user_streak tables
+
+  // lesson_progress UPSERT — writes child_id + lesson_id + completed_at
+  // lesson_id comes from data-lesson-id on <body> (UUID from lessons table)
+  // Unique constraint: (child_id, lesson_id) — safe to upsert repeatedly
+  (async function writeLessonProgress() {
+    try {
+      const lessonId = document.body.dataset.lessonId;
+      if (!lessonId) return; // lesson HTML has no data-lesson-id — skip silently
+
+      const client = await waitForSupabaseClient(3000);
+      if (!client) return;
+
+      const { data: { user }, error: authErr } = await client.auth.getUser();
+      if (authErr || !user) return;
+
+      const { data: child } = await client
+        .from('children')
+        .select('id')
+        .eq('parent_id', user.id)
+        .limit(1)
+        .maybeSingle();
+      if (!child) return;
+
+      const now = new Date().toISOString();
+      const { error: upsertErr } = await client
+        .from('lesson_progress')
+        .upsert(
+          {
+            child_id:     child.id,
+            lesson_id:    lessonId,
+            status:       'completed',
+            started_at:   now,   // used only on first INSERT; ignored on conflict update
+            completed_at: now
+          },
+          { onConflict: 'child_id,lesson_id' }
+        );
+
+      if (upsertErr) {
+        console.warn('[SciSpark] lesson_progress upsert failed:', upsertErr.message);
+      } else {
+        console.log('%c[SciSpark] lesson_progress saved — lesson ' + lessonId,
+                    'color:#EA580C;font-weight:bold');
+      }
+    } catch (e) {
+      console.warn('[SciSpark] lesson_progress write error:', e.message);
+    }
+  })();
+
   awardXP(100, 'lesson');
   xpEarned.lesson = 100;
   updateXPDisplay();
