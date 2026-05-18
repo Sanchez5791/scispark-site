@@ -575,6 +575,26 @@ html, body {
 }
 .mobile-tabs a.active { background: var(--orange); color: white; }
 @media (min-width: 768px) { .mobile-tabs { display: none; } }
+
+/* D.05 Language toggle */
+.lang-toggle {
+  background: none;
+  border: 1px solid transparent;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: all 0.15s;
+}
+.lang-toggle:hover {
+  background: rgba(234, 88, 12, 0.08);
+  border-color: rgba(234, 88, 12, 0.3);
+}
+.lang-toggle:focus {
+  outline: 2px solid #EA580C;
+  outline-offset: 2px;
+}
 </style>
 </head>
 <body>
@@ -621,7 +641,10 @@ html, body {
           <div class="role">Year 7 · Level 2 Guided</div>
         </div>
       </div>
-      <span class="lang-badge">Bilingual · 双语</span>
+      <button class="lang-toggle" id="lang-toggle-sidebar" type="button"
+              aria-label="Toggle language">
+        <span class="lang-badge">Bilingual · 双语</span>
+      </button>
     </div>
     <ul class="sidebar-menu">
       <li><a href="#" class="active">My Units <span class="zh-label">我的单元</span></a></li>
@@ -1102,6 +1125,55 @@ function showToast(message, opts) {
     document.querySelectorAll('.lang-badge, [data-lang-badge]')
       .forEach(el => { el.textContent = langLabel; });
   } catch(e) {}
+
+  /* D.05 Language toggle -------------------------------------------- */
+  try {
+    const LANG_KEY = 'scispark-lang-mode';
+
+    // Require at least one CJK character as the start (U+4E00–U+9FFF)
+    // so "Lesson 1 of 8 · 5%" (· only, no CJK) does NOT match.
+    const ZH_RE = /[一-鿿][一-鿿　-〿·、\s]*/;
+
+    function cacheBilingualText() {
+      const selectors = 'h1,h2,h3,h4,h5,h6,p,span,div,button,a,label,td,th,li';
+      document.querySelectorAll(selectors).forEach(el => {
+        const hasOnlyText = Array.from(el.childNodes).every(
+          n => n.nodeType === Node.TEXT_NODE || n.nodeName === 'BR'
+        );
+        if (!hasOnlyText || el.dataset.bilEn) return;
+
+        const txt = el.textContent.trim();
+        if (!txt) return;
+        const m = txt.match(ZH_RE);
+        if (!m) return;
+
+        el.dataset.bilEn = txt;
+        el.dataset.bilZh = m[0].trim();
+      });
+    }
+
+    function applyLangMode(mode) {
+      document.body.classList.toggle('lang-zh', mode === 'zh');
+      document.querySelectorAll('[data-bil-en]').forEach(el => {
+        el.textContent = (mode === 'zh') ? el.dataset.bilZh : el.dataset.bilEn;
+      });
+      localStorage.setItem(LANG_KEY, mode);
+    }
+
+    cacheBilingualText();
+    const savedMode = localStorage.getItem(LANG_KEY) || 'en';
+    applyLangMode(savedMode);
+
+    const langBtn = document.getElementById('lang-toggle-sidebar');
+    if (langBtn) {
+      langBtn.addEventListener('click', () => {
+        const cur = localStorage.getItem(LANG_KEY) || 'en';
+        applyLangMode(cur === 'en' ? 'zh' : 'en');
+      });
+    }
+  } catch (e) {
+    console.error('Lang toggle init error:', e);
+  }
 
   /* D.04: Year tag --------------------------------------------------- */
   try {
