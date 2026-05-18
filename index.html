@@ -11,418 +11,9 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<script>
-const TWEAKS = /*EDITMODE-BEGIN*/{
-  "accent": "#EA580C",
-  "density": "comfortable",
-  "headlineFont": "Instrument Serif",
-  "showRibbon": true
-}/*EDITMODE-END*/;
-</script>
-<style>
-  :root{
-    --bg:#FBF8F4;
-    --bg-2:#F4EFE7;
-    --ink:#171413;
-    --ink-2:#3a342f;
-    --ink-3:#6b6358;
-    --line:#E6DFD3;
-    --line-2:#D9D0BF;
-    --accent:#EA580C;
-    --accent-ink:#7a2e08;
-    --accent-soft:#FFE9D6;
-    --ok:#2E7D5B;
-    --ff-display:'Instrument Serif', 'Times New Roman', serif;
-    --ff-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --ff-mono:'JetBrains Mono', ui-monospace, monospace;
-    --max:1280px;
-    --pad:clamp(20px, 4vw, 56px);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{
-    font-family:var(--ff-body);
-    background:var(--bg);
-    color:var(--ink);
-    -webkit-font-smoothing:antialiased;
-    font-feature-settings:"ss01","cv11";
-    line-height:1.5;
-  }
-  a{color:inherit;text-decoration:none}
-  img,svg{display:block;max-width:100%}
-  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
-
-  .display{font-family:var(--ff-display);font-weight:400;letter-spacing:-0.015em;line-height:0.98;text-wrap:balance;}
-  .eyebrow{font-family:var(--ff-mono);text-transform:uppercase;font-size:11px;letter-spacing:0.14em;color:var(--ink-3);font-weight:500;}
-  .lede{font-size:18px;line-height:1.55;color:var(--ink-2);text-wrap:pretty}
-  .small{font-size:13px;color:var(--ink-3)}
-
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
-  section{padding:clamp(64px,10vh,120px) 0;border-top:1px solid var(--line)}
-  section.hero{border-top:0;padding-top:24px}
-
-  .nav{position:sticky;top:0;z-index:50;background:color-mix(in oklab, var(--bg) 85%, transparent);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid color-mix(in oklab, var(--line) 60%, transparent);}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-0.01em}
-  .brand-img{width:34px;height:34px;border-radius:99px;display:block}
-  .brand-name{display:flex;flex-direction:column;line-height:1.05}
-  .brand-name b{font-weight:600;font-size:14.5px;letter-spacing:-.005em;color:var(--ink)}
-  .brand-name i{font-style:normal;font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:2px}
-  @media (max-width:760px){.brand-name i{display:none}}
-  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-2)}
-  .nav-links a{position:relative}
-  .nav-links a:hover{color:var(--ink)}
-  .nav-right{display:flex;align-items:center;gap:14px}
-  .lang{display:inline-flex;align-items:center;gap:0;border:1px solid var(--line-2);border-radius:999px;padding:3px;background:#fff;font-size:12px;font-weight:500;}
-  .lang button{padding:5px 11px;border-radius:999px;color:var(--ink-3);transition:all .18s ease;white-space:nowrap;}
-  .lang button.on{background:var(--ink);color:#fff}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:500;transition:all .18s ease;white-space:nowrap;}
-  .btn-primary{background:var(--ink);color:var(--bg)}
-  .btn-primary:hover{background:var(--accent);color:#fff}
-  .btn-accent{background:var(--accent);color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,.18)}
-  .btn-accent:hover{filter:brightness(.95) saturate(1.05)}
-  .btn-ghost{color:var(--ink-2)}
-  .btn-ghost:hover{color:var(--ink)}
-  .btn .arr{transition:transform .2s}
-  .btn:hover .arr{transform:translateX(3px)}
-
-  .ribbon{background:var(--ink);color:#EFE7D8;font-size:12.5px;text-align:center;padding:9px 16px;font-family:var(--ff-mono);letter-spacing:.02em;}
-  .ribbon b{color:var(--accent);font-weight:500}
-
-  .hero-mission{margin-bottom:20px;line-height:1.45}
-  .hero-mission p{margin:0;font-size:clamp(13px,1.4vw,16px);font-weight:500;color:#EA580C;letter-spacing:.01em}
-  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:start;padding-top:clamp(48px,8vh,88px);padding-bottom:clamp(40px,7vh,72px);}
-  @media (max-width:1024px){.hero-grid{grid-template-columns:1fr}}
-  .hero h1{font-size:clamp(48px, 8vw, 104px);margin:18px 0 24px;}
-  .hero h1 em{font-style:italic;color:var(--accent);}
-  .hero-meta{display:flex;flex-wrap:wrap;gap:24px 36px;align-items:center;margin-top:36px;padding-top:24px;border-top:1px solid var(--line);}
-  .hero-meta .stat{display:flex;flex-direction:column;gap:2px}
-  .hero-meta .stat b{font-family:var(--ff-display);font-size:30px;font-weight:400;line-height:1}
-  .hero-meta .stat span{font-size:12px;color:var(--ink-3)}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
-  .hero-cta .btn-accent{padding:14px 22px;font-size:15px}
-  .hero-cta .btn-ghost{padding:14px 6px;font-size:14px}
-
-  .device{background:#fff;border:1px solid var(--line-2);border-radius:18px;padding:18px;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 30px 60px -30px rgba(23,20,19,.18),0 8px 20px -10px rgba(23,20,19,.08);position:relative;}
-  .device::before{content:"";position:absolute;inset:-1px;border-radius:18px;background:linear-gradient(180deg, rgba(234,88,12,.18), transparent 30%);pointer-events:none;mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);-webkit-mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);mask-composite:exclude;-webkit-mask-composite:xor;padding:1px;}
-  .device-head{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 14px;border-bottom:1px solid var(--line);font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;}
-  .pulse{display:inline-block;width:7px;height:7px;border-radius:99px;background:var(--accent);box-shadow:0 0 0 0 var(--accent);animation:pulse 2s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(234,88,12,.5)}70%{box-shadow:0 0 0 10px rgba(234,88,12,0)}100%{box-shadow:0 0 0 0 rgba(234,88,12,0)}}
-  .qcard{padding:22px 8px 8px}
-  .qmeta{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);margin-bottom:14px}
-  .qprog{display:flex;gap:4px;margin-bottom:22px}
-  .qprog i{flex:1;height:3px;border-radius:99px;background:var(--line)}
-  .qprog i.done{background:var(--ink)}
-  .qprog i.cur{background:var(--accent)}
-  .qtitle{font-family:var(--ff-display);font-size:26px;line-height:1.15;margin-bottom:18px;letter-spacing:-.01em}
-  .qopts{display:flex;flex-direction:column;gap:8px}
-  .qopt{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-size:14px;color:var(--ink-2);transition:all .15s ease;cursor:pointer;background:#fff;}
-  .qopt:hover{border-color:var(--ink-3);color:var(--ink)}
-  .qopt .key{width:22px;height:22px;border-radius:6px;background:var(--bg-2);color:var(--ink-3);display:grid;place-items:center;font-family:var(--ff-mono);font-size:11px;font-weight:500;}
-  .qopt.sel{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
-  .qopt.sel .key{background:var(--accent);color:#fff}
-  .device-foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding:12px 6px 4px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);}
-
-  /* ---------- Socratic chat demo ---------- */
-  @keyframes chat-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-  .chat-feed{display:flex;flex-direction:column;gap:14px;padding:18px 8px 10px}
-  .chat-msg{opacity:0;animation:chat-in .45s ease forwards;animation-delay:var(--delay,0s)}
-  .chat-row{display:flex;align-items:flex-end;gap:10px}
-  .chat-msg.stud .chat-row{justify-content:flex-end}
-  .prof-av{width:36px;height:36px;border-radius:50%;background:#EA580C;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-  .prof-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-  .prof-p-figure{text-align:center;margin-top:4px;padding-bottom:4px}
-  .prof-p-figure img{width:100px;height:auto;display:inline-block}
-  .bubble{max-width:80%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.5;color:#fff}
-  .chat-msg.prof .bubble{background:#EA580C;border-bottom-left-radius:4px}
-  .chat-msg.stud .bubble{background:#1A1A1A;border-bottom-right-radius:4px}
-
-  .trust{display:flex;flex-wrap:wrap;gap:18px 40px;align-items:center;justify-content:space-between;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--ff-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);}
-  .trust .t-item{display:inline-flex;gap:10px;align-items:center}
-  .trust .t-item .dot{width:6px;height:6px;border-radius:99px;background:var(--accent)}
-
-  .what-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start}
-  @media (max-width:880px){.what-grid{grid-template-columns:1fr}}
-  .what-points{display:grid;gap:20px}
-  .wp{display:grid;grid-template-columns:36px 1fr;gap:16px;align-items:start;padding:18px;border:1px solid var(--line);border-radius:14px;background:#fff;}
-  .wp-num{font-family:var(--ff-mono);font-size:12px;color:var(--accent);letter-spacing:.06em;padding-top:2px;}
-  .wp b{display:block;font-weight:500;font-size:15px;color:var(--ink);margin-bottom:4px;letter-spacing:-.005em}
-  .wp span{font-size:13.5px;color:var(--ink-2);line-height:1.55}
-
-  .pgrid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,5vw,72px)}
-  @media (max-width:880px){.pgrid{grid-template-columns:1fr}}
-  .pgrid h2{font-size:clamp(36px,5vw,60px);margin:18px 0 0}
-  .pquotes{display:flex;flex-direction:column;gap:18px}
-  .pquote{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;position:relative;}
-  .pquote .q{font-family:var(--ff-display);font-size:22px;line-height:1.25;color:var(--ink)}
-  .pquote .src{margin-top:14px;font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:10px}
-  .pquote .src .av{width:24px;height:24px;border-radius:99px;background:var(--bg-2);border:1px solid var(--line)}
-  .pquote .strike{text-decoration:line-through;color:var(--ink-3);text-decoration-color:var(--accent);text-decoration-thickness:2px}
-
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-  @media (max-width:880px){.steps{grid-template-columns:1fr}}
-  .step{background:var(--bg);padding:36px 32px;display:flex;flex-direction:column;gap:18px;min-height:340px;position:relative;}
-  .step .num{font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);letter-spacing:.12em;text-transform:uppercase;}
-  .step h3{font-family:var(--ff-display);font-size:32px;margin:0;font-weight:400;letter-spacing:-.01em}
-  .step p{margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.55}
-  .step .visual{margin-top:auto;border:1px solid var(--line);border-radius:10px;background:#fff;padding:14px;font-family:var(--ff-mono);font-size:11.5px;color:var(--ink-3);}
-  .step .visual .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line)}
-  .step .visual .row:last-child{border-bottom:0}
-  .step .visual .row b{color:var(--ink);font-weight:500}
-  .step .visual .row .ok{color:var(--ok)}
-  .step .visual .row .ac{color:var(--accent)}
-  .level-bar{display:flex;gap:6px;margin-top:8px}
-  .level-bar i{flex:1;height:8px;border-radius:3px;background:var(--bg-2);border:1px solid var(--line)}
-  .level-bar i.fill{background:var(--accent);border-color:var(--accent)}
-
-  .levels-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:24px;margin-bottom:48px}
-  .levels-head h2{font-size:clamp(36px,5vw,60px);margin:8px 0 0;max-width:680px}
-  .ltable{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;}
-  .lrow{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;border-bottom:1px solid var(--line);}
-  .lrow:last-child{border-bottom:0}
-  .lrow > div{padding:18px 20px;font-size:13.5px;color:var(--ink-2);border-right:1px solid var(--line)}
-  .lrow > div:last-child{border-right:0}
-  .lrow.head > div{background:var(--bg);font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px;}
-  .lrow .label{font-weight:500;color:var(--ink)}
-  .lrow .check{color:var(--ok);font-weight:500}
-  .lrow .dash{color:var(--ink-3)}
-  .lrow .ac{color:var(--accent);font-weight:500}
-  .ltable .price{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;border-bottom:1px solid var(--line);}
-  .ltable .price > div{padding:24px 20px;border-right:1px solid var(--line)}
-  .ltable .price > div:last-child{border-right:0}
-  .ltable .price > div:first-child{display:flex;align-items:center;font-family:var(--ff-display);font-size:22px}
-  .ltable .price .p{font-family:var(--ff-display);font-size:36px;line-height:1;letter-spacing:-.01em}
-  .ltable .price small{display:block;font-family:var(--ff-body);font-size:12px;color:var(--ink-3);margin-top:6px}
-  .ltable .cta-row > div{padding:18px 20px;border-right:1px solid var(--line)}
-  .ltable .cta-row > div:last-child{border-right:0}
-  .ltable .cta-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr}
-  .ltable .cta-row .btn{width:100%;justify-content:center;font-size:13px;padding:9px 12px}
-  .ltable .cta-row .featured-cell{background:var(--accent-soft)}
-  @media (max-width:900px){.ltable{display:none}.lcards{display:grid !important}}
-  .lcards{display:none;gap:14px;grid-template-columns:1fr}
-  .lcard{border:1px solid var(--line);border-radius:14px;padding:22px;background:#fff}
-  .lcard.featured{background:var(--accent-soft);border-color:var(--accent)}
-  .lcard h4{margin:0 0 6px;font-family:var(--ff-display);font-weight:400;font-size:24px}
-  .lcard .p{font-family:var(--ff-display);font-size:32px;line-height:1;margin:6px 0 4px}
-  .lcard ul{padding-left:18px;margin:14px 0;font-size:14px;color:var(--ink-2)}
-  .lcard ul li{margin:6px 0}
-
-  .platform{margin-top:48px}
-  .platform-head{margin-bottom:24px}
-  .platform-head h3{font-family:var(--ff-display);font-weight:400;font-size:clamp(28px,3.6vw,40px);letter-spacing:-.01em;margin:8px 0 0;max-width:28ch;line-height:1.1;}
-  .platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  @media (max-width:960px){.platform-grid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:560px){.platform-grid{grid-template-columns:1fr}}
-  .pcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;min-height:280px;display:flex;flex-direction:column;gap:16px;}
-  .pcard.span-2{grid-column:span 2}
-  .pcard.span-4{grid-column:span 4}
-  @media (max-width:960px){.pcard.span-2{grid-column:span 2}.pcard.span-4{grid-column:span 2}}
-  @media (max-width:560px){.pcard.span-2,.pcard.span-4{grid-column:span 1}}
-  .pcard-top{display:flex;justify-content:space-between;align-items:center;gap:12px;}
-  .mono{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
-  .mono.muted{color:var(--ink-3)}
-
-  .units{display:grid;gap:8px;flex:1}
-  .unit{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);}
-  .unit .u-ix{width:40px;height:40px;border-radius:8px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--ff-mono);font-size:13px;color:var(--ink-2);letter-spacing:.04em;}
-  .unit .u-body{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .unit .u-body b{font-weight:500;font-size:14px;color:var(--ink);letter-spacing:-.005em}
-  .unit .u-body span{font-size:12.5px;color:var(--ink-3)}
-  .unit .u-tag{font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:99px;border:1px solid var(--line-2);color:var(--ink-3);white-space:nowrap;}
-  .unit .u-tag.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%, var(--line-2))}
-  .unit .u-tag.ac{color:var(--accent);background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%, var(--line-2))}
-  .unit .u-tag.warn{color:#B4530C;border-color:color-mix(in srgb,var(--accent) 50%, var(--line-2))}
-  .unit.cur{background:#fff;border-color:var(--line-2);box-shadow:0 1px 0 rgba(23,20,19,.04)}
-  .unit.done .u-body b{color:var(--ink-2)}
-  .unit.locked{opacity:.55}
-  .unit.locked .u-ix{background:var(--bg)}
-
-  .chat{display:flex;flex-direction:column;gap:10px;flex:1;min-height:260px}
-  .cbubble{max-width:88%;border-radius:14px;padding:12px 14px;border:1px solid var(--line);background:var(--bg);}
-  .cbubble .who{display:block;font-family:var(--ff-mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);margin-bottom:4px;}
-  .cbubble p{margin:0;font-size:14px;color:var(--ink);line-height:1.5}
-  .cbubble.tutor{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 25%, var(--line));align-self:flex-start}
-  .cbubble.tutor .who{color:var(--accent-ink)}
-  .cbubble.student{align-self:flex-end;background:#fff;border-color:var(--line-2)}
-  .cbubble.student .who{color:var(--ink-2)}
-  .ctyping{display:flex;align-items:center;gap:4px;align-self:flex-end;padding:8px 12px;border-radius:99px;font-family:var(--ff-mono);font-size:10.5px;color:var(--ink-3);}
-  .ctyping span{width:5px;height:5px;border-radius:99px;background:var(--ink-3);opacity:.35;animation:typ 1.2s infinite}
-  .ctyping span:nth-child(2){animation-delay:.15s}
-  .ctyping span:nth-child(3){animation-delay:.3s}
-  .ctyping em{font-style:normal;margin-left:6px;letter-spacing:.08em;text-transform:uppercase}
-  @keyframes typ{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
-
-  .quiz-preview{display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center}
-  .quiz-q{display:flex;gap:10px;align-items:center}
-  .quiz-num{flex:0 0 32px;height:32px;border-radius:8px;background:var(--accent-soft);display:grid;place-items:center;font-family:var(--ff-mono);font-size:11px;color:var(--accent);font-weight:500;}
-  .quiz-q p{margin:0;font-size:14px;color:var(--ink);font-weight:500}
-  .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .quiz-opts .qo{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;color:var(--ink-2);text-align:center;}
-  .quiz-opts .qo.correct{border-color:var(--ok);color:var(--ok);background:color-mix(in srgb,var(--ok) 8%,#fff);font-weight:500}
-  .quiz-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-3);font-family:var(--ff-mono);letter-spacing:.04em}
-  .quiz-meta .ok{color:var(--ok)}
-
-  .games-preview{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
-  .game-item{display:flex;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
-  .game-icon{font-size:20px;flex:0 0 32px;text-align:center}
-  .game-item b{display:block;font-size:13.5px;font-weight:500;color:var(--ink);margin-bottom:1px}
-  .game-item span{font-size:12px;color:var(--ink-3)}
-
-  .prog{display:flex;flex-direction:column;gap:18px;align-items:center;flex:1;justify-content:center}
-  .ring{position:relative;width:150px;height:150px}
-  .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-  .ring .ring-bg{fill:none;stroke:var(--line);stroke-width:8}
-  .ring .ring-fg{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;stroke-dasharray:264;stroke-dashoffset:calc(264 - 264 * var(--pct) / 100);}
-  .ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
-  .ring-text b{font-family:var(--ff-display);font-size:34px;font-weight:400;letter-spacing:-.02em}
-  .ring-text span{font-family:var(--ff-mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3)}
-  .prog-stats{display:grid;grid-template-columns:1fr;gap:8px;width:100%;padding-top:14px;border-top:1px solid var(--line)}
-  .prog-stats > div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:13px;color:var(--ink-2);white-space:nowrap}
-  .prog-stats b{color:var(--ink);font-weight:500;font-family:var(--ff-mono);font-size:13px}
-  .prog-stats b.ok{color:var(--ok)}
-
-  .report{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
-  .rline{display:flex;gap:12px;align-items:center;font-size:13.5px;color:var(--ink)}
-  .rline .dot{width:8px;height:8px;border-radius:99px;background:var(--line-2);flex:0 0 8px}
-  .rline .dot.ok{background:var(--ok)}
-  .rline .dot.warn{background:var(--accent)}
-
-  .lang-card{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
-  @media (max-width:760px){.lang-card{grid-template-columns:1fr}}
-  .lang-l h4{font-family:var(--ff-display);font-weight:400;font-size:clamp(24px,3vw,32px);margin:10px 0 10px;letter-spacing:-.01em;line-height:1.1;}
-  .lang-l p{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.55;max-width:44ch}
-  .lang-r{display:flex;flex-direction:column;gap:10px}
-  .lang-mini{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--bg);display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;}
-  .lang-pill{font-family:var(--ff-mono);font-size:11px;letter-spacing:.08em;background:#fff;border:1px solid var(--line-2);border-radius:8px;padding:6px 8px;text-align:center;color:var(--ink);}
-  .lang-mini p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.5}
-  .platform-note{margin:20px 2px 0;color:var(--ink-3)}
-
-  /* ---------- gate modal ---------- */
-  .gate-backdrop{position:fixed;inset:0;z-index:90;background:rgba(23,20,19,.42);display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);}
-  .gate-backdrop.on{display:flex}
-  .gate{width:min(520px,100%);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 80px -30px rgba(23,20,19,.4);padding:36px;position:relative;opacity:1;animation:gate-in .25s ease both;}
-  @keyframes gate-in{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
-  .gate .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;color:var(--ink-2);font-size:16px;}
-  .gate .close:hover{border-color:var(--ink);color:var(--ink)}
-  .gate .eyebrow{margin-bottom:4px}
-  .gate h3{font-family:var(--ff-display);font-weight:400;font-size:30px;letter-spacing:-.01em;line-height:1.1;margin:6px 0 10px;}
-  .gate p.sub{font-size:14.5px;color:var(--ink-2);margin:0 0 20px;line-height:1.55}
-  .gate .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-  .gate .field label{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-  .gate .field input, .gate .field select{font:inherit;font-size:14.5px;padding:12px 14px;border:1px solid var(--line-2);border-radius:10px;background:#fff;color:var(--ink);transition:border-color .15s;}
-  .gate .field input:focus, .gate .field select:focus{outline:none;border-color:var(--ink)}
-  .gate .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media (max-width:520px){.gate{padding:28px 22px}.gate .field-row{grid-template-columns:1fr}}
-  .gate .btn-accent{width:100%;justify-content:center;padding:14px;margin-top:6px;font-size:15px}
-  .gate .fine{font-size:12px;color:var(--ink-3);margin:14px 0 0;text-align:center;line-height:1.5;}
-  .gate .fine a{color:var(--ink-2);text-decoration:underline}
-  .gate .signin-row{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);text-align:center;font-size:13.5px;color:var(--ink-2);}
-  .gate .signin-row a{color:var(--ink);font-weight:500;text-decoration:underline}
-
-  .gate-step{}
-  .social-logins{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-  .btn-social{display:flex;align-items:center;gap:12px;justify-content:center;width:100%;padding:13px 16px;border-radius:10px;border:1px solid var(--line-2);background:#fff;font:inherit;font-size:14.5px;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;}
-  .btn-social:hover{border-color:var(--ink);background:var(--bg)}
-  .btn-social.email{border-style:dashed;color:var(--ink-2)}
-  .btn-social.email:hover{color:var(--ink);border-style:solid}
-  .divider{display:flex;align-items:center;gap:14px;margin:16px 0;font-size:12px;color:var(--ink-3);font-family:var(--ff-mono);letter-spacing:.06em;text-transform:uppercase;}
-  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
-  .back-link{display:inline-block;margin-bottom:12px;font:inherit;font-size:13px;color:var(--ink-2);background:none;border:none;cursor:pointer;padding:0;}
-  .back-link:hover{color:var(--ink)}
-  .gate .section-label{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500;margin:18px 0 8px;padding-top:14px;border-top:1px solid var(--line);}
-  .gate .section-label:first-of-type{border-top:0;padding-top:0;margin-top:6px}
-
-  /* path choice buttons */
-  .path-choice{display:flex;flex-direction:column;gap:12px;margin-top:4px}
-  .btn-path{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:12px;border:1px solid var(--line-2);background:#fff;font:inherit;cursor:pointer;transition:all .15s;text-align:left;width:100%;}
-  .btn-path:hover{border-color:var(--ink);background:var(--bg)}
-  .btn-path .path-icon{font-size:24px;flex:0 0 32px}
-  .btn-path .path-body{display:flex;flex-direction:column;gap:2px;flex:1}
-  .btn-path .path-title{font-weight:600;color:var(--ink);font-size:15px}
-  .btn-path .path-sub{font-size:12.5px;color:var(--ink-3);font-weight:400}
-  .btn-path .path-arr{color:var(--ink-3);font-size:18px;margin-left:auto}
-
-  /* school success */
-  .school-success{text-align:center;padding:12px 0}
-  .school-success .success-icon{font-size:48px;margin-bottom:16px}
-  .school-success h3{font-family:var(--ff-display);font-size:26px;margin:0 0 10px}
-  .school-success p{color:var(--ink-2);font-size:14.5px;line-height:1.55;margin:0}
-
-  @media (max-width:680px){.audiences{grid-template-columns:1fr !important}}
-
-  .audiences{grid-template-columns:1fr 1fr}
-  @media (max-width:768px){.audiences{grid-template-columns:1fr}}
-  .dash-value-head{margin-bottom:24px}
-  .dash-value-head h3{font-family:var(--ff-display);font-weight:400;font-size:clamp(28px,3.6vw,40px);letter-spacing:-.01em;margin:8px 0 0;max-width:28ch;line-height:1.1;}
-  .dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  @media (max-width:760px){.dash-grid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:480px){.dash-grid{grid-template-columns:1fr}}
-  .dash-card{display:flex;flex-direction:column;gap:6px;padding:22px;border:1px solid var(--line);border-radius:14px;background:#fff;}
-  .dash-icon{font-size:22px;margin-bottom:4px}
-  .dash-card b{font-size:14.5px;font-weight:500;color:var(--ink);letter-spacing:-.005em}
-  .dash-card span{font-size:13px;color:var(--ink-2);line-height:1.5}
-
-  .assess{background:var(--ink);color:var(--bg);border-radius:20px;padding:clamp(36px,5vw,64px);display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;margin-top:48px;}
-  @media (max-width:880px){.assess{grid-template-columns:1fr}}
-  .assess h3{font-family:var(--ff-display);font-weight:400;font-size:clamp(32px,4.5vw,52px);margin:14px 0 18px;letter-spacing:-.01em;line-height:1}
-  .assess p{color:#cdc4b3;max-width:50ch;font-size:15.5px}
-  .assess .ac{color:var(--accent)}
-  .assess .checks{display:grid;gap:10px;font-size:14px;color:#EFE7D8}
-  .assess .checks div{display:flex;gap:10px;align-items:center}
-  .assess .checks .ti{color:var(--accent);font-family:var(--ff-mono);font-size:12px;width:18px}
-  .assess .eyebrow{color:#a09684}
-
-  .faq-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:48px}
-  @media (max-width:880px){.faq-grid{grid-template-columns:1fr}}
-  .faq-grid h2{font-size:clamp(36px,5vw,56px);margin:8px 0 0}
-  details{border-top:1px solid var(--line);padding:22px 0;}
-  details:last-child{border-bottom:1px solid var(--line)}
-  details summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;font-size:18px;color:var(--ink);font-weight:500;letter-spacing:-.005em;}
-  details summary::-webkit-details-marker{display:none}
-  details .ans{margin-top:14px;color:var(--ink-2);font-size:15px;max-width:60ch}
-  details .ic{flex:0 0 26px;height:26px;border-radius:99px;border:1px solid var(--line-2);display:grid;place-items:center;font-size:14px;color:var(--ink-2);transition:all .2s;}
-  details[open] .ic{background:var(--ink);color:#fff;border-color:var(--ink);transform:rotate(45deg)}
-
-  footer{padding:56px 0 32px;border-top:1px solid var(--line);margin-top:24px}
-  .footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr;gap:32px}
-  @media (max-width:760px){.footer-grid{grid-template-columns:1fr 1fr}}
-  .footer-grid h5{font-family:var(--ff-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);font-weight:500;margin:0 0 14px}
-  .footer-grid ul{list-style:none;padding:0;margin:0;display:grid;gap:9px;font-size:14px;color:var(--ink-2)}
-  .footer-grid ul a:hover{color:var(--ink)}
-  .footer-bot{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);font-family:var(--ff-mono);}
-
-  .tweaks{position:fixed;right:18px;bottom:18px;z-index:80;width:280px;background:#fff;border:1px solid var(--line-2);border-radius:14px;box-shadow:0 24px 50px -20px rgba(23,20,19,.25);padding:14px 16px 16px;font-size:13px;display:none;}
-  .tweaks.on{display:block}
-  .tweaks h6{margin:0 0 10px;font-family:var(--ff-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);font-weight:500;display:flex;justify-content:space-between;align-items:center}
-  .tweaks .row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
-  .tweaks .row label{color:var(--ink-2);font-size:12.5px}
-  .tweaks .swatches{display:flex;gap:6px}
-  .tweaks .sw{width:22px;height:22px;border-radius:6px;border:2px solid transparent;cursor:pointer}
-  .tweaks .sw.sel{border-color:var(--ink)}
-  .tweaks select{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font:inherit;font-size:12px;color:var(--ink);}
-  .tweaks .toggle{width:34px;height:20px;background:var(--line);border-radius:99px;position:relative;cursor:pointer;transition:.2s}
-  .tweaks .toggle::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:99px;background:#fff;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
-  .tweaks .toggle.on{background:var(--accent)}
-  .tweaks .toggle.on::after{transform:translateX(14px)}
-
-  body.dense section{padding-top:64px;padding-bottom:64px}
-  body.dense .step{padding:24px 22px;min-height:260px}
-  body.dense .hero-grid{padding-top:48px;padding-bottom:36px}
-
-  .photos{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px;margin-top:8px}
-  @media (max-width:760px){.photos{grid-template-columns:1fr 1fr}}
-  .ph{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:repeating-linear-gradient(135deg, #f0e7d8 0 12px, #e8ddc8 12px 24px);aspect-ratio:4/3;display:flex;align-items:flex-end;padding:16px;}
-  .ph.tall{aspect-ratio:3/4}
-  .ph.wide{aspect-ratio:5/3}
-  .ph .tag{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);background:rgba(251,248,244,.92);border:1px solid var(--line);padding:6px 10px;border-radius:99px;}
-  .ph .corner{position:absolute;top:14px;left:14px;font-family:var(--ff-mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.08em;}
-
-  .ink-line{position:relative;white-space:nowrap}
-  .ink-line::after{content:"";position:absolute;left:0;right:0;bottom:.05em;height:.18em;background:var(--accent);opacity:.3;border-radius:2px;z-index:-1;}
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="lesson-shell.css" />
+<link rel="stylesheet" href="landing.css" />
 </head>
 <body>
 
@@ -437,15 +28,15 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     <a href="#" class="brand">
       <img src="assets/scispark-logo-mark.svg" alt="SciSpark" class="brand-img">
       <span class="brand-name">
-        <b data-en="SciSpark" data-zh="SciSpark">SciSpark</b>
+        <b>Sci<span class="spark">Spark</span></b>
         <i data-en="Year 7–9 Science · Cambridge 0893" data-zh="七–九年级科学 · 剑桥 0893">Year 7–9 Science · Cambridge 0893</i>
       </span>
     </a>
     <div class="nav-links">
-      <a href="#home" data-en="Home" data-zh="首页">Home</a>
-      <a href="#how" data-en="How It Works" data-zh="运作方式">How It Works</a>
+      <a href="#home"   data-en="Home"           data-zh="首页">Home</a>
+      <a href="#how"    data-en="How It Works"   data-zh="运作方式">How It Works</a>
       <a href="#levels" data-en="Learning Paths" data-zh="学习路径">Learning Paths</a>
-      <a href="pricing.html" data-en="Pricing" data-zh="价格">Pricing</a>
+      <a href="pricing.html" data-en="Pricing"   data-zh="价格">Pricing</a>
       <a href="#" data-gate="1" data-en="Get Started" data-zh="开始">Get Started</a>
     </div>
     <div class="nav-right">
@@ -465,21 +56,21 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     <div class="hero-grid">
       <div>
         <div class="hero-mission">
-          <p data-en="In the AI era, memorisation is dead. We train the next generation to ask the right questions." data-zh="在 AI 时代,记忆已经死了,我们在训练真正会问问题的下一代">In the AI era, memorisation is dead. We train the next generation to ask the right questions.</p>
+          <p data-en="In the AI era, memorisation is dead. We train the next generation to ask the right questions." data-zh="在 AI 时代，记忆已经死了，我们在训练真正会问问题的下一代">In the AI era, memorisation is dead. We train the next generation to ask the right questions.</p>
         </div>
         <span class="eyebrow" data-en="Year 7–9 Science · Cambridge 0893" data-zh="七–九年级科学 · 剑桥 0893">Year 7–9 Science · Cambridge 0893</span>
         <h1 class="display">
           <span data-en="Start with the right assessment." data-zh="从正确的评估开始。">Start with the right assessment.</span><br>
-          <span data-en="Continue on the " data-zh="走上" class="ink-line">Continue on the </span><br><span data-en="right path." data-zh="正确的学习路径。" style="white-space:nowrap"><em>right path.</em></span>
+          <span data-en="Continue on the " data-zh="走上" class="ink-line">Continue on the </span><br>
+          <span data-en="right path." data-zh="正确的学习路径。" style="white-space:nowrap"><em>right path.</em></span>
         </h1>
-        <p class="lede" style="max-width:50ch" data-en="SciSpark is an AI-managed science learning system that assesses each student first, guides the next step, and supports progress over time with teacher oversight." data-zh="SciSpark 是一个 AI 管理型科学学习系统：先评估每位学生，再引导下一步，并在老师监督下持续支持学习进展。">
+        <p class="lede" style="max-width:50ch;margin-top:6px" data-en="SciSpark is an AI-managed science learning system that assesses each student first, guides the next step, and supports progress over time with teacher oversight." data-zh="SciSpark 是一个 AI 管理型科学学习系统：先评估每位学生，再引导下一步，并在老师监督下持续支持学习进展。">
           SciSpark is an AI-managed science learning system that assesses each student first, guides the next step, and supports progress over time with teacher oversight.
         </p>
         <div class="hero-cta" style="margin-top:32px">
           <a href="#" class="btn btn-accent" data-gate="1" data-en="Get Started" data-zh="开始">Get Started <span class="arr">→</span></a>
           <a href="signin.html" class="btn btn-ghost" id="signin-btn-2" data-en="Sign In" data-zh="登录">Sign In</a>
         </div>
-
         <div class="hero-meta">
           <div class="stat"><b>30 min</b><span data-en="Assessment time" data-zh="评估时长">Assessment time</span></div>
           <div class="stat"><b>60</b><span data-en="Total marks" data-zh="总分">Total marks</span></div>
@@ -494,46 +85,39 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
           <span>AI · Live</span>
         </div>
         <div class="chat-feed">
-
           <div class="chat-msg stud" style="--delay:0s">
             <div class="chat-row">
               <div class="bubble" data-en="Why does water disappear when I boil it?" data-zh="水烧开了为什么会消失？">Why does water disappear when I boil it?</div>
             </div>
           </div>
-
           <div class="chat-msg prof" style="--delay:0.8s">
             <div class="chat-row">
               <div class="prof-av"><img src="assets/ProfessorP_13_icon_head_only.png" alt="Professor P"></div>
               <div class="bubble" data-en="Good question. Before I explain — where do you think it goes?" data-zh="好问题。在我解释之前——你觉得它去哪了？">Good question. Before I explain — where do you think it goes?</div>
             </div>
           </div>
-
           <div class="chat-msg stud" style="--delay:1.6s">
             <div class="chat-row">
               <div class="bubble" data-en="Into the air?" data-zh="进入空气里了？">Into the air?</div>
             </div>
           </div>
-
           <div class="chat-msg prof" style="--delay:2.4s">
             <div class="chat-row">
               <div class="prof-av"><img src="assets/ProfessorP_13_icon_head_only.png" alt="Professor P"></div>
               <div class="bubble" data-en="So it's still there, just... different? What changed — the water itself, or how it moves?" data-zh="所以它还在，只是……变了？是水本身变了，还是它的运动方式变了？">So it's still there, just... different? What changed — the water itself, or how it moves?</div>
             </div>
           </div>
-
           <div class="chat-msg stud" style="--delay:3.2s">
             <div class="chat-row">
               <div class="bubble" data-en="Maybe how it moves?" data-zh="也许是运动方式？">Maybe how it moves?</div>
             </div>
           </div>
-
           <div class="chat-msg prof" style="--delay:4s">
             <div class="chat-row">
               <div class="prof-av"><img src="assets/ProfessorP_13_icon_head_only.png" alt="Professor P"></div>
               <div class="bubble" data-en="You're closer than you think. What if water is made of billions of tiny particles? What do you think heat does to them?" data-zh="你比你想象的更接近答案了。如果水是由数十亿个微小粒子组成的，你觉得加热会对它们做什么？">You're closer than you think. What if water is made of billions of tiny particles? What do you think heat does to them?</div>
             </div>
           </div>
-
         </div>
         <div class="device-foot">
           <span data-en="AI Socratic Tutor" data-zh="AI 苏格拉底导师">AI Socratic Tutor</span>
@@ -712,7 +296,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
           Your child's placement is reviewed, not guessed. A reviewer reads the assessment, identifies patterns, and matches your child to a level and learning path. The result is stored securely in the account system and becomes part of the student journey after activation.
         </p>
         <div class="visual">
-          <div class="row"><span data-en="Level" data-zh="等级">Level</span><b>Level 2 — guided</b></div>
+          <div class="row"><span data-en="Level" data-zh="等级">Level</span><b>Level 2</b></div>
           <div class="row"><span data-en="Reason" data-zh="原因">Reason</span><span>strong reasoning, weak vocabulary</span></div>
           <div class="row"><span data-en="Language" data-zh="语言">Language</span><span class="ac">Bilingual</span></div>
           <div class="level-bar"><i class="fill"></i><i class="fill"></i><i></i></div>
@@ -728,14 +312,14 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
         <div class="visual">
           <div class="row"><span data-en="Student" data-zh="学生">Student</span><span>lessons · quizzes · games</span></div>
           <div class="row"><span data-en="Responsible adult" data-zh="家长">Responsible adult</span><span>results · reports · progress</span></div>
-          <div class="row"><span data-en="Access" data-zh="访问">Access</span><span class="ok">Responsible adults can sign in any time; students sign in after activation</span></div>
+          <div class="row"><span data-en="Access" data-zh="访问">Access</span><span class="ok">Sign in any time</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LEVELS -->
+<!-- LEVELS / INSIDE THE PLATFORM -->
 <section id="levels">
   <div class="wrap">
     <div class="levels-head">
@@ -948,11 +532,12 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
       </p>
     </div>
 
+    <!-- For students / For parents -->
     <div style="display:grid;gap:14px;margin-top:48px" class="audiences">
-      <div style="border:1px solid var(--line);border-radius:16px;padding:32px;background:#fff">
+      <div style="border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;background:var(--bg-card)">
         <span class="eyebrow" data-en="For students · Activated student account" data-zh="面向学生 · 学生账号">For students · Activated student account</span>
         <h3 style="font-family:var(--ff-display);font-weight:400;font-size:clamp(26px,3.5vw,32px);margin:10px 0 14px;letter-spacing:-.01em" data-en="After activation: your own account, your own learning." data-zh="属于你的账号，属于你的学习。">After activation: your own account, your own learning.</h3>
-        <ul style="padding-left:18px;margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.8">
+        <ul style="padding-left:18px;margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.9">
           <li data-en="Guided lessons aligned to Cambridge 0893" data-zh="与剑桥 0893 对齐的引导式课程">Guided lessons aligned to Cambridge 0893</li>
           <li data-en="Interactive quizzes with instant feedback" data-zh="即时反馈的互动测验">Interactive quizzes with instant feedback</li>
           <li data-en="Games and guided practice activities" data-zh="游戏与引导练习活动">Games and guided practice activities</li>
@@ -961,10 +546,10 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
           <li data-en="School profile — textbook, current unit, recent school exam results" data-zh="学校档案 — 教材、当前单元、近期学校成绩">School profile — textbook, current unit, recent school exam results</li>
         </ul>
       </div>
-      <div style="border:1px solid var(--line);border-radius:16px;padding:32px;background:#fff">
+      <div style="border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;background:var(--bg-card)">
         <span class="eyebrow" data-en="For parents · Parent account" data-zh="面向家长 · 家长账号">For parents · Parent account</span>
         <h3 style="font-family:var(--ff-display);font-weight:400;font-size:clamp(26px,3.5vw,32px);margin:10px 0 14px;letter-spacing:-.01em" data-en="Visibility and confidence, in your own account." data-zh="在您自己的账号中，获得清晰与安心。">Visibility and confidence, in your own account.</h3>
-        <ul style="padding-left:18px;margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.8">
+        <ul style="padding-left:18px;margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.9">
           <li data-en="View your child's assessment result any time" data-zh="随时查看孩子的评估结果">View your child's assessment result any time</li>
           <li data-en="Weekly reports on progress and gaps" data-zh="每周进度与薄弱点报告">Weekly reports on progress and gaps</li>
           <li data-en="Understand your child's learning path and level" data-zh="了解孩子的学习路径与等级">Understand your child's learning path and level</li>
@@ -975,13 +560,13 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
       </div>
     </div>
 
+    <!-- Account value -->
     <div class="dash-value" style="margin-top:48px">
       <div class="dash-value-head">
         <span class="eyebrow" data-en="Your accounts, long-term" data-zh="您的账号 — 长期价值">Your accounts, long-term</span>
         <h3 data-en="Everything lives in your account — not in emails, not in chat." data-zh="一切都在您的账号里 — 而非邮件或聊天记录。">Everything lives in your account — not in emails, not in chat.</h3>
         <p class="small" style="margin-top:8px;max-width:50ch" data-en="After the assessment, both accounts become persistent. Sign in any time to review what's already there — and continue where you left off." data-zh="评估完成后，两个账号持续生效。随时登录即可查阅已有内容并继续学习。">After the assessment, both accounts become persistent. Sign in any time to review what's already there — and continue where you left off.</p>
       </div>
-
       <div class="dash-grid">
         <div class="dash-card">
           <span class="dash-icon">📊</span>
@@ -1016,6 +601,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
       </div>
     </div>
 
+    <!-- Begin here CTA -->
     <div class="assess" id="assess">
       <div>
         <span class="eyebrow" data-en="Begin here" data-zh="从这里开始">Begin here</span>
@@ -1028,8 +614,8 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
           Sign up first — a responsible-adult account and a child record are created immediately. Your child then takes the assessment, and the result is stored securely in the account system. No anonymous access.
         </p>
         <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
-          <a href="#" class="btn btn-accent" data-gate="1" style="padding:14px 22px;font-size:15px" data-en="Get Started" data-zh="开始">Get Started <span class="arr">→</span></a>
-          <a href="signin.html" class="btn" style="background:#2a2622;color:var(--bg);padding:14px 22px;font-size:15px" data-en="Sign In" data-zh="登录">Sign In</a>
+          <a href="#" class="btn btn-accent" data-gate="1" style="padding:14px 24px;font-size:15px;border-radius:10px" data-en="Get Started" data-zh="开始">Get Started <span class="arr">→</span></a>
+          <a href="signin.html" class="btn" style="background:#2a2622;color:var(--bg);padding:14px 24px;font-size:15px;border-radius:10px" data-en="Sign In" data-zh="登录">Sign In</a>
         </div>
       </div>
       <div class="checks">
@@ -1062,8 +648,8 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
             <span data-en="Why can't parents just choose the plan themselves?" data-zh="为什么家长不能自己选方案？">Why can't parents just choose the plan themselves?</span>
             <span class="ic">+</span>
           </summary>
-          <p class="ans" data-en="Because nine times out of ten the wrong plan is chosen for the right reasons. Parents over- or under-estimate their child by one level — and the child quietly disengages. Our assessment removes the guesswork and our human reviewers check every result before recommending a plan." data-zh="因为绝大多数家长都会出于善意而选错方案 — 高估或低估孩子一个等级，孩子很快就会失去兴趣。我们用评估代替猜测，并由人工审阅每一份结果后再做推荐。">
-            Because nine times out of ten the wrong plan is chosen for the right reasons. Parents over- or under-estimate their child by one level — and the child quietly disengages. Our assessment removes the guesswork and our human reviewers check every result before recommending a plan.
+          <p class="ans" data-en="Because nine times out of ten the wrong plan is chosen for the right reasons. Parents over- or under-estimate their child by one level — and the child quietly disengages. Our assessment removes the guesswork and our human reviewers check every result before recommending a path." data-zh="因为绝大多数家长都会出于善意而选错方案 — 高估或低估孩子一个等级，孩子很快就会失去兴趣。我们用评估代替猜测，并由人工审阅每一份结果后再做推荐。">
+            Because nine times out of ten the wrong plan is chosen for the right reasons. Parents over- or under-estimate their child by one level — and the child quietly disengages. Our assessment removes the guesswork and our human reviewers check every result before recommending a path.
           </p>
         </details>
         <details>
@@ -1080,8 +666,8 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
             <span data-en="My child's English isn't strong. Will this work?" data-zh="孩子英文较弱，仍能学得好吗？">My child's English isn't strong. Will this work?</span>
             <span class="ic">+</span>
           </summary>
-          <p class="ans" data-en="Yes. Our Bilingual and Bilingual Plus tracks teach the concept in Chinese first, then build the English vocabulary on top — so your child learns the science, not just the words. Most parents whose children sit between English and Chinese end up here." data-zh="可以。我们的「双语」与「双语 +」会先用中文讲清概念，再帮孩子建立对应的英文表达 — 孩子学到的是科学本身，而不是被英文卡住。绝大多数中英文兼修的孩子都最终选择这条路径。">
-            Yes. Our Bilingual and Bilingual Plus tracks teach the concept in Chinese first, then build the English vocabulary on top — so your child learns the science, not just the words. Most parents whose children sit between English and Chinese end up here.
+          <p class="ans" data-en="Yes. SciSpark is bilingual throughout — every lesson, quiz and report exists in both English and Chinese. Your child can switch languages at any point. We teach the concept in the language your child understands best, then build the other language on top." data-zh="可以。SciSpark 全程双语 — 每节课、每道题、每份报告都有中英两版。孩子可以随时切换语言，先用最熟悉的语言学懂概念，再在此基础上建立另一种语言的表达。">
+            Yes. SciSpark is bilingual throughout — every lesson, quiz and report exists in both English and Chinese. Your child can switch languages at any point. We teach the concept in the language your child understands best, then build the other language on top.
           </p>
         </details>
         <details>
@@ -1123,28 +709,28 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
       <div>
         <a href="#" class="brand" style="font-size:16px">
           <img src="assets/scispark-logo-mark.svg" alt="SciSpark" class="brand-img">
-          <span class="brand-name"><b data-en="SciSpark" data-zh="SciSpark">SciSpark</b></span>
+          <span class="brand-name"><b>Sci<span class="spark">Spark</span></b></span>
         </a>
-        <p class="small" style="margin:14px 0 0;max-width:32ch" data-en="An AI-managed science learning system for Year 7–9 science. Assessment-first. Cambridge 0893 aligned. English &amp; 中文." data-zh="面向七 — 九年级科学的 AI 管理型学习系统。先评估。对接剑桥 0893。中英双语支持。">
+        <p class="footer-brand-desc" data-en="An AI-managed science learning system for Year 7–9 science. Assessment-first. Cambridge 0893 aligned. English &amp; 中文." data-zh="面向七 — 九年级科学的 AI 管理型学习系统。先评估。对接剑桥 0893。中英双语支持。">
           An AI-managed science learning system for Year 7–9 science. Assessment-first. Cambridge 0893 aligned. English &amp; 中文.
         </p>
       </div>
       <div>
         <h5 data-en="Product" data-zh="产品">Product</h5>
         <ul>
-          <li><a href="#how" data-en="How it works" data-zh="运作方式">How it works</a></li>
-          <li><a href="#levels" data-en="Levels" data-zh="支持等级">Levels</a></li>
-          <li><a href="#assess" data-en="Assessment" data-zh="评估">Assessment</a></li>
-          <li><a href="#faq" data-en="FAQ" data-zh="常见问题">FAQ</a></li>
+          <li><a href="#how"    data-en="How it works" data-zh="运作方式">How it works</a></li>
+          <li><a href="#levels" data-en="Levels"       data-zh="支持等级">Levels</a></li>
+          <li><a href="#assess" data-en="Assessment"   data-zh="评估">Assessment</a></li>
+          <li><a href="#faq"    data-en="FAQ"           data-zh="常见问题">FAQ</a></li>
         </ul>
       </div>
       <div>
         <h5 data-en="Curriculum" data-zh="课程">Curriculum</h5>
         <ul>
           <li><a href="#" data-en="Cambridge 0893" data-zh="剑桥 0893">Cambridge 0893</a></li>
-          <li><a href="#" data-en="Year 7 path" data-zh="七年级路径">Year 7 path</a></li>
-          <li><a href="#" data-en="Year 8 path" data-zh="八年级路径">Year 8 path</a></li>
-          <li><a href="#" data-en="Year 9 path" data-zh="九年级路径">Year 9 path</a></li>
+          <li><a href="#" data-en="Year 7 path"    data-zh="七年级路径">Year 7 path</a></li>
+          <li><a href="#" data-en="Year 8 path"    data-zh="八年级路径">Year 8 path</a></li>
+          <li><a href="#" data-en="Year 9 path"    data-zh="九年级路径">Year 9 path</a></li>
         </ul>
       </div>
       <div>
@@ -1152,34 +738,33 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
         <ul>
           <li><a href="#" data-en="Support" data-zh="客服支持">Support</a></li>
           <li><a href="#" data-en="Privacy" data-zh="隐私">Privacy</a></li>
-          <li><a href="#" data-en="Terms" data-zh="条款">Terms</a></li>
+          <li><a href="#" data-en="Terms"   data-zh="条款">Terms</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bot">
-      <span>© 2026 SciSpark</span>
+      <span>© 2026 SciSpark · An IG SPARK CENTRE product · All rights reserved.</span>
       <span>EN · 中文 · Cambridge 0893</span>
     </div>
   </div>
 </footer>
 
-<!-- ===== GATE MODAL — NEW 3-STEP FLOW ===== -->
+<!-- GATE MODAL — 5-step flow -->
 <div class="gate-backdrop" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <div class="gate">
     <button class="close" id="gate-close" aria-label="Close">✕</button>
 
-    <!-- STEP 0: Choose path — Parent or School -->
+    <!-- STEP 0: Choose path -->
     <div class="gate-step" id="gate-step-0">
       <span class="eyebrow" data-en="Welcome to SciSpark" data-zh="欢迎来到 SciSpark">Welcome to SciSpark</span>
       <h3 id="gate-title" data-en="How are you joining?" data-zh="您以什么身份加入？">How are you joining?</h3>
       <p class="sub" data-en="Choose the option that best describes your situation." data-zh="请选择最符合您情况的方式。">Choose the option that best describes your situation.</p>
-
       <div class="path-choice">
         <button class="btn-path" id="btn-parent-path">
           <span class="path-icon">👪</span>
           <div class="path-body">
-            <span class="path-title" data-en="I'm a Parent / Guardian" data-zh="我是家长 / 监护人">I'm a Parent / Guardian</span>
-            <span class="path-sub" data-en="Signing up my child independently" data-zh="独立为孩子报名">Signing up my child independently</span>
+            <span class="path-title" data-en="I'm a Parent / Guardian"       data-zh="我是家长 / 监护人">I'm a Parent / Guardian</span>
+            <span class="path-sub"   data-en="Signing up my child independently" data-zh="独立为孩子报名">Signing up my child independently</span>
           </div>
           <span class="path-arr">→</span>
         </button>
@@ -1187,78 +772,71 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
           <span class="path-icon">🏫</span>
           <div class="path-body">
             <span class="path-title" data-en="My School uses SciSpark" data-zh="我的学校使用 SciSpark">My School uses SciSpark</span>
-            <span class="path-sub" data-en="Apply for a school licence" data-zh="申请学校授权">Apply for a school licence</span>
+            <span class="path-sub"   data-en="Apply for a school licence"    data-zh="申请学校授权">Apply for a school licence</span>
           </div>
           <span class="path-arr">→</span>
         </button>
       </div>
-
       <div class="signin-row" style="margin-top:20px">
         <span data-en="Already have an account?" data-zh="已有账号？">Already have an account?</span>
         <a href="signin.html" data-en="Sign in" data-zh="登录">Sign in</a>
       </div>
     </div>
 
-    <!-- STEP 1: Social login (Parent path) -->
+    <!-- STEP 1: Social login -->
     <div class="gate-step" id="gate-step-1" style="display:none">
       <button class="back-link" id="gate-back-1" data-en="← Back" data-zh="← 返回">← Back</button>
       <span class="eyebrow" data-en="Create your SciSpark account" data-zh="创建 SciSpark 账号">Create your SciSpark account</span>
       <h3 data-en="Sign up to begin the assessment." data-zh="注册后即可开始评估。">Sign up to begin the assessment.</h3>
       <p class="sub" data-en="Your account stores your child's assessment result, learning progress, and reports — it's the start of your SciSpark platform experience." data-zh="您的账号将保存孩子的评估结果、学习进度和报告 — 这是 SciSpark 平台体验的起点。">Your account stores your child's assessment result, learning progress, and reports — it's the start of your SciSpark platform experience.</p>
-
       <div class="social-logins">
         <button class="btn-social" id="btn-google">
-          <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2a10.34 10.34 0 0 0-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92A8.78 8.78 0 0 0 17.64 9.2z" fill="#4285F4"></path><path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.33-1.58-5.04-3.71H.96v2.33A9 9 0 0 0 9 18z" fill="#34A853"></path><path d="M3.96 10.71A5.41 5.41 0 0 1 3.68 9c0-.6.1-1.17.28-1.71V4.96H.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l3-2.33z" fill="#FBBC05"></path><path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.42 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.66 3.58 9 3.58z" fill="#EA4335"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2a10.34 10.34 0 0 0-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92A8.78 8.78 0 0 0 17.64 9.2z" fill="#4285F4"/><path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.33-1.58-5.04-3.71H.96v2.33A9 9 0 0 0 9 18z" fill="#34A853"/><path d="M3.96 10.71A5.41 5.41 0 0 1 3.68 9c0-.6.1-1.17.28-1.71V4.96H.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l3-2.33z" fill="#FBBC05"/><path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.42 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.66 3.58 9 3.58z" fill="#EA4335"/></svg>
           <span data-en="Continue with Google" data-zh="使用 Google 继续">Continue with Google</span>
         </button>
         <button class="btn-social" id="btn-facebook">
-          <svg width="18" height="18" viewBox="0 0 18 18"><path d="M18 9a9 9 0 1 0-10.41 8.9v-6.3h-2.3V9h2.3V7.02c0-2.26 1.35-3.51 3.41-3.51.99 0 2.02.18 2.02.18v2.22h-1.14c-1.12 0-1.47.7-1.47 1.41V9h2.5l-.4 2.6h-2.1v6.3A9 9 0 0 0 18 9z" fill="#1877F2"></path><path d="M12.5 11.6l.4-2.6h-2.5V7.32c0-.71.35-1.41 1.47-1.41h1.14V3.69s-1.03-.18-2.02-.18c-2.06 0-3.41 1.25-3.41 3.51V9H5.29v2.6h2.3v6.3a9.14 9.14 0 0 0 2.82 0v-6.3h2.1z" fill="#fff"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 18 18"><path d="M18 9a9 9 0 1 0-10.41 8.9v-6.3h-2.3V9h2.3V7.02c0-2.26 1.35-3.51 3.41-3.51.99 0 2.02.18 2.02.18v2.22h-1.14c-1.12 0-1.47.7-1.47 1.41V9h2.5l-.4 2.6h-2.1v6.3A9 9 0 0 0 18 9z" fill="#1877F2"/><path d="M12.5 11.6l.4-2.6h-2.5V7.32c0-.71.35-1.41 1.47-1.41h1.14V3.69s-1.03-.18-2.02-.18c-2.06 0-3.41 1.25-3.41 3.51V9H5.29v2.6h2.3v6.3a9.14 9.14 0 0 0 2.82 0v-6.3h2.1z" fill="#fff"/></svg>
           <span data-en="Continue with Facebook" data-zh="使用 Facebook 继续">Continue with Facebook</span>
         </button>
       </div>
-
       <div class="divider"><span data-en="or sign up with email" data-zh="或使用邮箱注册">or sign up with email</span></div>
-
       <button class="btn-social email" id="btn-email-step">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3.5" width="16" height="11" rx="2"></rect><path d="M1 5l8 5 8-5"></path></svg>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3.5" width="16" height="11" rx="2"/><path d="M1 5l8 5 8-5"/></svg>
         <span data-en="Continue with Email" data-zh="使用邮箱继续">Continue with Email</span>
       </button>
-
       <div class="signin-row">
         <span data-en="Already have an account?" data-zh="已有账号？">Already have an account?</span>
         <a href="signin.html" id="gate-signin" data-en="Sign in" data-zh="登录">Sign in</a>
       </div>
     </div>
 
-    <!-- STEP 2: Email form (Parent path) -->
+    <!-- STEP 2: Email form -->
     <div class="gate-step" id="gate-step-2" style="display:none">
       <button class="back-link" id="gate-back-2" data-en="← Back" data-zh="← 返回">← Back</button>
       <span class="eyebrow" data-en="Account details" data-zh="账号信息">Account details</span>
       <h3 data-en="Set up your accounts." data-zh="设置账号信息。">Set up your accounts.</h3>
       <p class="sub" data-en="A responsible-adult account and a child record are created first. After package activation, the student receives independent sign-in access, while the responsible adult continues to access results, status, and reports." data-zh="系统将分别创建家长账号和学生账号。各自独立登录 — 孩子用于学习，家长用于查看成绩与报告。">A responsible-adult account and a child record are created first. After package activation, the student receives independent sign-in access, while the responsible adult continues to access results, status, and reports.</p>
-
       <form id="gate-form" onsubmit="return false;">
         <p class="section-label" data-en="Parent account" data-zh="家长账号">Parent account</p>
         <div class="field-row">
           <div class="field">
             <label data-en="Parent name" data-zh="家长姓名">Parent name</label>
-            <input type="text" required="" placeholder="Jane Lim">
+            <input type="text" name="parent_name" required placeholder="Jane Lim">
           </div>
           <div class="field">
             <label data-en="Parent email" data-zh="家长邮箱">Parent email</label>
-            <input type="email" required="" placeholder="parent@example.com">
+            <input type="email" name="parent_email" required placeholder="parent@example.com">
           </div>
         </div>
-
         <p class="section-label" data-en="Student account" data-zh="学生账号">Student account</p>
         <div class="field-row">
           <div class="field">
             <label data-en="Student name" data-zh="学生姓名">Student name</label>
-            <input type="text" required="" placeholder="Alex Lim">
+            <input type="text" name="student_name" required placeholder="Alex Lim">
           </div>
           <div class="field">
             <label data-en="Year group" data-zh="年级">Year group</label>
-            <select>
+            <select name="year_group">
               <option data-en="Year 7" data-zh="七年级">Year 7</option>
               <option data-en="Year 8" data-zh="八年级">Year 8</option>
               <option data-en="Year 9" data-zh="九年级">Year 9</option>
@@ -1268,53 +846,51 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
         <div class="field-row">
           <div class="field">
             <label data-en="Student email (optional)" data-zh="学生邮箱（选填）">Student email (optional)</label>
-            <input type="email" placeholder="student@gmail.com">
+            <input type="email" name="student_email" placeholder="student@gmail.com">
           </div>
           <div class="field">
             <label data-en="Assessment language" data-zh="评估语言">Assessment language</label>
-            <select>
-              <option data-en="English" data-zh="英文">English</option>
+            <select name="lang_pref">
+              <option data-en="English"        data-zh="英文">English</option>
               <option data-en="中文 (Chinese)" data-zh="中文">中文 (Chinese)</option>
             </select>
           </div>
         </div>
-
         <button class="btn btn-accent" type="submit" data-en="Create accounts &amp; begin assessment" data-zh="创建账号并开始评估">Create accounts &amp; begin assessment <span class="arr">→</span></button>
         <p class="fine" data-en="By continuing you agree to our &lt;a href='#'&gt;Terms&lt;/a&gt; and &lt;a href='#'&gt;Privacy&lt;/a&gt;. A responsible-adult account and child record are created immediately. Independent student sign-in becomes available after package activation and setup." data-zh="继续即表示您同意我们的&lt;a href='#'&gt;条款&lt;/a&gt;与&lt;a href='#'&gt;隐私政策&lt;/a&gt;。两个账号将即时创建 — 孩子之后可独立登录。">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy</a>. A responsible-adult account and child record are created immediately. Independent student sign-in becomes available after package activation and setup.</p>
       </form>
     </div>
 
-    <!-- STEP 3: School application form -->
+    <!-- STEP 3: School application -->
     <div class="gate-step" id="gate-step-3" style="display:none">
       <button class="back-link" id="gate-back-3" data-en="← Back" data-zh="← 返回">← Back</button>
       <span class="eyebrow" data-en="School application" data-zh="学校申请">School application</span>
       <h3 data-en="Tell us about your school." data-zh="告诉我们您的学校。">Tell us about your school.</h3>
       <p class="sub" data-en="We'll review your application and contact you within 2 business days to discuss a school licence." data-zh="我们将审查您的申请，并在 2 个工作日内与您联系商讨学校授权事宜。">We'll review your application and contact you within 2 business days to discuss a school licence.</p>
-
       <form id="gate-school-form" onsubmit="return false;">
         <p class="section-label" data-en="School details" data-zh="学校信息">School details</p>
         <div class="field-row">
           <div class="field">
             <label data-en="School name" data-zh="学校名称">School name</label>
-            <input type="text" required="" placeholder="e.g. Penang Chinese School">
+            <input type="text" required placeholder="e.g. Penang Chinese School">
           </div>
           <div class="field">
             <label data-en="Country / City" data-zh="国家 / 城市">Country / City</label>
-            <input type="text" required="" placeholder="e.g. Malaysia, Penang">
+            <input type="text" required placeholder="e.g. Malaysia, Penang">
           </div>
         </div>
         <p class="section-label" data-en="Contact person" data-zh="联系人信息">Contact person</p>
         <div class="field-row">
           <div class="field">
             <label data-en="Your name" data-zh="您的姓名">Your name</label>
-            <input type="text" required="" placeholder="e.g. Mr. Chen">
+            <input type="text" required placeholder="e.g. Mr. Chen">
           </div>
           <div class="field">
             <label data-en="Your role" data-zh="您的职位">Your role</label>
             <select>
-              <option data-en="Science Teacher" data-zh="科学老师">Science Teacher</option>
-              <option data-en="Head of Department" data-zh="学科主任">Head of Department</option>
-              <option data-en="School Administrator" data-zh="学校管理员">School Administrator</option>
+              <option data-en="Science Teacher"           data-zh="科学老师">Science Teacher</option>
+              <option data-en="Head of Department"        data-zh="学科主任">Head of Department</option>
+              <option data-en="School Administrator"      data-zh="学校管理员">School Administrator</option>
               <option data-en="Principal / Vice Principal" data-zh="校长 / 副校长">Principal / Vice Principal</option>
               <option data-en="Other" data-zh="其他">Other</option>
             </select>
@@ -1323,235 +899,66 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
         <div class="field-row">
           <div class="field">
             <label data-en="School email" data-zh="学校邮箱">School email</label>
-            <input type="email" required="" placeholder="teacher@school.edu.my">
+            <input type="email" required placeholder="teacher@school.edu.my">
           </div>
           <div class="field">
             <label data-en="Estimated students" data-zh="预计学生人数">Estimated students</label>
             <select>
-              <option data-en="1 – 30 students" data-zh="1 – 30 名学生">1 – 30 students</option>
-              <option data-en="31 – 100 students" data-zh="31 – 100 名学生">31 – 100 students</option>
+              <option data-en="1 – 30 students"   data-zh="1 – 30 名学生">1 – 30 students</option>
+              <option data-en="31 – 100 students"  data-zh="31 – 100 名学生">31 – 100 students</option>
               <option data-en="101 – 300 students" data-zh="101 – 300 名学生">101 – 300 students</option>
-              <option data-en="300+ students" data-zh="300 名以上">300+ students</option>
+              <option data-en="300+ students"      data-zh="300 名以上">300+ students</option>
             </select>
           </div>
         </div>
-
         <button class="btn btn-accent" type="submit" id="btn-school-submit" data-en="Submit school application" data-zh="提交学校申请">Submit school application <span class="arr">→</span></button>
         <p class="fine" data-en="We'll contact you at your school email within 2 business days. No payment required at this stage." data-zh="我们将在 2 个工作日内通过您的学校邮箱与您联系。此阶段无需付款。">We'll contact you at your school email within 2 business days. No payment required at this stage.</p>
       </form>
     </div>
 
-    <!-- STEP 4: School success confirmation -->
+    <!-- STEP 4: School success -->
     <div class="gate-step" id="gate-step-4" style="display:none">
       <div class="school-success">
         <div class="success-icon">✅</div>
         <h3 data-en="Application received!" data-zh="申请已收到！">Application received!</h3>
         <p data-en="We'll contact your school email within 2 business days to discuss the licence and get you set up. No payment needed yet." data-zh="我们将在 2 个工作日内通过您的学校邮箱与您联系，商讨授权并帮您完成设置。现在无需付款。">We'll contact your school email within 2 business days to discuss the licence and get you set up. No payment needed yet.</p>
         <div style="margin-top:24px">
-          <button class="btn btn-accent" id="btn-school-done" style="width:100%;justify-content:center;padding:14px;" data-en="Close" data-zh="关闭">Close</button>
+          <button class="btn btn-accent" id="btn-school-done" style="width:100%;justify-content:center;padding:14px;border-radius:10px" data-en="Close" data-zh="关闭">Close</button>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- Tweaks panel -->
-<div class="tweaks" id="tweaks">
-  <h6>
-    <span>Tweaks</span>
-    <span style="color:var(--ink-3);font-weight:400;text-transform:none;letter-spacing:0">live</span>
-  </h6>
-  <div class="row">
-    <label>Accent</label>
-    <div class="swatches">
-      <span class="sw" data-color="#EA580C" style="background:#EA580C"></span>
-      <span class="sw" data-color="#D9480F" style="background:#D9480F"></span>
-      <span class="sw" data-color="#0F766E" style="background:#0F766E"></span>
-      <span class="sw" data-color="#1E3A8A" style="background:#1E3A8A"></span>
-      <span class="sw" data-color="#B91C1C" style="background:#B91C1C"></span>
+<!-- Mascot bubble — Professor P -->
+<div class="mascot-bubble" id="mascot-bubble" aria-label="Ask Professor P">
+  <div class="mascot-label" data-en="Ask Professor P" data-zh="问 Professor P">Ask Professor P</div>
+  <div class="mascot-avatar" role="button" aria-label="Ask Professor P">
+    <img src="assets/ProfessorP_13_icon_head_only.png" alt="Professor P">
+  </div>
+</div>
+
+<!-- AI Tutor panel (opened by mascot) -->
+<div class="tutor-panel" id="tutor-panel" role="dialog" aria-label="AI Tutor">
+  <div class="tutor-panel-head">
+    <span><span class="prof-dot"></span>Professor P</span>
+    <button class="tutor-panel-close" aria-label="Close">✕</button>
+  </div>
+  <div class="tutor-panel-body">
+    <div class="cbubble tutor">
+      <span class="who">Professor P</span>
+      <p data-en="Hello! I'm Professor P. Ask me anything about the science you're learning." data-zh="你好！我是 Professor P。你可以问我任何关于科学的问题。">Hello! I'm Professor P. Ask me anything about the science you're learning.</p>
     </div>
   </div>
-  <div class="row">
-    <label>Headline font</label>
-    <select id="t-font">
-      <option>Instrument Serif</option>
-      <option>Inter</option>
-      <option>Georgia</option>
-    </select>
-  </div>
-  <div class="row">
-    <label>Density</label>
-    <select id="t-density">
-      <option value="comfortable">Comfortable</option>
-      <option value="dense">Dense</option>
-    </select>
-  </div>
-  <div class="row">
-    <label>Top ribbon</label>
-    <div class="toggle on" id="t-ribbon"></div>
+  <div class="tutor-panel-foot">
+    <input type="text" placeholder="Ask a question…" aria-label="Ask Professor P">
+    <button>→</button>
   </div>
 </div>
 
-<script>
-/* ---------- Language toggle ---------- */
-(function(){
-  const btns = document.querySelectorAll('.lang button');
-  function setLang(lang){
-    document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
-    document.querySelectorAll('[data-en]').forEach(el=>{
-      const txt = el.getAttribute('data-' + lang);
-      if (txt !== null && txt !== undefined) el.innerHTML = txt;
-    });
-    btns.forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
-    try{ localStorage.setItem('scispark-lang', lang); }catch(e){}
-  }
-  btns.forEach(b=>b.addEventListener('click', ()=>setLang(b.dataset.lang)));
-  let saved = 'en';
-  try{ saved = localStorage.getItem('scispark-lang') || 'en'; }catch(e){}
-  if (saved === 'zh') setLang('zh');
-})();
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="lesson-shell.js"></script>
+<script src="landing.js"></script>
 
-/* ---------- Sign-up gate modal — 4-step flow ---------- */
-(function(){
-  const gate = document.getElementById('gate');
-  const closeBtn = document.getElementById('gate-close');
-  if (!gate) return;
-
-  const steps = {
-    0: document.getElementById('gate-step-0'),
-    1: document.getElementById('gate-step-1'),
-    2: document.getElementById('gate-step-2'),
-    3: document.getElementById('gate-step-3'),
-    4: document.getElementById('gate-step-4'),
-  };
-
-  function openGate(){ gate.classList.add('on'); document.body.style.overflow = 'hidden'; showStep(0); }
-  function closeGate(){ gate.classList.remove('on'); document.body.style.overflow = ''; }
-  function showStep(n){
-    Object.values(steps).forEach(s=>{ if(s) s.style.display = 'none'; });
-    if (steps[n]) steps[n].style.display = '';
-  }
-
-  /* Open gate from any [data-gate="1"] trigger */
-  document.querySelectorAll('[data-gate="1"]').forEach(el=>{
-    el.addEventListener('click', (e)=>{ e.preventDefault(); openGate(); });
-  });
-
-  /* Close gate */
-  closeBtn.addEventListener('click', closeGate);
-  gate.addEventListener('click', (e)=>{ if (e.target === gate) closeGate(); });
-  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeGate(); });
-
-  /* Step 0 → path choice */
-  document.getElementById('btn-parent-path').addEventListener('click', ()=> showStep(1));
-  document.getElementById('btn-school-path').addEventListener('click', ()=> showStep(3));
-
-  /* Back buttons */
-  document.getElementById('gate-back-1').addEventListener('click', ()=> showStep(0));
-  document.getElementById('gate-back-2').addEventListener('click', ()=> showStep(1));
-  document.getElementById('gate-back-3').addEventListener('click', ()=> showStep(0));
-
-  /* Parent path: email step navigation */
-  document.getElementById('btn-email-step').addEventListener('click', ()=> showStep(2));
-
-  /* School form submit */
-  document.getElementById('gate-school-form').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    showStep(4);
-  });
-
-  /* School success close */
-  document.getElementById('btn-school-done').addEventListener('click', closeGate);
-
-  /* Supabase client */
-  const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
-  let supabaseClient = null;
-  try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-  } catch(e) {
-    console.error('Supabase init failed:', e);
-  }
-
-  /* Google sign-in */
-  document.getElementById('btn-google').addEventListener('click', async (e)=>{
-    e.preventDefault();
-    if (!supabaseClient) {
-      alert('Sign-in service unavailable. Please refresh the page and try again.');
-      return;
-    }
-    try {
-      await supabaseClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: 'https://scisparklab.com/signup-complete.html' }
-      });
-    } catch (err) {
-      alert('Google sign-in could not start. Please try again.');
-      console.error(err);
-    }
-  });
-
-  /* Facebook — placeholder */
-  document.getElementById('btn-facebook').addEventListener('click', (e)=>{
-    e.preventDefault();
-    alert('Facebook sign-in is not connected yet.');
-  });
-
-  /* Email form — placeholder */
-  const form = document.getElementById('gate-form');
-  if (form) {
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      alert('Email sign-up is not yet connected. Please use Continue with Google to begin.');
-    });
-  }
-})();
-
-/* ---------- Hero device option keyboard ---------- */
-document.querySelectorAll('.qopt').forEach(o=>{
-  o.addEventListener('click', ()=>{
-    document.querySelectorAll('.qopt').forEach(x=>x.classList.remove('sel'));
-    o.classList.add('sel');
-  });
-});
-
-/* ---------- Tweaks ---------- */
-(function(){
-  const apply = (t)=>{
-    document.documentElement.style.setProperty('--accent', t.accent);
-    document.documentElement.style.setProperty('--ff-display', t.headlineFont === 'Inter' ? "'Inter', sans-serif" : t.headlineFont === 'Georgia' ? "Georgia, serif" : "'Instrument Serif', serif");
-    document.body.classList.toggle('dense', t.density === 'dense');
-    document.getElementById('ribbon').style.display = t.showRibbon ? '' : 'none';
-    document.querySelectorAll('.sw').forEach(s=>s.classList.toggle('sel', s.dataset.color === t.accent));
-    document.getElementById('t-font').value = t.headlineFont;
-    document.getElementById('t-density').value = t.density;
-    document.getElementById('t-ribbon').classList.toggle('on', t.showRibbon);
-    document.documentElement.style.setProperty('--accent-soft', t.accent + '22');
-    document.documentElement.style.setProperty('--accent-ink', t.accent);
-  };
-  apply(TWEAKS);
-
-  function update(patch){
-    Object.assign(TWEAKS, patch);
-    apply(TWEAKS);
-    try{ window.parent.postMessage({type:'__edit_mode_set_keys', edits: patch}, '*'); }catch(e){}
-  }
-
-  document.querySelectorAll('.sw').forEach(sw=>{
-    sw.addEventListener('click', ()=>update({accent: sw.dataset.color}));
-  });
-  document.getElementById('t-font').addEventListener('change', e=>update({headlineFont: e.target.value}));
-  document.getElementById('t-density').addEventListener('change', e=>update({density: e.target.value}));
-  document.getElementById('t-ribbon').addEventListener('click', e=>update({showRibbon: !TWEAKS.showRibbon}));
-
-  window.addEventListener('message', (ev)=>{
-    const d = ev.data || {};
-    if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('on');
-    if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
-  });
-  try{ window.parent.postMessage({type:'__edit_mode_available'}, '*'); }catch(e){}
-})();
-</script>
-
-</body></html>
+</body>
+</html>
