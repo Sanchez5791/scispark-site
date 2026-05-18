@@ -898,6 +898,12 @@ function showToast(message, opts) {
     ],
   };
 
+  const YEAR_TO_URL = {
+    'Y7': '/assessment/year-7/en/assessment-y7.html',
+    'Y8': '/assessment/year-8/en/assessment-y8.html',
+    'Y9': '/assessment/year-9/en/assessment-y9.html',
+  };
+
   /* 1. Auth check ---------------------------------------------------- */
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
@@ -1310,10 +1316,10 @@ function showToast(message, opts) {
         'font-weight:500;color:#2d2926;margin-bottom:12px;">' +
         'Take your Entry Assessment first.</div>' +
       '<p style="font-size:13px;color:#9a8e84;margin-bottom:16px;">' +
-        'Complete the 45-minute Y7 Entry Assessment to unlock your ' +
+        'Complete the 45-minute ' + child.year_group + ' Entry Assessment to unlock your ' +
         'personalised lesson path. · ' +
-        '完成 45 分钟 Y7 入学测评，解锁你的个性化学习路径。</p>' +
-      '<a href="/assessment/year-7/en/assessment-y7.html" ' +
+        '完成 45 分钟 ' + child.year_group + ' 入学测评，解锁你的个性化学习路径。</p>' +
+      '<a href="' + (YEAR_TO_URL[child.year_group] || YEAR_TO_URL['Y7']) + '" ' +
         'style="display:inline-flex;align-items:center;gap:6px;' +
         'padding:10px 20px;background:#e8521a;color:white;' +
         'border-radius:100px;font-size:13px;font-weight:600;' +
