@@ -1081,6 +1081,19 @@ function showToast(message, opts) {
   renderChildAvatar(child);
   attachAvatarUpload(child);
 
+  /* Sign out handler */
+  const signoutBtn = document.querySelector('.nav-signout');
+  if (signoutBtn) {
+    signoutBtn.addEventListener('click', async function() {
+      try {
+        await sb.auth.signOut();
+      } catch (e) {
+        console.error('Sign out error:', e);
+      }
+      window.location.href = '/signin.html';
+    });
+  }
+
   /* D.04: Language badge -------------------------------------------- */
   try {
     const lr = (child.assessment_language || '').toLowerCase();
