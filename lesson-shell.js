@@ -77,7 +77,12 @@
   }
 
   /* ── Mascot bubble ───────────────────────────────────────────── */
+  // Role driven by data-mascot-role on <body>:
+  //   "support" → landing SciSpark Help bot
+  //   "tutor"   → Professor P (default for all lesson pages)
   function initMascot() {
+    SS.mascotRole = document.body.dataset.mascotRole || 'tutor';
+
     const bubble = document.getElementById('mascot-bubble');
     if (!bubble) return;
 

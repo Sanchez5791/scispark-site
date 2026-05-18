@@ -40,7 +40,7 @@ All tokens in `lesson-shell.css `:root` are locked at v3.1. The key intentional 
 
 | Location | Old content | Fixed content | Source |
 |----------|-------------|---------------|--------|
-| Hero / section headers | Assessment described as "45 min" | "30 min" | Design System v3.1 §assessment |
+| Hero / section headers | Assessment described as "45 min" | "30 min" ~~→ corrected back to "45 min" in v2~~ | Design System v3.1 §assessment; v2 brief corrected |
 | Step 03 label | "Level 2 — guided" | "Level 2" | "GUIDED" suffix deprecated in v3.1 |
 | FAQ item 3 | Referenced "Bilingual" and "Bilingual Plus" tiers | Removed tier references; bilingual is a platform-wide feature | Design System v3.1 §tiers |
 | Footer | "© 2026 SciSpark" | "© 2026 SciSpark · An IG SPARK CENTRE product · All rights reserved." | Brand v3.1 §footer |
@@ -102,4 +102,37 @@ These are subtle polish changes over the previous inline styles:
 
 ---
 
-*Prepared by Claude Code · Brief: `CLOUDCODE_BRIEF_landing_redesign.md` · Design System: v3.1*
+## 8. v2 fixes (2026-05-18 · brief: `CLOUDCODE_BRIEF_v2_landing_quickfixes.md`)
+
+### Fix #1 — Assessment time: 30 min → 45 min
+
+Corrected in 3 locations in `index.html` (hero stat, Step 02 heading, how-it-works checklist). The v1 note above erroneously said "30 min" was the correct value; the Production Playbook v6.6 PART 2 states "35–45 min per lesson" — landing copy rounds to upper bound **45 min**.
+
+### Fix #2 — Mascot role-by-page system
+
+Landing page mascot bubble changed from Professor P (science tutor) to **SciSpark Help** (support/sales bot). Professor P is logically wrong on the landing — prospective parents and schools have pricing/plan questions, not science questions.
+
+**Implementation:**
+- `<body data-mascot-role="support">` in `index.html`; lesson pages default to `"tutor"`
+- `lesson-shell.js` reads `body.dataset.mascotRole` → exposes as `SciSpark.mascotRole`
+- `index.html` mascot bubble: SVG chat-bubble icon (neutral, accent-orange bg) + "SciSpark Help" label
+- `index.html` tutor panel: greeting updated, placeholder updated, name updated
+- `landing.css`: `.mascot-avatar--support { background: var(--accent); }`
+- `landing.js`: `SciSpark.handleTutorReply` wired to support stub (v1 UI: "Thanks! Email us at hello@scisparklab.com")
+- DouDou avatar not used (assets not yet present) — placeholder SVG used instead
+
+**Professor P unaffected on lesson pages** — no changes to lesson HTML or lesson-specific JS.
+
+### v2 backlog (founder-explicit: "先记着, 暂不做")
+
+| Item | Why deferred |
+|------|--------------|
+| **Full visual redesign** (Linear/Stripe-tier) | Founder to provide 3–5 reference URLs first; redesign without reference = guessing |
+| Support bot backend (real AI / ticket system) | After founder confirms support bot UI works |
+| `--bg-2` placeholder → real photos | Awaits founder photo upload |
+| School form Supabase row insert | Backend task, separate brief |
+| DouDou avatar asset | Needed for support mascot — request from design team |
+
+---
+
+*Prepared by Claude Code · v1 brief: `CLOUDCODE_BRIEF_landing_redesign.md` · v2 brief: `CLOUDCODE_BRIEF_v2_landing_quickfixes.md` · Design System: v3.1*

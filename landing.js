@@ -216,6 +216,21 @@
     });
   }
 
+  /* ── Support bot reply stub ──────────────────────────────────── */
+  // UI-only for v1. Real backend (email/ticket system) is v3 backlog.
+  function initSupportBotReply() {
+    if (!window.SciSpark) return;
+    window.SciSpark.handleTutorReply = function (text, body) {
+      var reply = document.createElement('div');
+      reply.className = 'cbubble tutor';
+      reply.innerHTML =
+        '<span class="who">SciSpark Help</span>' +
+        '<p>Thanks for reaching out! A member of our team will get back to you shortly — or email us at <a href="mailto:hello@scisparklab.com">hello@scisparklab.com</a>.</p>';
+      body.appendChild(reply);
+      body.scrollTop = body.scrollHeight;
+    };
+  }
+
   /* ── Boot ────────────────────────────────────────────────────── */
   function boot() {
     initSupabase();
@@ -223,6 +238,7 @@
     initSmoothScroll();
     initRibbon();
     initHeroDevice();
+    initSupportBotReply();
   }
 
   if (document.readyState === 'loading') {
