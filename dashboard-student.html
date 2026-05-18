@@ -1271,7 +1271,7 @@ function showToast(message, opts) {
       scoreCard.style.display = '';
     }
     // Show unit grid anyway — assessment submitted, marking pending
-    if (unitGrid) unitGrid.style.display = '';
+    if (unitGrid && unitGrid.querySelector('.unit-card')) unitGrid.style.display = '';
     return;
   }
 
@@ -1298,8 +1298,8 @@ function showToast(message, opts) {
     scoreCard.style.display = '';
   }
 
-  /* 8. Show lesson cards -------------------------------------------- */
-  if (unitGrid) unitGrid.style.display = '';
+  /* 8. Show lesson cards (only if D.04 P2 populated cards for this year_group) */
+  if (unitGrid && unitGrid.querySelector('.unit-card')) unitGrid.style.display = '';
 
   console.log('[SciSpark Dashboard] Loaded for', child.full_name,
               '— Score:', score + '/' + possible, '— Level:', level);
