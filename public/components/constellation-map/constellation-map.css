@@ -1,0 +1,89 @@
+/*
+═══════════════════════════════════════════════════════════════
+SCISPARK · constellation-map · Wrap-screen star map
+File: /public/components/constellation-map/constellation-map.css
+Vercel URL: /components/constellation-map/constellation-map.css
+═══════════════════════════════════════════════════════════════
+*/
+
+.constellation-map {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at center, #1f2746 0%, #0F172A 70%);
+  border: 1px solid #2a3556;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.25);
+}
+
+.constellation-map svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.constellation-map__caption {
+  margin-top: 12px;
+  font-family: var(--ff-mono, 'Geist Mono', ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #C7CBDB;
+  text-align: center;
+}
+
+.constellation-map__legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+  font-family: var(--ff-mono, 'Geist Mono', ui-monospace, monospace);
+  font-size: 11px;
+  color: #C7CBDB;
+}
+.constellation-map__legend span { display: inline-flex; align-items: center; gap: 6px; }
+.constellation-map__legend .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #FACC15;
+  box-shadow: 0 0 6px #FACC15;
+}
+.constellation-map__legend .dot.twinkle { background: #C4B5FD; box-shadow: 0 0 6px #C4B5FD; }
+.constellation-map__legend .dot.dim     { background: #475569; box-shadow: none; }
+
+/* Star markers inside SVG */
+.cm-star {
+  transition: filter 0.4s ease;
+  cursor: pointer;
+}
+.cm-star--bright {
+  fill: #FACC15;
+  filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.85));
+}
+.cm-star--twinkle {
+  fill: #C4B5FD;
+  filter: drop-shadow(0 0 5px rgba(196, 181, 253, 0.8));
+  animation: cm-twinkle 1.6s ease-in-out infinite;
+}
+.cm-star--dim {
+  fill: #475569;
+  filter: none;
+  opacity: 0.55;
+}
+
+@keyframes cm-twinkle {
+  0%, 100% { opacity: 1;   transform-origin: center; transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(0.78); }
+}
+
+.cm-link {
+  stroke: rgba(250, 204, 21, 0.35);
+  stroke-width: 1.2;
+  fill: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-star--twinkle { animation: none; }
+}
