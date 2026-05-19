@@ -1,0 +1,136 @@
+/*
+═══════════════════════════════════════════════════════════════
+SCISPARK · spark-jar · 5-stage mastery accumulator
+File: /public/components/spark-jar/spark-jar.css
+Vercel URL: /components/spark-jar/spark-jar.css
+═══════════════════════════════════════════════════════════════
+*/
+
+.spark-jar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--line, #E8E2D8);
+  border-radius: 999px;
+  background: var(--bg-card, #FFFCF7);
+  font-family: var(--ff-mono, 'Geist Mono', ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--ink-2, #3a342f);
+  line-height: 1;
+  transition: box-shadow 240ms ease, transform 240ms ease;
+}
+
+.spark-jar__icon {
+  position: relative;
+  width: 22px;
+  height: 24px;
+  display: inline-block;
+}
+
+/* Jar outline */
+.spark-jar__icon::before {
+  content: '';
+  position: absolute;
+  inset: 2px 1px 1px 1px;
+  border: 1.5px solid var(--ink-3, #6b6358);
+  border-radius: 4px 4px 6px 6px;
+  background: rgba(255, 255, 255, 0.5);
+}
+/* Jar lid */
+.spark-jar__icon::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--ink-3, #6b6358);
+}
+
+/* Liquid fill — height controlled by level 0..4 */
+.spark-jar__fill {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background: linear-gradient(180deg, #FB923C 0%, #EA580C 100%);
+  border-radius: 0 0 4px 4px;
+  transition: height 360ms cubic-bezier(.22,.61,.36,1);
+}
+
+.spark-jar[data-level="0"] .spark-jar__fill { height: 0;     }
+.spark-jar[data-level="1"] .spark-jar__fill { height: 25%;   }
+.spark-jar[data-level="2"] .spark-jar__fill { height: 50%;   }
+.spark-jar[data-level="3"] .spark-jar__fill { height: 75%;   }
+.spark-jar[data-level="4"] .spark-jar__fill {
+  height: 100%;
+  background: linear-gradient(180deg, #FDE68A 0%, #EA580C 60%, #C2410C 100%);
+  box-shadow: inset 0 0 6px rgba(255, 200, 100, 0.6);
+}
+
+.spark-jar[data-level="4"] {
+  box-shadow: 0 0 14px rgba(234, 88, 12, 0.45);
+  animation: jar-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes jar-glow {
+  0%, 100% { box-shadow: 0 0 14px rgba(234, 88, 12, 0.45); }
+  50%      { box-shadow: 0 0 22px rgba(234, 88, 12, 0.7);  }
+}
+
+/* Bump animation when value increments */
+.spark-jar.is-bumping {
+  transform: scale(1.08);
+}
+
+.spark-jar__count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--ink, #171413);
+}
+
+.spark-jar__label {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3, #6b6358);
+}
+
+/* Toast — flying "+N mastery" message */
+.spark-toast-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+.spark-toast {
+  position: absolute;
+  font-family: var(--ff-mono, 'Geist Mono', ui-monospace, monospace);
+  font-weight: 600;
+  font-size: 14px;
+  color: #EA580C;
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+  padding: 6px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.15);
+  animation: toast-fly 1.6s cubic-bezier(.22,.61,.36,1) forwards;
+  white-space: nowrap;
+}
+.spark-toast[data-type="effort"]   { color: #B45309; background: #FEF3C7; border-color: #FCD34D; }
+.spark-toast[data-type="surprise"] { color: #6D28D9; background: #EDE9FE; border-color: #C4B5FD; }
+
+@keyframes toast-fly {
+  0%   { opacity: 0; transform: translateY(0)    scale(0.9); }
+  15%  { opacity: 1; transform: translateY(-6px) scale(1); }
+  75%  { opacity: 1; transform: translateY(-44px) scale(1); }
+  100% { opacity: 0; transform: translateY(-72px) scale(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spark-jar, .spark-jar__fill, .spark-toast { animation: none !important; transition: none !important; }
+}

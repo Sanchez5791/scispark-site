@@ -1,0 +1,53 @@
+/*
+═══════════════════════════════════════════════════════════════
+SCISPARK · click-spark-fx · cursor + click particle FX
+File: /public/components/click-spark-fx/click-spark-fx.css
+Vercel URL: /components/click-spark-fx/click-spark-fx.css
+═══════════════════════════════════════════════════════════════
+*/
+
+/* Custom cursor — reuses /assets/cursor-spark.svg (already in repo, used by landing) */
+html, body, .lesson-app, .lesson-app * {
+  cursor: url('/assets/cursor-spark.svg') 4 4, auto;
+}
+button, a, .option, .btn, [role="button"], summary, select, label[for] {
+  cursor: url('/assets/cursor-spark.svg') 4 4, pointer;
+}
+input, textarea, .ai-input {
+  cursor: text;
+}
+
+/* Spark particle container — overlays whole document, never blocks clicks */
+.spark-fx-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.spark-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #FFB57A 0%, #EA580C 50%, transparent 80%);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: spark-burst 360ms cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+.spark-particle.s2 {
+  background: radial-gradient(circle, #FFEDD5 0%, #FB923C 60%, transparent 85%);
+  width: 6px;
+  height: 6px;
+}
+
+@keyframes spark-burst {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: var(--spark-end) scale(0.3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spark-particle { animation: none; opacity: 0; }
+}
