@@ -95,6 +95,7 @@ body.lang-zh { font-family: var(--font-zh); }
 
 /* ============ LANG TOGGLE BEHAVIOR ============ */
 .zh { display: none; }
+.zh-block { display: none; }
 body.lang-zh .en { display: none; }
 body.lang-zh .zh { display: inline; }
 body.lang-zh .zh-block { display: block; }
@@ -372,6 +373,14 @@ nav.topnav {
   background: var(--ink);
   color: #FFF;
 }
+.nav-login {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  letter-spacing: 0.3px;
+  text-decoration: none;
+}
+.nav-login:hover { color: var(--ink); }
 .nav-cta {
   display: inline-flex;
   align-items: center;
@@ -389,7 +398,7 @@ nav.topnav {
 }
 .nav-cta:hover { background: var(--orange-deep); transform: translateY(-1px); }
 @media (max-width: 880px) {
-  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-links a:not(.nav-cta):not(.nav-login) { display: none; }
   .nav-inner { padding: 14px 20px; }
 }
 
@@ -2567,6 +2576,7 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
         <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
         <button id="btn-zh" onclick="setLang('zh')">中文</button>
       </div>
+      <a href="/signin" class="nav-login"><span class="en">Log in</span><span class="zh">登录</span></a>
       <a href="/demo/y7-l01" class="nav-cta"><span class="en">Try a lesson</span><span class="zh">试一节课</span></a>
     </div>
   </div>
@@ -2579,8 +2589,8 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
   <p class="hero-eyebrow"><span class="en">01 / Manifesto</span><span class="zh">01 / 宣言</span></p>
 
   <div class="hero-manifesto">
-    <p>In the AI era, memorisation is dead.<br>We train the next generation to ask the right&nbsp;questions.</p>
-    <p class="zh-line">在 AI 时代,死记硬背已死。我们培养下一代 — 会问对问题的人。</p>
+    <p class="en">In the AI era, memorisation is dead.<br>We train the next generation to ask the right&nbsp;questions.</p>
+    <p class="zh-block zh-line">在 AI 时代,死记硬背已死。我们培养下一代 — 会问对问题的人。</p>
   </div>
 
   <h1>
@@ -3449,14 +3459,15 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
       <h6><span class="en">Company</span><span class="zh">公司</span></h6>
       <ul>
         <li><a href="https://igsparkcentre.com">IG Spark Centre</a></li>
-        <li><a href="mailto:info@scisparklab.com">info@scisparklab.com</a></li>
+        <li><a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a></li>
+        <li><a href="mailto:info@igsparkcentre.com"><span class="en">Contact us</span><span class="zh">联系我们</span></a></li>
         <li><a href="/terms"><span class="en">Terms of service</span><span class="zh">服务条款</span></a></li>
         <li><a href="/cookies"><span class="en">Cookies</span><span class="zh">Cookies</span></a></li>
       </ul>
     </div>
 
     <div class="meta">
-      <span><span class="en">© 2026 IG SPARK CENTRE · SSM AS0514458-K · Sungai Buloh, Selangor, Malaysia</span><span class="zh">© 2026 IG SPARK CENTRE · SSM AS0514458-K · 马来西亚 雪兰莪 双溪毛糯</span></span>
+      <span><span class="en">© 2026 IG SPARK CENTRE · SSM AS0514458-K</span><span class="zh">© 2026 IG SPARK CENTRE · SSM AS0514458-K</span></span>
       <span><span class="en">An IG Spark Centre product</span><span class="zh">IG Spark Centre 出品</span></span>
     </div>
   </div>
@@ -3573,8 +3584,8 @@ function setLang(lang) {
       </button>
     </div>
     <div class="chatbox-disclaimer">
-      <span class="en">AI helper · scripted demo · for real help email <a href="mailto:info@scisparklab.com">info@scisparklab.com</a></span>
-      <span class="zh">AI 助手 · 演示版 · 真实问题请邮件 <a href="mailto:info@scisparklab.com">info@scisparklab.com</a></span>
+      <span class="en">AI helper · scripted demo · for real help email <a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a></span>
+      <span class="zh">AI 助手 · 演示版 · 真实问题请邮件 <a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a></span>
     </div>
   </div>
 </div>
@@ -3617,8 +3628,8 @@ function setLang(lang) {
       keyEn: 'How do I contact a human?',
       keyZh: '想找真人怎么办?',
       keywords: ['human','contact','email','support','真人','联系','联络','客服','邮件'],
-      ansEn: 'Email <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> &mdash; we typically reply within 24 hours. For urgent issues, put <strong>URGENT</strong> in the subject. We don\u2019t do sales calls or home visits.',
-      ansZh: '邮件 <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> &mdash; 通常 24 小时内回复。紧急问题 · 标题写 <strong>URGENT</strong>。我们不打销售电话 · 不上门。'
+      ansEn: 'Email <a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a> &mdash; we typically reply within 24 hours. For urgent issues, put <strong>URGENT</strong> in the subject. We don\u2019t do sales calls or home visits.',
+      ansZh: '邮件 <a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a> &mdash; 通常 24 小时内回复。紧急问题 · 标题写 <strong>URGENT</strong>。我们不打销售电话 · 不上门。'
     },
     {
       keyEn: 'What is the difference between the levels?',
@@ -3705,8 +3716,8 @@ function setLang(lang) {
       }
     }
     return isZh()
-      ? '这个问题我现在还不会答 (演示版的答案库还小)。你可以点上面的常见问题 · 或邮件 <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> · 真人 24 小时内回复。'
-      : 'I don\u2019t have an answer for that yet (the demo library is small). Try a chip above, or email <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> &mdash; a human replies within 24 hours.';
+      ? '这个问题我现在还不会答 (演示版的答案库还小)。你可以点上面的常见问题 · 或邮件 <a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a> · 真人 24 小时内回复。'
+      : 'I don\u2019t have an answer for that yet (the demo library is small). Try a chip above, or email <a href="mailto:info@igsparkcentre.com">info@igsparkcentre.com</a> &mdash; a human replies within 24 hours.';
   }
 
   function handleSend() {
