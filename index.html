@@ -192,6 +192,13 @@ h4 em,
   white-space: nowrap;
 }
 
+@media (max-width: 720px) {
+  h1 em, h2 em, h3 em, h4 em,
+  .section-title em, .final-cta h2 em, .preview-h3 em {
+    white-space: normal;
+  }
+}
+
 /* text-wrap: pretty (modern browsers) avoids widows/orphans by balancing line breaks
    smartly across headings and lead paragraphs. Safe fallback to default wrap. */
 h1, h2, h3, h4,
@@ -315,6 +322,14 @@ a { color: inherit; text-decoration: none; }
 }
 .banner b { color: #FBA94C; font-weight: 600; }
 
+@media (max-width: 720px) {
+  .banner {
+    font-size: 11px;
+    padding: 10px 16px;
+    line-height: 1.5;
+  }
+}
+
 /* ============ NAV ============ */
 nav.topnav {
   position: sticky;
@@ -425,6 +440,18 @@ nav.topnav {
 @media (max-width: 880px) {
   .nav-links a:not(.nav-cta):not(.nav-login) { display: none; }
   .nav-inner { padding: 14px 20px; }
+}
+
+@media (max-width: 880px) {
+  .nav-cta { min-height: 44px; }
+  .nav-login {
+    min-height: 44px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .lang-toggle button { min-height: 44px; }
+  .chatbox-send { width: 44px; height: 44px; }
 }
 
 /* ============================================== */
@@ -558,6 +585,14 @@ nav.topnav {
   letter-spacing: -0.5px;
 }
 .hero-meta-item .value.orange { color: var(--orange); }
+
+@media (max-width: 720px) {
+  .hero-meta {
+    gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 .trust-row {
   display: flex;
@@ -1052,6 +1087,7 @@ h3.subsection-title {
   line-height: 1.5;
   white-space: normal;
   width: 280px;
+  max-width: min(280px, 90vw);
   letter-spacing: 0.2px;
   text-transform: none;
   z-index: 50;
@@ -1518,6 +1554,18 @@ h3.subsection-title {
   font-weight: 500;
 }
 .compare-table td.us strong { color: var(--orange-deep); }
+.table-scroll-hint {
+  display: none;
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-align: center;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.6px;
+}
+@media (max-width: 720px) {
+  .table-scroll-hint { display: block; }
+}
 @media (max-width: 880px) {
   .compare-table { font-size: 13px; }
   .compare-table th, .compare-table td { padding: 14px 12px; }
@@ -3208,6 +3256,8 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
       <span class="en">Five dimensions. Four categories of platform that families compare us to. Each category includes real products families have tried; we don't name individual companies unfairly &mdash; we describe the pattern.</span>
       <span class="zh">五个维度 &middot; 四类家长会拿来对比的产品。每一类都对应市面上真有的平台 &middot; 我们不点名 &middot; 只描述模式。</span>
     </p>
+
+    <p class="table-scroll-hint"><span class="en">← Swipe to see full comparison →</span><span class="zh">← 横滑查看完整对比 →</span></p>
 
     <div style="overflow-x:auto;">
     <table class="compare-table">
