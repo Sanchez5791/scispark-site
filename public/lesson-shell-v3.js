@@ -1319,3 +1319,51 @@ Globals exposed (lesson HTML can call directly via onclick=):
     boot();
   }
 })(); // end IIFE
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION: Click-Spark Cursor FX — ported from v2 component
+   Spawns 5-8 orange spark particles on every mousedown/touchstart.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  if (window.__sparkFxInstalled) return;
+  window.__sparkFxInstalled = true;
+
+  const layer = document.createElement('div');
+  layer.className = 'spark-fx-layer';
+  layer.setAttribute('aria-hidden', 'true');
+  const mountLayer = () => {
+    if (document.body && !layer.isConnected) document.body.appendChild(layer);
+  };
+  if (document.body) mountLayer();
+  else document.addEventListener('DOMContentLoaded', mountLayer, { once: true });
+
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function spawn(x, y) {
+    if (reduceMotion) return;
+    if (!layer.isConnected) mountLayer();
+    const n = 5 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < n; i++) {
+      const p = document.createElement('span');
+      p.className = 'spark-particle' + (i % 2 === 0 ? '' : ' s2');
+      const angle = (Math.PI * 2 * i) / n + (Math.random() - 0.5) * 0.6;
+      const dist = 28 + Math.random() * 24;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist - 6;
+      p.style.left = (x - 4) + 'px';
+      p.style.top  = (y - 4) + 'px';
+      p.style.setProperty('--spark-end', `translate(${dx}px, ${dy}px)`);
+      layer.appendChild(p);
+      p.addEventListener('animationend', () => p.remove(), { once: true });
+      setTimeout(() => p.isConnected && p.remove(), 800);
+    }
+  }
+
+  document.addEventListener('mousedown', (e) => { spawn(e.clientX, e.clientY); }, { passive: true });
+  document.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length) spawn(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+
+  window.ClickSparkFx = { spawn };
+})();

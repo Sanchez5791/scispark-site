@@ -1547,3 +1547,45 @@ body[data-user-level="1"] .hint-box { display: block; }
    v3 NEW: <audio> element hidden (used for reward sounds)
    ═══════════════════════════════════════════════════════════════ */
 audio[id^="audio-"] { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Click-Spark Cursor FX — ported from v2 component
+   ═══════════════════════════════════════════════════════════════ */
+html, body, .lesson-app, .lesson-app * {
+  cursor: url('/assets/cursor-spark.svg') 4 4, auto;
+}
+button, a, .option, .btn, [role="button"], summary, select, label[for] {
+  cursor: url('/assets/cursor-spark.svg') 4 4, pointer;
+}
+input, textarea, .ai-input {
+  cursor: text;
+}
+.spark-fx-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+.spark-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #FFB57A 0%, #EA580C 50%, transparent 80%);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: spark-burst 360ms cubic-bezier(.22,.61,.36,1) forwards;
+}
+.spark-particle.s2 {
+  background: radial-gradient(circle, #FFEDD5 0%, #FB923C 60%, transparent 85%);
+  width: 6px;
+  height: 6px;
+}
+@keyframes spark-burst {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: var(--spark-end) scale(0.3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spark-particle { animation: none; opacity: 0; }
+}
