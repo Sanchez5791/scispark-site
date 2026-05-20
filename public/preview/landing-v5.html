@@ -1,0 +1,3799 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark v5 Landing Prototype · REFORM
+═══════════════════════════════════════════════════════════════
+基础: scispark_landing_v5_prototype.html
+改造: assessment-first → demo-first
+日期: 2026-05-20
+依据:
+  - ONBOARDING_REFORM_v1 (2026-05-19)
+  - V5_LANDING_REFORM_BRIEF_v1
+  - SIBLING_PACK_v1 (新增 4th pricing card)
+  - MR_P_TO_PROFESSOR_SPARK_v1 (保留)
+  - SCISPARK_MARKETING_RULES_v1 5 红线 (保留)
+
+CHANGES (44 edits total):
+  - Hero: H1 / subtext / CTAs / 5 stats → 4 stats / 3 trust pills → 4 pills (含 Cambridge entry assessment)
+  - Section 02: lead + Card 01 改 + Card 03 加一句
+  - Photo 03: TUTOR REVIEW → PATTERN REVIEW
+  - How It Works: 4 步全重写 (SIGN UP/ASSESSMENT/REVIEW/PLATFORM → TRY/SIGN UP/LEARN/UPGRADE)
+  - Section 06: 2 段 review lead 改写 + Unit Browser badge
+  - Bilingual access note + Parent dashboard list + Comparison table
+  - Pricing: header + Free card 整张改 + Monthly/Annual 加 Entry Assessment li
+  - NEW: Sibling Pack 第 4 张卡 (USD 599/yr · 2 kids · +199 extra)
+  - pricing-grid class 去 -3 modifier → 自动 4 列
+  - Accounts: Records persist 改 Lesson progress
+  - Final CTA: H2 / description / button / 5 steps 全改
+  - Footer nav link
+  - FAQ 4 道全改 (含旧关键词保留: assessment/测评/entry/入学)
+
+OUT OF SCOPE (保留不动):
+  - CSS / 字体 / 颜色 / Editorial Science aesthetic
+  - 11 sections 框架
+  - Pricing 数字 (Free / $37 / $355 / $599 / $199)
+  - Professor Spark 命名
+  - Cambridge 0893 positioning
+  - 5 marketing 红线
+  - Problem section (跟 assessment 无直接关联)
+
+DEPLOY 注意:
+  - 5 个按钮指 /demo/y7-l01 (Claude Code 还在 build)
+  - landing 与 demo 应一起 ship 避免 404
+═══════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark · Try a free lesson. Continue on the right path.</title>
+<meta name="description" content="An AI-managed science platform for Lower Secondary students (Years 7–9, Cambridge 0893). Try a free lesson first. Bilingual. School-synced. Account-based. From IG Spark Centre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF7F2;
+  --paper: #FFFCF7;
+  --paper-soft: #F5F0E6;
+  --paper-warm: #FBF5EB;
+  --ink: #1A1A1A;
+  --ink-soft: #5C5852;
+  --ink-faint: #9C9890;
+  --line: #E8E2D8;
+  --line-soft: #F0EBE2;
+  --orange: #EA580C;
+  --orange-deep: #9A3D08;
+  --orange-soft: #FEEFE0;
+  --orange-pale: #FFF6EE;
+  --orange-glow: rgba(234, 88, 12, 0.4);
+  --navy: #0F172A;
+  --navy-soft: #1E293B;
+  --green: #15803D;
+  --green-soft: #DCFCE7;
+  --red: #B91C1C;
+  --red-soft: #FEE2E2;
+  --amber: #B45309;
+  --amber-soft: #FEF3C7;
+  --font-serif: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-zh: 'Noto Sans SC', 'PingFang SC', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+body.lang-zh { font-family: var(--font-zh); }
+
+/* ============ LANG TOGGLE BEHAVIOR ============ */
+.zh { display: none; }
+body.lang-zh .en { display: none; }
+body.lang-zh .zh { display: inline; }
+body.lang-zh .zh-block { display: block; }
+
+/* In Chinese mode, italic looks bad on CJK characters (synthesized slant).
+   Disable italic on emphasis elements; orange color alone carries the emphasis.
+   Also use a CJK-aware font weight to keep visual hierarchy. */
+body.lang-zh em,
+body.lang-zh i,
+body.lang-zh blockquote,
+body.lang-zh .parent-quote .body,
+body.lang-zh .bil-bubble p,
+body.lang-zh .demo-q,
+body.lang-zh .hero-manifesto p {
+  font-style: normal;
+}
+body.lang-zh em {
+  font-weight: 600;
+}
+/* Keep the strike-through and color cues intact for em.glow / .strike */
+body.lang-zh em.glow {
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* CJK line-break rules:
+   word-break: keep-all     → only break at spaces or punctuation, never inside a CJK phrase
+   overflow-wrap: break-word → safety net if a CJK run is wider than container
+   line-break: strict       → don't push 。 , ; : etc. to the start of a new line
+   This stops phrases like "里面有什么" being split into "里面有什 | 么". */
+body.lang-zh h1,
+body.lang-zh h2,
+body.lang-zh h3,
+body.lang-zh h4,
+body.lang-zh h5,
+body.lang-zh .section-title,
+body.lang-zh .subsection-title,
+body.lang-zh .preview-h3,
+body.lang-zh .amount-big,
+body.lang-zh .final-cta h2,
+body.lang-zh .dark-callout h3,
+body.lang-zh .num-card h4,
+body.lang-zh .step-card h4,
+body.lang-zh .platform-card h4,
+body.lang-zh .panel h4,
+body.lang-zh .price-card h4,
+body.lang-zh .curiosity-card h4,
+body.lang-zh .hero-manifesto p,
+body.lang-zh .parent-quote .body,
+body.lang-zh .bil-bubble p,
+body.lang-zh .demo-q,
+body.lang-zh .hero-sub,
+body.lang-zh .section-lead,
+body.lang-zh .competitor-line {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+/* Belt and braces: prevent any short em phrase (EN or ZH) from ever splitting across lines.
+   Most are 2-6 words / 3-6 chars so they always fit on one line; nowrap guarantees it. */
+h1 em,
+h2 em,
+h3 em,
+h4 em,
+.section-title em,
+.final-cta h2 em,
+.preview-h3 em {
+  white-space: nowrap;
+}
+
+/* text-wrap: pretty (modern browsers) avoids widows/orphans by balancing line breaks
+   smartly across headings and lead paragraphs. Safe fallback to default wrap. */
+h1, h2, h3, h4,
+.section-title, .subsection-title, .preview-h3, .amount-big,
+.hero-manifesto p, .hero-sub, .section-lead,
+.parent-quote .body, .bil-bubble p, .demo-q, .dark-callout h3,
+.final-cta h2, .final-cta p {
+  text-wrap: pretty;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ============================================== */
+/* ============ LOADING SPLASH ================= */
+/* ============================================== */
+.splash {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+}
+.splash.hide { opacity: 0; pointer-events: none; }
+.splash-wrap {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.splash-particle {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--orange-glow);
+  opacity: 0;
+  top: 50%; left: 50%;
+}
+@keyframes sp1 { 0% { opacity: 0; transform: translate(-150px, -120px) scale(0); } 30% { opacity: 1; transform: translate(-150px, -120px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp2 { 0% { opacity: 0; transform: translate(140px, -130px) scale(0); } 30% { opacity: 1; transform: translate(140px, -130px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp3 { 0% { opacity: 0; transform: translate(160px, 100px) scale(0); } 30% { opacity: 1; transform: translate(160px, 100px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp4 { 0% { opacity: 0; transform: translate(-130px, 140px) scale(0); } 30% { opacity: 1; transform: translate(-130px, 140px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp5 { 0% { opacity: 0; transform: translate(0, -180px) scale(0); } 30% { opacity: 1; transform: translate(0, -180px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp6 { 0% { opacity: 0; transform: translate(180px, 0) scale(0); } 30% { opacity: 1; transform: translate(180px, 0) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp7 { 0% { opacity: 0; transform: translate(0, 180px) scale(0); } 30% { opacity: 1; transform: translate(0, 180px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+@keyframes sp8 { 0% { opacity: 0; transform: translate(-180px, 0) scale(0); } 30% { opacity: 1; transform: translate(-180px, 0) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
+.splash-particle:nth-child(1) { animation: sp1 0.9s cubic-bezier(0.5,0,0.5,1) 0.10s forwards; }
+.splash-particle:nth-child(2) { animation: sp2 0.9s cubic-bezier(0.5,0,0.5,1) 0.15s forwards; }
+.splash-particle:nth-child(3) { animation: sp3 0.9s cubic-bezier(0.5,0,0.5,1) 0.12s forwards; }
+.splash-particle:nth-child(4) { animation: sp4 0.9s cubic-bezier(0.5,0,0.5,1) 0.18s forwards; }
+.splash-particle:nth-child(5) { animation: sp5 0.9s cubic-bezier(0.5,0,0.5,1) 0.10s forwards; }
+.splash-particle:nth-child(6) { animation: sp6 0.9s cubic-bezier(0.5,0,0.5,1) 0.20s forwards; }
+.splash-particle:nth-child(7) { animation: sp7 0.9s cubic-bezier(0.5,0,0.5,1) 0.14s forwards; }
+.splash-particle:nth-child(8) { animation: sp8 0.9s cubic-bezier(0.5,0,0.5,1) 0.16s forwards; }
+.splash-flash {
+  position: absolute; inset: -100px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.9) 0%, transparent 40%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  animation: spFlash 0.3s ease-out 1.0s forwards;
+}
+@keyframes spFlash { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
+.splash-bolt {
+  position: relative;
+  width: 80px; height: 80px;
+  background: var(--orange);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0.3);
+  animation: spForm 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.85s forwards,
+             spPulse 0.6s ease-out 1.15s;
+  z-index: 5;
+}
+.splash-bolt svg { width: 44px; height: 44px; }
+@keyframes spForm { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes spPulse {
+  0% { box-shadow: 0 0 0 0 var(--orange-glow); transform: scale(1); }
+  50% { box-shadow: 0 0 0 30px transparent; transform: scale(1.15); }
+  100% { box-shadow: 0 0 0 60px transparent; transform: scale(1); }
+}
+.splash-wordmark {
+  position: absolute;
+  bottom: -42px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+  opacity: 0;
+  white-space: nowrap;
+  animation: spWord 0.5s ease-out 1.3s forwards;
+}
+.splash-wordmark .sp-c { color: var(--orange); }
+@keyframes spWord {
+  0% { opacity: 0; transform: translate(-50%, 8px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash { display: none !important; }
+}
+
+/* ============================================== */
+/* ============ BANNER ============ */
+.banner {
+  background: var(--navy);
+  color: #FFF;
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+.banner b { color: #FBA94C; font-weight: 600; }
+
+/* ============ NAV ============ */
+nav.topnav {
+  position: sticky;
+  top: 0;
+  background: rgba(250, 247, 242, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 100;
+  border-bottom: 1px solid var(--line-soft);
+}
+.nav-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.logo-lockup { display: flex; align-items: center; gap: 12px; }
+.logo-bolt {
+  width: 34px; height: 34px;
+  background: var(--orange);
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+}
+.logo-bolt svg { width: 18px; height: 18px; }
+.logo-text { display: flex; flex-direction: column; line-height: 1; }
+.logo-text .name {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.3px;
+}
+.logo-text .name .spark { color: var(--orange); }
+.logo-text .sub {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 1.4px;
+  color: var(--ink-faint);
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.nav-links a { color: var(--ink-soft); transition: color .15s ease; }
+.nav-links a:hover { color: var(--orange); }
+.lang-toggle {
+  display: flex;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+.lang-toggle button {
+  background: transparent;
+  border: 0;
+  padding: 7px 12px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.lang-toggle button.active {
+  background: var(--ink);
+  color: #FFF;
+}
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--orange);
+  color: #FFF;
+  border-radius: 7px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  transition: background .15s ease, transform .15s ease;
+}
+.nav-cta:hover { background: var(--orange-deep); transform: translateY(-1px); }
+@media (max-width: 880px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-inner { padding: 14px 20px; }
+}
+
+/* ============================================== */
+/* ============ HERO ============ */
+.hero {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 90px 32px 60px;
+  position: relative;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.hero-manifesto {
+  border-left: 3px solid var(--orange);
+  padding: 4px 0 4px 18px;
+  margin-bottom: 32px;
+  max-width: 680px;
+}
+.hero-manifesto p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.hero-manifesto .zh-line {
+  font-family: var(--font-zh);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-size: 15.5px;
+  margin-top: 8px;
+  letter-spacing: 0.2px;
+}
+.hero h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -1.6px;
+  margin-bottom: 26px;
+  color: var(--ink);
+  max-width: 980px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--orange);
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 700px;
+  margin-bottom: 38px;
+  line-height: 1.55;
+}
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--orange);
+  color: #FFF;
+  padding: 16px 26px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 4px 14px rgba(234,88,12,0.18);
+}
+.btn-primary:hover { background: var(--orange-deep); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(234,88,12,0.28); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--ink);
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: background .15s ease, color .15s ease;
+}
+.btn-secondary:hover { background: var(--ink); color: #FFF; }
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.hero-meta-item .label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.hero-meta-item .value {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+.hero-meta-item .value.orange { color: var(--orange); }
+
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+.trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.8px;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.trust-pill .dot {
+  width: 6px; height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ============================================== */
+/* ============ HERO MOCKUP ============ */
+.hero-mockup-wrap {
+  max-width: 1320px;
+  margin: 40px auto 0;
+  padding: 0 32px 80px;
+}
+.hero-mockup {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 28px 32px;
+  box-shadow: 0 10px 40px rgba(15,23,42,0.06);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 720px) { .hero-mockup { grid-template-columns: 1fr; } }
+.mockup-avatar {
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FDBA74, #EA580C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+  flex-shrink: 0;
+  position: relative;
+}
+.mockup-avatar svg { width: 28px; height: 28px; }
+.mockup-avatar::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; right: -2px;
+  width: 14px; height: 14px;
+  background: #22C55E;
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+}
+.mockup-body { min-width: 0; }
+.mockup-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.mockup-tag .live {
+  color: var(--orange);
+  margin-left: 8px;
+}
+.mockup-name {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-bottom: 14px;
+}
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bubble {
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  max-width: 560px;
+}
+.bubble-tutor {
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  align-self: flex-start;
+}
+.bubble-student {
+  background: var(--ink);
+  color: #FFF;
+  align-self: flex-end;
+}
+.bubble-meta {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 1.2px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.bubble-meta.student { color: rgba(255,255,255,0.55); }
+
+/* ============================================== */
+/* ============ SECTION FRAME ============ */
+section.section {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 100px 32px;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+.section-inner { max-width: 1080px; }
+.section-wide { max-width: 1240px; }
+
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.meta-label .num {
+  color: var(--ink-faint);
+  margin-right: 8px;
+  letter-spacing: 1.2px;
+}
+h2.section-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.08;
+  letter-spacing: -1.2px;
+  margin-bottom: 22px;
+  color: var(--ink);
+  max-width: 880px;
+}
+h2.section-title em { font-style: italic; color: var(--orange); }
+h2.section-title .strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--orange);
+  color: var(--ink-soft);
+}
+
+h3.subsection-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 40px 0 18px;
+  color: var(--ink);
+  letter-spacing: -0.4px;
+}
+
+.section-lead {
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 700px;
+  margin-bottom: 40px;
+  line-height: 1.55;
+}
+
+/* ============================================== */
+/* ============ NUMBERED CARDS GRID ============ */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 1020px) { .grid-4, .grid-6 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px) {
+  .grid-2, .grid-3, .grid-4, .grid-6 { grid-template-columns: 1fr; }
+}
+
+.num-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 32px 28px 28px;
+  position: relative;
+  transition: border-color .2s ease, transform .2s ease;
+}
+.num-card:hover { border-color: var(--orange-soft); transform: translateY(-2px); }
+.num-card .num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: block;
+}
+.num-card h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+.num-card p {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* ============================================== */
+/* ============ PROBLEM / PARENT QUOTES ============ */
+.parent-quote {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 30px 32px;
+  position: relative;
+}
+.parent-quote .body {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 18px;
+  letter-spacing: -0.3px;
+}
+.parent-quote .body s {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--orange);
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.parent-quote .body em.glow {
+  background: var(--orange-pale);
+  color: var(--orange-deep);
+  padding: 0 6px;
+  border-radius: 3px;
+  font-style: italic;
+}
+.parent-quote .attribution {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.dark-callout {
+  background: var(--navy);
+  color: #FFF;
+  border-radius: 10px;
+  padding: 44px 48px;
+  margin: 28px 0 12px;
+}
+.dark-callout h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(24px, 2.8vw, 34px);
+  margin-bottom: 14px;
+  line-height: 1.25;
+  color: #FFF;
+  letter-spacing: -0.5px;
+}
+.dark-callout h3 .acc { color: #FBA94C; font-style: italic; }
+.dark-callout p {
+  color: #C7C2BC;
+  font-size: 15.5px;
+  line-height: 1.6;
+  max-width: 620px;
+}
+
+.footnote {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.4px;
+  margin-top: 24px;
+  font-style: italic;
+}
+
+/* ============================================== */
+/* ============ PHOTO ROW ============ */
+.photo-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 880px) { .photo-row { grid-template-columns: 1fr; } }
+.photo-slot {
+  aspect-ratio: 4 / 5;
+  background: var(--paper-soft);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.photo-slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(135deg, transparent 0, transparent 18px, rgba(232,226,216,0.7) 18px, rgba(232,226,216,0.7) 19px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.photo-slot .num {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  color: var(--orange);
+  font-weight: 600;
+  text-transform: uppercase;
+  z-index: 1;
+}
+.photo-slot .caption {
+  z-index: 1;
+}
+.photo-slot .caption h5 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  margin-bottom: 6px;
+}
+.photo-slot .caption p {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0.6px;
+  line-height: 1.5;
+}
+.replace-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orange-pale);
+  border: 1px dashed var(--orange);
+  color: var(--orange-deep);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  z-index: 1;
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+/* ============================================== */
+/* ============ HOW IT WORKS / STEPS ============ */
+.step-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  position: relative;
+}
+@media (max-width: 1020px) { .step-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .step-row { grid-template-columns: 1fr; } }
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px 24px;
+  position: relative;
+}
+.step-card .step-num {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--orange);
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.step-card h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+.step-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.step-card .step-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+  font-weight: 500;
+}
+
+/* ============================================== */
+/* ============ INSIDE PLATFORM CARDS ============ */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 1020px) { .platform-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px) { .platform-grid { grid-template-columns: 1fr; } }
+.platform-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 26px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+.platform-card.span-2 {
+  grid-column: span 2;
+}
+@media (max-width: 1020px) { .platform-card.span-2 { grid-column: span 2; } }
+@media (max-width: 720px) { .platform-card.span-2 { grid-column: auto; } }
+.platform-card .pf-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  color: var(--orange);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.platform-card h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.25;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+.platform-card p.lead {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+.tooltip-line {
+  display: inline-block;
+  position: relative;
+  border-bottom: 1px dotted var(--orange);
+  cursor: help;
+}
+.tooltip-line:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  background: var(--ink);
+  color: #FFF;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: normal;
+  width: 280px;
+  letter-spacing: 0.2px;
+  text-transform: none;
+  z-index: 50;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+/* ============ MINI WIDGETS (inside platform cards) ============ */
+.unit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 13px;
+}
+.unit-row:last-child { border-bottom: 0; }
+.unit-row .name { color: var(--ink); }
+.badge-mini {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.b-strong { background: var(--green-soft); color: var(--green); }
+.b-today { background: var(--orange-soft); color: var(--orange-deep); }
+.b-gap { background: var(--amber-soft); color: var(--amber); }
+.b-locked { background: var(--paper-soft); color: var(--ink-faint); }
+
+.mini-quiz {
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-top: 6px;
+}
+.mini-quiz .q {
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.mini-quiz .opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.mini-quiz .opt {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  text-align: center;
+}
+.mini-quiz .opt.correct {
+  border-color: var(--green);
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 600;
+}
+.mini-quiz .progress {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.this-week {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+.ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: conic-gradient(var(--orange) 0 71%, var(--line) 71% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ring-inner {
+  width: 50px; height: 50px;
+  background: var(--paper);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.4px;
+}
+.this-week ul {
+  list-style: none;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.this-week ul li::before { content: '· '; color: var(--orange); font-weight: 700; }
+
+.email-preview {
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-top: 6px;
+  font-size: 12.5px;
+}
+.email-preview .subj {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 13.5px;
+  margin-bottom: 4px;
+}
+.email-preview .meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+  letter-spacing: 0.4px;
+}
+.email-preview ul {
+  list-style: none;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.email-preview ul li::before { content: '› '; color: var(--orange); font-weight: 700; }
+
+.games {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.game-chip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 13px;
+}
+.game-chip .label {
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+.game-chip .play {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--orange);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ============ AI LEARNING GUIDE MINI DIALOGUE ============ */
+.alg-dialogue {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.alg-bubble {
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  max-width: 100%;
+}
+.alg-bubble.t {
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  align-self: flex-start;
+  margin-right: 24px;
+}
+.alg-bubble.s {
+  background: var(--ink);
+  color: #FFF;
+  align-self: flex-end;
+  margin-left: 24px;
+}
+.alg-bubble small {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.alg-bubble.s small { color: rgba(255,255,255,0.5); }
+
+/* ============================================== */
+/* ============ BILINGUAL ============ */
+.bil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 32px;
+}
+@media (max-width: 720px) { .bil-grid { grid-template-columns: 1fr; } }
+.bil-bubble {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 24px 26px;
+}
+.bil-bubble .lang-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--orange);
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.bil-bubble p {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  font-style: italic;
+}
+.bil-bubble.zh p {
+  font-family: var(--font-zh);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.competitor-line {
+  background: var(--orange-pale);
+  border-left: 4px solid var(--orange);
+  padding: 20px 24px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 24px;
+  font-size: 15.5px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.competitor-line strong { color: var(--orange-deep); }
+
+/* ============================================== */
+/* ============ FOR STUDENTS / PARENTS ============ */
+.dual-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+@media (max-width: 880px) { .dual-panel { grid-template-columns: 1fr; } }
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 32px 30px;
+}
+.panel .panel-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.panel h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  letter-spacing: -0.4px;
+}
+.panel ul {
+  list-style: none;
+}
+.panel ul li {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line-soft);
+  display: flex;
+  gap: 12px;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.panel ul li:last-child { border-bottom: 0; }
+.panel ul li::before {
+  content: '›';
+  color: var(--orange);
+  font-weight: 700;
+  margin-top: 1px;
+  font-family: var(--font-mono);
+}
+
+/* ============================================== */
+/* ============ COMING V2 — CURIOSITY WINDOW ============ */
+.coming-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.coming-banner .pulse {
+  width: 8px; height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 var(--orange-glow); }
+  50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 0 6px transparent; }
+}
+
+.curiosity-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+@media (max-width: 1020px) { .curiosity-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .curiosity-grid { grid-template-columns: 1fr; } }
+.curiosity-card {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 24px 22px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.curiosity-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 80% -20%, rgba(234,88,12,0.08) 0, transparent 50%);
+  pointer-events: none;
+}
+.curiosity-card .portrait {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--orange-deep);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+.curiosity-card h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+.curiosity-card .topic {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 600;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+.curiosity-card .demo-q {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--orange);
+  padding-left: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================== */
+/* ============ WHY VS OTHERS — COMPARISON TABLE ============ */
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+.compare-table th, .compare-table td {
+  padding: 18px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.compare-table thead th {
+  background: var(--paper-soft);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+}
+.compare-table thead th.us {
+  background: var(--orange);
+  color: #FFF;
+}
+.compare-table thead th.us .tag {
+  display: block;
+  font-size: 9px;
+  font-weight: 500;
+  margin-top: 4px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+.compare-table tbody tr:last-child td { border-bottom: 0; }
+.compare-table tbody th {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: var(--paper-warm);
+  width: 140px;
+}
+.compare-table td.us {
+  background: var(--orange-pale);
+  border-left: 2px solid var(--orange);
+  color: var(--ink);
+  font-weight: 500;
+}
+.compare-table td.us strong { color: var(--orange-deep); }
+@media (max-width: 880px) {
+  .compare-table { font-size: 13px; }
+  .compare-table th, .compare-table td { padding: 14px 12px; }
+  .compare-table tbody th { width: auto; }
+}
+
+/* ============================================== */
+/* ============ PRICING ============ */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+@media (max-width: 1020px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .pricing-grid { grid-template-columns: 1fr; } }
+.price-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.price-card.featured {
+  border: 2px solid var(--orange);
+  box-shadow: 0 6px 30px rgba(234,88,12,0.12);
+}
+.price-card .price-flag {
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--orange);
+  color: #FFF;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.price-card .price-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.price-card h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.price-card .level {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.price-card .amount {
+  font-family: var(--font-serif);
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -1.5px;
+  margin-bottom: 4px;
+}
+.price-card .amount .unit {
+  font-size: 16px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-left: 2px;
+}
+.price-card .per {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+.price-card ul {
+  list-style: none;
+  margin-bottom: 22px;
+  flex: 1;
+}
+.price-card ul li {
+  padding: 7px 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+.price-card ul li::before {
+  content: '✓';
+  color: var(--orange);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  margin-top: 1px;
+}
+.price-card .btn-price {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px 18px;
+  background: var(--paper-soft);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: background .15s ease;
+}
+.price-card.featured .btn-price {
+  background: var(--orange);
+  color: #FFF;
+  border-color: var(--orange);
+}
+.price-card .btn-price:hover { background: var(--ink); color: #FFF; }
+.price-card.featured .btn-price:hover { background: var(--orange-deep); }
+
+.pricing-strip {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 880px) { .pricing-strip { grid-template-columns: 1fr; } }
+.strip-item {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 22px 24px;
+}
+.strip-item .strip-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--orange);
+  letter-spacing: 1.4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.strip-item p {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+}
+.strip-item p strong { color: var(--orange-deep); font-weight: 600; }
+
+/* ============================================== */
+/* ============ ACCOUNTS + FINAL CTA ============ */
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+@media (max-width: 880px) { .accounts-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .accounts-grid { grid-template-columns: 1fr; } }
+.account-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px 22px 20px;
+}
+.account-card .icon {
+  width: 30px; height: 30px;
+  background: var(--orange-pale);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+.account-card .icon svg { width: 16px; height: 16px; }
+.account-card h5 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 15.5px;
+  margin-bottom: 6px;
+  letter-spacing: -0.2px;
+}
+.account-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.final-cta {
+  background: var(--navy);
+  color: #FFF;
+  border-radius: 14px;
+  padding: 70px 56px;
+  margin-top: 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(234,88,12,0.18) 0, transparent 70%);
+  pointer-events: none;
+}
+.final-cta::after {
+  content: '';
+  position: absolute;
+  bottom: -160px; left: -120px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(251,169,76,0.10) 0, transparent 70%);
+  pointer-events: none;
+}
+.final-cta .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: #FBA94C;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  font-weight: 600;
+  position: relative;
+}
+.final-cta h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(34px, 4.5vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  margin-bottom: 22px;
+  color: #FFF;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+.final-cta h2 em { color: #FBA94C; font-style: italic; }
+.final-cta p {
+  color: #C7C2BC;
+  max-width: 520px;
+  margin: 0 auto 38px;
+  font-size: 16.5px;
+  line-height: 1.55;
+  position: relative;
+}
+.final-cta .cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.final-cta .btn-primary { box-shadow: 0 6px 24px rgba(234,88,12,0.45); }
+.final-cta .btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: #FFF;
+  padding: 16px 24px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.final-cta .btn-line:hover { border-color: #FFF; background: rgba(255,255,255,0.05); }
+
+/* ============================================== */
+/* ============ FOOTER ============ */
+footer {
+  background: var(--navy);
+  color: #C7C2BC;
+  padding: 80px 32px 60px;
+  margin-top: 0;
+  font-size: 13.5px;
+  border-top: 1px solid var(--navy-soft);
+}
+footer .inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+@media (max-width: 880px) { footer .inner { grid-template-columns: 1fr 1fr; gap: 36px; } }
+@media (max-width: 480px) { footer .inner { grid-template-columns: 1fr; } }
+footer .brand .name {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 24px;
+  color: #FFF;
+  letter-spacing: -0.4px;
+  margin-bottom: 12px;
+}
+footer .brand .name .spark { color: var(--orange); }
+footer .brand p {
+  color: #8F8B85;
+  font-size: 13.5px;
+  line-height: 1.6;
+  max-width: 320px;
+}
+footer .col h6 {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+footer ul { list-style: none; }
+footer ul li { padding: 6px 0; }
+footer ul li a {
+  color: #C7C2BC;
+  font-size: 13.5px;
+  transition: color .15s ease;
+}
+footer ul li a:hover { color: #FFF; }
+footer .meta {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--navy-soft);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* ============================================== */
+/* ============ PRICING V2 (3-TIER LIVE) ============ */
+.pricing-grid.pricing-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 880px) { .pricing-grid.pricing-grid-3 { grid-template-columns: 1fr; } }
+.price-card.price-card-v2 {
+  padding: 36px 32px 32px;
+  border-radius: 14px;
+}
+.price-card-v2 .price-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.price-card-v2.featured .price-tag {
+  color: var(--ink-soft);
+}
+.price-card-v2 .amount-big {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -1.8px;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.price-card-v2 .amount-big .amt-unit {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-left: 4px;
+  font-style: normal;
+}
+.price-card-v2 .level-sub {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+}
+.price-card-v2 .level-sub-accent {
+  color: var(--orange);
+  font-weight: 600;
+}
+.price-card-v2 .price-divider {
+  height: 1px;
+  background: var(--line);
+  margin-bottom: 20px;
+}
+.price-card-v2 ul {
+  margin-bottom: 26px;
+}
+.price-card-v2 ul li {
+  padding: 7px 0;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.price-card-v2 ul li::before {
+  content: '✓';
+  color: var(--orange);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  margin-top: 1px;
+  font-size: 14px;
+}
+.price-card-v2 .btn-price {
+  padding: 14px 22px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+.btn-dark {
+  background: var(--ink) !important;
+  color: #FFF !important;
+  border-color: var(--ink) !important;
+}
+.btn-dark:hover { background: #000 !important; }
+.price-card-v2.featured .price-flag {
+  top: -12px;
+  font-size: 10.5px;
+  padding: 6px 14px;
+  letter-spacing: 1.4px;
+}
+
+/* ============================================== */
+/* ============ SUPPORT CHATBOX ============ */
+.chatbox-launcher {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(234,88,12,0.32), 0 2px 6px rgba(0,0,0,0.10);
+  z-index: 9000;
+  transition: transform .2s ease, box-shadow .2s ease;
+  border: 0;
+}
+.chatbox-launcher:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 32px rgba(234,88,12,0.4);
+}
+.chatbox-launcher svg { width: 26px; height: 26px; color: #FFF; }
+.chatbox-launcher .lr-icon-close { display: none; }
+.chatbox-launcher.open .lr-icon-chat { display: none; }
+.chatbox-launcher.open .lr-icon-close { display: block; }
+.chatbox-launcher .lr-dot {
+  position: absolute;
+  top: 8px; right: 10px;
+  width: 10px; height: 10px;
+  background: #22C55E;
+  border-radius: 50%;
+  border: 2px solid var(--orange);
+}
+.chatbox-launcher.open .lr-dot { display: none; }
+
+.chatbox-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 48px);
+  height: 540px;
+  max-height: calc(100vh - 140px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(15,23,42,0.18), 0 4px 12px rgba(0,0,0,0.06);
+  z-index: 8999;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+body.lang-zh .chatbox-panel { font-family: var(--font-zh); }
+.chatbox-panel.open { display: flex; animation: chatRise .25s ease-out; }
+@keyframes chatRise {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.chatbox-header {
+  background: var(--ink);
+  color: #FFF;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 16px 16px 0 0;
+}
+.chatbox-header .ava {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.chatbox-header .ava svg { width: 18px; height: 18px; color: #FFF; }
+.chatbox-header .h-text { flex: 1; min-width: 0; }
+.chatbox-header .h-name {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chatbox-header .h-tag {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  background: rgba(234,88,12,0.25);
+  color: #FBA94C;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.chatbox-header .h-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.6px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+}
+.chatbox-header .h-status .live-dot {
+  width: 6px; height: 6px;
+  background: #22C55E;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.chatbox-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--paper);
+}
+.chat-msg {
+  max-width: 80%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.chat-msg.bot {
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.chat-msg.user {
+  background: var(--ink);
+  color: #FFF;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.bot strong { color: var(--orange-deep); }
+
+.suggested-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.chip {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .12s ease, border-color .12s ease;
+  font-family: inherit;
+}
+.chip:hover {
+  background: var(--orange-pale);
+  border-color: var(--orange);
+  color: var(--orange-deep);
+}
+
+.chatbox-footer {
+  border-top: 1px solid var(--line);
+  padding: 12px 14px 12px;
+  background: var(--paper);
+}
+.chatbox-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.chatbox-input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+}
+.chatbox-input:focus { border-color: var(--orange); }
+.chatbox-send {
+  width: 38px; height: 38px;
+  background: var(--orange);
+  color: #FFF;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chatbox-send svg { width: 16px; height: 16px; }
+.chatbox-send:hover { background: var(--orange-deep); }
+.chatbox-disclaimer {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.4px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+  text-align: center;
+  line-height: 1.5;
+}
+.chatbox-disclaimer a { color: var(--orange); text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .chatbox-panel {
+    right: 12px;
+    left: 12px;
+    bottom: 88px;
+    width: auto;
+    max-width: none;
+    height: 70vh;
+  }
+  .chatbox-launcher { right: 16px; bottom: 16px; width: 54px; height: 54px; }
+}
+
+/* ============================================== */
+/* ============ V5.1 LIVE-ALIGNED LAYOUTS ============ */
+
+/* 2-col asymmetric layout for Section 02 + 03 + 06 */
+.s2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  margin-top: 16px;
+  align-items: start;
+}
+@media (max-width: 920px) { .s2-grid { grid-template-columns: 1fr; gap: 36px; } }
+.s2-left { position: sticky; top: 92px; }
+@media (max-width: 920px) { .s2-left { position: static; } }
+.s2-right { display: flex; flex-direction: column; gap: 14px; }
+.s2-right-narrow { display: block; }
+
+/* Hero tagline */
+.hero-tagline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  color: var(--ink-soft);
+  margin-top: 24px;
+  font-weight: 500;
+}
+
+/* Dark callout compact variant (Section 03) */
+.dark-callout-compact {
+  margin: 0;
+  padding: 26px 30px;
+}
+.dark-callout-compact h3 {
+  font-size: 20px;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+.approach-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(234,88,12,0.12);
+  border: 1px solid rgba(234,88,12,0.3);
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #FBA94C;
+  font-weight: 600;
+}
+.approach-badge .dot {
+  width: 7px; height: 7px;
+  background: var(--orange);
+  border-radius: 50%;
+}
+
+/* How It Works intro 2-col */
+.how-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  margin-bottom: 40px;
+  align-items: end;
+}
+@media (max-width: 920px) { .how-intro { grid-template-columns: 1fr; gap: 24px; } }
+.how-lead-right { margin-bottom: 0; }
+
+/* Step mini visual cards */
+.step-mini {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--paper-soft);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 12px;
+}
+.step-mini-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--line);
+  gap: 12px;
+}
+.step-mini-row:last-child { border-bottom: 0; }
+.step-mini-row.mini-multi {
+  display: block;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  font-size: 11.5px;
+}
+.step-mini .check {
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+}
+.step-mini .mini-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.strong-text { color: var(--green) !important; font-weight: 600 !important; }
+.dev-text { color: var(--amber) !important; font-weight: 600 !important; }
+.solid-text { color: var(--green) !important; font-weight: 600 !important; }
+.gap-text { color: var(--red) !important; font-weight: 600 !important; }
+.orange-text-line { color: var(--orange) !important; font-weight: 600 !important; }
+
+/* Inside Platform · preview intro */
+.preview-intro {
+  margin: 48px 0 32px;
+  padding-top: 36px;
+  border-top: 1px solid var(--line-soft);
+}
+.meta-label.small {
+  font-size: 10.5px;
+  letter-spacing: 1.4px;
+}
+.preview-h3 {
+  margin: 8px 0 14px;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 500;
+}
+.preview-h3 em { font-style: italic; color: var(--orange); }
+.lead-small {
+  font-size: 15.5px;
+  max-width: 460px;
+  margin-bottom: 0;
+}
+
+/* Inside Platform · pf-tag with right element */
+.platform-card .pf-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.pf-tag-right {
+  color: var(--ink-faint);
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  font-size: 9.5px;
+}
+
+/* Unit Browser detailed rows */
+.unit-row-full {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.unit-row-full:last-child { border-bottom: 0; }
+.unit-row-full.muted .unit-name,
+.unit-row-full.muted .unit-sub { color: var(--ink-faint); }
+.unit-code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 4px 6px;
+  text-align: center;
+  color: var(--ink);
+}
+.muted-code { color: var(--ink-faint); background: var(--paper-soft); }
+.unit-details { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.unit-name { font-size: 13.5px; color: var(--ink); font-weight: 500; }
+.unit-sub {
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  letter-spacing: 0.2px;
+}
+
+/* AI Learning Guide · typing indicator */
+.bubble-tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.alg-bubble.s .bubble-tag { color: rgba(255,255,255,0.55); }
+.typing-indicator {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--paper-soft);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  margin-left: 24px;
+  margin-top: 4px;
+}
+.typing-indicator .dot {
+  width: 5px; height: 5px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: inline-block;
+  animation: typingPulse 1.2s ease-in-out infinite;
+}
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingPulse {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1.1); }
+}
+.typing-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-soft);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Bilingual · access note */
+.bil-access-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.4px;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Final CTA · 2-col layout */
+.final-cta.final-cta-2col {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 56px;
+  text-align: left;
+  padding: 64px 56px;
+  align-items: start;
+}
+@media (max-width: 920px) {
+  .final-cta.final-cta-2col { grid-template-columns: 1fr; gap: 36px; padding: 48px 32px; }
+}
+.final-cta-2col .final-left .eyebrow,
+.final-cta-2col .final-left h2,
+.final-cta-2col .final-left p {
+  text-align: left;
+  margin-left: 0;
+  max-width: none;
+}
+.final-cta-2col .final-left .cta-row { justify-content: flex-start; }
+
+.final-steps {
+  list-style: none;
+  counter-reset: fsteps;
+  border-left: 1px solid rgba(255,255,255,0.12);
+  padding-left: 28px;
+}
+.final-steps li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  align-items: baseline;
+}
+.final-steps li:last-child { border-bottom: 0; }
+.final-steps .step-n {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--orange);
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+.final-steps .step-txt {
+  color: #FFF;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ============================================== */
+/* ============ SPARK CURSOR + CLICK FX ============ */
+/* Custom cursor: small spark bolt with white outline (visible on any bg).
+   Hotspot at top-left (4,4). If image fails to load, falls back to default. */
+:root {
+  --spark-cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAEI0lEQVRYhe1XW2wUVRj+zpmZnQuz7PYat6W+aBPFRFEIJE2kJk1jKrekskYToiVK9UUeajRS4aVRpD7IA94iGMEYYliIBkOKhgajAdI3jDdsiDUttk0vLOvuztnZmTPHl3a7bWd3p+Cbfk8z//n/831n5j//+Q/wXwdZifNIF7QaL7zK4a5OuZAdLmQAUCTiehJxFUlm4Ug6Q47A/lcFTG9HWDa0GleIUBB/mZC8a+Vm684ifUcCRDeUZFKPceppQYiXwvFoLlbFJsjHcFYsYCwOPUTVBgpIt0M+Dw/g3LInGr6G5TdO/Yzj22CoirrmTsnnCCQ5rDaKOPRAAkQ3FMlQY4QHT1Bjz0drjd2Hm0uNEw4yRdUG0Q2looBkUo+tZOVmZ2+jsfnpE9q9G+8r50cBaSKpx8oKmN6O8EoSTr5/s6Fuefk4ZDWcvXD0ciV/hXraVBxmSQGyodUEJSe6ScN7P/vAHbvWIFJTI/bF47NB4hRJq/UVMNIFLeg+B4Do20P7vPHhh5xrl+Blb34bNM4VIiQ6oC4ToNph0z/Eh/zNHzpBpZ2pd58xQhu2MP7H1QtBYwEgXbfwG+SCAOpqnlc5eHXPF+ulu+45kOx91BA2gxRrNmk0dqz62ISY9yGEeu74b32pA4+d95vD4boOsMUCKBdyJX6zs7dRebDtw9ShJw0+PQoAmN3TREDlaGEhG54Qq3b1z1hn+i+VmofOnSGLBDhcyMS3LM05zmV85vM3TOf3KwW7YJnCs1R7N8xn+y125atu5+pAyXPAKRJQhnIBRDdpZO+J93Pfn6zPDX7qWyOIoiHy+pksH79+0Dr60q9B5gWKvoAiEbfULojs/2YrqYq1qC1PZbWWeGHJws7Ksz3rNXAH5vOHc1TRBmdfWXe6EqkiEXeZAE8iLlx/AalD287pa1u/K7ZJ69obQo9sPQnuQGvd5YUe7pi8dfDx/ZXIC1xLBSiSzGw3b/gFiPRNbg19+XexLbrjtTb7p4tEbnoA5nP9lnXuvRf4nz8HakSYxdj8cyEHwpF0xt/dH8SsanWHh4zIq6ey7siP+9jpvrGgsSyHAldBADkCWyYkH3QSakQ3aW2783DsRKqvPXglJCTfPLDQsi3aBa6VC1TPtR09MWJGq6VI/XDyrfZ3gpIDgMRzM8XviwTUnUXa8WiuooCNOzcJO3srk+h7UcxO8qDklFBWn8CiX72sDoxXsQkPKDtp/vrQL+zyqS578JOZcn7F8ABevZpNLrX7dj0iDn1aUdespCsqByFB2I59oykBtnTMtxKSBJjt2DcqfYkg8ADupu2//MhLCgCApgRYfcQeDZITpUAJZWMRe7RURwwEvJhMxWEqklYbtGFxCclLPDezNOFuW8A8RAfUdB1Mh+u+VzNmMdaYQ4YMBL+a/Y9/AKbFoLBiymx+AAAAAElFTkSuQmCC') 4 4;
+}
+/* Apply cursor everywhere; standard cursor as fallback */
+body { cursor: var(--spark-cursor), default; }
+a, button, [role="button"], .chip, label, summary, .lang-toggle button,
+.btn-primary, .btn-secondary, .btn-line, .btn-price, .nav-cta,
+.chatbox-launcher, .game-chip, .price-card .btn-price {
+  cursor: var(--spark-cursor), pointer;
+}
+input[type="text"], textarea, .chatbox-input { cursor: text; }
+
+/* Click-spark layer: a fixed overlay where particles animate at click point */
+#click-fx-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  overflow: hidden;
+}
+.click-spark {
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--orange-glow);
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: clickSparkBurst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes clickSparkBurst {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) scale(0.3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #click-fx-layer, .click-spark { display: none !important; }
+  body { cursor: default !important; }
+  a, button { cursor: pointer !important; }
+}
+
+/* ============================================== */
+/* ============ MISC ============ */
+@media (max-width: 720px) {
+  section.section { padding: 70px 24px; }
+  .hero { padding: 60px 24px 40px; }
+  .hero-mockup-wrap { padding: 0 24px 60px; }
+  .final-cta { padding: 56px 28px; }
+  .dark-callout { padding: 32px 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADING SPLASH (Var 02 "Spark Charge") ============ -->
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="splash-wrap">
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-particle"></div>
+    <div class="splash-flash"></div>
+    <div class="splash-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </div>
+    <div class="splash-wordmark">Sci<span class="sp-c">Spark</span></div>
+  </div>
+</div>
+
+<!-- ============ TOP BANNER ============ -->
+<div class="banner">
+  <span class="en"><b>SYLLABUS 2026</b> &nbsp;·&nbsp; Cambridge Lower Secondary <b>0893</b> alignment refreshed &nbsp;·&nbsp; Years 7 – 9 &nbsp;·&nbsp; Free Y7 demo lesson <b>15 min</b> · No sign-up</span>
+  <span class="zh"><b>2026 大纲</b> &nbsp;·&nbsp; 剑桥 Lower Secondary <b>0893</b> 已对齐 &nbsp;·&nbsp; 7–9 年级 &nbsp;·&nbsp; 免费试 Y7 一节课 <b>15 分钟</b> · 不用注册</span>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="#top" class="logo-lockup">
+      <span class="logo-bolt">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+        </svg>
+      </span>
+      <span class="logo-text">
+        <span class="name">Sci<span class="spark">Spark</span></span>
+        <span class="sub"><span class="en">An IG Spark Centre Product</span><span class="zh">IG Spark Centre 出品</span></span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#how"><span class="en">How it works</span><span class="zh">如何运作</span></a>
+      <a href="#platform"><span class="en">Platform</span><span class="zh">平台</span></a>
+      <a href="#pricing"><span class="en">Pricing</span><span class="zh">价格</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language toggle">
+        <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-zh" onclick="setLang('zh')">中文</button>
+      </div>
+      <a href="/demo/y7-l01" class="nav-cta"><span class="en">Try a lesson</span><span class="zh">试一节课</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 01 · HERO ============ -->
+<!-- ============================================== -->
+<header class="hero" id="top">
+  <p class="hero-eyebrow"><span class="en">01 / Manifesto</span><span class="zh">01 / 宣言</span></p>
+
+  <div class="hero-manifesto">
+    <p>In the AI era, memorisation is dead.<br>We train the next generation to ask the right&nbsp;questions.</p>
+    <p class="zh-line">在 AI 时代,死记硬背已死。我们培养下一代 — 会问对问题的人。</p>
+  </div>
+
+  <h1>
+    <span class="en">Try a free lesson.<br>Then walk the <em>right path.</em></span>
+    <span class="zh">先免费试一节课 &mdash;<br>再走上 <em>对的路径。</em></span>
+  </h1>
+
+  <p class="hero-sub">
+    <span class="en">Try a real SciSpark lesson in 15 minutes &mdash; no sign-up needed. If your child likes it, sign up free and learn Unit 1 of every grade at no cost. Cambridge 0893 aligned. Bilingual EN + 中文. Parent or School &mdash; two clear entry paths.</span>
+    <span class="zh">直接体验一节真课 · 约 15 分钟 · 不用注册。喜欢就免费注册 · 每个年级的第 1 单元免费学。对齐剑桥 0893。中英双语。家长 或 学校 &mdash; 两条清晰入口。</span>
+  </p>
+
+  <div class="hero-ctas">
+    <a href="/demo/y7-l01" class="btn-primary">
+      <span class="en">Try a free lesson →</span><span class="zh">免费试一节课 →</span>
+    </a>
+    <a href="#how" class="btn-secondary">
+      <span class="en">See how it works →</span><span class="zh">看看怎么用 →</span>
+    </a>
+  </div>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="label"><span class="en">Try a lesson</span><span class="zh">试一节</span></span>
+      <span class="value orange">15 min</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="label"><span class="en">Free units</span><span class="zh">免费单元</span></span>
+      <span class="value">3</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="label"><span class="en">Languages</span><span class="zh">语言</span></span>
+      <span class="value">EN · 中文</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="label"><span class="en">Syllabus</span><span class="zh">大纲</span></span>
+      <span class="value">Cambridge 0893</span>
+    </div>
+  </div>
+
+  <div class="trust-row">
+    <span class="trust-pill"><span class="dot"></span><span class="en">Cambridge 0893 aligned</span><span class="zh">对齐剑桥 0893</span></span>
+    <span class="trust-pill"><span class="dot"></span><span class="en">Demo-first · no sign-up</span><span class="zh">先试一节 · 不用注册</span></span>
+    <span class="trust-pill"><span class="dot"></span><span class="en">AI feedback · weekly pattern review</span><span class="zh">AI 反馈 · 每周看数据</span></span>
+    <span class="trust-pill"><span class="dot"></span><span class="en">Cambridge-aligned entry assessment with subscription</span><span class="zh">订阅含 Cambridge 入学评估</span></span>
+    <span class="trust-pill"><span class="dot"></span><span class="en">Bilingual EN &middot; 中文</span><span class="zh">中英双语</span></span>
+    <span class="trust-pill"><span class="dot"></span><span class="en">Persistent responsible-adult account &amp; student journey record</span><span class="zh">长期成年人账户 &amp; 学生旅程记录</span></span>
+  </div>
+
+  <p class="hero-tagline"><span class="en">Try first. Sign up free. Pay when ready.</span><span class="zh">先试一节 &middot; 免费注册 &middot; 准备好了再付钱。</span></p>
+</header>
+
+<!-- ============ HERO MOCKUP ============ -->
+<div class="hero-mockup-wrap">
+  <div class="hero-mockup">
+    <div class="mockup-avatar" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </div>
+    <div class="mockup-body">
+      <div class="mockup-tag">PROFESSOR SPARK · SOCRATIC TUTOR <span class="live">● LIVE DEMO</span></div>
+      <div class="mockup-name"><span class="en">Y7 · Forces · Lesson 02</span><span class="zh">7 年级 · 力 · 第 2 课</span></div>
+      <div class="dialog">
+        <div class="bubble bubble-tutor">
+          <span class="en">Before we calculate anything &mdash; what do you think happens to the trolley's acceleration if I push the same amount but the trolley is heavier?</span>
+          <span class="zh">在算之前 &mdash; 同样的推力,推车更重,你猜加速度会怎样?</span>
+          <div class="bubble-meta">Professor Spark · Asks first</div>
+        </div>
+        <div class="bubble bubble-student">
+          <span class="en">It should accelerate slower. Like pushing a supermarket trolley vs a car.</span>
+          <span class="zh">应该加速更慢。就像推购物车 vs 推汽车。</span>
+          <div class="bubble-meta student"><span class="en">Student · Year 7</span><span class="zh">学生 · 7 年级</span></div>
+        </div>
+        <div class="bubble bubble-tutor">
+          <span class="en">Good thinking. Now let's name the relationship before we touch numbers &mdash; <em>force, mass, acceleration</em>. Which two move together, and which moves opposite?</span>
+          <span class="zh">想得好。先理清关系,再算数 &mdash; <em>力、质量、加速度</em>。哪两个同向变,哪个反向变?</span>
+          <div class="bubble-meta">Professor Spark · Teaches before solving</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 02 · WHAT SCISPARK IS ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner section-wide">
+    <p class="meta-label"><span class="num">02 /</span><span class="en">What SciSpark is</span><span class="zh">SciSpark 是什么</span></p>
+
+    <div class="s2-grid">
+      <div class="s2-left">
+        <h2 class="section-title">
+          <span class="en">Not a typical AI tutor or <em>course platform.</em></span>
+          <span class="zh">不是普通 AI 老师 · 也不是 <em>课程平台。</em></span>
+        </h2>
+        <p class="section-lead">
+          <span class="en">SciSpark is an AI-managed science learning system. Try a real lesson first, sign up free if you like it, and unlock Unit 1 of every grade. Continuous progress tracking with AI feedback and weekly pattern review.</span>
+          <span class="zh">SciSpark 是一套 AI 管理的科学学习系统。先试一节真课 · 喜欢就免费注册 · 解锁每个年级的第 1 单元。AI 持续跟踪进度 + 每周看数据改进。</span>
+        </p>
+      </div>
+
+      <div class="s2-right">
+        <div class="num-card">
+          <span class="num">01 / DEMO-FIRST ENTRY</span>
+          <h4><span class="en">Demo-first entry</span><span class="zh">先试一节 · 再决定</span></h4>
+          <p><span class="en">Every visitor can try a real lesson first &mdash; 15 minutes, no sign-up, no card. Decide after seeing if your child likes it.</span><span class="zh">每个访客都可以先试一节真课 &mdash; 15 分钟 · 不用注册 · 不用卡。看到孩子喜不喜欢再决定。</span></p>
+        </div>
+        <div class="num-card">
+          <span class="num">02 / ACCOUNT-BASED CONTINUITY</span>
+          <h4><span class="en">Account-based continuity</span><span class="zh">账户化连续性</span></h4>
+          <p><span class="en">A responsible-adult account and a child record are created first. After activation, the student receives independent sign-in access, and progress continues through linked accounts.</span><span class="zh">先建立负责的成年人账户和孩子的档案。激活后 · 学生获得独立登录权限 · 进度通过关联账户持续。</span></p>
+        </div>
+        <div class="num-card">
+          <span class="num">03 / GUIDED LEARNING PATH</span>
+          <h4><span class="en">Guided learning path</span><span class="zh">引导式学习路径</span></h4>
+          <p><span class="en">Support is structured around your child's level and next-step needs &mdash; not random content dumping. Level is set when you upgrade to a paid plan.</span><span class="zh">支持围绕孩子的层级和下一步需要而构建 &mdash; 不是堆内容。升级付费时才定层级。</span></p>
+        </div>
+        <div class="num-card">
+          <span class="num">04 / BILINGUAL SYSTEM</span>
+          <h4><span class="en">Bilingual system</span><span class="zh">双语系统</span></h4>
+          <p><span class="en">Every lesson and report exists in English and 中文 &mdash; written by humans, not machine-translated.</span><span class="zh">每节课和每份报告都有中英两版 &mdash; 真人写 · 不是机器翻译。</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 03 · THE PROBLEM ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner section-wide">
+    <p class="meta-label"><span class="num">03 /</span><span class="en">The problem</span><span class="zh">问题</span></p>
+
+    <div class="s2-grid">
+      <div class="s2-left">
+        <h2 class="section-title">
+          <span class="en">Most students don't struggle because <em>science is hard.</em></span>
+          <span class="zh">大部分学生卡住 · 不是因为 <em>科学难。</em></span>
+        </h2>
+        <p class="section-lead">
+          <span class="en">They struggle because they're memorising without understanding &mdash; and no one notices until the test result comes back.</span>
+          <span class="zh">他们卡住 · 是因为在死记硬背 &mdash; 没人发现 · 直到考试结果出来。</span>
+        </p>
+      </div>
+
+      <div class="s2-right">
+        <div class="parent-quote">
+          <p class="body">
+            <span class="en">"He <s>knows</s> the topic but freezes the moment a question is phrased differently."</span>
+            <span class="zh">&ldquo;他 <s>'懂'</s> 这章内容 · 但题目换个说法他就僵住。&rdquo;</span>
+          </p>
+          <p class="attribution"><span class="en">Parent · Year 8</span><span class="zh">家长 · 8 年级</span></p>
+        </div>
+        <div class="parent-quote">
+          <p class="body">
+            <span class="en">"She memorises the definition perfectly. Ask her to <em class="glow">explain</em> it and there's nothing."</span>
+            <span class="zh">&ldquo;定义她背得一字不差。让她 <em class="glow">解释一下</em> &mdash; 什么都说不出来。&rdquo;</span>
+          </p>
+          <p class="attribution"><span class="en">Parent · Year 7</span><span class="zh">家长 · 7 年级</span></p>
+        </div>
+
+        <div class="dark-callout dark-callout-compact">
+          <h3><span class="en">So we built the opposite of a content firehose: a system that <span class="acc">asks</span> before it teaches.</span><span class="zh">所以我们建了内容轰炸的反面:一个 <span class="acc">先问</span> 再教的系统。</span></h3>
+          <div class="approach-badge">
+            <span class="dot"></span>
+            <span class="en">The SciSpark approach</span><span class="zh">SciSpark 的做法</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footnote">*<span class="en">Composite quotes from F&amp;F pilot families &mdash; paraphrased with permission.</span><span class="zh">来自 F&amp;F 试点家庭的合并引言 &mdash; 已获许可、改写后呈现。</span></p>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 04 · PHOTO ROW ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner">
+    <p class="meta-label"><span class="num">04 /</span><span class="en">In the room</span><span class="zh">真实场景</span></p>
+    <h2 class="section-title">
+      <span class="en">Eleven students.<br>One pilot. <em>Real results.</em></span>
+      <span class="zh">11 个学生。<br>一次试点。<em>真实结果。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">SciSpark's friends-and-family pilot runs with 11 real students across Years 7&ndash;9. The photos below will be replaced with real pilot images (with permission) &mdash; or with original Modern Educational Illustration vector art. We do not use stock photography labelled as our students, parents, or tutors.</span>
+      <span class="zh">SciSpark 的 F&amp;F 试点正在 11 个真实学生 (7&ndash;9 年级) 上运行。下面的图位将替换为真实试点照片 (获家长许可) &mdash; 或者原创现代教育插画矢量图。我们绝不把素材图标注为我们的学生、家长或老师。</span>
+    </p>
+
+    <div class="photo-row">
+      <div class="photo-slot">
+        <div class="num">01 / CLASSROOM</div>
+        <span class="replace-badge">REPLACE: F&amp;F pilot photo OR Modern Educational Illustration vector</span>
+        <div class="caption">
+          <h5><span class="en">A Year 8 working through a forces problem</span><span class="zh">8 年级学生 · 解力学问题</span></h5>
+          <p><span class="en">Real pilot · with parental consent</span><span class="zh">真实试点 · 已获家长许可</span></p>
+        </div>
+      </div>
+      <div class="photo-slot">
+        <div class="num">02 / PARENT VIEW</div>
+        <span class="replace-badge">REPLACE: F&amp;F pilot photo OR Modern Educational Illustration vector</span>
+        <div class="caption">
+          <h5><span class="en">Reading the Sunday parent report on the phone</span><span class="zh">周日 · 手机看家长周报</span></h5>
+          <p><span class="en">No need to teach. Just see.</span><span class="zh">不需要会教 · 只需要看得到。</span></p>
+        </div>
+      </div>
+      <div class="photo-slot">
+        <div class="num">03 / PATTERN REVIEW</div>
+        <span class="replace-badge">REPLACE: F&amp;F pilot photo OR Modern Educational Illustration vector</span>
+        <div class="caption">
+          <h5><span class="en">Weekly pattern review of student progress</span><span class="zh">每周看学生进度数据 · 持续改进</span></h5>
+          <p><span class="en">AI feedback every lesson · human pattern review weekly</span><span class="zh">每节课 AI 反馈 · 每周人工看数据</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 05 · HOW IT WORKS ============ -->
+<!-- ============================================== -->
+<section class="section" id="how">
+  <div class="section-inner section-wide">
+    <p class="meta-label"><span class="num">05 /</span><span class="en">How it works</span><span class="zh">如何运作</span></p>
+
+    <div class="how-intro">
+      <h2 class="section-title">
+        <span class="en">Try. Sign up.<br>Learn. <em>Upgrade.</em></span>
+        <span class="zh">试一节 &middot; 注册 &middot;<br>学习 &middot; <em>升级。</em></span>
+      </h2>
+      <p class="section-lead how-lead-right">
+        <span class="en">Try a lesson before anything else. Sign up only when your child likes it. Pay only when you want to learn beyond Unit 1.</span>
+        <span class="zh">先试一节课。孩子喜欢再注册。想学更多再付钱。</span>
+      </p>
+    </div>
+
+    <div class="step-row">
+      <div class="step-card">
+        <div class="step-num">01 / TRY A LESSON</div>
+        <h4><span class="en">Try a real lesson.</span><span class="zh">试一节真课。</span></h4>
+        <p><span class="en">Click「Try a free lesson」&mdash; open Y7 Unit 1 Lesson 1 immediately. 15 minutes. No sign-up. No card. Real lesson, not a teaser.</span><span class="zh">点「免费试一节课」&mdash; 立刻打开 Y7 第 1 单元第 1 节。15 分钟。不用注册。不用卡。真课 · 不是钓饵。</span></p>
+        <div class="step-mini">
+          <div class="step-mini-row"><span><span class="en">Y7 Unit 1 Lesson 1</span><span class="zh">Y7 第 1 单元 第 1 节</span></span><span class="check">✓</span></div>
+          <div class="step-mini-row"><span><span class="en">15 minutes</span><span class="zh">15 分钟</span></span><span class="check">✓</span></div>
+          <div class="step-mini-row"><span><span class="en">Sign-up</span><span class="zh">注册</span></span><span class="mini-val"><span class="en">not required</span><span class="zh">不需要</span></span></div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">02 / SIGN UP FREE</div>
+        <h4><span class="en">Like it? Sign up free.</span><span class="zh">喜欢就免费注册。</span></h4>
+        <p><span class="en">If your child likes the demo, sign up free with email &mdash; no card needed. The account creates a child record that grows over time.</span><span class="zh">孩子喜欢就免费注册 · 用 email 就好 · 不用卡。账户里建立孩子档案 · 长期累积。</span></p>
+        <div class="step-mini">
+          <div class="step-mini-row"><span><span class="en">Email sign-up</span><span class="zh">Email 注册</span></span><span class="mini-val"><span class="en">free</span><span class="zh">免费</span></span></div>
+          <div class="step-mini-row"><span><span class="en">Credit card</span><span class="zh">信用卡</span></span><span class="mini-val"><span class="en">not required</span><span class="zh">不需要</span></span></div>
+          <div class="step-mini-row"><span><span class="en">Child record</span><span class="zh">孩子档案</span></span><span class="mini-val"><span class="en">created</span><span class="zh">已建立</span></span></div>
+          <div class="step-mini-row"><span><span class="en">Time</span><span class="zh">时间</span></span><span class="mini-val"><span class="en">&lt; 1 min</span><span class="zh">不到 1 分钟</span></span></div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">03 / LEARN UNIT 1</div>
+        <h4><span class="en">Unit 1 of every grade · free.</span><span class="zh">每年级第 1 单元 · 免费。</span></h4>
+        <p><span class="en">Free account unlocks Unit 1 of Y7, Y8, and Y9 &mdash; about 6 lessons per grade, ~18 lessons total. Real lessons with AI feedback every step. Patterns reviewed weekly to improve the system.</span><span class="zh">免费账户解锁 Y7 · Y8 · Y9 各自的第 1 单元 &mdash; 每年级约 6 节 · 共约 18 节。真课 · 每步 AI 反馈。每周看数据改进系统。</span></p>
+        <div class="step-mini">
+          <div class="step-mini-row"><span><span class="en">Free lessons</span><span class="zh">免费课</span></span><span class="mini-val"><span class="en">~18 (3 grades × U1)</span><span class="zh">约 18 节</span></span></div>
+          <div class="step-mini-row"><span><span class="en">AI feedback</span><span class="zh">AI 反馈</span></span><span class="mini-val"><span class="en">every lesson</span><span class="zh">每节课</span></span></div>
+          <div class="step-mini-row"><span><span class="en">Pattern review</span><span class="zh">数据复看</span></span><span class="mini-val orange-text-line"><span class="en">weekly</span><span class="zh">每周</span></span></div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">04 / UPGRADE</div>
+        <h4><span class="en">Pay when ready.</span><span class="zh">准备好了再付钱。</span></h4>
+        <p><span class="en">Want more than Unit 1? Subscribe at checkout &mdash; Stripe asks your child's grade. Entry assessment splits into 3 short stages (15 min each) at learning milestones. Full guided learning path unlocks across all units.</span><span class="zh">想学超过第 1 单元? checkout 时订阅 &mdash; Stripe 会问年级。入学评估分成 3 段 · 每段 15 分钟 · 按学习阶段做。整套引导式学习路径全部解锁。</span></p>
+        <div class="step-mini">
+          <div class="step-mini-row"><span><span class="en">Grade asked</span><span class="zh">问年级</span></span><span class="mini-val"><span class="en">at Stripe checkout</span><span class="zh">Stripe checkout 时</span></span></div>
+          <div class="step-mini-row"><span><span class="en">Entry assessment</span><span class="zh">入学评估</span></span><span class="mini-val"><span class="en">3 × 15 min</span><span class="zh">3 段 × 15 分钟</span></span></div>
+          <div class="step-mini-row mini-multi"><span class="en">Full guided learning path unlocks across all units.</span><span class="zh">完整引导式学习路径在所有单元上解锁。</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 06 · INSIDE THE PLATFORM ============ -->
+<!-- ============================================== -->
+<section class="section" id="platform">
+  <div class="section-inner section-wide">
+    <p class="meta-label"><span class="num">06 /</span><span class="en">Inside the platform</span><span class="zh">平台内部</span></p>
+
+    <div class="s2-grid">
+      <div class="s2-left">
+        <h2 class="section-title">
+          <span class="en">What's inside, <em>once you're in.</em></span>
+          <span class="zh">进来之后 · <em>里面有什么。</em></span>
+        </h2>
+      </div>
+      <div class="s2-right s2-right-narrow">
+        <p class="section-lead lead-small">
+          <span class="en">Free account opens Unit 1 of every grade immediately. Paid subscription opens the full guided learning path &mdash; level is set when you upgrade.</span>
+          <span class="zh">免费账户立刻打开每个年级的第 1 单元。付费订阅打开完整引导式学习路径 &mdash; 升级时才定层级。</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="preview-intro">
+      <p class="meta-label small"><span class="en">A preview of the workspace</span><span class="zh">工作区预览</span></p>
+      <h3 class="subsection-title preview-h3">
+        <span class="en">What your child actually opens, <em>every day.</em></span>
+        <span class="zh">孩子真正每天打开的 <em>是什么。</em></span>
+      </h3>
+      <p class="section-lead">
+        <span class="en">Once you upgrade, the student account unlocks the full learning environment below.</span>
+        <span class="zh">升级之后 · 学生账户解锁下面这套完整的学习环境。</span>
+      </p>
+    </div>
+
+    <div class="platform-grid">
+
+      <!-- Card 01 -->
+      <div class="platform-card">
+        <div class="pf-tag">01 / UNIT BROWSER <span class="pf-tag-right">CAMBRIDGE 0893</span></div>
+        <h4><span class="en">All units &mdash; one map</span><span class="zh">全部单元 &mdash; 一张地图</span></h4>
+        <div style="margin-top:14px;">
+          <div class="unit-row-full">
+            <span class="unit-code">B1</span>
+            <span class="unit-details">
+              <span class="unit-name"><span class="en">Cells &amp; life processes</span><span class="zh">细胞 &amp; 生命过程</span></span>
+              <span class="unit-sub"><span class="en">8 of 8 lessons &middot; mastered</span><span class="zh">8 / 8 课 &middot; 已掌握</span></span>
+            </span>
+            <span class="badge-mini b-strong">Strong</span>
+          </div>
+          <div class="unit-row-full">
+            <span class="unit-code">P2</span>
+            <span class="unit-details">
+              <span class="unit-name"><span class="en">Forces &amp; motion</span><span class="zh">力 &amp; 运动</span></span>
+              <span class="unit-sub"><span class="en">Lesson 5 of 7 &middot; in progress</span><span class="zh">5 / 7 课 &middot; 进行中</span></span>
+            </span>
+            <span class="badge-mini b-today">Today</span>
+          </div>
+          <div class="unit-row-full">
+            <span class="unit-code">C3</span>
+            <span class="unit-details">
+              <span class="unit-name"><span class="en">Chemical change</span><span class="zh">化学变化</span></span>
+              <span class="unit-sub"><span class="en">Quiz flagged &mdash; gap detected</span><span class="zh">小测标记 &mdash; 发现漏洞</span></span>
+            </span>
+            <span class="badge-mini b-gap">Gap</span>
+          </div>
+          <div class="unit-row-full muted">
+            <span class="unit-code muted-code">E4</span>
+            <span class="unit-details">
+              <span class="unit-name"><span class="en">Energy transfer</span><span class="zh">能量传递</span></span>
+              <span class="unit-sub"><span class="en">Unlocks after Forces &amp; motion</span><span class="zh">力 &amp; 运动 完成后解锁</span></span>
+            </span>
+            <span class="badge-mini b-locked">Locked</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 02 -->
+      <div class="platform-card span-2">
+        <div class="pf-tag">02 / AI LEARNING GUIDE <span class="pf-tag-right">LEVEL 2 · BILINGUAL</span></div>
+        <h4><span class="en">Professor Spark &mdash; <span class="tooltip-line" data-tooltip="Industry-first &lsquo;teach concept first, then solve&rsquo; framing. Inspired by Yangcong (洋葱学园): never dump the answer; teach the knowledge point, then guide the student to solve.">teaches before solving</span></span><span class="zh">Spark 教授 &mdash; <span class="tooltip-line" data-tooltip="行业首创 &lsquo;先教知识点 · 再解题&rsquo;。借鉴洋葱学园:绝不直接给答案 · 先教概念 · 再引导学生解题。">先教 · 再解</span></span></h4>
+        <div class="alg-dialogue">
+          <div class="alg-bubble t"><small class="bubble-tag">Professor Spark</small><span class="en">Before we compute it &mdash; if I double the mass but keep the force the same, what happens to the acceleration?</span><span class="zh">算之前 &mdash; 如果质量加倍 · 力不变 · 加速度会怎样?</span></div>
+          <div class="alg-bubble s"><small class="bubble-tag"><span class="en">Student</span><span class="zh">学生</span></small><span class="en">It gets bigger?</span><span class="zh">变大?</span></div>
+          <div class="alg-bubble t"><small class="bubble-tag">Professor Spark</small><span class="en">Think about pushing a supermarket trolley vs. a car with the same push. Which one moves faster?</span><span class="zh">想象一下用同样的力推超市车 vs 推汽车。哪个动得快?</span></div>
+          <div class="typing-indicator">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="typing-label"><span class="en">Student is typing&hellip;</span><span class="zh">学生输入中&hellip;</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 03 -->
+      <div class="platform-card">
+        <div class="pf-tag">03 / QUIZZES</div>
+        <h4><span class="en">Instant feedback</span><span class="zh">即时反馈</span></h4>
+        <p class="lead"><span class="en">Auto-graded mini-quizzes after each lesson. Wrong answers route back to the relevant explanation, not to a separate &ldquo;hints&rdquo; page.</span><span class="zh">每节课后小测自动批改。答错直接回到对应讲解 · 不跳到独立 &ldquo;提示&rdquo; 页。</span></p>
+        <div class="mini-quiz">
+          <div class="q"><span class="en">What is the unit of force?</span><span class="zh">力的单位是?</span></div>
+          <div class="opts">
+            <div class="opt">Joule (J)</div>
+            <div class="opt correct">Newton (N)</div>
+            <div class="opt">Watt (W)</div>
+            <div class="opt">Pascal (Pa)</div>
+          </div>
+          <div class="progress">4 of 10 · auto-graded</div>
+        </div>
+      </div>
+
+      <!-- Card 04 -->
+      <div class="platform-card">
+        <div class="pf-tag">04 / GAMES &amp; PRACTICE</div>
+        <h4><span class="en">Practice that doesn't shame</span><span class="zh">不羞辱孩子的练习</span></h4>
+        <p class="lead"><span class="en">Interactive widgets &mdash; never streak guilt, never league shame, never &ldquo;hearts&rdquo; that lock learning behind payment.</span><span class="zh">交互式练习 &mdash; 绝不断 streak 推送、不公开排名羞辱、不用 &ldquo;红心&rdquo; 锁练习卖钱。</span></p>
+        <div class="games">
+          <div class="game-chip"><span class="label"><span class="en">Energy sort</span><span class="zh">能量分类</span></span><span class="play">Play →</span></div>
+          <div class="game-chip"><span class="label"><span class="en">Cell labeller</span><span class="zh">细胞标注</span></span><span class="play">Play →</span></div>
+          <div class="game-chip"><span class="label"><span class="en">Force balance</span><span class="zh">力的平衡</span></span><span class="play">Play →</span></div>
+        </div>
+      </div>
+
+      <!-- Card 05 -->
+      <div class="platform-card">
+        <div class="pf-tag">05 / THIS WEEK</div>
+        <h4><span class="en">A clear weekly view</span><span class="zh">每周一览</span></h4>
+        <p class="lead"><span class="en">One ring. Five numbers. No need to scroll through 14 dashboards.</span><span class="zh">一个圆环 · 五个数 · 不必翻 14 个面板。</span></p>
+        <div class="this-week">
+          <div class="ring"><div class="ring-inner">71%</div></div>
+          <ul>
+            <li><span class="en">5 / 7 days active</span><span class="zh">5 / 7 天活跃</span></li>
+            <li><span class="en">78 min on platform</span><span class="zh">平台时长 78 分钟</span></li>
+            <li><span class="en">Concepts mastered +4</span><span class="zh">掌握概念 +4</span></li>
+            <li><span class="en">Re-explain accuracy 82%</span><span class="zh">讲回去准确率 82%</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 06 -->
+      <div class="platform-card span-2">
+        <div class="pf-tag">06 / PARENT REPORT · SUN 8 PM</div>
+        <h4><span class="en">A weekly email that respects your time</span><span class="zh">尊重你时间的每周邮件</span></h4>
+        <p class="lead"><span class="en">Every Sunday at 8 PM &mdash; one short email. What was learnt, what's wobbly, what's coming. You don't need to know science to read it.</span><span class="zh">每周日晚 8 点 &mdash; 一封短邮件:这周学了什么 / 哪里还不稳 / 下周什么内容。你不必懂科学也能看懂。</span></p>
+        <div class="email-preview">
+          <div class="subj"><span class="en">SciSpark · Weekly Report · Y8 · Week of 14 May</span><span class="zh">SciSpark · 周报 · 8 年级 · 5 月 14 日当周</span></div>
+          <div class="meta">From: reports@scisparklab.com · To: parent@...</div>
+          <ul>
+            <li><span class="en">Forces unit started · 4 of 6 concepts mastered</span><span class="zh">力 · 已开始 · 6 个概念掌握 4 个</span></li>
+            <li><span class="en">Cells unit retention check &mdash; still strong</span><span class="zh">细胞复测 &mdash; 仍然稳</span></li>
+            <li><span class="en">Wobbly: Newton's 3rd law &mdash; re-explained needed</span><span class="zh">不稳:牛顿第三定律 &mdash; 需要再讲回去</span></li>
+            <li><span class="en">Next week: Energy unit opens Monday</span><span class="zh">下周:能量单元周一开</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 07 · BILINGUAL ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner">
+    <p class="meta-label"><span class="num">07 /</span><span class="en">Bilingual throughout</span><span class="zh">全站双语</span></p>
+    <h2 class="section-title">
+      <span class="en">Same system. Two languages.<br><em>One click.</em></span>
+      <span class="zh">同一个系统 · 两种语言<br><em>一键切换。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">Every lesson, question and report exists in both English and 中文 &mdash; written by humans, not machine-translated. <strong>Your child can learn a concept in Chinese first, then re-state it in English.</strong></span>
+      <span class="zh">每节课 · 每道题 · 每份报告都有中英两版 &mdash; 真人写 · 不是机器翻译。<strong>孩子可以先用中文学懂概念 · 再用英文复述出来。</strong></span>
+    </p>
+
+    <div class="bil-grid">
+      <div class="bil-bubble">
+        <div class="lang-tag">English</div>
+        <p>&ldquo;Explain why a heavier trolley, pushed with the same force, accelerates more slowly.&rdquo;</p>
+      </div>
+      <div class="bil-bubble zh">
+        <div class="lang-tag">中文</div>
+        <p>&ldquo;解释为什么同样的推力下,更重的购物车加速更慢。&rdquo;</p>
+      </div>
+    </div>
+
+    <p class="bil-access-note"><span class="en">Start with a free demo lesson &mdash; no plan picking, no blind sign-ups. Upgrade when ready.</span><span class="zh">从免费试一节课开始 &mdash; 不挑套餐 · 不盲签约。准备好了再升级。</span></p>
+
+    <div class="competitor-line">
+      <span class="en"><strong>Unlike platforms that auto-translate 13 languages with an LLM,</strong> every SciSpark explanation is written EN + 中文 in parallel by humans. Mistranslated science is worse than untranslated science.</span>
+      <span class="zh"><strong>不像那些用 LLM 一键翻译 13 种语言的平台</strong> &mdash; SciSpark 每段讲解都是真人同时写英文和中文。机器译错的科学比不译还糟糕。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 08 · STUDENTS / PARENTS ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner">
+    <p class="meta-label"><span class="num">08 /</span><span class="en">For students &middot; For parents</span><span class="zh">给学生 &middot; 给家长</span></p>
+    <h2 class="section-title">
+      <span class="en">Two doors. <em>Same building.</em></span>
+      <span class="zh">两扇门 &middot; <em>一栋楼。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">A clear separation between what the student does day-to-day and what the parent gets to see &mdash; without parents needing to teach science or refresh GCSE-era memory.</span>
+      <span class="zh">学生每天做什么、家长能看到什么 &mdash; 分得清清楚楚。家长不用会教科学,也不用翻出当年的高中知识。</span>
+    </p>
+
+    <div class="dual-panel">
+      <div class="panel">
+        <div class="panel-tag"><span class="en">For students &middot; Activated student account</span><span class="zh">给学生 &middot; 已激活的学生账户</span></div>
+        <h4><span class="en">After activation: your own account, your own learning.</span><span class="zh">激活之后:你自己的账户 · 你自己的学习。</span></h4>
+        <ul>
+          <li><span class="en">Guided lessons aligned to Cambridge 0893</span><span class="zh">对齐剑桥 0893 的引导式课程</span></li>
+          <li><span class="en">Interactive quizzes with instant feedback</span><span class="zh">交互式小测 &middot; 即时反馈</span></li>
+          <li><span class="en">Games and guided practice activities</span><span class="zh">游戏 &amp; 引导式练习</span></li>
+          <li><span class="en">AI learning guide that questions, corrects, and guides</span><span class="zh">AI 学习导师 &middot; 提问 &middot; 纠错 &middot; 引导</span></li>
+          <li><span class="en">Progress tracking across every unit</span><span class="zh">逐单元的进度追踪</span></li>
+          <li><span class="en">School profile &mdash; textbook, current unit, recent school exam results</span><span class="zh">学校档案 &mdash; 教科书 / 当前单元 / 最近校考成绩</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="panel-tag"><span class="en">For parents &middot; Parent account</span><span class="zh">给家长 &middot; 家长账户</span></div>
+        <h4><span class="en">Visibility and confidence, in your own account.</span><span class="zh">看得见 &middot; 有把握 &middot; 在你自己的账户里。</span></h4>
+        <ul>
+          <li><span class="en">View your child's lesson progress and AI feedback any time</span><span class="zh">随时查看孩子的课程进度和 AI 反馈</span></li>
+          <li><span class="en">Weekly reports on progress and gaps</span><span class="zh">每周进度 &amp; 漏洞报告</span></li>
+          <li><span class="en">Understand your child's learning path and level</span><span class="zh">看懂孩子的学习路径和层级</span></li>
+          <li><span class="en">Access stored results, reports and records</span><span class="zh">查阅存档的结果 &middot; 报告 &middot; 记录</span></li>
+          <li><span class="en">Package and subscription visibility</span><span class="zh">套餐 &amp; 订阅状态可见</span></li>
+          <li><span class="en">Your own login &mdash; separate from your child's</span><span class="zh">你自己的登录 &mdash; 跟孩子的分开</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 09 · NEW · COMING V2 ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner">
+    <p class="meta-label"><span class="num">09 /</span><span class="en">Coming in v2 &middot; A taste</span><span class="zh">v2 即将上线 &middot; 抢先看</span></p>
+
+    <div class="coming-banner">
+      <span class="pulse"></span>
+      <span class="en">In development &middot; not yet live</span>
+      <span class="zh">开发中 &middot; 暂未上线</span>
+    </div>
+
+    <h2 class="section-title">
+      <span class="en">Soon, your child will be able to ask <em>Newton</em> directly.</span>
+      <span class="zh">很快,孩子可以直接问 <em>牛顿。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">The Curiosity Window is the SciSpark v2 feature we're most excited about: voice-chat with historical scientists, grounded in the unit your child is studying. Newton on forces. Hooke on cells. Mendeleev on the periodic table. Darwin on evolution. AI-driven, syllabus-anchored, child-safe.</span>
+      <span class="zh">Curiosity Window 是 SciSpark v2 最让人兴奋的功能:跟历史科学家语音对话 · 锚在孩子正在学的单元上。力学问牛顿。细胞问胡克。元素表问门捷列夫。进化论问达尔文。AI 驱动 · 紧贴大纲 · 儿童安全。</span>
+    </p>
+
+    <div class="curiosity-grid">
+      <div class="curiosity-card">
+        <div class="portrait">N</div>
+        <h4>Isaac Newton</h4>
+        <div class="topic"><span class="en">Y7 · Forces</span><span class="zh">7 年级 · 力</span></div>
+        <p class="demo-q"><span class="en">&ldquo;If I jump off a chair, why does the chair not fly upward?&rdquo;</span><span class="zh">&ldquo;我从椅子上跳下来 · 为什么椅子不往上飞?&rdquo;</span></p>
+      </div>
+      <div class="curiosity-card">
+        <div class="portrait">H</div>
+        <h4>Robert Hooke</h4>
+        <div class="topic"><span class="en">Y7 · Cells</span><span class="zh">7 年级 · 细胞</span></div>
+        <p class="demo-q"><span class="en">&ldquo;Why did you call them &lsquo;cells&rsquo; in the first place?&rdquo;</span><span class="zh">&ldquo;当年你为什么把它叫 &lsquo;细胞&rsquo;?&rdquo;</span></p>
+      </div>
+      <div class="curiosity-card">
+        <div class="portrait">M</div>
+        <h4>Dmitri Mendeleev</h4>
+        <div class="topic"><span class="en">Y8 · Periodic Table</span><span class="zh">8 年级 · 元素周期表</span></div>
+        <p class="demo-q"><span class="en">&ldquo;You guessed elements that did not yet exist. How?&rdquo;</span><span class="zh">&ldquo;你预测了当时还没发现的元素 · 怎么做到的?&rdquo;</span></p>
+      </div>
+      <div class="curiosity-card">
+        <div class="portrait">D</div>
+        <h4>Charles Darwin</h4>
+        <div class="topic"><span class="en">Y9 · Evolution</span><span class="zh">9 年级 · 进化论</span></div>
+        <p class="demo-q"><span class="en">&ldquo;If finches changed because of food &mdash; have humans changed too?&rdquo;</span><span class="zh">&ldquo;雀鸟因为食物而改变 &mdash; 那人类也变过吗?&rdquo;</span></p>
+      </div>
+    </div>
+
+    <p class="footnote">*<span class="en">Subject to safety and accuracy review. Avatars are AI-generated likenesses, not real-time recordings of historical figures.</span><span class="zh">需经安全与准确性审核。头像为 AI 生成的形象 · 不是历史人物的实时录音。</span></p>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 10 · NEW · WHY VS OTHERS ============ -->
+<!-- ============================================== -->
+<section class="section">
+  <div class="section-inner">
+    <p class="meta-label"><span class="num">10 /</span><span class="en">Why SciSpark vs others</span><span class="zh">SciSpark 跟其他平台有什么不同</span></p>
+    <h2 class="section-title">
+      <span class="en">An honest comparison.<br><em>No trash talk.</em></span>
+      <span class="zh">一份诚实的对比。<br><em>不抹黑同行。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">Five dimensions. Four categories of platform that families compare us to. Each category includes real products families have tried; we don't name individual companies unfairly &mdash; we describe the pattern.</span>
+      <span class="zh">五个维度 &middot; 四类家长会拿来对比的产品。每一类都对应市面上真有的平台 &middot; 我们不点名 &middot; 只描述模式。</span>
+    </p>
+
+    <div style="overflow-x:auto;">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="us">SciSpark<span class="tag"><span class="en">Cambridge 0893 · Y7–Y9</span><span class="zh">剑桥 0893 · 7–9 年级</span></span></th>
+          <th><span class="en">Photo-to-answer apps</span><span class="zh">拍照搜题类</span></th>
+          <th><span class="en">General AI tutors</span><span class="zh">通用 AI 老师</span></th>
+          <th><span class="en">Sales-heavy edtech</span><span class="zh">重销售 edtech</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th><span class="en">Approach</span><span class="zh">方式</span></th>
+          <td class="us"><strong><span class="en">Socratic ask-first</span><span class="zh">先问 · 再教</span></strong> <span class="en">&middot; teach concept, then guide solving</span><span class="zh">&middot; 先讲知识点 · 再引导解题</span></td>
+          <td><span class="en">Photo &rarr; instant answer dumped to student</span><span class="zh">拍照 &rarr; 直接给答案</span></td>
+          <td><span class="en">General LLM chat &mdash; will solve anything, teaches no path</span><span class="zh">通用大模型聊天 &mdash; 什么都答 · 没有学习路径</span></td>
+          <td><span class="en">Aspirational sales pitch &mdash; fear-framed parent calls</span><span class="zh">煽动式销售 &mdash; 用恐惧打动家长</span></td>
+        </tr>
+        <tr>
+          <th><span class="en">Pricing</span><span class="zh">价格</span></th>
+          <td class="us"><strong><span class="en">Free tier + $37/mo or $355/yr</span><span class="zh">免费 + $37/月 或 $355/年</span></strong> <span class="en">&middot; Stripe direct &middot; no loans</span><span class="zh">&middot; Stripe 直收 &middot; 不分期</span></td>
+          <td><span class="en">Coin / credit economy &middot; micropurchases that add up</span><span class="zh">代币 / 积分 &middot; 微小付费累计成大笔</span></td>
+          <td><span class="en">Free tier with usage caps &middot; locked features behind ads or subs</span><span class="zh">免费有限额 &middot; 广告或订阅解锁</span></td>
+          <td><span class="en">$1,000+ packages on EMI loans &middot; 24-month financing</span><span class="zh">$1,000+ 套餐分期 &middot; 24 期贷款</span></td>
+        </tr>
+        <tr>
+          <th><span class="en">Curriculum</span><span class="zh">大纲</span></th>
+          <td class="us"><strong><span class="en">Cambridge 0893 specific</span><span class="zh">紧贴剑桥 0893</span></strong> <span class="en">&middot; Y7&ndash;Y9 science only</span><span class="zh">&middot; 仅 7&ndash;9 年级科学</span></td>
+          <td><span class="en">All subjects, all years &middot; no path</span><span class="zh">全学科 全年级 &middot; 无路径</span></td>
+          <td><span class="en">No syllabus &middot; chat-driven topics</span><span class="zh">无大纲 &middot; 对话驱动</span></td>
+          <td><span class="en">Aspirational topics (coding, AI for kids) &middot; not school-synced</span><span class="zh">炫概念 (编程 / 儿童 AI) &middot; 不跟学校</span></td>
+        </tr>
+        <tr>
+          <th><span class="en">Bilingual</span><span class="zh">双语</span></th>
+          <td class="us"><strong><span class="en">EN + 中文 human-written in parallel</span><span class="zh">中英真人并行写</span></strong></td>
+          <td><span class="en">Single language, or LLM-translated overnight</span><span class="zh">单语 · 或者一夜机器翻译</span></td>
+          <td><span class="en">13 languages auto-translated by LLM &mdash; quality varies</span><span class="zh">大模型一键翻译 13 种语言 &mdash; 质量参差</span></td>
+          <td><span class="en">Local language only &middot; English bolt-on later</span><span class="zh">只用本地语言 &middot; 英文后期再加</span></td>
+        </tr>
+        <tr>
+          <th><span class="en">Trust</span><span class="zh">信任</span></th>
+          <td class="us"><strong><span class="en">Demo lesson first &middot; AI feedback every step &middot; no sales calls</span><span class="zh">先试一节课 &middot; 每步 AI 反馈 &middot; 无销售电话</span></strong></td>
+          <td><span class="en">Anonymous quiz &middot; no account, no records</span><span class="zh">匿名小测 &middot; 无账户 · 无记录</span></td>
+          <td><span class="en">Chatbot, no human in the loop</span><span class="zh">纯聊天机器人 &middot; 无人工介入</span></td>
+          <td><span class="en">Commission sales force &middot; home visits &middot; pressure calls</span><span class="zh">提成式销售 &middot; 上门 &middot; 高压电话</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="footnote">*<span class="en">Categories above describe patterns we've observed across 53 platforms in 8 markets. We don't claim any single named product matches every cell exactly.</span><span class="zh">以上四类描述的是我们在 8 个市场、53 家平台上观察到的模式。我们不断言任何一家公司每一格都完全对应。</span></p>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 11 · PRICING ============ -->
+<!-- ============================================== -->
+<section class="section" id="pricing">
+  <div class="section-inner section-wide">
+    <p class="meta-label"><span class="num">11 /</span><span class="en">Simple, transparent pricing</span><span class="zh">价格简单 &middot; 透明</span></p>
+    <h2 class="section-title">
+      <span class="en">Start free.<br><em>Upgrade when ready.</em></span>
+      <span class="zh">免费开始。<br><em>准备好了再升级。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">Every student begins with a free demo lesson &mdash; no card, no sign-up. Free tier opens Unit 1 of every grade. Subscribe to unlock the complete learning path.</span>
+      <span class="zh">每个学生都从免费试一节课开始 &mdash; 不用卡 · 不用注册。免费版打开每个年级的第 1 单元。订阅后解锁完整学习路径。</span>
+    </p>
+
+    <div class="pricing-grid">
+
+      <!-- TIER 1 · FREE -->
+      <div class="price-card price-card-v2">
+        <div class="price-tag">Free</div>
+        <div class="amount-big"><span class="en">Free</span><span class="zh">免费</span></div>
+        <div class="level-sub"><span class="en">Try first, then unlock Unit 1</span><span class="zh">先试一节 &middot; 再解锁第 1 单元</span></div>
+        <div class="price-divider"></div>
+        <ul>
+          <li><span class="en">Free demo lesson (Y7 L01, 15 min)</span><span class="zh">免费试一节课（Y7 L01 · 15 分钟）</span></li>
+          <li><span class="en">Unit 1 of every grade (~6 lessons × 3 grades)</span><span class="zh">每年级第 1 单元（约 6 节 × 3 年级）</span></li>
+          <li><span class="en">English &amp; 中文</span><span class="zh">中英文</span></li>
+          <li><span class="en">No credit card required</span><span class="zh">无需信用卡</span></li>
+        </ul>
+        <a href="/demo/y7-l01" class="btn-price"><span class="en">Try a free lesson</span><span class="zh">免费试一节课</span></a>
+      </div>
+
+      <!-- TIER 2 · MONTHLY -->
+      <div class="price-card price-card-v2">
+        <div class="price-tag">Monthly</div>
+        <div class="amount-big">USD 37<span class="amt-unit">/mo</span></div>
+        <div class="level-sub"><span class="en">Cancel anytime</span><span class="zh">随时取消</span></div>
+        <div class="price-divider"></div>
+        <ul>
+          <li><span class="en">Everything in Free</span><span class="zh">包含 Free 所有功能</span></li>
+          <li><span class="en">Full guided learning path</span><span class="zh">完整引导式学习路径</span></li>
+          <li><span class="en">3 support levels, AI-adapted</span><span class="zh">3 个支持层级 · AI 自适应</span></li>
+          <li><span class="en">Includes Entry Assessment (3 × 15 min)</span><span class="zh">包含 Entry Assessment（3 段 × 15 分钟）</span></li>
+          <li><span class="en">Progress tracking &amp; reports</span><span class="zh">进度追踪 &amp; 报告</span></li>
+          <li><span class="en">Parent dashboard &amp; progress reports</span><span class="zh">家长面板 &amp; 进度报告</span></li>
+        </ul>
+        <a href="#cta" class="btn-price btn-dark"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
+      </div>
+
+      <!-- TIER 3 · ANNUAL · BEST VALUE -->
+      <div class="price-card price-card-v2 featured">
+        <div class="price-flag"><span class="en">Best value</span><span class="zh">最划算</span></div>
+        <div class="price-tag">Annual</div>
+        <div class="amount-big">USD 355<span class="amt-unit">/yr</span></div>
+        <div class="level-sub level-sub-accent"><span class="en">Save 20%</span><span class="zh">省 20%</span></div>
+        <div class="price-divider"></div>
+        <ul>
+          <li><span class="en">Everything in Monthly</span><span class="zh">包含 Monthly 所有功能</span></li>
+          <li><span class="en">Full guided learning path</span><span class="zh">完整引导式学习路径</span></li>
+          <li><span class="en">3 support levels, AI-adapted</span><span class="zh">3 个支持层级 · AI 自适应</span></li>
+          <li><span class="en">Includes Entry Assessment (3 × 15 min)</span><span class="zh">包含 Entry Assessment（3 段 × 15 分钟）</span></li>
+          <li><span class="en">Progress tracking &amp; reports</span><span class="zh">进度追踪 &amp; 报告</span></li>
+          <li><span class="en">Parent dashboard &amp; progress reports</span><span class="zh">家长面板 &amp; 进度报告</span></li>
+        </ul>
+        <a href="#cta" class="btn-price"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
+      </div>
+
+      <!-- TIER 4 · SIBLING PACK -->
+      <div class="price-card price-card-v2">
+        <div class="price-tag">Sibling Pack</div>
+        <div class="amount-big">USD 599<span class="amt-unit">/yr</span></div>
+        <div class="level-sub"><span class="en">2 kids · +USD 199 per extra (max 3)</span><span class="zh">2 个孩子 · 每多 1 个加 USD 199（最多 3 个）</span></div>
+        <div class="price-divider"></div>
+        <ul>
+          <li><span class="en">Everything in Annual × 2 (or 3) kids</span><span class="zh">包含 Annual 所有功能 × 2（或 3）个孩子</span></li>
+          <li><span class="en">Each child gets own progress record</span><span class="zh">每个孩子独立进度档案</span></li>
+          <li><span class="en">Shared parent dashboard</span><span class="zh">共用家长面板</span></li>
+          <li><span class="en">Includes Entry Assessment (3 × 15 min) per child</span><span class="zh">每个孩子包含 Entry Assessment（3 段 × 15 分钟）</span></li>
+          <li><span class="en">Save USD 111 vs 2 × Annual</span><span class="zh">比 2 × Annual 省 USD 111</span></li>
+        </ul>
+        <a href="#cta" class="btn-price"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
+      </div>
+
+    </div>
+
+    <div class="pricing-strip">
+      <div class="strip-item">
+        <div class="strip-tag"><span class="en">Try before you pay</span><span class="zh">先试再付</span></div>
+        <p><span class="en"><strong>Free tier is real, not a teaser.</strong> A free demo lesson, plus Unit 1 of every grade (Y7 + Y8 + Y9) &mdash; all free, no card. Decide after your child has actually learned.</span><span class="zh"><strong>Free 是真的免费 · 不是钓饵。</strong> 免费试一节课 · 加上每年级第 1 单元（Y7 + Y8 + Y9）&mdash; 全免费 · 不用卡。看孩子真的学了再决定。</span></p>
+      </div>
+      <div class="strip-item">
+        <div class="strip-tag"><span class="en">No financing tricks</span><span class="zh">无金融花招</span></div>
+        <p><span class="en"><strong>No EMI loans. No third-party financing.</strong> Pay monthly via Stripe, or save 20% with annual. Cancel anytime &mdash; Stripe-direct, no hidden renewals.</span><span class="zh"><strong>不分期 · 不第三方贷款。</strong> Stripe 月付,或年付省 20%。随时取消 &mdash; Stripe 直收 · 不藏续费。</span></p>
+      </div>
+      <div class="strip-item">
+        <div class="strip-tag"><span class="en">Unit-based, not term-based</span><span class="zh">按单元 · 不按学期</span></div>
+        <p><span class="en"><strong>Your child progresses by unit, not by school term.</strong> The path inside is set by what your child actually needs, not by the calendar.</span><span class="zh"><strong>孩子按单元前进 · 不按学期。</strong> 路径里走多快 · 由孩子真实需要决定 · 不由日历决定。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ SECTION 12 · ACCOUNTS + FINAL CTA ============ -->
+<!-- ============================================== -->
+<section class="section" id="cta">
+  <div class="section-inner section-wide">
+    <p class="meta-label"><span class="num">12 /</span><span class="en">Long-term accounts</span><span class="zh">长期账户</span></p>
+    <h2 class="section-title">
+      <span class="en">Everything lives in your account &mdash;<br>not in emails, <em>not in chat.</em></span>
+      <span class="zh">所有东西都在你账户里 &mdash;<br>不在邮件里 · <em>不在群聊里。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">A SciSpark account is built to outlast any single subscription year. Records persist. Lesson progress stays. Reports archive. No anonymous access to your child.</span>
+      <span class="zh">一个 SciSpark 账户是为了跨越任何一年订阅而设计的。记录留存 · 课程进度留存 · 报告归档。没有匿名访问你孩子。</span>
+    </p>
+
+    <div class="accounts-grid">
+      <div class="account-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.74 0 5.19 1.22 6.84 3.16"/></svg></div>
+        <h5><span class="en">Lesson &amp; assessment records</span><span class="zh">课程 &amp; 测评记录</span></h5>
+        <p><span class="en">Every lesson, quiz, and entry assessment, stored in full.</span><span class="zh">每节课 · 每次小测 · 每次入学评估 · 完整存档。</span></p>
+      </div>
+      <div class="account-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+        <h5><span class="en">Reports</span><span class="zh">报告</span></h5>
+        <p><span class="en">Weekly &amp; monthly parent reports archive automatically.</span><span class="zh">每周 &amp; 每月家长报告 · 自动归档。</span></p>
+      </div>
+      <div class="account-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h5><span class="en">Progress</span><span class="zh">进度</span></h5>
+        <p><span class="en">Unit-by-unit progress across Y7 &mdash; Y9.</span><span class="zh">7&ndash;9 年级 · 一单元一单元的进度。</span></p>
+      </div>
+      <div class="account-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></div>
+        <h5><span class="en">Profile</span><span class="zh">档案</span></h5>
+        <p><span class="en">School year, time zone, language, accessibility settings.</span><span class="zh">年级 · 时区 · 语言 · 无障碍设置。</span></p>
+      </div>
+      <div class="account-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 14h4"/></svg></div>
+        <h5><span class="en">Package</span><span class="zh">套餐</span></h5>
+        <p><span class="en">Your tier, your renewal date, your invoices.</span><span class="zh">你的套餐 · 续费日期 · 发票。</span></p>
+      </div>
+      <div class="account-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
+        <h5><span class="en">Linked accounts</span><span class="zh">关联账户</span></h5>
+        <p><span class="en">Parent &harr; student linked. No anonymous access.</span><span class="zh">家长 &harr; 学生关联 · 无匿名访问。</span></p>
+      </div>
+    </div>
+
+    <div class="final-cta final-cta-2col">
+      <div class="final-left">
+        <p class="eyebrow"><span class="en">Begin here</span><span class="zh">从这里开始</span></p>
+        <h2><span class="en">Try a free lesson.<br>Then walk the <em>right path.</em></span><span class="zh">先免费试一节课 &middot;<br>再走上 <em>对的路径。</em></span></h2>
+        <p><span class="en">No sign-up needed to try. Open a real Y7 Unit 1 lesson, 15 minutes, no card. Like it? Sign up free and unlock Unit 1 of every grade.</span><span class="zh">试用不用注册。打开 Y7 第 1 单元真课 · 15 分钟 · 不用卡。喜欢就免费注册 · 解锁每个年级的第 1 单元。</span></p>
+        <div class="cta-row">
+          <a href="/demo/y7-l01" class="btn-primary"><span class="en">Try a free lesson →</span><span class="zh">免费试一节课 →</span></a>
+          <a href="#" class="btn-line"><span class="en">Sign In</span><span class="zh">登录</span></a>
+        </div>
+      </div>
+
+      <div class="final-right">
+        <ol class="final-steps">
+          <li>
+            <span class="step-n">01</span>
+            <span class="step-txt"><span class="en">Try a demo lesson &mdash; no sign-up, 15 minutes</span><span class="zh">试一节课 &mdash; 不用注册 · 15 分钟</span></span>
+          </li>
+          <li>
+            <span class="step-n">02</span>
+            <span class="step-txt"><span class="en">Like it? Sign up free with email &mdash; no card</span><span class="zh">喜欢? Email 免费注册 &mdash; 不用卡</span></span>
+          </li>
+          <li>
+            <span class="step-n">03</span>
+            <span class="step-txt"><span class="en">Unit 1 of every grade unlocks &mdash; 3 grades free</span><span class="zh">每年级第 1 单元解锁 &mdash; 3 年级免费</span></span>
+          </li>
+          <li>
+            <span class="step-n">04</span>
+            <span class="step-txt"><span class="en">AI feedback every lesson &middot; weekly pattern review</span><span class="zh">每节课 AI 反馈 &middot; 每周看数据</span></span>
+          </li>
+          <li>
+            <span class="step-n">05</span>
+            <span class="step-txt"><span class="en">Subscribe when ready &mdash; grade asked at checkout</span><span class="zh">准备好了再订阅 &mdash; checkout 时才问年级</span></span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- ============ FOOTER ============ -->
+<!-- ============================================== -->
+<footer>
+  <div class="inner">
+    <div class="brand">
+      <div class="name">Sci<span class="spark">Spark</span></div>
+      <p><span class="en">An AI-managed science thinking platform for Lower Secondary students. Aligned to Cambridge 0893. An IG Spark Centre product.</span><span class="zh">为初中生打造的 AI 科学思维平台 · 对齐剑桥 0893 · IG Spark Centre 出品。</span></p>
+    </div>
+    <div class="col">
+      <h6><span class="en">Platform</span><span class="zh">平台</span></h6>
+      <ul>
+        <li><a href="#how"><span class="en">How it works</span><span class="zh">如何运作</span></a></li>
+        <li><a href="#platform"><span class="en">Inside the platform</span><span class="zh">平台内部</span></a></li>
+        <li><a href="#pricing"><span class="en">Pricing</span><span class="zh">价格</span></a></li>
+        <li><a href="/demo/y7-l01"><span class="en">Try a free lesson</span><span class="zh">免费试一节课</span></a></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h6><span class="en">Trust &amp; safety</span><span class="zh">信任 · 安全</span></h6>
+      <ul>
+        <li><a href="/child-safety"><span class="en">Child safety policy</span><span class="zh">儿童安全政策</span></a></li>
+        <li><a href="/refund"><span class="en">30-day refund</span><span class="zh">30 天退款</span></a></li>
+        <li><a href="/grievance"><span class="en">Grievance &amp; complaints</span><span class="zh">投诉与处理</span></a></li>
+        <li><a href="/privacy"><span class="en">Privacy policy</span><span class="zh">隐私政策</span></a></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h6><span class="en">Company</span><span class="zh">公司</span></h6>
+      <ul>
+        <li><a href="https://igsparkcentre.com">IG Spark Centre</a></li>
+        <li><a href="mailto:info@scisparklab.com">info@scisparklab.com</a></li>
+        <li><a href="/terms"><span class="en">Terms of service</span><span class="zh">服务条款</span></a></li>
+        <li><a href="/cookies"><span class="en">Cookies</span><span class="zh">Cookies</span></a></li>
+      </ul>
+    </div>
+
+    <div class="meta">
+      <span><span class="en">© 2026 IG SPARK CENTRE · SSM AS0514458-K · Sungai Buloh, Selangor, Malaysia</span><span class="zh">© 2026 IG SPARK CENTRE · SSM AS0514458-K · 马来西亚 雪兰莪 双溪毛糯</span></span>
+      <span><span class="en">An IG Spark Centre product</span><span class="zh">IG Spark Centre 出品</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================== -->
+<!-- ============ SCRIPTS ============ -->
+<!-- ============================================== -->
+<script>
+// ============ LOADING SPLASH ============
+(function () {
+  var splash = document.getElementById('splash');
+  if (!splash) return;
+
+  // Respect reduced motion
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // sessionStorage: only first visit gets the splash
+  var seen;
+  try { seen = sessionStorage.getItem('scispark-splash-seen'); } catch (e) { seen = null; }
+
+  if (reduced || seen) {
+    splash.style.display = 'none';
+    return;
+  }
+
+  // Hide after animation completes (~1.8s buffer)
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      splash.classList.add('hide');
+      try { sessionStorage.setItem('scispark-splash-seen', '1'); } catch (e) {}
+      setTimeout(function () { splash.style.display = 'none'; }, 600);
+    }, 1800);
+  });
+
+  // Safety: also auto-hide after 4s even if load event doesn't fire
+  setTimeout(function () {
+    if (!splash.classList.contains('hide')) {
+      splash.classList.add('hide');
+      try { sessionStorage.setItem('scispark-splash-seen', '1'); } catch (e) {}
+      setTimeout(function () { splash.style.display = 'none'; }, 600);
+    }
+  }, 4000);
+})();
+
+// ============ EN / 中文 TOGGLE ============
+function setLang(lang) {
+  document.body.classList.toggle('lang-zh', lang === 'zh');
+  document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+  var btnEn = document.getElementById('btn-en');
+  var btnZh = document.getElementById('btn-zh');
+  if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+  if (btnZh) btnZh.classList.toggle('active', lang === 'zh');
+  try { localStorage.setItem('scispark-lang', lang); } catch (e) {}
+}
+
+(function initLang() {
+  var saved;
+  try { saved = localStorage.getItem('scispark-lang'); } catch (e) { saved = null; }
+  if (saved === 'zh') setLang('zh');
+  else setLang('en');
+})();
+</script>
+
+<!-- ============================================== -->
+<!-- ============ SUPPORT CHATBOX ============ -->
+<!-- ============================================== -->
+<button class="chatbox-launcher" id="chatLauncher" aria-label="Open SciSpark Helper chat" type="button">
+  <span class="lr-dot" aria-hidden="true"></span>
+  <svg class="lr-icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+  </svg>
+  <svg class="lr-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="6" y1="6" x2="18" y2="18"/>
+    <line x1="6" y1="18" x2="18" y2="6"/>
+  </svg>
+</button>
+
+<div class="chatbox-panel" id="chatPanel" role="dialog" aria-label="SciSpark Helper">
+  <div class="chatbox-header">
+    <div class="ava" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </div>
+    <div class="h-text">
+      <div class="h-name">
+        <span class="en">SciSpark Helper</span><span class="zh">SciSpark 小助手</span>
+        <span class="h-tag">AI · DEMO</span>
+      </div>
+      <div class="h-status">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span class="en">Usually replies in seconds</span><span class="zh">通常几秒内回复</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chatbox-body" id="chatBody">
+    <!-- initial greeting + suggested chips will be injected by JS -->
+  </div>
+
+  <div class="chatbox-footer">
+    <div class="chatbox-input-row">
+      <input type="text" class="chatbox-input" id="chatInput"
+             placeholder="Type your question…"
+             data-placeholder-en="Type your question…"
+             data-placeholder-zh="输入你的问题…"
+             autocomplete="off" />
+      <button class="chatbox-send" id="chatSend" type="button" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="chatbox-disclaimer">
+      <span class="en">AI helper · scripted demo · for real help email <a href="mailto:info@scisparklab.com">info@scisparklab.com</a></span>
+      <span class="zh">AI 助手 · 演示版 · 真实问题请邮件 <a href="mailto:info@scisparklab.com">info@scisparklab.com</a></span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ SUPPORT CHATBOX ============
+(function () {
+  var launcher = document.getElementById('chatLauncher');
+  var panel = document.getElementById('chatPanel');
+  var body = document.getElementById('chatBody');
+  var input = document.getElementById('chatInput');
+  var send = document.getElementById('chatSend');
+  if (!launcher || !panel || !body || !input || !send) return;
+
+  // Scripted Q&A: each entry has EN/ZH question label + EN/ZH answer.
+  // Keyword match runs across both languages, so user typing freely also works.
+  var QA = [
+    {
+      keyEn: 'What does the free demo include?',
+      keyZh: '免费试用包括什么?',
+      keywords: ['demo','free','试用','免费','lesson','课','试','assessment','entry','测评','入学'],
+      ansEn: 'A real <strong>Y7 Unit 1 Lesson 1</strong> &mdash; about 15 minutes, no sign-up, no card. After that, sign up free with email and unlock <strong>Unit 1 of every grade</strong> (Y7 + Y8 + Y9) &mdash; about 6 lessons per grade. Paid subscription unlocks the complete guided learning path, including a Cambridge-aligned entry assessment in 3 stages of 15 minutes each.',
+      ansZh: '一节真的 <strong>Y7 第 1 单元第 1 节课</strong> &mdash; 约 15 分钟 · 不用注册 · 不用卡。试完之后用 email 免费注册 · 解锁 <strong>每个年级的第 1 单元</strong>（Y7 + Y8 + Y9）&mdash; 每年级约 6 节。付费订阅解锁完整引导式学习路径 · 包含 Cambridge 入学评估（3 段 × 15 分钟）。'
+    },
+    {
+      keyEn: 'How does pricing work?',
+      keyZh: '价格怎么算?',
+      keywords: ['price','pricing','cost','subscribe','价格','费用','订阅','多少钱'],
+      ansEn: 'Four options. <strong>Free</strong> (demo lesson + Unit 1 of every grade, no card). <strong>Monthly USD 37/mo</strong> (cancel anytime). <strong>Annual USD 355/yr</strong> (save 20%). <strong>Sibling Pack USD 599/yr</strong> (2 kids, +USD 199 per extra child, max 3). All paid tiers include the full guided learning path, 3 AI-adapted support levels, and parent reports.',
+      ansZh: '四个选项。<strong>免费</strong>（试一节 + 每年级第 1 单元 · 不用卡）。<strong>月付 USD 37/月</strong>（随时取消）。<strong>年付 USD 355/年</strong>（省 20%）。<strong>Sibling Pack USD 599/年</strong>（2 个孩子 · 每多 1 个孩子加 USD 199 · 最多 3 个孩子）。付费版都包含完整学习路径 · 3 个 AI 自适应支持层级 · 家长报告。'
+    },
+    {
+      keyEn: 'Can my child try for free?',
+      keyZh: '可以免费试试看吗?',
+      keywords: ['free','try','trial','免费','试','试用'],
+      ansEn: 'Yes. Open the free demo at <strong>/demo/y7-l01</strong> &mdash; a real Y7 Unit 1 lesson, 15 minutes, no sign-up. If your child likes it, sign up free with email and unlock Unit 1 of every grade. <strong>No credit card required.</strong>',
+      ansZh: '可以。打开 <strong>/demo/y7-l01</strong> 免费试一节真的 Y7 课 · 15 分钟 · 不用注册。孩子喜欢就用 email 免费注册 · 解锁每个年级的第 1 单元。<strong>不用信用卡。</strong>'
+    },
+    {
+      keyEn: 'How do I contact a human?',
+      keyZh: '想找真人怎么办?',
+      keywords: ['human','contact','email','support','真人','联系','联络','客服','邮件'],
+      ansEn: 'Email <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> &mdash; we typically reply within 24 hours. For urgent issues, put <strong>URGENT</strong> in the subject. We don\u2019t do sales calls or home visits.',
+      ansZh: '邮件 <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> &mdash; 通常 24 小时内回复。紧急问题 · 标题写 <strong>URGENT</strong>。我们不打销售电话 · 不上门。'
+    },
+    {
+      keyEn: 'What is the difference between the levels?',
+      keyZh: '三个 Level 有什么不同?',
+      keywords: ['level','levels','分级','差别','区别'],
+      ansEn: '<strong>Level 1 = Foundation rescue</strong> (filling gaps). <strong>Level 2 = School sync</strong> (keeping pace with what your child\u2019s school is teaching). <strong>Level 3 = Exam readiness</strong> (sharper, harder, faster). Level is set when you subscribe &mdash; Stripe checkout asks your child\u2019s grade, and the entry assessment (3 stages × 15 min each) places your child into the right level over the first weeks of learning.',
+      ansZh: '<strong>L1 = 补基础</strong>（填漏洞）。<strong>L2 = 跟学校</strong>（跟孩子学校进度同步）。<strong>L3 = 冲考试</strong>（更难 · 更快）。订阅时才定层级 &mdash; Stripe checkout 问年级 · 入学评估（3 段 × 15 分钟）在学习的最初几周内把孩子分到对的层级。'
+    },
+    {
+      keyEn: 'Is it really bilingual?',
+      keyZh: '真的是中英双语吗?',
+      keywords: ['bilingual','chinese','english','双语','中文','英文'],
+      ansEn: 'Yes. Every lesson, quiz, dialogue, and parent email is <strong>written in English and Chinese in parallel, by humans</strong> &mdash; not auto-translated. Toggle once at the top of the site and the whole platform speaks the language your family thinks in.',
+      ansZh: '是的。每节课 · 每道题 · 每段对话 · 每封家长邮件 &mdash; 都是<strong>真人同时写英文和中文</strong> · 不是机器译。顶部一键切换 · 整个平台都说你家用来思考的那门语言。'
+    }
+  ];
+
+  var initialized = false;
+
+  function isZh() { return document.body.classList.contains('lang-zh'); }
+
+  function escapeHtml(s) {
+    return (s || '').replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+
+  function addBot(html) {
+    var div = document.createElement('div');
+    div.className = 'chat-msg bot';
+    div.innerHTML = html;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  function addUser(text) {
+    var div = document.createElement('div');
+    div.className = 'chat-msg user';
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  function addChips(items) {
+    var wrap = document.createElement('div');
+    wrap.className = 'suggested-chips';
+    items.forEach(function (qa) {
+      var btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.type = 'button';
+      btn.textContent = isZh() ? qa.keyZh : qa.keyEn;
+      btn.addEventListener('click', function () {
+        wrap.remove();
+        addUser(btn.textContent);
+        setTimeout(function () { addBot(isZh() ? qa.ansZh : qa.ansEn); }, 350);
+      });
+      wrap.appendChild(btn);
+    });
+    body.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function greet() {
+    var greet = isZh()
+      ? '你好!我是 <strong>SciSpark 小助手</strong>。家长和学生常问的问题如下 · 也可以直接打字问。'
+      : 'Hi! I\u2019m the <strong>SciSpark Helper</strong>. Here are common questions &mdash; or just type yours.';
+    addBot(greet);
+    addChips(QA);
+  }
+
+  function init() {
+    if (initialized) return;
+    initialized = true;
+    body.innerHTML = '';
+    greet();
+  }
+
+  function answerFreeText(txt) {
+    var t = (txt || '').toLowerCase();
+    for (var i = 0; i < QA.length; i++) {
+      var kws = QA[i].keywords;
+      for (var j = 0; j < kws.length; j++) {
+        if (t.indexOf(kws[j].toLowerCase()) !== -1) {
+          return isZh() ? QA[i].ansZh : QA[i].ansEn;
+        }
+      }
+    }
+    return isZh()
+      ? '这个问题我现在还不会答 (演示版的答案库还小)。你可以点上面的常见问题 · 或邮件 <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> · 真人 24 小时内回复。'
+      : 'I don\u2019t have an answer for that yet (the demo library is small). Try a chip above, or email <a href="mailto:info@scisparklab.com">info@scisparklab.com</a> &mdash; a human replies within 24 hours.';
+  }
+
+  function handleSend() {
+    var v = input.value.trim();
+    if (!v) return;
+    addUser(v);
+    input.value = '';
+    setTimeout(function () { addBot(answerFreeText(v)); }, 400);
+  }
+
+  // Input placeholder language-aware
+  function syncPlaceholder() {
+    input.placeholder = isZh() ? input.dataset.placeholderZh : input.dataset.placeholderEn;
+  }
+
+  launcher.addEventListener('click', function () {
+    var isOpen = panel.classList.toggle('open');
+    launcher.classList.toggle('open', isOpen);
+    launcher.setAttribute('aria-label', isOpen ? 'Close SciSpark Helper chat' : 'Open SciSpark Helper chat');
+    if (isOpen) { init(); syncPlaceholder(); setTimeout(function(){ input.focus(); }, 220); }
+  });
+
+  send.addEventListener('click', handleSend);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
+  });
+
+  // If user switches language while open, sync placeholder
+  document.getElementById('btn-en').addEventListener('click', syncPlaceholder);
+  document.getElementById('btn-zh').addEventListener('click', syncPlaceholder);
+})();
+</script>
+
+<!-- ============================================== -->
+<!-- ============ CLICK-SPARK LAYER ============ -->
+<!-- ============================================== -->
+<div id="click-fx-layer" aria-hidden="true"></div>
+
+<script>
+// ============ CLICK-SPARK FX ============
+// Every click anywhere bursts a few orange particles. Skipped if user prefers reduced motion.
+(function () {
+  var layer = document.getElementById('click-fx-layer');
+  if (!layer) return;
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  // Throttle so rapid clicks don't flood the DOM
+  var lastBurst = 0;
+
+  function burst(x, y) {
+    var now = Date.now();
+    if (now - lastBurst < 60) return;  // ≤16/s max
+    lastBurst = now;
+
+    // 8 particles radiating out at random angles
+    var count = 8;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('div');
+      p.className = 'click-spark';
+      var angle = (Math.PI * 2 * i) / count + (Math.random() * 0.4 - 0.2);
+      var dist = 30 + Math.random() * 30;
+      var sx = Math.cos(angle) * dist;
+      var sy = Math.sin(angle) * dist;
+      p.style.left = x + 'px';
+      p.style.top = y + 'px';
+      p.style.setProperty('--sx', sx + 'px');
+      p.style.setProperty('--sy', sy + 'px');
+      // Slight size variation
+      var size = 4 + Math.random() * 6;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      layer.appendChild(p);
+      // Cleanup after animation
+      setTimeout(function (el) { return function () { el.remove(); }; }(p), 700);
+    }
+  }
+
+  // Listen on the document so any click triggers a burst
+  document.addEventListener('click', function (e) {
+    // Skip if click was inside the chatbox panel (less distracting there)
+    if (e.target.closest && e.target.closest('.chatbox-panel')) return;
+    burst(e.clientX, e.clientY);
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>
