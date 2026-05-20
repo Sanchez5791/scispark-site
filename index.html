@@ -437,6 +437,7 @@ nav.topnav {
   transition: background .15s ease, transform .15s ease;
 }
 .nav-cta:hover { background: var(--orange-deep); transform: translateY(-1px); }
+.nav-cta-short { display: none; }
 @media (max-width: 880px) {
   .nav-links a:not(.nav-cta):not(.nav-login) { display: none; }
   .nav-inner { padding: 14px 20px; }
@@ -452,6 +453,13 @@ nav.topnav {
   }
   .lang-toggle button { min-height: 44px; }
   .chatbox-send { width: 44px; height: 44px; }
+}
+
+@media (max-width: 880px) {
+  .logo-text .sub { display: none; }
+  .nav-cta-full { display: none; }
+  .nav-cta-short { display: inline; }
+  .nav-links { gap: 16px; }
 }
 
 /* ============================================== */
@@ -2650,7 +2658,16 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
         <button id="btn-zh" onclick="setLang('zh')">中文</button>
       </div>
       <a href="/signin" class="nav-login"><span class="en">Log in</span><span class="zh">登录</span></a>
-      <a href="/demo/y7-l01" class="nav-cta"><span class="en">Try a lesson</span><span class="zh">试一节课</span></a>
+      <a href="/demo/y7-l01" class="nav-cta">
+        <span class="nav-cta-full">
+          <span class="en">Try a lesson</span>
+          <span class="zh">试一节课</span>
+        </span>
+        <span class="nav-cta-short">
+          <span class="en">Try</span>
+          <span class="zh">试课</span>
+        </span>
+      </a>
     </div>
   </div>
 </nav>
