@@ -1017,6 +1017,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     void avatar.offsetWidth;
     avatar.classList.add('doudou-' + type);
     setTimeout(() => avatar.classList.remove('doudou-' + type), 1000);
+    if (window.renderDoudou) {
+      avatar.innerHTML = window.renderDoudou(type, {size: 36});
+      const bigMount = document.querySelector('.doudou-avatar .doudou-mount');
+      if (bigMount) bigMount.innerHTML = window.renderDoudou(type);
+    }
   }
   
   function doudouReact(isCorrect) {
@@ -1073,6 +1078,16 @@ Globals exposed (lesson HTML can call directly via onclick=):
     const prev = _prevScreen;
     _origShowScreen(id);
     _prevScreen = id;
+    if (id !== prev && window.renderDoudou) {
+      const _screenMoods = {hook:'start', learn:'examine', try:'curious', test:'think', wrap:'goodbye'};
+      const _sm = _screenMoods[id];
+      if (_sm) {
+        const _av = document.querySelector('.prof-p-avatar');
+        if (_av) _av.innerHTML = window.renderDoudou(_sm, {size: 36});
+        const _bm = document.querySelector('.doudou-avatar .doudou-mount');
+        if (_bm) _bm.innerHTML = window.renderDoudou(_sm);
+      }
+    }
     if (id !== prev && DOUDOU_SCREEN_MSGS[id]) {
       const isZh = document.body.classList.contains('zh-mode');
       doudouAnimate('transition');
@@ -1263,6 +1278,13 @@ Globals exposed (lesson HTML can call directly via onclick=):
       } catch (e) {}
     }
     showScreen(startScreen);
+
+    // Doudou 16-pose: init .doudou-mount elements on boot
+    if (window.renderDoudou) {
+      document.querySelectorAll('.doudou-mount').forEach(function(m) {
+        m.innerHTML = window.renderDoudou(m.dataset.mood || 'default');
+      });
+    }
 
     // Render constellation when entering Wrap
     document.querySelectorAll('.sidebar__btn[data-screen="wrap"], [data-go="wrap"]').forEach(b => {
