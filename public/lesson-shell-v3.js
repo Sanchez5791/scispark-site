@@ -36,6 +36,12 @@ Globals exposed (lesson HTML can call directly via onclick=):
 (function () {
   'use strict';
 
+  // ── Missing variable declarations (omitted during v1→v3 merge) ──
+  const ttsSupported = 'speechSynthesis' in window;
+  let ttsCurrentButton = null;
+  let ttsCurrentUtterance = null;
+  const xpEarned = { mcq: 0, aha: 0, lesson: 0 };
+  const xpAnswered = new Set();
 
   // ═════════════════════════════════════════════════════════════
   // SECTION 1: SUPABASE INIT (from v2 — cleaner CDN fallback)
@@ -540,6 +546,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   //   opts = { questionId, screen, explainEn, explainZh, socraticEn, socraticZh, correctEl, xp }
   function submitAnswer(optionEl, isCorrect, opts) {
     opts = opts || {};
+    console.log('[v3] submitAnswer fired', {isCorrect, questionId: opts.questionId});
     if (!optionEl) return;
     const container = optionEl.closest('.q-block') || optionEl.parentElement;
 
@@ -873,6 +880,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // ═════════════════════════════════════════════════════════════
   // STREAK COUNTER (localStorage)
   // ═════════════════════════════════════════════════════════════
+  function loadStreak() {}
+  function updateStreak() {}
 
   // ═════════════════════════════════════════════════════════════
   // SECTION 10: CONTENT PROTECTION (verbatim v1.js line 753-851)
