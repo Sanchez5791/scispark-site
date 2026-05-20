@@ -1017,7 +1017,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     void avatar.offsetWidth;
     avatar.classList.add('doudou-' + type);
     setTimeout(() => avatar.classList.remove('doudou-' + type), 1000);
-    if (window.renderDoudou) {
+    if (window.renderDoudou && type !== 'transition') {
       avatar.innerHTML = window.renderDoudou(type, {size: 36});
       const bigMount = document.querySelector('.doudou-avatar .doudou-mount');
       if (bigMount) bigMount.innerHTML = window.renderDoudou(type);
