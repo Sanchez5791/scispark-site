@@ -460,26 +460,6 @@ input, textarea, select { font: inherit; }
   font-size: 22px; color: var(--ink); margin-bottom: 4px;
 }
 
-/* ─── DOUDOU AVATAR (reuse L01 markup; v2 styling) ─── */
-.doudou-avatar {
-  position: fixed;
-  right: 18px; bottom: 18px;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1.5px solid var(--line);
-  box-shadow: var(--shadow-md);
-  display: grid; place-items: center;
-  overflow: hidden;
-  z-index: 30;
-  transition: transform 220ms cubic-bezier(.22,.61,.36,1);
-}
-.doudou-avatar:hover { transform: translateY(-3px) scale(1.04); }
-.doudou-avatar img {
-  width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
-}
-.doudou-avatar[data-mood="happy"]    { box-shadow: 0 0 18px rgba(234, 88, 12, 0.35); }
-.doudou-avatar[data-mood="thinking"] { box-shadow: 0 0 18px rgba(109, 40, 217, 0.28); }
 
 /* ─── VIDEO SLOT (style A — Khan blackboard, placeholder only) ─── */
 .video-slot {
@@ -1419,24 +1399,16 @@ body[data-user-level="1"] .hint-box { display: block; }
   55%       { transform: scale(1.2) rotate(0deg); }
   80%       { transform: scale(1.08) rotate(6deg); }
 }
-@keyframes doudou-shake {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  20%      { transform: translateX(-7px) rotate(-4deg); }
-  40%      { transform: translateX(7px) rotate(4deg); }
-  60%      { transform: translateX(-4px) rotate(-2deg); }
-  80%      { transform: translateX(4px) rotate(2deg); }
-}
 @keyframes doudou-pulse-anim {
   0%, 100% { transform: scale(1); }
   50%      { transform: scale(1.1); }
 }
 
 .doudou-correct   { animation: doudou-bounce 0.8s ease; }
-.doudou-wrong     { animation: doudou-shake 0.8s ease; }
 .doudou-transition { animation: doudou-pulse-anim 0.6s ease; }
 
 @media (prefers-reduced-motion: reduce) {
-  .doudou-correct, .doudou-wrong, .doudou-transition { animation: none; }
+  .doudou-correct, .doudou-transition { animation: none; }
 }
 
 /* Self-assessment row inside answer-reveal */
@@ -1604,3 +1576,41 @@ input, textarea, .ai-input {
   80%       { transform: rotate(-4deg); }
 }
 .jar-shake { animation: jar-shake 400ms ease-in-out; }
+
+/* ─── Doudou Popup Layer (B.2) ─────────────────────────── */
+.doudou-popup-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  overflow: hidden;
+}
+.doudou-popup {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(140%) scale(0.8);
+  opacity: 0;
+  line-height: 0;
+  pointer-events: none;
+}
+.doudou-popup.is-active {
+  animation: popup-spring 0.7s cubic-bezier(.22,.61,.36,1) forwards;
+}
+.doudou-popup.is-fading {
+  animation: popup-fadeout 0.4s ease forwards;
+}
+@keyframes popup-spring {
+  0%   { transform: translateX(-50%) translateY(140%) scale(0.8); opacity: 0; }
+  55%  { transform: translateX(-50%) translateY(-10%) scale(1.06); opacity: 1; }
+  78%  { transform: translateX(-50%) translateY(4%)   scale(0.97); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(0)    scale(1);    opacity: 1; }
+}
+@keyframes popup-fadeout {
+  0%   { transform: translateX(-50%) translateY(0)   scale(1);    opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-8%) scale(0.95); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doudou-popup.is-active  { animation: none; opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  .doudou-popup.is-fading  { animation: none; opacity: 0; }
+}

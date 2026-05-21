@@ -571,28 +571,13 @@ Globals exposed (lesson HTML can call directly via onclick=):
       }
     }
 
-    // 4 · AI Socratic purple feedback
-    const fb = container ? container.querySelector('.ai-feedback') : null;
-    if (fb) {
-      const explain = fb.querySelector('.ai-feedback__explain');
-      const socratic = fb.querySelector('.ai-feedback__socratic');
-      if (explain) {
-        explain.setAttribute('data-en', opts.explainEn || (isCorrect ? 'Nice — that fits the pattern.' : 'Not yet. Let\u2019s look closer.'));
-        explain.setAttribute('data-zh', opts.explainZh || (isCorrect ? '不错 — 这正符合规律。' : '还没对。我们一起再看一看。'));
-      }
-      if (socratic) {
-        socratic.setAttribute('data-en', opts.socraticEn || 'What did you notice first when you read the question?');
-        socratic.setAttribute('data-zh', opts.socraticZh || '读题时你第一个注意到的是什么?');
-      }
-      fb.classList.add('is-open');
-      const mode = (function () { try { return localStorage.getItem(LS_LANG) || 'en'; } catch (e) { return 'en'; } })();
-      setLang(mode);
-    }
-
-    // 5 · Spark Jar — correct: +20, effort (wrong): +5
+    // 5 · Spark Jar t=0 — correct: +20, effort (wrong): +5
+    const _preCount = window.SparkJar ? window.SparkJar.getCount() : 0;
     if (window.SparkJar) {
       window.SparkJar.add(isCorrect ? 20 : 5, isCorrect ? 'correct' : 'effort');
     }
+    const _postCount = window.SparkJar ? window.SparkJar.getCount() : 0;
+    const _hitMilestone = Math.floor(_postCount / 100) > Math.floor(_preCount / 100);
 
     // 6 · Spark Streak (paused-not-reset)
     if (isCorrect) SparkStreak.add(); else SparkStreak.miss();
@@ -602,19 +587,38 @@ Globals exposed (lesson HTML can call directly via onclick=):
       try { awardXP(opts.xp || 10, 'mcq'); } catch (e) {}
     }
 
-    // 8 · Doudou react
-    if (typeof doudouReact === 'function') {
-      try { doudouReact(isCorrect); } catch (e) {}
-    } else {
-      const doudou = document.querySelector('.doudou-avatar');
-      if (doudou) {
-        doudou.setAttribute('data-mood', isCorrect ? 'happy' : 'thinking');
-        setTimeout(() => doudou.removeAttribute('data-mood'), 1800);
+    // 4 · AI Socratic purple feedback t=100
+    const fb = container ? container.querySelector('.ai-feedback') : null;
+    if (fb) {
+      const explain = fb.querySelector('.ai-feedback__explain');
+      const socratic = fb.querySelector('.ai-feedback__socratic');
+      if (explain) {
+        explain.setAttribute('data-en', opts.explainEn || (isCorrect ? 'Nice — that fits the pattern.' : 'Not yet. Let’s look closer.'));
+        explain.setAttribute('data-zh', opts.explainZh || (isCorrect ? '不错 — 这正符合规律。' : '还没对。我们一起再看一看。'));
       }
+      if (socratic) {
+        socratic.setAttribute('data-en', opts.socraticEn || 'What did you notice first when you read the question?');
+        socratic.setAttribute('data-zh', opts.socraticZh || '读题时你第一个注意到的是什么?');
+      }
+      setTimeout(() => {
+        fb.classList.add('is-open');
+        const mode = (function () { try { return localStorage.getItem(LS_LANG) || 'en'; } catch (e) { return 'en'; } })();
+        setLang(mode);
+      }, 100);
     }
 
-    // 9 · Reward audio (5 OGG)
-    playSound(isCorrect ? 'correct' : 'wrong');
+    // 9 · Reward audio t=200
+    setTimeout(() => { playSound(isCorrect ? 'correct' : 'wrong'); }, 200);
+
+    // 8 · Doudou popup t=300 (B.2: correct/level-up only · wrong = no popup)
+    setTimeout(() => {
+      if (!window.DoudouPopup) return;
+      if (_hitMilestone) {
+        DoudouPopup.show('level-up');
+      } else if (isCorrect) {
+        DoudouPopup.show('correct');
+      }
+    }, 300);
 
     // 10 · Mark answered for test progress
     if (container && container.dataset.question) {
@@ -859,6 +863,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Update streak
     updateStreak();
   
+    // Doudou complete popup t=400 (before surprise/toast)
+    if (window.DoudouPopup) {
+      setTimeout(function () { DoudouPopup.show('complete'); }, 400);
+    }
+
     // Surprise Drop 5% probability
     if (Math.random() < 0.05) {
       setTimeout(() => {
@@ -1036,7 +1045,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
   const _origSelectOpt = selectOpt;
   selectOpt = function(qId, el, letter) {
     _origSelectOpt(qId, el, letter);
-    doudouReact(el.dataset.correct === 'true');
   };
   
   // Patch toggleAns — inject self-assessment buttons when answer revealed
@@ -1055,14 +1063,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
       btnR.textContent = isZh ? '✓ 我答对了' : '✓ I got it right';
       btnR.setAttribute('data-en', '✓ I got it right');
       btnR.setAttribute('data-zh', '✓ 我答对了');
-      btnR.addEventListener('click', () => doudouReact(true));
+      btnR.addEventListener('click', () => { if (window.DoudouPopup) DoudouPopup.show('correct'); });
   
       const btnW = document.createElement('button');
       btnW.className = 'btn btn-sm doudou-got-wrong';
       btnW.textContent = isZh ? '✗ 还没答到' : '✗ Not yet';
       btnW.setAttribute('data-en', '✗ Not yet');
       btnW.setAttribute('data-zh', '✗ 还没答到');
-      btnW.addEventListener('click', () => doudouReact(false));
+      btnW.addEventListener('click', () => {});
   
       row.appendChild(btnR);
       row.appendChild(btnW);
@@ -1070,8 +1078,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
   };
   
-  // Patch showScreen — DouDou speaks on screen transitions
-  const _DOUDOU_SCREEN_POSES = { hook: 'start', learn: 'examine', try: 'curious', test: 'aha', wrap: 'levelup' };
+  // Patch showScreen — bubble on screen transitions (B.2: pose switch removed)
   let _prevScreen = 'hook';
   const _origShowScreen = showScreen;
   showScreen = function(id) {
@@ -1080,15 +1087,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     _prevScreen = id;
     if (id !== prev && DOUDOU_SCREEN_MSGS[id]) {
       const isZh = document.body.classList.contains('zh-mode');
-      doudouAnimate('transition');
       doudouShowBubble(DOUDOU_SCREEN_MSGS[id][isZh ? 'zh' : 'en'], 3000);
-    }
-    if (id !== prev && window.renderDoudou) {
-      const _mood = _DOUDOU_SCREEN_POSES[id];
-      if (_mood) {
-        const _bm = document.querySelector('.doudou-avatar .doudou-mount');
-        if (_bm) _bm.innerHTML = window.renderDoudou(_mood);
-      }
     }
   };
 
@@ -1330,6 +1329,50 @@ Globals exposed (lesson HTML can call directly via onclick=):
   if (typeof setupContentProtection === 'function') window.setupContentProtection = setupContentProtection;
   if (typeof setupAutoSave === 'function')         window.setupAutoSave = setupAutoSave;
   if (typeof applyLevelFromURL === 'function')     window.applyLevelFromURL = applyLevelFromURL;
+
+
+  // =========================================================
+  // SECTION: DoudouPopup (B.2) — 3-stage bottom spring popup
+  // =========================================================
+  var DoudouPopup = (function () {
+    var _timer1 = null, _timer2 = null;
+
+    function show(stage) {
+      var layer = document.querySelector('.doudou-popup-layer');
+      if (!layer) return;
+      var popup = layer.querySelector('.doudou-popup');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.className = 'doudou-popup';
+        layer.appendChild(popup);
+      }
+      clearTimeout(_timer1);
+      clearTimeout(_timer2);
+      popup.classList.remove('is-active', 'is-fading');
+      void popup.offsetWidth;
+      var html = '';
+      if (stage === 'correct' && window.renderDoudou) {
+        html = window.renderDoudou('P08', { size: 130 });
+      } else if (stage === 'level-up' && window.DoudouPoses && window.DoudouPoses.P15) {
+        html = '<div style="width:220px;line-height:0">' + window.DoudouPoses.P15.svg + '</div>';
+      } else if (stage === 'complete' && window.DoudouPoses && window.DoudouPoses.P16) {
+        html = '<div style="width:260px;line-height:0">' + window.DoudouPoses.P16.svg + '</div>';
+      }
+      if (!html) return;
+      popup.innerHTML = html;
+      popup.classList.add('is-active');
+      var hold = stage === 'complete' ? 3000 : 2000;
+      _timer1 = setTimeout(function () {
+        popup.classList.add('is-fading');
+        _timer2 = setTimeout(function () {
+          popup.classList.remove('is-active', 'is-fading');
+        }, 400);
+      }, hold);
+    }
+
+    return { show: show };
+  })();
+  window.DoudouPopup = DoudouPopup;
 
   // Boot when ready
   if (document.readyState === 'loading') {
