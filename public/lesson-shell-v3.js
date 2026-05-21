@@ -627,11 +627,37 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
     updateTestProgress();
 
-    // 11 · Track to DB (best-effort, async)
+    // 11 · Lock question on correct answer
+    if (isCorrect && container) _lockQuestion(container);
+
+    // 12 · Track to DB (best-effort, async)
     const lessonId = document.body.getAttribute('data-lesson-id') || document.body.getAttribute('data-lesson');
     if (lessonId && opts.questionId) {
       trackProgress(lessonId, opts.screen || 'test', isCorrect ? 'answered_correct' : 'answered_wrong');
     }
+  }
+
+  function _lockQuestion(container) {
+    const ta = container.querySelector('textarea');
+    if (ta) ta.disabled = true;
+    const submitBtn = container.querySelector('.btn-primary');
+    if (submitBtn) submitBtn.style.display = 'none';
+
+    const isZh = document.body.classList.contains('zh-mode');
+    const msg = document.createElement('div');
+    msg.className = 'correct-next-msg';
+    msg.textContent = isZh ? '✓ 答对了 · 下一题 →' : '✓ Correct · Next question →';
+    container.appendChild(msg);
+
+    setTimeout(() => {
+      msg.classList.add('fading');
+      const screen = container.closest('.screen');
+      const siblings = screen ? Array.from(screen.querySelectorAll('.q-block')) : [];
+      const idx = siblings.indexOf(container);
+      const next = siblings[idx + 1];
+      if (next) next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => { if (msg.parentNode) msg.parentNode.removeChild(msg); }, 400);
+    }, 1000);
   }
 
   // ═════════════════════════════════════════════════════════════

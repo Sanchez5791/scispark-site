@@ -823,6 +823,8 @@ window.feedbackWrong = {
 };
 
 function handleTextSubmit(btn, qid, screen) {
+  var block = document.getElementById(qid + '-block');
+  if (block && block.getAttribute('data-result') === 'correct') return;
   var ta = document.getElementById(qid + '-input');
   var input = (ta ? ta.value || '' : '').trim();
   if (!input) { alert('Please enter an answer first. · 请先输入答案。'); return; }
