@@ -628,7 +628,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     updateTestProgress();
 
     // 11 · Lock question on correct answer
-    if (isCorrect && container) _lockQuestion(container);
+    // (called from handleTextSubmit via window.lockQuestion for generic per-qid block)
 
     // 12 · Track to DB (best-effort, async)
     const lessonId = document.body.getAttribute('data-lesson-id') || document.body.getAttribute('data-lesson');
@@ -1326,6 +1326,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   window.showScreen = showScreen;
   window.setLang = setLang;
   window.submitAnswer = submitAnswer;
+  window.lockQuestion = _lockQuestion;  // exposed for handleTextSubmit in lesson HTML
   window.selectOpt = selectOpt;
   window.toggleHint = toggleHint;
   window.toggleAns = toggleAns;

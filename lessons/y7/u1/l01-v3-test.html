@@ -833,6 +833,10 @@ function handleTextSubmit(btn, qid, screen) {
   if (typeof submitAnswer === 'function') {
     submitAnswer(btn, isCorrect, { questionId: qid, screen: screen });
   }
+  // Generic question lock — uses explicit block (qid-block) not DOM closest()
+  if (isCorrect && block && typeof window.lockQuestion === 'function') {
+    window.lockQuestion(block);
+  }
   // Legacy text feedback box
   var fb = document.getElementById(qid + '-feedback');
   if (!fb) return;
