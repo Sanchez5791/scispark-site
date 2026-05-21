@@ -893,10 +893,14 @@ function handleTextSubmit(btn, qid, screen) {
     localStorage.setItem('scispark_progress_' + qid, JSON.stringify(t2));
   } catch(e) {}
 
-  // 3. Update "Attempts: N" display
+  // 3. Update "Attempts: N" display — keep data-en/zh in sync so setLang() never overwrites
   var isZh = document.documentElement.getAttribute('data-lang') === 'zh';
   var cEl = document.querySelector('#' + qid + '-attempts span');
-  if (cEl) cEl.textContent = (isZh ? '尝试: ' : 'Attempts: ') + count;
+  if (cEl) {
+    cEl.setAttribute('data-en', 'Attempts: ' + count);
+    cEl.setAttribute('data-zh', '尝试: ' + count);
+    cEl.textContent = (isZh ? '尝试: ' : 'Attempts: ') + count;
+  }
 
   // 4. Wrong feedback (no accumulated "(Tried N times)" — count shown in Attempts counter)
   var fb = document.getElementById(qid + '-feedback');
@@ -1084,22 +1088,15 @@ window.addEventListener('DOMContentLoaded', function() {
     };
   }
 
-  // Restore previous attempt counts (in case student returns mid-lesson)
+  // Attempts counter display is session-fresh — always starts at 0 on page load.
+  // (localStorage progress kept for WRAP summary only, NOT used to restore display counter.)
+  // Lock submit only if previously answered correctly.
   const qids = ['q1','q2','q3','t1','t2'];
   for (const qid of qids) {
     try {
       const track = JSON.parse(localStorage.getItem('scispark_progress_' + qid) || '{"attempts":[]}');
-      if (track.attempts && track.attempts.length > 0) {
-        const counterEl = document.querySelector('#' + qid + '-attempts span');
-        if (counterEl) {
-          counterEl.setAttribute('data-en', 'Attempts: ' + track.attempts.length);
-          counterEl.setAttribute('data-zh', '尝试: ' + track.attempts.length);
-          counterEl.textContent = 'Attempts: ' + track.attempts.length;
-        }
-        // If already answered correctly, lock submit (PEDAGOGY_CAP_v1: Show Answer btn always hidden)
-        if (track.attempts.some(a => a.correct)) {
-          const sub = document.getElementById(qid + '-submit'); if (sub) sub.disabled = true;
-        }
+      if (track.attempts && track.attempts.some(a => a.correct)) {
+        const sub = document.getElementById(qid + '-submit'); if (sub) sub.disabled = true;
       }
     } catch (e) { /* skip */ }
   }
