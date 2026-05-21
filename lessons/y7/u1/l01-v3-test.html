@@ -975,6 +975,21 @@ function showProgressSummary() {
 
 // Wrap showScreen to trigger progress summary on WRAP
 window.addEventListener('DOMContentLoaded', function() {
+  // ?reset=1 → clear localStorage, reload to clean URL, alert after reload
+  (function() {
+    var rp = new URLSearchParams(window.location.search);
+    if (rp.get('reset') === '1') {
+      localStorage.clear();
+      sessionStorage.setItem('_scispark_reset_done', '1');
+      window.location.replace(window.location.origin + window.location.pathname);
+      return;
+    }
+    if (sessionStorage.getItem('_scispark_reset_done') === '1') {
+      sessionStorage.removeItem('_scispark_reset_done');
+      alert('记录已清干净 · 可以重新开始');
+    }
+  })();
+
   // Initialize level from URL/localStorage
   const params = new URLSearchParams(window.location.search);
   const lv = params.get('level') || localStorage.getItem('scispark_level') || '2';
