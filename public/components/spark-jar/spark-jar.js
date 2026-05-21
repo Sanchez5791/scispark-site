@@ -56,7 +56,14 @@ calling SparkJar.setCount(n) on load if needed.
     chip.className = 'spark-jar';
     chip.setAttribute('data-level', '0');
     chip.innerHTML = `
-      <span class="spark-jar__icon"><span class="spark-jar__fill"></span></span>
+      <span class="spark-jar__icon">
+        <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="5" y="0" width="8" height="3" rx="1" stroke="#EA580C" stroke-width="1.5"/>
+          <path d="M2 5C1 7 1 16 2 18C3 20 15 20 16 18C17 16 17 7 16 5Z" stroke="#EA580C" stroke-width="1.5"/>
+          <line x1="4" y1="9" x2="4" y2="15" stroke="#EA580C" stroke-width="1" opacity="0.3"/>
+        </svg>
+        <span class="spark-jar__fill"></span>
+      </span>
       <span class="spark-jar__count">0</span>
       <span class="spark-jar__label" data-en="mastery" data-zh="掌握度">mastery</span>
     `;
@@ -68,14 +75,26 @@ calling SparkJar.setCount(n) on load if needed.
     amount = Number(amount) || 0;
     if (amount <= 0) return;
     const prevLevel = levelFor(count);
+    const _prevCount = count;
     count += amount;
-    render();
+    render(); // updates level badge; count text overridden by roll below
     if (chip) {
+      const _chip = chip, _from = _prevCount, _to = count;
+      const _t0 = performance.now(), _dur = 250;
+      (function _roll(ts) {
+        const p = Math.min((ts - _t0) / _dur, 1), e = 1 - (1 - p) * (1 - p);
+        const el = _chip.querySelector('.spark-jar__count');
+        if (el) el.textContent = String(Math.round(_from + (_to - _from) * e));
+        if (p < 1) requestAnimationFrame(_roll);
+      })(performance.now());
       chip.classList.remove('is-bumping');
-      // restart animation
       void chip.offsetWidth;
       chip.classList.add('is-bumping');
       setTimeout(() => chip && chip.classList.remove('is-bumping'), 260);
+      chip.classList.remove('jar-shake');
+      void chip.offsetWidth;
+      chip.classList.add('jar-shake');
+      setTimeout(() => chip && chip.classList.remove('jar-shake'), 400);
     }
     const labels = {
       correct:  '+' + amount + ' mastery',

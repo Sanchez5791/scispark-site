@@ -464,12 +464,13 @@ input, textarea, select { font: inherit; }
 .doudou-avatar {
   position: fixed;
   right: 18px; bottom: 18px;
-  width: 64px; height: 64px;
+  width: 120px; height: 120px;
   border-radius: 50%;
   background: var(--bg-card);
   border: 1.5px solid var(--line);
   box-shadow: var(--shadow-md);
   display: grid; place-items: center;
+  overflow: hidden;
   z-index: 30;
   transition: transform 220ms cubic-bezier(.22,.61,.36,1);
 }
@@ -1589,3 +1590,17 @@ input, textarea, .ai-input {
 @media (prefers-reduced-motion: reduce) {
   .spark-particle { animation: none; opacity: 0; }
 }
+
+/* ─── Doudou SVG mount ─────────────────────────────────── */
+.doudou-mount { width: 112px; height: auto; line-height: 0; display: inline-block; }
+.doudou-mount .doudou-pose { display: inline-block; }
+.doudou-mount .doudou-pose svg { width: 100%; height: auto; display: block; }
+
+/* ─── Spark Jar shake animation ────────────────────────── */
+@keyframes jar-shake {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-8deg); }
+  50%       { transform: rotate(8deg); }
+  80%       { transform: rotate(-4deg); }
+}
+.jar-shake { animation: jar-shake 400ms ease-in-out; }

@@ -1026,6 +1026,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
     const msg = list[Math.floor(Math.random() * list.length)];
     doudouAnimate(type);
     doudouShowBubble(msg, 2000);
+    if (window.renderDoudou) {
+      const _dm = document.querySelector('.doudou-avatar .doudou-mount');
+      if (_dm) _dm.innerHTML = window.renderDoudou(isCorrect ? 'correct' : 'wrong');
+    }
   }
   
   // Patch selectOpt — MCQ correct/wrong detection via data-correct="true"
@@ -1067,6 +1071,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   };
   
   // Patch showScreen — DouDou speaks on screen transitions
+  const _DOUDOU_SCREEN_POSES = { hook: 'start', learn: 'examine', try: 'curious', test: 'aha', wrap: 'levelup' };
   let _prevScreen = 'hook';
   const _origShowScreen = showScreen;
   showScreen = function(id) {
@@ -1077,6 +1082,13 @@ Globals exposed (lesson HTML can call directly via onclick=):
       const isZh = document.body.classList.contains('zh-mode');
       doudouAnimate('transition');
       doudouShowBubble(DOUDOU_SCREEN_MSGS[id][isZh ? 'zh' : 'en'], 3000);
+    }
+    if (id !== prev && window.renderDoudou) {
+      const _mood = _DOUDOU_SCREEN_POSES[id];
+      if (_mood) {
+        const _bm = document.querySelector('.doudou-avatar .doudou-mount');
+        if (_bm) _bm.innerHTML = window.renderDoudou(_mood);
+      }
     }
   };
 
@@ -1218,6 +1230,13 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Mount Spark Jar if a slot exists
     const jarSlot = document.querySelector('[data-mount="spark-jar"]');
     if (jarSlot && window.SparkJar) window.SparkJar.mount(jarSlot);
+
+    // Render initial Doudou SVG pose
+    if (window.renderDoudou) {
+      document.querySelectorAll('.doudou-mount').forEach(function(m) {
+        m.innerHTML = window.renderDoudou(m.dataset.mood || 'default');
+      });
+    }
 
     // Streak initial render
     SparkStreak.render();

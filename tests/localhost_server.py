@@ -1,9 +1,11 @@
 """
 Simple HTTP server for scispark-site that applies vercel.json rewrites.
 Serves from project root but maps /lesson-shell-v3.js → /public/... etc.
+Uses BaseHTTPRequestHandler to avoid SimpleHTTPRequestHandler security restrictions.
 """
 import http.server
 import os
+import mimetypes
 import urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,23 +25,37 @@ REWRITES = {
     "/components/constellation-map/constellation-map.js":  "/public/components/constellation-map/constellation-map.js",
     "/components/click-spark-fx/click-spark-fx.css": "/public/components/click-spark-fx/click-spark-fx.css",
     "/components/click-spark-fx/click-spark-fx.js":  "/public/components/click-spark-fx/click-spark-fx.js",
+    "/components/doudou/poses.js":                   "/public/components/doudou/poses.js",
 }
 
-class RewriteHandler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=ROOT, **kwargs)
 
-    def translate_path(self, path):
-        path_only = urllib.parse.urlparse(path).path
-        # Apply rewrite if matched
+class RewriteHandler(http.server.BaseHTTPRequestHandler):
+    def do_GET(self): self._serve(include_body=True)
+    def do_HEAD(self): self._serve(include_body=False)
+
+    def _serve(self, include_body):
+        path_only = urllib.parse.urlparse(self.path).path
         rewritten = REWRITES.get(path_only, path_only)
-        # Try with .html extension for clean URLs
-        full = os.path.join(ROOT, rewritten.lstrip("/"))
-        if not os.path.exists(full) and not rewritten.endswith(".html"):
-            alt = full + ".html"
-            if os.path.exists(alt):
-                rewritten = rewritten + ".html"
-        return os.path.join(ROOT, rewritten.lstrip("/"))
+        disk = os.path.normpath(os.path.join(ROOT, rewritten.lstrip("/").replace("/", os.sep)))
+        if not os.path.isfile(disk) and not rewritten.endswith(".html"):
+            alt = disk + ".html"
+            if os.path.isfile(alt):
+                disk = alt
+        if not os.path.isfile(disk):
+            self.send_error(404, "File not found")
+            return
+        ctype = mimetypes.guess_type(disk)[0] or "application/octet-stream"
+        try:
+            data = open(disk, "rb").read()
+        except Exception as e:
+            self.send_error(500, str(e))
+            return
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        if include_body:
+            self.wfile.write(data)
 
     def log_message(self, format, *args):
         pass  # suppress noise
