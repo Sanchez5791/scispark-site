@@ -523,6 +523,70 @@ html, body {
 .children-list-loading, .children-list-error {
   padding:20px; color:var(--text-muted); text-align:center; font-size:14px;
 }
+
+/* ================ CONSENT MODAL (Phase 3) ================ */
+.consent-wall {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(26,25,23,0.75);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.consent-box {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  max-width: 520px; width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.consent-title {
+  font-family: var(--font-serif);
+  font-size: 26px; font-weight: 500;
+  margin-bottom: 6px; color: var(--text);
+}
+.consent-title-zh {
+  font-family: var(--font-zh); font-size: 14px;
+  color: var(--text-muted); margin-bottom: 20px;
+}
+.consent-body { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+.consent-body-zh {
+  font-family: var(--font-zh); font-size: 12px;
+  color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;
+}
+.consent-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ================ CREDITS CARD (Phase 3) ================ */
+.credits-amount {
+  font-family: var(--font-serif);
+  font-size: 48px; font-weight: 600;
+  color: var(--orange); line-height: 1; margin-bottom: 4px;
+}
+.credits-unit {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px;
+}
+
+/* ================ REFERRAL CARD (Phase 3) ================ */
+.referral-code-box {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 14px;
+}
+.referral-code {
+  font-family: 'Courier New', monospace; font-size: 22px;
+  font-weight: 700; letter-spacing: 0.15em; color: var(--orange); flex: 1;
+}
+.referral-url {
+  font-size: 12px; color: var(--text-muted);
+  margin-bottom: 14px; word-break: break-all;
+}
+.copy-btn {
+  background: none; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 6px 12px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  font-family: var(--font-sans); color: var(--text);
+  transition: all 0.15s; flex-shrink: 0;
+}
+.copy-btn:hover { border-color: var(--orange); color: var(--orange); }
 </style>
 </head>
 <body>
@@ -642,6 +706,66 @@ html, body {
       <div class="children-list-loading">Loading…</div>
     </div>
 
+    <!-- CREDITS CARD (Phase 3) -->
+    <div class="card" id="credits-card" style="display:none">
+      <div class="card-header">
+        <div class="card-title">
+          Credits
+          <span class="zh-sub">学习积分</span>
+        </div>
+      </div>
+      <div class="credits-amount" id="credits-amount">—</div>
+      <div class="credits-unit">Credits available · 可用积分</div>
+      <p style="font-size:13px;color:var(--text-muted);">
+        Credits are applied automatically at checkout and never expire.
+        <span style="display:block;font-family:var(--font-zh);font-size:11px;margin-top:4px;">积分在结账时自动抵扣，永久有效。</span>
+      </p>
+    </div>
+
+    <!-- REFERRAL CARD (Phase 3) -->
+    <div class="card" id="referral-card" style="display:none">
+      <div class="card-header">
+        <div class="card-title">
+          Refer a Friend
+          <span class="zh-sub">推荐好友</span>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">
+        Share your unique link. When a friend subscribes, you both earn credits.
+        <span style="display:block;font-family:var(--font-zh);font-size:12px;margin-top:4px;">分享专属链接，好友订阅后你们双方均可获得积分。</span>
+      </p>
+      <div class="referral-code-box">
+        <span class="referral-code" id="referral-code-display">—</span>
+        <button class="copy-btn" id="copy-code-btn" type="button">Copy code</button>
+      </div>
+      <div class="referral-url" id="referral-url-display">—</div>
+      <div class="cta-row">
+        <button class="btn btn-primary" id="copy-link-btn" type="button">Copy link →</button>
+      </div>
+    </div>
+
+    <!-- FOUNDING MEMBER CARD (Phase 3 — hidden by default, wall_visible=false) -->
+    <div class="card" id="founding-card" style="display:none">
+      <div class="card-header">
+        <div class="card-title">
+          Founding Member
+          <span class="zh-sub">创始会员</span>
+        </div>
+        <span class="badge badge-green">Active · 已激活</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">
+        You are a SciSpark Founding Member. Thank you for your early support.
+        <span style="display:block;font-family:var(--font-zh);font-size:12px;margin-top:4px;">您是 SciSpark 创始会员，感谢您的早期信任与支持。</span>
+      </p>
+      <div class="dark-panel">
+        <div class="dark-panel-icon">★</div>
+        <div class="dark-panel-text">
+          Your Founding perks: locked-in pricing, priority support, and 1-week early access to new units.
+          <span class="zh">创始权益：锁定价格、优先客服支持，以及新单元提前 1 周解锁。</span>
+        </div>
+      </div>
+    </div>
+
     <!-- ASSESSMENT CARD -->
     <div class="card">
       <div class="card-header">
@@ -728,6 +852,24 @@ html, body {
   </main>
 </div>
 
+<!-- CONSENT MODAL WALL — wall_visible default OFF (display:none) -->
+<div id="consent-wall" class="consent-wall" style="display:none" role="dialog" aria-modal="true" aria-labelledby="consent-modal-title">
+  <div class="consent-box">
+    <div class="consent-title" id="consent-modal-title">A note before we continue</div>
+    <div class="consent-title-zh">继续前，请阅读以下说明</div>
+    <div class="consent-body">
+      SciSpark collects your child's assessment results and learning progress to personalise their study path. This data is stored securely and is never shared with third parties without your consent.
+    </div>
+    <div class="consent-body-zh">
+      SciSpark 会收集您孩子的测评成绩和学习进度数据，用于个性化学习路径规划。数据安全存储，未经您同意不会与第三方共享。
+    </div>
+    <div class="consent-actions">
+      <button class="btn btn-primary" id="consent-agree-btn" type="button">I agree · 同意</button>
+      <button class="btn btn-secondary" id="consent-decline-btn" type="button">Not now · 稍后再说</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 /* ── SciSpark Parent Dashboard — live data init (D.04) ───────────────
@@ -750,14 +892,39 @@ html, body {
     return;
   }
 
-  /* 2. Parent display name ------------------------------------------- */
+  /* 2. Parent display name + Phase 3 profile fields ------------------ */
+  let prof = null;
   try {
-    const { data: prof } = await sb.from('profiles')
-      .select('full_name, email').eq('id', user.id).maybeSingle();
+    const { data: profData } = await sb.from('profiles')
+      .select('full_name, email, consent_agreed, is_founding, credits')
+      .eq('id', user.id).maybeSingle();
+    prof = profData;
     const displayName = (prof && prof.full_name) ? prof.full_name : (user.email || 'Parent');
     document.querySelectorAll('[data-parent-name]')
       .forEach(el => { el.textContent = displayName; });
   } catch (e) { console.warn('[dashboard-parent] profile fetch failed:', e); }
+
+  /* Consent wall — wall_visible default OFF; show if not yet agreed -- */
+  (function initConsentWall() {
+    const wall       = document.getElementById('consent-wall');
+    const agreeBtn   = document.getElementById('consent-agree-btn');
+    const declineBtn = document.getElementById('consent-decline-btn');
+    if (!wall) return;
+    if (prof && !prof.consent_agreed) {
+      wall.style.display = 'flex';
+    }
+    if (agreeBtn) {
+      agreeBtn.addEventListener('click', async () => {
+        try {
+          await sb.from('profiles').update({ consent_agreed: true }).eq('id', user.id);
+        } catch (e) { console.warn('[dashboard-parent] consent update failed:', e); }
+        wall.style.display = 'none';
+      });
+    }
+    if (declineBtn) {
+      declineBtn.addEventListener('click', () => { wall.style.display = 'none'; });
+    }
+  })();
 
   /* Wire sign-out ---------------------------------------------------- */
   document.querySelectorAll('.nav-signout').forEach(btn => {
@@ -807,6 +974,67 @@ html, body {
     '</a>';
   }
   if (listEl) listEl.innerHTML = children.map(renderChild).join('');
+
+  /* Phase 3: Credits / Referral / Founding ─────────────────────────── */
+  async function loadCredits(uid) {
+    const { data, error } = await sb
+      .from('credits_ledger')
+      .select('amount_cents')
+      .eq('user_id', uid);
+
+    if (error) {
+      console.error('loadCredits error:', error);
+      return; // card 保持隐藏
+    }
+
+    const cents = (data || []).reduce((s, r) => s + r.amount_cents, 0);
+    const dollars = (cents / 100).toFixed(2);
+
+    const el = document.getElementById('credits-amount');
+    const card = document.getElementById('credits-card');
+    if (el) el.textContent = '$' + dollars;
+    if (card) card.style.display = '';
+  }
+
+  async function loadReferral() {
+    try {
+      const { data: code, error } = await sb.rpc('ensure_referral_code', { p_user_id: user.id });
+      if (error) throw error;
+      const shareUrl = 'https://scisparklab.com/r/' + code;
+      const codeEl = document.getElementById('referral-code-display');
+      const urlEl  = document.getElementById('referral-url-display');
+      if (codeEl) codeEl.textContent = code;
+      if (urlEl)  urlEl.textContent  = shareUrl;
+
+      function doCopy(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = 'Copied ✓';
+          setTimeout(() => { btn.textContent = orig; }, 2000);
+        }).catch(() => {});
+      }
+      const copyCodeBtn = document.getElementById('copy-code-btn');
+      const copyLinkBtn = document.getElementById('copy-link-btn');
+      if (copyCodeBtn) copyCodeBtn.addEventListener('click', () => doCopy(code, copyCodeBtn));
+      if (copyLinkBtn) copyLinkBtn.addEventListener('click', () => doCopy(shareUrl, copyLinkBtn));
+
+      const card = document.getElementById('referral-card');
+      if (card) card.style.display = '';
+    } catch (e) {
+      console.warn('[dashboard-parent] referral load failed:', e);
+    }
+  }
+
+  function loadFounding() {
+    if (prof && prof.is_founding) {
+      const card = document.getElementById('founding-card');
+      if (card) card.style.display = '';
+    }
+  }
+
+  await loadCredits(user.id);
+  loadReferral();
+  loadFounding();
 })();
 </script>
 
