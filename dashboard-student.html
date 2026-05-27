@@ -706,6 +706,14 @@ html, body {
       <span class="tag-pill">Cambridge 0893</span>
     </div>
 
+    <!-- FOUNDING BADGE BLOCK (Phase 3 — hidden by default, shown if parent is_founding) -->
+    <div id="founding-badge" style="display:none;margin-bottom:20px;">
+      <div class="subtitle-meta" style="margin-bottom:8px;">
+        <span class="tag-pill" style="background:var(--green-bg);color:var(--green-text);border-color:var(--green-bg);">★ Founding Member · 创始会员</span>
+        <span class="tag-pill" id="early-access-pill">新单元提前 1 周 · 1 Week Early Access</span>
+      </div>
+    </div>
+
     <!-- QUICK STATS -->
     <div class="stats-row">
       <div class="stat-card" style="display:none">
@@ -977,6 +985,22 @@ function showToast(message, opts) {
     if (typeof renderChildAvatar === 'function') renderChildAvatar(c);
   }
   renderChildName(child);
+
+  /* Phase 3: Founding badge — inherits from parent via child.parent_id */
+  if (child.parent_id) {
+    (async function loadFoundingBadge() {
+      try {
+        const { data: parentProf } = await sb.from('profiles')
+          .select('is_founding').eq('id', child.parent_id).maybeSingle();
+        if (parentProf && parentProf.is_founding) {
+          const badge = document.getElementById('founding-badge');
+          if (badge) badge.style.display = '';
+        }
+      } catch (e) {
+        console.warn('[dashboard-student] founding badge load failed:', e);
+      }
+    })();
+  }
 
   /* F2: inline edit on .sidebar-profile .name ----------------------- */
   function attachNameEdit(c) {
