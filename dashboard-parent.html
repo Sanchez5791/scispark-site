@@ -976,11 +976,23 @@ html, body {
   if (listEl) listEl.innerHTML = children.map(renderChild).join('');
 
   /* Phase 3: Credits / Referral / Founding ─────────────────────────── */
-  function loadCredits() {
-    const credits = (prof && typeof prof.credits === 'number') ? prof.credits : 0;
-    const el   = document.getElementById('credits-amount');
+  async function loadCredits(uid) {
+    const { data, error } = await sb
+      .from('credits_ledger')
+      .select('amount_cents')
+      .eq('user_id', uid);
+
+    if (error) {
+      console.error('loadCredits error:', error);
+      return; // card 保持隐藏
+    }
+
+    const cents = (data || []).reduce((s, r) => s + r.amount_cents, 0);
+    const dollars = (cents / 100).toFixed(2);
+
+    const el = document.getElementById('credits-amount');
     const card = document.getElementById('credits-card');
-    if (el)   el.textContent = credits;
+    if (el) el.textContent = '$' + dollars;
     if (card) card.style.display = '';
   }
 
@@ -1020,7 +1032,7 @@ html, body {
     }
   }
 
-  loadCredits();
+  await loadCredits(user.id);
   loadReferral();
   loadFounding();
 })();
