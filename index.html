@@ -2802,6 +2802,21 @@ body.lang-zh .founding-card h4 {
   text-transform: uppercase;
 }
 .founding-counter strong { color: var(--orange); }
+/* coming-soon gate — remove on real launch */
+.founding-cta-btn--disabled {
+  background: #888;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+}
+.founding-cta-btn--disabled:hover { background: #888; transform: none; }
+.founding-coming-soon-note {
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(255,255,255,0.5);
+  margin-top: -10px;
+  margin-bottom: 16px;
+}
 </style>
 </head>
 <body>
@@ -3712,11 +3727,16 @@ body.lang-zh .founding-card h4 {
     </div><!-- /founding-grid -->
 
     <div class="founding-cta-wrap">
-      <a href="/signup?founding=true" class="founding-cta-btn">
-        <span class="en">Claim my Founding 20 spot &rarr;</span>
-        <span class="zh">立即占创始 20 名额 &rarr;</span>
-      </a>
-      <p class="founding-counter">
+      <button disabled class="founding-cta-btn founding-cta-btn--disabled">
+        <span class="en">Coming soon &middot; Launching shortly</span>
+        <span class="zh">即将开放 &middot; 敬请期待</span>
+      </button>
+      <p class="founding-coming-soon-note">
+        <span class="en"><em>Founding 20 is launching shortly — stay tuned for the open date.</em></span>
+        <span class="zh"><em>Founding 20 即将开放，敬请期待正式开放日期。</em></span>
+      </p>
+      <!-- restore on real launch -->
+      <p class="founding-counter" style="display:none">
         <strong>
           <span class="en">20/20 spots remaining</span>
           <span class="zh">剩余 20/20</span>
