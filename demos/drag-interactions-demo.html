@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SciSpark · Drag Interactions Demo (排顺序 / 连连看 / 拖步骤)</title>
+<title>SciSpark · Drag Interactions Demo (排顺序 / 连连看 / 拖步骤 / 分类)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/components/drag-interactions.css">
 <style>
@@ -83,6 +83,69 @@
           { "id": "s3", "label": { "en": "Evaporate the water to get the salt", "zh": "蒸发水分得到盐" } }
         ],
         "correct_order": ["s1", "s2", "s3"]
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- 4) 分类 (T1 — Y7 U1 L02 拖拽分类题) -->
+  <div class="demo-block">
+    <h2>④ 分类 / categorize — T1 (Y7 U1 L02)</h2>
+    <div data-component="drag" data-question-id="Y7_U1_L02_T1">
+      <script type="application/json">
+      {
+        "mode": "categorize",
+        "self_check": true,
+        "prompt": { "en": "Drag each thing into the right box. Ask: can my eyes see it without help?", "zh": "把每样东西拖进对的盒子。先问自己：不用工具，眼睛能看到它吗？" },
+        "items": [
+          { "id": "mountain", "label": { "en": "Mountain",      "zh": "山" } },
+          { "id": "football", "label": { "en": "Football",      "zh": "足球" } },
+          { "id": "sand",     "label": { "en": "Grain of sand", "zh": "沙粒" } },
+          { "id": "cell",     "label": { "en": "Cell",          "zh": "细胞" } },
+          { "id": "water",    "label": { "en": "Water molecule","zh": "水分子" } },
+          { "id": "oxygen",   "label": { "en": "Oxygen atom",   "zh": "氧原子" } }
+        ],
+        "buckets": [
+          { "id": "visible", "label": { "en": "Can see with eyes",        "zh": "肉眼看得到" } },
+          { "id": "hidden",  "label": { "en": "Can't see (need microscope)", "zh": "看不到（要显微镜）" } }
+        ],
+        "correct": {
+          "mountain": "visible", "football": "visible", "sand": "visible",
+          "cell": "hidden", "water": "hidden", "oxygen": "hidden"
+        }
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- 5) 分类 + 部分给分 (O3 — Y7 U1 L02 配对/分类计分题) -->
+  <div class="demo-block">
+    <h2>⑤ 分类 + 部分给分 / categorize + marks — O3 (Y7 U1 L02)</h2>
+    <div data-component="drag" data-question-id="Y7_U1_L02_O3">
+      <script type="application/json">
+      {
+        "mode": "categorize",
+        "self_check": true,
+        "prompt": { "en": "Sort each thing into its size group.", "zh": "把每样东西放进它的尺度组。" },
+        "items": [
+          { "id": "football", "label": { "en": "Football",    "zh": "足球" } },
+          { "id": "cell",     "label": { "en": "Cell",        "zh": "细胞" } },
+          { "id": "oxygen",   "label": { "en": "Oxygen atom", "zh": "氧原子" } },
+          { "id": "mountain", "label": { "en": "Mountain",    "zh": "山" } }
+        ],
+        "buckets": [
+          { "id": "macro", "label": { "en": "Macro (can see)",        "zh": "宏观（看得到）" } },
+          { "id": "micro", "label": { "en": "Micro (too small to see)", "zh": "微观（太小，看不到）" } }
+        ],
+        "correct": {
+          "football": "macro", "mountain": "macro",
+          "cell": "micro", "oxygen": "micro"
+        },
+        "marks": [
+          { "min_correct": 4, "mark": 2 },
+          { "min_correct": 2, "mark": 1 },
+          { "min_correct": 0, "mark": 0 }
+        ]
       }
       </script>
     </div>
