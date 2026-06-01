@@ -413,6 +413,42 @@ nav.topnav {
   background: var(--ink);
   color: #FFF;
 }
+/* ★ Hero first-screen language picker — big buttons, one tap switches whole page */
+.hero-lang-pick {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  max-width: 440px;
+  margin: 0 auto 30px;
+}
+.hero-lang-pick button {
+  flex: 1;
+  padding: 16px 24px;
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.hero-lang-pick button:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+.hero-lang-pick button.active {
+  background: var(--ink);
+  color: #FFF;
+  border-color: var(--ink);
+}
+#hero-lang-zh { font-family: var(--font-zh); }
+@media (max-width: 520px) {
+  .hero-lang-pick { gap: 8px; margin-bottom: 24px; }
+  .hero-lang-pick button { padding: 14px 16px; font-size: 15px; }
+}
 .nav-login {
   font-size: 13px;
   color: var(--ink-soft);
@@ -2889,6 +2925,12 @@ body.lang-zh .founding-card h4 {
 <!-- ============ SECTION 01 · HERO ============ -->
 <!-- ============================================== -->
 <header class="hero" id="top">
+  <!-- ★ First-screen language picker — big, one tap switches the whole page -->
+  <div class="hero-lang-pick" role="group" aria-label="Choose language / 选择语言">
+    <button id="hero-lang-en" type="button" onclick="setLang('en')">English</button>
+    <button id="hero-lang-zh" type="button" onclick="setLang('zh')">中文</button>
+  </div>
+
   <p class="hero-eyebrow"><span class="en">01 / Manifesto</span><span class="zh">01 / 宣言</span></p>
 
   <div class="hero-manifesto">
@@ -3934,6 +3976,10 @@ function setLang(lang) {
   var btnZh = document.getElementById('btn-zh');
   if (btnEn) btnEn.classList.toggle('active', lang === 'en');
   if (btnZh) btnZh.classList.toggle('active', lang === 'zh');
+  var bigEn = document.getElementById('hero-lang-en');
+  var bigZh = document.getElementById('hero-lang-zh');
+  if (bigEn) bigEn.classList.toggle('active', lang === 'en');
+  if (bigZh) bigZh.classList.toggle('active', lang === 'zh');
   try { localStorage.setItem('scispark-lang', lang); } catch (e) {}
 }
 
