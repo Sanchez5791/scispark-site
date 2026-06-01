@@ -25,7 +25,7 @@
 <meta name="twitter:image" content="https://scisparklab.com/assets/twitter-card.png?v=2">
 <meta name="twitter:image:alt" content="SciSpark — Start with the right assessment. Continue on the right path.">
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Complete your registration — SciSpark</title>
+<title>Welcome to SciSpark — let's set you up</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -114,87 +114,127 @@
   }
   .btn-primary:hover{background:var(--accent)}
 
-  /* ---------- form card ---------- */
+  /* ---------- wizard card ---------- */
   .form-card{
     background:#fff;
     border:1px solid var(--line);
     border-radius:18px;
-    padding:40px 36px;
+    padding:36px 36px 40px;
   }
-  @media(max-width:520px){.form-card{padding:28px 22px}}
+  @media(max-width:520px){.form-card{padding:26px 22px 30px}}
 
-  .step-badge{
-    display:inline-flex;align-items:center;gap:8px;
+  /* progress header */
+  .wiz-head{display:flex;align-items:center;gap:14px;margin-bottom:26px;min-height:24px}
+  .wiz-back{
+    display:none;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:9px;
+    border:1px solid var(--line-2);color:var(--ink-2);
+    font-size:16px;line-height:1;flex:none;
+    transition:border-color .15s,background .15s;
+  }
+  .wiz-back:hover{border-color:var(--ink);background:var(--bg-2)}
+  .wiz-back.show{display:inline-flex}
+  .wiz-dots{display:flex;gap:7px;align-items:center}
+  .wiz-dots .d{
+    width:26px;height:5px;border-radius:99px;background:var(--line);
+    transition:background .25s;
+  }
+  .wiz-dots .d.done{background:var(--accent)}
+  .wiz-dots .d.active{background:var(--accent)}
+  .wiz-step-no{
+    margin-left:auto;
+    font-family:var(--ff-mono);font-size:10.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* one question per screen */
+  .wiz-step{display:none;animation:fade .32s ease}
+  .wiz-step.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .q-kicker{
     font-family:var(--ff-mono);font-size:10.5px;
     letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
-    margin-bottom:8px;
+    margin:0 0 10px;
   }
-  .step-badge .dot{width:7px;height:7px;border-radius:99px;background:var(--accent)}
-
-  .form-card h1{
+  .q-title{
     font-family:var(--ff-display);font-weight:400;
-    font-size:clamp(28px,5vw,36px);
-    letter-spacing:-.01em;line-height:1.05;
-    margin:0 0 8px;
+    font-size:clamp(27px,5.4vw,34px);
+    letter-spacing:-.01em;line-height:1.08;
+    margin:0 0 6px;
   }
-  .form-card .sub{
-    font-size:14.5px;color:var(--ink-2);margin:0 0 28px;max-width:52ch;line-height:1.55
-  }
+  .q-sub{font-size:14px;color:var(--ink-3);margin:0 0 24px;line-height:1.5}
 
-  .section-label{
-    font-family:var(--ff-mono);font-size:10.5px;
-    letter-spacing:.12em;text-transform:uppercase;
-    color:var(--accent);font-weight:500;
-    margin:20px 0 12px;
-    padding-top:16px;
-    border-top:1px solid var(--line);
+  /* option cards */
+  .opts{display:flex;flex-direction:column;gap:11px}
+  .opt{
+    display:flex;align-items:center;gap:14px;
+    width:100%;text-align:left;
+    padding:16px 18px;border-radius:13px;
+    border:1px solid var(--line-2);background:#fff;
+    transition:border-color .15s,background .15s,transform .08s;
   }
-  .section-label:first-of-type{border-top:0;padding-top:0;margin-top:4px}
+  .opt:hover{border-color:var(--ink);background:var(--bg-2)}
+  .opt:active{transform:scale(.99)}
+  .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .opt .ic{
+    width:42px;height:42px;border-radius:10px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--bg-2);font-size:20px;
+  }
+  .opt.sel .ic{background:#fff}
+  .opt .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .opt .tx b{font-weight:600;font-size:15.5px;color:var(--ink)}
+  .opt .tx span{font-size:12.5px;color:var(--ink-3)}
+  .opt .chev{margin-left:auto;color:var(--ink-3);font-size:15px;transition:transform .15s,color .15s}
+  .opt:hover .chev{transform:translateX(3px);color:var(--ink)}
 
-  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
-  .field label{
-    font-family:var(--ff-mono);font-size:10.5px;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)
-  }
-  .field input,.field select{
-    font:inherit;font-size:14.5px;
-    padding:12px 14px;border:1px solid var(--line-2);
-    border-radius:10px;background:#fff;color:var(--ink);
+  /* text field (name) */
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field input{
+    font:inherit;font-size:17px;
+    padding:15px 16px;border:1px solid var(--line-2);
+    border-radius:12px;background:#fff;color:var(--ink);
     transition:border-color .15s;
   }
-  .field input:focus,.field select:focus{outline:none;border-color:var(--ink)}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:480px){.field-row{grid-template-columns:1fr}}
-
-  .prefilled{
-    display:flex;align-items:center;gap:10px;
-    padding:11px 14px;
-    border:1px solid var(--line);border-radius:10px;
-    background:var(--bg-2);
-    font-size:14px;color:var(--ink-2);
-  }
-  .prefilled .label{
-    font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--ink-3);margin-right:auto
-  }
-  .prefilled .val{font-weight:500;color:var(--ink)}
+  .field input:focus{outline:none;border-color:var(--ink)}
 
   .btn-submit{
     display:flex;align-items:center;justify-content:center;gap:8px;
-    width:100%;padding:14px;margin-top:8px;
-    border-radius:10px;
+    width:100%;padding:15px;margin-top:22px;
+    border-radius:12px;
     background:var(--accent);color:#fff;
     font-size:15px;font-weight:500;
     box-shadow:0 1px 0 rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.18);
-    transition:filter .18s;
+    transition:filter .18s,opacity .18s;
   }
   .btn-submit:hover{filter:brightness(.93) saturate(1.05)}
-  .btn-submit:disabled{opacity:.55;cursor:not-allowed;filter:none}
+  .btn-submit:disabled{opacity:.45;cursor:not-allowed;filter:none}
   .arr{transition:transform .2s}
   .btn-submit:not(:disabled):hover .arr{transform:translateX(3px)}
 
+  /* ---------- welcome ---------- */
+  .welcome{display:none;text-align:center;animation:fade .4s ease}
+  .welcome.active{display:block}
+  .welcome .spark{font-size:44px;margin-bottom:14px;line-height:1}
+  .welcome h1{
+    font-family:var(--ff-display);font-weight:400;
+    font-size:clamp(30px,6vw,42px);letter-spacing:-.015em;line-height:1.05;
+    margin:0 0 14px;
+  }
+  .welcome .line{
+    font-size:16px;color:var(--ink-2);line-height:1.6;
+    max-width:40ch;margin:0 auto 8px;
+  }
+  .welcome .yr-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    margin:6px 0 4px;padding:7px 14px;border-radius:99px;
+    background:var(--accent-soft);color:var(--accent-ink);
+    font-family:var(--ff-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  }
+
   .fine{
-    font-size:12px;color:var(--ink-3);margin:12px 0 0;text-align:center;line-height:1.5
+    font-size:12px;color:var(--ink-3);margin:14px 0 0;text-align:center;line-height:1.5
   }
   .fine a{color:var(--ink-2);text-decoration:underline}
 
@@ -254,65 +294,85 @@
     </div>
   </div>
 
-  <!-- Shown when a session exists -->
+  <!-- Shown when a session exists: one-question-per-screen wizard -->
   <div id="state-form" style="display:none">
     <div class="form-card">
-      <div class="step-badge"><span class="dot"></span> Step 2 of 2</div>
-      <h1>Complete your registration.</h1>
-      <p class="sub">Your Google sign-in worked. Now tell us about the parent and student so we can set up the right assessment path.</p>
 
-      <form id="signup-form" novalidate>
-
-        <!-- Google account row (pre-filled, read-only) -->
-        <p class="section-label">Signed in as</p>
-        <div class="prefilled">
-          <span class="label">Google account</span>
-          <span class="val" id="display-email">—</span>
+      <!-- progress header -->
+      <div class="wiz-head" id="wiz-head">
+        <button type="button" class="wiz-back" id="wiz-back" aria-label="Back">←</button>
+        <div class="wiz-dots">
+          <span class="d" data-dot="0"></span>
+          <span class="d" data-dot="1"></span>
+          <span class="d" data-dot="2"></span>
+          <span class="d" data-dot="3"></span>
         </div>
+        <span class="wiz-step-no" id="wiz-step-no">01 / 04</span>
+      </div>
 
-        <!-- Parent details -->
-        <p class="section-label">Parent / responsible adult</p>
+      <!-- STEP 1 — Year group -->
+      <section class="wiz-step" data-step="0">
+        <p class="q-kicker">Step 1 · 年级</p>
+        <h1 class="q-title">Which year are you in?</h1>
+        <p class="q-sub">你现在读几年级？ We'll line up the right science path.</p>
+        <div class="opts" id="opts-year">
+          <button type="button" class="opt" data-val="7"><span class="ic">7️⃣</span><span class="tx"><b>Year 7</b><span>Lower Secondary · 中一</span></span><span class="chev">→</span></button>
+          <button type="button" class="opt" data-val="8"><span class="ic">8️⃣</span><span class="tx"><b>Year 8</b><span>Lower Secondary · 中二</span></span><span class="chev">→</span></button>
+          <button type="button" class="opt" data-val="9"><span class="ic">9️⃣</span><span class="tx"><b>Year 9</b><span>Lower Secondary · 中三</span></span><span class="chev">→</span></button>
+        </div>
+      </section>
+
+      <!-- STEP 2 — Name -->
+      <section class="wiz-step" data-step="1">
+        <p class="q-kicker">Step 2 · 名字</p>
+        <h1 class="q-title">What should we call you?</h1>
+        <p class="q-sub">怎么称呼你？ This is the name your tutor and dashboard will use.</p>
         <div class="field">
-          <label>Full name</label>
-          <input type="text" id="parent-name" required placeholder="Jane Lim" autocomplete="name">
+          <input type="text" id="student-name" placeholder="e.g. Alex / 小明" autocomplete="off" maxlength="60">
         </div>
-        <div class="field">
-          <label>Contact email</label>
-          <input type="email" id="parent-email" required placeholder="parent@example.com" autocomplete="email">
-        </div>
-
-        <!-- Student details -->
-        <p class="section-label">Student</p>
-        <div class="field-row">
-          <div class="field">
-            <label>Student name</label>
-            <input type="text" id="student-name" required placeholder="Alex Lim">
-          </div>
-          <div class="field">
-            <label>Year group</label>
-            <select id="year-group" required>
-              <option value="">Select…</option>
-              <option value="7">Year 7</option>
-              <option value="8">Year 8</option>
-              <option value="9">Year 9</option>
-            </select>
-          </div>
-        </div>
-       <div class="field" style="display:none">
-          <label>Assessment language</label>
-          <select id="assess-lang" required>
-            <option value="en">English</option>
-            <option value="zh">中文 (Chinese)</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submit-btn">
-          <span class="spinner"></span>
-          <span class="btn-label">Begin assessment <span class="arr">→</span></span>
+        <button type="button" class="btn-submit" id="name-next" disabled>
+          <span class="btn-label">Continue · 继续 <span class="arr">→</span></span>
         </button>
-        <p class="fine">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
-        <div class="msg" id="form-msg"></div>
-      </form>
+      </section>
+
+      <!-- STEP 3 — Language -->
+      <section class="wiz-step" data-step="2">
+        <p class="q-kicker">Step 3 · 语言</p>
+        <h1 class="q-title">How do you like to learn?</h1>
+        <p class="q-sub">你更习惯用哪种语言上课？</p>
+        <div class="opts" id="opts-lang">
+          <button type="button" class="opt" data-val="中文"><span class="ic">🇨🇳</span><span class="tx"><b>中文</b><span>Lessons explained in Chinese</span></span><span class="chev">→</span></button>
+          <button type="button" class="opt" data-val="English"><span class="ic">🇬🇧</span><span class="tx"><b>English</b><span>Cambridge English-medium</span></span><span class="chev">→</span></button>
+          <button type="button" class="opt" data-val="都行"><span class="ic">🌏</span><span class="tx"><b>都行 · Either</b><span>Mix of both is fine</span></span><span class="chev">→</span></button>
+        </div>
+      </section>
+
+      <!-- STEP 4 — Goal -->
+      <section class="wiz-step" data-step="3">
+        <p class="q-kicker">Step 4 · 目标</p>
+        <h1 class="q-title">What matters most right now?</h1>
+        <p class="q-sub">现在最想达成什么？ Pick the one that fits best.</p>
+        <div class="opts" id="opts-goal">
+          <button type="button" class="opt" data-val="考试拿高分"><span class="ic">🎯</span><span class="tx"><b>考试拿高分</b><span>Ace the exams</span></span><span class="chev">→</span></button>
+          <button type="button" class="opt" data-val="听得懂课"><span class="ic">💡</span><span class="tx"><b>听得懂课</b><span>Actually understand the lessons</span></span><span class="chev">→</span></button>
+          <button type="button" class="opt" data-val="追上同学"><span class="ic">🚀</span><span class="tx"><b>追上同学</b><span>Catch up with classmates</span></span><span class="chev">→</span></button>
+        </div>
+      </section>
+
+      <!-- WELCOME (after submit) -->
+      <div class="welcome" id="welcome">
+        <div class="spark">✨</div>
+        <div class="yr-pill" id="wel-pill">YEAR —</div>
+        <h1 id="wel-title">Welcome!</h1>
+        <p class="line" id="wel-line">Everything's ready for you.</p>
+        <button type="button" class="btn-submit" id="wel-go">
+          <span class="btn-label">Start your assessment · 开始测评 <span class="arr">→</span></span>
+        </button>
+      </div>
+
+      <!-- saving / error -->
+      <div class="msg" id="form-msg"></div>
+      <p class="fine" id="fine-print">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
     </div>
   </div>
 </main>
@@ -347,7 +407,7 @@
     return;
   }
 
-  /* We have a session — show the form */
+  /* We have a session */
   const user = session.user;
 
   if (user && user.email === 'info@scisparklab.com') {
@@ -355,10 +415,8 @@
     return;
   }
 
-  /* D.03 fix (2026-05-17) — returning-user redirect to dashboard.
-     If this parent already has at least one child row, they have completed signup.
-     Send them to the dashboard instead of re-showing the registration form.
-     On query error, fall through to form (safe default = current behaviour). */
+  /* Returning-user redirect to dashboard (D.03).
+     If this parent already has at least one child row, signup is done. */
   try {
     const { data: existingChildren, error: childrenCheckError } = await sb
       .from('children')
@@ -376,52 +434,83 @@
     console.warn('[signup-complete] returning-user check threw, falling through to form:', e);
   }
 
-  document.getElementById('display-email').textContent = user.email || user.id;
-
-  /* Pre-fill parent email from Google account */
-  const parentEmailEl = document.getElementById('parent-email');
-  if (user.email) parentEmailEl.value = user.email;
-
-  /* Pre-fill parent name from Google identity if available */
-  const parentNameEl = document.getElementById('parent-name');
-  const googleName = user.user_metadata?.full_name || user.user_metadata?.name || '';
-  if (googleName) parentNameEl.value = googleName;
+  /* Parent identity comes silently from the Google account — no screen for it. */
+  const parentEmail = user.email || '';
+  const parentName  = user.user_metadata?.full_name || user.user_metadata?.name || '';
 
   showState('form');
 
-  /* ── Form submission ── */
-  const form = document.getElementById('signup-form');
-  const submitBtn = document.getElementById('submit-btn');
-  const msgEl = document.getElementById('form-msg');
+  /* ─────────────────────────────────────────────
+     One-question-per-screen wizard
+     ───────────────────────────────────────────── */
+  const STEPS = 4;
+  const answers = { year:'', name:'', lang:'', goal:'' };
+  let cur = 0;
 
-  function showMsg(text, type){
-    msgEl.textContent = text;
-    msgEl.className = 'msg ' + type;
+  const stepEls   = Array.from(document.querySelectorAll('.wiz-step'));
+  const dotEls     = Array.from(document.querySelectorAll('.wiz-dots .d'));
+  const backBtn    = document.getElementById('wiz-back');
+  const stepNoEl   = document.getElementById('wiz-step-no');
+  const headEl     = document.getElementById('wiz-head');
+  const welcomeEl  = document.getElementById('welcome');
+  const finePrint  = document.getElementById('fine-print');
+  const msgEl      = document.getElementById('form-msg');
+
+  function pad2(n){ return n < 10 ? '0'+n : ''+n; }
+
+  function render(){
+    stepEls.forEach((el,i)=> el.classList.toggle('active', i === cur));
+    dotEls.forEach((d,i)=>{
+      d.classList.toggle('done',   i <  cur);
+      d.classList.toggle('active', i === cur);
+    });
+    stepNoEl.textContent = pad2(cur+1) + ' / ' + pad2(STEPS);
+    backBtn.classList.toggle('show', cur > 0);
+    if (cur === 1) setTimeout(()=>document.getElementById('student-name').focus(), 60);
   }
-  function clearMsg(){ msgEl.className = 'msg'; }
 
-  function setLoading(on){
-    submitBtn.disabled = on;
-    submitBtn.classList.toggle('loading', on);
+  function next(){ if (cur < STEPS-1){ cur++; render(); } else { submit(); } }
+  backBtn.addEventListener('click', ()=>{ if (cur>0){ cur--; render(); } });
+
+  /* card-based steps auto-advance on tap */
+  function wireOptions(containerId, key){
+    document.getElementById(containerId).querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.getElementById(containerId).querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
+        btn.classList.add('sel');
+        answers[key] = btn.dataset.val;
+        setTimeout(next, 160);
+      });
+    });
   }
+  wireOptions('opts-year', 'year');
+  wireOptions('opts-lang', 'lang');
+  wireOptions('opts-goal', 'goal');
 
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    clearMsg();
+  /* name step — left blank on purpose: this is the STUDENT's name
+     (children.full_name), not the parent's Google name. */
+  const nameInput = document.getElementById('student-name');
+  const nameNext  = document.getElementById('name-next');
+  function syncName(){
+    answers.name = nameInput.value.trim();
+    nameNext.disabled = answers.name.length === 0;
+  }
+  nameInput.addEventListener('input', syncName);
+  nameInput.addEventListener('keydown', (e)=>{
+    if (e.key === 'Enter' && !nameNext.disabled){ e.preventDefault(); next(); }
+  });
+  nameNext.addEventListener('click', ()=>{ if(!nameNext.disabled) next(); });
+  syncName();
 
-    const parentName  = document.getElementById('parent-name').value.trim();
-    const parentEmail = document.getElementById('parent-email').value.trim();
-    const studentName = document.getElementById('student-name').value.trim();
-    const yearGroup   = document.getElementById('year-group').value;
-    const assessLang  = document.getElementById('assess-lang').value;
+  render();
 
-    /* Basic client-side validation */
-    if (!parentName || !parentEmail || !studentName || !yearGroup) {
-      showMsg('Please fill in all required fields.', 'error');
-      return;
-    }
+  /* ─────────────────────────────────────────────
+     Submit: write parent + student + child rows
+     ───────────────────────────────────────────── */
+  function showMsg(text, type){ msgEl.textContent = text; msgEl.className = 'msg ' + type; }
 
-    setLoading(true);
+  async function submit(){
+    showMsg('Saving your answers… · 正在保存…', 'ok');
 
     try {
       /* 1. Upsert parent row using the auth user id */
@@ -430,74 +519,103 @@
         .upsert(
           {
             auth_user_id: user.id,
-            full_name: parentName,
-            email: parentEmail,
+            full_name: parentName || null,
+            email: parentEmail || null,
           },
           { onConflict: 'auth_user_id', ignoreDuplicates: false }
         )
         .select('id')
         .single();
-
       if (parentErr) throw parentErr;
-
       const parentId = parentRow.id;
 
-      /* 2. Insert student row */
-    const { data: studentRow, error: studentErr } = await sb
-  .from('students')
-  .insert({
-    parent_id: parentId,
-    student_name: studentName,
-    year_group: yearGroup,
-    preferred_language: 'EN',
-  })
-  .select('id')
-  .single();
+      /* 2. Insert student row (legacy schema, drives assessment routing) */
+      const { data: studentRow, error: studentErr } = await sb
+        .from('students')
+        .insert({
+          parent_id: parentId,
+          student_name: answers.name,
+          year_group: answers.year,
+          preferred_language: 'EN',
+        })
+        .select('id')
+        .single();
+      if (studentErr) throw studentErr;
 
-if (studentErr) throw studentErr;
+      /* 3. Insert child row (new schema) — the four onboarding answers */
+      const { error: childErr } = await sb
+        .from('children')
+        .insert({
+          parent_id: user.id,
+          full_name: answers.name,
+          year_group: 'Y' + answers.year,
+          assessment_language: 'English',   /* first round is English-only */
+          lang_pref: answers.lang,
+          goal: answers.goal,
+        })
+        .select('id')
+        .single();
+      if (childErr) throw childErr;
 
-/* 2b. Dual-write to new schema (D-04 Phase 1, 2026-05-17) */
-const { data: childRow, error: childErr } = await sb
-  .from('children')
-  .insert({
-    parent_id: user.id,
-    full_name: studentName,
-    year_group: 'Y' + yearGroup,
-    assessment_language: assessLang || 'English',
-  })
-  .select('id')
-  .single();
-if (childErr) throw childErr;
-
-     /* 3. Redirect to the correct year-based assessment.
-   First-round assessment is English only.
-   Chinese second-round is teacher-triggered after English result review. */
-const assessmentPages = {
-  '7': 'assessment/year-7/en/assessment-y7.html',
-  '8': 'assessment/year-8/en/assessment-y8.html',
-  '9': 'assessment/year-9/en/assessment-y9.html',
-};
-
-const targetBase = assessmentPages[yearGroup] || assessmentPages['9'];
-const target = `${targetBase}?student_id=${encodeURIComponent(studentRow.id)}`;
-window.location.href = target;
+      /* success → personalized welcome */
+      msgEl.className = 'msg';
+      showWelcome(studentRow.id);
 
     } catch(err) {
       console.error('Signup error:', err);
-
-      /* Surface a useful message */
-      let msg = 'Something went wrong. Please try again.';
+      let msg = 'Something went wrong. Please try again. · 出了点问题，请重试。';
       if (err?.message) {
         if (err.message.includes('policy') || err.message.includes('permission') || err.code === '42501') {
-          msg = 'Database permission error. The site administrator needs to enable row-level security policies. Please contact support.';
+          msg = 'Database permission error — please contact support. · 数据库权限错误，请联系客服。';
         } else {
           msg = err.message;
         }
       }
       showMsg(msg, 'error');
-      setLoading(false);
     }
-  });
+  }
+
+  /* ─────────────────────────────────────────────
+     Personalized welcome — knows the name + year
+     ───────────────────────────────────────────── */
+  function showWelcome(studentId){
+    /* hide the question UI */
+    stepEls.forEach(el=>el.classList.remove('active'));
+    headEl.style.display = 'none';
+    finePrint.style.display = 'none';
+
+    const name = answers.name;
+    const yr   = answers.year;
+    const zh   = answers.lang === '中文';
+
+    document.getElementById('wel-pill').textContent = 'YEAR ' + yr;
+
+    if (zh){
+      document.getElementById('wel-title').textContent = '欢迎你，' + name + '！';
+      document.getElementById('wel-line').textContent =
+        '我们已经为 Year ' + yr + ' 的你准备好科学学习路径。先来一个小测评，看看从哪里开始最合适。';
+      document.querySelector('#wel-go .btn-label').innerHTML = '开始测评 <span class="arr">→</span>';
+    } else {
+      document.getElementById('wel-title').textContent = 'Welcome, ' + name + '!';
+      document.getElementById('wel-line').textContent =
+        "Your Year " + yr + " science path is ready. Let's start with a short assessment to find the right place to begin.";
+      document.querySelector('#wel-go .btn-label').innerHTML = 'Start your assessment <span class="arr">→</span>';
+    }
+
+    welcomeEl.classList.add('active');
+
+    /* continue → year-based assessment (English first round) */
+    const assessmentPages = {
+      '7': 'assessment/year-7/en/assessment-y7.html',
+      '8': 'assessment/year-8/en/assessment-y8.html',
+      '9': 'assessment/year-9/en/assessment-y9.html',
+    };
+    const targetBase = assessmentPages[yr] || assessmentPages['9'];
+    const target = targetBase + '?student_id=' + encodeURIComponent(studentId);
+    document.getElementById('wel-go').addEventListener('click', ()=>{
+      window.location.href = target;
+    });
+  }
 })();
 </script>
 
