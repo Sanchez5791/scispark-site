@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSXGraph 手绘曲线 widget — 冷却曲线真题</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraph.css">
+<script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraphcore.js"></script>
+
+<style>
+  :root { --ink:#1a2233; --line:#d8dee9; --good:#10825b; --bad:#c0392b; --brand:#2f6df0; --warn:#b7791f; }
+  * { box-sizing:border-box; }
+  body { font-family:-apple-system,Segoe UI,Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+         color:var(--ink); margin:0; padding:24px; background:#f6f8fb; }
+  h1 { font-size:18px; margin:0 0 4px; }
+  .sub { color:#6b7280; font-size:13px; margin:0 0 16px; max-width:920px; }
+  .qbox { background:#eef3ff; border:1px solid #cfe0ff; border-radius:10px; padding:12px 16px;
+          margin:0 0 16px; max-width:920px; font-size:14px; }
+  .wrap { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; }
+  #board { width:560px; height:460px; border:1px solid var(--line); border-radius:10px;
+           background:#fff; touch-action:none; }
+  .panel { width:400px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:14px; }
+  .card h2 { font-size:13px; margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em; color:#6b7280; }
+  button { font:inherit; border:1px solid var(--line); background:#fff; padding:8px 14px;
+           border-radius:8px; cursor:pointer; margin:0 8px 4px 0; }
+  button.primary { background:var(--brand); color:#fff; border-color:var(--brand); }
+  button:active { transform:translateY(1px); }
+  pre { background:#0f172a; color:#d6e2ff; padding:12px; border-radius:8px; font-size:12px;
+        overflow:auto; max-height:190px; margin:0; }
+  .verdict { font-size:15px; font-weight:600; }
+  .row { display:flex; justify-content:space-between; padding:3px 0; font-size:13px; border-bottom:1px dashed #eef; }
+  .ok { color:var(--good); } .no { color:var(--bad); } .warn { color:var(--warn); }
+  .axes-in { display:flex; gap:8px; margin-bottom:8px; }
+  .axes-in input { flex:1; padding:6px 8px; border:1px solid var(--line); border-radius:6px; font:inherit; }
+  .hint { font-size:12px; color:#6b7280; margin:8px 0 0; }
+  .bar { height:8px; background:#eef; border-radius:4px; overflow:hidden; margin-top:6px; }
+  .bar > i { display:block; height:100%; background:var(--good); width:0; }
+</style>
+</head>
+<body>
+  <h1>手绘曲线 widget · 冷却曲线（temperature vs time）</h1>
+  <p class="sub">这是「画弯曲线」版：学生<strong>按住自由画一条会拐弯的曲线</strong>。库在图表单位下把它平滑、采样成干净的
+     <code>curve_best_fit</code> 数组——和你 block ④ 定的字段一致，算账脑零改动可判。整页无任何像素标定。</p>
+
+  <div class="qbox">
+    <strong>真题：</strong>Sina heats water to 90&nbsp;°C, then lets it cool. She records the temperature every minute.
+    On the grid, <strong>sketch the cooling curve</strong> of temperature (°C) against time (min).
+  </div>
+
+  <div class="wrap">
+    <div id="board"></div>
+
+    <div class="panel">
+      <div class="card">
+        <h2>① 学生操作</h2>
+        <div class="axes-in">
+          <input id="xlabel" placeholder="x 轴标签，如 time / min">
+          <input id="ylabel" placeholder="y 轴标签，如 temperature / °C">
+        </div>
+        <button class="primary" id="grade">判分</button>
+        <button id="clear">清空重画</button>
+        <p class="hint">按住拖动 = 自由画曲线（可以拐弯、先陡后平）。松手自动平滑+采样。</p>
+      </div>
+
+      <div class="card">
+        <h2>② 吐给算账脑的 JSON（curve_best_fit，图表单位）</h2>
+        <pre id="payload">（先画一条曲线）</pre>
+      </div>
+
+      <div class="card">
+        <h2>③ 曲线判分（整条曲线对模型，非单点）</h2>
+        <div id="verdict" class="verdict">—</div>
+        <div class="bar"><i id="barfill"></i></div>
+        <div id="breakdown" style="margin-top:8px;"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// =================================================================
+// CONFIG —— 一道真题一份。正式集成时这块来自 graph-configs/*.json
+// graph_type: "curve_best_fit"
+// =================================================================
+var CONFIG = {
+  field_prefix: 'Y9_Q33',
+  graph_type: 'curve_best_fit',
+  // 期望冷却曲线模型（指数衰减趋向室温 ~24°C）。source=VERIFY，未对官方 mark scheme 前不上线。
+  expected_curve: [
+    {x:0,y:90},{x:1,y:68},{x:2,y:53},{x:3,y:43},{x:4,y:36},
+    {x:5,y:31},{x:6,y:28},{x:7,y:26},{x:8,y:25}
+  ],
+  curve_tolerance: 5,        // 每个采样点 y 容差 ±5°C（§ VERIFY）
+  min_fraction_in_band: 0.8, // ≥80% 采样点落在容差带内才给「形状对」
+  require_decreasing: true,  // 冷却曲线必须整体下降
+  sample_step: 0.5,          // 采样步长（图表单位）
+  domain: { xmin:0, xmax:8, ymin:0, ymax:100 }
+};
+
+// ===== 建图：bounding box 全用图表单位，零像素标定 =====
+var D = CONFIG.domain;
+var board = JXG.JSXGraph.initBoard('board', {
+  boundingbox: [D.xmin-0.6, D.ymax+6, D.xmax+0.4, D.ymin-8],
+  axis:true, showCopyright:false, showNavigation:false,
+  defaultAxes: {
+    x: { ticks: { insertTicks:false, ticksDistance:1, minorTicks:0 } },
+    y: { ticks: { insertTicks:false, ticksDistance:10, minorTicks:1 } }
+  },
+  grid:true, pan:{enabled:false}, zoom:{enabled:false}
+});
+
+// 淡色参照：期望曲线（正式题不显示，demo 方便肉眼对照）
+(function(){
+  var rx = CONFIG.expected_curve.map(function(p){return p.x;});
+  var ry = CONFIG.expected_curve.map(function(p){return p.y;});
+  board.create('curve', [rx,ry], { strokeColor:'#e2e8f0', strokeWidth:6, fixed:true, highlight:false });
+})();
+
+// ===== 手绘捕捉 =====
+var raw = [];
+var drawing = false;
+var sketch = board.create('curve', [[],[]], { strokeColor:'#2f6df0', strokeWidth:3 });
+
+function usr(e){ var c = board.getUsrCoordsOfMouse(e); return [c[0], c[1]]; }
+function push(e){
+  var p = usr(e);
+  if (raw.length===0 || p[0] > raw[raw.length-1][0] + 1e-3) raw.push(p); // 单调 x（左→右），y 任意拐弯
+  sketch.dataX = raw.map(function(d){return d[0];});
+  sketch.dataY = raw.map(function(d){return d[1];});
+  board.update();
+}
+board.on('down', function(e){ drawing=true; raw=[]; push(e); });
+board.on('move', function(e){ if(drawing) push(e); });
+board.on('up',   function(){ drawing=false; refresh(); });
+
+// ===== 平滑（移动平均，去手抖）—— 只平滑 y，x 原样保留，否则会缩短曲线 x 范围、丢端点 =====
+function smooth(pts, win){
+  if (pts.length < 3) return pts.slice();
+  var out = [];
+  for (var i=0;i<pts.length;i++){
+    var a=Math.max(0,i-win), b=Math.min(pts.length-1,i+win), sy=0, n=0;
+    for (var j=a;j<=b;j++){ sy+=pts[j][1]; n++; }
+    out.push([pts[i][0], sy/n]);   // x 不动
+  }
+  return out;
+}
+
+// ===== 把任意手绘曲线 → 在 x 上等距采样出干净 {x,y} 数组 =====
+function interpY(pts, xq){
+  if (pts.length < 2) return null;
+  if (xq < pts[0][0] || xq > pts[pts.length-1][0]) return null;
+  for (var i=0;i<pts.length-1;i++){
+    var A=pts[i], B=pts[i+1];
+    if (xq>=A[0] && xq<=B[0]){
+      var t=(xq-A[0])/((B[0]-A[0])||1e-9);
+      return A[1]+t*(B[1]-A[1]);
+    }
+  }
+  return pts[pts.length-1][1];
+}
+function curveBestFit(){
+  if (raw.length < 2) return [];
+  var sm = smooth(raw, 2);
+  var out = [], x = D.xmin;
+  for (; x <= D.xmax + 1e-9; x += CONFIG.sample_step){
+    var y = interpY(sm, x);
+    if (y !== null) out.push({ x: Math.round(x*100)/100, y: Math.round(y*100)/100 });
+  }
+  return out;
+}
+
+// ===== payload：写进 widget 的隐藏字段（assessment 页一样的契约）=====
+function buildPayload(){
+  return {
+    [CONFIG.field_prefix + '_curve_best_fit']: curveBestFit(),
+    [CONFIG.field_prefix + '_axis_labels']: {
+      x_axis_label: document.getElementById('xlabel').value.trim(),
+      y_axis_label: document.getElementById('ylabel').value.trim()
+    }
+  };
+}
+function refresh(){ document.getElementById('payload').textContent = JSON.stringify(buildPayload(), null, 2); }
+
+// 从已采样的 curve_best_fit 数组里取 y —— 和 markCurveBestFit 的 yAt 完全一致，
+// 保证 widget 判的和算账脑判的是同一份数据、同一结果。
+function yFromSampled(curve, xq){
+  if (curve.length < 2 || xq < curve[0].x || xq > curve[curve.length-1].x) return null;
+  for (var i=0;i<curve.length-1;i++){
+    var A=curve[i], B=curve[i+1];
+    if (xq>=A.x && xq<=B.x){ var t=(xq-A.x)/((B.x-A.x)||1e-9); return A.y + t*(B.y-A.y); }
+  }
+  return curve[curve.length-1].y;
+}
+
+// ===== 曲线判分：判的就是 emit 出去的 curve_best_fit（markCurveBestFit 的雏形）=====
+function grade(){
+  var curve = curveBestFit();   // 判分对象 = 吐给算账脑的同一份数组
+  var rows = CONFIG.expected_curve.map(function(e){
+    var y = yFromSampled(curve, e.x);
+    var ok = y!==null && Math.abs(y - e.y) <= CONFIG.curve_tolerance;
+    return { x:e.x, want:e.y, got: y===null?null:Math.round(y*10)/10, ok:ok };
+  });
+  var inBand = rows.filter(function(r){return r.ok;}).length;
+  var frac = inBand / rows.length;
+
+  // 形状检查：整体下降。手抖容差 = curve_tolerance（手画的平段会上下抖一个容差带，只有跳幅 > 容差才算「上升」）
+  var drawnYs = rows.map(function(r){return r.got;}).filter(function(v){return v!==null;});
+  var decreasing = true;
+  for (var i=1;i<drawnYs.length;i++){ if (drawnYs[i] > drawnYs[i-1] + CONFIG.curve_tolerance){ decreasing=false; break; } }
+
+  var shapeOk = frac >= CONFIG.min_fraction_in_band && (!CONFIG.require_decreasing || decreasing);
+  var awarded = shapeOk ? 1 : 0;
+
+  document.getElementById('breakdown').innerHTML = rows.map(function(r){
+    return '<div class="row"><span>t='+r.x+'  期望 '+r.want+'°C</span>'+
+      '<span class="'+(r.ok?'ok':'no')+'">'+(r.got===null?'未画到':'你画 '+r.got+'°C')+' '+(r.ok?'✓':'✗')+'</span></div>';
+  }).join('') +
+  '<div class="row"><span>整体下降（冷却趋势）</span><span class="'+(decreasing?'ok':'no')+'">'+(decreasing?'✓':'✗')+'</span></div>';
+
+  document.getElementById('barfill').style.width = Math.round(frac*100)+'%';
+  document.getElementById('barfill').style.background = shapeOk ? 'var(--good)' : 'var(--bad)';
+
+  var v = document.getElementById('verdict');
+  v.textContent = inBand+'/'+rows.length+' 采样点在 ±'+CONFIG.curve_tolerance+
+    '°C 带内（'+Math.round(frac*100)+'%）→ curve_best_fit 得分：'+awarded+'/1';
+  v.className = 'verdict ' + (awarded? 'ok':'no');
+  refresh();
+}
+
+document.getElementById('grade').onclick = grade;
+document.getElementById('clear').onclick = function(){
+  raw=[]; sketch.dataX=[]; sketch.dataY=[]; board.update();
+  document.getElementById('payload').textContent='（先画一条曲线）';
+  document.getElementById('verdict').textContent='—';
+  document.getElementById('verdict').className='verdict';
+  document.getElementById('breakdown').innerHTML='';
+  document.getElementById('barfill').style.width='0';
+};
+
+// 自动化测试入口
+window.__widget = { board:board, CONFIG:CONFIG,
+  pushRaw:function(arr){ raw=arr.slice(); sketch.dataX=raw.map(function(d){return d[0];});
+    sketch.dataY=raw.map(function(d){return d[1];}); board.update(); refresh(); },
+  grade:grade, buildPayload:buildPayload, curveBestFit:curveBestFit };
+</script>
+</body>
+</html>
