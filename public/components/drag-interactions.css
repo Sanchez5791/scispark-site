@@ -1,0 +1,138 @@
+/*
+  SciSpark · drag-interactions.css
+  Component: INPUT_TYPE=drag_sequence | drag_match
+  Prefix: .dg-*  (matches family .rd-* / .tb-* / .gw-* convention)
+  Design System: v3.1
+*/
+
+/* ── design tokens — defensive copy (shell declares these too) ── */
+.dg-host {
+  --bg-card:   #ffffff;
+  --ink:       #171413;
+  --ink-3:     #6b6358;
+  --line:      #E6DFD3;
+  --line-2:    #D9D0BF;
+  --accent:      #EA580C;
+  --accent-soft: #FFE9D6;
+  --accent-ink:  #7a2e08;
+  --ok:        #2E7D5B;
+  --ok-bg:     #d9eed9;
+  --warn:      #a32d2d;
+  --warn-bg:   #fce8e6;
+  --ff-body:   'Inter',-apple-system,sans-serif;
+  --ff-zh:     'Noto Sans SC','PingFang SC',system-ui,sans-serif;
+
+  font-family: var(--ff-body);
+  color: var(--ink);
+  display: block;
+  margin: 1rem 0;
+}
+
+.dg-prompt {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 .75rem;
+  line-height: 1.4;
+}
+
+/* ════════════ sequence (排顺序 / 拖步骤) ════════════ */
+.dg-seq {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.dg-card {
+  display: flex; align-items: center; gap: .65rem;
+  background: var(--bg-card);
+  border: 1.5px solid var(--line-2);
+  border-radius: 12px;
+  padding: .7rem .85rem;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;            /* let Pointer Events own the gesture on touch */
+  transition: border-color .15s, box-shadow .15s, transform .05s;
+}
+.dg-card:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.dg-card--dragging {
+  cursor: grabbing;
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(234,88,12,.18);
+  opacity: .96;
+}
+.dg-card__handle { color: var(--line-2); font-size: 1.1rem; line-height: 1; cursor: grab; }
+.dg-card__num {
+  flex: 0 0 auto;
+  width: 1.5rem; height: 1.5rem;
+  display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent-ink);
+  border-radius: 50%; font-size: .8rem; font-weight: 700;
+}
+.dg-card__label { flex: 1; line-height: 1.35; }
+:lang(zh) .dg-card__label, .lang-zh .dg-card__label { font-family: var(--ff-zh); }
+
+/* ════════════ match (连连看) ════════════ */
+.dg-match {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+.dg-match__wires {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.dg-col { display: flex; flex-direction: column; gap: .6rem; }
+.dg-node {
+  position: relative;
+  background: var(--bg-card);
+  border: 1.5px solid var(--line-2);
+  border-radius: 12px;
+  padding: .7rem 1rem;
+  font: inherit; color: var(--ink); text-align: left;
+  cursor: pointer;
+  touch-action: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.dg-col--right .dg-node { text-align: right; }
+.dg-node:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.dg-node--hot { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.dg-node__dot {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg-card);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+.dg-col--left  .dg-node__dot { right: -7px; }
+.dg-col--right .dg-node__dot { left: -7px; }
+.dg-wire { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; }
+.dg-wire--live { stroke-dasharray: 5 5; opacity: .8; }
+.dg-dragging-wire { cursor: crosshair; }
+
+/* ════════════ footer / verdict ════════════ */
+.dg-foot { margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.dg-submit { cursor: pointer; }
+.dg-submit:disabled { opacity: .5; cursor: default; }
+.dg-verdict { font-size: .95rem; font-weight: 600; }
+.dg-verdict--ok { color: var(--ok); }
+.dg-verdict--no { color: var(--warn); }
+
+.dg-locked .dg-card { cursor: default; }
+.dg-locked .dg-node { cursor: default; }
+
+/* ── responsive: stack match columns on narrow screens ── */
+@media (max-width: 460px) {
+  .dg-match { gap: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-card, .dg-node { transition: none; }
+}
