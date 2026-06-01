@@ -1,0 +1,65 @@
+/*
+  SciSpark · particle-canvas.css
+  Component: INPUT_TYPE=particle_diagram (三态粒子图画板)
+  Prefix: .pc-*   Design System: v3.1
+*/
+.pc-host {
+  --bg-card:   #ffffff;
+  --ink:       #171413;
+  --ink-3:     #6b6358;
+  --line:      #E6DFD3;
+  --line-2:    #D9D0BF;
+  --accent:      #EA580C;
+  --accent-soft: #FFE9D6;
+  --accent-ink:  #7a2e08;
+  --ok:        #2E7D5B;
+  --warn:      #a32d2d;
+  --ff-body:   'Inter',-apple-system,sans-serif;
+  --ff-zh:     'Noto Sans SC','PingFang SC',system-ui,sans-serif;
+  font-family: var(--ff-body);
+  color: var(--ink);
+  display: block;
+  margin: 1rem 0;
+}
+.pc-prompt { font-size: 1rem; font-weight: 600; margin: 0 0 .75rem; line-height: 1.4; }
+
+.pc-toolbar { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; flex-wrap: wrap; }
+.pc-tool {
+  font: inherit; font-size: .85rem; font-weight: 600;
+  background: var(--bg-card); color: var(--ink);
+  border: 1.5px solid var(--line-2); border-radius: 9px;
+  padding: .4rem .7rem; cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.pc-tool--active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); }
+.pc-tool--clear { margin-left: .25rem; }
+.pc-count { margin-left: auto; font-size: .85rem; color: var(--ink-3); font-weight: 600; }
+
+.pc-canvas-wrap { width: 100%; }
+.pc-canvas {
+  display: block; max-width: 100%; height: auto;
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 30px 30px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 30px 30px,
+    var(--bg-card);
+  border: 2px solid var(--line-2); border-radius: 14px;
+  touch-action: none;                 /* Pointer Events own the gesture */
+  cursor: crosshair;
+}
+.pc-locked .pc-canvas { cursor: default; }
+.pc-particle {
+  fill: var(--accent); fill-opacity: .85;
+  stroke: var(--accent-ink); stroke-width: 1.5;
+  cursor: grab;
+}
+.pc-locked .pc-particle { cursor: default; }
+.pc-arrow { stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
+
+.pc-foot { margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.pc-submit { cursor: pointer; }
+.pc-submit:disabled { opacity: .5; cursor: default; }
+.pc-verdict { font-size: .95rem; font-weight: 600; }
+.pc-verdict--ok { color: var(--ok); }
+.pc-verdict--no { color: var(--warn); }
+
+@media (prefers-reduced-motion: reduce) { .pc-tool { transition: none; } }

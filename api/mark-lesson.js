@@ -8,6 +8,7 @@
 
 const fs   = require('fs');
 const path = require('path');
+const ParticleMarkCore = require('../public/components/particle-mark-core.js'); // shared widget/server marking core
 
 // =============================================================
 // CONFIG CACHE — avoids repeated fs reads on warm instances
@@ -64,6 +65,39 @@ function loadRayConfig(questionId) {
   }
 
   configCache.set(questionId, config);
+  return config;
+}
+
+function loadParticleConfig(questionId) {
+  const cacheKey = 'particle:' + questionId;
+  if (configCache.has(cacheKey)) return configCache.get(cacheKey);
+
+  const filePath = path.join(process.cwd(), 'particle-configs', questionId + '.json');
+
+  let raw;
+  try {
+    raw = fs.readFileSync(filePath, 'utf8');
+  } catch (e) {
+    const err = new Error('Config not found for ' + questionId);
+    err.statusCode = 500; err.alert = true; throw err;
+  }
+
+  let config;
+  try {
+    config = JSON.parse(raw);
+  } catch (e) {
+    const err = new Error('Malformed config for ' + questionId);
+    err.statusCode = 500; err.alert = true; throw err;
+  }
+
+  // Structural validation
+  const VALID_STATES = { solid: 1, liquid: 1, gas: 1 };
+  if (!VALID_STATES[config.expected_state] || !config.marks || !config.marks.total || !config.feedback_routing) {
+    const err = new Error('Incomplete config for ' + questionId);
+    err.statusCode = 500; err.alert = true; throw err;
+  }
+
+  configCache.set(cacheKey, config);
   return config;
 }
 
@@ -131,14 +165,11 @@ module.exports = async function handler(req, res) {
   if (!student_submission || typeof student_submission !== 'object') {
     return res.status(400).json({ error: 'Missing student_submission' });
   }
-  const picked_line      = student_submission.picked_line;
-  const picked_direction = student_submission.picked_direction;
 
-  if (!picked_line || typeof picked_line !== 'string' || picked_line.trim() === '') {
-    return res.status(400).json({ error: 'Missing picked_line' });
-  }
-  if (!picked_direction || typeof picked_direction !== 'string' || picked_direction.trim() === '') {
-    return res.status(400).json({ error: 'Missing picked_direction' });
+  // input_type routes to the right marker; default ray_diagram for back-compat
+  const input_type = body.input_type || 'ray_diagram';
+  if (input_type !== 'ray_diagram' && input_type !== 'particle_diagram') {
+    return res.status(400).json({ error: 'Unsupported input_type' });
   }
 
   // ------------------------------------------------------------------
@@ -156,6 +187,79 @@ module.exports = async function handler(req, res) {
   } catch (e) {
     console.error('[mark-lesson] child ownership check error:', e.message);
     return res.status(500).json({ error: 'Server error during auth' });
+  }
+
+  // ==================================================================
+  //  PARTICLE DIAGRAM PATH (三态粒子图) — deterministic, server-side
+  //  Marking rule: arrangement matches expected_state AND count ≥ min.
+  //  Same ParticleMarkCore as the widget, so verdicts are identical.
+  // ==================================================================
+  if (input_type === 'particle_diagram') {
+    let pconfig;
+    try {
+      pconfig = loadParticleConfig(question_id);
+    } catch (e) {
+      if (e.alert) console.error('[mark-lesson] CONFIG ALERT:', e.message);
+      return res.status(e.statusCode || 500).json({ error: e.message });
+    }
+
+    const particles = student_submission.particles;
+    const diameter  = student_submission.diameter;
+    if (!Array.isArray(particles)) {
+      return res.status(400).json({ error: 'Missing particles[]' });
+    }
+
+    const verdict = ParticleMarkCore.mark({ particles, diameter }, pconfig);
+    const pScore  = verdict.mark;
+    const pMax    = verdict.max;
+    const pVariant = verdict.correct ? pconfig.feedback_routing.correct
+                                     : pconfig.feedback_routing.wrong;
+
+    (async () => {
+      try {
+        const dbResp = await fetch(`${SUPABASE_URL}/rest/v1/lesson_question_attempts`, {
+          method:  'POST',
+          headers: { ...serviceHeaders, 'Prefer': 'return=minimal' },
+          body: JSON.stringify({
+            child_id,
+            lesson_id:        null,
+            question_id,
+            input_type:       'particle_diagram',
+            submission:       student_submission,
+            score:            pScore,
+            max_score:        pMax,
+            feedback_variant: pVariant.variant,
+            marker:           'particle_v1',
+            marked_at:        new Date().toISOString()
+          })
+        });
+        if (!dbResp.ok) console.error('[mark-lesson] DB INSERT error:', await dbResp.text());
+      } catch (e) {
+        console.error('[mark-lesson] DB INSERT exception:', e.message);
+      }
+    })();
+
+    return res.status(200).json({
+      score:            pScore,
+      max_score:        pMax,
+      feedback_key:     pVariant.key,
+      feedback_variant: pVariant.variant,
+      state_detected:   verdict.state_detected,
+      count:            verdict.count,
+      reasoning:        verdict.reason
+    });
+  }
+
+  // ==================================================================
+  //  RAY DIAGRAM PATH (existing) — line + direction exact-match
+  // ==================================================================
+  const picked_line      = student_submission.picked_line;
+  const picked_direction = student_submission.picked_direction;
+  if (!picked_line || typeof picked_line !== 'string' || picked_line.trim() === '') {
+    return res.status(400).json({ error: 'Missing picked_line' });
+  }
+  if (!picked_direction || typeof picked_direction !== 'string' || picked_direction.trim() === '') {
+    return res.status(400).json({ error: 'Missing picked_direction' });
   }
 
   // ------------------------------------------------------------------
