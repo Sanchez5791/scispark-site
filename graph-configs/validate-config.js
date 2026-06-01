@@ -18,13 +18,14 @@
     gradient_calc:  3,
     correlation:    1,
     pattern_text:   1,
-    anomaly_marked: 1
+    anomaly_marked: 1,
+    curve_best_fit: 1
   };
 
   // 说明书 §5.2 + §3 列出的 graph_type（不在表里只警告，不挡 —— 留余地给新题型）
   var KNOWN_GRAPH_TYPES = [
     'line_plot_fit', 'line_plot_only', 'bar_chart_fill', 'scatter_correlation',
-    'read_from_graph', 'gradient_calc', 'describe_pattern'
+    'read_from_graph', 'gradient_calc', 'describe_pattern', 'curve_best_fit'
   ];
 
   function isNum(v) { return typeof v === 'number' && isFinite(v); }
@@ -101,6 +102,25 @@
       case 'anomaly_marked':
         // expected_anomaly 可有可无（没有=应判断「没有异常点」），不强制
         break;
+      case 'curve_best_fit': {
+        var curve = cfg.expected_curve;
+        if (!isArr(curve) || curve.length < 2) {
+          errs.push('curve_best_fit 需要至少 2 点的 expected_curve 数组（期望曲线模型）');
+        } else {
+          curve.forEach(function (p, i) {
+            if (!p || !isNum(p.x) || !isNum(p.y))
+              errs.push('expected_curve[' + i + '] 坐标不是数字（config 也不许有坏类型）');
+          });
+        }
+        if (!isNum(cfg.curve_tolerance) || cfg.curve_tolerance <= 0)
+          errs.push('curve_best_fit 需要正数 curve_tolerance（每个采样点 y 的容差带）');
+        if (cfg.min_fraction_in_band != null &&
+            (!isNum(cfg.min_fraction_in_band) || cfg.min_fraction_in_band <= 0 || cfg.min_fraction_in_band > 1))
+          errs.push('min_fraction_in_band 写了但不是 0~1 之间的数字');
+        if (cfg.sample_step != null && (!isNum(cfg.sample_step) || cfg.sample_step <= 0))
+          errs.push('sample_step 写了但不是正数');
+        break;
+      }
     }
     return errs;
   }

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSXGraph 手绘判分 Demo — Y9_Q2b</title>
+
+<!-- JSXGraph：拜罗伊特大学维护，LGPL/MIT 可商用免费。这里用 CDN，正式集成时改成本地文件即可 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraph.css">
+<script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraphcore.js"></script>
+
+<style>
+  :root { --ink:#1a2233; --line:#d8dee9; --good:#10825b; --bad:#c0392b; --brand:#2f6df0; }
+  * { box-sizing:border-box; }
+  body { font-family:-apple-system,Segoe UI,Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+         color:var(--ink); margin:0; padding:24px; background:#f6f8fb; }
+  h1 { font-size:18px; margin:0 0 4px; }
+  .sub { color:#6b7280; font-size:13px; margin:0 0 16px; }
+  .wrap { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; }
+  #board { width:520px; height:460px; border:1px solid var(--line); border-radius:10px;
+           background:#fff; touch-action:none; }
+  .panel { width:380px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:14px; }
+  .card h2 { font-size:13px; margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em; color:#6b7280; }
+  button { font:inherit; border:1px solid var(--line); background:#fff; padding:8px 14px;
+           border-radius:8px; cursor:pointer; margin-right:8px; }
+  button.primary { background:var(--brand); color:#fff; border-color:var(--brand); }
+  button:active { transform:translateY(1px); }
+  pre { background:#0f172a; color:#d6e2ff; padding:12px; border-radius:8px; font-size:12px;
+        overflow:auto; max-height:170px; margin:0; }
+  .verdict { font-size:15px; font-weight:600; }
+  .row { display:flex; justify-content:space-between; padding:3px 0; font-size:13px; border-bottom:1px dashed #eef; }
+  .ok { color:var(--good); } .no { color:var(--bad); }
+  .axes-in { display:flex; gap:8px; margin-bottom:8px; }
+  .axes-in input { flex:1; padding:6px 8px; border:1px solid var(--line); border-radius:6px; font:inherit; }
+  .hint { font-size:12px; color:#6b7280; margin:8px 0 0; }
+</style>
+</head>
+<body>
+  <h1>手绘判分 Demo · Y9_Q2b（灯泡数 vs 电流）</h1>
+  <p class="sub">用鼠标/手指在坐标系里<strong>直接画一条线</strong>。库会在图表单位下采样出干净坐标，
+     算账脑零改动即可判分。正确答案：(1,12)(2,9)(3,7)(4,5)(5,2)。</p>
+
+  <div class="wrap">
+    <div id="board"></div>
+
+    <div class="panel">
+      <div class="card">
+        <h2>① 学生操作</h2>
+        <div class="axes-in">
+          <input id="xlabel" placeholder="x 轴标签，如 number of lamps">
+          <input id="ylabel" placeholder="y 轴标签，如 current / A">
+        </div>
+        <button class="primary" id="grade">判分</button>
+        <button id="clear">清空重画</button>
+        <p class="hint">按住拖动 = 手画曲线。松手后自动在 x=1..5 采样取值。</p>
+      </div>
+
+      <div class="card">
+        <h2>② 吐给算账脑的 JSON（图表单位，零像素标定）</h2>
+        <pre id="payload">（先画一条线）</pre>
+      </div>
+
+      <div class="card">
+        <h2>③ 判分结果（用你 mark.js 同款容差逻辑）</h2>
+        <div id="verdict" class="verdict">—</div>
+        <div id="breakdown"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ===== Y9_Q2b 配置（镜像 graph-configs/Y9_Q2b.json）=====
+var EXPECTED = [ {x:1,y:12},{x:2,y:9},{x:3,y:7},{x:4,y:5},{x:5,y:2} ];
+var PT_TOL = 0.5;              // point_tolerance
+var MIN_PTS_TO_AWARD = 4;      // min_points_to_award
+
+// ===== 建图：注意 bounding box 用的是图表单位，不是像素 =====
+var board = JXG.JSXGraph.initBoard('board', {
+  boundingbox: [-0.6, 14.5, 6, -1.2],   // [xmin, ymax, xmax, ymin] 全部图表单位
+  axis: true,
+  showCopyright: false, showNavigation: false,
+  defaultAxes: {
+    x: { ticks: { insertTicks:false, ticksDistance:1, minorTicks:0 } },
+    y: { ticks: { insertTicks:false, ticksDistance:2, minorTicks:1 } }
+  },
+  grid: true,
+  pan: { enabled:false }, zoom: { enabled:false }
+});
+
+// 把正确点画成淡色参照（正式题目里不显示，这里 demo 方便你肉眼对照）
+EXPECTED.forEach(function(p){
+  board.create('point',[p.x,p.y],{name:'',size:2,color:'#cbd5e1',fixed:true,withLabel:false});
+});
+
+// ===== 手绘捕捉 =====
+var raw = [];          // 原始手绘点 [x,y]（图表单位）
+var drawing = false;
+var sketchCurve = board.create('curve', [[],[]], { strokeColor:'#2f6df0', strokeWidth:3 });
+
+function usrCoords(e){
+  var c = board.getUsrCoordsOfMouse(e);  // 直接拿图表单位坐标 —— 这就是不用像素标定的关键
+  return [c[0], c[1]];
+}
+function pushPoint(e){
+  var p = usrCoords(e);
+  // 单调 x：手画时只保留 x 递增的样本，避免来回抖动
+  if (raw.length===0 || p[0] > raw[raw.length-1][0]) raw.push(p);
+  sketchCurve.dataX = raw.map(function(d){return d[0];});
+  sketchCurve.dataY = raw.map(function(d){return d[1];});
+  board.update();
+}
+
+board.on('down', function(e){ drawing = true; raw = []; pushPoint(e); });
+board.on('move', function(e){ if(drawing) pushPoint(e); });
+board.on('up',   function(){ drawing = false; refreshPayload(); });
+
+// ===== 在 x=1..5 采样：把任意手绘曲线变成干净的 {x,y} 数组 =====
+function sampleAt(xq){
+  if (raw.length < 2) return null;
+  for (var i=0;i<raw.length-1;i++){
+    var a=raw[i], b=raw[i+1];
+    if ((xq>=a[0] && xq<=b[0]) || (xq>=b[0] && xq<=a[0])){
+      var t = (xq-a[0])/((b[0]-a[0])||1e-9);
+      return a[1] + t*(b[1]-a[1]);   // 线性插值取 y
+    }
+  }
+  return null; // 该 x 没画到
+}
+function sampledPoints(){
+  return EXPECTED.map(function(e){
+    var y = sampleAt(e.x);
+    return y===null ? null : { x:e.x, y:Math.round(y*100)/100 };
+  }).filter(Boolean);
+}
+
+// ===== 生成给算账脑的 payload（和 mark.js 的字段对齐）=====
+function buildPayload(){
+  return {
+    graph_points: sampledPoints(),
+    line_best_fit: raw.length>=2
+      ? { start:{x:Math.round(raw[0][0]*100)/100, y:Math.round(raw[0][1]*100)/100},
+          end:  {x:Math.round(raw[raw.length-1][0]*100)/100, y:Math.round(raw[raw.length-1][1]*100)/100} }
+      : null,
+    axis_labels: {
+      x_axis_label: document.getElementById('xlabel').value.trim(),
+      y_axis_label: document.getElementById('ylabel').value.trim()
+    }
+  };
+}
+function refreshPayload(){
+  document.getElementById('payload').textContent = JSON.stringify(buildPayload(), null, 2);
+}
+
+// ===== 判分：复用 mark.js 的容差思路（点在 ±0.5 内，≥4 点给分）=====
+function grade(){
+  var pts = sampledPoints();
+  var rows = EXPECTED.map(function(e){
+    var got = pts.find(function(p){return p.x===e.x;});
+    var ok = got && Math.abs(got.y - e.y) <= PT_TOL;
+    return { x:e.x, want:e.y, got: got?got.y:null, ok:ok };
+  });
+  var correct = rows.filter(function(r){return r.ok;}).length;
+  var awarded = correct >= MIN_PTS_TO_AWARD ? 1 : 0;
+
+  document.getElementById('breakdown').innerHTML = rows.map(function(r){
+    return '<div class="row"><span>x='+r.x+' 期望 y='+r.want+'</span>'+
+           '<span class="'+(r.ok?'ok':'no')+'">'+(r.got===null?'未画到':'你画 '+r.got)+
+           ' '+(r.ok?'✓':'✗')+'</span></div>';
+  }).join('');
+
+  var v = document.getElementById('verdict');
+  v.textContent = correct+'/5 点命中 → point_plotting 得分：'+awarded+'/1';
+  v.className = 'verdict ' + (awarded? 'ok':'no');
+  refreshPayload();
+}
+
+document.getElementById('grade').onclick = grade;
+document.getElementById('clear').onclick = function(){
+  raw = []; sketchCurve.dataX=[]; sketchCurve.dataY=[]; board.update();
+  document.getElementById('payload').textContent='（先画一条线）';
+  document.getElementById('verdict').textContent='—';
+  document.getElementById('verdict').className='verdict';
+  document.getElementById('breakdown').innerHTML='';
+};
+
+// 暴露给自动化测试用
+window.__demo = { board:board, pushRaw:function(arr){ raw=arr.slice();
+  sketchCurve.dataX=raw.map(function(d){return d[0];});
+  sketchCurve.dataY=raw.map(function(d){return d[1];}); board.update(); refreshPayload(); },
+  grade:grade, buildPayload:buildPayload };
+</script>
+</body>
+</html>
