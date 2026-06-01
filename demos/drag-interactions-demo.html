@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark · Drag Interactions Demo (排顺序 / 连连看 / 拖步骤)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/components/drag-interactions.css">
+<style>
+  body { font-family:'Inter',sans-serif; background:#FBF8F4; color:#171413; margin:0; padding:2rem 1rem; }
+  .wrap { max-width:640px; margin:0 auto; }
+  h1 { font-size:1.3rem; }
+  .demo-block { background:#F4EFE7; border:1px solid #E6DFD3; border-radius:16px; padding:1.25rem 1.5rem; margin:1.5rem 0; }
+  .demo-block > h2 { font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:#6b6358; margin:0 0 .25rem; }
+  .btn { font:inherit; border:none; border-radius:10px; padding:.55rem 1.1rem; font-weight:600; }
+  .btn-primary { background:#EA580C; color:#fff; }
+  #log { font:13px/1.5 'JetBrains Mono',monospace; background:#171413; color:#d9eed9; padding:1rem; border-radius:10px; white-space:pre-wrap; min-height:2rem; }
+  .langbtn { background:#fff; border:1.5px solid #D9D0BF; border-radius:8px; padding:.3rem .8rem; cursor:pointer; }
+</style>
+</head>
+<body data-lang="en">
+<div class="wrap">
+  <h1>Drag Interactions — 组件一 demo</h1>
+  <p><button class="langbtn" onclick="toggleLang()">中 / EN</button> &nbsp;<small>self_check on — widget grades itself for the demo</small></p>
+
+  <!-- 1) 排顺序 -->
+  <div class="demo-block">
+    <h2>① 排顺序 / sequence</h2>
+    <div data-component="drag" data-question-id="DEMO_SEQ">
+      <script type="application/json">
+      {
+        "mode": "sequence",
+        "self_check": true,
+        "prompt": { "en": "Put the states of matter in order of increasing particle energy:", "zh": "把物质三态按粒子能量从小到大排序：" },
+        "items": [
+          { "id": "solid",  "label": { "en": "Solid",  "zh": "固态" } },
+          { "id": "liquid", "label": { "en": "Liquid", "zh": "液态" } },
+          { "id": "gas",    "label": { "en": "Gas",    "zh": "气态" } }
+        ],
+        "correct_order": ["solid", "liquid", "gas"]
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- 2) 连连看 -->
+  <div class="demo-block">
+    <h2>② 连连看 / match</h2>
+    <div data-component="drag" data-question-id="DEMO_MATCH">
+      <script type="application/json">
+      {
+        "mode": "match",
+        "self_check": true,
+        "prompt": { "en": "Match each change of state to its name:", "zh": "把每个状态变化和它的名称连起来：" },
+        "left": [
+          { "id": "L1", "label": { "en": "Solid → Liquid", "zh": "固 → 液" } },
+          { "id": "L2", "label": { "en": "Liquid → Gas",   "zh": "液 → 气" } },
+          { "id": "L3", "label": { "en": "Gas → Liquid",   "zh": "气 → 液" } }
+        ],
+        "right": [
+          { "id": "R1", "label": { "en": "Melting",       "zh": "熔化" } },
+          { "id": "R2", "label": { "en": "Boiling",       "zh": "沸腾" } },
+          { "id": "R3", "label": { "en": "Condensation",  "zh": "凝结" } }
+        ],
+        "correct_pairs": [ ["L1","R1"], ["L2","R2"], ["L3","R3"] ]
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- 3) 拖步骤 -->
+  <div class="demo-block">
+    <h2>③ 拖步骤 / steps</h2>
+    <div data-component="drag" data-question-id="DEMO_STEPS">
+      <script type="application/json">
+      {
+        "mode": "sequence",
+        "self_check": true,
+        "prompt": { "en": "Order the steps to separate salt from sand:", "zh": "把“从沙子里分离盐”的步骤排好顺序：" },
+        "items": [
+          { "id": "s1", "label": { "en": "Add water and stir to dissolve the salt", "zh": "加水搅拌溶解盐" } },
+          { "id": "s2", "label": { "en": "Filter to remove the sand", "zh": "过滤除去沙子" } },
+          { "id": "s3", "label": { "en": "Evaporate the water to get the salt", "zh": "蒸发水分得到盐" } }
+        ],
+        "correct_order": ["s1", "s2", "s3"]
+      }
+      </script>
+    </div>
+  </div>
+
+  <h2 style="font-size:.9rem;">dg:submit event log</h2>
+  <div id="log">(submit any block…)</div>
+</div>
+
+<script src="/components/drag-interactions.js"></script>
+<script>
+  function toggleLang() {
+    var b = document.body;
+    b.setAttribute('data-lang', b.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
+    // re-init for the demo (clears state) — production keeps state & swaps text
+    document.querySelectorAll('[data-component="drag"]').forEach(function (h) {
+      h.__dgInit = false; h.innerHTML = h.querySelector('script') ? h.innerHTML : h.innerHTML;
+    });
+    location.reload();
+  }
+  document.addEventListener('dg:submit', function (e) {
+    var d = e.detail;
+    document.getElementById('log').textContent =
+      JSON.stringify(d.submission) + '\n→ ' + (d.local_result ? (d.local_result.correct ? 'CORRECT ✓' : 'wrong ✗') + ' — ' + d.local_result.message : '(sent to server)');
+  });
+</script>
+</body>
+</html>
