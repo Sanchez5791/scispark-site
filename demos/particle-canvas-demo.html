@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark · Particle Canvas Demo (三态粒子图画板)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/components/particle-canvas.css">
+<style>
+  body { font-family:'Inter',sans-serif; background:#FBF8F4; color:#171413; margin:0; padding:2rem 1rem; }
+  .wrap { max-width:680px; margin:0 auto; }
+  h1 { font-size:1.3rem; }
+  .demo-block { background:#F4EFE7; border:1px solid #E6DFD3; border-radius:16px; padding:1.25rem 1.5rem; margin:1.5rem 0; }
+  .demo-block > h2 { font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:#6b6358; margin:0 0 .5rem; }
+  .btn { font:inherit; border:none; border-radius:10px; padding:.55rem 1.1rem; font-weight:600; }
+  .btn-primary { background:#EA580C; color:#fff; }
+  #log { font:13px/1.5 'JetBrains Mono',monospace; background:#171413; color:#d9eed9; padding:1rem; border-radius:10px; white-space:pre-wrap; min-height:2rem; }
+  .langbtn { background:#fff; border:1.5px solid #D9D0BF; border-radius:8px; padding:.3rem .8rem; cursor:pointer; }
+  .hint { color:#6b6358; font-size:.85rem; }
+</style>
+</head>
+<body data-lang="en">
+<div class="wrap">
+  <h1>Particle Canvas — 组件二 demo</h1>
+  <p><button class="langbtn" onclick="document.body.setAttribute('data-lang', document.body.getAttribute('data-lang')==='zh'?'en':'zh'); location.reload();">中 / EN</button>
+     &nbsp;<span class="hint">tap = add · tap a particle = remove · drag = move · self_check on</span></p>
+
+  <!-- expected SOLID -->
+  <div class="demo-block">
+    <h2>① expected: SOLID (整齐挨着, ≥6)</h2>
+    <div data-component="particle" data-question-id="DEMO_SOLID">
+      <script type="application/json">
+      { "tools": ["particles"], "self_check": true, "expected_state": "solid",
+        "prompt": { "en": "Draw the particles in a SOLID (≥6 particles).", "zh": "画出固态的粒子排列（≥6 颗）。" } }
+      </script>
+    </div>
+  </div>
+
+  <!-- expected GAS -->
+  <div class="demo-block">
+    <h2>② expected: GAS (稀疏散开, ≥6)</h2>
+    <div data-component="particle" data-question-id="DEMO_GAS">
+      <script type="application/json">
+      { "tools": ["particles"], "self_check": true, "expected_state": "gas",
+        "prompt": { "en": "Draw the particles in a GAS (≥6 particles).", "zh": "画出气态的粒子排列（≥6 颗）。" } }
+      </script>
+    </div>
+  </div>
+
+  <!-- particles + arrows -->
+  <div class="demo-block">
+    <h2>③ particles + arrows (箭头机制, 判分待定)</h2>
+    <div data-component="particle" data-question-id="DEMO_ARROW">
+      <script type="application/json">
+      { "tools": ["particles", "arrows"],
+        "prompt": { "en": "Draw particles, then an arrow showing melting.", "zh": "画出粒子，再画一个表示熔化的箭头。" } }
+      </script>
+    </div>
+  </div>
+
+  <h2 style="font-size:.9rem;">submit log</h2>
+  <div id="log">(draw + submit…)</div>
+</div>
+
+<!-- shared marking core MUST load before the widget -->
+<script src="/components/particle-mark-core.js"></script>
+<script src="/components/particle-canvas.js"></script>
+<script>
+  document.addEventListener('pc:submit', function (e) {
+    var d = e.detail, s = d.submission;
+    document.getElementById('log').textContent =
+      'particles=' + s.particles.length + ' arrows=' + s.arrows.length + ' diameter=' + s.diameter +
+      '\n' + (d.local_result
+        ? (d.local_result.correct ? 'CORRECT ✓' : 'wrong ✗') + ' — detected "' + d.local_result.state_detected +
+          '" count=' + d.local_result.count + ' metrics=' + JSON.stringify(d.local_result.metrics)
+        : '(sent to server)');
+  });
+</script>
+</body>
+</html>
