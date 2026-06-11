@@ -253,6 +253,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
   const LS_MUTE = 'scispark.mute';
   const LS_PROGRESS_PREFIX = 'scispark.progress.';
 
+  // XP / answer-tracking state (used by awardXP, updateXPDisplay, setupAutoSave, completeLesson)
+  let xpEarned = {lesson:0, mcq:0, aha:0};
+  let xpAnswered = new Set();
+
   function showScreen(name) {
     if (!SCREENS.includes(name)) return;
 
