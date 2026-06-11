@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y8 U7 L01 · Speed: First Physics Formula</title>
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson · Y8 Unit 7 Lesson 01 — Speed (v = d / t)
+Built on the B-mode v4 shell: shared /lesson-shell-v4.css + /lesson-shell-v4.js
+Content only — shell behaviour is NOT modified here.
+M5 sample lesson. NO_PUSH until boss sign-off.
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="2" data-lesson="1">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y8 · U7 · L01</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y8 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate</div>
+      <div class="screen-title" data-en="How fast is fast?" data-zh="多快算快？">How fast is fast?</div>
+      <div class="screen-title-zh">多快算快？</div>
+      <div class="screen-desc" data-en="You move every day — walking, running, cycling. How fast? Speed is the first thing physics lets us put a NUMBER on." data-zh="你每天都在动 — 走路、跑步、骑脚车。有多快？速率是物理第一个能让你用数字量化的东西。">
+        You move every day — walking, running, cycling. How fast? Speed is the first thing physics lets us put a NUMBER on.
+        <span class="zh">你每天都在动 — 走路、跑步、骑脚车。有多快？速率是物理第一个能让你用数字量化的东西。</span>
+      </div>
+    </div>
+
+    <!-- DouDou hook video placeholder -->
+    <!-- PHASE 2 ACTIVATE: replace with HeyGen/YouTube iframe -->
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video">
+          <path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="prof-p-video-title">DouDou · How fast is fast?</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <!-- Hook scenario card -->
+    <div class="card card-accent" style="margin-bottom:18px;">
+      <div class="card-title" data-en="Nice drama, zero evidence 🏃" data-zh="戏很多，证据零">Nice drama, zero evidence 🏃</div>
+      <div class="card-zh">戏很多，证据零</div>
+      <p style="font-size:14px;color:var(--ink-3);margin-top:8px;line-height:1.6;">
+        If two students argue <em>"I'm faster!"</em> without numbers, physics says: nice drama, zero evidence.
+        <span class="zh">如果两个学生只喊「我比较快！」但没有数字，物理会说：戏很多，证据零。</span>
+      </p>
+      <p style="font-size:13px;color:var(--accent-ink);font-weight:600;margin-top:10px;">
+        Today we turn "fast" from a feeling into a number.
+        <span class="zh">今天把「很快」这种感觉，变成可以算的数字。</span>
+      </p>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:12px;color:var(--ink-3);">
+        <strong>Callback:</strong> In Y7 Unit 7 we learned "what a force is." Now in Y8 we start to MEASURE motion.
+        <span class="zh">Y7 Unit 7 我们学了「什么是力」。现在 Y8 我们开始量化运动。</span>
+      </p>
+
+      <!-- IMAGE SLOT (pending Recraft) -->
+      <div style="margin:14px 0 2px;padding:22px;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);text-align:center;">
+        <div style="font-size:26px;">🖼️</div>
+        <div style="font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:6px;">IMAGE PENDING · L01_SCREEN_IMG01</div>
+        <div style="font-size:12px;color:var(--ink-3);margin-top:4px;">One person walking, one running, one cycling — left to right<span class="zh"> · 走 / 跑 / 骑 三人图</span></div>
+      </div>
+    </div>
+
+    <!-- Vocab cards × 6 -->
+    <div style="margin-bottom:10px;">
+      <div class="screen-eyebrow" style="margin-bottom:10px;">Key Words<span class="zh"> 关键词</span> · Lesson 1</div>
+      <div class="vocab-grid">
+        <div class="vocab-card">
+          <div class="vocab-word">Speed</div>
+          <div class="vocab-zh">速率</div>
+          <div class="vocab-def">How much distance is covered in a certain time</div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-word">Distance</div>
+          <div class="vocab-zh">距离</div>
+          <div class="vocab-def">How far something travels</div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-word">Time</div>
+          <div class="vocab-zh">时间</div>
+          <div class="vocab-def">How long the motion takes</div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-word">v = d / t</div>
+          <div class="vocab-zh">速率公式</div>
+          <div class="vocab-def">The speed formula: distance divided by time</div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-word">m/s</div>
+          <div class="vocab-zh">米每秒</div>
+          <div class="vocab-def">Metres per second — a unit of speed</div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-word">km/h</div>
+          <div class="vocab-zh">千米每时</div>
+          <div class="vocab-def">Kilometres per hour — a unit of speed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Look Around You prompt -->
+    <div class="card" style="margin-bottom:18px;border:2px dashed var(--accent);background:var(--accent-soft);">
+      <div style="font-family:var(--ff-mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">🌍 Look Around You · 看看你的周围</div>
+      <p style="font-size:14px;color:var(--accent-ink);font-weight:500;margin-bottom:6px;">
+        Think of the last time you ran. How would you prove who is faster — you or a friend?
+        <span class="zh" style="font-family:var(--ff-zh);font-size:12px;font-weight:400;color:var(--ink-3);">想想你上次跑步。你怎么证明谁更快 — 你还是朋友？</span>
+      </p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept</div>
+      <div class="screen-title" data-en="Speed = Distance ÷ Time" data-zh="速率 = 距离 ÷ 时间">Speed = Distance ÷ Time</div>
+      <div class="screen-title-zh">速率 = 距离 ÷ 时间</div>
+    </div>
+
+    <!-- LEARN-1: What speed means -->
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">What speed means <span class="zh">速率的意思</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.7;">
+        Speed tells you how much distance is covered in a certain time. Faster = more distance in the same time.
+        <span class="zh">速率告诉你在一段时间内走了多少距离。越快 = 同样时间内走得越远。</span>
+      </p>
+      <p style="font-size:13px;color:var(--accent-ink);margin-top:10px;">
+        🧾 Think of speed like a <strong>distance-per-time receipt</strong> — it tells you how much distance each second gives.
+        <span class="zh">速率像「每秒距离收据」——每一秒给你多少距离。</span>
+      </p>
+      <p style="font-size:12px;color:var(--ink-3);margin-top:8px;">
+        ⚠️ Real motion can speed up and slow down — this lesson uses <strong>average speed</strong>.
+        <span class="zh">但实际上，真实运动会忽快忽慢；这一课先用平均速率。</span>
+      </p>
+    </div>
+
+    <!-- LEARN-2: The formula + triangle image -->
+    <div class="card card-accent" style="margin-bottom:18px;">
+      <div class="card-title">The formula <span class="zh">公式</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <div style="text-align:center;font-family:var(--ff-mono);font-size:24px;font-weight:600;color:var(--accent);letter-spacing:0.04em;margin:6px 0 4px;">
+        v = d / t
+      </div>
+      <p style="text-align:center;font-size:13px;color:var(--ink-2);">
+        speed = distance / time
+        <span class="zh">速率 = 距离 / 时间</span>
+      </p>
+      <p style="font-size:13px;color:var(--accent-ink);font-weight:600;margin-top:10px;text-align:center;">
+        Chant: Speed is distance over time — <strong>d on top, t below</strong>.
+        <span class="zh">顺口记：速率看距离除时间——d 在上，t 在下。</span>
+      </p>
+      <p style="font-size:12px;color:var(--ink-3);margin-top:6px;text-align:center;">
+        The slash / means distance is shared across time.
+        <span class="zh">斜线 / 的意思是距离被时间分掉。</span>
+      </p>
+
+      <!-- IMAGE SLOT (pending Recraft) -->
+      <div style="margin:14px auto 2px;max-width:340px;padding:22px;border:2px dashed var(--accent);border-radius:12px;background:#fff;text-align:center;">
+        <div style="font-size:26px;">📐</div>
+        <div style="font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:6px;">IMAGE PENDING · L01_SCREEN_IMG02</div>
+        <div style="font-size:12px;color:var(--ink-3);margin-top:4px;">Formula triangle: d on top, v and t below<span class="zh"> · 公式三角形 v=d/t</span></div>
+      </div>
+    </div>
+
+    <!-- LEARN-3: The three-piece rule -->
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">★ The three-piece rule <span class="zh">公式三件套</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:13px;color:var(--accent-ink);font-weight:600;margin-bottom:10px;">
+        Formula first. Numbers second. Answer with unit last.
+        <span class="zh">先公式，再数字，最后答案加单位。</span>
+      </p>
+      <div style="font-family:var(--ff-mono);font-size:13px;line-height:2;background:var(--accent-soft);border-radius:10px;padding:14px 16px;color:var(--ink-1);">
+        Step 1 — write the formula:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = d / t<br>
+        Step 2 — substitute numbers + units:&nbsp;&nbsp;v = 100 m / 20 s<br>
+        Step 3 — write answer + unit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = 5 m/s
+      </div>
+      <p style="font-size:12px;color:var(--ink-3);margin-top:10px;">
+        🍳 The three steps are like cooking: recipe, ingredients, final dish.
+        <span class="zh">三步像煮东西：先写食谱，再放材料，最后端出成品。</span>
+      </p>
+    </div>
+
+    <!-- LEARN-4: MISCONCEPTION RED CARD -->
+    <div class="card" style="margin-bottom:18px;border:2px solid #DC2626;background:#FEF2F2;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#DC2626;margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 错误观念红牌</span></div>
+      <p style="font-size:14px;color:#991B1B;font-weight:600;">
+        "No unit, no mark." Writing just "5" for a speed is WRONG. Speed must carry a unit (m/s or km/h).
+        <span class="zh" style="font-weight:400;">「没单位，没分。」速率只写「5」是错的。速率一定要带单位（m/s 或 km/h）。</span>
+      </p>
+    </div>
+
+    <!-- LEARN-5: Units -->
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Units <span class="zh">单位</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.7;">
+        <strong>m/s</strong> = metres per second. <strong>km/h</strong> = kilometres per hour. Pick the unit that matches the distance and time given in the question.
+        <span class="zh">m/s = 米每秒。km/h = 千米每时。用题目给的距离和时间相配的单位。</span>
+      </p>
+    </div>
+
+    <!-- LEARN-6: EXAM vs REAL SCIENCE box -->
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+      <p style="font-size:13px;color:#075985;line-height:1.7;">
+        In the exam, write 'ignoring air resistance'. In real life, air resistance always exists. After falling a long time, an object reaches 'terminal velocity' and stops speeding up. That's why skydivers don't keep accelerating forever.
+        <span class="zh">考试时写：「忽略空气阻力」。真实空气阻力一直在。掉久了速度会停（terminal velocity）。跳伞的人不会永远越掉越快。</span>
+      </p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="Now you try." data-zh="换你来试">Now you try.</div>
+      <div class="screen-title-zh">换你来试</div>
+      <div class="screen-desc" data-en="Hints are available here. Write the formula first, then the numbers, then the answer with a unit." data-zh="这里可以看提示。先写公式，再代数字，最后答案带单位。">
+        Hints are available here. Write the formula first, then the numbers, then the answer with a unit.
+        <span class="zh">这里可以看提示。先写公式，再代数字，最后答案带单位。</span>
+      </div>
+    </div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Calculate speed · 计算速率 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A child walks 20 m in 10 s. Calculate the speed. <span class="zh">一个小孩 10 秒走了 20 米。计算速率。</span></p>
+        <textarea class="short-input" id="q01-input" placeholder="Step 1: v = d / t&#10;Step 2: ...&#10;Answer with unit (m/s)"></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Use v = d / t. Distance on top, time on the bottom. speed = distance / time = 20 / 10.
+          <span class="zh">用 v = d / t。距离在上，时间在下。速率 = 距离 / 时间 = 20 / 10。</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            v = d / t = 20 m ÷ 10 s = <strong>2 m/s</strong><br>
+            Marks: 1 method; 1 answer 2 m/s with unit.<br>
+            ✓ Accept: 2 m/s.<br>
+            ✗ Reject: 2 (no unit); 0.5 m/s; 2 m.
+          </div>
+          <div class="source-note">Source: SciSpark original question</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">Calculate speed · 计算速率 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A coin slides 6 m across ice in 3 s. Calculate the speed. Include the unit. <span class="zh">一枚硬币在冰面上 3 秒滑了 6 米。计算速率。要带单位。</span></p>
+        <textarea class="short-input" id="q02-input" placeholder="v = d / t = ...&#10;Answer with unit (m/s)"></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Same formula every time: v = d / t. 6 m / 3 s.
+          <span class="zh">每次都同一个公式：v = d / t。6 m / 3 s。</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            v = d / t = 6 m ÷ 3 s = <strong>2 m/s</strong><br>
+            Marks: 1 method; 1 answer 2 m/s with unit.<br>
+            ✓ Accept: 2 m/s.<br>
+            ✗ Reject: 2 (no unit); 18 m/s; 2 m.
+          </div>
+          <div class="source-note">Source: SciSpark original question</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 (real PYQ · P02) -->
+    <div class="question-block" data-level="2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Toy car on a slope · Cambridge PYQ <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Chen wants to calculate the average speed of a toy car travelling down a slope. He releases the car from the starting point. He does not push the car. <span class="zh">Chen 想算玩具车下斜坡的平均速率。他从起点放开车，不推车。</span></p>
+
+        <!-- IMAGE SLOT (real PYQ figure, pending) -->
+        <div style="margin:12px 0;padding:18px;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);text-align:center;">
+          <div style="font-size:22px;">🖼️</div>
+          <div style="font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:6px;">IMAGE PENDING · L01_Q02_IMG01</div>
+          <div style="font-size:12px;color:var(--ink-3);margin-top:4px;">Toy car / slope diagram (from exam paper)<span class="zh"> · 玩具车下斜坡图</span></div>
+        </div>
+
+        <p class="question-text">(a) Chen takes measurements of distance and time. Write down the names of the pieces of equipment Chen uses to measure distance and time. [2] <span class="zh">(a) 写出他测距离和时间用的器材名称。[2]</span></p>
+        <textarea class="short-input" id="q03a-input" placeholder="distance = ...   time = ..."></textarea>
+        <div class="save-indicator" id="q03a-save">Saved ✓ 已保存</div>
+
+        <p class="question-text" style="margin-top:14px;">(b) Describe how Chen uses the distance and the time to calculate the average speed of the toy car. [1] <span class="zh">(b) 描述 Chen 怎样用距离和时间算平均速率。[1]</span></p>
+        <textarea class="short-input" id="q03b-input" placeholder="Your answer..." style="min-height:50px;"></textarea>
+        <div class="save-indicator" id="q03b-save">Saved ✓ 已保存</div>
+
+        <p class="question-text" style="margin-top:14px;">(c) Chen repeats the investigation using different angles of the slope. His results:<br>
+          angle 10° : distance 1.0 m, time 1.6 s, average speed 0.63 m/s<br>
+          angle 20° : distance 1.0 m, time 2.0 s, average speed 0.50 m/s<br>
+          angle 30° : distance 1.0 m, time 1.1 s, average speed 0.91 m/s<br>
+          Chen predicts: 'The greater the angle of the slope, the greater the speed of the car.' Give one reason why his results support his prediction and one reason why they do not. [2]
+          <span class="zh">(c) Chen 用不同斜坡角度重复实验（数据见上）。他预测：「斜坡角度越大，车速越大。」给一个支持的理由和一个不支持的理由。[2]</span></p>
+        <textarea class="short-input" id="q03c-input" placeholder="Support: ...&#10;Against: ..." style="min-height:60px;"></textarea>
+        <div class="save-indicator" id="q03c-save">Saved ✓ 已保存</div>
+
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          For (a) think which tool measures length and which measures time. For (c) compare the speed numbers, not the angles — one angle breaks the pattern.
+          <span class="zh">(a) 想哪个器材量长度、哪个量时间。(c) 比速率数字，不是比角度——有一个角度打破了规律。</span>
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            (a) distance: tape measure / metre ruler / trundle wheel; time: stopwatch / stopclock / timer. [1 distance tool + 1 time tool]<br>
+            (b) divide distance by time (distance ÷ time). [1]<br>
+            (c) support: 30° has highest speed 0.91 m/s. against: 20° 0.50 m/s is less than 10° 0.63 m/s. [1 support + 1 against]<br><br>
+            ✗ Reject: (a) distance stopwatch; time ruler; balance; thermometer. (b) time ÷ distance; distance × time. (c) only yes/no; "always increases".
+          </div>
+          <div class="source-note">Source: Speed docx MS#SP-L01-Q02 (PYQ, Cambridge LS Physics)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check marking scheme</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 (real PYQ · P03) -->
+    <div class="question-block" data-level="2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Block on a slope · Cambridge PYQ <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Rajiv investigates the speed of a block of wood moving down a slope. His prediction: 'I predict that the higher the slope, the faster the block of wood moves.' Here are his results. <span class="zh">Rajiv 研究木块下斜坡的速率。预测：「斜坡越高，木块动得越快。」结果见图。</span></p>
+
+        <!-- IMAGE SLOT (real PYQ figure, pending) -->
+        <div style="margin:12px 0;padding:18px;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);text-align:center;">
+          <div style="font-size:22px;">🖼️</div>
+          <div style="font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:6px;">IMAGE PENDING · L01_Q03_IMG01</div>
+          <div style="font-size:12px;color:var(--ink-3);margin-top:4px;">Block-on-slope results table (from exam paper)<span class="zh"> · 木块下斜坡结果表</span></div>
+        </div>
+
+        <p class="question-text">(a) Is Rajiv's prediction true? Use Rajiv's results to explain your answer. [2] <span class="zh">(a) Rajiv 的预测对吗？用他的结果解释你的答案。[2]</span></p>
+        <textarea class="short-input" id="q04a-input" placeholder="Yes / No, because ..." style="min-height:60px;"></textarea>
+        <div class="save-indicator" id="q04a-save">Saved ✓ 已保存</div>
+
+        <div class="hint-box" id="q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Work out the speed for the high slope and the low slope, then compare. high slope: 2.00 m in 4 s. low slope: 1.00 m in 4 s.
+          <span class="zh">算高坡和低坡的速率，再比较。高坡：4 秒 2.00 m。低坡：4 秒 1.00 m。</span>
+        </div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            Yes / true; high slope 0.5 m/s vs low slope 0.25 m/s; travels further in same time. [1 yes; 1 linked data / speed comparison]<br><br>
+            ✗ Reject: No; "because it is higher" only; "gravity stronger"; low slope faster.
+          </div>
+          <div class="source-note">Source: Speed docx MS#SP-L01-Q03 (PYQ, Cambridge LS Physics)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check marking scheme</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block" data-level="3">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Compare two speeds · 比较速率 <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A balloon rises 15 m in 6 s, then a second balloon rises 15 m in 5 s. Calculate the speed of each balloon and state which is faster. <span class="zh">一个气球 6 秒上升 15 米，第二个气球 5 秒上升 15 米。算出两个气球的速率，并说出哪个更快。</span></p>
+        <textarea class="short-input" id="q05-input" placeholder="Balloon 1: v = ...&#10;Balloon 2: v = ...&#10;Faster: ..." style="min-height:70px;"></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q05-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Same distance, different time. Smaller time = faster. balloon 1 = 15 / 6; balloon 2 = 15 / 5. Then: 15 / 6 = 2.5 m/s; 15 / 5 = 3 m/s. Compare.
+          <span class="zh">距离一样，时间不同。时间越小 = 越快。气球 1 = 15 / 6；气球 2 = 15 / 5。15 / 6 = 2.5 m/s；15 / 5 = 3 m/s。比较。</span>
+        </div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            balloon 1 = 2.5 m/s; balloon 2 = 3 m/s; <strong>balloon 2 is faster</strong>. [1 each correct speed; 1 correct comparison]<br><br>
+            ✗ Reject: no units; balloon 1 faster; 2.5 / 3 without unit.
+          </div>
+          <div class="source-note">Source: SciSpark original question</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q05-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="On your own now." data-zh="现在自己来">On your own now.</div>
+      <div class="screen-title-zh">现在自己来</div>
+      <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">
+        No hints on this screen. Answer by yourself, then check the marking scheme.
+        <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span>
+      </div>
+    </div>
+
+    <!-- Q06 (real PYQ · P01) -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">Toys down a ramp · Cambridge PYQ <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">7 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Bruce compares the speeds of some toys down a ramp. Here is the equipment he uses. <span class="zh">Bruce 比较一些玩具下斜坡的速率。器材见图。</span></p>
+
+        <!-- IMAGE SLOT (real PYQ figure, pending) -->
+        <div style="margin:12px 0;padding:18px;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);text-align:center;">
+          <div style="font-size:22px;">🖼️</div>
+          <div style="font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:6px;">IMAGE PENDING · L01_Q01_IMG01</div>
+          <div style="font-size:12px;color:var(--ink-3);margin-top:4px;">Ramp + timing-gate equipment (from exam paper)<span class="zh"> · 斜坡与计时门器材图</span></div>
+        </div>
+
+        <p class="question-text">He places each toy on the start line and lets it go. Results:<br>
+          bus:&nbsp;&nbsp;&nbsp;mass 400 g, gate distance 1.0 m, book height 50 cm, ramp 2.0 m, time 1.78 s<br>
+          car:&nbsp;&nbsp;&nbsp;mass 100 g, gate distance 1.0 m, book height 50 cm, ramp 2.0 m, time 0.95 s<br>
+          truck: mass 400 g, gate distance 1.0 m, book height 50 cm, ramp 2.0 m, time 2.50 s
+          <span class="zh">他把每个玩具放在起点线放手。结果见上。</span></p>
+
+        <p class="question-text">(a) Bruce keeps some variables the same. Write down two variables he keeps the same. [2] <span class="zh">(a) 写出两个他保持不变的变量。[2]</span></p>
+        <textarea class="short-input" id="q06a-input" placeholder="1. ...   2. ..."></textarea>
+        <div class="save-indicator" id="q06a-save">Saved ✓ 已保存</div>
+
+        <p class="question-text" style="margin-top:14px;">(b)(i) Which two measurements are needed to work out the average speed of the toy truck? [2] <span class="zh">(b)(i) 算玩具卡车的平均速率需要哪两个测量值？[2]</span></p>
+        <textarea class="short-input" id="q06bi-input" placeholder="1. ...   2. ..."></textarea>
+        <div class="save-indicator" id="q06bi-save">Saved ✓ 已保存</div>
+
+        <p class="question-text" style="margin-top:14px;">(b)(ii) Work out the average speed of the toy truck. Include the correct units. [3] <span class="zh">(b)(ii) 算出玩具卡车的平均速率。要带正确单位。[3]</span></p>
+        <textarea class="short-input" id="q06bii-input" placeholder="v = d / t = ...&#10;Answer with unit"></textarea>
+        <div class="save-indicator" id="q06bii-save">Saved ✓ 已保存</div>
+
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            (a) any two: same gate distance; same ramp surface; same book height; same start line; toy parallel to ramp edge. [1 per correct controlled variable, duplicate idea = 1]<br>
+            (b)(i) distance between timing gates; time taken between gates. [1 distance + 1 time]<br>
+            (b)(ii) 1 ÷ 2.5 = <strong>0.4 m/s</strong>. [1 method + 1 answer 0.4 + 1 unit m/s; correct answer no working max 2]<br><br>
+            ✗ Reject: (a) same toy; same mass; same time; same speed; same colour. (b)(i) mass; height; ramp length; speed as input. (b)(ii) 2.5 m/s; 1 m/s; 0.4 s; 0.4 m.
+          </div>
+          <div class="source-note">Source: Speed docx MS#SP-L01-Q01 (PYQ, Cambridge LS Physics)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check marking scheme</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 (real PYQ · P04) -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Timing gates · Cambridge PYQ <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Oliver uses timing gates to measure his speed when he is running. <span class="zh">Oliver 用计时门测量他跑步时的速率。图见上。</span></p>
+
+        <!-- IMAGE SLOT (real PYQ figure, pending) -->
+        <div style="margin:12px 0;padding:18px;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);text-align:center;">
+          <div style="font-size:22px;">🖼️</div>
+          <div style="font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-top:6px;">IMAGE PENDING · L01_Q04_IMG01</div>
+          <div style="font-size:12px;color:var(--ink-3);margin-top:4px;">Runner + timing gates (from exam paper)<span class="zh"> · 跑步者与计时门图</span></div>
+        </div>
+
+        <p class="question-text">(a) Oliver needs one other measurement to calculate his speed. What is this measurement and how does he measure it? [2] <span class="zh">(a) Oliver 还需要一个测量值来算速率。这是什么测量值，他怎么测？[2]</span></p>
+        <textarea class="short-input" id="q07a-input" placeholder="Measurement: ...   Instrument: ..."></textarea>
+        <div class="save-indicator" id="q07a-save">Saved ✓ 已保存</div>
+
+        <p class="question-text" style="margin-top:14px;">(b) Oliver repeats his run five times. Give two reasons why. [2] <span class="zh">(b) Oliver 重复跑了五次。给出两个原因。[2]</span></p>
+        <textarea class="short-input" id="q07b-input" placeholder="1. ...   2. ..."></textarea>
+        <div class="save-indicator" id="q07b-save">Saved ✓ 已保存</div>
+
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            (a) measurement: distance / metres; instrument: tape measure / trundle wheel. [1 measurement + 1 instrument]<br>
+            (b) any two: check consistency; calculate mean / average; improve reliability; compare results; effect of fatigue / training; identify anomaly. [1 per different valid reason]<br><br>
+            ✗ Reject: (a) time; speed; mass; stopwatch; thermometer. (b) "make it fair" vague; "make accurate" vague; "more results" only; "get better mark".
+          </div>
+          <div class="source-note">Source: Speed docx MS#SP-L01-Q04 (PYQ, Cambridge LS Physics)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check marking scheme</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Calculate speed · 计算速率 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">An ice cube slides 12 m in 4 s. Calculate the speed. Include the unit. <span class="zh">一块冰 4 秒滑了 12 米。计算速率。要带单位。</span></p>
+        <textarea class="short-input" id="q08-input" placeholder="v = d / t = ...&#10;Answer with unit (m/s)"></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            v = d / t = 12 m ÷ 4 s = <strong>3 m/s</strong><br>
+            Marks: 1 method; 1 answer 3 m/s with unit.<br>
+            ✗ Reject: 3 (no unit); 48 m/s; 3 m.
+          </div>
+          <div class="source-note">Source: SciSpark original question</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State who is faster · 谁更快 <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Two students each run 100 m. Student A takes 16 s. Student B takes 20 s. State who is faster and give a reason. <span class="zh">两个学生各跑 100 米。A 用 16 秒，B 用 20 秒。说出谁更快并给理由。</span></p>
+        <textarea class="short-input" id="q09-input" placeholder="Faster: ...   Reason: ..." style="min-height:60px;"></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Student A is faster</strong>; same distance but A took less time (or A = 6.25 m/s &gt; B = 5 m/s). [1 A faster; 1 valid reason]<br><br>
+            ✗ Reject: Student B; "they are the same"; no reason.
+          </div>
+          <div class="source-note">Source: SciSpark original question</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain reliability · 解释可靠性 <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A toy car is timed twice down the same ramp. Run 1 = 1.2 s, Run 2 = 1.4 s. Explain why a scientist would use the average of the two times rather than just one. <span class="zh">一辆玩具车在同一斜坡计时两次。第一次 1.2 秒，第二次 1.4 秒。解释为什么科学家会用两次时间的平均，而不是只用一次。</span></p>
+        <textarea class="short-input" id="q10-input" placeholder="Your explanation..." style="min-height:60px;"></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            averaging reduces the effect of random error / improves reliability; a single time may be anomalous. [1 reliability / reduce error; 1 single value may be wrong / anomalous]<br><br>
+            ✗ Reject: "to be fair" vague; "to be accurate" vague; "average is bigger".
+          </div>
+          <div class="source-note">Source: SciSpark original question</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+      <div class="wrap-point">
+        <div class="wrap-dot"></div>
+        <div><strong style="color:var(--accent);">Speed = distance / time</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">速率 = 距离 / 时间</span> — written <strong style="color:var(--accent);">v = d / t</strong>.</div>
+      </div>
+      <div class="wrap-point">
+        <div class="wrap-dot"></div>
+        <div>Always write the <strong style="color:var(--accent);">unit</strong> (m/s or km/h). No unit, no mark. <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">一定写单位。</span></div>
+      </div>
+      <div class="wrap-point">
+        <div class="wrap-dot"></div>
+        <div>Same formula, <strong style="color:var(--accent);">three steps</strong>, every time: formula → numbers → answer with unit. <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">同一个公式，三步走，每次都一样。</span></div>
+      </div>
+    </div>
+
+    <!-- XP stats -->
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+
+    <!-- Badge reveal -->
+    <!-- PHASE 2 ACTIVATE: write to Supabase user_badges table -->
+    <div class="badge-reveal">
+      <div class="badge-reveal-icon">
+        <svg width="48" height="48" viewBox="0 0 80 80" fill="none" role="img" aria-label="First Formula badge">
+          <g stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="16" y="16" width="48" height="48" rx="8"/>
+            <path d="M28 40H52"/>
+            <path d="M34 30L30 50"/>
+            <path d="M50 30L46 50"/>
+          </g>
+        </svg>
+      </div>
+      <div class="badge-reveal-name">First Formula 📐</div>
+      <div class="badge-reveal-zh">第一条公式</div>
+      <div class="badge-reveal-desc">You learned your first physics formula, v = d / t! <span class="zh">你学会了第一条物理公式 v = d / t!</span></div>
+    </div>
+
+    <!-- Aha Moment journal -->
+    <div class="card card-accent" style="margin-bottom:18px;">
+      <div class="card-title">Aha Moment 💡 <span class="zh">你的顿悟</span></div>
+      <p style="font-size:13px;color:var(--ink-3);margin-bottom:10px;">What is the most surprising thing you learned today? Write it in one sentence. <span class="zh">今天学到最让你惊讶的是什么?用一句话写下来。</span></p>
+      <textarea class="short-input" id="aha-input" placeholder="I didn't know that... / 我不知道..."></textarea>
+      <div class="save-indicator" id="aha-save">Saved ✓ 已保存</div>
+    </div>
+
+    <!-- Y8/Y9 boundary note -->
+    <div class="card" style="margin-bottom:18px;border:1px dashed var(--ink-4, #c9c1b4);">
+      <div style="font-family:var(--ff-mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">Scope note · 范围提醒</div>
+      <p style="font-size:13px;color:var(--ink-2);">
+        We only found speed here. Acceleration a = (v − u)/t comes in Y9 Unit 7.
+        <span class="zh">这里我们只求速率。加速度 a = (v − u)/t 在 Y9 Unit 7 教。</span>
+      </p>
+    </div>
+
+    <!-- Cliffhanger -->
+    <div class="cliffhanger">
+      <div class="cliff-label">🔭 Coming next · 下一课</div>
+      <div class="cliff-text">Next lesson: we use v = d / t three ways — to find speed, distance, OR time. Stay curious.</div>
+      <div style="font-family:var(--ff-zh);font-size:13px;color:rgba(255,255,255,0.7);margin-top:8px;">下一课：我们把 v = d / t 用三种方式 — 求速率、求距离、或求时间。保持好奇。</div>
+    </div>
+
+    <!-- Stay Curious -->
+    <div class="stay-curious">
+      <div class="stay-curious-quote">"You just put your first number on motion."</div>
+      <div class="stay-curious-quote" style="font-size:14px;font-family:var(--ff-zh);color:var(--ink-3);font-style:normal;">"你刚刚把运动变成了第一个数字。"</div>
+      <div class="stay-curious-author">— Professor Spark · Stay curious ✨</div>
+    </div>
+
+    <!-- Knowt deck placeholder -->
+    <!-- PHASE 2 ACTIVATE: replace with Knowt deck embed iframe -->
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — 6 words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson 1<span class="zh"> · 完成第一课</span></button>
+    </div>
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does v = d / t actually mean?
+        <span class="ai-prompt-btn-zh">v = d / t 到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Why must speed have a unit like m/s?
+        <span class="ai-prompt-btn-zh">为什么速率一定要带单位 m/s?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How do I choose between m/s and km/h?
+        <span class="ai-prompt-btn-zh">我怎么在 m/s 和 km/h 之间选?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: DouDou bubble dialogues ▼▼▼ -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Quick — who's faster, you or your friend? Let's prove it with a number!", zh: "快说 — 你和朋友谁更快？我们用数字来证明！" },
+  learn: { en: "Oh! Speed is just distance shared across time. d on top, t below!",        zh: "哦！速率就是距离被时间分掉。d 在上，t 在下！" },
+  try:   { en: "Let's try a few together — formula first, then the numbers!",               zh: "我们一起做几题 — 先写公式，再放数字！" },
+  test:  { en: "Your turn solo — and don't forget the unit!",                               zh: "换你自己来 — 别忘了单位！" },
+  wrap:  { en: "One formula, three steps, every time. Next we flip it around!",             zh: "同一个公式，三步走。下一课我们把它反过来用！" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
