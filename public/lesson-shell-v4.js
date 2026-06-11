@@ -887,7 +887,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     updateXPDisplay();
   
     // Update streak
-    updateStreak();
+    SparkStreak.add();
   
     // Surprise Drop 5% probability
     if (Math.random() < 0.05) {
