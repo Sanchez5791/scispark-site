@@ -1,45 +1,28 @@
 <!DOCTYPE html>
 <!--
 ═══════════════════════════════════════════════════════════════
-SciSpark v5 Landing Prototype · REFORM
+SciSpark v6 Landing · WARM EDITORIAL, EVOLVED
 ═══════════════════════════════════════════════════════════════
-基础: scispark_landing_v5_prototype.html
-改造: assessment-first → demo-first
-日期: 2026-05-20
+基础: v5 REFORM landing (2026-05-20)
+日期: 2026-06-12
 依据:
-  - ONBOARDING_REFORM_v1 (2026-05-19)
-  - V5_LANDING_REFORM_BRIEF_v1
-  - SIBLING_PACK_v1 (新增 4th pricing card)
-  - MR_P_TO_PROFESSOR_SPARK_v1 (保留)
-  - SCISPARK_MARKETING_RULES_v1 5 红线 (保留)
+  - SCISPARK_LANDING_REDESIGN_BRIEF_v1 (real children + living
+    product + generous space; copy −50%; v3.1 tokens)
+  - SCISPARK_LANDING_TEMP_IMAGE_SOURCING_BRIEF_v1 (placeholder
+    photo slots, swappable by filename, 16:9 bands / 4:3 cards)
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3_1 (tokens: Instrument
+    Serif / Inter / JetBrains Mono / Noto Sans SC · #FBF8F4 ·
+    #171413 · #EA580C)
 
-CHANGES (44 edits total):
-  - Hero: H1 / subtext / CTAs / 5 stats → 4 stats / 3 trust pills → 4 pills (含 Cambridge entry assessment)
-  - Section 02: lead + Card 01 改 + Card 03 加一句
-  - Photo 03: TUTOR REVIEW → PATTERN REVIEW
-  - How It Works: 4 步全重写 (SIGN UP/ASSESSMENT/REVIEW/PLATFORM → TRY/SIGN UP/LEARN/UPGRADE)
-  - Section 06: 2 段 review lead 改写 + Unit Browser badge
-  - Bilingual access note + Parent dashboard list + Comparison table
-  - Pricing: header + Free card 整张改 + Monthly/Annual 加 Entry Assessment li
-  - NEW: Sibling Pack 第 4 张卡 (USD 599/yr · 2 kids · +199 extra)
-  - pricing-grid class 去 -3 modifier → 自动 4 列
-  - Accounts: Records persist 改 Lesson progress
-  - Final CTA: H2 / description / button / 5 steps 全改
-  - Footer nav link
-  - FAQ 4 道全改 (含旧关键词保留: assessment/测评/entry/入学)
+PHOTO SLOTS (drop real files over these paths, no code change):
+  /assets/landing/photos/hero-trust-band.jpg          16:9
+  /assets/landing/photos/exercise-book-closeup.jpg     4:3
+  /assets/landing/photos/tutor-and-student.jpg         4:3
+  /assets/landing/photos/classroom-in-session.jpg      4:3
+  /assets/landing/photos/whiteboard-science-diagram.jpg 4:3
 
-OUT OF SCOPE (保留不动):
-  - CSS / 字体 / 颜色 / Editorial Science aesthetic
-  - 11 sections 框架
-  - Pricing 数字 (Free / $37 / $355 / $599 / $199)
-  - Professor Spark 命名
-  - Cambridge 0893 positioning
-  - 5 marketing 红线
-  - Problem section (跟 assessment 无直接关联)
-
-DEPLOY 注意:
-  - 5 个按钮指 /demo/y7-l01 (Claude Code 还在 build)
-  - landing 与 demo 应一起 ship 避免 404
+HERO LOOP: recorded from the real Y7 U1 L01 build via
+  tests/record_lesson_loop.py — re-record if the lesson changes.
 ═══════════════════════════════════════════════════════════════
 -->
 <html lang="en">
@@ -75,35 +58,49 @@ DEPLOY 注意:
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #FAF7F2;
-  --paper: #FFFCF7;
-  --paper-soft: #F5F0E6;
-  --paper-warm: #FBF5EB;
-  --ink: #1A1A1A;
-  --ink-soft: #5C5852;
-  --ink-faint: #9C9890;
-  --line: #E8E2D8;
+  /* ── v3.1 canonical tokens (SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3_1) ── */
+  --bg: #FBF8F4;
+  --bg-2: #F4EFE7;
+  --ink: #171413;
+  --ink-2: #3a342f;
+  --ink-3: #6b6358;
+  --line: #E6DFD3;
+  --line-2: #D9D0BF;
+  --accent: #EA580C;
+  --accent-ink: #7a2e08;
+  --accent-soft: #FFE9D6;
+  --ok: #2E7D5B;
+  --ff-display: 'Instrument Serif', 'Times New Roman', serif;
+  --ff-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ff-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --ff-zh: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  /* ── legacy aliases — older rules below resolve to v3.1 values ── */
+  --paper: #FFFFFF;
+  --paper-soft: var(--bg-2);
+  --paper-warm: #FFF4EA;
+  --ink-soft: var(--ink-2);
+  --ink-faint: var(--ink-3);
   --line-soft: #F0EBE2;
-  --orange: #EA580C;
-  --orange-deep: #9A3D08;
-  --orange-soft: #FEEFE0;
+  --orange: var(--accent);
+  --orange-deep: var(--accent-ink);
+  --orange-soft: var(--accent-soft);
   --orange-pale: #FFF6EE;
   --orange-glow: rgba(234, 88, 12, 0.4);
-  --navy: #0F172A;
-  --navy-soft: #1E293B;
-  --green: #15803D;
+  --navy: #171413;
+  --navy-soft: #262220;
+  --green: #2E7D5B;
   --green-soft: #DCFCE7;
   --red: #B91C1C;
   --red-soft: #FEE2E2;
   --amber: #B45309;
   --amber-soft: #FEF3C7;
-  --font-serif: 'Fraunces', 'Noto Serif SC', Georgia, serif;
-  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
-  --font-zh: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  --font-serif: var(--ff-display);
+  --font-sans: var(--ff-body);
+  --font-mono: var(--ff-mono);
+  --font-zh: var(--ff-zh);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -123,18 +120,10 @@ body.lang-zh { font-family: var(--font-zh); }
 .zh-block { display: none; }
 body.lang-zh .en { display: none; }
 body.lang-zh .zh { display: inline; }
-body.lang-zh .zh-block { display: block; }
-
-/* In Chinese mode, italic looks bad on CJK characters (synthesized slant).
+body.lang-zh .zh-block { display: block; }/* In Chinese mode, italic looks bad on CJK characters (synthesized slant).
    Disable italic on emphasis elements; orange color alone carries the emphasis.
    Also use a CJK-aware font weight to keep visual hierarchy. */
-body.lang-zh em,
-body.lang-zh i,
-body.lang-zh blockquote,
-body.lang-zh .parent-quote .body,
-body.lang-zh .bil-bubble p,
-body.lang-zh .demo-q,
-body.lang-zh .hero-manifesto p {
+body.lang-zh em, body.lang-zh i, body.lang-zh blockquote, body.lang-zh .parent-quote .body {
   font-style: normal;
 }
 body.lang-zh em {
@@ -144,37 +133,12 @@ body.lang-zh em {
 body.lang-zh em.glow {
   font-weight: 600;
   font-style: normal;
-}
-
-/* CJK line-break rules:
+}/* CJK line-break rules:
    word-break: keep-all     → only break at spaces or punctuation, never inside a CJK phrase
    overflow-wrap: break-word → safety net if a CJK run is wider than container
-   line-break: strict       → don't push 。 , ; : etc. to the start of a new line
+   line-break: strict       → don't push 。, ; : etc. to the start of a new line
    This stops phrases like "里面有什么" being split into "里面有什 | 么". */
-body.lang-zh h1,
-body.lang-zh h2,
-body.lang-zh h3,
-body.lang-zh h4,
-body.lang-zh h5,
-body.lang-zh .section-title,
-body.lang-zh .subsection-title,
-body.lang-zh .preview-h3,
-body.lang-zh .amount-big,
-body.lang-zh .final-cta h2,
-body.lang-zh .dark-callout h3,
-body.lang-zh .num-card h4,
-body.lang-zh .step-card h4,
-body.lang-zh .platform-card h4,
-body.lang-zh .panel h4,
-body.lang-zh .price-card h4,
-body.lang-zh .curiosity-card h4,
-body.lang-zh .hero-manifesto p,
-body.lang-zh .parent-quote .body,
-body.lang-zh .bil-bubble p,
-body.lang-zh .demo-q,
-body.lang-zh .hero-sub,
-body.lang-zh .section-lead,
-body.lang-zh .competitor-line {
+body.lang-zh h1, body.lang-zh h2, body.lang-zh h3, body.lang-zh h4, body.lang-zh h5, body.lang-zh .section-title, body.lang-zh .subsection-title, body.lang-zh .preview-h3, body.lang-zh .amount-big, body.lang-zh .final-cta h2, body.lang-zh .platform-card h4, body.lang-zh .price-card h4, body.lang-zh .parent-quote .body, body.lang-zh .hero-sub, body.lang-zh .section-lead {
   word-break: keep-all;
   overflow-wrap: break-word;
   line-break: strict;
@@ -197,15 +161,9 @@ h4 em,
   .section-title em, .final-cta h2 em, .preview-h3 em {
     white-space: normal;
   }
-}
-
-/* text-wrap: pretty (modern browsers) avoids widows/orphans by balancing line breaks
+}/* text-wrap: pretty (modern browsers) avoids widows/orphans by balancing line breaks
    smartly across headings and lead paragraphs. Safe fallback to default wrap. */
-h1, h2, h3, h4,
-.section-title, .subsection-title, .preview-h3, .amount-big,
-.hero-manifesto p, .hero-sub, .section-lead,
-.parent-quote .body, .bil-bubble p, .demo-q, .dark-callout h3,
-.final-cta h2, .final-cta p {
+h1, h2, h3, h4, .section-title, .subsection-title, .preview-h3, .amount-big, .hero-sub, .section-lead, .parent-quote .body, .final-cta h2, .final-cta p {
   text-wrap: pretty;
 }
 
@@ -213,101 +171,11 @@ img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 
 /* ============================================== */
-/* ============ LOADING SPLASH ================= */
-/* ============================================== */
-.splash {
-  position: fixed; inset: 0;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.5s ease-out;
-}
-.splash.hide { opacity: 0; pointer-events: none; }
-.splash-wrap {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.splash-particle {
-  position: absolute;
-  width: 6px; height: 6px;
-  background: var(--orange);
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--orange-glow);
-  opacity: 0;
-  top: 50%; left: 50%;
-}
-@keyframes sp1 { 0% { opacity: 0; transform: translate(-150px, -120px) scale(0); } 30% { opacity: 1; transform: translate(-150px, -120px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp2 { 0% { opacity: 0; transform: translate(140px, -130px) scale(0); } 30% { opacity: 1; transform: translate(140px, -130px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp3 { 0% { opacity: 0; transform: translate(160px, 100px) scale(0); } 30% { opacity: 1; transform: translate(160px, 100px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp4 { 0% { opacity: 0; transform: translate(-130px, 140px) scale(0); } 30% { opacity: 1; transform: translate(-130px, 140px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp5 { 0% { opacity: 0; transform: translate(0, -180px) scale(0); } 30% { opacity: 1; transform: translate(0, -180px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp6 { 0% { opacity: 0; transform: translate(180px, 0) scale(0); } 30% { opacity: 1; transform: translate(180px, 0) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp7 { 0% { opacity: 0; transform: translate(0, 180px) scale(0); } 30% { opacity: 1; transform: translate(0, 180px) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-@keyframes sp8 { 0% { opacity: 0; transform: translate(-180px, 0) scale(0); } 30% { opacity: 1; transform: translate(-180px, 0) scale(1); } 90% { opacity: 1; transform: translate(0,0) scale(0.4); } 100% { opacity: 0; transform: translate(0,0) scale(0); } }
-.splash-particle:nth-child(1) { animation: sp1 0.9s cubic-bezier(0.5,0,0.5,1) 0.10s forwards; }
-.splash-particle:nth-child(2) { animation: sp2 0.9s cubic-bezier(0.5,0,0.5,1) 0.15s forwards; }
-.splash-particle:nth-child(3) { animation: sp3 0.9s cubic-bezier(0.5,0,0.5,1) 0.12s forwards; }
-.splash-particle:nth-child(4) { animation: sp4 0.9s cubic-bezier(0.5,0,0.5,1) 0.18s forwards; }
-.splash-particle:nth-child(5) { animation: sp5 0.9s cubic-bezier(0.5,0,0.5,1) 0.10s forwards; }
-.splash-particle:nth-child(6) { animation: sp6 0.9s cubic-bezier(0.5,0,0.5,1) 0.20s forwards; }
-.splash-particle:nth-child(7) { animation: sp7 0.9s cubic-bezier(0.5,0,0.5,1) 0.14s forwards; }
-.splash-particle:nth-child(8) { animation: sp8 0.9s cubic-bezier(0.5,0,0.5,1) 0.16s forwards; }
-.splash-flash {
-  position: absolute; inset: -100px;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.9) 0%, transparent 40%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10;
-  animation: spFlash 0.3s ease-out 1.0s forwards;
-}
-@keyframes spFlash { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
-.splash-bolt {
-  position: relative;
-  width: 80px; height: 80px;
-  background: var(--orange);
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0;
-  transform: scale(0.3);
-  animation: spForm 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.85s forwards,
-             spPulse 0.6s ease-out 1.15s;
-  z-index: 5;
-}
-.splash-bolt svg { width: 44px; height: 44px; }
-@keyframes spForm { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes spPulse {
-  0% { box-shadow: 0 0 0 0 var(--orange-glow); transform: scale(1); }
-  50% { box-shadow: 0 0 0 30px transparent; transform: scale(1.15); }
-  100% { box-shadow: 0 0 0 60px transparent; transform: scale(1); }
-}
-.splash-wordmark {
-  position: absolute;
-  bottom: -42px; left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 20px;
-  letter-spacing: -0.3px;
-  color: var(--ink);
-  opacity: 0;
-  white-space: nowrap;
-  animation: spWord 0.5s ease-out 1.3s forwards;
-}
-.splash-wordmark .sp-c { color: var(--orange); }
-@keyframes spWord {
-  0% { opacity: 0; transform: translate(-50%, 8px); }
-  100% { opacity: 1; transform: translate(-50%, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .splash { display: none !important; }
-}
+/* ============ PAGE ENTRANCE — quiet fade-in ============ */
+/* (replaces the old orange "spark charge" splash — calmer, no orange) */
+@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+body { animation: pageFadeIn 0.22s ease-out both; }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } }
 
 /* ============================================== */
 /* ============ BANNER ============ */
@@ -495,28 +363,6 @@ nav.topnav {
   margin-bottom: 16px;
   font-weight: 600;
 }
-.hero-manifesto {
-  border-left: 3px solid var(--orange);
-  padding: 4px 0 4px 18px;
-  margin-bottom: 32px;
-  max-width: 680px;
-}
-.hero-manifesto p {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 17px;
-  line-height: 1.5;
-  color: var(--ink);
-}
-.hero-manifesto .zh-line {
-  font-family: var(--font-zh);
-  font-style: normal;
-  font-weight: 400;
-  color: var(--ink-soft);
-  font-size: 15.5px;
-  margin-top: 8px;
-  letter-spacing: 0.2px;
-}
 .hero h1 {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -645,68 +491,6 @@ nav.topnav {
   border-radius: 50%;
   display: inline-block;
 }
-
-/* ============================================== */
-/* ============ HERO MOCKUP ============ */
-.hero-mockup-wrap {
-  max-width: 1320px;
-  margin: 40px auto 0;
-  padding: 0 32px 80px;
-}
-.hero-mockup {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 28px 32px;
-  box-shadow: 0 10px 40px rgba(15,23,42,0.06);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 24px;
-  align-items: start;
-}
-@media (max-width: 720px) { .hero-mockup { grid-template-columns: 1fr; } }
-.mockup-avatar {
-  width: 56px; height: 56px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #FDBA74, #EA580C);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFF;
-  flex-shrink: 0;
-  position: relative;
-}
-.mockup-avatar svg { width: 28px; height: 28px; }
-.mockup-avatar::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; right: -2px;
-  width: 14px; height: 14px;
-  background: #22C55E;
-  border-radius: 50%;
-  border: 2px solid var(--paper);
-}
-.mockup-body { min-width: 0; }
-.mockup-tag {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 1.6px;
-  color: var(--ink-faint);
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.mockup-tag .live {
-  color: var(--orange);
-  margin-left: 8px;
-}
-.mockup-name {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
-  margin-bottom: 14px;
-}
 .dialog {
   display: flex;
   flex-direction: column;
@@ -719,26 +503,6 @@ nav.topnav {
   line-height: 1.55;
   max-width: 560px;
 }
-.bubble-tutor {
-  background: var(--paper-warm);
-  border: 1px solid var(--line);
-  align-self: flex-start;
-}
-.bubble-student {
-  background: var(--ink);
-  color: #FFF;
-  align-self: flex-end;
-}
-.bubble-meta {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 1.2px;
-  color: var(--ink-faint);
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-top: 4px;
-}
-.bubble-meta.student { color: rgba(255,255,255,0.55); }
 
 /* ============================================== */
 /* ============ SECTION FRAME ============ */
@@ -813,38 +577,6 @@ h3.subsection-title {
   .grid-2, .grid-3, .grid-4, .grid-6 { grid-template-columns: 1fr; }
 }
 
-.num-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 32px 28px 28px;
-  position: relative;
-  transition: border-color .2s ease, transform .2s ease;
-}
-.num-card:hover { border-color: var(--orange-soft); transform: translateY(-2px); }
-.num-card .num {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--orange);
-  letter-spacing: 1.5px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  display: block;
-}
-.num-card h4 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 19px;
-  line-height: 1.25;
-  margin-bottom: 10px;
-  letter-spacing: -0.3px;
-}
-.num-card p {
-  font-size: 14.5px;
-  color: var(--ink-soft);
-  line-height: 1.55;
-}
-
 /* ============================================== */
 /* ============ PROBLEM / PARENT QUOTES ============ */
 .parent-quote {
@@ -887,31 +619,6 @@ h3.subsection-title {
   font-weight: 600;
 }
 
-.dark-callout {
-  background: var(--navy);
-  color: #FFF;
-  border-radius: 10px;
-  padding: 44px 48px;
-  margin: 28px 0 12px;
-}
-.dark-callout h3 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-style: italic;
-  font-size: clamp(24px, 2.8vw, 34px);
-  margin-bottom: 14px;
-  line-height: 1.25;
-  color: #FFF;
-  letter-spacing: -0.5px;
-}
-.dark-callout h3 .acc { color: #FBA94C; font-style: italic; }
-.dark-callout p {
-  color: #C7C2BC;
-  font-size: 15.5px;
-  line-height: 1.6;
-  max-width: 620px;
-}
-
 .footnote {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -919,62 +626,6 @@ h3.subsection-title {
   letter-spacing: 0.4px;
   margin-top: 24px;
   font-style: italic;
-}
-
-/* ============================================== */
-/* ============ PHOTO ROW ============ */
-.photo-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-@media (max-width: 880px) { .photo-row { grid-template-columns: 1fr; } }
-.photo-slot {
-  aspect-ratio: 4 / 5;
-  background: var(--paper-soft);
-  border: 1px dashed var(--line);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 18px 20px;
-  position: relative;
-  overflow: hidden;
-}
-.photo-slot::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(135deg, transparent 0, transparent 18px, rgba(232,226,216,0.7) 18px, rgba(232,226,216,0.7) 19px);
-  opacity: 0.55;
-  pointer-events: none;
-}
-.photo-slot .num {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 1.6px;
-  color: var(--orange);
-  font-weight: 600;
-  text-transform: uppercase;
-  z-index: 1;
-}
-.photo-slot .caption {
-  z-index: 1;
-}
-.photo-slot .caption h5 {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.2px;
-  margin-bottom: 6px;
-}
-.photo-slot .caption p {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--ink-soft);
-  letter-spacing: 0.6px;
-  line-height: 1.5;
 }
 .replace-badge {
   display: inline-flex;
@@ -996,56 +647,6 @@ h3.subsection-title {
 }
 
 /* ============================================== */
-/* ============ HOW IT WORKS / STEPS ============ */
-.step-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  position: relative;
-}
-@media (max-width: 1020px) { .step-row { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 580px) { .step-row { grid-template-columns: 1fr; } }
-.step-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 28px 24px;
-  position: relative;
-}
-.step-card .step-num {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--orange);
-  letter-spacing: 1.5px;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-.step-card h4 {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 1.25;
-  margin-bottom: 10px;
-  letter-spacing: -0.3px;
-}
-.step-card p {
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 1.55;
-}
-.step-card .step-meta {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--ink-faint);
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line-soft);
-  font-weight: 500;
-}
-
-/* ============================================== */
 /* ============ INSIDE PLATFORM CARDS ============ */
 .platform-grid {
   display: grid;
@@ -1063,6 +664,7 @@ h3.subsection-title {
   flex-direction: column;
   min-height: 280px;
 }
+.platform-card.span-full { grid-column: 1 / -1; }
 .platform-card.span-2 {
   grid-column: span 2;
 }
@@ -1090,32 +692,6 @@ h3.subsection-title {
   color: var(--ink-soft);
   line-height: 1.55;
   margin-bottom: 14px;
-}
-.tooltip-line {
-  display: inline-block;
-  position: relative;
-  border-bottom: 1px dotted var(--orange);
-  cursor: help;
-}
-.tooltip-line:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 0;
-  background: var(--ink);
-  color: #FFF;
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.5;
-  white-space: normal;
-  width: 280px;
-  max-width: min(280px, 90vw);
-  letter-spacing: 0.2px;
-  text-transform: none;
-  z-index: 50;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
 }
 
 /* ============ MINI WIDGETS (inside platform cards) ============ */
@@ -1248,35 +824,6 @@ h3.subsection-title {
 }
 .email-preview ul li::before { content: '› '; color: var(--orange); font-weight: 700; }
 
-.games {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
-}
-.game-chip {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 12px;
-  background: var(--paper-soft);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  font-size: 13px;
-}
-.game-chip .label {
-  font-family: var(--font-serif);
-  font-weight: 500;
-}
-.game-chip .play {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--orange);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
 /* ============ AI LEARNING GUIDE MINI DIALOGUE ============ */
 .alg-dialogue {
   margin-top: 8px;
@@ -1313,210 +860,6 @@ h3.subsection-title {
   color: var(--ink-faint);
 }
 .alg-bubble.s small { color: rgba(255,255,255,0.5); }
-
-/* ============================================== */
-/* ============ BILINGUAL ============ */
-.bil-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 32px;
-}
-@media (max-width: 720px) { .bil-grid { grid-template-columns: 1fr; } }
-.bil-bubble {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 24px 26px;
-}
-.bil-bubble .lang-tag {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--orange);
-  font-weight: 600;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.bil-bubble p {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  line-height: 1.55;
-  color: var(--ink);
-  font-style: italic;
-}
-.bil-bubble.zh p {
-  font-family: var(--font-zh);
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0.2px;
-}
-
-.competitor-line {
-  background: var(--orange-pale);
-  border-left: 4px solid var(--orange);
-  padding: 20px 24px;
-  border-radius: 0 8px 8px 0;
-  margin-top: 24px;
-  font-size: 15.5px;
-  color: var(--ink);
-  line-height: 1.6;
-}
-.competitor-line strong { color: var(--orange-deep); }
-
-/* ============================================== */
-/* ============ FOR STUDENTS / PARENTS ============ */
-.dual-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 18px;
-}
-@media (max-width: 880px) { .dual-panel { grid-template-columns: 1fr; } }
-.panel {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 32px 30px;
-}
-.panel .panel-tag {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--orange);
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.panel h4 {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 1.25;
-  margin-bottom: 16px;
-  letter-spacing: -0.4px;
-}
-.panel ul {
-  list-style: none;
-}
-.panel ul li {
-  padding: 11px 0;
-  border-bottom: 1px solid var(--line-soft);
-  display: flex;
-  gap: 12px;
-  font-size: 14.5px;
-  color: var(--ink-soft);
-  line-height: 1.5;
-}
-.panel ul li:last-child { border-bottom: 0; }
-.panel ul li::before {
-  content: '›';
-  color: var(--orange);
-  font-weight: 700;
-  margin-top: 1px;
-  font-family: var(--font-mono);
-}
-
-/* ============================================== */
-/* ============ COMING V2 — CURIOSITY WINDOW ============ */
-.coming-banner {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--paper-warm);
-  border: 1px solid var(--line);
-  border-radius: 100px;
-  padding: 8px 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--orange);
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-.coming-banner .pulse {
-  width: 8px; height: 8px;
-  background: var(--orange);
-  border-radius: 50%;
-  animation: pulse 1.6s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 var(--orange-glow); }
-  50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 0 6px transparent; }
-}
-
-.curiosity-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 16px;
-}
-@media (max-width: 1020px) { .curiosity-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 580px) { .curiosity-grid { grid-template-columns: 1fr; } }
-.curiosity-card {
-  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 24px 22px 22px;
-  position: relative;
-  overflow: hidden;
-}
-.curiosity-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 80% -20%, rgba(234,88,12,0.08) 0, transparent 50%);
-  pointer-events: none;
-}
-.curiosity-card .portrait {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: var(--paper-soft);
-  border: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 22px;
-  color: var(--orange-deep);
-  margin-bottom: 16px;
-  position: relative;
-  z-index: 1;
-}
-.curiosity-card h4 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 19px;
-  letter-spacing: -0.3px;
-  margin-bottom: 4px;
-  position: relative;
-  z-index: 1;
-}
-.curiosity-card .topic {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--orange);
-  font-weight: 600;
-  margin-bottom: 12px;
-  position: relative;
-  z-index: 1;
-}
-.curiosity-card .demo-q {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  border-left: 2px solid var(--orange);
-  padding-left: 12px;
-  position: relative;
-  z-index: 1;
-}
 
 /* ============================================== */
 /* ============ WHY VS OTHERS — COMPARISON TABLE ============ */
@@ -1759,46 +1102,6 @@ h3.subsection-title {
 }
 .strip-item p strong { color: var(--orange-deep); font-weight: 600; }
 
-/* ============================================== */
-/* ============ ACCOUNTS + FINAL CTA ============ */
-.accounts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 24px;
-}
-@media (max-width: 880px) { .accounts-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .accounts-grid { grid-template-columns: 1fr; } }
-.account-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 22px 22px 20px;
-}
-.account-card .icon {
-  width: 30px; height: 30px;
-  background: var(--orange-pale);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--orange);
-  margin-bottom: 12px;
-}
-.account-card .icon svg { width: 16px; height: 16px; }
-.account-card h5 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 15.5px;
-  margin-bottom: 6px;
-  letter-spacing: -0.2px;
-}
-.account-card p {
-  font-size: 13px;
-  color: var(--ink-soft);
-  line-height: 1.5;
-}
-
 .final-cta {
   background: var(--navy);
   color: #FFF;
@@ -1808,22 +1111,6 @@ h3.subsection-title {
   text-align: center;
   position: relative;
   overflow: hidden;
-}
-.final-cta::before {
-  content: '';
-  position: absolute;
-  top: -120px; right: -120px;
-  width: 320px; height: 320px;
-  background: radial-gradient(circle, rgba(234,88,12,0.18) 0, transparent 70%);
-  pointer-events: none;
-}
-.final-cta::after {
-  content: '';
-  position: absolute;
-  bottom: -160px; left: -120px;
-  width: 320px; height: 320px;
-  background: radial-gradient(circle, rgba(251,169,76,0.10) 0, transparent 70%);
-  pointer-events: none;
 }
 .final-cta .eyebrow {
   font-family: var(--font-mono);
@@ -2295,96 +1582,6 @@ body.lang-zh .chatbox-panel { font-family: var(--font-zh); }
 @media (max-width: 920px) { .s2-left { position: static; } }
 .s2-right { display: flex; flex-direction: column; gap: 14px; }
 .s2-right-narrow { display: block; }
-
-/* Hero tagline */
-.hero-tagline {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.8px;
-  color: var(--ink-soft);
-  margin-top: 24px;
-  font-weight: 500;
-}
-
-/* Dark callout compact variant (Section 03) */
-.dark-callout-compact {
-  margin: 0;
-  padding: 26px 30px;
-}
-.dark-callout-compact h3 {
-  font-size: 20px;
-  line-height: 1.35;
-  margin-bottom: 14px;
-}
-.approach-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(234,88,12,0.12);
-  border: 1px solid rgba(234,88,12,0.3);
-  padding: 6px 12px;
-  border-radius: 100px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #FBA94C;
-  font-weight: 600;
-}
-.approach-badge .dot {
-  width: 7px; height: 7px;
-  background: var(--orange);
-  border-radius: 50%;
-}
-
-/* How It Works intro 2-col */
-.how-intro {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  margin-bottom: 40px;
-  align-items: end;
-}
-@media (max-width: 920px) { .how-intro { grid-template-columns: 1fr; gap: 24px; } }
-.how-lead-right { margin-bottom: 0; }
-
-/* Step mini visual cards */
-.step-mini {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line-soft);
-  background: var(--paper-soft);
-  border-radius: 6px;
-  padding: 12px 14px;
-  font-size: 12px;
-}
-.step-mini-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 5px 0;
-  border-bottom: 1px dotted var(--line);
-  gap: 12px;
-}
-.step-mini-row:last-child { border-bottom: 0; }
-.step-mini-row.mini-multi {
-  display: block;
-  color: var(--ink-soft);
-  line-height: 1.45;
-  font-size: 11.5px;
-}
-.step-mini .check {
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 13px;
-}
-.step-mini .mini-val {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--ink-soft);
-  font-weight: 500;
-}
 .strong-text { color: var(--green) !important; font-weight: 600 !important; }
 .dev-text { color: var(--amber) !important; font-weight: 600 !important; }
 .solid-text { color: var(--green) !important; font-weight: 600 !important; }
@@ -2507,118 +1704,12 @@ body.lang-zh .chatbox-panel { font-family: var(--font-zh); }
   font-weight: 500;
 }
 
-/* Bilingual · access note */
-.bil-access-note {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--ink-faint);
-  letter-spacing: 0.4px;
-  margin-top: 18px;
-  margin-bottom: 8px;
-  text-align: center;
-}
-
-/* Final CTA · 2-col layout */
-.final-cta.final-cta-2col {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 56px;
-  text-align: left;
-  padding: 64px 56px;
-  align-items: start;
-}
-@media (max-width: 920px) {
-  .final-cta.final-cta-2col { grid-template-columns: 1fr; gap: 36px; padding: 48px 32px; }
-}
-.final-cta-2col .final-left .eyebrow,
-.final-cta-2col .final-left h2,
-.final-cta-2col .final-left p {
-  text-align: left;
-  margin-left: 0;
-  max-width: none;
-}
-.final-cta-2col .final-left .cta-row { justify-content: flex-start; }
-
-.final-steps {
-  list-style: none;
-  counter-reset: fsteps;
-  border-left: 1px solid rgba(255,255,255,0.12);
-  padding-left: 28px;
-}
-.final-steps li {
-  display: grid;
-  grid-template-columns: 32px 1fr;
-  gap: 14px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  align-items: baseline;
-}
-.final-steps li:last-child { border-bottom: 0; }
-.final-steps .step-n {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--orange);
-  font-weight: 700;
-  letter-spacing: 1.2px;
-}
-.final-steps .step-txt {
-  color: #FFF;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* ============================================== */
-/* ============ SPARK CURSOR + CLICK FX ============ */
-/* Custom cursor: small spark bolt with white outline (visible on any bg).
-   Hotspot at top-left (4,4). If image fails to load, falls back to default. */
-:root {
-  --spark-cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAEI0lEQVRYhe1XW2wUVRj+zpmZnQuz7PYat6W+aBPFRFEIJE2kJk1jKrekskYToiVK9UUeajRS4aVRpD7IA94iGMEYYliIBkOKhgajAdI3jDdsiDUttk0vLOvuztnZmTPHl3a7bWd3p+Cbfk8z//n/831n5j//+Q/wXwdZifNIF7QaL7zK4a5OuZAdLmQAUCTiehJxFUlm4Ug6Q47A/lcFTG9HWDa0GleIUBB/mZC8a+Vm684ifUcCRDeUZFKPceppQYiXwvFoLlbFJsjHcFYsYCwOPUTVBgpIt0M+Dw/g3LInGr6G5TdO/Yzj22CoirrmTsnnCCQ5rDaKOPRAAkQ3FMlQY4QHT1Bjz0drjd2Hm0uNEw4yRdUG0Q2looBkUo+tZOVmZ2+jsfnpE9q9G+8r50cBaSKpx8oKmN6O8EoSTr5/s6Fuefk4ZDWcvXD0ciV/hXraVBxmSQGyodUEJSe6ScN7P/vAHbvWIFJTI/bF47NB4hRJq/UVMNIFLeg+B4Do20P7vPHhh5xrl+Blb34bNM4VIiQ6oC4ToNph0z/Eh/zNHzpBpZ2pd58xQhu2MP7H1QtBYwEgXbfwG+SCAOpqnlc5eHXPF+ulu+45kOx91BA2gxRrNmk0dqz62ISY9yGEeu74b32pA4+d95vD4boOsMUCKBdyJX6zs7dRebDtw9ShJw0+PQoAmN3TREDlaGEhG54Qq3b1z1hn+i+VmofOnSGLBDhcyMS3LM05zmV85vM3TOf3KwW7YJnCs1R7N8xn+y125atu5+pAyXPAKRJQhnIBRDdpZO+J93Pfn6zPDX7qWyOIoiHy+pksH79+0Dr60q9B5gWKvoAiEbfULojs/2YrqYq1qC1PZbWWeGHJws7Ksz3rNXAH5vOHc1TRBmdfWXe6EqkiEXeZAE8iLlx/AalD287pa1u/K7ZJ69obQo9sPQnuQGvd5YUe7pi8dfDx/ZXIC1xLBSiSzGw3b/gFiPRNbg19+XexLbrjtTb7p4tEbnoA5nP9lnXuvRf4nz8HakSYxdj8cyEHwpF0xt/dH8SsanWHh4zIq6ey7siP+9jpvrGgsSyHAldBADkCWyYkH3QSakQ3aW2783DsRKqvPXglJCTfPLDQsi3aBa6VC1TPtR09MWJGq6VI/XDyrfZ3gpIDgMRzM8XviwTUnUXa8WiuooCNOzcJO3srk+h7UcxO8qDklFBWn8CiX72sDoxXsQkPKDtp/vrQL+zyqS578JOZcn7F8ABevZpNLrX7dj0iDn1aUdespCsqByFB2I59oykBtnTMtxKSBJjt2DcqfYkg8ADupu2//MhLCgCApgRYfcQeDZITpUAJZWMRe7RURwwEvJhMxWEqklYbtGFxCclLPDezNOFuW8A8RAfUdB1Mh+u+VzNmMdaYQ4YMBL+a/Y9/AKbFoLBiymx+AAAAAElFTkSuQmCC') 4 4;
-}
-/* Apply cursor everywhere; standard cursor as fallback */
-body { cursor: var(--spark-cursor), default; }
-a, button, [role="button"], .chip, label, summary, .lang-toggle button,
-.btn-primary, .btn-secondary, .btn-line, .btn-price, .nav-cta,
-.chatbox-launcher, .game-chip, .price-card .btn-price {
-  cursor: var(--spark-cursor), pointer;
-}
-input[type="text"], textarea, .chatbox-input { cursor: text; }
-
-/* Click-spark layer: a fixed overlay where particles animate at click point */
-#click-fx-layer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  overflow: hidden;
-}
-.click-spark {
-  position: absolute;
-  width: 8px; height: 8px;
-  background: var(--orange);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--orange-glow);
-  pointer-events: none;
-  will-change: transform, opacity;
-  animation: clickSparkBurst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-@keyframes clickSparkBurst {
-  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) scale(0.3); }
-}
-@media (prefers-reduced-motion: reduce) {
-  #click-fx-layer, .click-spark { display: none !important; }
-  body { cursor: default !important; }
-  a, button { cursor: pointer !important; }
-}
-
 /* ============================================== */
 /* ============ MISC ============ */
 @media (max-width: 720px) {
   section.section { padding: 70px 24px; }
   .hero { padding: 60px 24px 40px; }
-  .hero-mockup-wrap { padding: 0 24px 60px; }
   .final-cta { padding: 56px 28px; }
-  .dark-callout { padding: 32px 28px; }
 }
 
 /* ============================================== */
@@ -2644,7 +1735,6 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
   letter-spacing: 1.8px;
   text-transform: uppercase;
   color: var(--orange);
-  box-shadow: 0 0 14px rgba(234, 88, 12, 0.30), 0 0 32px rgba(234, 88, 12, 0.12);
   margin-bottom: 36px;
 }
 .founding-pill .pill-dot {
@@ -2652,7 +1742,6 @@ input[type="text"], textarea, .chatbox-input { cursor: text; }
   height: 6px;
   background: var(--orange);
   border-radius: 50%;
-  box-shadow: 0 0 6px var(--orange-glow);
   flex-shrink: 0;
 }
 .founding-headline {
@@ -2817,30 +1906,166 @@ body.lang-zh .founding-card h4 {
   margin-top: -10px;
   margin-bottom: 16px;
 }
+
+/* ══════════════════════════════════════════════ */
+/* ═══ v6 REDESIGN · hero loop + photo system ═══ */
+/* ══════════════════════════════════════════════ */
+
+/* HERO · two-column with live lesson loop */
+.hero { padding: 72px 32px 84px; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 10fr) minmax(0, 9fr);
+  gap: clamp(32px, 4.5vw, 72px);
+  align-items: center;
+}
+.hero h1 { margin-bottom: 22px; }
+.hero-sub { margin-bottom: 32px; }
+.hero-ctas { margin-bottom: 40px; }
+.hero-meta { border-top: 1px solid var(--line); padding-top: 26px; }
+@media (max-width: 980px) {
+  .hero { padding: 48px 24px 64px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* browser-style frame around the recorded lesson loop */
+.hero-loop { margin: 0; min-width: 0; }
+.browser-frame {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -24px rgba(23,20,19,0.18), 0 4px 16px rgba(23,20,19,0.05);
+  will-change: transform;
+}
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+}
+.browser-bar .b-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--line-2);
+}
+.browser-bar .b-dot:first-child { background: var(--accent-soft); border: 1px solid var(--accent); box-sizing: border-box; }
+.browser-url {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  margin-left: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 12px;
+}
+.browser-frame video { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; background: var(--bg-2); }
+
+/* mono caption under every photo / the loop (brand eyebrow style) */
+.photo-cap {
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  color: var(--ink-3);
+  margin-top: 10px;
+  text-align: left;
+}
+
+/* photo cards — 16px radius, --line border, swappable placeholders */
+.photo-wide, .photo-card { margin: 0; min-width: 0; }
+.photo-wide img, .photo-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--bg-2);
+}
+.photo-wide img { aspect-ratio: 16 / 9; object-fit: cover; }
+.photo-card img { aspect-ratio: 4 / 3; object-fit: cover; }
+
+/* TRUST BAND */
+.trust-band .photo-wide { margin-top: 8px; }
+.trust-line {
+  font-family: var(--ff-display);
+  font-size: clamp(20px, 2.4vw, 27px);
+  line-height: 1.35;
+  color: var(--ink);
+  max-width: 720px;
+  margin: 36px 0 26px;
+}
+body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
+
+/* APPROACH · 3-photo strip */
+.photo-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+@media (max-width: 880px) { .photo-strip { grid-template-columns: 1fr; } }
+
+/* PROBLEM · photo + quote pairing */
+.quote-photo-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+  gap: 20px;
+  align-items: center;
+  margin-top: 18px;
+}
+@media (max-width: 720px) { .quote-photo-pair { grid-template-columns: 1fr; } }
+.pq-paired { margin: 0; }
+
+/* anchor for #how (how-it-works folded into the workspace preview) */
+.anchor-jump { position: relative; top: -72px; height: 0; }
+
+/* ══════════════════════════════════════════════ */
+/* ═══ v6 MOTION · subtle, premium, never circus ═ */
+/* ══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  /* scroll-reveal: fade up 12px / 400ms / once, children staggered 60ms via JS */
+  .rv {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .4s ease-out, transform .4s ease-out;
+    transition-delay: var(--rv-d, 0ms);
+  }
+  .rv.rv-in { opacity: 1; transform: none; }
+
+  /* buttons: +150ms scale on hover, on top of existing states */
+  .btn-primary:hover, .btn-secondary:hover, .nav-cta:hover, .btn-price:hover {
+    transform: translateY(-1px) scale(1.02);
+    transition-duration: .15s;
+  }
+
+  /* comparison table: one-time soft accent glow on the SciSpark column */
+  .compare-table .us { transition: box-shadow .8s ease-out; }
+  .compare-table.glow .us { box-shadow: inset 0 0 0 2px rgba(234,88,12,0.30); }
+
+  /* workspace card 02: looping chat — bubbles appear in turn, then repeat */
+  .alg-loop .alg-bubble, .alg-loop .typing-indicator { opacity: 0; animation: algSeq 9s infinite; }
+  .alg-loop .alg-bubble:nth-child(1) { animation-delay: 0s; }
+  .alg-loop .alg-bubble:nth-child(2) { animation-delay: 1.6s; }
+  .alg-loop .alg-bubble:nth-child(3) { animation-delay: 3.2s; }
+  .alg-loop .typing-indicator { animation-delay: 4.8s; }
+}
+@keyframes algSeq {
+  0% { opacity: 0; transform: translateY(6px); }
+  6%, 86% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .browser-frame { transform: none !important; }
+}
+
 </style>
 </head>
 <body>
-
-<!-- ============ LOADING SPLASH (Var 02 "Spark Charge") ============ -->
-<div class="splash" id="splash" aria-hidden="true">
-  <div class="splash-wrap">
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-particle"></div>
-    <div class="splash-flash"></div>
-    <div class="splash-bolt">
-      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
-      </svg>
-    </div>
-    <div class="splash-wordmark">Sci<span class="sp-c">Spark</span></div>
-  </div>
-</div>
 
 <!-- ============ TOP BANNER ============ -->
 <div class="banner">
@@ -2889,136 +2114,96 @@ body.lang-zh .founding-card h4 {
 <!-- ============ SECTION 01 · HERO ============ -->
 <!-- ============================================== -->
 <header class="hero" id="top">
-  <p class="hero-eyebrow"><span class="en">01 / Manifesto</span><span class="zh">01 / 宣言</span></p>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="hero-eyebrow"><span class="en">01 / A real lesson, live</span><span class="zh">01 / 一节真课 · 现场</span></p>
 
-  <div class="hero-manifesto">
-    <p class="en">In the AI era, memorisation is dead.<br>We train the next generation to ask the right&nbsp;questions.</p>
-    <p class="zh-block zh-line">在 AI 时代,死记硬背已死。我们培养下一代 — 会问对问题的人。</p>
-  </div>
+      <h1>
+        <span class="en">One free lesson.<br>Then the <em>right path.</em></span>
+        <span class="zh">先免费试一节课 &mdash;<br>再走 <em>对的路径。</em></span>
+      </h1>
 
-  <h1>
-    <span class="en">Try a free lesson.<br>Then walk the <em>right path.</em></span>
-    <span class="zh">先免费试一节课 &mdash;<br>再走上 <em>对的路径。</em></span>
-  </h1>
+      <p class="hero-sub">
+        <span class="en">A real 15-minute SciSpark lesson, no sign-up &mdash; see how your child learns before you decide anything.</span>
+        <span class="zh">一节真实的 15 分钟课 · 不用注册 &mdash; 先看孩子怎么学 · 再做任何决定。</span>
+      </p>
 
-  <p class="hero-sub">
-    <span class="en">Try a real SciSpark lesson in 15 minutes &mdash; no sign-up needed. If your child likes it, sign up free and learn Unit 1 of every grade at no cost. Cambridge 0893 aligned. Bilingual EN + 中文. Parent or School &mdash; two clear entry paths.</span>
-    <span class="zh">直接体验一节真课 · 约 15 分钟 · 不用注册。喜欢就免费注册 · 每个年级的第 1 单元免费学。对齐剑桥 0893。中英双语。家长 或 学校 &mdash; 两条清晰入口。</span>
-  </p>
+      <div class="hero-ctas">
+        <a href="/demo/y7-l01" class="btn-primary">
+          <span class="en">Try a free lesson →</span><span class="zh">免费试一节课 →</span>
+        </a>
+        <a href="#how" class="btn-secondary">
+          <span class="en">See how it works →</span><span class="zh">看看怎么用 →</span>
+        </a>
+      </div>
 
-  <div class="hero-ctas">
-    <a href="/demo/y7-l01" class="btn-primary">
-      <span class="en">Try a free lesson →</span><span class="zh">免费试一节课 →</span>
-    </a>
-    <a href="#how" class="btn-secondary">
-      <span class="en">See how it works →</span><span class="zh">看看怎么用 →</span>
-    </a>
-  </div>
-
-  <div class="hero-meta">
-    <div class="hero-meta-item">
-      <span class="label"><span class="en">Try a lesson</span><span class="zh">试一节</span></span>
-      <span class="value orange">15 min</span>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="label"><span class="en">Try a lesson</span><span class="zh">试一节</span></span>
+          <span class="value orange">15 min</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label"><span class="en">Free units</span><span class="zh">免费单元</span></span>
+          <span class="value">3</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label"><span class="en">Languages</span><span class="zh">语言</span></span>
+          <span class="value">EN · 中文</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label"><span class="en">Syllabus</span><span class="zh">大纲</span></span>
+          <span class="value">Cambridge 0893</span>
+        </div>
+      </div>
     </div>
-    <div class="hero-meta-item">
-      <span class="label"><span class="en">Free units</span><span class="zh">免费单元</span></span>
-      <span class="value">3</span>
-    </div>
-    <div class="hero-meta-item">
-      <span class="label"><span class="en">Languages</span><span class="zh">语言</span></span>
-      <span class="value">EN · 中文</span>
-    </div>
-    <div class="hero-meta-item">
-      <span class="label"><span class="en">Syllabus</span><span class="zh">大纲</span></span>
-      <span class="value">Cambridge 0893</span>
-    </div>
-  </div>
 
-  <div class="trust-row">
-    <span class="trust-pill"><span class="dot"></span><span class="en">Cambridge 0893 aligned</span><span class="zh">对齐剑桥 0893</span></span>
-    <span class="trust-pill"><span class="dot"></span><span class="en">Demo-first · no sign-up</span><span class="zh">先试一节 · 不用注册</span></span>
-    <span class="trust-pill"><span class="dot"></span><span class="en">AI feedback · weekly pattern review</span><span class="zh">AI 反馈 · 每周看数据</span></span>
-    <span class="trust-pill"><span class="dot"></span><span class="en">Cambridge-aligned entry assessment with subscription</span><span class="zh">订阅含 Cambridge 入学评估</span></span>
-    <span class="trust-pill"><span class="dot"></span><span class="en">Bilingual EN &middot; 中文</span><span class="zh">中英双语</span></span>
-    <span class="trust-pill"><span class="dot"></span><span class="en">Persistent responsible-adult account &amp; student journey record</span><span class="zh">长期成年人账户 &amp; 学生旅程记录</span></span>
+    <!-- LIVE LESSON LOOP · recorded from the real Y7 L01 build (never a mock-up) -->
+    <figure class="hero-loop" id="lesson-loop">
+      <div class="browser-frame">
+        <div class="browser-bar" aria-hidden="true">
+          <span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span>
+          <span class="browser-url">scisparklab.com/demo/y7-l01</span>
+        </div>
+        <video muted loop autoplay playsinline preload="metadata"
+               poster="/assets/landing/lesson-loop-poster.jpg"
+               aria-label="A recorded SciSpark lesson: a student types an answer, submits, and gets instant feedback and XP.">
+          <source src="/assets/landing/lesson-loop.mp4" type="video/mp4">
+          <source src="/assets/landing/lesson-loop.webm" type="video/webm">
+        </video>
+      </div>
+      <figcaption class="photo-cap">
+        <span class="en">y7 · matter &amp; particle model · recorded from the real lesson</span>
+        <span class="zh">y7 · 物质与微粒模型 · 真课实录</span>
+      </figcaption>
+    </figure>
   </div>
-
-  <p class="hero-tagline"><span class="en">Try first. Sign up free. Pay when ready.</span><span class="zh">先试一节 &middot; 免费注册 &middot; 准备好了再付钱。</span></p>
 </header>
 
-<!-- ============ HERO MOCKUP ============ -->
-<div class="hero-mockup-wrap">
-  <div class="hero-mockup">
-    <div class="mockup-avatar" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
-      </svg>
-    </div>
-    <div class="mockup-body">
-      <div class="mockup-tag">PROFESSOR SPARK · SOCRATIC TUTOR <span class="live">● LIVE DEMO</span></div>
-      <div class="mockup-name"><span class="en">Y7 · Forces · Lesson 02</span><span class="zh">7 年级 · 力 · 第 2 课</span></div>
-      <div class="dialog">
-        <div class="bubble bubble-tutor">
-          <span class="en">Before we calculate anything &mdash; what do you think happens to the trolley's acceleration if I push the same amount but the trolley is heavier?</span>
-          <span class="zh">在算之前 &mdash; 同样的推力,推车更重,你猜加速度会怎样?</span>
-          <div class="bubble-meta">Professor Spark · Asks first</div>
-        </div>
-        <div class="bubble bubble-student">
-          <span class="en">It should accelerate slower. Like pushing a supermarket trolley vs a car.</span>
-          <span class="zh">应该加速更慢。就像推购物车 vs 推汽车。</span>
-          <div class="bubble-meta student"><span class="en">Student · Year 7</span><span class="zh">学生 · 7 年级</span></div>
-        </div>
-        <div class="bubble bubble-tutor">
-          <span class="en">Good thinking. Now let's name the relationship before we touch numbers &mdash; <em>force, mass, acceleration</em>. Which two move together, and which moves opposite?</span>
-          <span class="zh">想得好。先理清关系,再算数 &mdash; <em>力、质量、加速度</em>。哪两个同向变,哪个反向变?</span>
-          <div class="bubble-meta">Professor Spark · Teaches before solving</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ============================================== -->
-<!-- ============ SECTION 02 · WHAT SCISPARK IS ============ -->
+<!-- ============ SECTION 02 · TRUST BAND ============ -->
 <!-- ============================================== -->
-<section class="section">
+<section class="section trust-band">
   <div class="section-inner section-wide">
-    <p class="meta-label"><span class="num">02 /</span><span class="en">What SciSpark is</span><span class="zh">SciSpark 是什么</span></p>
+    <p class="meta-label"><span class="num">02 /</span><span class="en">A real place</span><span class="zh">真实的地方</span></p>
 
-    <div class="s2-grid">
-      <div class="s2-left">
-        <h2 class="section-title">
-          <span class="en">Not a typical AI tutor or <em>course platform.</em></span>
-          <span class="zh">不是普通 AI 老师 · 也不是 <em>课程平台。</em></span>
-        </h2>
-        <p class="section-lead">
-          <span class="en">SciSpark is an AI-managed science learning system. Try a real lesson first, sign up free if you like it, and unlock Unit 1 of every grade. Continuous progress tracking with AI feedback and weekly pattern review.</span>
-          <span class="zh">SciSpark 是一套 AI 管理的科学学习系统。先试一节真课 · 喜欢就免费注册 · 解锁每个年级的第 1 单元。AI 持续跟踪进度 + 每周看数据改进。</span>
-        </p>
-      </div>
+    <figure class="photo-wide">
+      <img src="/assets/landing/photos/hero-trust-band.jpg" loading="lazy" width="2000" height="1125"
+           alt="A student working through a SciSpark lesson on a laptop">
+      <figcaption class="photo-cap">
+        <span class="en">a scispark lesson in use · ig spark centre</span>
+        <span class="zh">scispark 课堂实景 · ig spark centre</span>
+      </figcaption>
+    </figure>
 
-      <div class="s2-right">
-        <div class="num-card">
-          <span class="num">01 / DEMO-FIRST ENTRY</span>
-          <h4><span class="en">Demo-first entry</span><span class="zh">先试一节 · 再决定</span></h4>
-          <p><span class="en">Every visitor can try a real lesson first &mdash; 15 minutes, no sign-up, no card. Decide after seeing if your child likes it.</span><span class="zh">每个访客都可以先试一节真课 &mdash; 15 分钟 · 不用注册 · 不用卡。看到孩子喜不喜欢再决定。</span></p>
-        </div>
-        <div class="num-card">
-          <span class="num">02 / ACCOUNT-BASED CONTINUITY</span>
-          <h4><span class="en">Account-based continuity</span><span class="zh">账户化连续性</span></h4>
-          <p><span class="en">A responsible-adult account and a child record are created first. After activation, the student receives independent sign-in access, and progress continues through linked accounts.</span><span class="zh">先建立负责的成年人账户和孩子的档案。激活后 · 学生获得独立登录权限 · 进度通过关联账户持续。</span></p>
-        </div>
-        <div class="num-card">
-          <span class="num">03 / GUIDED LEARNING PATH</span>
-          <h4><span class="en">Guided learning path</span><span class="zh">引导式学习路径</span></h4>
-          <p><span class="en">Support is structured around your child's level and next-step needs &mdash; not random content dumping. Level is set when you upgrade to a paid plan.</span><span class="zh">支持围绕孩子的层级和下一步需要而构建 &mdash; 不是堆内容。升级付费时才定层级。</span></p>
-        </div>
-        <div class="num-card">
-          <span class="num">04 / BILINGUAL SYSTEM</span>
-          <h4><span class="en">Bilingual system</span><span class="zh">双语系统</span></h4>
-          <p><span class="en">Every lesson and report exists in English and 中文 &mdash; written by humans, not machine-translated.</span><span class="zh">每节课和每份报告都有中英两版 &mdash; 真人写 · 不是机器翻译。</span></p>
-        </div>
-      </div>
+    <p class="trust-line">
+      <span class="en">Built inside IG Spark Centre &mdash; a real tuition centre &mdash; and tested with real students, family by family.</span>
+      <span class="zh">诞生在 IG Spark Centre &mdash; 一家真实的补习中心 &mdash; 跟真实的学生一户一户磨出来。</span>
+    </p>
+
+    <div class="trust-row">
+      <span class="trust-pill"><span class="dot"></span><span class="en">Cambridge 0893 aligned</span><span class="zh">对齐剑桥 0893</span></span>
+      <span class="trust-pill"><span class="dot"></span><span class="en">Bilingual EN &middot; 中文</span><span class="zh">中英双语</span></span>
+      <span class="trust-pill"><span class="dot"></span><span class="en">Parent dashboard</span><span class="zh">家长看板</span></span>
     </div>
   </div>
 </section>
@@ -3050,19 +2235,22 @@ body.lang-zh .founding-card h4 {
           </p>
           <p class="attribution"><span class="en">Parent · Year 8</span><span class="zh">家长 · 8 年级</span></p>
         </div>
-        <div class="parent-quote">
-          <p class="body">
-            <span class="en">"She memorises the definition perfectly. Ask her to <em class="glow">explain</em> it and there's nothing."</span>
-            <span class="zh">&ldquo;定义她背得一字不差。让她 <em class="glow">解释一下</em> &mdash; 什么都说不出来。&rdquo;</span>
-          </p>
-          <p class="attribution"><span class="en">Parent · Year 7</span><span class="zh">家长 · 7 年级</span></p>
-        </div>
 
-        <div class="dark-callout dark-callout-compact">
-          <h3><span class="en">So we built the opposite of a content firehose: a system that <span class="acc">asks</span> before it teaches.</span><span class="zh">所以我们建了内容轰炸的反面:一个 <span class="acc">先问</span> 再教的系统。</span></h3>
-          <div class="approach-badge">
-            <span class="dot"></span>
-            <span class="en">The SciSpark approach</span><span class="zh">SciSpark 的做法</span>
+        <div class="quote-photo-pair">
+          <figure class="photo-card">
+            <img src="/assets/landing/photos/exercise-book-closeup.jpg" loading="lazy" width="1600" height="1200"
+                 alt="An exercise book filled with memorised science definitions">
+            <figcaption class="photo-cap">
+              <span class="en">a real workbook · definitions copied, not understood</span>
+              <span class="zh">真实作业本 · 抄了定义 · 没有理解</span>
+            </figcaption>
+          </figure>
+          <div class="parent-quote pq-paired">
+            <p class="body">
+              <span class="en">"She memorises the definition perfectly. Ask her to <em class="glow">explain</em> it and there's nothing."</span>
+              <span class="zh">&ldquo;定义她背得一字不差。让她 <em class="glow">解释一下</em> &mdash; 什么都说不出来。&rdquo;</span>
+            </p>
+            <p class="attribution"><span class="en">Parent · Year 7</span><span class="zh">家长 · 7 年级</span></p>
           </div>
         </div>
       </div>
@@ -3082,75 +2270,35 @@ body.lang-zh .founding-card h4 {
       <span class="zh">踏实做,<br>一户一户来。</span>
     </h2>
     <p class="section-lead">
-      <span class="en">Public pilot results launching after Y7 Unit 1 is fully live. No composite quotes, no stock photos, no placeholder text &mdash; we publish only what&rsquo;s true.</span>
-      <span class="zh">公开 pilot 数据 — 等 Y7 第 1 单元全部上线再说。不用合成 quote，不用 stock 图，不用 placeholder 文字 — 真的才发。</span>
+      <span class="en">SciSpark asks before it teaches. And we publish only what's true &mdash; no composite quotes, no invented numbers. Pilot results go public once Y7 Unit 1 is fully live.</span>
+      <span class="zh">SciSpark 先问 · 再教。我们只发布真实的东西 &mdash; 不用合成 quote · 不编数字。Y7 第 1 单元全部上线后 · 公开 pilot 数据。</span>
     </p>
-  </div>
-</section>
 
-<!-- ============================================== -->
-<!-- ============ SECTION 05 · HOW IT WORKS ============ -->
-<!-- ============================================== -->
-<section class="section" id="how">
-  <div class="section-inner section-wide">
-    <p class="meta-label"><span class="num">05 /</span><span class="en">How it works</span><span class="zh">如何运作</span></p>
-
-    <div class="how-intro">
-      <h2 class="section-title">
-        <span class="en">Try. Sign up.<br>Learn. <em>Upgrade.</em></span>
-        <span class="zh">试一节 &middot; 注册 &middot;<br>学习 &middot; <em>升级。</em></span>
-      </h2>
-      <p class="section-lead how-lead-right">
-        <span class="en">Try a lesson before anything else. Sign up only when your child likes it. Pay only when you want to learn beyond Unit 1.</span>
-        <span class="zh">先试一节课。孩子喜欢再注册。想学更多再付钱。</span>
-      </p>
-    </div>
-
-    <div class="step-row">
-      <div class="step-card">
-        <div class="step-num">01 / TRY A LESSON</div>
-        <h4><span class="en">Try a real lesson.</span><span class="zh">试一节真课。</span></h4>
-        <p><span class="en">Click「Try a free lesson」&mdash; open Y7 Unit 1 Lesson 1 immediately. 15 minutes. No sign-up. No card. Real lesson, not a teaser.</span><span class="zh">点「免费试一节课」&mdash; 立刻打开 Y7 第 1 单元第 1 节。15 分钟。不用注册。不用卡。真课 · 不是钓饵。</span></p>
-        <div class="step-mini">
-          <div class="step-mini-row"><span><span class="en">Y7 Unit 1 Lesson 1</span><span class="zh">Y7 第 1 单元 第 1 节</span></span><span class="check">✓</span></div>
-          <div class="step-mini-row"><span><span class="en">15 minutes</span><span class="zh">15 分钟</span></span><span class="check">✓</span></div>
-          <div class="step-mini-row"><span><span class="en">Sign-up</span><span class="zh">注册</span></span><span class="mini-val"><span class="en">not required</span><span class="zh">不需要</span></span></div>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-num">02 / SIGN UP FREE</div>
-        <h4><span class="en">Like it? Sign up free.</span><span class="zh">喜欢就免费注册。</span></h4>
-        <p><span class="en">If your child likes the demo, sign up free with email &mdash; no card needed. The account creates a child record that grows over time.</span><span class="zh">孩子喜欢就免费注册 · 用 email 就好 · 不用卡。账户里建立孩子档案 · 长期累积。</span></p>
-        <div class="step-mini">
-          <div class="step-mini-row"><span><span class="en">Email sign-up</span><span class="zh">Email 注册</span></span><span class="mini-val"><span class="en">free</span><span class="zh">免费</span></span></div>
-          <div class="step-mini-row"><span><span class="en">Credit card</span><span class="zh">信用卡</span></span><span class="mini-val"><span class="en">not required</span><span class="zh">不需要</span></span></div>
-          <div class="step-mini-row"><span><span class="en">Child record</span><span class="zh">孩子档案</span></span><span class="mini-val"><span class="en">created</span><span class="zh">已建立</span></span></div>
-          <div class="step-mini-row"><span><span class="en">Time</span><span class="zh">时间</span></span><span class="mini-val"><span class="en">&lt; 1 min</span><span class="zh">不到 1 分钟</span></span></div>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-num">03 / LEARN UNIT 1</div>
-        <h4><span class="en">Unit 1 of every grade · free.</span><span class="zh">每年级第 1 单元 · 免费。</span></h4>
-        <p><span class="en">Free account unlocks Unit 1 of Y7, Y8, and Y9 &mdash; about 6 lessons per grade, ~18 lessons total. Real lessons with AI feedback every step. Patterns reviewed weekly to improve the system.</span><span class="zh">免费账户解锁 Y7 · Y8 · Y9 各自的第 1 单元 &mdash; 每年级约 6 节 · 共约 18 节。真课 · 每步 AI 反馈。每周看数据改进系统。</span></p>
-        <div class="step-mini">
-          <div class="step-mini-row"><span><span class="en">Free lessons</span><span class="zh">免费课</span></span><span class="mini-val"><span class="en">~18 (3 grades × U1)</span><span class="zh">约 18 节</span></span></div>
-          <div class="step-mini-row"><span><span class="en">AI feedback</span><span class="zh">AI 反馈</span></span><span class="mini-val"><span class="en">every lesson</span><span class="zh">每节课</span></span></div>
-          <div class="step-mini-row"><span><span class="en">Pattern review</span><span class="zh">数据复看</span></span><span class="mini-val orange-text-line"><span class="en">weekly</span><span class="zh">每周</span></span></div>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-num">04 / UPGRADE</div>
-        <h4><span class="en">Pay when ready.</span><span class="zh">准备好了再付钱。</span></h4>
-        <p><span class="en">Want more than Unit 1? Subscribe at checkout &mdash; Stripe asks your child's grade. Entry assessment splits into 3 short stages (15 min each) at learning milestones. Full guided learning path unlocks across all units.</span><span class="zh">想学超过第 1 单元? checkout 时订阅 &mdash; Stripe 会问年级。入学评估分成 3 段 · 每段 15 分钟 · 按学习阶段做。整套引导式学习路径全部解锁。</span></p>
-        <div class="step-mini">
-          <div class="step-mini-row"><span><span class="en">Grade asked</span><span class="zh">问年级</span></span><span class="mini-val"><span class="en">at Stripe checkout</span><span class="zh">Stripe checkout 时</span></span></div>
-          <div class="step-mini-row"><span><span class="en">Entry assessment</span><span class="zh">入学评估</span></span><span class="mini-val"><span class="en">3 × 15 min</span><span class="zh">3 段 × 15 分钟</span></span></div>
-          <div class="step-mini-row mini-multi"><span class="en">Full guided learning path unlocks across all units.</span><span class="zh">完整引导式学习路径在所有单元上解锁。</span></div>
-        </div>
-      </div>
+    <div class="photo-strip">
+      <figure class="photo-card">
+        <img src="/assets/landing/photos/tutor-and-student.jpg" loading="lazy" width="1600" height="1200"
+             alt="A tutor and a student working through a lesson together at IG Spark Centre">
+        <figcaption class="photo-cap">
+          <span class="en">tutor + student · one screen, one question</span>
+          <span class="zh">导师 + 学生 · 一个屏幕 · 一个问题</span>
+        </figcaption>
+      </figure>
+      <figure class="photo-card">
+        <img src="/assets/landing/photos/classroom-in-session.jpg" loading="lazy" width="1600" height="1200"
+             alt="A small class in session at IG Spark Centre">
+        <figcaption class="photo-cap">
+          <span class="en">the centre · a class in session</span>
+          <span class="zh">中心实景 · 上课中</span>
+        </figcaption>
+      </figure>
+      <figure class="photo-card">
+        <img src="/assets/landing/photos/whiteboard-science-diagram.jpg" loading="lazy" width="1600" height="1200"
+             alt="A hand-drawn particle model diagram on the centre whiteboard">
+        <figcaption class="photo-cap">
+          <span class="en">whiteboard · a particle model, drawn by hand</span>
+          <span class="zh">白板 · 手画的微粒模型</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -3158,36 +2306,19 @@ body.lang-zh .founding-card h4 {
 <!-- ============================================== -->
 <!-- ============ SECTION 06 · INSIDE THE PLATFORM ============ -->
 <!-- ============================================== -->
+<div id="how" class="anchor-jump" aria-hidden="true"></div>
 <section class="section" id="platform">
   <div class="section-inner section-wide">
-    <p class="meta-label"><span class="num">06 /</span><span class="en">Inside the platform</span><span class="zh">平台内部</span></p>
+    <p class="meta-label"><span class="num">05 /</span><span class="en">The workspace</span><span class="zh">工作区</span></p>
 
-    <div class="s2-grid">
-      <div class="s2-left">
-        <h2 class="section-title">
-          <span class="en">What's inside, <em>once you're in.</em></span>
-          <span class="zh">进来之后 · <em>里面有什么。</em></span>
-        </h2>
-      </div>
-      <div class="s2-right s2-right-narrow">
-        <p class="section-lead lead-small">
-          <span class="en">Free account opens Unit 1 of every grade immediately. Paid subscription opens the full guided learning path &mdash; level is set when you upgrade.</span>
-          <span class="zh">免费账户立刻打开每个年级的第 1 单元。付费订阅打开完整引导式学习路径 &mdash; 升级时才定层级。</span>
-        </p>
-      </div>
-    </div>
-
-    <div class="preview-intro">
-      <p class="meta-label small"><span class="en">A preview of the workspace</span><span class="zh">工作区预览</span></p>
-      <h3 class="subsection-title preview-h3">
-        <span class="en">What your child actually opens, <em>every day.</em></span>
-        <span class="zh">孩子真正每天打开的 <em>是什么。</em></span>
-      </h3>
-      <p class="section-lead">
-        <span class="en">Once you upgrade, the student account unlocks the full learning environment below.</span>
-        <span class="zh">升级之后 · 学生账户解锁下面这套完整的学习环境。</span>
-      </p>
-    </div>
+    <h2 class="section-title">
+      <span class="en">What your child opens, <em>every day.</em></span>
+      <span class="zh">孩子每天打开的 <em>是什么。</em></span>
+    </h2>
+    <p class="section-lead">
+      <span class="en">Free accounts open Unit 1 of every grade. A subscription opens the full guided path.</span>
+      <span class="zh">免费账户打开每个年级的第 1 单元。订阅打开完整引导路径。</span>
+    </p>
 
     <div class="platform-grid">
 
@@ -3231,14 +2362,14 @@ body.lang-zh .founding-card h4 {
         </div>
       </div>
 
-      <!-- Card 02 -->
+      <!-- Card 02 · animated chat loop -->
       <div class="platform-card span-2">
-        <div class="pf-tag">02 / AI LEARNING GUIDE <span class="pf-tag-right">LEVEL 2 · BILINGUAL</span></div>
-        <h4><span class="en">Professor Spark &mdash; <span class="tooltip-line" data-tooltip="Industry-first &lsquo;teach concept first, then solve&rsquo; framing. Inspired by Yangcong (洋葱学园): never dump the answer; teach the knowledge point, then guide the student to solve.">teaches before solving</span></span><span class="zh">Spark 教授 &mdash; <span class="tooltip-line" data-tooltip="行业首创 &lsquo;先教知识点 · 再解题&rsquo;。借鉴洋葱学园:绝不直接给答案 · 先教概念 · 再引导学生解题。">先教 · 再解</span></span></h4>
-        <div class="alg-dialogue">
-          <div class="alg-bubble t"><small class="bubble-tag">Professor Spark</small><span class="en">Before we compute it &mdash; if I double the mass but keep the force the same, what happens to the acceleration?</span><span class="zh">算之前 &mdash; 如果质量加倍 · 力不变 · 加速度会怎样?</span></div>
+        <div class="pf-tag">02 / AI LEARNING GUIDE <span class="pf-tag-right">BILINGUAL</span></div>
+        <h4><span class="en">DouDou &mdash; asks first</span><span class="zh">豆豆 &mdash; 先问 · 再教</span></h4>
+        <div class="alg-dialogue alg-loop">
+          <div class="alg-bubble t"><small class="bubble-tag"><span class="en">DouDou</span><span class="zh">豆豆</span></small><span class="en">If I double the mass but keep the force the same &mdash; what happens?</span><span class="zh">质量加倍 · 力不变 &mdash; 会怎样?</span></div>
           <div class="alg-bubble s"><small class="bubble-tag"><span class="en">Student</span><span class="zh">学生</span></small><span class="en">It gets bigger?</span><span class="zh">变大?</span></div>
-          <div class="alg-bubble t"><small class="bubble-tag">Professor Spark</small><span class="en">Think about pushing a supermarket trolley vs. a car with the same push. Which one moves faster?</span><span class="zh">想象一下用同样的力推超市车 vs 推汽车。哪个动得快?</span></div>
+          <div class="alg-bubble t"><small class="bubble-tag"><span class="en">DouDou</span><span class="zh">豆豆</span></small><span class="en">Push a trolley, then a car &mdash; same push. Which moves faster?</span><span class="zh">同样的力推购物车 vs 推汽车 &mdash; 哪个动得快?</span></div>
           <div class="typing-indicator">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
             <span class="typing-label"><span class="en">Student is typing&hellip;</span><span class="zh">学生输入中&hellip;</span></span>
@@ -3247,10 +2378,10 @@ body.lang-zh .founding-card h4 {
       </div>
 
       <!-- Card 03 -->
-      <div class="platform-card">
+      <div class="platform-card span-2">
         <div class="pf-tag">03 / QUIZZES</div>
         <h4><span class="en">Instant feedback</span><span class="zh">即时反馈</span></h4>
-        <p class="lead"><span class="en">Auto-graded mini-quizzes after each lesson. Wrong answers route back to the relevant explanation, not to a separate &ldquo;hints&rdquo; page.</span><span class="zh">每节课后小测自动批改。答错直接回到对应讲解 · 不跳到独立 &ldquo;提示&rdquo; 页。</span></p>
+        <p class="lead"><span class="en">Auto-graded after every lesson. Wrong answers route back to the explanation.</span><span class="zh">每节课后自动批改。答错直接回到对应讲解。</span></p>
         <div class="mini-quiz">
           <div class="q"><span class="en">What is the unit of force?</span><span class="zh">力的单位是?</span></div>
           <div class="opts">
@@ -3265,21 +2396,9 @@ body.lang-zh .founding-card h4 {
 
       <!-- Card 04 -->
       <div class="platform-card">
-        <div class="pf-tag">04 / GAMES &amp; PRACTICE</div>
-        <h4><span class="en">Practice that doesn't shame</span><span class="zh">不羞辱孩子的练习</span></h4>
-        <p class="lead"><span class="en">Interactive widgets &mdash; never streak guilt, never league shame, never &ldquo;hearts&rdquo; that lock learning behind payment.</span><span class="zh">交互式练习 &mdash; 绝不断 streak 推送、不公开排名羞辱、不用 &ldquo;红心&rdquo; 锁练习卖钱。</span></p>
-        <div class="games">
-          <div class="game-chip"><span class="label"><span class="en">Energy sort</span><span class="zh">能量分类</span></span><span class="play">Play →</span></div>
-          <div class="game-chip"><span class="label"><span class="en">Cell labeller</span><span class="zh">细胞标注</span></span><span class="play">Play →</span></div>
-          <div class="game-chip"><span class="label"><span class="en">Force balance</span><span class="zh">力的平衡</span></span><span class="play">Play →</span></div>
-        </div>
-      </div>
-
-      <!-- Card 05 -->
-      <div class="platform-card">
-        <div class="pf-tag">05 / THIS WEEK</div>
+        <div class="pf-tag">04 / THIS WEEK</div>
         <h4><span class="en">A clear weekly view</span><span class="zh">每周一览</span></h4>
-        <p class="lead"><span class="en">One ring. Five numbers. No need to scroll through 14 dashboards.</span><span class="zh">一个圆环 · 五个数 · 不必翻 14 个面板。</span></p>
+        <p class="lead"><span class="en">One ring. Five numbers. No 14 dashboards.</span><span class="zh">一个圆环 · 五个数 · 不必翻 14 个面板。</span></p>
         <div class="this-week">
           <div class="ring"><div class="ring-inner">71%</div></div>
           <ul>
@@ -3291,11 +2410,11 @@ body.lang-zh .founding-card h4 {
         </div>
       </div>
 
-      <!-- Card 06 -->
-      <div class="platform-card span-2">
-        <div class="pf-tag">06 / PARENT REPORT · SUN 8 PM</div>
-        <h4><span class="en">A weekly email that respects your time</span><span class="zh">尊重你时间的每周邮件</span></h4>
-        <p class="lead"><span class="en">Every Sunday at 8 PM &mdash; one short email. What was learnt, what's wobbly, what's coming. You don't need to know science to read it.</span><span class="zh">每周日晚 8 点 &mdash; 一封短邮件:这周学了什么 / 哪里还不稳 / 下周什么内容。你不必懂科学也能看懂。</span></p>
+      <!-- Card 05 -->
+      <div class="platform-card span-full">
+        <div class="pf-tag">05 / PARENT REPORT · SUN 8 PM</div>
+        <h4><span class="en">One short email a week</span><span class="zh">每周一封短邮件</span></h4>
+        <p class="lead"><span class="en">What was learnt, what's wobbly, what's coming. You don't need to know science to read it.</span><span class="zh">学了什么 / 哪里还不稳 / 下周什么。你不必懂科学也能看懂。</span></p>
         <div class="email-preview">
           <div class="subj"><span class="en">SciSpark · Weekly Report · Y8 · Week of 14 May</span><span class="zh">SciSpark · 周报 · 8 年级 · 5 月 14 日当周</span></div>
           <div class="meta">From: reports@igsparkcentre.com · To: parent@...</div>
@@ -3313,150 +2432,18 @@ body.lang-zh .founding-card h4 {
 </section>
 
 <!-- ============================================== -->
-<!-- ============ SECTION 07 · BILINGUAL ============ -->
-<!-- ============================================== -->
-<section class="section">
-  <div class="section-inner">
-    <p class="meta-label"><span class="num">07 /</span><span class="en">Bilingual throughout</span><span class="zh">全站双语</span></p>
-    <h2 class="section-title">
-      <span class="en">Same system. Two languages.<br><em>One click.</em></span>
-      <span class="zh">同一个系统 · 两种语言<br><em>一键切换。</em></span>
-    </h2>
-    <p class="section-lead">
-      <span class="en">Every lesson, question and report exists in both English and 中文 &mdash; written by humans, not machine-translated. <strong>Your child can learn a concept in Chinese first, then re-state it in English.</strong></span>
-      <span class="zh">每节课 · 每道题 · 每份报告都有中英两版 &mdash; 真人写 · 不是机器翻译。<strong>孩子可以先用中文学懂概念 · 再用英文复述出来。</strong></span>
-    </p>
-
-    <div class="bil-grid">
-      <div class="bil-bubble">
-        <div class="lang-tag">English</div>
-        <p>&ldquo;Explain why a heavier trolley, pushed with the same force, accelerates more slowly.&rdquo;</p>
-      </div>
-      <div class="bil-bubble zh">
-        <div class="lang-tag">中文</div>
-        <p>&ldquo;解释为什么同样的推力下,更重的购物车加速更慢。&rdquo;</p>
-      </div>
-    </div>
-
-    <p class="bil-access-note"><span class="en">Start with a free demo lesson &mdash; no plan picking, no blind sign-ups. Upgrade when ready.</span><span class="zh">从免费试一节课开始 &mdash; 不挑套餐 · 不盲签约。准备好了再升级。</span></p>
-
-    <div class="competitor-line">
-      <span class="en"><strong>Unlike platforms that auto-translate 13 languages with an LLM,</strong> every SciSpark explanation is written EN + 中文 in parallel by humans. Mistranslated science is worse than untranslated science.</span>
-      <span class="zh"><strong>不像那些用 LLM 一键翻译 13 种语言的平台</strong> &mdash; SciSpark 每段讲解都是真人同时写英文和中文。机器译错的科学比不译还糟糕。</span>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================== -->
-<!-- ============ SECTION 08 · STUDENTS / PARENTS ============ -->
-<!-- ============================================== -->
-<section class="section">
-  <div class="section-inner">
-    <p class="meta-label"><span class="num">08 /</span><span class="en">For students &middot; For parents</span><span class="zh">给学生 &middot; 给家长</span></p>
-    <h2 class="section-title">
-      <span class="en">Two doors. <em>Same building.</em></span>
-      <span class="zh">两扇门 &middot; <em>一栋楼。</em></span>
-    </h2>
-    <p class="section-lead">
-      <span class="en">A clear separation between what the student does day-to-day and what the parent gets to see &mdash; without parents needing to teach science or refresh GCSE-era memory.</span>
-      <span class="zh">学生每天做什么、家长能看到什么 &mdash; 分得清清楚楚。家长不用会教科学,也不用翻出当年的高中知识。</span>
-    </p>
-
-    <div class="dual-panel">
-      <div class="panel">
-        <div class="panel-tag"><span class="en">For students &middot; Activated student account</span><span class="zh">给学生 &middot; 已激活的学生账户</span></div>
-        <h4><span class="en">After activation: your own account, your own learning.</span><span class="zh">激活之后:你自己的账户 · 你自己的学习。</span></h4>
-        <ul>
-          <li><span class="en">Guided lessons aligned to Cambridge 0893</span><span class="zh">对齐剑桥 0893 的引导式课程</span></li>
-          <li><span class="en">Interactive quizzes with instant feedback</span><span class="zh">交互式小测 &middot; 即时反馈</span></li>
-          <li><span class="en">Games and guided practice activities</span><span class="zh">游戏 &amp; 引导式练习</span></li>
-          <li><span class="en">AI learning guide that questions, corrects, and guides</span><span class="zh">AI 学习导师 &middot; 提问 &middot; 纠错 &middot; 引导</span></li>
-          <li><span class="en">Progress tracking across every unit</span><span class="zh">逐单元的进度追踪</span></li>
-          <li><span class="en">School profile &mdash; textbook, current unit, recent school exam results</span><span class="zh">学校档案 &mdash; 教科书 / 当前单元 / 最近校考成绩</span></li>
-        </ul>
-      </div>
-      <div class="panel">
-        <div class="panel-tag"><span class="en">For parents &middot; Parent account</span><span class="zh">给家长 &middot; 家长账户</span></div>
-        <h4><span class="en">Visibility and confidence, in your own account.</span><span class="zh">看得见 &middot; 有把握 &middot; 在你自己的账户里。</span></h4>
-        <ul>
-          <li><span class="en">View your child's lesson progress and AI feedback any time</span><span class="zh">随时查看孩子的课程进度和 AI 反馈</span></li>
-          <li><span class="en">Weekly reports on progress and gaps</span><span class="zh">每周进度 &amp; 漏洞报告</span></li>
-          <li><span class="en">Understand your child's learning path and level</span><span class="zh">看懂孩子的学习路径和层级</span></li>
-          <li><span class="en">Access stored results, reports and records</span><span class="zh">查阅存档的结果 &middot; 报告 &middot; 记录</span></li>
-          <li><span class="en">Package and subscription visibility</span><span class="zh">套餐 &amp; 订阅状态可见</span></li>
-          <li><span class="en">Your own login &mdash; separate from your child's</span><span class="zh">你自己的登录 &mdash; 跟孩子的分开</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================== -->
-<!-- ============ SECTION 09 · NEW · COMING V2 ============ -->
-<!-- ============================================== -->
-<section class="section">
-  <div class="section-inner">
-    <p class="meta-label"><span class="num">09 /</span><span class="en">Coming in v2 &middot; A taste</span><span class="zh">v2 即将上线 &middot; 抢先看</span></p>
-
-    <div class="coming-banner">
-      <span class="pulse"></span>
-      <span class="en">In development &middot; not yet live</span>
-      <span class="zh">开发中 &middot; 暂未上线</span>
-    </div>
-
-    <h2 class="section-title">
-      <span class="en">Soon, your child will be able to ask <em>Newton</em> directly.</span>
-      <span class="zh">很快,孩子可以直接问 <em>牛顿。</em></span>
-    </h2>
-    <p class="section-lead">
-      <span class="en">The Curiosity Window is the SciSpark v2 feature we're most excited about: voice-chat with historical scientists, grounded in the unit your child is studying. Newton on forces. Hooke on cells. Mendeleev on the periodic table. Darwin on evolution. AI-driven, syllabus-anchored, child-safe.</span>
-      <span class="zh">Curiosity Window 是 SciSpark v2 最让人兴奋的功能:跟历史科学家语音对话 · 锚在孩子正在学的单元上。力学问牛顿。细胞问胡克。元素表问门捷列夫。进化论问达尔文。AI 驱动 · 紧贴大纲 · 儿童安全。</span>
-    </p>
-
-    <div class="curiosity-grid">
-      <div class="curiosity-card">
-        <div class="portrait">N</div>
-        <h4>Isaac Newton</h4>
-        <div class="topic"><span class="en">Y7 · Forces</span><span class="zh">7 年级 · 力</span></div>
-        <p class="demo-q"><span class="en">&ldquo;If I jump off a chair, why does the chair not fly upward?&rdquo;</span><span class="zh">&ldquo;我从椅子上跳下来 · 为什么椅子不往上飞?&rdquo;</span></p>
-      </div>
-      <div class="curiosity-card">
-        <div class="portrait">H</div>
-        <h4>Robert Hooke</h4>
-        <div class="topic"><span class="en">Y7 · Cells</span><span class="zh">7 年级 · 细胞</span></div>
-        <p class="demo-q"><span class="en">&ldquo;Why did you call them &lsquo;cells&rsquo; in the first place?&rdquo;</span><span class="zh">&ldquo;当年你为什么把它叫 &lsquo;细胞&rsquo;?&rdquo;</span></p>
-      </div>
-      <div class="curiosity-card">
-        <div class="portrait">M</div>
-        <h4>Dmitri Mendeleev</h4>
-        <div class="topic"><span class="en">Y8 · Periodic Table</span><span class="zh">8 年级 · 元素周期表</span></div>
-        <p class="demo-q"><span class="en">&ldquo;You guessed elements that did not yet exist. How?&rdquo;</span><span class="zh">&ldquo;你预测了当时还没发现的元素 · 怎么做到的?&rdquo;</span></p>
-      </div>
-      <div class="curiosity-card">
-        <div class="portrait">D</div>
-        <h4>Charles Darwin</h4>
-        <div class="topic"><span class="en">Y9 · Evolution</span><span class="zh">9 年级 · 进化论</span></div>
-        <p class="demo-q"><span class="en">&ldquo;If finches changed because of food &mdash; have humans changed too?&rdquo;</span><span class="zh">&ldquo;雀鸟因为食物而改变 &mdash; 那人类也变过吗?&rdquo;</span></p>
-      </div>
-    </div>
-
-    <p class="footnote">*<span class="en">Subject to safety and accuracy review. Avatars are AI-generated likenesses, not real-time recordings of historical figures.</span><span class="zh">需经安全与准确性审核。头像为 AI 生成的形象 · 不是历史人物的实时录音。</span></p>
-  </div>
-</section>
-
-<!-- ============================================== -->
 <!-- ============ SECTION 10 · NEW · WHY VS OTHERS ============ -->
 <!-- ============================================== -->
 <section class="section">
   <div class="section-inner">
-    <p class="meta-label"><span class="num">10 /</span><span class="en">Why SciSpark vs others</span><span class="zh">SciSpark 跟其他平台有什么不同</span></p>
+    <p class="meta-label"><span class="num">06 /</span><span class="en">Why SciSpark vs others</span><span class="zh">SciSpark 跟其他平台有什么不同</span></p>
     <h2 class="section-title">
       <span class="en">An honest comparison.<br><em>No trash talk.</em></span>
       <span class="zh">一份诚实的对比。<br><em>不抹黑同行。</em></span>
     </h2>
     <p class="section-lead">
-      <span class="en">Five dimensions. Four categories of platform that families compare us to. Each category includes real products families have tried; we don't name individual companies unfairly &mdash; we describe the pattern.</span>
-      <span class="zh">五个维度 &middot; 四类家长会拿来对比的产品。每一类都对应市面上真有的平台 &middot; 我们不点名 &middot; 只描述模式。</span>
+      <span class="en">Five dimensions, four categories families compare us to. We don't name companies &mdash; we describe the pattern.</span>
+      <span class="zh">五个维度 &middot; 四类家长会拿来对比的产品。我们不点名 &middot; 只描述模式。</span>
     </p>
 
     <p class="table-scroll-hint"><span class="en">← Swipe to see full comparison →</span><span class="zh">← 横滑查看完整对比 →</span></p>
@@ -3521,7 +2508,7 @@ body.lang-zh .founding-card h4 {
 <!-- ============================================== -->
 <section class="section" id="pricing">
   <div class="section-inner section-wide">
-    <p class="meta-label"><span class="num">11 /</span><span class="en">Simple, transparent pricing</span><span class="zh">价格简单 &middot; 透明</span></p>
+    <p class="meta-label"><span class="num">07 /</span><span class="en">Simple, transparent pricing</span><span class="zh">价格简单 &middot; 透明</span></p>
     <h2 class="section-title">
       <span class="en">Start free.<br><em>Upgrade when ready.</em></span>
       <span class="zh">免费开始。<br><em>准备好了再升级。</em></span>
@@ -3558,9 +2545,8 @@ body.lang-zh .founding-card h4 {
           <li><span class="en">Everything in Free</span><span class="zh">包含 Free 所有功能</span></li>
           <li><span class="en">Full guided learning path</span><span class="zh">完整引导式学习路径</span></li>
           <li><span class="en">3 support levels, AI-adapted</span><span class="zh">3 个支持层级 · AI 自适应</span></li>
-          <li><span class="en">Includes Entry Assessment (3 × 15 min)</span><span class="zh">包含 Entry Assessment（3 段 × 15 分钟）</span></li>
-          <li><span class="en">Progress tracking &amp; reports</span><span class="zh">进度追踪 &amp; 报告</span></li>
-          <li><span class="en">Parent dashboard &amp; progress reports</span><span class="zh">家长面板 &amp; 进度报告</span></li>
+          <li><span class="en">Entry Assessment (3 × 15 min)</span><span class="zh">Entry Assessment（3 段 × 15 分钟）</span></li>
+          <li><span class="en">Parent dashboard, tracking &amp; reports</span><span class="zh">家长面板 · 进度追踪 &amp; 报告</span></li>
         </ul>
         <a href="#cta" class="btn-price btn-dark"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
       </div>
@@ -3574,11 +2560,9 @@ body.lang-zh .founding-card h4 {
         <div class="price-divider"></div>
         <ul>
           <li><span class="en">Everything in Monthly</span><span class="zh">包含 Monthly 所有功能</span></li>
-          <li><span class="en">Full guided learning path</span><span class="zh">完整引导式学习路径</span></li>
-          <li><span class="en">3 support levels, AI-adapted</span><span class="zh">3 个支持层级 · AI 自适应</span></li>
-          <li><span class="en">Includes Entry Assessment (3 × 15 min)</span><span class="zh">包含 Entry Assessment（3 段 × 15 分钟）</span></li>
-          <li><span class="en">Progress tracking &amp; reports</span><span class="zh">进度追踪 &amp; 报告</span></li>
-          <li><span class="en">Parent dashboard &amp; progress reports</span><span class="zh">家长面板 &amp; 进度报告</span></li>
+          <li><span class="en">Save 20% vs monthly</span><span class="zh">比月付省 20%</span></li>
+          <li><span class="en">Entry Assessment (3 × 15 min)</span><span class="zh">Entry Assessment（3 段 × 15 分钟）</span></li>
+          <li><span class="en">Parent dashboard, tracking &amp; reports</span><span class="zh">家长面板 · 进度追踪 &amp; 报告</span></li>
         </ul>
         <a href="#cta" class="btn-price"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
       </div>
@@ -3604,7 +2588,7 @@ body.lang-zh .founding-card h4 {
     <div class="pricing-strip">
       <div class="strip-item">
         <div class="strip-tag"><span class="en">Try before you pay</span><span class="zh">先试再付</span></div>
-        <p><span class="en"><strong>Free tier is real, not a teaser.</strong> A free demo lesson, plus Unit 1 of every grade (Y7 + Y8 + Y9) &mdash; all free, no card. Decide after your child has actually learned.</span><span class="zh"><strong>Free 是真的免费 · 不是钓饵。</strong> 免费试一节课 · 加上每年级第 1 单元（Y7 + Y8 + Y9）&mdash; 全免费 · 不用卡。看孩子真的学了再决定。</span></p>
+        <p><span class="en"><strong>Free tier is real, not a teaser.</strong> A demo lesson plus Unit 1 of every grade &mdash; no card. Decide after your child has actually learned.</span><span class="zh"><strong>Free 是真的免费 · 不是钓饵。</strong> 一节试课 + 每年级第 1 单元 &mdash; 不用卡。看孩子真的学了再决定。</span></p>
       </div>
       <div class="strip-item">
         <div class="strip-tag"><span class="en">No financing tricks</span><span class="zh">无金融花招</span></div>
@@ -3758,84 +2742,16 @@ body.lang-zh .founding-card h4 {
 <!-- ============ SECTION 12 · ACCOUNTS + FINAL CTA ============ -->
 <!-- ============================================== -->
 <section class="section" id="cta">
-  <div class="section-inner section-wide">
-    <p class="meta-label"><span class="num">12 /</span><span class="en">Long-term accounts</span><span class="zh">长期账户</span></p>
-    <h2 class="section-title">
-      <span class="en">Everything lives in your account &mdash;<br>not in emails, <em>not in chat.</em></span>
-      <span class="zh">所有东西都在你账户里 &mdash;<br>不在邮件里 · <em>不在群聊里。</em></span>
-    </h2>
-    <p class="section-lead">
-      <span class="en">A SciSpark account is built to outlast any single subscription year. Records persist. Lesson progress stays. Reports archive. No anonymous access to your child.</span>
-      <span class="zh">一个 SciSpark 账户是为了跨越任何一年订阅而设计的。记录留存 · 课程进度留存 · 报告归档。没有匿名访问你孩子。</span>
-    </p>
-
-    <div class="accounts-grid">
-      <div class="account-card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.74 0 5.19 1.22 6.84 3.16"/></svg></div>
-        <h5><span class="en">Lesson &amp; assessment records</span><span class="zh">课程 &amp; 测评记录</span></h5>
-        <p><span class="en">Every lesson, quiz, and entry assessment, stored in full.</span><span class="zh">每节课 · 每次小测 · 每次入学评估 · 完整存档。</span></p>
-      </div>
-      <div class="account-card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
-        <h5><span class="en">Reports</span><span class="zh">报告</span></h5>
-        <p><span class="en">Weekly &amp; monthly parent reports archive automatically.</span><span class="zh">每周 &amp; 每月家长报告 · 自动归档。</span></p>
-      </div>
-      <div class="account-card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <h5><span class="en">Progress</span><span class="zh">进度</span></h5>
-        <p><span class="en">Unit-by-unit progress across Y7 &mdash; Y9.</span><span class="zh">7&ndash;9 年级 · 一单元一单元的进度。</span></p>
-      </div>
-      <div class="account-card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></div>
-        <h5><span class="en">Profile</span><span class="zh">档案</span></h5>
-        <p><span class="en">School year, time zone, language, accessibility settings.</span><span class="zh">年级 · 时区 · 语言 · 无障碍设置。</span></p>
-      </div>
-      <div class="account-card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 14h4"/></svg></div>
-        <h5><span class="en">Package</span><span class="zh">套餐</span></h5>
-        <p><span class="en">Your tier, your renewal date, your invoices.</span><span class="zh">你的套餐 · 续费日期 · 发票。</span></p>
-      </div>
-      <div class="account-card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
-        <h5><span class="en">Linked accounts</span><span class="zh">关联账户</span></h5>
-        <p><span class="en">Parent &harr; student linked. No anonymous access.</span><span class="zh">家长 &harr; 学生关联 · 无匿名访问。</span></p>
-      </div>
-    </div>
-
-    <div class="final-cta final-cta-2col">
+  <div class="section-inner">
+    <div class="final-cta">
       <div class="final-left">
         <p class="eyebrow"><span class="en">Begin here</span><span class="zh">从这里开始</span></p>
-        <h2><span class="en">Try a free lesson.<br>Then walk the <em>right path.</em></span><span class="zh">先免费试一节课 &middot;<br>再走上 <em>对的路径。</em></span></h2>
-        <p><span class="en">No sign-up needed to try. Open a real Y7 Unit 1 lesson, 15 minutes, no card. Like it? Sign up free and unlock Unit 1 of every grade.</span><span class="zh">试用不用注册。打开 Y7 第 1 单元真课 · 15 分钟 · 不用卡。喜欢就免费注册 · 解锁每个年级的第 1 单元。</span></p>
+        <h2><span class="en">One free lesson.<br>Then the <em>right path.</em></span><span class="zh">先免费试一节课 &middot;<br>再走 <em>对的路径。</em></span></h2>
+        <p><span class="en">A real Y7 lesson, 15 minutes, no sign-up, no card.</span><span class="zh">一节 Y7 真课 · 15 分钟 · 不用注册 · 不用卡。</span></p>
         <div class="cta-row">
           <a href="/demo/y7-l01" class="btn-primary"><span class="en">Try a free lesson →</span><span class="zh">免费试一节课 →</span></a>
-          <a href="#" class="btn-line"><span class="en">Sign In</span><span class="zh">登录</span></a>
+          <a href="/signin" class="btn-line"><span class="en">Sign In</span><span class="zh">登录</span></a>
         </div>
-      </div>
-
-      <div class="final-right">
-        <ol class="final-steps">
-          <li>
-            <span class="step-n">01</span>
-            <span class="step-txt"><span class="en">Try a demo lesson &mdash; no sign-up, 15 minutes</span><span class="zh">试一节课 &mdash; 不用注册 · 15 分钟</span></span>
-          </li>
-          <li>
-            <span class="step-n">02</span>
-            <span class="step-txt"><span class="en">Like it? Sign up free with email &mdash; no card</span><span class="zh">喜欢? Email 免费注册 &mdash; 不用卡</span></span>
-          </li>
-          <li>
-            <span class="step-n">03</span>
-            <span class="step-txt"><span class="en">Unit 1 of every grade unlocks &mdash; 3 grades free</span><span class="zh">每年级第 1 单元解锁 &mdash; 3 年级免费</span></span>
-          </li>
-          <li>
-            <span class="step-n">04</span>
-            <span class="step-txt"><span class="en">AI feedback every lesson &middot; weekly pattern review</span><span class="zh">每节课 AI 反馈 &middot; 每周看数据</span></span>
-          </li>
-          <li>
-            <span class="step-n">05</span>
-            <span class="step-txt"><span class="en">Subscribe when ready &mdash; grade asked at checkout</span><span class="zh">准备好了再订阅 &mdash; checkout 时才问年级</span></span>
-          </li>
-        </ol>
       </div>
     </div>
   </div>
@@ -3863,7 +2779,6 @@ body.lang-zh .founding-card h4 {
       <h6><span class="en">Trust &amp; safety</span><span class="zh">信任 · 安全</span></h6>
       <ul>
         <li><a href="/child-safety"><span class="en">Child safety policy</span><span class="zh">儿童安全政策</span></a></li>
-        <li><a href="/refund"><span class="en">30-day refund</span><span class="zh">30 天退款</span></a></li>
         <li><a href="/grievance"><span class="en">Grievance &amp; complaints</span><span class="zh">投诉与处理</span></a></li>
         <li><a href="/privacy"><span class="en">Privacy policy</span><span class="zh">隐私政策</span></a></li>
       </ul>
@@ -3890,42 +2805,6 @@ body.lang-zh .founding-card h4 {
 <!-- ============ SCRIPTS ============ -->
 <!-- ============================================== -->
 <script>
-// ============ LOADING SPLASH ============
-(function () {
-  var splash = document.getElementById('splash');
-  if (!splash) return;
-
-  // Respect reduced motion
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // sessionStorage: only first visit gets the splash
-  var seen;
-  try { seen = sessionStorage.getItem('scispark-splash-seen'); } catch (e) { seen = null; }
-
-  if (reduced || seen) {
-    splash.style.display = 'none';
-    return;
-  }
-
-  // Hide after animation completes (~1.8s buffer)
-  window.addEventListener('load', function () {
-    setTimeout(function () {
-      splash.classList.add('hide');
-      try { sessionStorage.setItem('scispark-splash-seen', '1'); } catch (e) {}
-      setTimeout(function () { splash.style.display = 'none'; }, 600);
-    }, 1800);
-  });
-
-  // Safety: also auto-hide after 4s even if load event doesn't fire
-  setTimeout(function () {
-    if (!splash.classList.contains('hide')) {
-      splash.classList.add('hide');
-      try { sessionStorage.setItem('scispark-splash-seen', '1'); } catch (e) {}
-      setTimeout(function () { splash.style.display = 'none'; }, 600);
-    }
-  }, 4000);
-})();
-
 // ============ EN / 中文 TOGGLE ============
 function setLang(lang) {
   document.body.classList.toggle('lang-zh', lang === 'zh');
@@ -4165,57 +3044,72 @@ function setLang(lang) {
 </script>
 
 <!-- ============================================== -->
-<!-- ============ CLICK-SPARK LAYER ============ -->
+<!-- ============ MOTION SYSTEM (v6) ============ -->
 <!-- ============================================== -->
-<div id="click-fx-layer" aria-hidden="true"></div>
-
 <script>
-// ============ CLICK-SPARK FX ============
-// Every click anywhere bursts a few orange particles. Skipped if user prefers reduced motion.
+// Scroll-reveal + hero loop tilt + comparison glow.
+// All of it is skipped when the user prefers reduced motion.
 (function () {
-  var layer = document.getElementById('click-fx-layer');
-  if (!layer) return;
-
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
+  if (reduced) {
+    // also hold the hero loop on its poster frame
+    var v = document.querySelector('.hero-loop video');
+    if (v) { v.removeAttribute('autoplay'); v.pause(); }
+    return;
+  }
+  if (!('IntersectionObserver' in window)) return;
 
-  // Throttle so rapid clicks don't flood the DOM
-  var lastBurst = 0;
+  // 1 · scroll-reveal: each section's direct children fade up once, staggered 60ms
+  var groups = document.querySelectorAll('.section .section-inner, .hero-copy, .hero-loop, footer .inner');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      en.target.querySelectorAll(':scope > .rv').forEach(function (el) {
+        el.classList.add('rv-in');
+      });
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
 
-  function burst(x, y) {
-    var now = Date.now();
-    if (now - lastBurst < 60) return;  // ≤16/s max
-    lastBurst = now;
+  groups.forEach(function (g) {
+    var kids = Array.prototype.slice.call(g.children);
+    kids.forEach(function (el, i) {
+      el.classList.add('rv');
+      el.style.setProperty('--rv-d', Math.min(i * 60, 480) + 'ms');
+    });
+    io.observe(g);
+  });
 
-    // 8 particles radiating out at random angles
-    var count = 8;
-    for (var i = 0; i < count; i++) {
-      var p = document.createElement('div');
-      p.className = 'click-spark';
-      var angle = (Math.PI * 2 * i) / count + (Math.random() * 0.4 - 0.2);
-      var dist = 30 + Math.random() * 30;
-      var sx = Math.cos(angle) * dist;
-      var sy = Math.sin(angle) * dist;
-      p.style.left = x + 'px';
-      p.style.top = y + 'px';
-      p.style.setProperty('--sx', sx + 'px');
-      p.style.setProperty('--sy', sy + 'px');
-      // Slight size variation
-      var size = 4 + Math.random() * 6;
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      layer.appendChild(p);
-      // Cleanup after animation
-      setTimeout(function (el) { return function () { el.remove(); }; }(p), 700);
-    }
+  // 2 · hero lesson loop: gentle 1–2° tilt parallax on scroll
+  var frame = document.querySelector('.hero-loop .browser-frame');
+  if (frame) {
+    var ticking = false;
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var y = Math.min(window.scrollY, 600);
+        var deg = 1.6 - (y / 600) * 1.6; // 1.6° → 0° over the first 600px
+        frame.style.transform = 'perspective(1200px) rotateY(' + (-deg) + 'deg) rotateX(' + (deg * 0.4) + 'deg)';
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
-  // Listen on the document so any click triggers a burst
-  document.addEventListener('click', function (e) {
-    // Skip if click was inside the chatbox panel (less distracting there)
-    if (e.target.closest && e.target.closest('.chatbox-panel')) return;
-    burst(e.clientX, e.clientY);
-  }, { passive: true });
+  // 3 · comparison table: one-time soft glow on the SciSpark column
+  var table = document.querySelector('.compare-table');
+  if (table) {
+    var tio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        setTimeout(function () { table.classList.add('glow'); }, 250);
+        tio.unobserve(table);
+      });
+    }, { threshold: 0.35 });
+    tio.observe(table);
+  }
 })();
 </script>
 
