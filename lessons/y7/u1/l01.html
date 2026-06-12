@@ -6,14 +6,18 @@
 <meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
 <meta name="author" content="SciSpark · IG SPARK CENTRE">
 <meta name="robots" content="noindex, nofollow">
-<title>SciSpark · Y7 U1 L01 · What is Matter? (v2)</title>
-<!-- SciSpark Lesson Shell v2 (B-mode) · © 2026 SciSpark -->
+<title>SciSpark · Y7 U1 L01 · What is Matter?</title>
+<!-- SciSpark Lesson Shell v4+skin (B-mode) · © 2026 SciSpark
+     Generation: v4 engine + premium skin per SCISPARK_LESSON_SHELL_REDESIGN_BRIEF_v1.
+     Founder-approved swap 2026-06-12. Rollback tag: live-shell-pre-v4skin-20260612. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
-<link rel="stylesheet" href="/lesson-shell.css">
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
 <!-- ============ SCISPARK v2 LOGO + SOCIAL ============ -->
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
@@ -41,6 +45,13 @@
 
 <body data-user-level="2" data-lesson="1" data-lesson-id="99fbc889-0417-4b76-b66d-e0392634d843">
 <div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v4: 5 OGG reward audio (mute toggle in nav · local files) ★★★ -->
+<audio id="audio-correct"  src="/audio/correct.ogg"  preload="auto"></audio>
+<audio id="audio-wrong"    src="/audio/wrong.ogg"    preload="auto"></audio>
+<audio id="audio-levelup"  src="/audio/levelup.ogg"  preload="auto"></audio>
+<audio id="audio-popup"    src="/audio/popup.ogg"    preload="auto"></audio>
+<audio id="audio-complete" src="/audio/complete.ogg" preload="auto"></audio>
 
 <div class="app">
 
@@ -72,6 +83,7 @@
     <span id="streak-count">1</span>
   </div>
   <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
   <div class="lang-toggle">
     <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
     <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
@@ -135,11 +147,25 @@
   <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
   <section class="screen active" id="screen-hook">
 
+    <!-- ─── v4+skin PILLAR 1: cinematic HOOK band ───
+         PHOTO SLOT (D3): real photo allowed HERE ONLY. When the Founder
+         supplies a licensed photo, add inside .hook-band-media:
+           <img class="hook-band-photo" src="/assets/lessons/y7u1l01-hook.jpg" alt="...">
+         and record the licence. Until then .hook-band-scene renders an
+         illustrated gradient scene (no licence needed). -->
+    <div class="hook-band">
+      <div class="hook-band-media" aria-hidden="true">
+        <div class="hook-band-scene"></div>
+        <div class="hook-band-drift"></div>
+      </div>
+      <div class="hook-band-content">
     <div class="screen-header">
       <div class="screen-eyebrow" data-en="Y7 · Unit 1 · Lesson 1 · HOOK" data-zh="Y7 · 第1单元 · 第1课 · 启发">Y7 · Unit 1 · Lesson 1 · HOOK</div>
       <h1 class="screen-title" data-en="What is matter?" data-zh="什么是物质?">What is matter?</h1>
       <div class="screen-title-zh">什么是物质?</div>
       <p class="screen-desc" data-en="Two ordinary objects. One big idea. Find the thing they share." data-zh="两个普通物品。一个大想法。找出它们共有的东西。">Two ordinary objects. One big idea. Find the thing they share.</p>
+    </div>
+      </div>
     </div>
 
     <div class="hook-scenario" style="background:linear-gradient(135deg,#FFF8F2,#FFF);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:24px;">
@@ -461,6 +487,7 @@
   <section class="screen" id="screen-test">
 
     <div class="screen-header">
+      <div class="exam-mode-chip"><span data-en="EXAM MODE · NO HINTS" data-zh="考试模式 · 无提示">EXAM MODE · NO HINTS</span></div>
       <div class="screen-eyebrow" data-en="Y7 · Unit 1 · Lesson 1 · TEST" data-zh="Y7 · 第1单元 · 第1课 · 测试">Y7 · Unit 1 · Lesson 1 · TEST</div>
       <h1 class="screen-title" data-en="Apply solo — no hints" data-zh="独立应用 — 无提示">Apply solo — no hints</h1>
       <div class="screen-title-zh">独立应用 — 无提示</div>
@@ -712,7 +739,10 @@
 
 
 <!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
-<script src="/lesson-shell.js"></script>
+<script src="/lesson-shell-v4.js"></script>
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
 
 <script>
 // Lesson-specific bubble scripts per screen
