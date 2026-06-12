@@ -387,8 +387,9 @@ nav.topnav {
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 48px;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 16px;
 }
 .btn-primary {
   display: inline-flex;
@@ -454,8 +455,15 @@ nav.topnav {
   font-size: 11px;
   letter-spacing: 0.4px;
   color: var(--ink-faint);
-  margin-top: 14px;
+  margin-top: 12px;
 }
+
+/* ---- centred hero (wind-vetted layout: title → sub → button → trust line, all centred) ---- */
+.hero-centered { max-width: 760px; margin: 0 auto; text-align: center; }
+.hero-centered h1 { max-width: none; }
+.hero-centered .hero-sub { max-width: 580px; margin-left: auto; margin-right: auto; }
+.hero-centered .hero-ctas { justify-content: center; }
+.hero-centered .hero-trustline { margin: 16px 0 0; }
 
 .trust-row {
   display: flex;
@@ -1950,7 +1958,7 @@ body.lang-zh .founding-card h4 {
 }
 
 /* browser-style frame around the recorded lesson loop */
-.hero-loop { margin: 0; min-width: 0; }
+.hero-loop { margin: 56px auto 0; max-width: 900px; min-width: 0; }
 .browser-frame {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -1972,7 +1980,7 @@ body.lang-zh .founding-card h4 {
   border-radius: 50%;
   background: var(--line-2);
 }
-.browser-bar .b-dot:first-child { background: var(--accent-soft); border: 1px solid var(--accent); box-sizing: border-box; }
+.browser-bar .b-dot:first-child { background: var(--line-2); border: 1px solid var(--line-2); box-sizing: border-box; }
 .browser-url {
   font-family: var(--ff-mono);
   font-size: 11px;
@@ -2134,60 +2142,57 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
 <!-- ============ SECTION 01 · HERO ============ -->
 <!-- ============================================== -->
 <header class="hero" id="top">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <p class="hero-eyebrow"><span class="en">Cambridge Lower Secondary Science · 0893</span><span class="zh">剑桥 Lower Secondary 科学 · 0893</span></p>
+  <!-- DRAFT copy — final EN/ZH wording to be set by founder. Layout = wind-vetted centered hero:
+       big serif title → one sub → one orange button → trust micro-line, all centred, lots of air. -->
+  <div class="hero-copy hero-centered">
+    <h1>
+      <span class="en">Cambridge science, bilingual &mdash;<br>understood the <em>first time.</em></span>
+      <span class="zh">剑桥科学 · 中英双语 ·<br><em>一次讲懂。</em></span>
+    </h1>
 
-      <!-- DRAFT copy — final EN/ZH wording to be set by founder -->
-      <h1>
-        <span class="en">Cambridge science, in two languages &mdash;<br>for ages <em>11 to 14.</em></span>
-        <span class="zh">剑桥科学 · 中英双语教 &mdash;<br><em>11 至 14 岁。</em></span>
-      </h1>
+    <p class="hero-sub">
+      <span class="en">Bilingual &middot; ages 11&ndash;14 &mdash; not drilling, not revision.</span>
+      <span class="zh">中英双语 &middot; 11&ndash;14 岁 &mdash; 不是刷题,不是复习。</span>
+    </p>
 
-      <p class="hero-sub">
-        <span class="en">Built so your child understands it the first time &mdash; not just memorises it for the test.</span>
-        <span class="zh">让孩子第一次就真的听懂 &mdash; 不是为考试死背。</span>
-      </p>
-
-      <p class="hero-trustline">
-        <span class="en">Cambridge 0893 aligned &middot; Teacher-reviewed &middot; Parent-visible progress</span>
-        <span class="zh">对齐剑桥 0893 &middot; 教师审过 &middot; 家长可见进度</span>
-      </p>
-
-      <div class="hero-ctas">
-        <a href="/demo/y7-l01" class="btn-primary">
-          <span class="en">Start free lesson →</span><span class="zh">开始免费试一课 →</span>
-        </a>
-        <a href="#platform" class="hero-preview-link">
-          <span class="en">See a lesson preview</span><span class="zh">看课程预览</span>
-        </a>
-      </div>
-
-      <p class="hero-microcopy">
-        <span class="en">No sign-up &middot; no card</span><span class="zh">不用注册 &middot; 不用信用卡</span>
-      </p>
+    <div class="hero-ctas">
+      <a href="/demo/y7-l01" class="btn-primary">
+        <span class="en">Start free lesson →</span><span class="zh">开始免费试一课 →</span>
+      </a>
+      <a href="#platform" class="hero-preview-link">
+        <span class="en">See a lesson preview</span><span class="zh">看课程预览</span>
+      </a>
     </div>
 
-    <!-- LIVE LESSON LOOP · recorded from the real Y7 L01 build (never a mock-up) -->
-    <figure class="hero-loop" id="lesson-loop">
-      <div class="browser-frame">
-        <div class="browser-bar" aria-hidden="true">
-          <span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span>
-          <span class="browser-url">scisparklab.com/demo/y7-l01</span>
-        </div>
-        <video muted loop autoplay playsinline preload="metadata"
-               poster="/assets/landing/lesson-loop-poster.jpg"
-               aria-label="A recorded SciSpark lesson: a student types an answer, submits, and gets instant feedback and XP.">
-          <source src="/assets/landing/lesson-loop.mp4" type="video/mp4">
-          <source src="/assets/landing/lesson-loop.webm" type="video/webm">
-        </video>
-      </div>
-      <figcaption class="photo-cap">
-        <span class="en">y7 · matter &amp; particle model · recorded from the real lesson</span>
-        <span class="zh">y7 · 物质与微粒模型 · 真课实录</span>
-      </figcaption>
-    </figure>
+    <p class="hero-microcopy">
+      <span class="en">No sign-up &middot; no card</span><span class="zh">不用注册 &middot; 不用信用卡</span>
+    </p>
+
+    <p class="hero-trustline">
+      <span class="en">Cambridge 0893 aligned &middot; Teacher-reviewed &middot; Parent-visible progress</span>
+      <span class="zh">对齐剑桥 0893 &middot; 教师审过 &middot; 家长可见进度</span>
+    </p>
   </div>
+
+  <!-- LIVE LESSON LOOP · recorded from the real Y7 L01 build (never a mock-up) -->
+  <figure class="hero-loop" id="lesson-loop">
+    <div class="browser-frame">
+      <div class="browser-bar" aria-hidden="true">
+        <span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span>
+        <span class="browser-url">scisparklab.com/demo/y7-l01</span>
+      </div>
+      <video muted loop autoplay playsinline preload="metadata"
+             poster="/assets/landing/lesson-loop-poster.jpg"
+             aria-label="A recorded SciSpark lesson: a student types an answer, submits, and gets instant feedback and XP.">
+        <source src="/assets/landing/lesson-loop.mp4" type="video/mp4">
+        <source src="/assets/landing/lesson-loop.webm" type="video/webm">
+      </video>
+    </div>
+    <figcaption class="photo-cap">
+      <span class="en">y7 · matter &amp; particle model · recorded from the real lesson</span>
+      <span class="zh">y7 · 物质与微粒模型 · 真课实录</span>
+    </figcaption>
+  </figure>
 </header>
 
 <!-- ============================================== -->
