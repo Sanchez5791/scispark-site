@@ -635,18 +635,20 @@ Globals exposed (lesson HTML can call directly via onclick=):
       try { awardXP(opts.xp || 10, 'mcq'); } catch (e) {}
     }
 
-    // 8 · Doudou react
-    if (typeof doudouReact === 'function') {
-      try { doudouReact(isCorrect); } catch (e) {}
-    } else {
-      const doudou = document.querySelector('.doudou-avatar');
-      if (doudou) {
-        doudou.setAttribute('data-mood', isCorrect ? 'happy' : 'thinking');
-        setTimeout(() => doudou.removeAttribute('data-mood'), 1800);
-      }
+    // 8 · DouDou stays quiet per-answer (§8). Nudge gently ONLY when stuck
+    //     (2+ wrong on this question) — never a cutesy single-wrong reaction.
+    if (!isCorrect && container &&
+        parseInt(container.getAttribute('data-attempts') || '0', 10) >= 2) {
+      if (typeof doudouSay === 'function') { try { doudouSay('stuck'); } catch (e) {} }
     }
 
-    // 9 · Reward audio (5 OGG)
+    // 8b · §12 question-block state — brief "checking" then the result
+    if (typeof setQState === 'function' && container) {
+      setQState(container, 'checking');
+      setTimeout(() => setQState(container, isCorrect ? 'correct' : 'wrong'), 320);
+    }
+
+    // 9 · Feedback sound (self-hosted synth, default off — §9)
     playSound(isCorrect ? 'correct' : 'wrong');
 
     // 10 · Mark answered for test progress
@@ -664,18 +666,70 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   // ═════════════════════════════════════════════════════════════
+  // SECTION 6b: QUESTION-BLOCK STATE SYSTEM (v5 §12)
+  // Visible states: empty · typing · checking · correct · partly · wrong ·
+  // needs-review · saved · sync-failed. Each = icon (shape) + colour + label —
+  // never colour alone (colour-blind safe). Public API: window.setQState(block,state).
+  // ═════════════════════════════════════════════════════════════
+  const QSTATE = {
+    empty:          { en: 'Not answered',              zh: '未作答',           icon: 'circle' },
+    typing:         { en: 'Typing…',                   zh: '输入中…',          icon: 'pencil' },
+    checking:       { en: 'Checking…',                 zh: '检查中…',          icon: 'dots'   },
+    correct:        { en: 'Correct',                   zh: '正确',             icon: 'check'  },
+    partly:         { en: 'Partly correct',            zh: '部分正确',         icon: 'tilde'  },
+    wrong:          { en: 'Not quite',                 zh: '还没对',           icon: 'cross'  },
+    'needs-review': { en: 'Needs review',              zh: '待老师批改',       icon: 'eye'    },
+    saved:          { en: 'Saved',                     zh: '已保存',           icon: 'check'  },
+    'sync-failed':  { en: 'Saved offline · sync failed', zh: '离线保存 · 同步失败', icon: 'warn' }
+  };
+  const QSTATE_ICONS = {
+    circle: '<circle cx="12" cy="12" r="7"/>',
+    pencil: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    dots:   '<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',
+    check:  '<path d="M20 6 9 17l-5-5"/>',
+    tilde:  '<path d="M3 13c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/>',
+    cross:  '<path d="M18 6 6 18"/><path d="M6 6l12 12"/>',
+    eye:    '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    warn:   '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>'
+  };
+  // setQState(block, state) — drives the visible state pill on a .question-block.
+  function setQState(block, state) {
+    if (!block || !QSTATE[state]) return null;
+    block.setAttribute('data-qstate', state);
+    let pill = block.querySelector('.q-state');
+    if (!pill) {
+      pill = document.createElement('span');
+      pill.className = 'q-state';
+      pill.setAttribute('role', 'status');
+      const header = block.querySelector('.question-header');
+      (header || block).appendChild(pill);
+    }
+    const meta = QSTATE[state];
+    pill.setAttribute('data-qstate', state);
+    pill.innerHTML =
+      '<svg class="q-state-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" ' +
+      'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      QSTATE_ICONS[meta.icon] + '</svg>' +
+      '<span class="q-state-label" data-en="' + meta.en + '" data-zh="' + meta.zh + '">' + meta.en + '</span>';
+    // render label in the active language
+    try { setLang(localStorage.getItem(LS_LANG) || document.documentElement.lang || 'en'); } catch (e) {}
+    return pill;
+  }
+  // Default every question block to "empty" on load.
+  function initQStates() {
+    document.querySelectorAll('.question-block').forEach(b => {
+      if (!b.getAttribute('data-qstate')) setQState(b, 'empty');
+    });
+  }
+
+  // ═════════════════════════════════════════════════════════════
   // SECTION 7: XP + AUTO-SAVE (verbatim v1.js line 496-574)
   // ═════════════════════════════════════════════════════════════
 
   function awardXP(amount, source) {
+    // v5 §10: XP accrues QUIETLY — no floating "+XP" popup, no level-up animation.
+    // The tally is shown calmly in the WRAP learning record via updateXPDisplay().
     // PHASE 2 ACTIVATE: insert into Supabase user_xp table
-    const toast = document.getElementById('xp-toast');
-    toast.textContent = '+' + amount + ' XP';
-    toast.classList.remove('show');
-    void toast.offsetWidth; // restart animation
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1600);
-  
     if (source === 'aha') xpEarned.aha = amount;
     else xpEarned.mcq += amount;
     updateXPDisplay();
@@ -699,6 +753,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     document.querySelectorAll('textarea[id]').forEach(ta => {
       const key = 'scispark_' + ta.id;
       const indicator = document.getElementById(ta.id.replace('-input','-save'));
+      const block = ta.closest('.question-block');  // §12 state target (may be null)
       // Restore
       const saved = localStorage.getItem(key);
       if (saved) ta.value = saved;
@@ -706,11 +761,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
       let timer;
       ta.addEventListener('input', () => {
         clearTimeout(timer);
+        if (block && typeof setQState === 'function') setQState(block, 'typing');   // §12
         timer = setTimeout(() => {
-          localStorage.setItem(key, ta.value);
+          let ok = true;
+          try { localStorage.setItem(key, ta.value); } catch (e) { ok = false; }
           if (indicator) {
             indicator.classList.add('show');
             setTimeout(() => indicator.classList.remove('show'), 1500);
+          }
+          // §12: saved · sync-failed · (teacher-marked short answers → needs-review)
+          if (block && typeof setQState === 'function') {
+            if (!ok) setQState(block, 'sync-failed');
+            else if (block.getAttribute('data-marking') === 'teacher') setQState(block, 'needs-review');
+            else setQState(block, 'saved');
           }
           // If aha textarea, award XP once
           if (ta.id === 'aha-input' && ta.value.length > 5 && !xpAnswered.has('aha')) {
@@ -892,22 +955,48 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Update streak
     SparkStreak.add();
   
-    // Surprise Drop 5% probability
-    if (Math.random() < 0.05) {
-      setTimeout(() => {
-        document.getElementById('surprise-modal').classList.add('show');
-      }, 800);
-    } else {
-      setTimeout(() => {
-        // Read lesson number from <body data-lesson="N">; fallback to '?' if not set
-        const lessonNum = document.body.dataset.lesson || '?';
-        showToast(`Great work! Lesson ${lessonNum} complete. ✓ · XP +10`);
-      }, 600);
-    }
+    // v5 §10: Surprise Drop REMOVED (random-reward / gambling feel kills parent trust).
+    // Quiet completion confirmation only — evidence of learning, not a slot machine.
+    setTimeout(() => {
+      const lessonNum = document.body.dataset.lesson || '?';
+      showToast(`Lesson ${lessonNum} complete · progress saved`);
+    }, 500);
   }
-  
+
   function closeSurprise() {
-    document.getElementById('surprise-modal').classList.remove('show');
+    // §10: Surprise modal removed; kept as a safe no-op for any legacy caller.
+    const m = document.getElementById('surprise-modal');
+    if (m) m.classList.remove('show');
+  }
+
+  // §11: WRAP is review-first. Auto-populate a [data-wrong-review] container in the
+  // WRAP screen with the questions the learner got wrong in TEST (the real value).
+  function buildWrongReview() {
+    const host = document.querySelector('[data-wrong-review]');
+    if (!host) return;
+    const wrongs = document.querySelectorAll('#screen-test [data-question][data-result="wrong"]');
+    host.innerHTML = '';
+    if (!wrongs.length) {
+      const ok = document.createElement('p');
+      ok.className = 'wrap-review-clear';
+      ok.setAttribute('data-en', 'Nothing to review — every Test question was correct.');
+      ok.setAttribute('data-zh', '没有要复习的错题 —— 测试全部答对。');
+      ok.textContent = ok.getAttribute('data-en');
+      host.appendChild(ok);
+    } else {
+      wrongs.forEach(q => {
+        const num   = ((q.querySelector('.q-number') || {}).textContent || '').trim();
+        const qtext = ((q.querySelector('.question-text') || {}).textContent || 'Question').trim();
+        const item = document.createElement('div');
+        item.className = 'wrap-review-item';
+        item.innerHTML =
+          '<div class="wrap-review-q">' +
+          (num ? '<span class="wrap-review-num">' + num + '</span>' : '') +
+          '<span class="wrap-review-text">' + qtext.slice(0, 180) + '</span></div>';
+        host.appendChild(item);
+      });
+    }
+    try { setLang(localStorage.getItem(LS_LANG) || document.documentElement.lang || 'en'); } catch (e) {}
   }
   
   // ═════════════════════════════════════════════════════════════
@@ -999,14 +1088,16 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // ═════════════════════════════════════════════════════════════
   // DOUDOU REACTIONS — answer feedback + screen transitions
   // ═════════════════════════════════════════════════════════════
+  // §8: quiet co-learner, NOT a cheerleader. Spoken ONLY when stuck (2+ wrong on the
+  // same question) and on completion — never per-answer, never a cutesy wrong reaction.
   const DOUDOU_MSGS = {
-    correct: {
-      en: ['Awesome!', 'Got it!', 'Yes!', 'Keep going!'],
-      zh: ['太棒了!', '对了!', '厉害!', '继续!']
+    stuck: {
+      en: ['Take your time — try re-reading the question.', 'Tricky one. Look at it once more.', 'No rush. What is the question actually asking?'],
+      zh: ['慢慢来,再读一次题目。', '这题有点难,再看一眼。', '不急。题目到底在问什么?']
     },
-    wrong: {
-      en: ['Try again', 'Almost!', "Don't give up", 'Take your time'],
-      zh: ['再试试', '差一点!', '别放弃', '慢慢想']
+    done: {
+      en: ['Nice work today.', "That's a wrap — well done."],
+      zh: ['今天做得不错。', '完成了,做得好。']
     }
   };
   
@@ -1050,53 +1141,21 @@ Globals exposed (lesson HTML can call directly via onclick=):
     setTimeout(() => avatar.classList.remove('doudou-' + type), 1000);
   }
   
-  function doudouReact(isCorrect) {
-    const type = isCorrect ? 'correct' : 'wrong';
+  // §8: DouDou speaks only when stuck / done. doudouSay(kind) picks a quiet line.
+  function doudouSay(kind) {
+    const set = DOUDOU_MSGS[kind]; if (!set) return;
     const isZh = document.body.classList.contains('zh-mode');
-    const list = DOUDOU_MSGS[type][isZh ? 'zh' : 'en'];
-    const msg = list[Math.floor(Math.random() * list.length)];
-    doudouAnimate(type);
-    doudouShowBubble(msg, 2000);
+    const list = set[isZh ? 'zh' : 'en'];
+    doudouShowBubble(list[Math.floor(Math.random() * list.length)], 3200);
   }
-  
-  // Patch selectOpt — MCQ correct/wrong detection via data-correct="true"
-  const _origSelectOpt = selectOpt;
-  selectOpt = function(qId, el, letter) {
-    _origSelectOpt(qId, el, letter);
-    doudouReact(el.dataset.correct === 'true');
-  };
-  
-  // Patch toggleAns — inject self-assessment buttons when answer revealed
-  const _origToggleAns = toggleAns;
-  toggleAns = function(id) {
-    const box = document.getElementById(id);
-    const wasHidden = !box.classList.contains('show');
-    _origToggleAns(id);
-    if (wasHidden && !box.querySelector('.doudou-selfassess')) {
-      const isZh = document.body.classList.contains('zh-mode');
-      const row = document.createElement('div');
-      row.className = 'doudou-selfassess';
-  
-      const btnR = document.createElement('button');
-      btnR.className = 'btn btn-sm doudou-got-right';
-      btnR.textContent = isZh ? '✓ 我答对了' : '✓ I got it right';
-      btnR.setAttribute('data-en', '✓ I got it right');
-      btnR.setAttribute('data-zh', '✓ 我答对了');
-      btnR.addEventListener('click', () => doudouReact(true));
-  
-      const btnW = document.createElement('button');
-      btnW.className = 'btn btn-sm doudou-got-wrong';
-      btnW.textContent = isZh ? '✗ 还没答到' : '✗ Not yet';
-      btnW.setAttribute('data-en', '✗ Not yet');
-      btnW.setAttribute('data-zh', '✗ 还没答到');
-      btnW.addEventListener('click', () => doudouReact(false));
-  
-      row.appendChild(btnR);
-      row.appendChild(btnW);
-      box.appendChild(row);
-    }
-  };
-  
+  // Back-compat shim for any lesson that still calls doudouReact(bool): stay quiet
+  // on correct, gentle nudge only on wrong. (The shell no longer calls it per-answer.)
+  function doudouReact(isCorrect) { if (!isCorrect) doudouSay('stuck'); }
+
+  // §8: removed the per-click selectOpt reaction and the auto-injected
+  // "I got it right / Not yet" self-assess buttons — both were per-interaction
+  // DouDou popups. Answer feedback now lives in the question-block states (§12).
+
   // Patch showScreen — DouDou speaks on screen transitions
   let _prevScreen = 'hook';
   const _origShowScreen = showScreen;
@@ -1104,6 +1163,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
     const prev = _prevScreen;
     _origShowScreen(id);
     _prevScreen = id;
+    // §11: build the wrong-question review the moment WRAP opens
+    if (id === 'wrap' && typeof buildWrongReview === 'function') {
+      try { buildWrongReview(); } catch (e) {}
+    }
     if (id !== prev && DOUDOU_SCREEN_MSGS[id]) {
       const isZh = document.body.classList.contains('zh-mode');
       doudouAnimate('transition');
@@ -1137,53 +1200,65 @@ Globals exposed (lesson HTML can call directly via onclick=):
   })();
 
   // ═════════════════════════════════════════════════════════════
-  // SECTION 13: AUDIO REWARD 5 OGG + MUTE TOGGLE
-  // Source: extracted from v03 chat HTML inline (gamesounds.xyz CC0)
+  // SECTION 13: SOUND (v5 §9 — self-hosted WebAudio synth, default OFF, correct/wrong only)
+  // No external audio dependency (was gamesounds.xyz). Opt-in. level-up/popup/
+  // surprise/complete sounds removed. Two short synthesized tones, zero asset files.
   // ═════════════════════════════════════════════════════════════
-  const AUDIO_BASE = 'https://gamesounds.xyz/Kenney\'s%20Sound%20Pack/Interface%20Sounds/';
-  const AUDIO_FILES = {
-    correct:  'confirmation_001.ogg',
-    wrong:    'error_002.ogg',
-    levelup:  'maximize_009.ogg',
-    popup:    'pluck_001.ogg',
-    complete: 'bong_001.ogg'
-  };
-  const audioCache = {};
-  let muted = false;
-  try { muted = localStorage.getItem(LS_MUTE) === '1'; } catch (e) {}
+  let _actx = null;
+  function _audioCtx() {
+    if (_actx) return _actx;
+    try { _actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { _actx = null; }
+    return _actx;
+  }
+  // muted defaults to TRUE (sound OFF / opt-in §9); honour a saved preference if present.
+  let muted = true;
+  try { const v = localStorage.getItem(LS_MUTE); if (v !== null) muted = (v === '1'); } catch (e) {}
+
+  function _beep(freqs, dur) {
+    const ctx = _audioCtx(); if (!ctx) return;
+    if (ctx.state === 'suspended') { try { ctx.resume(); } catch (e) {} }
+    const now = ctx.currentTime;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.12, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    gain.connect(ctx.destination);
+    freqs.forEach((f, i) => {
+      const o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(f, now + i * 0.09);
+      o.connect(gain);
+      o.start(now + i * 0.09);
+      o.stop(now + dur);
+    });
+  }
 
   function playSound(type) {
     if (muted) return;
-    if (!AUDIO_FILES[type]) return;
-    let a = audioCache[type];
-    if (!a) {
-      // Try to use lesson HTML inline <audio> first
-      a = document.getElementById('audio-' + type);
-      if (!a) {
-        a = new Audio(AUDIO_BASE + AUDIO_FILES[type]);
-        a.preload = 'auto';
-      }
-      audioCache[type] = a;
-    }
-    try {
-      a.currentTime = 0;
-      const p = a.play();
-      if (p && p.catch) p.catch(() => {});
-    } catch (e) {}
+    if (type === 'correct')      _beep([523.25, 783.99], 0.28);  // C5 → G5, gentle rise
+    else if (type === 'wrong')   _beep([196.00], 0.22);          // low G3, soft (not harsh)
+    // level-up / popup / surprise / complete sounds intentionally removed (§9)
   }
 
   function toggleMute() {
     muted = !muted;
     try { localStorage.setItem(LS_MUTE, muted ? '1' : '0'); } catch (e) {}
+    // opting in (unmuting) also unlocks the audio context on this user gesture
+    if (!muted) { const c = _audioCtx(); if (c && c.state === 'suspended') { try { c.resume(); } catch (e) {} } }
     renderMuteToggle();
   }
+
+  // SVG icons (§7) — set via innerHTML so JS no longer paints an emoji into the button
+  const _SVG_SOUND_ON  = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>';
+  const _SVG_SOUND_OFF = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>';
 
   function renderMuteToggle() {
     const btn = document.getElementById('mute-toggle') || document.querySelector('.mute-toggle');
     if (!btn) return;
-    btn.textContent = muted ? '🔇' : '🔊';
+    btn.innerHTML = muted ? _SVG_SOUND_OFF : _SVG_SOUND_ON;
     btn.classList.toggle('muted', muted);
-    btn.setAttribute('aria-label', muted ? 'Unmute · 取消静音' : 'Mute · 静音');
+    btn.setAttribute('aria-label', muted ? 'Sound off — click to enable · 声音关' : 'Sound on — click to mute · 声音开');
+    btn.setAttribute('title', muted ? 'Sound off · 点按开启' : 'Sound on · 点按静音');
   }
 
   // ═════════════════════════════════════════════════════════════
@@ -1276,6 +1351,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Setup auto-save
     if (typeof setupAutoSave === 'function') {
       try { setupAutoSave(); } catch (e) {}
+    }
+
+    // §12: default every question block to the "empty" state
+    if (typeof initQStates === 'function') {
+      try { initQStates(); } catch (e) {}
     }
 
     // Inject TTS buttons (v1)
@@ -1649,6 +1729,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
   window.trackProgress = trackProgress;
   window.collectAnswers = collectAnswers;
   window.SparkStreak = SparkStreak;
+  window.setQState = setQState;          // §12 question-block state API
+  if (typeof doudouSay === 'function') window.doudouSay = doudouSay;
+  if (typeof buildWrongReview === 'function') window.buildWrongReview = buildWrongReview;  // §11
 
   // v1 globals (exposed if defined in copied sections)
   if (typeof awardXP === 'function')               window.awardXP = awardXP;

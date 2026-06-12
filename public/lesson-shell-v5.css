@@ -1865,4 +1865,64 @@ body { font-size: 16px; color: var(--ink); background: var(--bg-page); }
 .screen { max-width: 760px; }
 .screen-desc, .definition-text, .summary-text, .mistake-text,
 .card p, .concept-desc { max-width: 680px; }
+
+/* ═══ §12: QUESTION-BLOCK STATE SYSTEM ═══
+   Every state = icon (distinct shape) + colour + label. Colour is NEVER the only
+   signal (colour-blind safe). Pill sits at the right edge of the question header. */
+.q-state {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-left: auto;
+  padding: 3px 10px 3px 8px; border-radius: var(--radius-full);
+  font-family: var(--ff-body); font-size: 12px; font-weight: 600;
+  border: 1px solid var(--line); background: var(--bg-elev);
+  color: var(--ink-subtle); white-space: nowrap;
+}
+.q-state-icon { flex: none; }
+.q-state[data-qstate="empty"]        { color: var(--ink-subtle); }
+.q-state[data-qstate="typing"]       { color: var(--ink-muted); }
+.q-state[data-qstate="checking"]     { color: var(--info);    background: var(--info-soft);    border-color: var(--info); }
+.q-state[data-qstate="correct"]      { color: var(--success); background: var(--success-soft); border-color: var(--success); }
+.q-state[data-qstate="partly"]       { color: var(--warn);    background: var(--warn-bg);      border-color: var(--warn); }
+.q-state[data-qstate="wrong"]        { color: var(--error);   background: var(--error-soft);   border-color: var(--error); }
+.q-state[data-qstate="needs-review"] { color: var(--info);    background: var(--info-soft);    border-color: var(--info); }
+.q-state[data-qstate="saved"]        { color: var(--ink-muted); }
+.q-state[data-qstate="sync-failed"]  { color: var(--error);   background: var(--error-soft);   border-color: var(--error); }
+/* "checking" dots gently pulse (global prefers-reduced-motion rule disables it) */
+.q-state[data-qstate="checking"] .q-state-icon { animation: qstate-pulse 1s ease-in-out infinite; }
+@keyframes qstate-pulse { 0%,100% { opacity: .4 } 50% { opacity: 1 } }
+/* result echoes subtly on the card edge */
+.question-block[data-qstate="correct"] { border-color: var(--success); }
+.question-block[data-qstate="wrong"]   { border-color: var(--error); }
+.question-block[data-qstate="partly"]  { border-color: var(--warn); }
+
+/* ═══ §11: WRAP — review first, reward last ═══ */
+.wrap-section { margin-bottom: var(--space-6); }
+.wrap-section-label {
+  font-family: var(--ff-body); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-subtle);
+  margin-bottom: var(--space-3);
+}
+/* wrong-question review (the value) — auto-filled by buildWrongReview() */
+.wrap-review-item {
+  border: 1px solid var(--line); border-left: 3px solid var(--warn);
+  border-radius: var(--radius-sm); background: var(--bg-card);
+  padding: 12px 14px; margin-bottom: var(--space-3);
+}
+.wrap-review-q { display: flex; gap: 8px; align-items: baseline; }
+.wrap-review-num { font-weight: 700; color: var(--ink); flex: none; }
+.wrap-review-text { color: var(--ink-2); }
+.wrap-review-clear { color: var(--success); font-weight: 500; }
+/* aha = click-to-expand, not a permanent block */
+details.aha-expand { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--bg-card); }
+details.aha-expand > summary {
+  cursor: pointer; list-style: none; padding: 12px 16px;
+  font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px;
+}
+details.aha-expand > summary::-webkit-details-marker { display: none; }
+details.aha-expand > summary::after { content: '＋'; margin-left: auto; color: var(--ink-subtle); }
+details.aha-expand[open] > summary::after { content: '－'; }
+details.aha-expand > .aha-body { padding: 0 16px 16px; }
+/* reward LAST + Complete Lesson is the single primary action */
+.wrap-reward { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); }
+.btn-row .btn-primary { font-size: 15px; padding: 12px 22px; }   /* Complete Lesson stands out */
 /* end v5 NOISE-REDUCTION LAYER */

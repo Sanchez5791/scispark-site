@@ -84,12 +84,9 @@ Spec sources:
 <!-- ▲▲▲ REPLACE ▲▲▲ -->
 <div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
 
-<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
-<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
-<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
-<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
-<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
-<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+<!-- v5 §9: external OGG audio removed. Sound is now a self-hosted WebAudio synth
+     (correct/wrong only, default OFF / opt-in) — see SECTION 13 in lesson-shell-v5.js. -->
+
 
 <div class="app">
 
@@ -124,8 +121,10 @@ Spec sources:
       <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
     </svg>
   </a>
-  <!-- mute: kept as-is in Phase 1; de-emoji + move-to-menu happens in the §9 sound pass (icon is set by JS) -->
-  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Sound · 声音" aria-label="Toggle sound">🔊</button>
+  <!-- §9: sound is OFF by default (opt-in). JS (renderMuteToggle) paints the SVG; this is the no-JS fallback. -->
+  <button class="mute-toggle muted" id="mute-toggle" onclick="toggleMute()" title="Sound off · 点按开启" aria-label="Sound off — click to enable">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+  </button>
   <div class="lang-toggle">
     <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
     <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
@@ -284,16 +283,22 @@ Spec sources:
 
     <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
     <!--
-      Include:
-      - screen-header
-      - wrap-summary dark card (3 key points with wrap-dot)
-      - XP stats display (xp-lesson, xp-mcq, xp-aha, xp-total)
-      - badge-reveal card
-      - Aha Moment journal textarea (id="aha-input")
-      - Cliffhanger card (teaser for next lesson)
-      - stay-curious quote from Professor Spark
-      - Knowt deck placeholder (PHASE 2: embed iframe)
-      - btn-row: ← Test + Complete Lesson [N] button → completeLesson()
+      v5 §11 ORDER — review first, reward LAST:
+        1. screen-header
+        2. 3 key points (wrap-summary)
+        3. WRONG-QUESTION REVIEW  ← most important (the value).
+           Drop in: <div class="wrap-section"><div class="wrap-section-label"
+                      data-en="Review your mistakes" data-zh="复习错题"></div>
+                      <div data-wrong-review></div></div>
+           The shell auto-fills [data-wrong-review] from this lesson's TEST results.
+        4. One exam-style sentence ("write it like the exam")
+        5. Aha reflection as click-to-expand:
+           <details class="aha-expand"><summary>Aha moment · 灵光一现</summary>
+             <div class="aha-body"><textarea id="aha-input"></textarea></div></details>
+        6. .wrap-reward block LAST (small badge + XP summary) — AFTER Complete Lesson
+        7. btn-row: ← Test  +  Complete Lesson [N] (btn-primary, the single primary
+           action) → onclick="completeLesson()"
+      Note: XP toast + Surprise Drop are gone (§10) — XP shows quietly here only.
     -->
     <!-- ▲▲▲ INSERT ▲▲▲ -->
 
@@ -382,20 +387,8 @@ Spec sources:
   </div>
 </div>
 
-<!-- ─── XP TOAST ─── -->
-<div class="xp-toast" id="xp-toast">+30 XP</div>
-
-<!-- ─── SURPRISE DROP MODAL ─── -->
-<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
-<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
-  <div class="surprise-content" onclick="event.stopPropagation()">
-    <div class="surprise-emoji">🎉</div>
-    <div class="surprise-title">Surprise Drop!</div>
-    <div class="surprise-zh">惊喜掉落!</div>
-    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
-    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
-  </div>
-</div>
+<!-- v5 §10: XP toast + "Surprise Drop!" modal REMOVED.
+     XP accrues quietly into the WRAP learning record; no random-reward popups. -->
 
 <!-- ─── FOOTER ─── -->
 <footer class="lesson-footer">
