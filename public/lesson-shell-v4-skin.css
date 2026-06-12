@@ -1,0 +1,460 @@
+/*
+═══════════════════════════════════════════════════════════════
+SCISPARK LESSON SHELL v4+skin · PREMIUM SKIN LAYER (additive)
+═══════════════════════════════════════════════════════════════
+File:  /lesson-shell-v4-skin.css
+Date:  2026-06-12
+Brief: SCISPARK_LESSON_SHELL_REDESIGN_BRIEF_v1 (5 pillars)
+Base:  loads AFTER /lesson-shell-v4.css. Pure re-skin (D1):
+       no engine styles removed, only layered on top.
+Tokens: SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1 — EXACT. This file
+       re-anchors the v4 css palette drift (#FAF7F2/#0F172A/Fraunces)
+       back to the locked v3.1 set. No new colors, no new fonts.
+Motion: ANIMATION_POLICY v1.1 — rewards ≤600ms, reduced-motion
+       slow ×3 / no-autoplay / no-loop, never static-image fallback.
+Rollback: remove this <link> + the skin <script> → plain v4.
+═══════════════════════════════════════════════════════════════
+*/
+
+/* ─── 0 · TOKEN RE-ANCHOR (v3.1 LOCKED — overrides v4 drift) ─── */
+:root {
+  /* Backgrounds */
+  --bg:        #FBF8F4;
+  --bg-2:      #F4EFE7;
+  --bg-card:   #ffffff;
+  --bg-paper:  #FBF8F4;   /* v2/v4 alias */
+
+  /* Ink */
+  --ink:       #171413;
+  --ink-2:     #3a342f;
+  --ink-3:     #6b6358;
+
+  /* Borders */
+  --line:      #E6DFD3;
+  --line-2:    #D9D0BF;
+
+  /* Brand orange */
+  --accent:      #EA580C;
+  --accent-ink:  #7a2e08;
+  --accent-soft: #FFE9D6;
+
+  /* Semantic */
+  --ok:      #2E7D5B;
+  --ok-bg:   #d9eed9;
+  --ok-text: #2a6a2a;
+  --warn:    #a32d2d;
+  --warn-bg: #fce8e6;
+  --correct-bg: #d9eed9; --correct-fg: #2a6a2a; --correct-border: #2E7D5B;
+  --wrong-bg:   #fce8e6; --wrong-fg:   #a32d2d; --wrong-border:   #a32d2d;
+
+  /* Fonts (v3.1 locked stacks) */
+  --ff-display: 'Instrument Serif', 'Times New Roman', serif;
+  --ff-serif:   'Instrument Serif', 'Times New Roman', serif;
+  --ff-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ff-sans:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ff-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --ff-zh:      'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
+
+  /* PILLAR 2 · three elevation levels (ink-tinted shadow, no new hues) */
+  --elev-card:  0 1px 2px rgba(23,20,19,0.04), 0 12px 24px -14px rgba(23,20,19,0.12);
+  --elev-float: 0 4px 12px rgba(23,20,19,0.08), 0 18px 40px -14px rgba(23,20,19,0.20);
+
+  /* motion base (reduced-motion multiplies this ×3 via v4 rule) */
+  --anim-base: 0.3s;
+}
+
+/* ─── 1 · PILLAR 2: DEPTH & LIGHT ───────────────────────────── */
+
+/* one subtle texture layer: faint dot grid ≤3% opacity */
+body[data-skin="v4skin"]::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(rgba(23,20,19,0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.5; /* net ≈2.5% ink */
+}
+body[data-skin="v4skin"] .app { position: relative; z-index: 1; }
+
+/* elevation L2: white cards float off the cream page */
+body[data-skin="v4skin"] .card,
+body[data-skin="v4skin"] .question-block,
+body[data-skin="v4skin"] .vocab-card,
+body[data-skin="v4skin"] .hook-scenario,
+body[data-skin="v4skin"] .badge-reveal,
+body[data-skin="v4skin"] .xp-stat,
+body[data-skin="v4skin"] #progress-summary-card {
+  box-shadow: var(--elev-card);
+  border-radius: 16px;
+}
+body[data-skin="v4skin"] .vocab-card { border-radius: 12px; }
+
+/* elevation L3: floating elements (Doudou bubble, XP chip, feedback) */
+body[data-skin="v4skin"] .prof-p-bubble,
+body[data-skin="v4skin"] .prof-p-avatar,
+body[data-skin="v4skin"] .xp-toast,
+body[data-skin="v4skin"] .surprise-content,
+body[data-skin="v4skin"] .ai-tutor-panel {
+  box-shadow: var(--elev-float);
+}
+
+/* section title: thin accent underline that draws itself in (300ms, once) */
+body[data-skin="v4skin"] .screen-title { position: relative; padding-bottom: 10px; }
+body[data-skin="v4skin"] .screen-title::after {
+  content: '';
+  position: absolute; left: 0; bottom: 0;
+  height: 3px; width: 0;
+  border-radius: 999px;
+  background: var(--accent);
+}
+body[data-skin="v4skin"] .screen.active .screen-title::after {
+  animation: skin-underline-draw calc(var(--anim-base) * 1) ease-out forwards;
+}
+@keyframes skin-underline-draw { from { width: 0; } to { width: 56px; } }
+
+/* active sidebar step: soft accent glow, not just a color change */
+body[data-skin="v4skin"] .screen-nav-item.active {
+  box-shadow: inset 0 0 0 1px rgba(234,88,12,0.18), 0 0 18px -4px rgba(234,88,12,0.35);
+  border-radius: 0 10px 10px 0;
+}
+body[data-skin="v4skin"] .screen-nav-item { transition: box-shadow calc(var(--anim-base) * 1) ease, background 0.12s; }
+
+/* ─── 2 · PILLAR 4: BREATHE (type + density for a 12-year-old) ── */
+body[data-skin="v4skin"] { font-size: 16px; line-height: 1.6; }
+body[data-skin="v4skin"] .screen { max-width: 860px; }
+body[data-skin="v4skin"] .screen p,
+body[data-skin="v4skin"] .definition-text,
+body[data-skin="v4skin"] .question-text,
+body[data-skin="v4skin"] .concept-desc,
+body[data-skin="v4skin"] .mistake-text { max-width: 68ch; }
+body[data-skin="v4skin"] .question-text  { font-size: 16px; line-height: 1.6; }
+body[data-skin="v4skin"] .definition-text { font-size: 16px; line-height: 1.65; }
+body[data-skin="v4skin"] .screen-desc    { font-size: 15px; line-height: 1.6; }
+body[data-skin="v4skin"] .vocab-def      { font-size: 12px; line-height: 1.5; }
+body[data-skin="v4skin"] .wrap-point     { font-size: 15px; line-height: 1.6; }
+body[data-skin="v4skin"] textarea.short-input,
+body[data-skin="v4skin"] textarea[id$="-input"] { font-size: 16px; line-height: 1.55; }
+/* mobile (≤768): body floor 16px per ANIMATION_POLICY §8 ladder */
+@media (max-width: 768px) {
+  body[data-skin="v4skin"] { font-size: 16px; }
+  body[data-skin="v4skin"] .question-text { font-size: 17px; }
+  body[data-skin="v4skin"] .screen { padding-top: 20px; }
+  /* WRAP stat grids: inline 4-col overflows a phone — reflow to 2 */
+  body[data-skin="v4skin"] .xp-wrap { grid-template-columns: repeat(2, 1fr) !important; }
+  body[data-skin="v4skin"] .xp-stat { min-width: 0; }
+}
+/* content images: inline max-width (520/640px) overflows phones —
+   cap to the column. !important needed to beat the inline style;
+   on desktop the inline cap still wins because 100% > 520px there. */
+body[data-skin="v4skin"] .screen img { max-width: 100% !important; height: auto; }
+
+/* very small phones: cut chrome that repeats what the student already sees */
+@media (max-width: 480px) {
+  body[data-skin="v4skin"] .nav-meta { display: none; }
+  body[data-skin="v4skin"] .nav-back { display: none; }
+  body[data-skin="v4skin"] .nav-badge { display: none; }
+  body[data-skin="v4skin"] .top-nav { gap: 8px; padding: 0 14px; }
+}
+
+/* progressive reveal — JS adds .skin-reveal, then .skin-in on scroll.
+   No-JS / reduced-motion: class never added → everything visible. */
+body[data-skin="v4skin"] .skin-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+body[data-skin="v4skin"] .skin-reveal.skin-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity calc(var(--anim-base) * 1.6) ease, transform calc(var(--anim-base) * 1.6) cubic-bezier(.22,.61,.36,1);
+}
+
+/* key-term chips: soft peach highlight sweep on first appearance */
+body[data-skin="v4skin"] .vocab-card { position: relative; overflow: hidden; }
+body[data-skin="v4skin"] .vocab-card.skin-in::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, var(--accent-soft) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: skin-chip-sweep calc(var(--anim-base) * 2) ease-out 1 forwards;
+  pointer-events: none;
+}
+@keyframes skin-chip-sweep { to { transform: translateX(100%); } }
+
+/* ─── 3 · PILLAR 1: HOOK CINEMATIC BAND ─────────────────────── */
+body[data-skin="v4skin"] .hook-band {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 26px;
+  min-height: 240px;
+  aspect-ratio: 16 / 9;
+  max-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--elev-card);
+  background: var(--ink);
+}
+body[data-skin="v4skin"] .hook-band-media {
+  position: absolute; inset: 0;
+  overflow: hidden;
+}
+/* PHOTO SLOT (D3): when the Founder supplies a licensed photo, drop
+   <img class="hook-band-photo" src="..." alt="..."> inside .hook-band-media.
+   Until then .hook-band-scene paints an illustrated gradient scene. */
+body[data-skin="v4skin"] .hook-band-photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+body[data-skin="v4skin"] .hook-band-scene {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 75% 18%, rgba(234,88,12,0.38), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 18% 80%, rgba(255,233,214,0.16), transparent 65%),
+    linear-gradient(160deg, #3a342f 0%, #171413 70%);
+}
+/* ambient motion: slow particle drift (CSS tool, subtle, looping allowed
+   as ambient — switched off entirely under reduced-motion below) */
+body[data-skin="v4skin"] .hook-band-drift,
+body[data-skin="v4skin"] .hook-band-drift::after {
+  content: '';
+  position: absolute; inset: -40px;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255,233,214,0.55) 1.5px, transparent 2px),
+    radial-gradient(rgba(234,88,12,0.45) 1px, transparent 1.6px);
+  background-size: 210px 190px, 140px 160px;
+  background-position: 10px 20px, 70px 90px;
+  animation: skin-drift 26s linear infinite;
+  opacity: 0.5;
+}
+body[data-skin="v4skin"] .hook-band-drift::after {
+  background-size: 270px 240px, 180px 210px;
+  animation-duration: 38s;
+  animation-direction: reverse;
+  opacity: 0.35;
+}
+@keyframes skin-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(40px, -40px, 0); }
+}
+/* scrim so the serif title always reads */
+body[data-skin="v4skin"] .hook-band::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(23,20,19,0) 30%, rgba(23,20,19,0.72) 100%);
+  pointer-events: none;
+}
+body[data-skin="v4skin"] .hook-band-content {
+  position: relative;
+  z-index: 2;
+  padding: clamp(18px, 4vw, 36px);
+  width: 100%;
+}
+/* hook question overlaid in large serif type, cream on dark */
+body[data-skin="v4skin"] .hook-band .screen-header { margin-bottom: 0; }
+body[data-skin="v4skin"] .hook-band .screen-eyebrow { color: var(--accent-soft); }
+body[data-skin="v4skin"] .hook-band .screen-title {
+  color: #FBF8F4;
+  font-size: clamp(34px, 5.5vw, 56px);
+  text-shadow: 0 2px 18px rgba(23,20,19,0.55);
+}
+body[data-skin="v4skin"] .hook-band .screen-title::after { background: var(--accent); }
+body[data-skin="v4skin"] .hook-band .screen-title-zh { color: rgba(251,248,244,0.85); }
+body[data-skin="v4skin"] .hook-band .screen-desc { color: rgba(251,248,244,0.78); max-width: 56ch; }
+/* band entrance: one gentle settle, 600ms, once */
+body[data-skin="v4skin"] #screen-hook.active .hook-band {
+  animation: skin-band-in calc(var(--anim-base) * 2) cubic-bezier(.22,.61,.36,1) both;
+}
+@keyframes skin-band-in {
+  from { opacity: 0; transform: scale(1.015); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 768px) {
+  body[data-skin="v4skin"] .hook-band { aspect-ratio: 4 / 3; max-height: 340px; }
+}
+
+/* ─── 4 · PILLAR 3: JUICY REWARDS (all ≤600ms) ──────────────── */
+
+/* click_spark burst — JS injects .skin-burst at the submit button */
+.skin-burst {
+  position: absolute;
+  width: 0; height: 0;
+  pointer-events: none;
+  z-index: 350;
+}
+.skin-burst i {
+  position: absolute;
+  left: -2px; top: -7px;
+  width: 4px; height: 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform-origin: 50% 100%;
+  animation: skin-burst-ray calc(var(--anim-base) * 1.5) ease-out 1 forwards;
+}
+.skin-burst i:nth-child(even) { background: var(--accent-soft); height: 10px; }
+@keyframes skin-burst-ray {
+  0%   { transform: rotate(var(--ray)) translateY(0) scaleY(0.4); opacity: 1; }
+  100% { transform: rotate(var(--ray)) translateY(-26px) scaleY(1); opacity: 0; }
+}
+
+/* XP chip: springs in with overshoot + count rolls up (JS) */
+body[data-skin="v4skin"] .xp-toast {
+  animation: none; /* replace v1 fade with spring (JS toggles .skin-spring) */
+}
+body[data-skin="v4skin"] .xp-toast.skin-spring {
+  animation: skin-xp-spring calc(var(--anim-base) * 0.84) cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes skin-xp-spring {
+  0%   { opacity: 0; transform: translateY(-14px) scale(0.6); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+body[data-skin="v4skin"] .xp-toast.skin-out {
+  animation: skin-xp-out calc(var(--anim-base) * 0.8) ease both;
+}
+@keyframes skin-xp-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-8px) scale(0.92); }
+}
+
+/* mastery / progress bar: liquid ease + spark at the tip when it moves */
+body[data-skin="v4skin"] .progress-fill {
+  transition: width calc(var(--anim-base) * 2) cubic-bezier(.22,.85,.35,1.1);
+  position: relative;
+}
+body[data-skin="v4skin"] .progress-bar { overflow: visible; position: relative; }
+.skin-bar-spark {
+  position: absolute;
+  top: 50%;
+  width: 10px; height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px 2px rgba(234,88,12,0.55);
+  pointer-events: none;
+  animation: skin-bar-spark calc(var(--anim-base) * 2) ease-out 1 forwards;
+}
+@keyframes skin-bar-spark {
+  0%   { opacity: 0; transform: scale(0.4); }
+  35%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+
+/* wrong answer: NO punishment — gentle 4px shake on the input only */
+.skin-shake {
+  animation: skin-shake calc(var(--anim-base) * 0.67) ease 1;
+}
+@keyframes skin-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  50%      { transform: translateX(4px); }
+  75%      { transform: translateX(-2px); }
+}
+
+/* screen completion: spark sweep, 600ms max, skippable (non-blocking) */
+.skin-sweep {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 500;
+  background: linear-gradient(100deg,
+    transparent 38%,
+    rgba(255,233,214,0.35) 48%,
+    rgba(234,88,12,0.18) 50%,
+    rgba(255,233,214,0.35) 52%,
+    transparent 62%);
+  transform: translateX(-110%);
+  animation: skin-sweep calc(var(--anim-base) * 1.84) ease-in-out 1 forwards;
+}
+@keyframes skin-sweep {
+  to { transform: translateX(110%); }
+}
+
+/* correct option / feedback pop (CSS micro-motion, allowed overlay tool) */
+body[data-skin="v4skin"] .feedback-box.feedback-right,
+body[data-skin="v4skin"] .mcq-option.correct {
+  animation: skin-correct-pop calc(var(--anim-base) * 1.17) cubic-bezier(.34,1.56,.64,1) 1;
+}
+@keyframes skin-correct-pop {
+  0%   { transform: scale(0.97); }
+  60%  { transform: scale(1.012); }
+  100% { transform: scale(1); }
+}
+
+/* ─── 5 · PILLAR 5: DOUDOU PRESENCE ─────────────────────────── */
+body[data-skin="v4skin"] .prof-p-avatar {
+  width: 76px; height: 76px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--line);
+  overflow: hidden;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+body[data-skin="v4skin"] .prof-p-avatar .doudou-pose { pointer-events: none; }
+body[data-skin="v4skin"] .prof-p-avatar .doudou-pose svg { width: 62px; height: auto; display: block; }
+/* pose swap cross-fade */
+body[data-skin="v4skin"] .prof-p-avatar .doudou-pose {
+  animation: skin-pose-in calc(var(--anim-base) * 1) ease both;
+}
+@keyframes skin-pose-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* TEST: Doudou visibly "sits back" — calm, slightly dimmed, no bounce */
+body[data-skin="v4skin"][data-skin-screen="test"] .prof-p-avatar {
+  opacity: 0.82;
+  filter: saturate(0.85);
+}
+body[data-skin="v4skin"][data-skin-screen="test"] .prof-p-avatar:hover { opacity: 1; filter: none; }
+/* never blocks content; corner chip on small screens */
+@media (max-width: 768px) {
+  body[data-skin="v4skin"] .prof-p-avatar { width: 56px; height: 56px; }
+  body[data-skin="v4skin"] .prof-p-avatar .doudou-pose svg { width: 44px; }
+  body[data-skin="v4skin"] .prof-p { bottom: 14px; right: 14px; }
+}
+
+/* ─── 6 · TEST SCREEN: QUIETER ON PURPOSE ───────────────────── */
+body[data-skin="v4skin"] .exam-mode-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ff-mono);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-3);
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  border-radius: 4px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+}
+body[data-skin="v4skin"] #screen-test .question-block { box-shadow: none; border-radius: 12px; }
+body[data-skin="v4skin"] #screen-test .screen-title::after { background: var(--ink-3); }
+body[data-skin="v4skin"] #screen-test .command-word-tag {
+  background: var(--bg-2) !important;
+  border-color: var(--line-2) !important;
+  color: var(--ink-2) !important;
+}
+/* TEST is quiet: no cursor sparks while the student is being tested */
+body[data-skin="v4skin"][data-skin-screen="test"] .spark-fx-layer { display: none; }
+
+/* ─── 7 · WRAP: mastery-bar moment polish ───────────────────── */
+body[data-skin="v4skin"] .xp-stat { transition: transform calc(var(--anim-base) * 0.8) cubic-bezier(.34,1.56,.64,1); }
+body[data-skin="v4skin"] .xp-stat.skin-in { animation: skin-correct-pop calc(var(--anim-base) * 1.17) cubic-bezier(.34,1.56,.64,1) 1; }
+body[data-skin="v4skin"] .badge-reveal-icon { animation-duration: 2.4s; }
+
+/* ─── 8 · REDUCED MOTION (policy 锁 #15: slow/static-chrome, never hide) ── */
+@media (prefers-reduced-motion: reduce) {
+  body[data-skin="v4skin"] .hook-band-drift,
+  body[data-skin="v4skin"] .hook-band-drift::after { animation: none; opacity: 0.25; }
+  body[data-skin="v4skin"] #screen-hook.active .hook-band { animation: none; }
+  .skin-sweep { display: none; }
+  .skin-burst { display: none; }
+  .skin-shake { animation: none; }
+  body[data-skin="v4skin"] .skin-reveal { opacity: 1 !important; transform: none !important; }
+  body[data-skin="v4skin"] .vocab-card.skin-in::after { animation: none; }
+  body[data-skin="v4skin"] .badge-reveal-icon { animation: none; }
+}
+/* runtime flag from LessonShell.setReducedMotion (belt + braces) */
+body[data-skin="v4skin"].reduced-motion .hook-band-drift,
+body[data-skin="v4skin"].reduced-motion .hook-band-drift::after { animation: none; opacity: 0.25; }
+body[data-skin="v4skin"].reduced-motion .skin-reveal { opacity: 1 !important; transform: none !important; }
+
+/* end /lesson-shell-v4-skin.css */
