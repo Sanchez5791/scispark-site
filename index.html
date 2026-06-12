@@ -188,7 +188,7 @@ body { animation: pageFadeIn 0.22s ease-out both; }
   text-align: center;
   letter-spacing: 0.4px;
 }
-.banner b { color: #FBA94C; font-weight: 600; }
+.banner b { color: #FFFFFF; font-weight: 600; }
 
 @media (max-width: 720px) {
   .banner {
@@ -357,7 +357,7 @@ nav.topnav {
 .hero-eyebrow {
   font-family: var(--font-mono);
   font-size: 11.5px;
-  color: var(--orange);
+  color: var(--ink-faint);
   text-transform: uppercase;
   letter-spacing: 1.6px;
   margin-bottom: 16px;
@@ -375,7 +375,7 @@ nav.topnav {
 }
 .hero h1 em {
   font-style: italic;
-  color: var(--orange);
+  color: inherit;
 }
 .hero-sub {
   font-size: 18px;
@@ -425,43 +425,36 @@ nav.topnav {
 }
 .btn-secondary:hover { background: var(--ink); color: #FFF; }
 
-.hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 48px;
-  padding: 28px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 32px;
-}
-.hero-meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.hero-meta-item .label {
+/* hero trust micro-line (real claims, calm — replaces the 4-stat strip) */
+.hero-trustline {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 1.4px;
+  font-size: 11px;
+  letter-spacing: 0.4px;
   color: var(--ink-faint);
-  text-transform: uppercase;
+  margin: 18px 0 26px;
+  line-height: 1.7;
+}
+/* secondary CTA = quiet orange text link, never competes with the button */
+.hero-preview-link {
+  color: var(--orange);
+  font-family: var(--font-mono);
+  font-size: 13px;
   font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+  align-self: center;
+  border-bottom: 1px solid transparent;
+  transition: border-color .15s ease;
 }
-.hero-meta-item .value {
-  font-family: var(--font-serif);
-  font-size: 26px;
-  font-weight: 500;
-  color: var(--ink);
-  letter-spacing: -0.5px;
-}
-.hero-meta-item .value.orange { color: var(--orange); }
-
-@media (max-width: 720px) {
-  .hero-meta {
-    gap: 16px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.hero-preview-link:hover { border-bottom-color: var(--orange); }
+/* no-friction microcopy under the button (no payment-promise wording) */
+.hero-microcopy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  color: var(--ink-faint);
+  margin-top: 14px;
 }
 
 .trust-row {
@@ -487,7 +480,7 @@ nav.topnav {
 }
 .trust-pill .dot {
   width: 6px; height: 6px;
-  background: var(--orange);
+  background: var(--ink-faint);
   border-radius: 50%;
   display: inline-block;
 }
@@ -519,7 +512,7 @@ section.section {
 .meta-label {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--orange);
+  color: var(--ink-faint);
   letter-spacing: 1.8px;
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -540,11 +533,11 @@ h2.section-title {
   color: var(--ink);
   max-width: 880px;
 }
-h2.section-title em { font-style: italic; color: var(--orange); }
+h2.section-title em { font-style: italic; color: inherit; }
 h2.section-title .strike {
   text-decoration: line-through;
   text-decoration-thickness: 2px;
-  text-decoration-color: var(--orange);
+  text-decoration-color: var(--ink-faint);
   color: var(--ink-soft);
 }
 
@@ -674,7 +667,7 @@ h3.subsection-title {
   font-family: var(--font-mono);
   font-size: 10.5px;
   letter-spacing: 1.6px;
-  color: var(--orange);
+  color: var(--ink-faint);
   text-transform: uppercase;
   font-weight: 600;
   margin-bottom: 16px;
@@ -794,7 +787,7 @@ h3.subsection-title {
   color: var(--ink-soft);
   line-height: 1.55;
 }
-.this-week ul li::before { content: '· '; color: var(--orange); font-weight: 700; }
+.this-week ul li::before { content: '· '; color: var(--ink-faint); font-weight: 700; }
 
 .email-preview {
   background: var(--paper-soft);
@@ -822,7 +815,7 @@ h3.subsection-title {
   color: var(--ink-soft);
   line-height: 1.55;
 }
-.email-preview ul li::before { content: '› '; color: var(--orange); font-weight: 700; }
+.email-preview ul li::before { content: '› '; color: var(--ink-faint); font-weight: 700; }
 
 /* ============ AI LEARNING GUIDE MINI DIALOGUE ============ */
 .alg-dialogue {
@@ -892,7 +885,7 @@ h3.subsection-title {
   border-bottom: 1px solid var(--line);
 }
 .compare-table thead th.us {
-  background: var(--orange);
+  background: var(--ink);
   color: #FFF;
 }
 .compare-table thead th.us .tag {
@@ -915,12 +908,12 @@ h3.subsection-title {
   width: 140px;
 }
 .compare-table td.us {
-  background: var(--orange-pale);
-  border-left: 2px solid var(--orange);
+  background: var(--paper-warm);
+  border-left: 2px solid var(--ink);
   color: var(--ink);
   font-weight: 500;
 }
-.compare-table td.us strong { color: var(--orange-deep); }
+.compare-table td.us strong { color: var(--ink); }
 .table-scroll-hint {
   display: none;
   font-size: 11px;
@@ -949,6 +942,34 @@ h3.subsection-title {
 }
 @media (max-width: 1020px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+/* ---- work-order restructure: 2-card pricing / mini compare / footer founding / demo note ---- */
+.pricing-grid.pricing-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 340px));
+  justify-content: center;
+}
+@media (max-width: 720px) {
+  .pricing-grid.pricing-grid-2 { grid-template-columns: 1fr; max-width: 380px; margin-left: auto; margin-right: auto; }
+}
+.pricing-freelink { text-align: center; margin: 4px 0 22px; }
+.pricing-freelink a {
+  color: var(--orange); text-decoration: none;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600; letter-spacing: 0.4px;
+  border-bottom: 1px solid transparent; transition: border-color .15s ease;
+}
+.pricing-freelink a:hover { border-bottom-color: var(--orange); }
+.sibling-line {
+  margin-top: 16px; text-align: center;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3px; color: var(--ink-faint);
+}
+.sibling-line a { color: var(--orange); text-decoration: none; }
+.sibling-line a:hover { text-decoration: underline; }
+.compare-table.compare-mini { max-width: 600px; }
+.brand-founding { margin-top: 10px; font-size: 12px; color: var(--ink-faint); }
+.demo-note {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.4px;
+  color: var(--ink-faint); margin-top: 8px; text-transform: uppercase;
+}
 .price-card {
   background: var(--paper);
   border: 1px solid var(--line);
@@ -959,8 +980,8 @@ h3.subsection-title {
   position: relative;
 }
 .price-card.featured {
-  border: 2px solid var(--orange);
-  box-shadow: 0 6px 30px rgba(234,88,12,0.12);
+  border: 2px solid var(--ink);
+  box-shadow: 0 6px 30px rgba(23,20,19,0.10);
 }
 .price-card .price-flag {
   position: absolute;
@@ -982,7 +1003,7 @@ h3.subsection-title {
   font-size: 10.5px;
   letter-spacing: 1.4px;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--ink-faint);
   font-weight: 600;
   margin-bottom: 14px;
 }
@@ -1041,7 +1062,7 @@ h3.subsection-title {
 }
 .price-card ul li::before {
   content: '✓';
-  color: var(--orange);
+  color: var(--ink-faint);
   font-weight: 700;
   font-family: var(--font-mono);
   margin-top: 1px;
@@ -1087,7 +1108,7 @@ h3.subsection-title {
 .strip-item .strip-tag {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--orange);
+  color: var(--ink-faint);
   letter-spacing: 1.4px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1100,7 +1121,7 @@ h3.subsection-title {
   color: var(--ink);
   letter-spacing: -0.2px;
 }
-.strip-item p strong { color: var(--orange-deep); font-weight: 600; }
+.strip-item p strong { color: var(--ink); font-weight: 600; }
 
 .final-cta {
   background: var(--navy);
@@ -1115,7 +1136,7 @@ h3.subsection-title {
 .final-cta .eyebrow {
   font-family: var(--font-mono);
   font-size: 11.5px;
-  color: #FBA94C;
+  color: rgba(255,255,255,0.62);
   letter-spacing: 1.6px;
   text-transform: uppercase;
   margin-bottom: 22px;
@@ -1135,7 +1156,7 @@ h3.subsection-title {
   margin-right: auto;
   position: relative;
 }
-.final-cta h2 em { color: #FBA94C; font-style: italic; }
+.final-cta h2 em { color: inherit; font-style: italic; }
 .final-cta p {
   color: #C7C2BC;
   max-width: 520px;
@@ -1289,7 +1310,7 @@ footer .meta {
   font-weight: 400;
 }
 .price-card-v2 .level-sub-accent {
-  color: var(--orange);
+  color: var(--ink-2);
   font-weight: 600;
 }
 .price-card-v2 .price-divider {
@@ -1311,7 +1332,7 @@ footer .meta {
 }
 .price-card-v2 ul li::before {
   content: '✓';
-  color: var(--orange);
+  color: var(--ink-faint);
   font-weight: 700;
   font-family: var(--font-mono);
   margin-top: 1px;
@@ -1603,7 +1624,7 @@ body.lang-zh .chatbox-panel { font-family: var(--font-zh); }
   font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 500;
 }
-.preview-h3 em { font-style: italic; color: var(--orange); }
+.preview-h3 em { font-style: italic; color: inherit; }
 .lead-small {
   font-size: 15.5px;
   max-width: 460px;
@@ -1684,7 +1705,7 @@ body.lang-zh .chatbox-panel { font-family: var(--font-zh); }
 }
 .typing-indicator .dot {
   width: 5px; height: 5px;
-  background: var(--orange);
+  background: var(--ink-faint);
   border-radius: 50%;
   display: inline-block;
   animation: typingPulse 1.2s ease-in-out infinite;
@@ -2088,7 +2109,6 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
       </span>
     </a>
     <div class="nav-links">
-      <a href="#how"><span class="en">How it works</span><span class="zh">如何运作</span></a>
       <a href="#platform"><span class="en">Platform</span><span class="zh">平台</span></a>
       <a href="#pricing"><span class="en">Pricing</span><span class="zh">价格</span></a>
       <div class="lang-toggle" role="group" aria-label="Language toggle">
@@ -2116,45 +2136,36 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
 <header class="hero" id="top">
   <div class="hero-grid">
     <div class="hero-copy">
-      <p class="hero-eyebrow"><span class="en">01 / A real lesson, live</span><span class="zh">01 / 一节真课 · 现场</span></p>
+      <p class="hero-eyebrow"><span class="en">Cambridge Lower Secondary Science · 0893</span><span class="zh">剑桥 Lower Secondary 科学 · 0893</span></p>
 
+      <!-- DRAFT copy — final EN/ZH wording to be set by founder -->
       <h1>
-        <span class="en">One free lesson.<br>Then the <em>right path.</em></span>
-        <span class="zh">先免费试一节课 &mdash;<br>再走 <em>对的路径。</em></span>
+        <span class="en">Cambridge science, in two languages &mdash;<br>for ages <em>11 to 14.</em></span>
+        <span class="zh">剑桥科学 · 中英双语教 &mdash;<br><em>11 至 14 岁。</em></span>
       </h1>
 
       <p class="hero-sub">
-        <span class="en">A real 15-minute SciSpark lesson, no sign-up &mdash; see how your child learns before you decide anything.</span>
-        <span class="zh">一节真实的 15 分钟课 · 不用注册 &mdash; 先看孩子怎么学 · 再做任何决定。</span>
+        <span class="en">Built so your child understands it the first time &mdash; not just memorises it for the test.</span>
+        <span class="zh">让孩子第一次就真的听懂 &mdash; 不是为考试死背。</span>
+      </p>
+
+      <p class="hero-trustline">
+        <span class="en">Cambridge 0893 aligned &middot; Teacher-reviewed &middot; Parent-visible progress</span>
+        <span class="zh">对齐剑桥 0893 &middot; 教师审过 &middot; 家长可见进度</span>
       </p>
 
       <div class="hero-ctas">
         <a href="/demo/y7-l01" class="btn-primary">
-          <span class="en">Try a free lesson →</span><span class="zh">免费试一节课 →</span>
+          <span class="en">Start free lesson →</span><span class="zh">开始免费试一课 →</span>
         </a>
-        <a href="#how" class="btn-secondary">
-          <span class="en">See how it works →</span><span class="zh">看看怎么用 →</span>
+        <a href="#platform" class="hero-preview-link">
+          <span class="en">See a lesson preview</span><span class="zh">看课程预览</span>
         </a>
       </div>
 
-      <div class="hero-meta">
-        <div class="hero-meta-item">
-          <span class="label"><span class="en">Try a lesson</span><span class="zh">试一节</span></span>
-          <span class="value orange">15 min</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="label"><span class="en">Free units</span><span class="zh">免费单元</span></span>
-          <span class="value">3</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="label"><span class="en">Languages</span><span class="zh">语言</span></span>
-          <span class="value">EN · 中文</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="label"><span class="en">Syllabus</span><span class="zh">大纲</span></span>
-          <span class="value">Cambridge 0893</span>
-        </div>
-      </div>
+      <p class="hero-microcopy">
+        <span class="en">No sign-up &middot; no card</span><span class="zh">不用注册 &middot; 不用信用卡</span>
+      </p>
     </div>
 
     <!-- LIVE LESSON LOOP · recorded from the real Y7 L01 build (never a mock-up) -->
@@ -2208,56 +2219,7 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
   </div>
 </section>
 
-<!-- ============================================== -->
-<!-- ============ SECTION 03 · THE PROBLEM ============ -->
-<!-- ============================================== -->
-<section class="section">
-  <div class="section-inner section-wide">
-    <p class="meta-label"><span class="num">03 /</span><span class="en">The problem</span><span class="zh">问题</span></p>
-
-    <div class="s2-grid">
-      <div class="s2-left">
-        <h2 class="section-title">
-          <span class="en">Most students don't struggle because <em>science is hard.</em></span>
-          <span class="zh">大部分学生卡住 · 不是因为 <em>科学难。</em></span>
-        </h2>
-        <p class="section-lead">
-          <span class="en">They struggle because they're memorising without understanding &mdash; and no one notices until the test result comes back.</span>
-          <span class="zh">他们卡住 · 是因为在死记硬背 &mdash; 没人发现 · 直到考试结果出来。</span>
-        </p>
-      </div>
-
-      <div class="s2-right">
-        <div class="parent-quote">
-          <p class="body">
-            <span class="en">"He <s>knows</s> the topic but freezes the moment a question is phrased differently."</span>
-            <span class="zh">&ldquo;他 <s>'懂'</s> 这章内容 · 但题目换个说法他就僵住。&rdquo;</span>
-          </p>
-          <p class="attribution"><span class="en">Parent · Year 8</span><span class="zh">家长 · 8 年级</span></p>
-        </div>
-
-        <div class="quote-photo-pair">
-          <figure class="photo-card">
-            <img src="/assets/landing/photos/exercise-book-closeup.jpg" loading="lazy" width="1600" height="1200"
-                 alt="An exercise book filled with memorised science definitions">
-            <figcaption class="photo-cap">
-              <span class="en">a real workbook · definitions copied, not understood</span>
-              <span class="zh">真实作业本 · 抄了定义 · 没有理解</span>
-            </figcaption>
-          </figure>
-          <div class="parent-quote pq-paired">
-            <p class="body">
-              <span class="en">"She memorises the definition perfectly. Ask her to <em class="glow">explain</em> it and there's nothing."</span>
-              <span class="zh">&ldquo;定义她背得一字不差。让她 <em class="glow">解释一下</em> &mdash; 什么都说不出来。&rdquo;</span>
-            </p>
-            <p class="attribution"><span class="en">Parent · Year 7</span><span class="zh">家长 · 7 年级</span></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
+<!-- SECTION 03 · THE PROBLEM — cut per work-order A (parents don't need to be sold the problem) -->
 
 <!-- ============================================== -->
 <!-- ============ SECTION 04 · OUR APPROACH ============ -->
@@ -2319,6 +2281,7 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
       <span class="en">Free accounts open Unit 1 of every grade. A subscription opens the full guided path.</span>
       <span class="zh">免费账户打开每个年级的第 1 单元。订阅打开完整引导路径。</span>
     </p>
+    <p class="demo-note"><span class="en">Example interface · sample data for illustration（示范）</span><span class="zh">界面为示范 · 数据仅供展示（示范）</span></p>
 
     <div class="platform-grid">
 
@@ -2442,64 +2405,36 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
       <span class="zh">一份诚实的对比。<br><em>不抹黑同行。</em></span>
     </h2>
     <p class="section-lead">
-      <span class="en">Five dimensions, four categories families compare us to. We don't name companies &mdash; we describe the pattern.</span>
-      <span class="zh">五个维度 &middot; 四类家长会拿来对比的产品。我们不点名 &middot; 只描述模式。</span>
+      <span class="en">The short version of why families switch.</span>
+      <span class="zh">家长换过来 · 简短版的原因。</span>
     </p>
 
-    <p class="table-scroll-hint"><span class="en">← Swipe to see full comparison →</span><span class="zh">← 横滑查看完整对比 →</span></p>
-
-    <div style="overflow-x:auto;">
-    <table class="compare-table">
+    <table class="compare-table compare-mini">
       <thead>
         <tr>
           <th></th>
-          <th class="us">SciSpark<span class="tag"><span class="en">Cambridge 0893 · Y7–Y9</span><span class="zh">剑桥 0893 · 7–9 年级</span></span></th>
-          <th><span class="en">Photo-to-answer apps</span><span class="zh">拍照搜题类</span></th>
-          <th><span class="en">General AI tutors</span><span class="zh">通用 AI 老师</span></th>
-          <th><span class="en">Sales-heavy edtech</span><span class="zh">重销售 edtech</span></th>
+          <th class="us">SciSpark</th>
+          <th><span class="en">Generic drill apps</span><span class="zh">普通刷题工具</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th><span class="en">Approach</span><span class="zh">方式</span></th>
-          <td class="us"><strong><span class="en">Socratic ask-first</span><span class="zh">先问 · 再教</span></strong> <span class="en">&middot; teach concept, then guide solving</span><span class="zh">&middot; 先讲知识点 · 再引导解题</span></td>
-          <td><span class="en">Photo &rarr; instant answer dumped to student</span><span class="zh">拍照 &rarr; 直接给答案</span></td>
-          <td><span class="en">General LLM chat &mdash; will solve anything, teaches no path</span><span class="zh">通用大模型聊天 &mdash; 什么都答 · 没有学习路径</span></td>
-          <td><span class="en">Aspirational sales pitch &mdash; fear-framed parent calls</span><span class="zh">煽动式销售 &mdash; 用恐惧打动家长</span></td>
+          <th><span class="en">Teaching</span><span class="zh">教学</span></th>
+          <td class="us"><strong><span class="en">Understands it the first time</span><span class="zh">第一次讲懂</span></strong></td>
+          <td><span class="en">Drill &amp; revise only</span><span class="zh">只刷题 / 复习</span></td>
         </tr>
         <tr>
-          <th><span class="en">Pricing</span><span class="zh">价格</span></th>
-          <td class="us"><strong><span class="en">Free tier + $37/mo or $355/yr</span><span class="zh">免费 + $37/月 或 $355/年</span></strong> <span class="en">&middot; Stripe direct &middot; no loans</span><span class="zh">&middot; Stripe 直收 &middot; 不分期</span></td>
-          <td><span class="en">Coin / credit economy &middot; micropurchases that add up</span><span class="zh">代币 / 积分 &middot; 微小付费累计成大笔</span></td>
-          <td><span class="en">Free tier with usage caps &middot; locked features behind ads or subs</span><span class="zh">免费有限额 &middot; 广告或订阅解锁</span></td>
-          <td><span class="en">$1,000+ packages on EMI loans &middot; 24-month financing</span><span class="zh">$1,000+ 套餐分期 &middot; 24 期贷款</span></td>
+          <th><span class="en">Language</span><span class="zh">语言</span></th>
+          <td class="us"><strong><span class="en">Taught in EN &amp; 中文</span><span class="zh">中英双语教</span></strong></td>
+          <td><span class="en">English only</span><span class="zh">纯英文</span></td>
         </tr>
         <tr>
-          <th><span class="en">Curriculum</span><span class="zh">大纲</span></th>
-          <td class="us"><strong><span class="en">Cambridge 0893 specific</span><span class="zh">紧贴剑桥 0893</span></strong> <span class="en">&middot; Y7&ndash;Y9 science only</span><span class="zh">&middot; 仅 7&ndash;9 年级科学</span></td>
-          <td><span class="en">All subjects, all years &middot; no path</span><span class="zh">全学科 全年级 &middot; 无路径</span></td>
-          <td><span class="en">No syllabus &middot; chat-driven topics</span><span class="zh">无大纲 &middot; 对话驱动</span></td>
-          <td><span class="en">Aspirational topics (coding, AI for kids) &middot; not school-synced</span><span class="zh">炫概念 (编程 / 儿童 AI) &middot; 不跟学校</span></td>
-        </tr>
-        <tr>
-          <th><span class="en">Bilingual</span><span class="zh">双语</span></th>
-          <td class="us"><strong><span class="en">EN + 中文 human-written in parallel</span><span class="zh">中英真人并行写</span></strong></td>
-          <td><span class="en">Single language, or LLM-translated overnight</span><span class="zh">单语 · 或者一夜机器翻译</span></td>
-          <td><span class="en">13 languages auto-translated by LLM &mdash; quality varies</span><span class="zh">大模型一键翻译 13 种语言 &mdash; 质量参差</span></td>
-          <td><span class="en">Local language only &middot; English bolt-on later</span><span class="zh">只用本地语言 &middot; 英文后期再加</span></td>
-        </tr>
-        <tr>
-          <th><span class="en">Trust</span><span class="zh">信任</span></th>
-          <td class="us"><strong><span class="en">Demo lesson first &middot; AI feedback every step &middot; no sales calls</span><span class="zh">先试一节课 &middot; 每步 AI 反馈 &middot; 无销售电话</span></strong></td>
-          <td><span class="en">Anonymous quiz &middot; no account, no records</span><span class="zh">匿名小测 &middot; 无账户 · 无记录</span></td>
-          <td><span class="en">Chatbot, no human in the loop</span><span class="zh">纯聊天机器人 &middot; 无人工介入</span></td>
-          <td><span class="en">Commission sales force &middot; home visits &middot; pressure calls</span><span class="zh">提成式销售 &middot; 上门 &middot; 高压电话</span></td>
+          <th><span class="en">Parents</span><span class="zh">家长</span></th>
+          <td class="us"><strong><span class="en">Progress is visible</span><span class="zh">进度可见</span></strong></td>
+          <td><span class="en">Can't see</span><span class="zh">看不到</span></td>
         </tr>
       </tbody>
     </table>
-    </div>
-
-    <p class="footnote">*<span class="en">Categories above describe patterns we've observed across 53 platforms in 8 markets. We don't claim any single named product matches every cell exactly.</span><span class="zh">以上四类描述的是我们在 8 个市场、53 家平台上观察到的模式。我们不断言任何一家公司每一格都完全对应。</span></p>
   </div>
 </section>
 
@@ -2514,35 +2449,26 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
       <span class="zh">免费开始。<br><em>准备好了再升级。</em></span>
     </h2>
     <p class="section-lead">
-      <span class="en">Every student begins with a free demo lesson &mdash; no card, no sign-up. Free tier opens Unit 1 of every grade. Subscribe to unlock the complete learning path.</span>
-      <span class="zh">每个学生都从免费试一节课开始 &mdash; 不用卡 · 不用注册。免费版打开每个年级的第 1 单元。订阅后解锁完整学习路径。</span>
+      <span class="en">Two plans. Start free first &mdash; no card, no sign-up.</span>
+      <span class="zh">两个方案。先免费开始 &mdash; 不用卡 · 不用注册。</span>
     </p>
 
-    <div class="pricing-grid">
+    <p class="pricing-freelink">
+      <a href="/demo/y7-l01">
+        <span class="en">→ Start with a free lesson + Unit 1 of every grade (no card)</span>
+        <span class="zh">→ 先免费试一课 + 每年级第 1 单元(不用卡)</span>
+      </a>
+    </p>
 
-      <!-- TIER 1 · FREE -->
-      <div class="price-card price-card-v2">
-        <div class="price-tag">Free</div>
-        <div class="amount-big"><span class="en">Free</span><span class="zh">免费</span></div>
-        <div class="level-sub"><span class="en">Try first, then unlock Unit 1</span><span class="zh">先试一节 &middot; 再解锁第 1 单元</span></div>
-        <div class="price-divider"></div>
-        <ul>
-          <li><span class="en">Free demo lesson (Y7 L01, 15 min)</span><span class="zh">免费试一节课（Y7 L01 · 15 分钟）</span></li>
-          <li><span class="en">Unit 1 of every grade (~6 lessons × 3 grades)</span><span class="zh">每年级第 1 单元（约 6 节 × 3 年级）</span></li>
-          <li><span class="en">English &amp; 中文</span><span class="zh">中英文</span></li>
-          <li><span class="en">No credit card required</span><span class="zh">无需信用卡</span></li>
-        </ul>
-        <a href="/demo/y7-l01" class="btn-price"><span class="en">Try a free lesson</span><span class="zh">免费试一节课</span></a>
-      </div>
+    <div class="pricing-grid pricing-grid-2">
 
-      <!-- TIER 2 · MONTHLY -->
+      <!-- MONTHLY -->
       <div class="price-card price-card-v2">
         <div class="price-tag">Monthly</div>
         <div class="amount-big">USD 37<span class="amt-unit">/mo</span></div>
         <div class="level-sub"><span class="en">Cancel anytime</span><span class="zh">随时取消</span></div>
         <div class="price-divider"></div>
         <ul>
-          <li><span class="en">Everything in Free</span><span class="zh">包含 Free 所有功能</span></li>
           <li><span class="en">Full guided learning path</span><span class="zh">完整引导式学习路径</span></li>
           <li><span class="en">3 support levels, AI-adapted</span><span class="zh">3 个支持层级 · AI 自适应</span></li>
           <li><span class="en">Entry Assessment (3 × 15 min)</span><span class="zh">Entry Assessment（3 段 × 15 分钟）</span></li>
@@ -2551,36 +2477,23 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
         <a href="#cta" class="btn-price btn-dark"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
       </div>
 
-      <!-- TIER 3 · ANNUAL · BEST VALUE -->
+      <!-- ANNUAL · RECOMMENDED (the only place an orange label is allowed) -->
       <div class="price-card price-card-v2 featured">
-        <div class="price-flag"><span class="en">Best value</span><span class="zh">最划算</span></div>
+        <div class="price-flag"><span class="en">Recommended</span><span class="zh">推荐</span></div>
         <div class="price-tag">Annual</div>
         <div class="amount-big">USD 355<span class="amt-unit">/yr</span></div>
-        <div class="level-sub level-sub-accent"><span class="en">Save 20%</span><span class="zh">省 20%</span></div>
+        <div class="level-sub level-sub-accent"><span class="en">Save 20% vs monthly</span><span class="zh">比月付省 20%</span></div>
         <div class="price-divider"></div>
         <ul>
           <li><span class="en">Everything in Monthly</span><span class="zh">包含 Monthly 所有功能</span></li>
-          <li><span class="en">Save 20% vs monthly</span><span class="zh">比月付省 20%</span></li>
           <li><span class="en">Entry Assessment (3 × 15 min)</span><span class="zh">Entry Assessment（3 段 × 15 分钟）</span></li>
           <li><span class="en">Parent dashboard, tracking &amp; reports</span><span class="zh">家长面板 · 进度追踪 &amp; 报告</span></li>
         </ul>
         <a href="#cta" class="btn-price"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
-      </div>
-
-      <!-- TIER 4 · SIBLING PACK -->
-      <div class="price-card price-card-v2">
-        <div class="price-tag">Sibling Pack</div>
-        <div class="amount-big">USD 599<span class="amt-unit">/yr</span></div>
-        <div class="level-sub"><span class="en">2 kids · +USD 199 per extra (max 3)</span><span class="zh">2 个孩子 · 每多 1 个加 USD 199（最多 3 个）</span></div>
-        <div class="price-divider"></div>
-        <ul>
-          <li><span class="en">Everything in Annual × 2 (or 3) kids</span><span class="zh">包含 Annual 所有功能 × 2（或 3）个孩子</span></li>
-          <li><span class="en">Each child gets own progress record</span><span class="zh">每个孩子独立进度档案</span></li>
-          <li><span class="en">Shared parent dashboard</span><span class="zh">共用家长面板</span></li>
-          <li><span class="en">Includes Entry Assessment (3 × 15 min) per child</span><span class="zh">每个孩子包含 Entry Assessment（3 段 × 15 分钟）</span></li>
-          <li><span class="en">Save USD 111 vs 2 × Annual</span><span class="zh">比 2 × Annual 省 USD 111</span></li>
-        </ul>
-        <a href="#cta" class="btn-price"><span class="en">Subscribe</span><span class="zh">订阅</span></a>
+        <p class="sibling-line">
+          <span class="en">More than one child? <a href="#cta">See sibling pricing →</a></span>
+          <span class="zh">多个孩子?<a href="#cta">看兄弟优惠 →</a></span>
+        </p>
       </div>
 
     </div>
@@ -2602,137 +2515,10 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
   </div>
 </section>
 
-<!-- ============================================== -->
-<!-- ============ FOUNDING 20 ============ -->
-<!-- ============================================== -->
-<section class="section founding-section" id="founding-20">
-  <div class="section-inner">
-
-    <div class="founding-pill">
-      <span class="pill-dot"></span>
-      <span class="en">FOUNDING 20 &middot; Limited Spots</span>
-      <span class="zh">FOUNDING 20 &middot; 限量名额</span>
-    </div>
-
-    <h2 class="founding-headline">
-      <span class="en">The first 20 students<br>get 3 founder-exclusive privileges.</span>
-      <span class="zh">前 20 位报名学生<br>独享创始 3 大特权。</span>
-    </h2>
-    <p class="founding-subhead">
-      <span class="en"><strong>Not a discount.</strong> A status.</span>
-      <span class="zh"><strong>不是打折。</strong>是身份。</span>
-    </p>
-
-    <div class="founding-grid">
-
-      <!-- Card 1 · Price Lock -->
-      <div class="founding-card">
-        <div class="founding-card-num">
-          <span class="en">[1] Lifetime price lock</span>
-          <span class="zh">[1] 永久锁价</span>
-        </div>
-        <h4>
-          <span class="en">Today's price = your price <em style="color:var(--orange);font-style:normal">forever.</em></span>
-          <span class="zh">今天的价 = 你<em style="color:var(--orange);font-style:normal">一辈子</em>的价。</span>
-        </h4>
-        <div class="founding-price">
-          $355<span class="founding-price-unit">/yr</span>
-        </div>
-        <p>
-          <span class="en">Future prices of $499 or $599 will never apply to your account &mdash; locked.</span>
-          <span class="zh">未来涨到 $499 / $599 都跟你无关 &mdash; 永远锁死。</span>
-        </p>
-        <p>
-          <span class="en">Condition: yearly continuous renewal.</span>
-          <span class="zh">条件：每年连续续费。</span>
-        </p>
-        <p class="founding-lock-note">
-          <span class="en">⚠ If you cancel and re-subscribe, price lock is forfeited.</span>
-          <span class="zh">⚠ 中断重订失效 &mdash; 取消后重新订阅，锁价自动失效。</span>
-        </p>
-      </div>
-
-      <!-- Card 2 · Double Rewards -->
-      <div class="founding-card">
-        <div class="founding-card-num">
-          <span class="en">[2] Double learning rewards</span>
-          <span class="zh">[2] 双倍学习回馈</span>
-        </div>
-        <h4>
-          <span class="en">Submit a review,<br>get double credit.</span>
-          <span class="zh">写学习评价，<br>拿双倍 credit。</span>
-        </h4>
-        <div class="founding-reward-row">
-          <span class="founding-reward-amount">$30</span>
-          <span class="founding-reward-label">
-            <span class="en">text review</span>
-            <span class="zh">文字评价</span>
-          </span>
-        </div>
-        <div class="founding-reward-row">
-          <span class="founding-reward-amount">$80</span>
-          <span class="founding-reward-label">
-            <span class="en">video review</span>
-            <span class="zh">视频评价</span>
-          </span>
-        </div>
-        <p>
-          <span class="en">Credits auto-apply to your next renewal.</span>
-          <span class="zh">Credit 自动抵下次续费。</span>
-        </p>
-      </div>
-
-      <!-- Card 3 · Founder Status -->
-      <div class="founding-card">
-        <div class="founding-card-num">
-          <span class="en">[3] Founder status</span>
-          <span class="zh">[3] 创始身份</span>
-        </div>
-        <h4>
-          <span class="en">Your name in the founding record.</span>
-          <span class="zh">你的名字留在创始记录里。</span>
-        </h4>
-        <ul>
-          <li>
-            <span class="en">Founder badge on your SciSpark profile</span>
-            <span class="zh">SciSpark 档案显示创始徽章</span>
-          </li>
-          <li>
-            <span class="en">Founding 20 wall on the website &mdash; listed with your consent</span>
-            <span class="zh">官网 Founding 20 墙 &mdash; 经你同意才上</span>
-          </li>
-          <li>
-            <span class="en">New units unlocked 1 week before public release</span>
-            <span class="zh">新单元提前 1 周抢先体验，先于公开发布</span>
-          </li>
-        </ul>
-      </div>
-
-    </div><!-- /founding-grid -->
-
-    <div class="founding-cta-wrap">
-      <button disabled class="founding-cta-btn founding-cta-btn--disabled">
-        <span class="en">Coming soon &middot; Launching shortly</span>
-        <span class="zh">即将开放 &middot; 敬请期待</span>
-      </button>
-      <p class="founding-coming-soon-note">
-        <span class="en"><em>Founding 20 is launching shortly — stay tuned for the open date.</em></span>
-        <span class="zh"><em>Founding 20 即将开放，敬请期待正式开放日期。</em></span>
-      </p>
-      <!-- restore on real launch -->
-      <p class="founding-counter" style="display:none">
-        <strong>
-          <span class="en">20/20 spots remaining</span>
-          <span class="zh">剩余 20/20</span>
-        </strong>
-        &nbsp;&middot;&nbsp;
-        <span class="en">Available for 30 days</span>
-        <span class="zh">限上线 30 天</span>
-      </p>
-    </div>
-
-  </div>
-</section>
+<!-- FOUNDING 20 — cut from homepage per work-order A. Not deleted from the product;
+     the offer/feature lives in git and moves to a single footer line below.
+     Removed here: fake-scarcity ("20/20 spots", "30 days"), $30/$80 review rewards,
+     price-lock copy — none of it ships on the homepage. -->
 
 <!-- TESTIMONIALS SECTION (放空, 等真实学生评价填入) -->
 <!-- Future: 从 testimonials 表读 approved + published=true 的评价 -->
@@ -2765,11 +2551,11 @@ body.lang-zh .trust-line { font-family: var(--ff-zh); font-weight: 400; }
     <div class="brand">
       <div class="name">Sci<span class="spark">Spark</span></div>
       <p><span class="en">An AI-managed science thinking platform for Lower Secondary students. Aligned to Cambridge 0893. An IG Spark Centre product.</span><span class="zh">为初中生打造的 AI 科学思维平台 · 对齐剑桥 0893 · IG Spark Centre 出品。</span></p>
+      <p class="brand-founding"><span class="en">Founding 20 — a small first cohort — opening later.</span><span class="zh">Founding 20 — 首批小规模名额 — 稍后开放。</span></p>
     </div>
     <div class="col">
       <h6><span class="en">Platform</span><span class="zh">平台</span></h6>
       <ul>
-        <li><a href="#how"><span class="en">How it works</span><span class="zh">如何运作</span></a></li>
         <li><a href="#platform"><span class="en">Inside the platform</span><span class="zh">平台内部</span></a></li>
         <li><a href="#pricing"><span class="en">Pricing</span><span class="zh">价格</span></a></li>
         <li><a href="/demo/y7-l01"><span class="en">Try a free lesson</span><span class="zh">免费试一节课</span></a></li>
