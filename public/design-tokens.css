@@ -1,0 +1,77 @@
+/* ============================================================
+   SciSpark 共用设计盒子 (design tokens)
+   建立:2026-06-13  分支:feat/design-tokens-box
+   ------------------------------------------------------------
+   一个档管全站的颜色 / 字体 / 圆角。
+   首页、课堂页、之后 3 个 dashboard 都连这一个档,
+   以后改一次,全部一起变,永远不用改两次。
+
+   注意:这是第 1 步「建盒子」,还没把任何页面连上来。
+        所以这个档现在只是「躺在那」,谁都还没用它,
+        首页一个像素都没变。连线是第 2 步(等老板点头)。
+   ============================================================ */
+
+:root {
+
+  /* ===== 核心:老板 2026-06-13 钉死的那一套(不准动) ===== */
+
+  /* —— 颜色 —— */
+  --bg:           #FBF8F4;   /* 背景暖白 */
+  --orange:       #EA580C;   /* 主色橙 */
+  --orange-deep:  #7a2e08;   /* 深橙 */
+  --ink:          #171413;   /* 正文黑 */
+  --ink-soft:     #3a342f;   /* 次要灰 */
+  --line:         #E6DFD3;   /* 线条 */
+
+  /* —— 字体(旧的 Inter + Instrument Serif 全作废)—— */
+  --font-serif:   'Fraunces', 'Noto Serif SC', Georgia, serif;   /* 标题字 */
+  --font-sans:    'Geist', -apple-system, BlinkMacSystemFont, sans-serif;  /* 正文字 */
+  --font-zh:      'Noto Sans SC', 'PingFang SC', sans-serif;      /* 中文字 */
+
+  /* —— 圆角 —— */
+  --radius:       10px;   /* 主力圆角 */
+  --radius-lg:    16px;   /* 大块 14–16px */
+  --radius-dot:   50%;    /* 圆点 / 头像 */
+
+
+  /* ===== 辅助:首页现在实际有在用的,先一起收进来 ===== */
+  /*        (不收的话,第 2 步把首页连上来会有东西坏掉)      */
+
+  --paper:        #FFFFFF;              /* 卡片底(近白带暖) */
+  --paper-soft:   #F4EFE7;              /* 浅暖卡片底 */
+  --paper-warm:   #FFF4EA;             /* 更暖卡片底 */
+  --ink-faint:    #6b6358;             /* 最淡灰字 */
+  --line-soft:    #F0EBE2;              /* 更淡线条 */
+  --orange-soft:  #FFE9D6;             /* 橙底(浅) */
+  --orange-pale:  #FFF6EE;              /* 橙底(更浅) */
+  --orange-glow:  rgba(234, 88, 12, 0.4); /* 橙光晕 */
+  --font-mono:    'Geist Mono', ui-monospace, monospace; /* 等宽(数字/代码) */
+  --radius-sm:    8px;                  /* 小圆角(小卡/标签) */
+  --radius-pill:  999px;               /* 胶囊按钮 */
+
+
+  /* ===== 课堂 5 步状态色(课堂页要用,先收进盒子) ===== */
+  --navy:         #171413;
+  --navy-soft:    #262220;
+  --green:        #2E7D5B;
+  --green-soft:   #DCFCE7;
+  --red:          #B91C1C;
+  --red-soft:     #FEE2E2;
+  --amber:        #B45309;
+  --amber-soft:   #FEF3C7;
+
+
+  /* ===== 首页底色层(首页 CSS 规则直接引用这些;接首页时补进盒子,值=现首页) ===== */
+  --bg-2:         #F4EFE7;                /* 次背景 */
+  --ink-2:        #3a342f;                /* 正文次黑 */
+  --ink-3:        #6b6358;                /* 正文淡灰 */
+  --line-2:       #D9D0BF;                /* 线条(深) */
+  --accent:       #EA580C;                /* 原色橙(= --orange) */
+  --accent-ink:   #7a2e08;                /* 深橙(= --orange-deep) */
+  --accent-soft:  #FFE9D6;                /* 浅橙底(= --orange-soft) */
+  --ok:           #2E7D5B;                /* 成功绿(= --green) */
+  --ff-display:   'Fraunces', 'Noto Serif SC', Georgia, serif;          /* 标题字(= --font-serif) */
+  --ff-body:      'Geist', -apple-system, BlinkMacSystemFont, sans-serif; /* 正文字(= --font-sans) */
+  --ff-mono:      'Geist Mono', ui-monospace, monospace;                /* 等宽(= --font-mono) */
+  --ff-zh:        'Noto Sans SC', 'PingFang SC', sans-serif;            /* 中文字(= --font-zh) */
+}
