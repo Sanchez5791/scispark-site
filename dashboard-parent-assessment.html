@@ -54,12 +54,17 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 /* NAV */
 .nav{background:var(--dark);height:60px;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(0,0,0,.3)}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-mark{width:32px;height:32px;flex-shrink:0}
-.brand-text{display:flex;flex-direction:column;line-height:1.15}
-.brand-name{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.01em}
+/* 统一 logo:跟首页同一块(橙方块+白闪电+Fraunces 的 SciSpark) */
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-bolt{width:34px;height:34px;background:var(--orange);border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.logo-bolt svg{width:18px;height:18px}
+.brand-text{display:flex;flex-direction:column;line-height:1}
+.brand-name{font-family:var(--font-serif);font-size:22px;font-weight:600;color:#fff;letter-spacing:-.3px}
 .brand-name span{color:var(--orange)}
-.brand-sub{font-size:9px;color:var(--light);letter-spacing:.07em;text-transform:uppercase}
+.brand-sub{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--light);letter-spacing:1.4px;text-transform:none;margin-top:4px}
+.brand-sub .zh{display:none}
+body.lang-zh .brand-sub .en{display:none}
+body.lang-zh .brand-sub .zh{display:inline}
 .nav-right{display:flex;align-items:center;gap:14px}
 .nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.7)}
 .nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
@@ -187,15 +192,14 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" opacity="0.22" transform="rotate(-20 50 50)"/>
-        <path d="M57 15 L43 46 L58 42 L40 85" stroke="#EA580C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="40" cy="85" r="3.5" fill="#EA580C" opacity="0.7"/>
-        <circle cx="57" cy="15" r="2.5" fill="#EA580C" opacity="0.5"/>
-      </svg>
+      <span class="logo-bolt">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+        </svg>
+      </span>
       <div class="brand-text">
         <span class="brand-name">Sci<span>Spark</span></span>
-        <span class="brand-sub">Year 7–9 Science · Cambridge 0893</span>
+        <span class="brand-sub"><span class="en">An IG Spark Centre Product</span><span class="zh">IG Spark Centre 出品</span></span>
       </div>
     </a>
     <div class="nav-right">
