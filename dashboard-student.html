@@ -28,13 +28,15 @@
 <title>SciSpark — Student Dashboard · 学生面板</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<!-- 共用设计盒子(颜色/字体/背景的单一来源,与首页同一档) -->
+<link rel="stylesheet" href="/public/design-tokens.css">
 <style>
 :root {
-  --bg: #f5efe5;
+  /* --bg / --orange / --font-serif / --font-sans 现在来自共用盒子 design-tokens.css
+     (背景 #FBF8F4、主色橙 #EA580C、Fraunces、Geist)。其余中性色/圆角保持原样。 */
   --bg-card: #ffffff;
   --bg-subtle: #f0e9df;
-  --orange: #e8521a;
   --orange-hover: #d44717;
   --orange-light: #fdf2ed;
   --orange-mid: #f9d9cc;
@@ -51,8 +53,6 @@
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 20px;
-  --font-serif: 'EB Garamond', Georgia, serif;
-  --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-zh: 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1356,7 +1356,7 @@ function showToast(message, opts) {
       '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;' +
         'text-transform:uppercase;color:#9a8e84;margin-bottom:8px;">' +
         'Entry Assessment · 入学测评</div>' +
-      '<div style="font-family:\'EB Garamond\',serif;font-size:22px;' +
+      '<div style="font-family:var(--font-serif);font-size:22px;' +
         'font-weight:500;color:#2d2926;margin-bottom:12px;">' +
         'Take your Entry Assessment first.</div>' +
       '<p style="font-size:13px;color:#9a8e84;margin-bottom:16px;">' +
@@ -1365,7 +1365,7 @@ function showToast(message, opts) {
         '完成 45 分钟 ' + child.year_group + ' 入学测评，解锁你的个性化学习路径。</p>' +
       '<a href="' + (YEAR_TO_URL[child.year_group] || YEAR_TO_URL['Y7']) + '" ' +
         'style="display:inline-flex;align-items:center;gap:6px;' +
-        'padding:10px 20px;background:#e8521a;color:white;' +
+        'padding:10px 20px;background:var(--orange);color:white;' +
         'border-radius:100px;font-size:13px;font-weight:600;' +
         'text-decoration:none;">' +
         'Start Entry Assessment →</a>';
