@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>{{title}}</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "{{title}}",
+  "navMeta": "{{navMeta}}",
+  "subjectEn": "{{subjectEn}}",
+  "subjectZh": "{{subjectZh}}",
+  "unitLabel": "{{unitLabel}}",
+  "unitTitleEn": "{{unitTitleEn}}",
+  "unitTitleZh": "{{unitTitleZh}}",
+  "userLevel": "{{userLevel}}",
+  "lessonData": "{{lessonData}}"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="{{userLevel}}" data-lesson="{{lessonData}}">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">{{navMeta}}</div>
+  <div class="nav-badge" data-en="{{subjectEn}}" data-zh="{{subjectZh}}">{{subjectEn}}</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">{{unitLabel}}</div>
+      <div class="sidebar-unit-title" data-en="{{unitTitleEn}}" data-zh="{{unitTitleZh}}">{{unitTitleEn}}</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate</div>
+      <div class="screen-title" data-en="TODO hook title" data-zh="TODO 标题">TODO hook title</div>
+      <div class="screen-title-zh">TODO 标题</div>
+    </div>
+    <!-- write the Hook screen here -->
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept</div>
+      <div class="screen-title" data-en="TODO learn title" data-zh="TODO 标题">TODO learn title</div>
+      <div class="screen-title-zh">TODO 标题</div>
+    </div>
+    <!-- write the Learn screen here -->
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="TODO try title" data-zh="TODO 标题">TODO try title</div>
+      <div class="screen-title-zh">TODO 标题</div>
+    </div>
+    <!-- write the Try screen (questions with hints) here -->
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="TODO test title" data-zh="TODO 标题">TODO test title</div>
+      <div class="screen-title-zh">TODO 标题</div>
+    </div>
+    <!-- write the Test screen (questions, no hints) here -->
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <!-- write the Wrap screen (summary / XP / badge / cliffhanger) here -->
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "TODO hook bubble", zh: "TODO" },
+  learn: { en: "TODO learn bubble", zh: "TODO" },
+  try:   { en: "TODO try bubble", zh: "TODO" },
+  test:  { en: "TODO test bubble", zh: "TODO" },
+  wrap:  { en: "TODO wrap bubble", zh: "TODO" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>
