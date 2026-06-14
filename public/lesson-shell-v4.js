@@ -960,7 +960,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // ═════════════════════════════════════════════════════════════
   document.addEventListener('DOMContentLoaded', () => {
     // Restore language preference
-    const savedLang = localStorage.getItem('scispark_lang') || 'en';
+    const savedLang = localStorage.getItem('scispark.lang') || 'en';
     const urlParams = new URLSearchParams(window.location.search);
     const isBilingual = urlParams.get('bilingual') === '1' || localStorage.getItem('scispark_bilingual') === '1';
     if (isBilingual) {
