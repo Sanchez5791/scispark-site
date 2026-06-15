@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- QA preview only — keep out of search engines and do not promote -->
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>SciSpark · DouDou QA Preview (sample data)</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5efe5;--bg-card:#fff;--bg-subtle:#f0e9df;--dark-card:#201e1b;
+  --orange:#e8521a;--orange-hover:#d44717;--orange-light:#fdf2ed;--orange-mid:#f9d9cc;
+  --text:#2d2926;--text-muted:#9a8e84;--text-light:#c5bbb4;--border:#e2d9ce;
+  --green:#2E7D5B;--green-bg:#d9eed9;--green-text:#2a6a2a;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:16px;
+  --font-serif:'EB Garamond',Georgia,serif;--font-sans:'DM Sans',system-ui,sans-serif;--font-zh:'Noto Sans SC',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:0 16px 60px;}
+.wrap{max-width:760px;margin:0 auto;}
+
+/* sample banner */
+.sample-banner{position:sticky;top:0;z-index:50;background:#1a1917;color:#f6c177;text-align:center;font-size:12.5px;padding:9px 12px;font-family:var(--font-zh);margin:0 -16px 0;}
+.page-head{padding:28px 0 8px;}
+.page-head h1{font-family:var(--font-serif);font-size:30px;font-weight:500;}
+.page-head p{color:var(--text-muted);font-size:13px;margin-top:6px;font-family:var(--font-zh);}
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light);margin:34px 0 6px;display:flex;align-items:center;gap:8px;}
+.sec-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);}
+.state-tag{font-size:11px;color:var(--text-muted);margin:18px 0 6px;font-family:var(--font-zh);}
+
+/* base */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;margin-bottom:18px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.card-title{font-family:var(--font-serif);font-size:24px;font-weight:500;color:var(--text);}
+.card-title .zh-sub{display:block;font-family:var(--font-zh);font-size:12px;color:var(--text-muted);margin-top:2px;font-weight:400;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 22px;border-radius:100px;font-family:var(--font-sans);font-size:14px;font-weight:600;border:none;cursor:pointer;text-decoration:none;transition:all .15s;}
+.btn-primary{background:var(--orange);color:#fff;}
+.btn-primary:hover{background:var(--orange-hover);}
+.btn-secondary{background:transparent;color:var(--text);border:1.5px solid var(--border);}
+
+/* ---- PARENT learning-status (weekly rhythm) ---- */
+.doudou-gate{background:var(--orange-light);border:1px solid var(--orange-mid);border-radius:var(--radius-md);padding:12px 14px;font-size:13px;color:var(--text);line-height:1.5;margin-bottom:16px;}
+.doudou-gate .zh,.doudou-greeting .zh{display:block;font-family:var(--font-zh);font-size:11px;color:var(--text-muted);margin-top:4px;}
+.doudou-greeting{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px;}
+.doudou-avatar{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--bg-subtle);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.doudou-greeting-text{font-size:13px;color:var(--text);line-height:1.5;}
+.doudou-greeting-en{display:block;}
+.doudou-rows{padding:6px 0 14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:16px;}
+.doudou-row{padding:12px 0;}
+.doudou-row + .doudou-row{border-top:1px dashed var(--border);}
+.doudou-row-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+.doudou-row-value{font-family:var(--font-serif);font-size:22px;font-weight:500;color:var(--text);line-height:1.15;}
+.doudou-row-value.is-empty{color:var(--text-light);font-size:18px;}
+.doudou-row-sub{font-size:12px;color:var(--text-muted);margin-top:6px;font-family:var(--font-zh);line-height:1.4;}
+.doudou-rhythm{display:inline-flex;align-items:center;gap:9px;padding:7px 15px 7px 12px;border-radius:99px;font-size:16px;font-weight:600;}
+.doudou-rhythm-dot{width:9px;height:9px;border-radius:50%;background:var(--text-light);flex-shrink:0;}
+.doudou-rhythm[data-state="none"]{background:var(--bg-subtle);color:var(--text-muted);}
+.doudou-rhythm[data-state="on-track"]{background:var(--green-bg);color:var(--green-text);}
+.doudou-rhythm[data-state="on-track"] .doudou-rhythm-dot{background:var(--green);}
+.doudou-rhythm[data-state="nudge"]{background:var(--orange-light);color:var(--orange);}
+.doudou-rhythm[data-state="nudge"] .doudou-rhythm-dot{background:var(--orange);}
+.doudou-rhythm[data-state="resting"]{background:var(--bg-subtle);color:var(--text);}
+.doudou-rhythm[data-state="resting"] .doudou-rhythm-dot{background:var(--text-muted);}
+.doudou-boundary{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px;}
+@media(min-width:560px){.doudou-boundary{grid-template-columns:1fr 1fr;}}
+.doudou-boundary>div{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius-md);font-size:12.5px;line-height:1.45;}
+.doudou-boundary-see{background:var(--green-bg);color:var(--green-text);}
+.doudou-boundary-hide{background:var(--bg-subtle);color:var(--text);}
+.doudou-boundary-ic{font-size:15px;flex-shrink:0;line-height:1.3;}
+.doudou-boundary-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8;display:block;margin-bottom:3px;}
+.doudou-boundary .zh{display:block;font-family:var(--font-zh);margin-top:2px;opacity:.9;}
+.doudou-cooldown{background:var(--orange-light);border:1px solid var(--orange-mid);border-left:3px solid var(--orange);border-radius:var(--radius-md);padding:13px 16px;font-size:13px;color:var(--text);line-height:1.5;margin-top:14px;}
+.doudou-cooldown .zh{display:block;font-family:var(--font-zh);color:var(--text-muted);margin-top:4px;}
+.doudou-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;margin-top:14px;border-top:1px solid var(--border);}
+.doudou-toggle-text{font-size:13px;color:var(--text);}
+.doudou-toggle-text .zh{display:block;font-family:var(--font-zh);font-size:11px;color:var(--text-muted);margin-top:4px;}
+.doudou-switch{flex-shrink:0;width:46px;height:26px;border-radius:99px;background:var(--border);border:none;cursor:pointer;position:relative;padding:0;}
+.doudou-switch[aria-checked="true"]{background:var(--orange);}
+.doudou-switch-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s;}
+.doudou-switch[aria-checked="true"] .doudou-switch-knob{transform:translateX(20px);}
+
+/* ---- STUDENT today-task + AI preview ---- */
+.today-task{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--dark-card);color:#fff;border:1px solid #2c2925;}
+.today-task .eyebrow{color:var(--text-light);margin-bottom:12px;}
+.today-task .eyebrow .dot{background:var(--orange);}
+.today-task-body{flex:1;min-width:220px;}
+.today-task-doudou{display:flex;gap:12px;align-items:flex-start;}
+.today-task .doudou-avatar{width:40px;height:40px;background:var(--orange-mid);font-size:22px;}
+.today-task-say .en{display:block;font-family:var(--font-serif);font-size:21px;font-weight:500;line-height:1.25;color:#fff;}
+.today-task-say .zh{display:block;font-family:var(--font-zh);font-size:14px;color:var(--text-light);margin-top:4px;}
+.today-task-start{font-size:15px;padding:14px 28px;flex-shrink:0;}
+.ai-card{background:var(--dark-card);color:#fff;border-radius:var(--radius-lg);padding:22px;}
+.ai-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.ai-title{font-family:var(--font-serif);font-size:22px;font-weight:500;}
+.ai-title-zh{font-family:var(--font-zh);font-size:12px;color:var(--text-light);margin-top:2px;}
+.ai-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-light);background:rgba(255,255,255,.06);padding:4px 10px;border-radius:100px;}
+.ai-status .dot{width:6px;height:6px;border-radius:50%;background:#5cd687;}
+.chat-messages{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.bubble{max-width:88%;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+.bubble-prof{background:var(--orange-light);color:var(--text);border:1px solid var(--orange-mid);align-self:flex-start;}
+.bubble-prof::before{content:"Professor Spark · 火花教授";display:block;font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--orange);text-transform:uppercase;margin-bottom:4px;}
+.doudou-bubble{background:#fff;color:var(--text);border:1px solid var(--border);align-self:flex-end;max-width:88%;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+.doudou-bubble::before{content:"豆豆 · DouDou";display:block;font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;}
+.bubble .zh,.doudou-bubble .zh{display:block;font-family:var(--font-zh);color:var(--text-muted);font-size:12px;margin-top:4px;}
+.ai-footer{border-top:1px solid #2c2925;padding-top:14px;display:flex;justify-content:space-between;align-items:center;}
+.ai-footer .small{font-size:11px;color:var(--text-light);}
+.ai-footer .open-link{color:var(--orange);font-size:13px;font-weight:600;text-decoration:none;}
+
+/* ---- child-awareness modal ---- */
+.doudou-aware{position:fixed;inset:0;z-index:300;background:rgba(26,25,23,.78);display:none;align-items:center;justify-content:center;padding:16px;}
+.doudou-aware.is-open{display:flex;}
+.doudou-aware-box{background:var(--bg-card);border-radius:20px;padding:30px 28px 26px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;}
+.doudou-aware-avatar{width:60px;height:60px;border-radius:50%;background:var(--orange-mid);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;}
+.doudou-aware-title{font-family:var(--font-serif);font-size:22px;font-weight:500;color:var(--text);margin-bottom:16px;}
+.doudou-aware-body{text-align:left;font-size:14px;color:var(--text);line-height:1.55;}
+.doudou-aware-body p{margin-bottom:12px;}
+.doudou-aware-body .zh{display:block;font-family:var(--font-zh);font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+.doudou-aware-body .see{background:var(--green-bg);color:var(--green-text);border-radius:var(--radius-md);padding:10px 12px;}
+.doudou-aware-body .hide{background:var(--bg-subtle);color:var(--text);border-radius:var(--radius-md);padding:10px 12px;}
+.doudou-aware-box .btn{width:100%;margin-top:8px;padding:13px;font-size:15px;}
+</style>
+</head>
+<body>
+<div class="sample-banner">⚠️ 内部预览 / QA PREVIEW · 全部为样本数据，非真实用户 · 不对外、不计入任何统计 · sample data only, not a real user</div>
+<div class="wrap">
+
+  <div class="page-head">
+    <h1>DouDou — QA Preview</h1>
+    <p>家长卡（几种节奏）＋ 学生首屏 ＋ 孩子知情弹窗。点一下就看，不用登录。样本数据，仅供老板验收设计。</p>
+  </div>
+
+  <!-- ===================== PARENT ===================== -->
+  <div class="sec-tag">家长端 · Parent — Learning Status card</div>
+
+  <div class="state-tag">① On track · 正常（有学习记录）</div>
+  <div class="card doudou-pcard" data-state="on-track"></div>
+
+  <div class="state-tag">② A gentle nudge helps · 需要轻提醒（本周比平时少）</div>
+  <div class="card doudou-pcard" data-state="nudge"></div>
+
+  <div class="state-tag">③ Resting · 休息中（本周没记录）</div>
+  <div class="card doudou-pcard" data-state="resting"></div>
+
+  <div class="state-tag">④ Honest empty · 没有数据 → 「—」</div>
+  <div class="card doudou-pcard" data-state="none"></div>
+
+  <!-- ===================== STUDENT HOME ===================== -->
+  <div class="sec-tag">学生端首屏 · Student home — Today's Task + AI Guide</div>
+
+  <div class="card today-task">
+    <div class="today-task-body">
+      <div class="eyebrow"><span class="dot"></span>Today's Task · 今日任务</div>
+      <div class="today-task-doudou">
+        <span class="doudou-avatar">🐣</span>
+        <div class="today-task-say">
+          <span class="en">Let's not do a lot today — we'll just unpack one concept.</span>
+          <span class="zh">先不用做很多，今天只拆一个概念。</span>
+        </div>
+      </div>
+    </div>
+    <a class="btn btn-primary today-task-start" href="#">开始 · Start →</a>
+  </div>
+
+  <div class="ai-card">
+    <div class="ai-header">
+      <div>
+        <div class="ai-title">AI Guide</div>
+        <div class="ai-title-zh">智能导师 · Professor Spark &amp; 豆豆</div>
+      </div>
+      <span class="ai-status"><span class="dot"></span>Live</span>
+    </div>
+    <div class="chat-messages">
+      <div class="bubble bubble-prof">Today, let's look at just one question.<span class="zh">今天我们只看一个问题。</span></div>
+      <div class="doudou-bubble">I'll take a guess first — we'll find out soon if I'm right.<span class="zh">我先猜一下 —— 对不对待会就知道。</span></div>
+    </div>
+    <div class="ai-footer">
+      <span class="small">Predict · Compute · Reflect</span>
+      <a href="#" class="open-link">和 Professor Spark 继续 · Continue →</a>
+    </div>
+  </div>
+
+  <!-- ===================== CHILD AWARENESS ===================== -->
+  <div class="sec-tag">学生端 · 孩子知情弹窗 · Child-awareness notice</div>
+  <div class="card">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;font-family:var(--font-zh);">第一次进 dashboard 时弹一次，之后可随时点开。「能看/看不到」文字和家长卡一致。</p>
+    <button class="btn btn-primary" id="open-aware" type="button">🐣 看孩子知情弹窗 · Show the notice</button>
+  </div>
+
+</div>
+
+<!-- child-awareness modal -->
+<div class="doudou-aware" id="doudou-aware" role="dialog" aria-modal="true" aria-labelledby="aw-title">
+  <div class="doudou-aware-box">
+    <div class="doudou-aware-avatar">🐣</div>
+    <div class="doudou-aware-title" id="aw-title">One thing to tell you · 告诉你一件事</div>
+    <div class="doudou-aware-body">
+      <p>Your mum and dad have a "Parent Corner."<span class="zh">你的爸妈有一个「家长角」。</span></p>
+      <p class="see"><strong>They can see</strong> — your rhythm this week, and which unit you're on.<span class="zh"><strong>他们能看到</strong> —— 你这周学习的节奏、学到哪个单元。</span></p>
+      <p class="hide"><strong>They can't see</strong> — your mistakes, your answers, or our chats.<span class="zh"><strong>他们看不到</strong> —— 你的错题、你的答案、还有我们俩的聊天。</span></p>
+      <p>Those stay just between us.<span class="zh">这些只有我们知道。</span></p>
+    </div>
+    <button class="btn btn-primary" id="close-aware" type="button">知道了 · Got it</button>
+  </div>
+</div>
+
+<script>
+function pcardHTML(){return `
+  <div class="card-header"><div class="card-title">Learning Status<span class="zh-sub">学习状态 · <span data-n>Alex</span></span></div></div>
+  <div class="doudou-gate">💡 This is a rhythm view, not an attendance sheet. DouDou shares <strong>how the week is going</strong> — never gaps, mistakes, or a daily score.<span class="zh">这是「本周节奏」，不是考勤表。豆豆只说这周大致状态 —— 不报缺漏、不报错题、不报每天打卡。</span></div>
+  <div class="doudou-greeting"><span class="doudou-avatar">🐣</span><div class="doudou-greeting-text"><span class="doudou-greeting-en">Hi <span data-f>Sarah</span> — I'm DouDou, <span data-n2>Alex</span>'s study buddy. Here's the gentle version of how this week is going.</span><span class="zh">嗨，我是豆豆，<span data-n3>Alex</span>的学习搭档。下面是这周大致的节奏，轻轻看看就好。</span></div></div>
+  <div class="doudou-rows">
+    <div class="doudou-row"><div class="doudou-row-label">This week's rhythm · 本周学习节奏</div><div class="doudou-rhythm" data-rhythm><span class="doudou-rhythm-dot"></span><span data-rt>—</span></div><div class="doudou-row-sub" data-rs></div></div>
+    <div class="doudou-row"><div class="doudou-row-label">Now learning · 现在学到</div><div class="doudou-row-value is-empty" data-now>—</div></div>
+  </div>
+  <div class="doudou-boundary">
+    <div class="doudou-boundary-see"><span class="doudou-boundary-ic">👁️</span><div><span class="doudou-boundary-label">You can see · 您能看到</span>This week's rhythm + which unit they're on.<span class="zh">本周节奏 + 学到哪个单元。</span></div></div>
+    <div class="doudou-boundary-hide"><span class="doudou-boundary-ic">🔒</span><div><span class="doudou-boundary-label">You can't see · 您看不到</span>Your child's mistakes, answers, or chat with DouDou.<span class="zh">孩子的错题、答案、和豆豆的聊天。</span></div></div>
+  </div>
+  <div class="doudou-cooldown">💛 This isn't an attendance sheet. If your child hasn't studied today, don't rush to push — ask "where are you stuck?" first.<span class="zh">这不是考勤表。孩子今天没学，不建议马上催 —— 先问他「你卡在哪里?」</span></div>
+  <div class="doudou-toggle-row"><div class="doudou-toggle-text">Let DouDou send one gentle nudge a day (skipped if already studied).<span class="zh">允许豆豆每天发一次温和提醒（已学习则自动跳过）。</span></div><button class="doudou-switch" aria-checked="true" type="button"><span class="doudou-switch-knob"></span></button></div>`;}
+var PM={
+ 'on-track':{rt:'On track · 正常',rs:'Steady rhythm this week. · 本周节奏稳。',now:'Y7 · Unit 1 · L03'},
+ 'nudge':{rt:'A gentle nudge helps · 需要轻提醒',rs:'A bit quieter than usual this week. · 本周比平时少一些。',now:'Y7 · Unit 1 · L02'},
+ 'resting':{rt:'Resting · 休息中',rs:'No record this week — rest is okay. · 本周还没有记录，休息也没关系。',now:'Y7 · Unit 1 · L02'},
+ 'none':{rt:'—',rs:'No learning record yet · 还没有学习记录',now:'—',empty:true,name:'Sam'}
+};
+document.querySelectorAll('.doudou-pcard').forEach(function(c){
+  var s=c.getAttribute('data-state'),m=PM[s];c.innerHTML=pcardHTML();
+  var nm=m.name||'Alex';
+  c.querySelectorAll('[data-n],[data-n2],[data-n3]').forEach(function(e){e.textContent=nm;});
+  c.querySelector('[data-rhythm]').setAttribute('data-state',s);
+  c.querySelector('[data-rt]').textContent=m.rt;
+  c.querySelector('[data-rs]').textContent=m.rs;
+  var now=c.querySelector('[data-now]');now.textContent=m.now;if(!m.empty)now.classList.remove('is-empty');
+});
+var modal=document.getElementById('doudou-aware');
+document.getElementById('open-aware').addEventListener('click',function(){modal.classList.add('is-open');});
+document.getElementById('close-aware').addEventListener('click',function(){modal.classList.remove('is-open');});
+modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('is-open');});
+</script>
+</body>
+</html>
