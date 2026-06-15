@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U6 L06 · Complete Food Web: Add Back the Decomposer</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<!-- B2 Y7U6 delivered card components (scoped to .main-content) -->
+<link rel="stylesheet" href="/lesson-b2-cards.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="6">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U6 · L06</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 6</div>
+      <div class="sidebar-unit-title" data-en="Ecosystems" data-zh="生态系统">Ecosystems</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+      <div class="screen-header">
+      <div class="eyebrow">Hook · Observe</div>
+      <h2 class="banner"><span class="en">Complete Food Web: Add Back the Decomposer</span></h2>
+      <div class="banner-zh zh">完整食物网：把分解者加回来</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<div class="card-label" style="background:#BFE6BF;color:#2E7D32;"><span class="en">Every Web We Drew Was Missing One Thing</span><span class="zh">我们画过的每张网都少了一样东西</span></div>
+<ul class="ptlist"><li class="pt en">Look back at the food webs from earlier lessons.</li>
+<li class="pt en">Grass, rabbit, fox, owl — all alive.</li>
+<li class="pt en">But every living thing dies one day.</li>
+<li class="pt en">Where do the dead bodies go?</li>
+<li class="pt en">One type of living thing was never on the web.</li></ul>
+<ul class="ptlist"><li class="pt zh">回头看前几课画的食物网。</li>
+<li class="pt zh">草、兔、狐、猫头鹰 — 全是活的。</li>
+<li class="pt zh">但每个生物总有一天会死。</li>
+<li class="pt zh">那些死掉的身体去了哪里?有一类生物从来没出现在网上。</li></ul>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">A food web with no decomposer is like a classroom with no cleaner: the mess does not magically vanish.</div><div class="zh">没有分解者的食物网，就像没有清洁工的课室：垃圾不会自己消失。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L06_SCREEN_IMG01</span>
+          <span class="img-prompt">A normal food web (grass, rabbit, fox, owl) with a faint grey question-mark cloud over the soil at the bottom, hinting &quot;what happens to the dead?&quot;</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Reveal ONE chain first, then the full web</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged reveal</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one organism eats only one thing</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<div class="card-label" style="background:#FAD9A8;color:#D98A2B;"><span class="en">Who Does This for a Living?</span><span class="zh">谁靠这个吃饭?</span></div>
+<ul class="ptlist"><li class="pt en">Field ecologist / conservation biologist.</li>
+<li class="pt en">They study how all the organisms in one place connect — including the decomposers most people forget.</li>
+<li class="pt en">A web is only &quot;real&quot; when it is complete.</li></ul>
+<ul class="ptlist"><li class="pt zh">野外生态学家 / 保育生物学家。</li>
+<li class="pt zh">他们研究一个地方里所有生物怎么连在一起 — 包括大多数人忘掉的分解者。</li>
+<li class="pt zh">一张网只有完整时才算&quot;真实&quot;。</li></ul>
+<div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">If producers and consumers are the front-stage actors, decomposers are backstage crew making the show continue.</div><div class="zh">如果生产者和消费者是台前演员，分解者就是后台工作人员，让整场戏能继续。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L06_SCREEN_IMG02</span>
+          <span class="img-prompt">A real field ecologist in a forest, binoculars and tablet, recording species; orange &quot;CAREER SPOTLIGHT&quot; tag (#FFE9D6 / #EA580C / #7a2e08)</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Reveal ONE chain first, then the full web</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged reveal</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one organism eats only one thing</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+      <div class="screen-header">
+      <div class="eyebrow">Learn · Define</div>
+      <h2 class="banner"><span class="en">Complete Food Web: Add Back the Decomposer</span></h2>
+      <div class="banner-zh zh">完整食物网：把分解者加回来</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<div class="card-label" style="background:#BFE6BF;color:#2E7D32;"><span class="en">What Makes a Food Web &quot;Complete&quot;</span><span class="zh">什么让食物网&quot;完整&quot;</span></div>
+<ul class="ptlist"><li class="pt en">A complete food web shows producers, consumers AND decomposers, with every dead organism and its waste linked to the decomposers.</li></ul>
+<ul class="ptlist"><li class="pt zh">完整食物网要画出生产者、消费者，还有分解者，并把每个死掉的生物和它的废物都连到分解者。</li></ul>
+<div class="subgrid">
+<div class="subbox" style="background:#E8FFE8"><div class="en">Producers make food (plants)</div><div class="zh">生产者造食物 (植物)</div></div>
+<div class="subbox" style="background:#FFF0DB"><div class="en">Consumers eat other living things</div><div class="zh">消费者吃别的活生物</div></div>
+<div class="subbox" style="background:#EAFBFF"><div class="en">Decomposers take in dead matter + waste</div><div class="zh">分解者吸收死物 + 废物</div></div>
+</div>
+<div class="flavour mnemonic"><span class="fl-ic">🧠</span><div><div class="en">Complete web = P + C + D: Producers, Consumers, Decomposers.</div><div class="zh">完整网 = 生 + 消 + 分：生产者、消费者、分解者。</div></div></div>
+<div class="summary-mini">📌 Without decomposers, the web is incomplete.</div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L06_SCREEN_IMG03</span>
+          <span class="img-prompt">Three-role strip: producer / consumer / decomposer, each with one icon</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<div class="card-label" style="background:#FAD9A8;color:#D98A2B;"><span class="en">Decomposer Arrows Are Dashed — and Point INTO the Decomposer</span><span class="zh">分解者的箭头是虚线 — 而且指向分解者</span></div>
+<ul class="ptlist"><li class="pt en">Solid arrows = &quot;is eaten by&quot;, from prey to predator.</li>
+<li class="pt en">Dashed arrows = dead matter and waste going to the decomposer.</li>
+<li class="pt en">The dashed arrow points TO the decomposer.</li></ul>
+<ul class="ptlist"><li class="pt zh">实线箭头 = &quot;被吃&quot;，从被吃的指向吃的。</li>
+<li class="pt zh">虚线箭头 = 死物和废物流向分解者。</li>
+<li class="pt zh">虚线箭头指向分解者。</li></ul>
+<div class="subgrid">
+<div class="subbox" style="background:#E8FFE8"><div class="en">Solid arrow: prey → predator (energy flow)</div><div class="zh">实线: 被吃的 → 吃的 (能量流)</div></div>
+<div class="subbox" style="background:#FFF0DB"><div class="en">Dashed arrow: dead body / waste → decomposer</div><div class="zh">虚线: 死物/废物 → 分解者</div></div>
+<div class="subbox" style="background:#EAFBFF"><div class="en">Decomposers do NOT eat living prey</div><div class="zh">分解者不吃活的猎物</div></div>
+</div>
+<div class="summary-mini">📌 Dashed lines show the decomposer receives &quot;dead/waste&quot;, not &quot;live prey&quot;.</div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L06_SCREEN_IMG04</span>
+          <span class="img-prompt">Complete food web: grass → grasshopper → frog → snake (solid arrows), plus dashed arrows from EVERY organism and from a &quot;dead matter / waste&quot; box pointing INTO a decomposer (mushroom + bacteria); label &quot;Arrow = energy flow (from prey to predator); dashed = to decomposer&quot;</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Reveal ONE chain first, then the full web</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged reveal</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one organism eats only one thing</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card redcard">
+      <div class="card-label rc-label">🚫 红牌 · MISCONCEPTION RED CARD</div>
+      <div class="rc-row rc-wrong"><span class="rc-tag">✘ 错 WRONG</span>
+        <div><div class="en"></div>
+        <div class="zh"></div></div></div>
+      <div class="rc-row rc-right"><span class="rc-tag rc-tag-ok">✔ 对 RIGHT</span>
+        <div></div></div>
+      
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L06_SCREEN_IMG05</span>
+          <span class="img-prompt">Split card: LEFT a web with no decomposer marked with a red cross; RIGHT the same web with decomposer added by dashed arrows, marked with a green tick</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+      <div class="screen-header">
+      <div class="eyebrow">Try · Practice</div>
+      <h2 class="banner"><span class="en">Your Turn — Try These</span></h2>
+      <div class="banner-zh zh">练一练</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q01</span>
+        <span class="q-lvl">L1</span>  <span class="q-marks">1 mark</span></div>
+      <div class="q-stem"><div class="en">In a complete food web, which arrow is drawn DASHED?</div>
+        <div class="zh">在完整食物网里，哪一条箭头要画成虚线?</div></div>
+      <div class="q-opts"><div class="q-opt">A) grass → rabbit</div><div class="q-opt">B) rabbit → fox</div><div class="q-opt">C) dead fox → decomposer</div><div class="q-opt">D) fox → owl</div></div><div class="hint"><b>💡 Hint 1</b><div class="en">Dashed arrows are only for dead matter or waste going to the decomposer, not for one animal eating another.</div><div class="zh">虚线只用在死物或废物流向分解者，不是一只动物吃另一只。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">C) dead fox → decomposer.</div>
+        <div class="zh">C) 死狐狸 → 分解者。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">C; dead fox to decomposer; dead matter/waste to decomposer.</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q02</span>
+        <span class="q-lvl">L2</span>  <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">This food web has grass, rabbit, fox and a decomposer. Draw the dashed arrows needed to make the web complete.</div>
+        <div class="zh">这张食物网有草、兔、狐和一个分解者。画出需要的虚线箭头，让这张网变完整。</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L06_Q02_IMG01</span>
+          <span class="img-prompt">Partial food web (grass, rabbit, fox) with an unconnected decomposer node (mushroom) at the bottom, waiting for dashed arrows</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Reveal ONE chain first, then the full web</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged reveal</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one organism eats only one thing</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><div class="hint"><b>💡 Hint 1</b><div class="en">Every living thing eventually dies. Each one&#x27;s dead body must connect to the decomposer.</div><div class="zh">每个生物最后都会死。每个的死物都要连到分解者。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">A dashed arrow from each organism (grass, rabbit, fox) and from dead matter/waste pointing INTO the decomposer.</div>
+        <div class="zh">从每个生物 (草、兔、狐) 以及死物/废物各拉一条虚线，指向分解者。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">dashed arrow from grass/dead plant matter into decomposer</li>
+<li class="pt en">dashed arrow from rabbit/dead rabbit/waste into decomposer</li>
+<li class="pt en">dashed arrow from fox/dead fox/waste into decomposer</li>
+<li class="pt en">all decomposer arrows point into the decomposer</li>
+<li class="pt en">dead matter/waste box points into decomposer if used</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+      <div class="exam-chip">EXAM MODE · NO HINTS · 考试模式 · 无提示</div>
+      <div class="screen-header">
+      <div class="eyebrow">Test · Apply Solo</div>
+      <h2 class="banner"><span class="en">Test Yourself</span></h2>
+      <div class="banner-zh zh">独立测试</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q03</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">Explain</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">Explain why a decomposer&#x27;s arrows are drawn dashed and not solid.</div>
+        <div class="zh">解释为什么分解者的箭头画成虚线而不是实线。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Because the decomposer takes in dead matter and waste, not living prey; dashed shows it is not &quot;eating&quot; a live organism.</div>
+        <div class="zh">因为分解者吸收的是死物和废物，不是活的猎物;虚线表示它不是在&quot;吃&quot;活生物。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">dead/waste not live prey</li>
+<li class="pt en">dashed distinguishes decomposer flow</li>
+<li class="pt en">dashed arrow shows decomposer gets dead matter/waste, not live food</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q04</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">State</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">A student draws a food web with grass, rabbit and fox but no decomposer. Why is this web NOT complete?</div>
+        <div class="zh">一个学生画了草、兔、狐的食物网，但没有分解者。为什么这张网不算完整?</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">A complete web must show what happens to dead organisms and waste; without a decomposer the dead matter has nowhere to go.</div>
+        <div class="zh">完整的网必须显示死掉的生物和废物去哪里;没有分解者，死物就无处可去。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">missing decomposer</li>
+<li class="pt en">dead matter/waste not shown</li>
+<li class="pt en">mentions dead organisms/waste need a path to a decomposer</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q05</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">Name</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">In one complete food web, name TWO things that send a dashed arrow to the decomposer, and say where the decomposer&#x27;s &quot;food&quot; comes from.</div>
+        <div class="zh">在一张完整食物网里，说出两样会拉虚线指向分解者的东西，并说明分解者的&quot;食物&quot;来自哪里。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Two from: dead plants, dead animals, animal waste. The decomposer&#x27;s food comes from dead matter and waste, not from living organisms.</div>
+        <div class="zh">两样取自: 死植物、死动物、动物废物。分解者的食物来自死物和废物，不是活生物。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">any two dead plant/dead animal/waste</li>
+<li class="pt en">food from dead matter/waste not living prey</li>
+<li class="pt en">dead plants, dead animals, or waste named as decomposer food</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q06</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">State</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">State what type of arrow is used to show energy going to a decomposer in a complete food web.</div>
+        <div class="zh">写出在完整食物网里, 表示能量流向分解者所用的是哪种箭头。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">A dashed (broken) arrow.</div>
+        <div class="zh">虚线(断开的)箭头。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">dashed arrow</li>
+<li class="pt en">broken arrow</li>
+<li class="pt en">dotted/dashed line accepted if it clearly means a broken arrow</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q07</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">State</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">In a complete food web, state which way a decomposer arrow points: into the decomposer or out of it.</div>
+        <div class="zh">在完整食物网里, 写出分解者箭头指向哪边: 指入还是指出分解者。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Into the decomposer.</div>
+        <div class="zh">指入分解者。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">into the decomposer</li>
+<li class="pt en">towards decomposer</li>
+<li class="pt en">arrow points from dead matter/waste into the decomposer</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q08</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">Describe</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">Describe what is missing from a food web that shows only producers and consumers.</div>
+        <div class="zh">描述一个只显示生产者和消费者的食物网少了什么。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">It is missing the decomposers, which break down dead matter and recycle nutrients.</div>
+        <div class="zh">它少了分解者, 分解者分解死物并回收养分。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">missing decomposers</li>
+<li class="pt en">break down dead matter</li>
+<li class="pt en">decomposers recycle nutrients from dead organisms</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q09</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">Explain</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">Explain why a decomposer in a complete food web receives energy from every other organism.</div>
+        <div class="zh">解释为什么完整食物网里的分解者会从每个其他生物获得能量。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Because every organism eventually dies or produces waste, and the decomposer breaks that down, so energy from all of them passes to the decomposer.</div>
+        <div class="zh">因为每个生物最终都会死亡或产生废物, 分解者分解这些, 所以所有生物的能量都传给分解者。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">every organism dies</li>
+<li class="pt en">every organism makes waste</li>
+<li class="pt en">decomposer breaks down their dead bodies/waste so energy passes to it</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q10</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">State</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">State why decomposers are sometimes called the recyclers of an ecosystem.</div>
+        <div class="zh">写出为什么分解者有时被称为生态系统的回收者。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Because they break down dead matter and return nutrients to the soil for plants to reuse.</div>
+        <div class="zh">因为它们分解死物, 把养分送回土壤供植物再利用。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">break down dead matter</li>
+<li class="pt en">return nutrients</li>
+<li class="pt en">nutrients go back to the soil for plants to reuse</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+      <div class="screen-header">
+      <div class="eyebrow">Wrap · Reflect</div>
+      <h2 class="banner"><span class="en">Wrap Up &amp; Remember</span></h2>
+      <div class="banner-zh zh">总结与记忆</div>
+    </div>
+      <div class="card recall">
+      <div class="card-label rec-label">🔁 盖住回想 · Cover & Recall</div>
+      <div class="rec-q"><div class="en">Explain why a decomposer&#x27;s arrows are drawn dashed and not solid.</div>
+        <div class="zh">解释为什么分解者的箭头画成虚线而不是实线。</div></div>
+      <button class="rec-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">
+        想好了？点开看答案 · Tap to reveal</button>
+      <div class="rec-a" style="display:none">
+        <div class="en">Because the decomposer takes in dead matter and waste, not living prey; dashed shows it is not &quot;eating&quot; a live organism.</div><div class="zh">因为分解者吸收的是死物和废物，不是活的猎物;虚线表示它不是在&quot;吃&quot;活生物。</div></div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<div class="card-label" style="background:#BFE6BF;color:#2E7D32;"><span class="en">What We Learned</span><span class="zh">我们学了什么</span></div>
+<div class="flavour mnemonic"><span class="fl-ic">🧠</span><div><div class="en">Dashed IN, not out. Dead/waste IN, not live prey.</div><div class="zh">记法：虚线指入，不指出；死物进去，不吃活物。</div></div></div>
+
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+
+</div>
+<div class="card concept" style="background:#EAFBFF;border:1px solid #C2ECF5;">
+
+</div>
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Explain today's key idea in simple words
+        <span class="ai-prompt-btn-zh">用简单的话解释今天的重点</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Give me an everyday example
+        <span class="ai-prompt-btn-zh">给我一个生活中的例子</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Quiz me with one question
+        <span class="ai-prompt-btn-zh">出一道题考我</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Let's take a look — ready?",                 zh: "我们来看看 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!",        zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!",           zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!",      zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

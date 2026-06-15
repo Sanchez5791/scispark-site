@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U6 L05 · What If a Species Disappears?</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<!-- B2 Y7U6 delivered card components (scoped to .main-content) -->
+<link rel="stylesheet" href="/lesson-b2-cards.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="5">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U6 · L05</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 6</div>
+      <div class="sidebar-unit-title" data-en="Ecosystems" data-zh="生态系统">Ecosystems</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+      <div class="screen-header">
+      <div class="eyebrow">Hook · Observe</div>
+      <h2 class="banner"><span class="en">What If a Species Disappears?</span></h2>
+      <div class="banner-zh zh">如果一个物种消失了会怎样？</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<ul class="ptlist"><li class="pt en">What if all the bees disappeared from the world?</li>
+<li class="pt en">Around 75% of crops depend on insect pollination.</li>
+<li class="pt en">That is not just honey gone — many fruits, vegetables, nuts and oils would be lost too.</li></ul>
+<ul class="ptlist"><li class="pt zh">如果全世界的蜜蜂都消失了会怎样?大约 75% 的农作物靠昆虫授粉。</li>
+<li class="pt zh">那不只是没有蜂蜜 — 很多水果、蔬菜、坚果和油也会消失。</li></ul>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">If bees quit, breakfast also quits: fewer fruits, less jam, sad toast.</div><div class="zh">蜜蜂一罢工，早餐也跟着罢工：水果少了，果酱少了，吐司都忧郁。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_SCREEN_IMG01</span>
+          <span class="img-prompt">One bee on a flower, then the same scene with the bee gone and the flower wilting / no fruit forming. Two-panel before/after. Global, no place-specific brand.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<ul class="ptlist"><li class="pt en">Today&#x27;s question: when one species is removed from a food web, what happens to the others?</li></ul>
+<ul class="ptlist"><li class="pt zh">今天的问题:当一个物种从食物网中被拿走,其他生物会怎样?</li></ul>
+<div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">Think of a food web like a phone charger cable pile. Pull one cable, three others move.</div><div class="zh">食物网像一团充电线。你抽一条，旁边几条也会被扯动。</div></div></div>
+
+</div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+      <div class="screen-header">
+      <div class="eyebrow">Learn · Define</div>
+      <h2 class="banner"><span class="en">What If a Species Disappears?</span></h2>
+      <div class="banner-zh zh">如果一个物种消失了会怎样？</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<ul class="ptlist"><li class="pt en">A food web is many food chains joined together.</li>
+<li class="pt en">Most animals eat more than one kind of food, and are eaten by more than one kind of animal.</li></ul>
+<ul class="ptlist"><li class="pt zh">食物网是很多食物链连在一起。</li>
+<li class="pt zh">大多数动物吃不只一种食物,也被不只一种动物吃。</li></ul>
+<div class="flavour mnemonic"><span class="fl-ic">🧠</span><div><div class="en">WEB = Who Eats Both ways of links.</div><div class="zh">记法: “网”就是“很多条链织在一起”。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_SCREEN_IMG02</span>
+          <span class="img-prompt">A simple food web, &gt;=5 species, &gt;=7 arrows, arrow = energy flow prey-&gt;predator (label it &quot;Arrow = energy flow, from prey to predator&quot;). NOT reversed.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Reveal ONE chain first, then the full web</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged reveal</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one organism eats only one thing</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<ul class="ptlist"><li class="pt en">If one species is removed, the species that ate it lose a food source, and the species it ate may increase.</li>
+<li class="pt en">The effect spreads through the web.</li>
+<li class="pt en">This is the ripple effect.</li></ul>
+<ul class="ptlist"><li class="pt zh">如果一个物种被拿走,吃它的生物会失去食物,被它吃的生物可能会变多。</li>
+<li class="pt zh">这个影响会在网里扩散开。</li>
+<li class="pt zh">这就是连锁效应(ripple effect)。</li></ul>
+<div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">It is like dropping one stone in water: the ring spreads out, not just one dot moves.</div><div class="zh">像石头丢进水里：不是只有一个点动，是一圈一圈扩出去。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_SCREEN_IMG03</span>
+          <span class="img-prompt">Same food web as L1 shown BEFORE and AFTER one species is removed; in AFTER, several arrows fade/disappear to show knock-on effect.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Reveal ONE chain first, then the full web</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged reveal</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one organism eats only one thing</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card redcard">
+      <div class="card-label rc-label">🚫 红牌 · Red Card — A Common Mistake</div>
+      <div class="rc-row rc-wrong"><span class="rc-tag">✘ 错 WRONG</span>
+        <div><div class="en"></div>
+        <div class="zh"></div></div></div>
+      <div class="rc-row rc-right"><span class="rc-tag rc-tag-ok">✔ 对 RIGHT</span>
+        <div></div></div>
+      <div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">Food webs do not gossip, but news travels fast inside them.</div><div class="zh">食物网不会八卦，但“消息”传得很快。</div></div></div>
+      
+    </div>
+<div class="card concept" style="background:#EAFBFF;border:1px solid #C2ECF5;">
+<ul class="ptlist"><li class="pt en">Some species matter more than their numbers suggest.</li>
+<li class="pt en">If they go, the whole web changes a lot.</li>
+<li class="pt en">These are called keystone species.</li>
+<li class="pt en">(We only name the idea here.)</li></ul>
+<ul class="ptlist"><li class="pt zh">有些物种的重要性超过它的数量。</li>
+<li class="pt zh">如果它们消失,整个网会大变。</li>
+<li class="pt zh">这些叫关键物种(keystone species)。</li>
+<li class="pt zh">(这里只认识这个概念。</li>
+<li class="pt zh">)</li></ul>
+<div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">A keystone species is like the middle block in Jenga: small block, huge trouble if removed.</div><div class="zh">关键物种像叠叠乐中间那块：看着小，抽掉可能整座倒。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_SCREEN_IMG04</span>
+          <span class="img-prompt">Simple icon set: one central species with many arrows radiating to other species, to show &quot;remove this one, many are affected&quot;.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#F6EAFA;border:1px solid #E2C4EE;">
+<ul class="ptlist"><li class="pt en">Rachel Carson (USA, 1962) wrote &quot;Silent Spring&quot;.</li>
+<li class="pt en">She showed that the chemical DDT travelled along food chains and harmed birds — a real ripple effect that the whole world noticed.</li></ul>
+<ul class="ptlist"><li class="pt zh">Rachel Carson(美国,1962)写了《寂静的春天》。</li>
+<li class="pt zh">她说明化学物质 DDT 沿着食物链传递、伤害了鸟类 — 一个真实的连锁效应,让全世界都看见了。</li></ul>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_SCREEN_IMG05</span>
+          <span class="img-prompt">Portrait-style illustration of a 1960s ecologist with a bird and a book; neutral, respectful.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card examreal">
+      <div class="card-label er-label">⚖️ 考试 vs 真实 · Exam vs Reality</div>
+      <div class="er-grid">
+        <div class="er-col er-exam"><div class="er-h">📝 考试 Exam</div>
+          <div class="en">In exam tasks, a food chain is often one straight line.</div>
+          <div class="zh">考题常把食物链画成一条直线。</div></div>
+        <div class="er-col er-real"><div class="er-h">🌍 真实 Reality</div>
+          <div class="en">Real nature is a food web with many linked routes.</div>
+          <div class="zh">真实自然是很多路线连成的食物网。</div></div>
+      </div>
+      
+      
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+      <div class="screen-header">
+      <div class="eyebrow">Try · Practice</div>
+      <h2 class="banner"><span class="en">Your Turn — Try These</span></h2>
+      <div class="banner-zh zh">练一练</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q01</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(b) Explain (解释) ; (c) Suggest (提示)</span> <span class="q-marks">3 marks  (was 2; +1 for new ORIGINAL part a)</span></div>
+      <div class="q-stem"><div class="en"></div>
+        <div class="zh">(a) [原创题] 图中显示一条北极食物链。
+      写出这条食物链最前面的生产者是哪一个生物。[1]
+  (b) 图中显示北极食物网里的一条食物链。沿着这条食物链,
+      每种生物的数量都在减少。解释为什么。 [1]
+  (c) 北极熊除了吃环斑海豹,也吃其他动物。
+      提示这如何帮助北极熊生存。 [1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_Q01_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div><div class="hint"><b>💡 Hint 1</b><div class="en">(b) Think about what is lost as you move up a food chain.</div><div class="zh">(b) 想想沿着食物链往上走,什么东西会流失。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) phytoplankton  [ORIGINAL]  (b) Less energy is available at each next level because energy is lost along the chain. (c) Eating other animals gives the polar bear alternative food, so it is less affected if ringed seal numbers fall.</div>
+        <div class="zh">(a) 浮游植物 phytoplankton  [原创题]  (b) 越往上能量越少，因为能量沿食物链会流失。(c) 北极熊也吃其他动物，所以环斑海豹减少时，它还有其他食物来源，受影响较小。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) phytoplankton  [ORIGINAL question]</li>
+<li class="pt en">(b) energy is lost along the food chain</li>
+<li class="pt en">(b) less energy is available at each next level</li>
+<li class="pt en">(b) energy is used in movement / respiration / heat, so fewer organisms can be supported</li>
+<li class="pt en">(c) polar bear has other food sources</li>
+<li class="pt en">(c) polar bear is not relying only on ringed seals</li>
+<li class="pt en">(c) if ringed seals fall, it can eat other animals and survive better</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q02</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">Suggest (提示) ; Explain (解释)</span> <span class="q-marks">5 marks</span></div>
+      <div class="q-stem"><div class="en"></div>
+        <div class="zh">蚜虫是吸食植物含糖汁液的昆虫。它们在温室作物上特别成问题。
+  (a) 图中显示包含蚜虫的取食关系。提示一个原因:为什么蚜虫在
+      温室作物上比在露天田里更容易增多。 [1]
+  (b) 寄生蜂被卖来做温室里蚜虫的生物防治。说明书写:有蚜虫前
+      不要用;温室里不要用杀虫剂。
+      (i) 为什么放寄生蜂之前温室里必须先有蚜虫? [1]
+      (ii) 为什么放了寄生蜂后不用杀虫剂很重要? [1]
+  (c) 生长季结束时植物会被移走。
+      (i) 寄生蜂的数量会怎样? [1]
+      (ii) 解释为什么这种防治方法比用杀虫剂更环保。 [1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_Q02_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div><div class="hint"><b>💡 Hint 1</b><div class="en">Think: wasps need aphids as food. Remove the food, what happens to the wasps?</div><div class="zh">想想:寄生蜂需要蚜虫当食物。拿走食物,寄生蜂会怎样?</div></div><div class="hint"><b>💡 Hint 2</b><div class="en">&quot;Environmentally friendly&quot; = less harm to other living things and less chemical pollution.</div><div class="zh">“环保”= 对其他生物伤害更少、化学污染更少。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) Aphids may increase because greenhouses have fewer predators or more protected conditions. (b)(i) Wasps need aphids as food/hosts. (b)(ii) Pesticides may kill the wasps. (c)(i) Wasp numbers decrease/die out. (c)(ii) Biological control is more specific and causes less chemical pollution or less harm to other organisms.</div>
+        <div class="zh">(a) 蚜虫可能增多，因为温室里天敌较少或环境更受保护。(b)(i) 寄生蜂需要蚜虫作食物/寄主。(b)(ii) 杀虫剂可能杀死寄生蜂。(c)(i) 寄生蜂数量下降/死亡。(c)(ii) 生物防治更有针对性，化学污染更少，或较少伤害其他生物。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) fewer predators in the greenhouse</li>
+<li class="pt en">(a) aphids are protected from wind/rain/open-field conditions</li>
+<li class="pt en">(a) warmer/protected conditions allow aphids to breed more</li>
+<li class="pt en">(b)(i) wasps need aphids as food</li>
+<li class="pt en">(b)(i) aphids are the host for the parasitic wasps</li>
+<li class="pt en">(b)(ii) pesticides would kill the parasitic wasps</li>
+<li class="pt en">(b)(ii) pesticide would remove the biological control organism</li>
+<li class="pt en">(c)(i) wasp population decreases / dies out</li>
+<li class="pt en">(c)(ii) less chemical pollution / more specific control / fewer non-target organisms killed</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+      <div class="exam-chip">EXAM MODE · NO HINTS · 考试模式 · 无提示</div>
+      <div class="screen-header">
+      <div class="eyebrow">Test · Apply Solo</div>
+      <h2 class="banner"><span class="en">Test Yourself</span></h2>
+      <div class="banner-zh zh">独立测试</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q03</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(b) Write (写出) ; (c) Explain (解释)</span> <span class="q-marks">4 marks</span></div>
+      <div class="q-stem"><div class="en"></div>
+        <div class="zh">图中显示一个食物网。
+  (a) 这个食物网里哪些动物被野猫吃? ……… 和 ……… [1]
+  (b) 写一条完整的食物链,包含山羊和另外两种动物。 [1]
+  (c) 田鼠数量减少。解释这可能如何影响兔子的数量。 [1]
+  (d) 能量会从食物网中流失。写出一种能量从食物网流失的方式。 [1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_Q03_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div><div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_Q03_IMG02</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) Vole and rabbit. (b) Grass → goat → jackal → lion. (c) Rabbits may decrease, increase, or stay the same if a valid reason is given. (d) One way energy is lost: respiration, movement, heat, excretion, faeces or urine.</div>
+        <div class="zh">(a) 田鼠和兔。 (b) 草 → 山羊 → 胡狼 → 狮子。 (c) 兔可能减少、增加或不变，但必须给合理原因。 (d) 能量可通过呼吸、运动、热、排泄、粪便或尿液流失。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) vole and rabbit, both named</li>
+<li class="pt en">(b) grass -&gt; goat -&gt; jackal -&gt; lion with arrows prey to predator</li>
+<li class="pt en">(c) rabbits decrease because wild cat eats more rabbits when voles are fewer</li>
+<li class="pt en">(c) rabbits increase because fewer voles means more plants/food available</li>
+<li class="pt en">(c) rabbits stay about the same if more food and more predation balance, with reason</li>
+<li class="pt en">(d) respiration / movement / heat / excretion / faeces / urine</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q04</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">Explain (解释)</span> <span class="q-marks">5 marks</span></div>
+      <div class="q-stem"><div class="en"></div>
+        <div class="zh">看这个栖息地的食物网。(图不按比例。)
+  (a) 一种疾病使栖息地里小型啮齿动物的数量减少。猫头鹰数量
+      减少,但野猫数量不变。补全句子解释原因。
+      猫头鹰数量减少,因为 ……………………
+      野猫数量不变,因为 ……………………  [2]
+  (b) 解释为什么绿色植物需要太阳才能生存。 [3]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_Q04_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) Owls decrease because they lose their main food source, small rodents. Wild cats stay the same because they have other food sources. (b) Green plants need sunlight for photosynthesis; light energy lets them make food/glucose, so without light they cannot make food and die.</div>
+        <div class="zh">(a) 猫头鹰减少，因为它们失去主要食物小型啮齿动物。野猫不变，因为它们还有其他食物来源。 (b) 绿色植物需要阳光进行光合作用；光能让它们制造食物/葡萄糖，没有光就不能造食物，会死亡。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">owls decrease because small rodents are their main food</li>
+<li class="pt en">owls lose a food source / have less food</li>
+<li class="pt en">wild cats stay same because they also eat other animals</li>
+<li class="pt en">wild cats have alternative food sources, so are less affected</li>
+<li class="pt en">plants need Sun/light for photosynthesis</li>
+<li class="pt en">photosynthesis makes food/glucose/sugar for the plant</li>
+<li class="pt en">without light plants cannot make food and may die</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q05</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">(a) Name (说出) ; (b) State (说明)</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en"></div>
+        <div class="zh">食物网显示:草 -&gt; 兔 -&gt; 狐,以及 草 -&gt; 鼠 -&gt; 狐。
+  这个栖息地里所有的兔子都被移走。
+  (a) 说出当兔子被移走时,失去一种食物来源的一种动物。 [1]
+  (b) 说明兔子被移走后,老鼠的数量可能会怎样。给一个原因。 [1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L05_Q05_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Cause -&gt; effect flowchart</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking one change affects only one species</span></div>
+            <ul class="vd-drules"><li>D1: static-first; stage the cause-&gt;effect steps</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) Fox. (b) Mice may increase because rabbits no longer compete for grass, or mice may decrease because foxes may eat more mice.</div>
+        <div class="zh">(a) 狐。 (b) 老鼠可能增加，因为兔子不再和它们抢草；也可能减少，因为狐狸可能改吃更多老鼠。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) fox</li>
+<li class="pt en">(b) mice may increase because less competition for grass</li>
+<li class="pt en">(b) mice may increase because rabbits are not eating the grass</li>
+<li class="pt en">(b) mice may decrease because foxes eat more mice after rabbits are gone</li>
+<li class="pt en">(b) mice may be affected if reason links fox/rabbit/grass correctly</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q06</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">(a) State</span> <span class="q-marks">1 mark</span></div>
+      <div class="q-stem"><div class="en">In a food web, grass is eaten by rabbits, and rabbits are eaten by
+  foxes.
+  (a) State what happens to the number of foxes if all the rabbits
+      disappear. [1]</div>
+        <div class="zh">在一个食物网里, 草被兔子吃, 兔子被狐狸吃。
+  (a) 如果所有兔子消失, 写出狐狸数量会怎样。[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">The number of foxes decreases because they have less food.</div>
+        <div class="zh">狐狸数量会减少，因为它们食物变少。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">foxes decrease</li>
+<li class="pt en">fox numbers fall</li>
+<li class="pt en">fewer foxes because rabbits are gone</li>
+<li class="pt en">fox population goes down due to less food</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q07</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a)(b) State</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">A lake food web is: water plants -&gt; small fish -&gt; large fish.
+  Pollution kills most of the small fish.
+  (a) State one effect on the large fish. [1]
+  (b) State one effect on the water plants. [1]</div>
+        <div class="zh">一个湖泊食物网是: 水生植物 -&gt; 小鱼 -&gt; 大鱼。污染杀死了大部分小鱼。
+  (a) 写出对大鱼的一个影响。[1]
+  (b) 写出对水生植物的一个影响。[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) Large fish decrease because they have less food. (b) Water plants increase because fewer small fish eat them.</div>
+        <div class="zh">(a) 大鱼减少，因为食物小鱼变少。 (b) 水生植物增加，因为吃它们的小鱼变少。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">large fish decrease / fewer large fish</li>
+<li class="pt en">large fish have less food because small fish die</li>
+<li class="pt en">water plants increase</li>
+<li class="pt en">water plants are eaten less because there are fewer small fish</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q08</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a)(b) State</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">Bees pollinate many flowering plants.
+  (a) State what happens to these plants if the bees disappear. [1]
+  (b) State one animal that might then have less food. [1]</div>
+        <div class="zh">蜜蜂为许多开花植物传粉。
+  (a) 如果蜜蜂消失, 写出这些植物会怎样。[1]
+  (b) 写出一种因此可能食物变少的动物。[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) The plants may produce fewer seeds/fruits and may decline. (b) Any herbivore or fruit/seed-eating animal may have less food.</div>
+        <div class="zh">(a) 植物可能产生更少种子/果实，数量可能下降。 (b) 任何吃这些植物、种子或果实的动物可能食物变少。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">plants produce fewer seeds</li>
+<li class="pt en">plants produce fewer fruits</li>
+<li class="pt en">flowering plants decrease because pollination falls</li>
+<li class="pt en">herbivores eating those plants have less food</li>
+<li class="pt en">birds/insects/mammals that eat the seeds or fruit have less food</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q09</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">(a) Suggest | (b) Explain</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">In a grassland web, hawks eat both snakes and mice. Snakes also eat
+  mice. A disease removes all the snakes.
+  (a) Suggest one effect on the number of mice. [1]
+  (b) Explain one effect this could have on the hawks. [2]</div>
+        <div class="zh">在一个草原食物网里, 鹰吃蛇和老鼠。蛇也吃老鼠。一种疾病除掉了所有蛇。
+  (a) 提出对老鼠数量的一个影响。[1]
+  (b) 解释这对鹰可能有的一个影响。[2]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) Mice may increase because snakes no longer eat them. (b) Hawks may decrease because they lose snakes as prey, or hawks may increase/stay stable if more mice become available; a linked reason is required.</div>
+        <div class="zh">(a) 老鼠可能增加，因为蛇不再吃它们。 (b) 鹰可能减少，因为少了一种猎物蛇；也可能增加/稳定，如果老鼠增多给鹰更多食物。必须有因果理由。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">mice increase because snakes no longer eat them</li>
+<li class="pt en">hawks decrease because they lose snakes as a food source</li>
+<li class="pt en">hawks may increase because more mice are available as prey</li>
+<li class="pt en">hawks may stay about the same because less snake food is balanced by more mice</li>
+<li class="pt en">valid effect must name food gained or food lost</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q10</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a) State | (b) Explain</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">Sea otters eat sea urchins. Sea urchins eat kelp (a large seaweed).
+  Hunters remove most of the sea otters.
+  (a) State what happens to the number of sea urchins. [1]
+  (b) Explain what then happens to the kelp. [2]</div>
+        <div class="zh">海獭吃海胆。海胆吃海带(一种大型海藻)。猎人除掉了大部分海獭。
+  (a) 写出海胆数量会怎样。[1]
+  (b) 解释海带接着会怎样。[2]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Sea urchins increase because fewer sea otters eat them. More sea urchins eat more kelp, so kelp decreases.</div>
+        <div class="zh">海胆增加，因为吃它们的海獭变少。更多海胆吃更多海带，所以海带减少。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">sea urchins increase</li>
+<li class="pt en">fewer otters eat sea urchins</li>
+<li class="pt en">more sea urchins eat more kelp</li>
+<li class="pt en">kelp decreases / less kelp remains</li>
+<li class="pt en">kelp forest is reduced because grazing increases</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+      <div class="screen-header">
+      <div class="eyebrow">Wrap · Reflect</div>
+      <h2 class="banner"><span class="en">Wrap Up &amp; Remember</span></h2>
+      <div class="banner-zh zh">总结与记忆</div>
+    </div>
+      <div class="card recall">
+      <div class="card-label rec-label">🔁 盖住回想 · Cover & Recall</div>
+      <div class="rec-q"><div class="en"></div>
+        <div class="zh">图中显示一个食物网。
+  (a) 这个食物网里哪些动物被野猫吃? ……… 和 ……… [1]
+  (b) 写一条完整的食物链,包含山羊和另外两种动物。 [1]
+  (c) 田鼠数量减少。解释这可能如何影响兔子的数量。 [1]
+  (d) 能量会从食物网中流失。写出一种能量从食物网流失的方式。 [1]</div></div>
+      <button class="rec-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">
+        想好了？点开看答案 · Tap to reveal</button>
+      <div class="rec-a" style="display:none">
+        <div class="en">(a) Vole and rabbit. (b) Grass → goat → jackal → lion. (c) Rabbits may decrease, increase, or stay the same if a valid reason is given. (d) One way energy is lost: respiration, movement, heat, excretion, faeces or urine.</div><div class="zh">(a) 田鼠和兔。 (b) 草 → 山羊 → 胡狼 → 狮子。 (c) 兔可能减少、增加或不变，但必须给合理原因。 (d) 能量可通过呼吸、运动、热、排泄、粪便或尿液流失。</div></div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<ul class="ptlist"><li class="pt en">When one species is removed from a food web, the effect ripples out: animals that ate it lose food; animals it ate may increase; and the change can spread far through the web.</li></ul>
+<ul class="ptlist"><li class="pt zh">当一个物种从食物网中被拿走,影响会扩散开:吃它的动物失去食物;被它吃的动物可能变多;这个变化能在网里传得很远。</li></ul>
+<div class="flavour mnemonic"><span class="fl-ic">🧠</span><div><div class="en">Remove one species: EATERS lose, EATEN may rise, WEB ripples.</div><div class="zh">消失三问：吃它的少食物；它吃的可能变多；整张网继续震。</div></div></div>
+
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<ul class="ptlist"><li class="pt en">Can you take one species out of a food web and name two others that would be affected, and say why?</li></ul>
+<ul class="ptlist"><li class="pt zh">你能从食物网中拿走一个物种,说出另外两个会受影响的物种,并说出为什么吗?</li></ul>
+
+</div>
+<div class="card concept" style="background:#EAFBFF;border:1px solid #C2ECF5;">
+<ul class="ptlist"><li class="pt en">All the food webs so far missed one type of organism — the decomposer.</li>
+<li class="pt en">Next lesson we add it back, with dashed arrows from every dead thing.</li></ul>
+<ul class="ptlist"><li class="pt zh">到目前为止所有食物网都漏了一类生物 — 分解者。</li>
+<li class="pt zh">下一课我们把它加回来,用虚线箭头从每个死掉的东西连过去。</li></ul>
+
+</div>
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Explain today's key idea in simple words
+        <span class="ai-prompt-btn-zh">用简单的话解释今天的重点</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Give me an everyday example
+        <span class="ai-prompt-btn-zh">给我一个生活中的例子</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Quiz me with one question
+        <span class="ai-prompt-btn-zh">出一道题考我</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Let's take a look — ready?",                 zh: "我们来看看 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!",        zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!",           zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!",      zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

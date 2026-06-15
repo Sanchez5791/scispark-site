@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U6 L01 · Decomposers: The Unsung Heroes</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<!-- B2 Y7U6 delivered card components (scoped to .main-content) -->
+<link rel="stylesheet" href="/lesson-b2-cards.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="1">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U6 · L01</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 6</div>
+      <div class="sidebar-unit-title" data-en="Ecosystems" data-zh="生态系统">Ecosystems</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+      <div class="screen-header">
+      <div class="eyebrow">Hook · Observe</div>
+      <h2 class="banner"><span class="en">Decomposers: The Unsung Heroes</span></h2>
+      <div class="banner-zh zh">分解者：无名英雄</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<div class="card-label" style="background:#BFE6BF;color:#2E7D32;"><span class="en">Where Do the Dead Leaves Go?</span><span class="zh">落叶都去哪了?</span></div>
+<ul class="ptlist"><li class="pt en">Look at any garden or forest floor.</li>
+<li class="pt en">Leaves fall every year.</li>
+<li class="pt en">Trees die.</li>
+<li class="pt en">Animals die.</li>
+<li class="pt en">Yet nothing piles up forever.</li>
+<li class="pt en">Something invisible is clearing it away.</li></ul>
+<ul class="ptlist"><li class="pt zh">看看任何花园或森林的地面。</li>
+<li class="pt zh">每年都有落叶。</li>
+<li class="pt zh">树会死。</li>
+<li class="pt zh">动物会死。</li>
+<li class="pt zh">但东西不会永远堆着。</li>
+<li class="pt zh">有看不见的东西在把它清走。</li></ul>
+<div class="flavour plain"><span class="fl-ic">💬</span><div><div class="en">Nature has no giant rubbish truck. The clean-up happens quietly, under your feet.</div><div class="zh">大自然没有垃圾车。清理工作就在你脚下悄悄发生。</div></div></div>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">If dead leaves never disappeared, forests would need a &quot;leaf traffic police&quot;.</div><div class="zh">如果落叶永远不消失，森林可能要请“落叶交警”来疏通了。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">IMG</span>
+          <span class="img-prompt">[LATER STAGE] forest floor close-up: fallen leaves in different stages of decay, some fresh, some half-rotted, some nearly soil. Photo-realistic.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<div class="card-label" style="background:#FAD9A8;color:#D98A2B;"><span class="en">The Unsung Heroes</span><span class="zh">无名英雄</span></div>
+<ul class="ptlist"><li class="pt en">The clean-up crew is made of living things.</li>
+<li class="pt en">We call them decomposers.</li>
+<li class="pt en">They break down dead matter.</li>
+<li class="pt en">Today we meet them.</li></ul>
+<ul class="ptlist"><li class="pt zh">这支清理队伍是活的生物。</li>
+<li class="pt zh">我们叫它们分解者 (decomposer)。</li>
+<li class="pt zh">它们把死物分解掉。</li>
+<li class="pt zh">今天我们来认识它们。</li></ul>
+<div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">Decomposers are like nature&#x27;s recycling team: not glamorous, but the whole place collapses without them.</div><div class="zh">分解者像大自然的回收队：不抢镜，但少了它们整个系统会乱掉。</div></div></div>
+<div class="flavour mnemonic"><span class="fl-ic">🧠</span><div><div class="en">D for decomposer, D for dead matter.</div><div class="zh">D 记法：decomposer 处理 dead matter。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">IMG</span>
+          <span class="img-prompt">[LATER STAGE] simple illustration: a row of decomposers (mushroom, mould, bacteria icon) over a dead leaf.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+      <div class="screen-header">
+      <div class="eyebrow">Learn · Define</div>
+      <h2 class="banner"><span class="en">Decomposers: The Unsung Heroes</span></h2>
+      <div class="banner-zh zh">分解者：无名英雄</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<div class="card-label" style="background:#BFE6BF;color:#2E7D32;"><span class="en">What Is a Microorganism?</span><span class="zh">什么是微生物?</span></div>
+<ul class="ptlist"><li class="pt en">A microorganism is a living thing too small to see with the eye alone.</li></ul>
+<ul class="ptlist"><li class="pt zh">微生物是小到肉眼看不见的活生物。</li></ul>
+<div class="subgrid">
+<div class="subbox" style="background:#E8FFE8"><div class="en">Bacteria — single-celled, everywhere</div><div class="zh">细菌 — 单细胞, 到处都有</div></div>
+<div class="subbox" style="background:#FFF0DB"><div class="en">Fungi — moulds and yeasts</div><div class="zh">真菌 — 霉菌和酵母</div></div>
+<div class="subbox" style="background:#EAFBFF"><div class="en">Some fungi grow big enough to see (mushrooms)</div><div class="zh">有些真菌长得够大能看见 (蘑菇)</div></div>
+</div>
+<div class="flavour plain"><span class="fl-ic">💬</span><div><div class="en">Micro = tiny. Organism = living thing. So microorganism = tiny living thing.</div><div class="zh">micro 是很小，organism 是生物。所以 microorganism 就是“小到看不见的生物”。</div></div></div>
+<div class="summary-mini">📌 Bacteria and fungi are the main decomposers.</div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">IMG</span>
+          <span class="img-prompt">[LATER STAGE] microscope view of bacteria + a mould patch + a mushroom, side by side, labelled.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<div class="card-label" style="background:#FAD9A8;color:#D98A2B;"><span class="en">Why Dead Things Disappear</span><span class="zh">死物为什么会消失</span></div>
+<ul class="ptlist"><li class="pt en">Decomposers feed on dead matter and break it down into simple substances.</li></ul>
+<ul class="ptlist"><li class="pt zh">分解者以死物为食, 把死物分解成简单物质。</li></ul>
+<div class="subgrid">
+<div class="subbox" style="background:#E8FFE8"><div class="en">Dead leaf, dead animal, droppings = food for decomposers</div><div class="zh">落叶 / 死动物 / 排泄物 = 分解者的食物</div></div>
+<div class="subbox" style="background:#FFF0DB"><div class="en">They release simple substances back into the soil</div><div class="zh">它们把简单物质释放回土壤</div></div>
+<div class="subbox" style="background:#EAFBFF"><div class="en">Plants can use those substances again</div><div class="zh">植物又能再利用这些物质</div></div>
+</div>
+<div class="flow">dead matter → decomposer → simple substances → back to soil</div>
+<div class="flavour plain"><span class="fl-ic">💬</span><div><div class="en">Do not go too deep here: the exam point is role, not chemical mechanism.</div><div class="zh">这里不要讲太深：本课重点是“角色”，不是化学分解机制。</div></div></div>
+<div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">Think of a dead leaf as a locked lunchbox. Decomposers open it and return the useful stuff to the soil.</div><div class="zh">把落叶想成一个锁住的饭盒。分解者把它“打开”，让有用物质回到土壤。</div></div></div>
+<div class="summary-mini">📌 Decomposers recycle. Nothing is wasted in nature.</div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">IMG</span>
+          <span class="img-prompt">[LATER STAGE] flow diagram: dead matter → decomposer → simple substances → soil → plant roots take up. Arrows clockwise.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#EAFBFF;border:1px solid #C2ECF5;">
+<div class="card-label" style="background:#C2ECF5;color:#3AAEC8;"><span class="en">Common Decomposers</span><span class="zh">常见的分解者</span></div>
+<ul class="ptlist"><li class="pt en">The most common decomposers are bacteria and fungi (including moulds and mushrooms).</li></ul>
+<ul class="ptlist"><li class="pt zh">最常见的分解者是细菌和真菌 (包括霉菌和蘑菇)。</li></ul>
+<div class="subgrid">
+<div class="subbox" style="background:#E8FFE8"><div class="en">Mushrooms on a rotting log</div><div class="zh">腐木上的蘑菇</div></div>
+<div class="subbox" style="background:#FFF0DB"><div class="en">Mould on old bread or fruit</div><div class="zh">旧面包或水果上的霉菌</div></div>
+<div class="subbox" style="background:#EAFBFF"><div class="en">Bacteria in soil and compost</div><div class="zh">土壤和堆肥里的细菌</div></div>
+</div>
+<div class="flavour memory"><span class="fl-ic">🧠</span><div><div class="en">Main pair to remember: bacteria + fungi. If you remember only one line, remember this pair.</div><div class="zh">记住主角二人组：细菌 + 真菌。只背一句，就背这对。</div></div></div>
+<div class="summary-mini">📌 You have seen decomposers many times without knowing.</div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">IMG</span>
+          <span class="img-prompt">[LATER STAGE] three real photos: mushroom on log, mould on fruit, soil/compost close-up.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card redcard">
+      <div class="card-label rc-label">🚫 红牌 · ⛔ Red Card — A Common Mistake</div>
+      <div class="rc-row rc-wrong"><span class="rc-tag">✘ 错 WRONG</span>
+        <div><div class="en">&quot;Decomposers are not important — they just rot things.&quot;</div>
+        <div class="zh">&quot;分解者不重要 — 它们只是让东西烂掉。&quot;</div></div></div>
+      <div class="rc-row rc-right"><span class="rc-tag rc-tag-ok">✔ 对 RIGHT</span>
+        <div><ul class="ptlist"><li class="pt en">Without decomposers, dead matter would pile up and nutrients would never return to the soil.</li>
+<li class="pt en">Plants would run out of what they need.</li></ul><ul class="ptlist"><li class="pt zh">没有分解者, 死物会越堆越多, 养分永远回不到土壤。</li>
+<li class="pt zh">植物会用光它们需要的东西。</li></ul></div></div>
+      <div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">Rotting is not &quot;waste&quot;. It is recycling.</div><div class="zh">腐烂不是“浪费”，它是在回收。</div></div></div>
+      
+    </div>
+<div class="card concept" style="background:#F6EAFA;border:1px solid #E2C4EE;">
+<div class="card-label" style="background:#E2C4EE;color:#9B3FC9;"><span class="en">Safety First With Fungi and Microbes</span><span class="zh">接触真菌和微生物的安全须知</span></div>
+<ul class="ptlist"><li class="pt en">Some wild mushrooms are poisonous, and decomposer bacteria live on dead matter — handle with care.</li></ul>
+<ul class="ptlist"><li class="pt zh">有些野生蘑菇有毒, 分解者细菌生活在死物上 — 要小心处理。</li></ul>
+<div class="subgrid">
+<div class="subbox" style="background:#E8FFE8"><div class="en">Never touch or eat a wild mushroom you do not know</div><div class="zh">绝不触摸或食用你不认识的野生蘑菇</div></div>
+<div class="subbox" style="background:#FFF0DB"><div class="en">Wash hands after handling soil or dead matter</div><div class="zh">接触土壤或死物后要洗手</div></div>
+</div>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">Rule of thumb: if you do not know the mushroom, do not let it become your snack.</div><div class="zh">简单规则：不认识的蘑菇，不要让它变成你的点心。</div></div></div>
+<div class="summary-mini">📌 Decomposers are useful, but treat them with respect.</div>
+
+</div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+      <div class="screen-header">
+      <div class="eyebrow">Try · Practice</div>
+      <h2 class="banner"><span class="en">Your Turn — Try These</span></h2>
+      <div class="banner-zh zh">练一练</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q01</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">GIVE</span> <span class="q-marks">1 mark</span></div>
+      <div class="q-stem"><div class="en">Which of these is a decomposer?</div>
+        <div class="zh">下面哪一个是分解者?</div></div>
+      <div class="q-opts"><div class="q-opt">A) A green leaf</div><div class="q-opt">B) A mushroom</div><div class="q-opt">C) A rabbit</div><div class="q-opt">D) The sun</div></div><div class="hint"><b>💡 Hint 1</b><div class="en">A decomposer feeds on dead matter and breaks it down.</div><div class="zh">分解者以死物为食, 把死物分解掉。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">B) A mushroom.</div>
+        <div class="zh">B) 蘑菇。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">B</li>
+<li class="pt en">B) A mushroom</li>
+<li class="pt en">mushroom</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q02</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">STATE</span> <span class="q-marks">1 mark</span></div>
+      <div class="q-stem"><div class="en">What do decomposers feed on?</div>
+        <div class="zh">分解者以什么为食?</div></div>
+      <div class="q-opts"><div class="q-opt">A) Living plants only</div><div class="q-opt">B) Sunlight</div><div class="q-opt">C) Dead matter</div><div class="q-opt">D) Water only</div></div><div class="hint"><b>💡 Hint 1</b><div class="en">Think about what disappears from the forest floor.</div><div class="zh">想想森林地面上什么东西会消失。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">C) Dead matter.</div>
+        <div class="zh">C) 死物。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">C</li>
+<li class="pt en">C) Dead matter</li>
+<li class="pt en">dead matter</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q03</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">GIVE</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">Give two examples of decomposers.</div>
+        <div class="zh">举出两个分解者的例子。</div></div>
+      <div class="hint"><b>💡 Hint 1</b><div class="en">Think small living things on rotting food and dead leaves.</div><div class="zh">想想腐烂食物和落叶上的微小生物。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Any two of: bacteria, fungi, mould, mushroom.</div>
+        <div class="zh">以下任意两个: 细菌、真菌、霉菌、蘑菇。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">bacteria</li>
+<li class="pt en">fungi</li>
+<li class="pt en">fungus</li>
+<li class="pt en">mould</li>
+<li class="pt en">mold</li>
+<li class="pt en">mushroom</li>
+<li class="pt en">microbes such as bacteria</li>
+<li class="pt en">microorganisms such as fungi</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+      <div class="exam-chip">EXAM MODE · NO HINTS · 考试模式 · 无提示</div>
+      <div class="screen-header">
+      <div class="eyebrow">Test · Apply Solo</div>
+      <h2 class="banner"><span class="en">Test Yourself</span></h2>
+      <div class="banner-zh zh">独立测试</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q04</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">DESCRIBE</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">Describe what a decomposer does to a dead leaf.</div>
+        <div class="zh">描述分解者对一片落叶做了什么。</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L01_Q04_IMG01</span>
+          <span class="img-prompt">[LATER STAGE] a single dead leaf with stage arrows: whole leaf → being broken down → simple substances entering soil. Used as the question stem image.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Numbered cycle (clockwise): dead matter -&gt; decomposer -&gt; simple substances -&gt; soil -&gt; plant</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static / staged</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking rotting is &#x27;waste&#x27; not recycling</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">The decomposer breaks down the dead leaf into simple substances, which return to the soil.</div>
+        <div class="zh">分解者把落叶分解成简单物质, 这些物质回到土壤。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">breaks down the dead leaf into simple substances</li>
+<li class="pt en">decomposes the leaf and returns substances to soil</li>
+<li class="pt en">turns the dead leaf into simpler substances in the soil</li>
+<li class="pt en">breaks it down so substances go back into the soil</li>
+<li class="pt en">dead leaf is broken down and nutrients return to soil</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q05</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">EXPLAIN</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">Explain why dead leaves do not pile up forever on a forest floor.</div>
+        <div class="zh">解释为什么森林地面上的落叶不会永远堆积。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Because decomposers (bacteria and fungi) feed on the dead leaves and break them down into simple substances, so the dead matter is removed and the substances return to the soil.</div>
+        <div class="zh">因为分解者 (细菌和真菌) 以落叶为食, 把它们分解成简单物质, 所以死物被清除, 物质回到土壤。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">decomposers feed on or break down the dead leaves</li>
+<li class="pt en">bacteria and/or fungi are named as decomposers</li>
+<li class="pt en">leaves are broken into simple substances or nutrients</li>
+<li class="pt en">substances/nutrients return to soil</li>
+<li class="pt en">dead matter is removed because decomposers recycle it</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q06</span>
+        <span class="q-lvl">L1</span> <span class="q-cmd">STATE</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">State the two main groups of organisms that act as decomposers.</div>
+        <div class="zh">写出两类主要充当分解者的生物。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Bacteria and fungi.</div>
+        <div class="zh">细菌和真菌。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">bacteria and fungi</li>
+<li class="pt en">fungi and bacteria</li>
+<li class="pt en">bacteria; fungi</li>
+<li class="pt en">bacteria + fungi</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q07</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">DESCRIBE</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">Describe what happens to the nutrients in a dead animal after decomposers act on it.</div>
+        <div class="zh">描述分解者作用后, 死掉动物体内的养分会发生什么。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">The decomposers break the body down into simple substances, and the nutrients return to the soil.</div>
+        <div class="zh">分解者把身体分解成简单物质, 养分回到土壤。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">nutrients return to the soil after decomposers break the body down</li>
+<li class="pt en">decomposers break the dead body into simple substances</li>
+<li class="pt en">nutrients are released back into the soil</li>
+<li class="pt en">simple substances go back into soil for plants to use</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q08</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">STATE</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">State one reason decomposers are sometimes called nature&#x27;s recyclers.</div>
+        <div class="zh">写出分解者有时被称为大自然回收者的一个原因。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">They return nutrients from dead matter back to the soil so plants can reuse them.</div>
+        <div class="zh">它们把死物里的养分送回土壤, 让植物可以再利用。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">they return nutrients from dead matter to the soil</li>
+<li class="pt en">they recycle nutrients so plants can use them again</li>
+<li class="pt en">they break dead matter down and return useful substances</li>
+<li class="pt en">they make substances from dead matter available again</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q09</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">EXPLAIN</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">Explain why an ecosystem with no decomposers would soon run out of nutrients for its plants.</div>
+        <div class="zh">解释为什么没有分解者的生态系统很快会让植物缺乏养分。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Dead matter and waste would pile up and the nutrients locked inside would not be released back to the soil, so plants could not take them in to grow.</div>
+        <div class="zh">死物和废物会堆积, 锁在里面的养分不会释放回土壤, 所以植物无法吸收来生长。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">dead matter and waste would pile up</li>
+<li class="pt en">nutrients would stay locked inside dead matter or waste</li>
+<li class="pt en">nutrients would not return to the soil</li>
+<li class="pt en">plants would not be able to take in enough nutrients</li>
+<li class="pt en">plants would not grow well because nutrients are not recycled</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q10</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">IDENTIFY</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">A compost heap contains dead leaves, fungi and bacteria. Identify the decomposers in the heap and state what they do.</div>
+        <div class="zh">一个堆肥堆里有落叶、真菌和细菌。识别堆里的分解者, 并写出它们做什么。</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">Fungi and bacteria are the decomposers; they break down the dead leaves into simple substances.</div>
+        <div class="zh">真菌和细菌是分解者; 它们把落叶分解成简单物质。</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">fungi and bacteria are the decomposers; they break down dead leaves</li>
+<li class="pt en">bacteria and fungi break down the dead leaves into simple substances</li>
+<li class="pt en">the decomposers are fungi and bacteria; they decompose the leaves</li>
+<li class="pt en">fungi and bacteria recycle the dead leaves into simpler substances</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+      <div class="screen-header">
+      <div class="eyebrow">Wrap · Reflect</div>
+      <h2 class="banner"><span class="en">Wrap Up &amp; Remember</span></h2>
+      <div class="banner-zh zh">总结与记忆</div>
+    </div>
+      <div class="card recall">
+      <div class="card-label rec-label">🔁 盖住回想 · Cover & Recall</div>
+      <div class="rec-q"><div class="en">Describe what a decomposer does to a dead leaf.</div>
+        <div class="zh">描述分解者对一片落叶做了什么。</div></div>
+      <button class="rec-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">
+        想好了？点开看答案 · Tap to reveal</button>
+      <div class="rec-a" style="display:none">
+        <div class="en">The decomposer breaks down the dead leaf into simple substances, which return to the soil.</div><div class="zh">分解者把落叶分解成简单物质, 这些物质回到土壤。</div></div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<div class="card-label" style="background:#BFE6BF;color:#2E7D32;"><span class="en">What We Learned</span><span class="zh">我们学到了什么</span></div>
+<ul class="ptlist"><li class="pt en">Decomposers are bacteria and fungi.</li>
+<li class="pt en">They feed on dead matter.</li>
+<li class="pt en">They break it into simple substances.</li>
+<li class="pt en">Those substances return to the soil.</li></ul>
+<ul class="ptlist"><li class="pt zh">分解者是细菌和真菌。</li>
+<li class="pt zh">它们以死物为食。</li>
+<li class="pt zh">把死物分解成简单物质。</li>
+<li class="pt zh">这些物质回到土壤。</li></ul>
+<div class="flavour memory"><span class="fl-ic">🧠</span><div><div class="en">Four-word chain: dead matter → decomposers → soil → plants.</div><div class="zh">四词链：死物 → 分解者 → 土壤 → 植物。</div></div></div>
+
+</div>
+<div class="card concept" style="background:#FFF0DB;border:1px solid #FAD9A8;">
+<div class="card-label" style="background:#FAD9A8;color:#D98A2B;"><span class="en">Who Does This for a Living?</span><span class="zh">谁靠这个吃饭?</span></div>
+<ul class="ptlist"><li class="pt en">A mycologist studies fungi — including the decomposers that recycle dead matter in every ecosystem.</li></ul>
+<ul class="ptlist"><li class="pt zh">真菌学家研究真菌 — 包括在每个生态系统里回收死物的分解者。</li></ul>
+<div class="flavour plain"><span class="fl-ic">💬</span><div><div class="en">This job matters for farms, forests, compost, and soil health.</div><div class="zh">这个工作会影响农场、森林、堆肥和土壤健康。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">IMG</span>
+          <span class="img-prompt">[LATER STAGE] a real scientist in a forest collecting mushrooms / a microscope sample of fungi.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Microscope zoom on bacteria/fungi + real decay close-up; size scale bar</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static (real photo) ; optional zoom loop</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Thinking decomposers are unimportant / &#x27;just rot things&#x27; / all microbes harmful</span></div>
+            <ul class="vd-drules"><li>D1: static-first</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card concept" style="background:#EAFBFF;border:1px solid #C2ECF5;">
+<div class="card-label" style="background:#C2ECF5;color:#3AAEC8;"><span class="en">Stay Curious</span><span class="zh">保持好奇</span></div>
+<ul class="ptlist"><li class="pt en">Decomposers are the unsung heroes.</li>
+<li class="pt en">Next, we follow the main story of an ecosystem: how a food chain runs — and arrow direction is the key!</li></ul>
+<ul class="ptlist"><li class="pt zh">分解者是无名英雄。</li>
+<li class="pt zh">接下来我们看生态系统的主线: 食物链怎么走 — 箭头方向是关键!</li></ul>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">Next lesson, one arrow points the wrong way and the whole food chain starts drama.</div><div class="zh">下一课，一个箭头画反，整条食物链就开始“翻车”。</div></div></div>
+
+</div>
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Explain today's key idea in simple words
+        <span class="ai-prompt-btn-zh">用简单的话解释今天的重点</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Give me an everyday example
+        <span class="ai-prompt-btn-zh">给我一个生活中的例子</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Quiz me with one question
+        <span class="ai-prompt-btn-zh">出一道题考我</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Let's take a look — ready?",                 zh: "我们来看看 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!",        zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!",           zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!",      zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

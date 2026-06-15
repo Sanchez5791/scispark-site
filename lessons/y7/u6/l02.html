@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U6 L02 · What Is a Food Chain? Arrow = Energy Flow</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<!-- B2 Y7U6 delivered card components (scoped to .main-content) -->
+<link rel="stylesheet" href="/lesson-b2-cards.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="2">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U6 · L02</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 6</div>
+      <div class="sidebar-unit-title" data-en="Ecosystems" data-zh="生态系统">Ecosystems</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+      <div class="screen-header">
+      <div class="eyebrow">Hook · Observe</div>
+      <h2 class="banner"><span class="en">What Is a Food Chain? Arrow = Energy Flow</span></h2>
+      <div class="banner-zh zh">什么是食物链？箭头 = 能量流</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<ul class="ptlist"><li class="pt en">Living things are linked by what they eat.</li>
+<li class="pt en">We draw this link as a FOOD CHAIN.</li>
+<li class="pt en">The arrow does NOT point to &quot;who eats&quot; in plain words — it shows the direction ENERGY FLOWS: from the eaten (prey) to the eater (predator).</li></ul>
+<ul class="ptlist"><li class="pt zh">生物之间靠&quot;谁吃谁&quot;连起来。</li>
+<li class="pt zh">我们把这种连接画成&quot;食物链&quot;。</li>
+<li class="pt zh">箭头不是随便指 —— 它表示能量流动的方向： 从被吃的（猎物）指向吃的（捕食者）。</li></ul>
+<div class="flavour plain"><span class="fl-ic">💬</span><div><div class="en">The arrow is not a mouth arrow. It is an energy arrow.</div><div class="zh">箭头不是“嘴巴指向食物”，而是“能量往哪里走”。</div></div></div>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">If the arrow goes the wrong way, the hawk looks like it is donating energy to dinner. Not today.</div><div class="zh">箭头画反，hawk 看起来像在把能量捐给晚餐。今天不准它乱捐。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_SCREEN_IMG01</span>
+          <span class="img-prompt">[B3 to write] simple 4-stage food chain, arrows left to right, prey -&gt; predator, label &quot;Arrow = energy flow&quot;. Arrow direction MUST be prey -&gt; predator, NOT reversed.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: label the arrow &#x27;energy passes to&#x27; ONLY on the first teaching diagram; plain arrows after</li></ul>
+          </div>
+        </div></div>
+</div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+      <div class="screen-header">
+      <div class="eyebrow">Learn · Define</div>
+      <h2 class="banner"><span class="en">What Is a Food Chain? Arrow = Energy Flow</span></h2>
+      <div class="banner-zh zh">什么是食物链？箭头 = 能量流</div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<ul class="ptlist"><li class="pt en">A food chain shows the feeding order of organisms.</li>
+<li class="pt en">It starts with a PRODUCER (a green plant).</li>
+<li class="pt en">Each arrow points from the organism being eaten to the organism that eats it.</li>
+<li class="pt en">The arrow means: this is the direction energy flows.</li></ul>
+<ul class="ptlist"><li class="pt zh">食物链显示生物的进食顺序。</li>
+<li class="pt zh">它从&quot;生产者&quot;（绿色植物）开始。</li>
+<li class="pt zh">每个箭头从被吃的生物指向吃它的生物。</li>
+<li class="pt zh">箭头的意思是： 这是能量流动的方向。</li></ul>
+<div class="flavour memory"><span class="fl-ic">🧠</span><div><div class="en">Read the arrow as &quot;energy goes to&quot;.</div><div class="zh">把箭头读成：“能量流向”。</div></div></div>
+<div class="flavour mnemonic"><span class="fl-ic">🧠</span><div><div class="en">Eaten → Eater. Energy follows the arrow.</div><div class="zh">被吃 → 吃者；能量跟箭头走。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_SCREEN_IMG02</span>
+          <span class="img-prompt">[B3 to write] big labelled food chain grass -&gt; grasshopper -&gt; toad -&gt; hawk, arrows prey-&gt;predator, caption &quot;Arrow = energy flow (from prey to predator)&quot;.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+<div class="card redcard">
+      <div class="card-label rc-label">🚫 红牌 · Red Card — A Common Mistake</div>
+      <div class="rc-row rc-wrong"><span class="rc-tag">✘ 错 WRONG</span>
+        <div><div class="en">The arrow points from the predator to its food (i.e. hawk -&gt; toad), as if &quot;this eats that&quot;.</div>
+        <div class="zh">箭头从捕食者指向它的食物（例如 hawk -&gt; toad）， 好像在说&quot;这个吃那个&quot;。</div></div></div>
+      <div class="rc-row rc-right"><span class="rc-tag rc-tag-ok">✔ 对 RIGHT</span>
+        <div><div class="en">The arrow points from prey to predator (toad -&gt; hawk), showing the direction energy flows.</div><div class="zh">箭头从猎物指向捕食者（toad -&gt; hawk）， 表示能量流动的方向。</div></div></div>
+      <div class="flavour metaphor"><span class="fl-ic">🔗</span><div><div class="en">Think of energy like a parcel. The prey is the sender; the predator is the receiver.</div><div class="zh">把能量想成包裹。猎物是寄件人，捕食者是收件人。</div></div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_SCREEN_IMG03</span>
+          <span class="img-prompt">[B3 to write] split card: left = red X reversed arrow, right = green tick prey-&gt;predator arrow.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+    </div>
+<div class="card examreal">
+      <div class="card-label er-label">⚖️ 考试 vs 真实 · Exam vs Reality</div>
+      <div class="er-grid">
+        <div class="er-col er-exam"><div class="er-h">📝 考试 Exam</div>
+          <div class="en">In the exam, draw a food chain as one straight line, e.g. grass -&gt; rabbit -&gt; fox.</div>
+          <div class="zh">考试时画一条食物链，例如 grass -&gt; rabbit -&gt; fox。</div></div>
+        <div class="er-col er-real"><div class="er-h">🌍 真实 Reality</div>
+          <div class="en">In real life it is a food web with many connections, so one organism can affect many others.</div>
+          <div class="zh">真实自然是食物网，有很多连接；少一个生物会影响很多其他生物。</div></div>
+      </div>
+      <div class="flavour plain"><span class="fl-ic">💬</span><div><div class="en">Exam chain = one clear route. Real nature = many routes tangled together.</div><div class="zh">考试食物链 = 一条清楚路线。真实自然 = 很多路线缠在一起。</div></div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_SCREEN_IMG04</span>
+          <span class="img-prompt">[B3 to write] left simple straight chain, right same organisms joined into a web with extra arrows.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+      <div class="screen-header">
+      <div class="eyebrow">Try · Practice</div>
+      <h2 class="banner"><span class="en">Your Turn — Try These</span></h2>
+      <div class="banner-zh zh">练一练</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q01</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">(a)(i) Complete | (a)(ii) Identify | (a)(iii) Suggest | (b) Underline</span> <span class="q-marks">5 marks</span></div>
+      <div class="q-stem"><div class="en">The diagrams show four different organisms. NOT TO SCALE.
+  (a)(i) Complete the food chain for these organisms. [1]
+  (a)(ii) Which organism in this food chain is a producer? [1]
+  (a)(iii) All the toads in this food chain are removed by humans to
+           make medicines. Suggest what happens to the hawks. [1]
+  (b) Underline the three words that can be used to classify a hawk:
+      reptile / animal / vertebrate / plant / bird / invertebrate /
+      amphibian / mammal [2]</div>
+        <div class="zh">图中显示四种不同的生物。图未按比例。
+  (a)(i) 为这些生物补全食物链。[1]
+  (a)(ii) 这条食物链里哪个生物是生产者？[1]
+  (a)(iii) 这条食物链里所有的蟾蜍被人类取走做药。
+           推测 hawk 会发生什么。[1]
+  (b) 划出三个可以用来分类 hawk 的词。[2]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q01_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q01_IMG02</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><div class="hint"><b>💡 Hint 1</b><div class="en">Which one is the green plant? That goes first.</div><div class="zh">哪个是绿色植物？它放第一个。</div></div><div class="hint"><b>💡 Hint 2</b><div class="en">Lock the chain first: plant first, top predator last. Then answer the removed-toad effect from food loss.</div><div class="zh">先锁食物链：植物第一，顶级捕食者最后。再用“少了食物”回答蟾蜍被移走的影响。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a)(i) grass -&gt; grasshopper -&gt; toad -&gt; hawk
+  (a)(ii) grass
+  (a)(iii) hawks have no food / starve / die
+  (b) animal; vertebrate; bird</div>
+        <div class="zh">(a)(i) grass -&gt; grasshopper -&gt; toad -&gt; hawk
+  (a)(ii) grass
+  (a)(iii) hawk 没有食物 / 会挨饿 / 会死亡
+  (b) animal; vertebrate; bird</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a)(i) grass -&gt; grasshopper -&gt; toad -&gt; hawk</li>
+<li class="pt en">(a)(i) grass, grasshopper, toad, hawk in that order</li>
+<li class="pt en">(a)(ii) grass</li>
+<li class="pt en">(a)(iii) hawks decrease</li>
+<li class="pt en">(a)(iii) hawks die or starve because toads are removed</li>
+<li class="pt en">(a)(iii) fewer hawks because less food</li>
+<li class="pt en">(b) animal, vertebrate, bird</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q02</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">Complete</span> <span class="q-marks">2 marks</span></div>
+      <div class="q-stem"><div class="en">These organisms all live in the ocean: crustacean, dolphin, fish,
+  killer whale, phytoplankton. They all belong to the same food
+  chain. Use the information:
+    crustacean - eats phytoplankton and is the prey of fish
+    dolphin - is a predator of fish
+    killer whale - is the top predator in the food chain
+    phytoplankton - is a microscopic producer that uses sunlight
+  Write the names of the five organisms in the correct boxes to
+  complete the food chain. [2]</div>
+        <div class="zh">这些生物都生活在海洋里：crustacean、dolphin、fish、killer whale、
+  phytoplankton。它们属于同一条食物链。利用信息，把五个生物的名字
+  写进正确的方框里，补全食物链。[2]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q02_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><div class="hint"><b>💡 Hint 1</b><div class="en">The producer uses sunlight — that is phytoplankton.</div><div class="zh">用阳光的生产者就是 phytoplankton。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">phytoplankton -&gt; crustacean -&gt; fish -&gt; dolphin -&gt; killer whale</div>
+        <div class="zh">phytoplankton -&gt; crustacean -&gt; fish -&gt; dolphin -&gt; killer whale</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">phytoplankton -&gt; crustacean -&gt; fish -&gt; dolphin -&gt; killer whale</li>
+<li class="pt en">phytoplankton, crustacean, fish, dolphin, killer whale in that order</li>
+<li class="pt en">all five boxes correct in order from producer to top predator</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q03</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">(a)(i) Calculate | (a)(ii) Calculate | (b) Suggest | (c) Suggest</span> <span class="q-marks">4 marks</span></div>
+      <div class="q-stem"><div class="en">A pond is a small area of water. The diagram shows a food chain for
+  a pond. Gabriella investigates the number of each organism in the
+  pond. The table shows her results.
+  (a)(i) There are four different types of organism in the pond.
+         Calculate the total number of organisms in the pond. [1]
+  (a)(ii) Calculate the percentage of organisms that are large
+          fish. [1]
+  (b) Suggest one reason why it is difficult to count the fish. [1]
+  (c) Gabriella thinks the number of small fish she recorded is
+      anomalous. Suggest one way she checks her results. [1]</div>
+        <div class="zh">池塘是一小片水域。图中显示一个池塘的食物链。Gabriella 调查池塘里
+  每种生物的数量，表中是她的结果。
+  (a)(i) 池塘里有四种不同的生物。计算池塘里生物的总数。[1]
+  (a)(ii) 计算大鱼占生物总数的百分比。[1]
+  (b) 推测一个难以数清鱼数量的原因。[1]
+  (c) Gabriella 认为她记录的小鱼数量异常。推测一个她检查结果的
+      方法。[1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q03_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><div class="hint"><b>💡 Hint 1</b><div class="en">Add up every organism for the total first.</div><div class="zh">先把所有生物加起来求总数。</div></div><div class="hint"><b>💡 Hint 2</b><div class="en">For percentage, do not guess: divide large fish by the total, then multiply by 100.</div><div class="zh">求百分比不要猜：大鱼数量除以总数，再乘 100。</div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a)(i) 170
+  (a)(ii) 20%
+  (b) fish swim away / same fish counted twice / water deep or dirty
+  (c) repeat the count / count again to check</div>
+        <div class="zh">(a)(i) 170
+  (a)(ii) 20%
+  (b) 鱼会游走 / 同一条鱼可能被数两次 / 水深或水浑
+  (c) 重复计数 / 再数一次检查</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a)(i) 170</li>
+<li class="pt en">(a)(ii) 20%</li>
+<li class="pt en">(a)(ii) 20 percent</li>
+<li class="pt en">(b) fish swim away</li>
+<li class="pt en">(b) same fish may be counted twice</li>
+<li class="pt en">(b) fish may hide</li>
+<li class="pt en">(b) water is deep, dirty, or plants block view</li>
+<li class="pt en">(c) repeat the count</li>
+<li class="pt en">(c) count again and compare results</li>
+<li class="pt en">(c) use another sample/count to check</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+      <div class="exam-chip">EXAM MODE · NO HINTS · 考试模式 · 无提示</div>
+      <div class="screen-header">
+      <div class="eyebrow">Test · Apply Solo</div>
+      <h2 class="banner"><span class="en">Test Yourself</span></h2>
+      <div class="banner-zh zh">独立测试</div>
+    </div>
+      <div class="card qcard">
+      <div class="q-top"><span class="q-id">Q04</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">(a) Write | (b) Identify | (c) State | (d) Give | (e) State</span> <span class="q-marks">5 marks</span></div>
+      <div class="q-stem"><div class="en">Antelope feed on the grasses of the African plains. Cheetahs kill
+  and eat antelope.
+  (a) Use this information to write a food chain. [1]
+  (b) Which organism in the food chain is a producer? [1]
+  (c) Cheetahs are carnivores. What does this mean? [1]
+  (d) Give an example of a predator and its prey from this food
+      chain. [1]
+  (e) What effect would a severe drought have on the population of
+      antelope? [1]</div>
+        <div class="zh">羚羊吃非洲平原上的草。猎豹捕杀并吃羚羊。
+  (a) 用这些信息写一条食物链。[1]
+  (b) 食物链里哪个生物是生产者？[1]
+  (c) 猎豹是肉食动物。这是什么意思？[1]
+  (d) 从这条食物链里举一个捕食者和它的猎物的例子。[1]
+  (e) 严重的干旱会对羚羊的数量有什么影响？[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) grasses -&gt; antelope -&gt; cheetah
+  (b) grasses
+  (c) eats meat / eats animals
+  (d) predator = cheetah; prey = antelope
+  (e) antelope population decreases</div>
+        <div class="zh">(a) grasses -&gt; antelope -&gt; cheetah
+  (b) grasses
+  (c) 吃肉 / 吃动物
+  (d) 捕食者 = cheetah; 猎物 = antelope
+  (e) antelope 数量减少</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) grasses -&gt; antelope -&gt; cheetah</li>
+<li class="pt en">(b) grasses</li>
+<li class="pt en">(c) eats meat</li>
+<li class="pt en">(c) eats animals</li>
+<li class="pt en">(c) kills and eats other animals</li>
+<li class="pt en">(d) cheetah as predator and antelope as prey</li>
+<li class="pt en">(e) antelope decrease because drought reduces grasses/food</li>
+<li class="pt en">(e) fewer antelope due to lack of food/water after drought</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q05</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">(a)(i) Complete | (a)(ii) Name | (a)(iii) Identify | (b) Explain</span> <span class="q-marks">5 marks</span></div>
+      <div class="q-stem"><div class="en">Read this information about plants and animals in a garden. A
+  gardener grows cabbages. Some cabbages are eaten by caterpillars.
+  Birds eat some of the caterpillars. Snakes eat some of the birds.
+  (a)(i) Use the information to complete the food chain. [2]
+  (a)(ii) Name one organism in the food chain which is a
+          predator. [1]
+  (a)(iii) Which organism is a producer? [1]
+  (b) The gardener sprays the cabbages with a chemical to kill the
+      caterpillars. What will happen to the number of birds? Explain
+      why. [1]</div>
+        <div class="zh">阅读这段关于花园里植物和动物的信息。园丁种卷心菜。一些卷心菜被
+  毛虫吃掉。鸟吃掉一些毛虫。蛇吃掉一些鸟。
+  (a)(i) 用信息补全食物链。[2]
+  (a)(ii) 说出食物链里一个是捕食者的生物。[1]
+  (a)(iii) 哪个生物是生产者？[1]
+  (b) 园丁喷化学药剂杀死毛虫。鸟的数量会怎样？解释原因。[1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q05_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a)(i) cabbages -&gt; caterpillars -&gt; birds -&gt; snakes
+  (a)(ii) bird / snake
+  (a)(iii) cabbage
+  (b) birds decrease because fewer caterpillars / less food</div>
+        <div class="zh">(a)(i) cabbages -&gt; caterpillars -&gt; birds -&gt; snakes
+  (a)(ii) bird / snake
+  (a)(iii) cabbage
+  (b) birds 变少，因为 caterpillars 变少 / 食物变少</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a)(i) cabbages -&gt; caterpillars -&gt; birds -&gt; snakes</li>
+<li class="pt en">(a)(i) cabbages, caterpillars, birds, snakes in correct order</li>
+<li class="pt en">(a)(ii) bird</li>
+<li class="pt en">(a)(ii) snake</li>
+<li class="pt en">(a)(iii) cabbage / cabbages</li>
+<li class="pt en">(b) birds decrease because there are fewer caterpillars</li>
+<li class="pt en">(b) fewer birds because less food is available</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q06</span>
+        <span class="q-lvl">L3</span> <span class="q-cmd">(b)(i) Write | (b)(ii) State | (b)(iii) Tick</span> <span class="q-marks">4 marks  (was 3; +1 for new ORIGINAL part a)</span></div>
+      <div class="q-stem"><div class="en">The diagram shows a rabbit.
+  Rabbits eat grass.
+  (a) [ORIGINAL] In a food chain, a rabbit eats grass.
+      What is the role of the rabbit in this food chain?
+      Choose ONE: producer / consumer / decomposer. [1]
+  (b)(i) Write the food chain that describes the relationship between
+         foxes, rabbits and grass. [1]
+  (b)(ii) Where does the producer in this food chain get its
+          energy? [1]
+  (b)(iii) Tick three words that correctly describe the fox in this
+           food chain: producer / carnivore / predator / consumer /
+           prey / herbivore [1]</div>
+        <div class="zh">图中显示一只兔子。
+  兔子吃草。
+  (a) [原创题] 在一条食物链里，兔子吃草。
+      兔子在这条食物链里是什么角色？
+      三选一：生产者(producer) / 消费者(consumer) / 分解者(decomposer)。[1]
+  (b)(i) 写出描述狐、兔、草关系的食物链。[1]
+  (b)(ii) 这条食物链里的生产者从哪里得到能量？[1]
+  (b)(iii) 划出三个正确描述这条食物链里 fox 的词。[1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q06_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a): consumer  [ORIGINAL]
+  (b)(i): grass -&gt; rabbit -&gt; fox
+  (b)(ii): Sun / sunlight
+  (b)(iii): carnivore; predator; consumer</div>
+        <div class="zh">(a): consumer (消费者)  [原创题]
+  (b)(i): grass -&gt; rabbit -&gt; fox
+  (b)(ii): 太阳 / 阳光
+  (b)(iii): carnivore; predator; consumer</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) consumer  [ORIGINAL question]</li>
+<li class="pt en">(b)(i) grass -&gt; rabbit -&gt; fox</li>
+<li class="pt en">(b)(ii) Sun</li>
+<li class="pt en">(b)(ii) sunlight</li>
+<li class="pt en">(b)(iii) carnivore, predator, consumer</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q07</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a) Write | (b) Count</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">The diagram shows four animals found living near a field of cabbage
+  plants. The animals all belong to the same food chain but are not
+  in the correct order. Use the information:
+    Rooks have no predators and are the top carnivores.
+    Slugs are herbivores and are the main prey of toads.
+    Cabbages are producers and make food for the food chain.
+    The energy for the food chain is provided by sunlight.
+    Snakes are predators of toads.
+  (a) Write the names of the organisms in the correct order to finish
+      the food chain. [2]
+  (b) How many organisms are in this food chain? [1]</div>
+        <div class="zh">图中显示生活在一片卷心菜地附近的四种动物。它们属于同一条食物链，
+  但顺序不对。利用信息（rooks 无天敌、是顶端肉食者；slugs 是
+  食草动物、是 toads 的主要猎物；cabbages 是生产者、为食物链造食物；
+  能量来自阳光；snakes 是 toads 的捕食者）：
+  (a) 按正确顺序写出生物名字，补全食物链。[2]
+  (b) 这条食物链里一共有几个生物？[1]</div></div>
+      <div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q07_IMG01</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_Q07_IMG02</span>
+          <span class="img-prompt"></span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div><button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) cabbages -&gt; slugs -&gt; toads -&gt; snakes -&gt; rooks
+  (b) 5 organisms</div>
+        <div class="zh">(a) cabbages -&gt; slugs -&gt; toads -&gt; snakes -&gt; rooks
+  (b) 5 个生物</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) cabbages -&gt; slugs -&gt; toads -&gt; snakes -&gt; rooks</li>
+<li class="pt en">(a) cabbages, slugs, toads, snakes, rooks in that order</li>
+<li class="pt en">(b) 5</li>
+<li class="pt en">(b) five organisms</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q08</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a) Write | (b) State | (c) State</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">In a garden, lettuce plants are eaten by slugs. Slugs are eaten by
+  hedgehogs.
+  (a) Use this information to write a food chain. [1]
+  (b) State which organism is the producer. [1]
+  (c) State which organism is the top predator. [1]</div>
+        <div class="zh">在一个花园里, 生菜被蛞蝓吃。蛞蝓被刺猬吃。
+  (a) 用这些信息写一条食物链。[1]
+  (b) 写出哪个生物是生产者。[1]
+  (c) 写出哪个生物是顶级捕食者。[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) lettuce -&gt; slug -&gt; hedgehog
+  (b) lettuce
+  (c) hedgehog</div>
+        <div class="zh">(a) lettuce -&gt; slug -&gt; hedgehog
+  (b) lettuce / 生菜
+  (c) hedgehog / 刺猬</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) lettuce -&gt; slug -&gt; hedgehog</li>
+<li class="pt en">(a) lettuce plant -&gt; slug -&gt; hedgehog</li>
+<li class="pt en">(b) lettuce</li>
+<li class="pt en">(b) lettuce plant</li>
+<li class="pt en">(c) hedgehog</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q09</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a) State | (b) State | (c) Suggest</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">A pond food chain is: algae -&gt; water flea -&gt; small fish -&gt; heron.
+  (a) State what the arrows represent. [1]
+  (b) State which organism is a herbivore. [1]
+  (c) The small fish all die. Suggest one effect on the heron. [1]</div>
+        <div class="zh">一条池塘食物链是: 藻类 -&gt; 水蚤 -&gt; 小鱼 -&gt; 苍鹭。
+  (a) 写出箭头代表什么。[1]
+  (b) 写出哪个生物是草食动物。[1]
+  (c) 小鱼全死了。提出对苍鹭的一个影响。[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) the flow of energy (from prey to predator)
+  (b) water flea
+  (c) heron decreases (less food)</div>
+        <div class="zh">(a) 能量流动方向（从被吃者到吃者）
+  (b) water flea / 水蚤
+  (c) heron 数量减少，因为食物少了</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) flow of energy</li>
+<li class="pt en">(a) direction energy moves</li>
+<li class="pt en">(a) energy transfer from prey/eaten organism to predator/eater</li>
+<li class="pt en">(b) water flea</li>
+<li class="pt en">(c) herons decrease</li>
+<li class="pt en">(c) herons have less food so may starve or leave</li></ul></div>
+      </div>
+    </div>
+<div class="card qcard">
+      <div class="q-top"><span class="q-id">Q10</span>
+        <span class="q-lvl">L2</span> <span class="q-cmd">(a) State | (b) State | (c) State</span> <span class="q-marks">3 marks</span></div>
+      <div class="q-stem"><div class="en">A food chain is: oak tree -&gt; caterpillar -&gt; blue tit -&gt; sparrowhawk.
+  (a) State the producer. [1]
+  (b) State one predator and its prey from this chain. [1]
+  (c) State what would happen to the caterpillars if all the blue tits
+      were removed. [1]</div>
+        <div class="zh">一条食物链是: 橡树 -&gt; 毛虫 -&gt; 蓝山雀 -&gt; 雀鹰。
+  (a) 写出生产者。[1]
+  (b) 从这条链里写出一个捕食者和它的猎物。[1]
+  (c) 如果蓝山雀全被移走, 写出毛虫会怎样。[1]</div></div>
+      <button class="ans-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">看答案 · Show answer</button>
+      <div class="ans" style="display:none">
+        <div class="ans-h">✅ 答案 Answer</div>
+        <div class="en">(a) oak tree
+  (b) predator = blue tit, prey = caterpillar; accept predator = sparrowhawk, prey = blue tit
+  (c) caterpillars increase (fewer eaten)</div>
+        <div class="zh">(a) oak tree / 橡树
+  (b) 捕食者 = blue tit，猎物 = caterpillar；也收 sparrowhawk / blue tit
+  (c) caterpillars 增加，因为被吃得少</div>
+        <div class="ans-accept"><b>可接受 Accept:</b><ul class="ptlist"><li class="pt en">(a) oak tree</li>
+<li class="pt en">(b) blue tit eats caterpillar</li>
+<li class="pt en">(b) sparrowhawk eats blue tit</li>
+<li class="pt en">(b) predator blue tit, prey caterpillar</li>
+<li class="pt en">(b) predator sparrowhawk, prey blue tit</li>
+<li class="pt en">(c) caterpillars increase</li>
+<li class="pt en">(c) more caterpillars because fewer are eaten</li></ul></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+      <div class="screen-header">
+      <div class="eyebrow">Wrap · Reflect</div>
+      <h2 class="banner"><span class="en">Wrap Up &amp; Remember</span></h2>
+      <div class="banner-zh zh">总结与记忆</div>
+    </div>
+      <div class="card recall">
+      <div class="card-label rec-label">🔁 盖住回想 · Cover & Recall</div>
+      <div class="rec-q"><div class="en">Antelope feed on the grasses of the African plains. Cheetahs kill
+  and eat antelope.
+  (a) Use this information to write a food chain. [1]
+  (b) Which organism in the food chain is a producer? [1]
+  (c) Cheetahs are carnivores. What does this mean? [1]
+  (d) Give an example of a predator and its prey from this food
+      chain. [1]
+  (e) What effect would a severe drought have on the population of
+      antelope? [1]</div>
+        <div class="zh">羚羊吃非洲平原上的草。猎豹捕杀并吃羚羊。
+  (a) 用这些信息写一条食物链。[1]
+  (b) 食物链里哪个生物是生产者？[1]
+  (c) 猎豹是肉食动物。这是什么意思？[1]
+  (d) 从这条食物链里举一个捕食者和它的猎物的例子。[1]
+  (e) 严重的干旱会对羚羊的数量有什么影响？[1]</div></div>
+      <button class="rec-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">
+        想好了？点开看答案 · Tap to reveal</button>
+      <div class="rec-a" style="display:none">
+        <div class="en">(a) grasses -&gt; antelope -&gt; cheetah
+  (b) grasses
+  (c) eats meat / eats animals
+  (d) predator = cheetah; prey = antelope
+  (e) antelope population decreases</div><div class="zh">(a) grasses -&gt; antelope -&gt; cheetah
+  (b) grasses
+  (c) 吃肉 / 吃动物
+  (d) 捕食者 = cheetah; 猎物 = antelope
+  (e) antelope 数量减少</div></div>
+    </div>
+      <div class="card concept" style="background:#E8FFE8;border:1px solid #BFE6BF;">
+<ul class="ptlist"><li class="pt en">A food chain shows the feeding order of organisms.</li>
+<li class="pt en">It starts with a producer (a plant).</li>
+<li class="pt en">Every arrow runs from prey to predator and shows the direction energy flows.</li>
+<li class="pt en">Drawing the arrow the wrong way is the most common mistake.</li></ul>
+<ul class="ptlist"><li class="pt zh">食物链显示生物的进食顺序。</li>
+<li class="pt zh">它从生产者（植物）开始。</li>
+<li class="pt zh">每个箭头从猎物指向捕食者，表示能量流动的方向。</li>
+<li class="pt zh">把箭头画反是最常见的错误。</li></ul>
+<div class="flavour humor"><span class="fl-ic">😄</span><div><div class="en">Before you submit, ask: &quot;Did I accidentally make the fox feed the rabbit?&quot;</div><div class="zh">交答案前问自己：“我有没有不小心让狐狸喂兔子？”</div></div></div>
+<div class="flavour memory"><span class="fl-ic">🧠</span><div><div class="en">Final check: Producer first. Arrow = energy flow. Eaten → eater.</div><div class="zh">最后检查：生产者第一。箭头 = 能量流动。被吃 → 吃者。</div></div></div>
+<div class="img-slot">
+        <div class="img-emoji">🖼️</div>
+        <div class="img-meta">
+          <b>配图待出 · image pending</b><span class="img-id">L02_SCREEN_IMG05</span>
+          <span class="img-prompt">[B3 to write] one clean recap food chain with the arrow rule labelled.</span>
+          <div class="vd-card">
+            <div class="vd-h">📕 画图字典 · Visual Dictionary</div>
+            <div class="vd-row"><span class="vd-k">画什么 Best visual</span><span class="vd-v">Energy-flow arrow chain (prey -&gt; predator)</span></div>
+            <div class="vd-row"><span class="vd-k">动不动 Animate</span><span class="vd-v">Static</span></div>
+            <div class="vd-row"><span class="vd-k">防哪个错 Trap</span><span class="vd-v vd-trap">Reading the arrow as &#x27;eats&#x27; instead of &#x27;energy passes to&#x27;</span></div>
+            <ul class="vd-drules"><li>D4: NOT the first teaching diagram -&gt; use PLAIN arrows (no &#x27;energy passes to&#x27; label)</li></ul>
+          </div>
+        </div></div>
+</div>
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Explain today's key idea in simple words
+        <span class="ai-prompt-btn-zh">用简单的话解释今天的重点</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Give me an everyday example
+        <span class="ai-prompt-btn-zh">给我一个生活中的例子</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Quiz me with one question
+        <span class="ai-prompt-btn-zh">出一道题考我</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Let's take a look — ready?",                 zh: "我们来看看 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!",        zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!",           zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!",      zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
