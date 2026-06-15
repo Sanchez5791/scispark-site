@@ -1,0 +1,72 @@
+================================================================
+CODE ROOM → FACTORY · MACHINE GATE DELIVERY
+Re: Code_Room_Machine_Gate_Requirements.txt (2026-06-15)
+Built: 2026-06-15 · scripts/gate-iron-rules.mjs
+================================================================
+
+WHAT WAS BUILT
+  A real machine gate that COUNTS, COMPARES and BLOCKS — not an AI writing
+  "PASS". It exits non-zero on any finding, so a delivery script can refuse to
+  package a unit that does not pass. It complements (does not replace) the
+  existing A–E checklist gate, scripts/validate-lessons.mjs.
+
+  Run it:
+    node scripts/gate-iron-rules.mjs --lessons lessons/y7/u2
+    node scripts/gate-iron-rules.mjs --lessons lessons/y7/u2 --strict
+    node scripts/gate-iron-rules.mjs --lessons lessons/y7/u2 --base HEAD~1
+    node scripts/gate-iron-rules.mjs --lessons lessons/y7/u2 --base main --scope edits.txt
+
+THE FOUR ROOT-CAUSE CHECKS  (all implemented + tested)
+  CHECK 1 · Canned marking (Rule 1) — BLOCK.
+      Counts every substantive marking sentence and blocks any that repeats
+      ≥3× word-for-word inside one lesson. By default the standard Cambridge
+      rubric lines (Ignore / Partial / Spelling) are NOT counted — they are
+      meant to repeat; they are listed transparently and can be force-counted
+      with --strict. The question-specific Accept / Reject / feedback lines ARE
+      counted, which is where lazy copy-paste actually hides.
+  CHECK 2 · Question-number style (Rule 2) — BLOCK.
+      Detects >1 numbering family (Q01 vs 1. vs Question 1) across the unit, and
+      mixed zero-padding inside a lesson. Lists each lesson's style.
+  CHECK 3 · Half-fix (Rule 3) — REPORT.  (needs --base)
+      Diffs each question vs a git baseline; flags a question whose EN changed
+      but ZH did not (or the reverse). --base STAGED diffs the git index, so it
+      can run as a pre-commit hook.
+  CHECK 4 · Out-of-scope edits (Rule 3) — REPORT.  (needs --base, optional --scope)
+      Lists every question/screen that changed vs the baseline but is not named
+      in the --scope edit manifest. (Manifest line format: "L03 Q05", "L07 LEARN",
+      or "L03 *".)
+
+  EXTRA CHECKS (the report's small list)
+      · empty REJECT (rejected with no reason given) ......... REPORT
+      · HINT1 missing on a practice (TRY) question .......... REPORT
+      · a hint placed at the wrong level (inside no-hint TEST) REPORT
+      · image placeholder leaked into data-image-prompt ..... REPORT
+      · NOT FOUND / NOT OFFICIAL source hard-coded into full
+        marking → flagged HOLD (not auto-filled) ............ BLOCK
+
+  Severity: BLOCK ⇒ no delivery package (exit ≠ 0). REPORT ⇒ surfaced loudly and
+  also holds the gate (exit ≠ 0) until cleared or waived. A unit with question
+  markup the gate doesn't recognise gets a visible NOTICE (not a fake pass).
+
+WHAT THE GATE FOUND ON THE EXISTING Y7 UNITS  (first real run)
+      u0  PASSED (with notice) — non-standard markup; assess via validate-lessons.mjs
+      u1  BLOCKED — 26 canned-marking hits. Real: e.g. L06's "not yet — go back to
+                    the key clue…" feedback is byte-identical across all 26 questions;
+                    L04's "correct — you read the symbols…" across all 16.
+      u2  PASSED
+      u3  PASSED
+      u4  BLOCKED — 5 canned-marking hits (e.g. "check the level in the hierarchy…"
+                    repeated 7–8× per lesson in L10–L14).
+      u5  PASSED
+
+  These U1/U4 hits are exactly the Rule-1 failure the A–E checklist could not see —
+  the generic If-right / If-wrong feedback is copy-pasted per question. That is a
+  factory decision now: rewrite that feedback per question, or accept it. The
+  machine will keep blocking until the source is fixed.
+
+NOTES FOR THE FACTORY (your side of the boundary)
+  · The --scope manifest (CHECK 4) and the per-unit decision on canned feedback
+    are factory inputs; the code room only reports.
+  · To add a new check type later, send a new requirement line; the gate is built
+    to grow the same way validate-lessons.mjs does.
+================================================================
