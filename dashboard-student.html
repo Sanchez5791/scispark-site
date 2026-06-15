@@ -629,6 +629,92 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
   outline: 2px solid #EA580C;
   outline-offset: 2px;
 }
+
+/* ================ TODAY'S TASK (student home top · order StudentHome) ================ */
+.today-task {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  background: var(--dark-card); color: #fff; border: 1px solid #2c2925;
+  margin-bottom: 24px;
+}
+.today-task .eyebrow { color: var(--text-light); margin-bottom: 12px; }
+.today-task .eyebrow .dot { background: var(--orange); }
+.today-task-body { flex: 1; min-width: 220px; }
+.today-task-doudou { display: flex; gap: 12px; align-items: flex-start; }
+.today-task .doudou-avatar {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--orange-mid); display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.today-task-say .en {
+  display: block; font-family: var(--font-serif); font-size: 21px; font-weight: 500;
+  line-height: 1.25; color: #fff;
+}
+.today-task-say .zh {
+  display: block; font-family: var(--font-zh); font-size: 14px;
+  color: var(--text-light); margin-top: 4px;
+}
+.today-task-start { font-size: 15px !important; padding: 14px 28px !important; flex-shrink: 0; }
+
+/* AI Guide preview — Professor Spark + DouDou bubbles */
+#ai-guide-preview { margin-bottom: 32px; }
+.bubble-prof {
+  background: var(--orange-light); color: var(--text);
+  border: 1px solid var(--orange-mid); align-self: flex-start;
+}
+.bubble-prof::before {
+  content: "Professor Spark · 火花教授"; display: block;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--orange); text-transform: uppercase; margin-bottom: 4px;
+}
+.doudou-bubble {
+  background: #fff; color: var(--text); border: 1px solid var(--border);
+  align-self: flex-end; max-width: 88%; padding: 12px 14px; border-radius: 14px;
+  font-size: 13px; line-height: 1.5;
+}
+.doudou-bubble::before {
+  content: "豆豆 · DouDou"; display: block;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;
+}
+.bubble .zh, .doudou-bubble .zh {
+  display: block; font-family: var(--font-zh); color: var(--text-muted);
+  font-size: 12px; margin-top: 4px;
+}
+
+/* small reopen link for the awareness notice */
+.doudou-aware-reopen {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-muted); text-decoration: none;
+  margin: 8px 0 40px;
+}
+.doudou-aware-reopen:hover { color: var(--orange); }
+
+/* ================ CHILD-AWARENESS NOTICE (order ChildAwareness) ================ */
+.doudou-aware {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(26,25,23,0.78);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.doudou-aware-box {
+  background: var(--bg-card); border-radius: 20px;
+  padding: 30px 28px 26px; max-width: 460px; width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
+}
+.doudou-aware-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--orange-mid); display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin: 0 auto 14px;
+}
+.doudou-aware-title {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 500;
+  color: var(--text); margin-bottom: 16px;
+}
+.doudou-aware-body { text-align: left; font-size: 14px; color: var(--text); line-height: 1.55; }
+.doudou-aware-body p { margin-bottom: 12px; }
+.doudou-aware-body .zh { display: block; font-family: var(--font-zh); font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+.doudou-aware-body .see  { background: var(--green-bg); color: var(--green-text); border-radius: var(--radius-md); padding: 10px 12px; }
+.doudou-aware-body .hide { background: var(--bg-subtle); color: var(--text); border-radius: var(--radius-md); padding: 10px 12px; }
+.doudou-aware-box .btn { width: 100%; margin-top: 8px; padding: 13px; font-size: 15px; }
 </style>
 </head>
 <body>
@@ -727,6 +813,46 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
       </div>
     </div>
 
+    <!-- ===================== TODAY'S TASK (first screen, above units) ===================== -->
+    <div class="card today-task" id="today-task-card">
+      <div class="today-task-body">
+        <div class="eyebrow"><span class="dot"></span>Today's Task · 今日任务</div>
+        <div class="today-task-doudou">
+          <span class="doudou-avatar">🐣</span>
+          <div class="today-task-say">
+            <span class="en">Let's not do a lot today — we'll just unpack one concept.</span>
+            <span class="zh">先不用做很多，今天只拆一个概念。</span>
+          </div>
+        </div>
+      </div>
+      <a class="btn btn-primary today-task-start" id="today-task-start" href="#">开始 · Start →</a>
+    </div>
+
+    <!-- ===================== AI GUIDE PREVIEW (released from display:none) ===================== -->
+    <div class="ai-card" id="ai-guide-preview">
+      <div class="ai-header">
+        <div>
+          <div class="ai-title">AI Guide</div>
+          <div class="ai-title-zh">智能导师 · Professor Spark &amp; 豆豆</div>
+        </div>
+        <span class="ai-status"><span class="dot"></span>Live</span>
+      </div>
+      <div class="chat-messages">
+        <div class="bubble bubble-prof">
+          Today, let's look at just one question.
+          <span class="zh">今天我们只看一个问题。</span>
+        </div>
+        <div class="doudou-bubble">
+          I'll take a guess first — we'll find out soon if I'm right.
+          <span class="zh">我先猜一下 —— 对不对待会就知道。</span>
+        </div>
+      </div>
+      <div class="ai-footer">
+        <span class="small">Predict · Compute · Reflect</span>
+        <a href="#" class="open-link">和 Professor Spark 继续 · Continue →</a>
+      </div>
+    </div>
+
     <!-- QUICK STATS -->
     <div class="stats-row">
       <div class="stat-card" style="display:none">
@@ -751,11 +877,11 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
       </div>
     </div>
 
-    <!-- UNIT BROWSER -->
+    <!-- UNIT BROWSER — now the "library" (continue lives in Today's Task above) -->
     <div class="section-header">
       <div>
-        <div class="eyebrow"><span class="dot"></span>My Units · Cambridge 0893</div>
-        <div class="section-title">Continue where you left off.</div>
+        <div class="eyebrow"><span class="dot"></span>Library · 资料库 · Cambridge 0893</div>
+        <div class="section-title">All your units · 你的全部单元</div>
       </div>
     </div>
 
@@ -763,7 +889,8 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
       <!-- populated by UNITS_MANIFEST in dashboardInit() -->
     </div>
 
-    <!-- THIS WEEK + AI GUIDE -->
+    <!-- THIS WEEK ring — kept hidden by order (StudentHome §3: 先不动, 别删).
+         AI Guide preview was released and moved to the first screen above. -->
     <div class="two-col">
 
       <div class="card week-card" style="display:none">
@@ -799,32 +926,6 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
         </div>
       </div>
 
-      <div class="ai-card" style="display:none">
-        <div class="ai-header">
-          <div>
-            <div class="ai-title">AI Guide</div>
-            <div class="ai-title-zh">智能导师 · Matter &amp; Particle</div>
-          </div>
-          <span class="ai-status"><span class="dot"></span>Live</span>
-        </div>
-        <div class="chat-messages">
-          <div class="bubble bubble-tutor">
-            Before we compute it — predict. If I double the mass but keep the force the same, what happens to the acceleration?
-          </div>
-          <div class="bubble bubble-student">
-            It gets bigger?
-          </div>
-          <div class="bubble bubble-tutor">
-            Think about pushing a supermarket trolley vs a car. Which one moves faster with the same push? 想一想：用同样的力推购物车和汽车，哪个跑得更快？
-          </div>
-          <div class="typing-dots"><span></span><span></span><span></span></div>
-        </div>
-        <div class="ai-footer">
-          <span class="small">Lesson 5 · Predict-Compute-Reflect</span>
-          <a href="#" class="open-link">Open chat →</a>
-        </div>
-      </div>
-
     </div>
 
     <!-- SCHOOL PROFILE -->
@@ -855,9 +956,36 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
       </div>
     </div>
 
+    <!-- re-open the "what can my parent see" notice any time -->
+    <a href="#" class="doudou-aware-reopen" id="doudou-aware-reopen">🐣 What can my parent see? · 家长能看到什么?</a>
+
   </main>
 </div>
 
+<!-- ===================== CHILD-AWARENESS NOTICE (order ChildAwareness) =====================
+     Shown once on first visit (per child, localStorage). The "can see / can't see"
+     wording is kept identical to the parent Learning Status card. -->
+<div class="doudou-aware" id="doudou-aware" style="display:none" role="dialog" aria-modal="true" aria-labelledby="doudou-aware-title">
+  <div class="doudou-aware-box">
+    <div class="doudou-aware-avatar">🐣</div>
+    <div class="doudou-aware-title" id="doudou-aware-title">One thing to tell you · 告诉你一件事</div>
+    <div class="doudou-aware-body">
+      <p>Your mum and dad have a "Parent Corner."
+        <span class="zh">你的爸妈有一个「家长角」。</span>
+      </p>
+      <p class="see"><strong>They can see</strong> — your rhythm this week, and which unit you're on.
+        <span class="zh"><strong>他们能看到</strong> —— 你这周学习的节奏、学到哪个单元。</span>
+      </p>
+      <p class="hide"><strong>They can't see</strong> — your mistakes, your answers, or our chats.
+        <span class="zh"><strong>他们看不到</strong> —— 你的错题、你的答案、还有我们俩的聊天。</span>
+      </p>
+      <p>Those stay just between us.
+        <span class="zh">这些只有我们知道。</span>
+      </p>
+    </div>
+    <button class="btn btn-primary" id="doudou-aware-ok" type="button">知道了 · Got it</button>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
@@ -998,6 +1126,60 @@ function showToast(message, opts) {
     if (typeof renderChildAvatar === 'function') renderChildAvatar(c);
   }
   renderChildName(child);
+
+  /* ── Today's Task "Start" → continue where the child left off (order StudentHome).
+     Simple "continue last", NOT a recommendation. Uses existing lesson_progress;
+     no record → Unit 1 · Lesson 1. Lessons live at /lessons/{y}/u{n}/l{NN}.html. */
+  (async function wireTodayTask() {
+    const startBtn = document.getElementById('today-task-start');
+    if (!startBtn) return;
+    const yr = (child.year_group || 'Y7').toLowerCase();
+    function lessonUrl(unit, lesson) {
+      return '/lessons/' + yr + '/u' + unit + '/l' + String(lesson).padStart(2, '0') + '.html';
+    }
+    let target = lessonUrl(1, 1); // fallback: very first lesson
+    try {
+      const { data: lessonsData } = await sb.from('lessons')
+        .select('id, unit_number, lesson_number')
+        .eq('year_group', child.year_group)
+        .eq('is_published', true);
+      const byId = {};
+      (lessonsData || []).forEach(l => { byId[l.id] = l; });
+
+      const { data: lpData } = await sb.from('lesson_progress')
+        .select('lesson_id, completed_at, updated_at, status')
+        .eq('child_id', child.id);
+      const rows = (lpData || []).filter(r => byId[r.lesson_id]);
+      if (rows.length) {
+        // "Where they last were" = most recent activity (updated_at or completed_at).
+        const stamp = r => new Date(r.updated_at || r.completed_at || 0).getTime();
+        const latest = rows.reduce((a, b) => (stamp(a) >= stamp(b) ? a : b));
+        const l = byId[latest.lesson_id];
+        if (l) target = lessonUrl(l.unit_number, l.lesson_number);
+      }
+    } catch (e) { console.warn('[student-home] today-task wiring failed:', e); }
+    startBtn.setAttribute('href', target);
+  })();
+
+  /* ── Child-awareness notice (order ChildAwareness) — once per child, then
+     re-openable. "Can see / can't see" wording matches the parent card. */
+  (function initAwareness() {
+    const modal  = document.getElementById('doudou-aware');
+    const okBtn  = document.getElementById('doudou-aware-ok');
+    const reopen = document.getElementById('doudou-aware-reopen');
+    if (!modal) return;
+    const key = 'doudou_aware_seen_' + child.id;
+    let seen = false;
+    try { seen = localStorage.getItem(key) === '1'; } catch (e) {}
+    if (!seen) modal.style.display = 'flex';
+    function close() {
+      modal.style.display = 'none';
+      try { localStorage.setItem(key, '1'); } catch (e) {}
+    }
+    if (okBtn)  okBtn.addEventListener('click', close);
+    if (reopen) reopen.addEventListener('click', e => { e.preventDefault(); modal.style.display = 'flex'; });
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  })();
 
   /* Phase 3: Founding badge — inherits from parent via child.parent_id */
   if (child.parent_id) {
