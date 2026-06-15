@@ -600,6 +600,131 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
   transition: all 0.15s; flex-shrink: 0;
 }
 .copy-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+/* ================ LEARNING STATUS · DouDou (Strategy Room order v2) ================ */
+.doudou-card .card-title .zh-sub { display: block; }
+.doudou-today-badge { white-space: nowrap; }
+
+.doudou-gate {
+  background: var(--orange-light);
+  border: 1px solid var(--orange-mid);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 13px; color: var(--text); line-height: 1.5;
+  margin-bottom: 16px;
+}
+.doudou-gate .zh,
+.doudou-greeting .zh,
+.doudou-note .zh,
+.doudou-toggle-text .zh,
+.doudou-privacy .zh {
+  display: block; font-family: var(--font-zh);
+  font-size: 11px; color: var(--text-muted); margin-top: 4px;
+}
+
+.doudou-greeting {
+  display: flex; gap: 12px; align-items: flex-start;
+  margin-bottom: 18px;
+}
+.doudou-avatar {
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--bg-subtle);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.doudou-greeting-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.doudou-greeting-en { display: block; }
+
+.doudou-metrics {
+  display: grid; grid-template-columns: 1fr; gap: 18px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+@media (min-width: 640px) { .doudou-metrics { grid-template-columns: repeat(3, 1fr); } }
+.doudou-metric-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
+}
+.doudou-metric-value {
+  font-family: var(--font-serif); font-size: 26px; font-weight: 500;
+  color: var(--text); line-height: 1.1;
+}
+.doudou-metric-value.is-yes { color: var(--green); }
+.doudou-metric-value.is-empty { color: var(--text-light); font-size: 18px; }
+.doudou-metric-sub {
+  font-size: 11px; color: var(--text-muted); margin-top: 6px;
+  font-family: var(--font-zh); line-height: 1.4;
+}
+
+.doudou-progress-bar {
+  height: 6px; background: var(--bg-subtle); border-radius: 99px;
+  margin-top: 8px; overflow: hidden;
+}
+.doudou-progress-fill { height: 100%; background: var(--orange); border-radius: 99px; transition: width .3s; }
+
+.doudou-week { margin-bottom: 18px; }
+.doudou-week-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+}
+.doudou-week-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.doudou-day {
+  border-radius: var(--radius-sm); padding: 9px 0 7px; text-align: center;
+  border: 1.5px solid transparent; background: var(--bg-subtle);
+}
+.doudou-day-mark { font-size: 15px; line-height: 1; }
+.doudou-day-name {
+  display: block; font-size: 10px; margin-top: 5px;
+  color: var(--text-muted); font-family: var(--font-zh);
+}
+.doudou-day.is-valid { background: var(--green-bg); }
+.doudou-day.is-valid .doudou-day-mark { color: var(--green-text); }
+.doudou-day.is-today { border-color: var(--orange); }
+.doudou-week-key {
+  font-size: 11px; color: var(--text-muted); margin-top: 10px;
+  font-family: var(--font-zh); line-height: 1.5;
+}
+.doudou-week-def { color: var(--text-light); }
+
+.doudou-note {
+  background: var(--orange-light);
+  border: 1px solid var(--orange-mid);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  font-size: 13px; color: var(--text); line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.doudou-toggle-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px 0; margin-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.doudou-toggle-text { font-size: 13px; color: var(--text); }
+.doudou-switch {
+  flex-shrink: 0; width: 46px; height: 26px; border-radius: 99px;
+  background: var(--border); border: none; cursor: pointer;
+  position: relative; padding: 0; transition: background .2s;
+}
+.doudou-switch[aria-checked="true"] { background: var(--orange); }
+.doudou-switch-knob {
+  position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
+  border-radius: 50%; background: #fff; transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.doudou-switch[aria-checked="true"] .doudou-switch-knob { transform: translateX(20px); }
+
+.doudou-privacy {
+  font-size: 12px; color: var(--text-muted); line-height: 1.5;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.doudou-privacy .zh {
+  display: block; font-family: var(--font-zh);
+  color: var(--text-light); margin-top: 3px;
+}
 </style>
 </head>
 <body>
@@ -717,6 +842,92 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
     <div id="children-list" class="children-list">
       <div class="children-list-loading">Loading…</div>
     </div>
+
+    <!-- ===================== LEARNING STATUS · DouDou (order v2) =====================
+         Inserted between the child list and the assessment card.
+         Hidden until a child is loaded; all numbers come from REAL lesson_progress
+         data or an honest empty state — no demo/fake values ship. -->
+    <div class="card doudou-card" id="learning-status-card" style="display:none">
+
+      <!-- (a) title + studied-today badge -->
+      <div class="card-header">
+        <div class="card-title">
+          Learning Status
+          <span class="zh-sub">学习状态 · <span id="doudou-child-name">—</span></span>
+        </div>
+        <span class="badge badge-green doudou-today-badge" id="doudou-today-badge" style="display:none">Studied today · 今天有学习记录</span>
+      </div>
+
+      <!-- (b) framing gate -->
+      <div class="doudou-gate">
+        💡 DouDou only shares <strong>progress</strong>, never gaps or mistakes. A rest day is okay.
+        <span class="zh">豆豆只展示进度，不展示缺漏、不展示错题。哪天休息也没关系。</span>
+      </div>
+
+      <!-- (c) DouDou greeting -->
+      <div class="doudou-greeting">
+        <span class="doudou-avatar">🐣</span>
+        <div class="doudou-greeting-text">
+          <span class="doudou-greeting-en">Hi <span data-parent-firstname>there</span> — I'm DouDou. Parents see study status only: time, lessons, completion — never answers or chat.</span>
+          <span class="zh">嗨，我是豆豆。家长只看学习状态：时长、课程、完成度 —— 看不到答案或对话内容。</span>
+        </div>
+      </div>
+
+      <!-- (d) three metric blocks -->
+      <div class="doudou-metrics">
+        <div class="doudou-metric">
+          <div class="doudou-metric-label">Studied today · 今天有学习</div>
+          <div class="doudou-metric-value" id="doudou-studied-today">—</div>
+          <div class="doudou-metric-sub">有效学习，不是挂机 · valid learning, not idling</div>
+        </div>
+        <div class="doudou-metric">
+          <div class="doudou-metric-label">Today's active time · 今天活跃时长</div>
+          <div class="doudou-metric-value" id="doudou-active-min">—</div>
+          <div class="doudou-metric-sub" id="doudou-active-sub">Daily goal 20 min · 每日目标 20 分钟</div>
+        </div>
+        <div class="doudou-metric">
+          <div class="doudou-metric-label">Unit progress · 单元进度</div>
+          <div class="doudou-metric-value" id="doudou-unit-progress">—</div>
+          <div class="doudou-progress-bar"><div class="doudou-progress-fill" id="doudou-progress-fill" style="width:0%"></div></div>
+          <div class="doudou-metric-sub" id="doudou-unit-sub">—</div>
+        </div>
+      </div>
+
+      <!-- (e) week strip -->
+      <div class="doudou-week">
+        <div class="doudou-week-label">This week · 这一周</div>
+        <div class="doudou-week-row" id="doudou-week-row"><!-- 7 day boxes injected by JS --></div>
+        <div class="doudou-week-key">
+          ✓ = 有效学习（valid learning） · 🛋️ = 休息日（rest day）
+          <span class="doudou-week-def">"Valid learning" = active reading or a completed practice; long idle does NOT count. · 有效学习＝认真阅读或完成练习，长时间挂机不计入。</span>
+        </div>
+      </div>
+
+      <!-- (f) DouDou companion note -->
+      <div class="doudou-note">
+        🐣 DouDou sent one gentle nudge today — you don't have to. DouDou never shows answers or messages to parents.
+        <span class="zh">今天豆豆轻轻提醒了娃一次 —— 您不必亲自出手。豆豆不会把答案或对话内容给家长看。</span>
+      </div>
+
+      <!-- (g) nudge toggle (single on/off) -->
+      <div class="doudou-toggle-row">
+        <div class="doudou-toggle-text">
+          Let DouDou send one gentle nudge a day (skipped if already studied).
+          <span class="zh">允许豆豆每天发一次温和提醒（已学习则自动跳过）。</span>
+        </div>
+        <button class="doudou-switch" id="doudou-nudge-toggle" role="switch" aria-checked="true" type="button" aria-label="Daily nudge on/off">
+          <span class="doudou-switch-knob"></span>
+        </button>
+      </div>
+
+      <!-- (h) privacy footer -->
+      <div class="doudou-privacy">
+        🔒 Parents see status only. Answers, mistakes, and chat stay private between your child and DouDou.
+        <span class="zh">家长只看状态。答案、错题、聊天内容仅在孩子和豆豆之间保留，家长不可见。</span>
+      </div>
+
+    </div>
+    <!-- ===================== /LEARNING STATUS ===================== -->
 
     <!-- CREDITS CARD (Phase 3) -->
     <div class="card" id="credits-card" style="display:none">
@@ -987,6 +1198,13 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
   }
   if (listEl) listEl.innerHTML = children.map(renderChild).join('');
 
+  /* Learning Status · DouDou (order v2) ───────────────────────────────
+     Real data only: studied-today, unit progress and the week strip are
+     derived from lesson_progress + lessons (same source as the student
+     dashboard). Active-minutes has NO real field yet, so it shows an
+     honest empty state — never a fake number. */
+  await loadLearningStatus(children);
+
   /* Phase 3: Credits / Referral / Founding ─────────────────────────── */
   async function loadCredits(uid) {
     const { data, error } = await sb
@@ -1041,6 +1259,141 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
     if (prof && prof.is_founding) {
       const card = document.getElementById('founding-card');
       if (card) card.style.display = '';
+    }
+  }
+
+  /* ── Learning Status loader ─────────────────────────────────────────
+     Binds to the first child (the v2 card is single-child). Every number
+     is real or an honest empty state — see order §4/§5. */
+  function doudouLocalDateKey(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+  async function loadLearningStatus(kids) {
+    const card = document.getElementById('learning-status-card');
+    if (!card || !kids || !kids.length) return;
+    const child = kids[0];
+
+    // Card subject = real child name; greeting = real parent first name.
+    const nameEl = document.getElementById('doudou-child-name');
+    if (nameEl) nameEl.textContent = child.full_name || '—';
+    const parentName = (prof && prof.full_name) ? prof.full_name : (user.email || '');
+    const firstName = (parentName.split(/[\s@]/)[0]) || 'there';
+    document.querySelectorAll('[data-parent-firstname]')
+      .forEach(el => { el.textContent = firstName; });
+
+    // 1. Published lessons for this child's year group → unit map.
+    let lessons = [];
+    try {
+      const { data } = await sb.from('lessons')
+        .select('id, unit_number, lesson_number')
+        .eq('year_group', child.year_group)
+        .eq('is_published', true);
+      lessons = data || [];
+    } catch (e) { console.warn('[learning-status] lessons fetch failed:', e); }
+    const unitLessons = {};
+    for (const l of lessons) {
+      (unitLessons[l.unit_number] = unitLessons[l.unit_number] || []).push(l.id);
+    }
+
+    // 2. This child's lesson progress.
+    let lp = [];
+    try {
+      const { data } = await sb.from('lesson_progress')
+        .select('lesson_id, status, completed_at')
+        .eq('child_id', child.id);
+      lp = data || [];
+    } catch (e) { console.warn('[learning-status] progress fetch failed:', e); }
+    const completed = lp.filter(p => p.status === 'completed' && p.completed_at);
+    const completedDays = new Set(completed.map(p => doudouLocalDateKey(new Date(p.completed_at))));
+
+    card.style.display = ''; // a child exists → show card (data or honest empty)
+
+    // 3. Studied today (real).
+    const todayKey = doudouLocalDateKey(new Date());
+    const studiedToday = completedDays.has(todayKey);
+    const stEl = document.getElementById('doudou-studied-today');
+    const badge = document.getElementById('doudou-today-badge');
+    if (stEl) {
+      stEl.textContent = studiedToday ? 'Yes · 是' : 'No · 否';
+      stEl.classList.toggle('is-yes', studiedToday);
+    }
+    if (badge) badge.style.display = studiedToday ? '' : 'none';
+
+    // 4. Active minutes — no real field yet → honest empty state (never fake).
+    const amEl = document.getElementById('doudou-active-min');
+    const asEl = document.getElementById('doudou-active-sub');
+    if (amEl) { amEl.textContent = '—'; amEl.classList.add('is-empty'); }
+    if (asEl) asEl.textContent = 'Active-time tracking coming soon · 活跃时长统计即将上线';
+
+    // 5. Unit progress (real) — the child's most-recently-active unit.
+    let activeUnit = null;
+    if (completed.length) {
+      const latest = completed.reduce((a, b) =>
+        (new Date(a.completed_at) >= new Date(b.completed_at) ? a : b));
+      for (const un in unitLessons) {
+        if (unitLessons[un].includes(latest.lesson_id)) { activeUnit = un; break; }
+      }
+    }
+    if (activeUnit === null) {
+      const nums = Object.keys(unitLessons).map(Number).sort((a, b) => a - b);
+      if (nums.length) activeUnit = String(nums[0]);
+    }
+    const upEl   = document.getElementById('doudou-unit-progress');
+    const fillEl = document.getElementById('doudou-progress-fill');
+    const usEl   = document.getElementById('doudou-unit-sub');
+    if (activeUnit !== null && unitLessons[activeUnit]) {
+      const ids = unitLessons[activeUnit];
+      const total = ids.length;
+      const doneInUnit = ids.filter(id =>
+        completed.some(p => p.lesson_id === id)).length;
+      const pct = total ? Math.round(doneInUnit / total * 100) : 0;
+      if (upEl) { upEl.textContent = doneInUnit + ' / ' + total + ' lessons'; upEl.classList.remove('is-empty'); }
+      if (fillEl) fillEl.style.width = pct + '%';
+      if (usEl) usEl.textContent = 'Cambridge ' + (child.year_group || '') + ' · Unit ' + activeUnit;
+    } else {
+      // Honest empty state — no published lessons / no record yet.
+      if (upEl) { upEl.textContent = 'No record yet · 还没有记录'; upEl.classList.add('is-empty'); }
+      if (fillEl) fillEl.style.width = '0%';
+      if (usEl) usEl.textContent = 'No learning record yet · 还没有学习记录';
+    }
+
+    // 6. Week strip (real) — current Mon–Sun.
+    const row = document.getElementById('doudou-week-row');
+    if (row) {
+      const zhNames = ['一', '二', '三', '四', '五', '六', '日'];
+      const now = new Date();
+      const dow = (now.getDay() + 6) % 7; // 0 = Monday
+      const monday = new Date(now); monday.setDate(now.getDate() - dow);
+      let html = '';
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday); d.setDate(monday.getDate() + i);
+        const key = doudouLocalDateKey(d);
+        const isValid = completedDays.has(key);
+        const isToday = key === todayKey;
+        const cls = 'doudou-day' + (isValid ? ' is-valid' : ' is-rest') + (isToday ? ' is-today' : '');
+        html += '<div class="' + cls + '">' +
+                  '<span class="doudou-day-mark">' + (isValid ? '✓' : '🛋️') + '</span>' +
+                  '<span class="doudou-day-name">' + zhNames[i] + '</span>' +
+                '</div>';
+      }
+      row.innerHTML = html;
+    }
+
+    // 7. Nudge toggle (single on/off) — persisted locally per child; default ON.
+    const toggle = document.getElementById('doudou-nudge-toggle');
+    if (toggle) {
+      const storeKey = 'doudou_nudge_' + child.id;
+      let on = true;
+      try { const v = localStorage.getItem(storeKey); if (v !== null) on = v === '1'; } catch (e) {}
+      toggle.setAttribute('aria-checked', on ? 'true' : 'false');
+      toggle.addEventListener('click', () => {
+        const next = toggle.getAttribute('aria-checked') !== 'true';
+        toggle.setAttribute('aria-checked', next ? 'true' : 'false');
+        try { localStorage.setItem(storeKey, next ? '1' : '0'); } catch (e) {}
+      });
     }
   }
 
