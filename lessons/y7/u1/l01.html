@@ -356,6 +356,8 @@ window.bubbleScripts = {
 /* L01 restore-interactive: default-English (Chinese only on 中文 toggle) */
 body:not(.zh-mode) .zh { display: none !important; }
 body.zh-mode .zh { display: revert !important; }
+/* mascot 豆 glyph: hide in English mode (survives skin re-renders) */
+body:not(.zh-mode) .prof-p-avatar text { display: none !important; }
 .feedback-right { background:#E8F8EF; border-left:3px solid #1F9D55; color:#155A38; }
 .feedback-wrong { background:#FCEBEB; border-left:3px solid #A32D2D; color:#7A1F1F; }
 button[disabled] { opacity:.5; cursor:not-allowed; }
@@ -483,7 +485,7 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     var navm=document.getElementById('mute-toggle');
     var muted = navm ? (navm.textContent.indexOf('🔇')>-1) : false;
     b.classList.toggle('is-muted', muted);
-    b.innerHTML = muted ? '🔇 Sound off · 静音' : '🔊 Sound on · 有声';
+    b.innerHTML = muted ? '🔇 Sound off<span class="zh"> · 静音</span>' : '🔊 Sound on<span class="zh"> · 有声</span>';
   }
   function l01ToggleMute(){
     try{ if(window.toggleMute) toggleMute(); }catch(e){}
@@ -492,7 +494,7 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
 
   // ── Read-aloud: adjustable speed + per-word highlight (teleprompter) ──
   function l01ReadDone(){
-    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.remove('is-on'); btn.innerHTML='🔊 Read aloud · 朗读'; }
+    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.remove('is-on'); btn.innerHTML='🔊 Read aloud<span class="zh"> · 朗读</span>'; }
     var cap=document.getElementById('l01-caption'); if(cap){ cap.style.display='none'; cap.innerHTML=''; }
   }
   function l01Read(){
@@ -518,9 +520,53 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
       var cur=document.getElementById('cw'+wi); if(cur){ cur.classList.add('on'); cur.scrollIntoView({block:'nearest',inline:'center'}); }
     };
     u.onend=l01ReadDone; u.onerror=l01ReadDone;
-    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.add('is-on'); btn.innerHTML='⏸ Stop · 停止'; }
+    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.add('is-on'); btn.innerHTML='⏸ Stop<span class="zh"> · 停止</span>'; }
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
+  }
+
+  // ── Bring EVERY Chinese run under the language switch (English mode hides all Chinese) ──
+  // Wraps CJK text (incl. Chinese punctuation) in <span class="zh"> so the existing
+  // EN/zh switch + CSS hides it in English mode. Skips controls + already-controlled nodes.
+  // Idempotent (skips inside .zh). Does NOT change any wording — display logic only.
+  var CJK_TEST=/[\u3400-\u9FFF\uF900-\uFAFF\u3000-\u303F\uFF00-\uFFEF]/;
+  var CJK_RUN=/[\s·•]*[\u3400-\u9FFF\uF900-\uFAFF\u3000-\u303F\uFF00-\uFFEF]+/g;
+  function l01WrapCJK(){
+    var SKIP_TAG='SCRIPT,STYLE,TEXTAREA,SELECT,OPTION,INPUT';
+    var SKIP_ANC='.zh,[data-zh],#l01-lang,#l01-tools,#l01-caption,.lang-toggle';
+    var tw=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode:function(n){
+      if(!n.nodeValue || !CJK_TEST.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+      var p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+      if(SKIP_TAG.indexOf(p.nodeName)>-1) return NodeFilter.FILTER_REJECT;
+      if(p.closest && p.closest(SKIP_ANC)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    var nodes=[],n; while(n=tw.nextNode()) nodes.push(n);
+    nodes.forEach(function(tn){
+      var par=tn.parentNode;
+      if(par && par.namespaceURI==='http://www.w3.org/2000/svg'){ if(par.classList) par.classList.add('zh'); return; }
+      var s=tn.nodeValue; CJK_RUN.lastIndex=0;
+      var frag=document.createDocumentFragment(), last=0, m, any=false;
+      while((m=CJK_RUN.exec(s))!==null){
+        any=true;
+        if(m.index>last) frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+        var sp=document.createElement('span'); sp.className='zh'; sp.textContent=m[0]; frag.appendChild(sp);
+        last=m.index+m[0].length;
+        if(CJK_RUN.lastIndex===m.index) CJK_RUN.lastIndex++;
+      }
+      if(!any) return;
+      if(last<s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+      if(tn.parentNode) tn.parentNode.replaceChild(frag, tn);
+    });
+    // hide whole list-items that are now purely Chinese (avoid empty bullets in EN mode)
+    document.querySelectorAll('.main-content li').forEach(function(el){
+      if(el.classList.contains('zh') || !el.querySelector('.zh')) return;
+      var hasOtherChild=Array.prototype.some.call(el.children,function(c){return !c.classList.contains('zh');});
+      if(hasOtherChild) return;
+      var rest=el.textContent;
+      el.querySelectorAll('.zh').forEach(function(z){ rest=rest.replace(z.textContent,''); });
+      if(/^[\s·•:：\/.,，、]*$/.test(rest)) el.classList.add('zh');
+    });
   }
 
   function init(){
@@ -542,13 +588,14 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     // run progress summary on WRAP; stop reading when leaving a screen
     var orig=window.showScreen;
     if(typeof orig==='function'){
-      window.showScreen=function(id){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} l01ReadDone(); orig(id); if(id==='wrap') showProgressSummary(); };
+      window.showScreen=function(id){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} l01ReadDone(); orig(id); l01WrapCJK(); if(id==='wrap') showProgressSummary(); };
     }
     // keep my prominent toggle in sync when the nav EN/中文 buttons are used
     var origSetLang=window.setLang;
     if(typeof origSetLang==='function'){
       window.setLang=function(m){ origSetLang(m); l01SyncLang(); };
     }
+    l01WrapCJK();
     l01SyncLang(); l01SyncMute();
     if(document.querySelector('.screen.active#screen-wrap')) showProgressSummary();
   }
@@ -563,13 +610,13 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
 </script>
 <button id="l01-lang" onclick="l01ToggleLang()" aria-label="Toggle language">中文</button>
 <div id="l01-tools">
-  <button id="l01-read" onclick="l01Read()" aria-label="Read this screen aloud">🔊 Read aloud · 朗读</button>
-  <select id="l01-rate" aria-label="Reading speed · 朗读速度">
-    <option value="0.6" selected>🐢 Slow · 慢</option>
-    <option value="0.85">Normal · 正常</option>
-    <option value="1.1">🐇 Fast · 快</option>
+  <button id="l01-read" onclick="l01Read()" aria-label="Read this screen aloud">🔊 Read aloud<span class="zh"> · 朗读</span></button>
+  <select id="l01-rate" aria-label="Reading speed">
+    <option value="0.6" selected>🐢 Slow</option>
+    <option value="0.85">Normal</option>
+    <option value="1.1">🐇 Fast</option>
   </select>
-  <button id="l01-mute" onclick="l01ToggleMute()" aria-label="Mute or unmute sound">🔊 Sound on · 有声</button>
+  <button id="l01-mute" onclick="l01ToggleMute()" aria-label="Mute or unmute sound">🔊 Sound on<span class="zh"> · 有声</span></button>
 </div>
 <div id="l01-caption" aria-live="polite"></div>
 </body>
