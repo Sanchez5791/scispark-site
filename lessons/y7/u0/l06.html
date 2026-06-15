@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U0 L06 · Apparatus, Hazard Symbols and Units</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body class="bilingual" data-user-level="2" data-lesson="6">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U0 · L06</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Science Skills" data-zh="科学方法">Science Skills</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 0</div>
+      <div class="sidebar-unit-title" data-en="Thinking &amp; Working Scientifically" data-zh="科学探究方法">Thinking &amp; Working Scientifically</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 真实情境</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Practise<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">The right tool, the right unit, and the right safety check</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">对的工具、对的单位、对的安全检查</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">HOOK · 引入</div>
+      <h2 class="screen-title">The right tool, the right unit, and the right safety check</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">对的工具、对的单位、对的安全检查</div></div><div style="background:#EAFBFF;border:2px solid #3AAEC8;border-radius:16px;padding:16px 18px;margin:0 0 16px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3AAEC8">🌍 Real-world · 真实情境</div>
+          <div style="margin-top:8px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A lab technician sets up experiments for a whole school.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Before anyone starts, they pick the correct apparatus, label every chemical with the right hazard symbol, and make sure each measurement uses the correct unit.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• One wrong symbol or wrong tool can cause a burn, a spill, or a ruined result.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• This is the everyday backbone of safe science.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 实验室技术员为整间学校准备实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 在任何人开始之前,他们选对仪器、给每种化学品贴对危险符号、 并确保每个测量用对单位。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 一个错的符号或错的工具,可能造成烧伤、泼洒,或毁掉结果。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这是安全科学每天的支柱。</div></div></div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📘</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">What this lesson is about</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">这一课讲什么</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• This lesson covers three practical basics: common apparatus, hazard symbols, and units of measurement.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这一课讲三个实用基础: 常见仪器、危险符号、测量单位。</div></div>
+    </div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4">⏰ Warm-up · 热身回顾</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Before you start: think of one experiment you&#x27;ve seen.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• What was being changed, and what was measured?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 开始前:想一个你看过的实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它在改变什么?又在测量什么?</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Good practical work is simple: right tool, right unit, right safety habit.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">好实验很简单:工具选对、单位写对、安全先看。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A beaker pretending to be a measuring cylinder is like slippers pretending to be football boots.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">烧杯假装量筒,就像拖鞋假装足球鞋。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L06_Q00_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Set of common lab apparatus laid out (test tube, beaker, measuring cylinder, conical flask, Bunsen burner, etc.).</div>
+      </div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Learn: Apparatus, Hazard Symbols and Units</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">学习</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">LEARN · 学习</div>
+      <h2 class="screen-title">Apparatus, Hazard Symbols and Units</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">学习重点</div></div><div style="background:#BFE6BF;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #2E7D32">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🔎</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#2E7D32">Common apparatus and what they are for</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">常见仪器和它们的用途</div>
+        </div>
+      </div>
+      <div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Test tube: holds small amounts of substance for reactions.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 试管:盛少量物质做反应。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Beaker: holds and mixes larger volumes of liquid (rough volume).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 烧杯:盛放和混合较大体积的液体(粗略体积)。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Measuring cylinder: measures volume of liquid more precisely.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 量筒:更精确地测量液体体积。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Conical flask: holds liquid; easy to swirl without spilling.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 锥形瓶:盛液体;容易摇晃而不泼出。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Funnel: directs liquid or supports filter paper for filtering.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 漏斗:引导液体,或托住滤纸做过滤。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Evaporating dish: holds liquid to be evaporated.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 蒸发皿:盛放要蒸发的液体。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Bunsen burner: provides heat.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 本生灯:提供热。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Tripod + gauze + clay triangle: support equipment over the flame.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 三脚架 + 石棉网 + 陶土三角:在火焰上方支撑器材。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Dropper / pipette: adds liquid drop by drop.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 滴管 / 移液管:一滴一滴加液体。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Syringe: measures and delivers a set volume.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 注射器:测量并送出一个设定体积。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Spatula: scoops small amounts of solid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 药匙:舀取少量固体。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Crucible tongs: hold hot containers safely.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 坩埚钳:安全地夹住热容器。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Apparatus names matter because each tool has a job.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">仪器名字重要,因为每个工具都有自己的工作。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Lab apparatus is a kitchen drawer: spatula, tongs, funnel — choose the tool that matches the task.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">实验仪器像厨房抽屉:铲子、夹子、漏斗,任务不同工具不同。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L06_Q00_IMG02]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Labelled grid of apparatus with their names.</div>
+      </div>
+    </div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">⚖️</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">Choosing the right apparatus for the job</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">为任务选对仪器</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• To measure a precise volume of liquid: use a measuring cylinder (not a beaker).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 要测量精确的液体体积:用量筒(不用烧杯)。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• To heat a substance: use a Bunsen burner with a tripod and gauze.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 要加热物质:用本生灯,配三脚架和石棉网。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• To add a few drops: use a dropper or pipette.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 要加几滴:用滴管或移液管。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• To hold a hot crucible: use crucible tongs.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 要夹热坩埚:用坩埚钳。</div></div>
+    </div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Rough volume? Beaker. Better volume? Measuring cylinder. Exact transfer? Pipette or burette.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:粗略烧杯,较准量筒,精确移液管/滴定管。</div></div><div style="background:#C2ECF5;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #3AAEC8">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧪</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#3AAEC8">Hazard warning symbols</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">危险警告符号</div>
+        </div>
+      </div>
+      <div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Oxidising: can provide oxygen so other things burn more fiercely.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 氧化性:能提供氧气,让其他东西烧得更猛烈。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Explosive: can explode.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 爆炸性:可能爆炸。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Flammable: catches fire easily.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 易燃:容易着火。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Corrosive: attacks and destroys skin, eyes, or materials.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 腐蚀性:侵蚀并破坏皮肤、眼睛或材料。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Toxic: can cause death or serious harm if swallowed/breathed in.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有毒:吞下/吸入可能致死或严重伤害。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Harmful / irritant: can cause less serious harm or irritation.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有害 / 刺激性:可能造成较轻伤害或刺激。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Dangerous for the environment: harms wildlife or the environment.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 对环境有害:伤害野生生物或环境。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• (Electric shock warning where electricity is used.)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• (用电的地方有触电警告。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• )</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Hazard symbols are not decorations.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They tell you what can hurt you and what habit prevents it.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 危险符号不是贴纸。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它告诉你哪里会伤人,该用什么习惯防。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L06_Q00_IMG03]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Grid of hazard warning symbols (oxidising, explosive, flammable, corrosive, toxic, harmful, environmental hazard, electric shock).</div>
+      </div>
+    </div><div style="background:#E2C4EE;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #9B3FC9">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧩</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#9B3FC9">Units of measurement</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">测量单位</div>
+        </div>
+      </div>
+      <div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Temperature: degrees Celsius (C).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 温度:摄氏度(C)。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Time: seconds (s), minutes (min), hours (h).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 时间:秒(s)、分钟(min)、小时(h)。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Volume: cubic centimetres (cm3) and cubic decimetres (dm3).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 体积:立方厘米(cm3)和立方分米(dm3)。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Mass: grams (g) and kilograms (kg).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 质量:克(g)和千克(kg)。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Length: millimetres (mm), centimetres (cm), metres (m).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 长度:毫米(mm)、厘米(cm)、米(m)。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A number without a unit is half a message.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 25 could mean 25 cm3, 25 g, or 25 degrees.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 没单位的数字只说了一半。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 25 可能是 25 cm3、25 g、也可能是 25 度。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• &quot;Add 25&quot; is not a method.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It is a mystery novel.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 「加 25」不是步骤,是悬疑小说。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L06_Q00_IMG04]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Units shown with apparatus (thermometer = C, timer = s/min, measuring cylinder = cm3).</div>
+      </div>
+    </div><div style="margin:16px 0 6px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#171413">A beaker is not for measuring exact volume</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">烧杯不是用来测量精确体积的</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A beaker shows rough volume.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It is built for holding and mixing, not exact measuring.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 烧杯只能粗看体积。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它主要是装和混,不是精确量。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Beaker marks are like guessing time by the sun.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Useful roughly, bad for exact timing.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 烧杯刻度像看太阳猜时间。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 大概可以,精准不行。</div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:16px;padding:16px 18px;margin:18px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#C00000;letter-spacing:.5px">🚩 COMMON MISTAKE · 常见错误</div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#C00000">✘ Students often think · 学生常以为</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Students use the marks on a beaker to measure an exact volume of liquid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">学生用烧杯上的刻度去测量精确的液体体积。</div>
+      </div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #2E7D32">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#2E7D32">✔ Correct · 正确</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Beaker markings are only rough guides.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• For a precise volume, use a measuring cylinder (or a pipette/burette for very precise work).</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Choosing the wrong apparatus makes the measurement inaccurate.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 烧杯的刻度只是粗略参考。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 要精确的体积, 用量筒(非常精确的工作用移液管/滴定管)。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 选错仪器会让测量不准确。</div>
+      </div>
+    </div><div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:16px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#D98A2B">🎯 What the examiner wants · 考官要什么</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">State = short answer · Describe = say what &amp; how · Explain = give the reason (fact + because) · Define = use the exact term.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">State=短答 · Describe=说什么、怎样 · Explain=讲原因(事实+because) · Define=用准确术语。</div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Practise now · 开始练习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Try it — with hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">练习(有提示)</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">TRY · 练习</div>
+      <h2 class="screen-title">Practice with hints</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">带提示练习</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q01</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Which apparatus measures the volume of a liquid most precisely?</div><div style="margin-left:8px;margin-top:3px">A) Beaker  B) Measuring cylinder  C) Conical flask  D) Evaporating dish</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">哪个仪器最精确地测量液体的体积?</div><div style="margin-left:8px;margin-top:3px">A) 烧杯  B) 量筒  C) 锥形瓶  D) 蒸发皿</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Precise volume needs the right tool. <span style="color:#D98A2B">精确体积需要对的工具。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Which one has a fine scale made for measuring volume?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">哪个有专门用来测体积的细刻度?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Which apparatus measures the volume of a liquid most preci, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「Which apparatus measures the volum」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q02</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · hotspot</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A chemical bottle shows a flame over a circle symbol. What</div><div style="margin-left:8px;margin-top:3px">hazard does this warn about?</div><div style="margin-left:8px;margin-top:3px">A) Toxic  B) Oxidising  C) Corrosive  D) Harmful</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一个化学瓶上有&quot;圆圈上方一团火焰&quot;的符号。这警告什么危险?</div><div style="margin-left:8px;margin-top:3px">A) 有毒  B) 氧化性  C) 腐蚀性  D) 有害</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L06_Q02_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">question image</div>
+      </div>
+    </div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> A flame inside a circle means it helps burning. <span style="color:#D98A2B">圆圈里的火焰表示它助燃。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Oxidising substances supply oxygen so fires burn fiercely.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">氧化性物质提供氧气,让火烧得猛。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); accept the correct hotspot/label choice within the intended target area; if the target has two labels, mark each label independently.<br><span style="color:#D98A2B">B(只接受 B)；接受点在正确目标区域/选出正确标签；若有两个判断,逐项独立给分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> A flame over a circle is oxidising, not simply flammable. It means the substance can help other materials burn more strongly. <span style="color:#D98A2B">火焰在圆圈上是氧化性,不是单纯易燃。它表示这种物质会帮助其他东西燃烧得更猛烈。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q03</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Match · 3 marks · matching</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Match the apparatus to its use.</div><div style="margin-left:8px;margin-top:3px">Apparatus: (1) Funnel  (2) Crucible tongs  (3) Spatula</div><div style="margin-left:8px;margin-top:3px">Uses:</div><div style="margin-left:8px;margin-top:3px">a. Hold a hot container safely</div><div style="margin-left:8px;margin-top:3px">b. Scoop a small amount of solid</div><div style="margin-left:8px;margin-top:3px">c. Support filter paper / direct liquid</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">把仪器配到它的用途。</div><div style="margin-left:8px;margin-top:3px">仪器:(1) 漏斗  (2) 坩埚钳  (3) 药匙</div><div style="margin-left:8px;margin-top:3px">用途:</div><div style="margin-left:8px;margin-top:3px">a. 安全地夹住热容器</div><div style="margin-left:8px;margin-top:3px">b. 舀取少量固体</div><div style="margin-left:8px;margin-top:3px">c. 托住滤纸 / 引导液体</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Match each tool to its job. <span style="color:#D98A2B">把每个工具配到它的工作。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Tongs are for holding; a spatula is for scooping.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">钳子用来夹;药匙用来舀。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">1-c, 2-a, 3-b</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">1-c、2-a、3-b</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> exact mapping 1-c / 2-a / 3-b; accept equivalent exact ordering/mapping; give one mark for each correct pair/position; do not require extra explanation.<br><span style="color:#D98A2B">完全对应 1-c / 2-a / 3-b；接受等价的正确顺序/配对；每个正确配对/位置给 1 分；不要求额外解释。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Some items are misplaced — for this task (Match the apparatus to its use. Apparatus: (1) Funnel (2) ), check which label or step belongs where. <span style="color:#D98A2B">有项目放错——这题是「Match the apparatus to its use. Ap」,先核每个标签/步骤该放哪里。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q04</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State the correct unit for each: (a) temperature, (b) volume</div><div style="margin-left:8px;margin-top:3px">of a liquid, (c) mass.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出每个的正确单位:(a) 温度,(b) 液体体积,(c) 质量。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Match the quantity to its standard unit. <span style="color:#D98A2B">把量配到它的标准单位。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Volume is a &quot;cubic&quot; unit.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">体积是&quot;立方&quot;单位。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">(a) degrees Celsius (C); (b) cubic centimetres (cm3) [or dm3]; (c) grams (g) [or kg]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">(a) 摄氏度(C);(b) 立方厘米(cm3)[或 dm3]; (c) 克(g)[或 kg]</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> (a) C; (b) cm3 or dm3; (c) g or kg; accept: (a) degrees Celsius (C); (b) cubic centimetres (cm3) [or dm3]; (c) grams (g) [or kg]; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">(a) C;(b) cm3 或 dm3;(c) g 或 kg；接受：(a) 摄氏度(C);(b) 立方厘米(cm3)[或 dm3]; (c) 克(g)[或 kg]；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Units must match what is measured. Temperature uses °C, liquid volume uses cm3 or dm3, and mass uses g or kg. <span style="color:#D98A2B">单位要配测量对象。温度用 °C,液体体积用 cm3 或 dm3,质量用 g 或 kg。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q05</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A student must heat a small amount of liquid until it</div><div style="margin-left:8px;margin-top:3px">evaporates. Name the apparatus they should use to (a) hold the liquid</div><div style="margin-left:8px;margin-top:3px">and (b) provide the heat, and (c) state one safety precaution.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位学生要加热少量液体直到它蒸发。说出他应该用什么仪器来</div><div style="margin-left:8px;margin-top:3px">(a) 盛液体 和 (b) 提供热,以及 (c) 说出一个安全注意事项。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Pick apparatus AND a safety point. <span style="color:#D98A2B">既选仪器又给一个安全点。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">What dish is named after evaporating?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">哪种皿是以&quot;蒸发&quot;命名的?</div></div></details><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint 2 · 第二提示</summary>
+            <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Safety: think about eyes, hot surfaces, and the flame.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">安全:想想眼睛、热表面、火焰。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">(a) evaporating dish; (b) Bunsen burner (with tripod and gauze); (c) any one: wear eye protection, use tongs for hot items, do not touch hot apparatus, point the opening away from people.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">(a) 蒸发皿;(b) 本生灯(配三脚架和石棉网); (c) 任一:戴护目镜、用钳子夹热物、不碰热仪器、开口朝向避开人。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> correct holding + heating apparatus + one valid safety point; accept: (a) evaporating dish; (b) Bunsen burner (with tripod and gauze); (c) any one: wear eye protection, use tongs for hot ite; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">正确的盛装+加热仪器+一个有效安全点；接受：(a) 蒸发皿;(b) 本生灯(配三脚架和石棉网); (c) 任一:戴护目镜、用钳子夹热物、不碰热仪器、开口朝向避开人。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Think by job: evaporating dish holds the liquid while heating; Bunsen burner supplies heat; safety needs eye protection or keeping away from the flame. <span style="color:#D98A2B">按工作想:蒸发皿装液体并受热；本生灯供热；安全要护目镜或远离火焰。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Go to test · 进入测试 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Test — no hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">测试(无提示)</div>
+</div><div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter';font-weight:700;font-size:11px;padding:4px 12px;border-radius:999px;margin-bottom:10px">EXAM MODE · NO HINTS · 考试模式 · 无提示</div><div class="screen-header">
+      <div class="screen-eyebrow">TEST · 测试</div>
+      <h2 class="screen-title">Apply on your own</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">独立应用</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q06</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Which apparatus is used to add liquid drop by drop?</div><div style="margin-left:8px;margin-top:3px">A) Beaker  B) Dropper  C) Tripod  D) Spatula</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">哪个仪器用来一滴一滴加液体?</div><div style="margin-left:8px;margin-top:3px">A) 烧杯  B) 滴管  C) 三脚架  D) 药匙</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Which apparatus is used to add liquid drop by drop? A) Bea, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「Which apparatus is used to add liq」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q07</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A substance that &quot;attacks and destroys skin&quot; is labelled:</div><div style="margin-left:8px;margin-top:3px">A) Flammable  B) Oxidising  C) Corrosive  D) Environmental hazard</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一种&quot;侵蚀并破坏皮肤&quot;的物质被标为:</div><div style="margin-left:8px;margin-top:3px">A) 易燃  B) 氧化性  C) 腐蚀性  D) 对环境有害</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">C</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">C</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> C (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">C(只接受 C)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about A substance that &quot;attacks and destroys skin&quot; is labelled: , the trap is: A, B, D. <span style="color:#D98A2B">选项错——这题主题是「A substance that &quot;attacks and dest」,陷阱是：A、B、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q08</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State the apparatus you would use to measure exactly 25 cm3 of</div><div style="margin-left:8px;margin-top:3px">water, and explain why a beaker would not be suitable.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出你会用什么仪器来量准 25 cm3 的水,</div><div style="margin-left:8px;margin-top:3px">并解释为什么烧杯不合适。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A measuring cylinder, because a beaker&#x27;s markings are only rough and not precise enough.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">量筒,因为烧杯的刻度只是粗略的,不够精确。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> measuring cylinder + beaker is only rough/approximate; accept: A measuring cylinder, because a beaker&#x27;s markings are only rough and not precise enough.; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">量筒 + 烧杯只是粗略/近似；接受：量筒,因为烧杯的刻度只是粗略的,不够精确。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> A beaker is for rough holding and mixing. For exactly 25 cm3, use a measuring cylinder because it has a more precise scale. <span style="color:#D98A2B">烧杯适合粗略盛装和混合。要准确量 25 cm3,用量筒,因为刻度更精确。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q09</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A bottle of ethanol carries a flame symbol. State what hazard</div><div style="margin-left:8px;margin-top:3px">this warns about and one safety precaution when using it.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一瓶乙醇带有火焰符号。说出这警告什么危险,以及使用时的一个安全注意事项。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Flammable (catches fire easily); keep it away from open flames / Bunsen burners.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">易燃(容易着火);使其远离明火 / 本生灯。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> flammable + a valid precaution (keep from flames/heat); accept: Flammable (catches fire easily); keep it away from open flames / Bunsen burners.; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">易燃 + 有效注意事项(远离火焰/热)；接受：易燃(容易着火);使其远离明火 / 本生灯。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The flame symbol means ethanol catches fire easily. The safety action must reduce ignition risk, such as keeping it away from Bunsen burners or open flames. <span style="color:#D98A2B">火焰符号表示乙醇容易着火。安全措施要降低点燃风险,例如远离本生灯或明火。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q10</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Describe · 4 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A student plans to filter sand out of salty water and then</div><div style="margin-left:8px;margin-top:3px">evaporate the water to get the salt. Describe which apparatus they need</div><div style="margin-left:8px;margin-top:3px">for (a) the filtering step and (b) the evaporating step, and give the</div><div style="margin-left:8px;margin-top:3px">correct unit they would use to measure the volume of water at the start.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位学生计划把沙从盐水里过滤掉,然后蒸发水得到盐。</div><div style="margin-left:8px;margin-top:3px">描述他在 (a) 过滤步骤 和 (b) 蒸发步骤 需要哪些仪器,</div><div style="margin-left:8px;margin-top:3px">并给出他在开始时测量水体积会用的正确单位。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">(a) funnel with filter paper (over a beaker/conical flask); (b) evaporating dish heated with a Bunsen burner (tripod + gauze); unit of volume = cm3 (or dm3).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">(a) 漏斗配滤纸(放在烧杯/锥形瓶上); (b) 蒸发皿用本生灯加热(三脚架+石棉网);体积单位 = cm3(或 dm3)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> filtering apparatus + evaporating apparatus + cm3/dm3; accept: (a) funnel with filter paper (over a beaker/conical flask); (b) evaporating dish heated with a Bunsen burner (tripod + g; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">过滤仪器 + 蒸发仪器 + cm3/dm3；接受：(a) 漏斗配滤纸(放在烧杯/锥形瓶上); (b) 蒸发皿用本生灯加热(三脚架+石棉网);体积单位 = cm3(或 dm3)。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> There are two stages. Filtering removes sand with funnel and filter paper; evaporating then removes water to leave salt. Do not mix the order. <span style="color:#D98A2B">这里有两步。过滤用漏斗和滤纸去沙；再蒸发水留下盐。不要把顺序混掉。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 完成 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Right tool, right symbol, right unit</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">对的工具、对的符号、对的单位</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">WRAP · 总结</div>
+      <h2 class="screen-title">Right tool, right symbol, right unit</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">对的工具、对的符号、对的单位</div></div><div style="background:#DDD3A0;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #8A7B4A">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📌</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#8A7B4A">Key points to keep</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">记住这几点</div>
+        </div>
+      </div>
+      <div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Apparatus: each tool has a job (measuring cylinder for precise volume, Bunsen burner for heat, tongs for hot items, etc.).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 仪器:每个工具有它的工作(量筒测精确体积、本生灯加热、钳子夹热物等)。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Hazard symbols: oxidising, explosive, flammable, corrosive, toxic, harmful, environmental, electric shock.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 危险符号:氧化性、爆炸性、易燃、腐蚀性、有毒、有害、对环境有害、触电。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Units: temperature C; time s/min/h; volume cm3/dm3; mass g/kg; length mm/cm/m.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 单位:温度 C;时间 s/min/h;体积 cm3/dm3;质量 g/kg;长度 mm/cm/m。</div></div>
+    </div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3B6FD4">🔁 Cover & recall · 盖住回想</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Cover the summary.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Say each key point out loud from memory, then check.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 盖住总结。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 凭记忆把每个要点说出来,再对照检查。</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">In practical science, wrong tool plus wrong unit equals wasted data.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">实验里,工具错加单位错,数据就白做。</div></div><div style="background:#F6EAFA;border:2px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin:14px 0">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#9B3FC9">➡️ Next lesson · 下一课</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• L07 — Reading data and drawing graphs (tables, line graphs, bar charts, pie charts, anomalies, improving experiments).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 第7课</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 读数据和画图表(表格、折线图、柱状图、饼图、 异常点、改进实验)。</div></div><div class="btn-row">
+      <button class="btn" onclick="showScreen('test')">← Test · 测试</button>
+      <button class="btn btn-primary" onclick="completeLesson()">Complete lesson · 完成本课 ✓</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Every experiment starts with the right question.", zh: "每个实验都从一个对的问题开始。" },
+  learn: { en: "Take it slowly — one idea at a time.", zh: "慢慢来,一次一个概念。" },
+  try:   { en: "Use the hints if you get stuck.", zh: "卡住了就看提示。" },
+  test:  { en: "No hints now — show what you know!", zh: "现在没提示啦,秀出你会的!" },
+  wrap:  { en: "Great work. Recall it before you go.", zh: "做得好。走之前先回想一遍。" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U0 L03 · Fair Testing and Variables</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body class="bilingual" data-user-level="2" data-lesson="3">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U0 · L03</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Science Skills" data-zh="科学方法">Science Skills</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 0</div>
+      <div class="sidebar-unit-title" data-en="Thinking &amp; Working Scientifically" data-zh="科学探究方法">Thinking &amp; Working Scientifically</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 真实情境</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Practise<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">One change at a time — that is what makes a test fair</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">一次只改一样 —— 这才让测试公平</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">HOOK · 引入</div>
+      <h2 class="screen-title">One change at a time — that is what makes a test fair</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">一次只改一样 —— 这才让测试公平</div></div><div style="background:#EAFBFF;border:2px solid #3AAEC8;border-radius:16px;padding:16px 18px;margin:0 0 16px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3AAEC8">🌍 Real-world · 真实情境</div>
+          <div style="margin-top:8px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• An agricultural scientist testing which fertiliser grows the tallest crops must give every plant the same water, light, and soil, and only change the fertiliser.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If they changed two things at once, they would never know which one caused the result.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Keeping a test fair is the core skill behind every reliable experiment.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 测试哪种肥料能种出最高作物的农业科学家,必须给每株植物 一样的水、光、土,只改肥料。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 如果一次改两样, 就永远不知道是哪一样造成了结果。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 让测试保持公平,是每个可靠实验背后的核心本事。</div></div></div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📘</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">What this lesson is about</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">这一课讲什么</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Different questions need different types of investigation.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 不同的问题需要不同种类的探究。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A fair test changes only one thing and keeps the rest the same.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 公平测试只改一样,其余保持不变。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• This lesson: types of investigation, fair vs biased, and the three kinds of variable.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这一课:探究种类、公平vs有偏、以及三种变量。</div></div>
+    </div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4">⏰ Warm-up · 热身回顾</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Before you start: think of one experiment you&#x27;ve seen.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• What was being changed, and what was measured?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 开始前:想一个你看过的实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它在改变什么?又在测量什么?</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A fair test is strict because it wants one clear cause, not a messy soup of causes.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">公平测试很严格,因为它只想抓一个清楚原因,不要一锅乱汤。</div></div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Change one, measure one, keep the rest.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">口诀:改一个,量一个,其他守住。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L03_Q00_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Types of investigation branch (fair test / making a model / field study / survey).</div>
+      </div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Learn: Fair Testing and Variables</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">学习</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">LEARN · 学习</div>
+      <h2 class="screen-title">Fair Testing and Variables</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">学习重点</div></div><div style="background:#BFE6BF;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #2E7D32">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🔎</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#2E7D32">Four types of investigation</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">四种探究</div>
+        </div>
+      </div>
+      <div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Fair test: change one variable, keep all others the same.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 公平测试:改变一个变量,其余全部保持不变。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Making a model: physical model (large/small systems) or computer model.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 建模型:实体模型(大型/小型系统)或电脑模型。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Field study: investigating plants or animals in their natural habitat.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 田野调查:在自然栖息地里研究植物或动物。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Survey / regular observations: data over a long time, or many places.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 调查 / 定期观察:长时间收集数据,或在很多地方收集。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Different questions need different investigation types.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Do not use one tool for every job.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 不同问题要用不同探究方式。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 不要拿一把工具打天下。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It is like choosing shoes: running shoes, school shoes, slippers — same feet, different jobs.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 像选鞋:跑鞋、校鞋、拖鞋。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 脚一样,任务不一样。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L03_Q00_IMG02]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">reuse types of investigation branch (see B01)</div>
+      </div>
+    </div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">⚖️</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">Fair test vs biased test</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">公平测试 vs 有偏测试</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Fair test: able to produce reliable AND valid results.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 公平测试:能产生可靠而且有效的结果。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Biased test: may be reliable to some extent, but NOT valid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有偏测试:可能在某种程度上可靠,但不有效。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 「有效」的意思是这个测试真的测到了它应该测的东西。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• &quot;Valid&quot; means the test really measures what it is supposed to.</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Bias enters when another factor secretly pushes the result.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">偏差就是有另一个因素偷偷推了结果。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If you change water and light together, the plants can blame either one.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Very convenient for confused plants.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 如果水和光一起改,植物可以怪任何一个。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 植物很方便,学生很惨。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L03_Q00_IMG03]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Test branch into Fair (reliable &amp; valid) vs Biased (reliable to some extent but not valid).</div>
+      </div>
+    </div><div style="background:#C2ECF5;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #3AAEC8">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧪</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#3AAEC8">Independent, dependent, and control variables</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">自变量、因变量、控制变量</div>
+        </div>
+      </div>
+      <div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Independent variable: the one thing you CHANGE.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 自变量:你改变的那一样东西。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Dependent variable: the thing you MEASURE (the result).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 因变量:你测量的东西(结果)。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Control variables: the things you KEEP THE SAME so the test is fair.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 控制变量:你保持不变的东西,让测试公平。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Independent variable is the remote control.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Dependent variable is what the screen does.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 自变量像遥控器。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 因变量像屏幕出现的变化。</div></div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">I change the Independent. I measure the Dependent. Controls stay Constant.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:I 我改,D 我量,C 不动。</div></div><div style="background:#E2C4EE;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #9B3FC9">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧩</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#9B3FC9">Worked example: growing seeds</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">例子:种种子</div>
+        </div>
+      </div>
+      <div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Pot with soil -&gt; put seeds of species A into soil -&gt; water the soil -&gt; leave for 10 days -&gt; measure the height.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 装土的花盆 -&gt; 把 A 物种的种子放进土 -&gt; 给土浇水 -&gt; 放 10 天 -&gt; 测量高度。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If we test how water amount affects height:</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 如果我们测试&quot;水量怎样影响高度&quot;:</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Change (independent): amount of water.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 改变(自变量):水的量。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Measure (dependent): height of the plant.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 测量(因变量):植物的高度。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Keep same (control): same soil, same seeds, same pot, same light.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 保持不变(控制):一样的土、一样的种子、一样的盆、一样的光。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">In the seed test, fertiliser is the thing you change; plant height is the thing you measure.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">种子实验里,肥料是你改的东西;植物高度是你量的东西。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L03_Q00_IMG04]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Seed-growing sequence (pot with soil -&gt; seeds of species A -&gt; water -&gt; leave 10 days -&gt; measure height with ruler).</div>
+      </div>
+    </div><div style="margin:16px 0 6px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#171413">Changing more than one thing breaks the test</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">一次改超过一样,测试就坏了</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Two changes at once destroy the evidence.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• You cannot tell which change caused the result.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 一次改两个,证据就坏了。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 你分不出到底是谁造成结果。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">If soup becomes salty after adding salt and soy sauce together, you cannot blame only one.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">汤变咸,但你同时加盐和酱油,你不能只怪一个。</div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:16px;padding:16px 18px;margin:18px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#C00000;letter-spacing:.5px">🚩 COMMON MISTAKE · 常见错误</div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#C00000">✘ Students often think · 学生常以为</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Students change two variables at once (e.g. more water AND more light) and still think the test is fair.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">学生一次改两个变量(例如更多水&quot;加&quot;更多光), 还以为测试是公平的。</div>
+      </div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #2E7D32">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#2E7D32">✔ Correct · 正确</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A fair test changes only ONE variable (the independent variable).</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If two things change, you cannot tell which one caused the result, so the test is not valid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 公平测试只改&quot;一个&quot;变量(自变量)。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 如果改了两样,你就分不出是哪一样造成结果,所以测试不有效。</div>
+      </div>
+    </div><div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:16px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#D98A2B">🎯 What the examiner wants · 考官要什么</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">State = short answer · Describe = say what &amp; how · Explain = give the reason (fact + because) · Define = use the exact term.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">State=短答 · Describe=说什么、怎样 · Explain=讲原因(事实+because) · Define=用准确术语。</div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Practise now · 开始练习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Try it — with hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">练习(有提示)</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">TRY · 练习</div>
+      <h2 class="screen-title">Practice with hints</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">带提示练习</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q01</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Define · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Which variable is the one you CHANGE on purpose?</div><div style="margin-left:8px;margin-top:3px">A) Dependent variable</div><div style="margin-left:8px;margin-top:3px">B) Control variable</div><div style="margin-left:8px;margin-top:3px">C) Independent variable</div><div style="margin-left:8px;margin-top:3px">D) Measured variable</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">哪个变量是你&quot;故意改变&quot;的那一个?</div><div style="margin-left:8px;margin-top:3px">A) 因变量  B) 控制变量  C) 自变量  D) 测量变量</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> The independent variable is the one you change. <span style="color:#D98A2B">自变量是你改变的那一个。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">&quot;Independent&quot; = the input you decide and change.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">「自变量」= 你决定并改变的输入。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">C</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">C</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> C (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">C(只接受 C)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Which variable is the one you CHANGE on purpose? A) Depend, the trap is: A, B, D. <span style="color:#D98A2B">选项错——这题主题是「Which variable is the one you CHAN」,陷阱是：A、B、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q02</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A fair test is able to produce results that are:</div><div style="margin-left:8px;margin-top:3px">A) reliable but not valid</div><div style="margin-left:8px;margin-top:3px">B) reliable and valid</div><div style="margin-left:8px;margin-top:3px">C) neither reliable nor valid</div><div style="margin-left:8px;margin-top:3px">D) valid but never reliable</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">公平测试能产生的结果是:</div><div style="margin-left:8px;margin-top:3px">A) 可靠但不有效  B) 可靠而且有效</div><div style="margin-left:8px;margin-top:3px">C) 既不可靠也不有效  D) 有效但从不可靠</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Valid means it measures what it should. <span style="color:#D98A2B">有效的意思是它测到了它该测的。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">A biased test is the one that is &quot;not valid.&quot;</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">有偏测试才是那个&quot;不有效&quot;的。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about A fair test is able to produce results that are: A) reliab, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「A fair test is able to produce res」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q03</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A student tests how the amount of fertiliser affects plant</div><div style="margin-left:8px;margin-top:3px">height. Name (a) the independent variable and (b) the dependent variable.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位学生测试肥料的量怎样影响植物高度。</div><div style="margin-left:8px;margin-top:3px">说出 (a) 自变量 和 (b) 因变量。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Change one, measure one, keep the rest the same. <span style="color:#D98A2B">改一个,测一个,其余保持不变。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">The thing you measure at the end is the dependent variable.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">你最后测量的那样东西是因变量。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">(a) amount of fertiliser; (b) plant height</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">(a) 肥料的量;(b) 植物高度</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> (a) fertiliser amount; (b) height/growth; accept: (a) amount of fertiliser; (b) plant height; accept also: uses the correct variable names even if sentence grammar is weak.<br><span style="color:#D98A2B">(a) 肥料量;(b) 高度/生长；接受：(a) 肥料的量;(b) 植物高度；也接受：变量名称正确,就算句子语法弱也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Do not swap the variables. Fertiliser amount is what the student changes; plant height is what they measure at the end. <span style="color:#D98A2B">不要把变量倒反。肥料的量是学生改变的东西；植物高度是最后测量的结果。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q04</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">In the fertiliser experiment, state two control variables</div><div style="margin-left:8px;margin-top:3px">the student should keep the same.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">在肥料实验里,说出学生应该保持不变的两个控制变量。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Control variables keep everything else equal. <span style="color:#D98A2B">控制变量让其余一切保持相等。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Do not list the thing you are changing.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">不要列出你正在改变的那一样。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Any two: same amount of water, same light, same soil, same pot size, same plant type, same temperature.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">任两个:一样的水量、一样的光、一样的土、 一样的盆大小、一样的植物种类、一样的温度。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any two valid controls; accept: Any two: same amount of water, same light, same soil, same pot size, same plant type, same temperature.; accept also: uses the correct variable names even if sentence grammar is weak.<br><span style="color:#D98A2B">任两个有效的控制变量；接受：任两个:一样的水量、一样的光、一样的土、 一样的盆大小、一样的植物种类、一样的温度。；也接受：变量名称正确,就算句子语法弱也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Control variables are the things kept the same. Do not name fertiliser amount or plant height; those already have other jobs. <span style="color:#D98A2B">控制变量是保持相同的东西。不要写肥料量或植物高度；它们已经有别的角色。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q05</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A student gives one plant more water AND more light than the</div><div style="margin-left:8px;margin-top:3px">other, then says light made it grow taller. Explain why this conclusion</div><div style="margin-left:8px;margin-top:3px">is not valid.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位学生给一株植物比另一株更多水&quot;加&quot;更多光,</div><div style="margin-left:8px;margin-top:3px">然后说是光让它长得更高。解释为什么这个结论不有效。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Two changes mean you cannot tell which caused the result. <span style="color:#D98A2B">改两样意味着你分不出是哪样造成结果。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">How many things were changed between the two plants?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">两株植物之间改了几样东西?</div></div></details><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint 2 · 第二提示</summary>
+            <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">If two inputs change together, the result could be from either.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">如果两个输入一起改,结果可能来自任一个。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Two variables were changed (water and light), so you cannot tell which one caused the extra height. The test is not fair, so the conclusion is not valid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">改了两个变量(水和光),所以分不出是哪一个造成多长的高度。 测试不公平,所以结论不有效。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any answer noting two variables changed -&gt; cannot attribute the result; accept: Two variables were changed (water and light), so you cannot tell which one caused the extra height. The test is not fair; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">任何指出&quot;改了两个变量 -&gt; 无法归因结果&quot;的答案；接受：改了两个变量(水和光),所以分不出是哪一个造成多长的高度。 测试不公平,所以结论不有效。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The problem is not that the plants grew. The problem is that water and light both changed, so the cause cannot be identified. <span style="color:#D98A2B">问题不是植物长高了。问题是水和光都变了,所以分不出真正原因。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Go to test · 进入测试 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Test — no hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">测试(无提示)</div>
+</div><div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter';font-weight:700;font-size:11px;padding:4px 12px;border-radius:999px;margin-bottom:10px">EXAM MODE · NO HINTS · 考试模式 · 无提示</div><div class="screen-header">
+      <div class="screen-eyebrow">TEST · 测试</div>
+      <h2 class="screen-title">Apply on your own</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">独立应用</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q06</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Define · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">The variable you MEASURE as the result is called the:</div><div style="margin-left:8px;margin-top:3px">A) independent variable</div><div style="margin-left:8px;margin-top:3px">B) control variable</div><div style="margin-left:8px;margin-top:3px">C) dependent variable</div><div style="margin-left:8px;margin-top:3px">D) fair variable</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">你作为结果&quot;测量&quot;的变量叫做:</div><div style="margin-left:8px;margin-top:3px">A) 自变量  B) 控制变量  C) 因变量  D) 公平变量</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">C</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">C</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> C (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">C(只接受 C)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about The variable you MEASURE as the result is called the: A) i, the trap is: A, B, D. <span style="color:#D98A2B">选项错——这题主题是「The variable you MEASURE as the re」,陷阱是：A、B、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q07</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Match · 3 marks · matching</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Match the investigation type to its description.</div><div style="margin-left:8px;margin-top:3px">Types: (1) Fair test  (2) Field study  (3) Making a model</div><div style="margin-left:8px;margin-top:3px">Descriptions:</div><div style="margin-left:8px;margin-top:3px">a. Studying animals in their natural habitat</div><div style="margin-left:8px;margin-top:3px">b. Changing one variable, keeping others the same</div><div style="margin-left:8px;margin-top:3px">c. Using a physical or computer version of a system</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">把探究种类配到它的描述。</div><div style="margin-left:8px;margin-top:3px">种类:(1) 公平测试  (2) 田野调查  (3) 建模型</div><div style="margin-left:8px;margin-top:3px">描述:</div><div style="margin-left:8px;margin-top:3px">a. 在自然栖息地里研究动物</div><div style="margin-left:8px;margin-top:3px">b. 改变一个变量,其余保持不变</div><div style="margin-left:8px;margin-top:3px">c. 用一个实体或电脑版本的系统</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">1-b, 2-a, 3-c</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">1-b、2-a、3-c</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> exact mapping 1-b / 2-a / 3-c; accept equivalent exact ordering/mapping; give one mark for each correct pair/position; do not require extra explanation.<br><span style="color:#D98A2B">完全对应 1-b / 2-a / 3-c；接受等价的正确顺序/配对；每个正确配对/位置给 1 分；不要求额外解释。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Some items are misplaced — for this task (Match the investigation type to its description. Types: (1), check which label or step belongs where. <span style="color:#D98A2B">有项目放错——这题是「Match the investigation type to it」,先核每个标签/步骤该放哪里。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q08</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A scientist tests how temperature affects how fast sugar</div><div style="margin-left:8px;margin-top:3px">dissolves in water. Identify the independent variable and the dependent</div><div style="margin-left:8px;margin-top:3px">variable.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位科学家测试温度怎样影响糖在水里溶解的速度。</div><div style="margin-left:8px;margin-top:3px">指出自变量和因变量。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Independent: temperature; Dependent: time to dissolve (how fast it dissolves).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">自变量:温度;因变量:溶解所需时间(溶解多快)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> Accept independent variable = temperature; dependent variable = time to dissolve or dissolving rate/speed. Wording may vary, but the two variables must not be swapped.<br><span style="color:#D98A2B">接受自变量=温度；因变量=溶解时间或溶解速度。说法可不同,但两个变量不能倒反。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Temperature is the factor changed on purpose. Time to dissolve, or dissolving speed, is the result measured. Do not reverse them. <span style="color:#D98A2B">温度是故意改变的因素。溶解时间或溶解速度是测量结果。不要倒反。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q09</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State why control variables must be kept the same in a fair test.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出为什么公平测试里控制变量必须保持不变。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">So that only the independent variable can affect the result, making the test fair and the result valid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">这样只有自变量能影响结果,让测试公平、结果有效。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any answer linking controls -&gt; only the independent affects the result; accept: So that only the independent variable can affect the result, making the test fair and the result valid.; accept also: uses the correct variable names even if sentence grammar is weak.<br><span style="color:#D98A2B">任何把&quot;控制变量 -&gt; 只有自变量影响结果&quot;连起来的答案；接受：这样只有自变量能影响结果,让测试公平、结果有效。；也接受：变量名称正确,就算句子语法弱也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Controls are kept the same so the result can be blamed on the independent variable only. If other factors change, the test becomes unfair. <span style="color:#D98A2B">控制变量保持相同,结果才可以只归因于自变量。其他因素也变,测试就不公平。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q10</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Plan · 4 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Plan a fair test to find out how the surface (rough or smooth)</div><div style="margin-left:8px;margin-top:3px">affects how far a toy car rolls. State the independent variable, the</div><div style="margin-left:8px;margin-top:3px">dependent variable, and two control variables.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">规划一个公平测试,找出表面(粗糙或光滑)怎样影响</div><div style="margin-left:8px;margin-top:3px">玩具车滚多远。说出自变量、因变量、以及两个控制变量。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Independent: surface type; Dependent: distance the car rolls; Controls (any two): same car, same starting height/ramp, same push (or release from rest), same starting point.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">自变量:表面种类;因变量:车滚的距离; 控制(任两个):同一辆车、同样的起始高度/斜坡、同样的推力(或静止释放)、 同样的起点。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> correct independent + dependent + any two valid controls; accept: Independent: surface type; Dependent: distance the car rolls; Controls (any two): same car, same starting height/ramp, s; accept also: uses the correct variable names even if sentence grammar is weak.<br><span style="color:#D98A2B">正确的自变量+因变量+任两个有效控制变量；接受：自变量:表面种类;因变量:车滚的距离; 控制(任两个):同一辆车、同样的起始高度/斜坡、同样的推力(或静止释放)、 同样的起点。；也接受：变量名称正确,就算句子语法弱也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> A plan needs all roles: surface type changed, distance rolled measured, and other factors kept the same. Missing one role makes the test incomplete. <span style="color:#D98A2B">计划要有三类角色:改变表面、测量滚动距离、保持其他因素相同。漏一类,公平测试就不完整。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 完成 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Change one, measure one, keep the rest the same</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">改一个,测一个,其余不变</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">WRAP · 总结</div>
+      <h2 class="screen-title">Change one, measure one, keep the rest the same</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">改一个,测一个,其余不变</div></div><div style="background:#DDD3A0;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #8A7B4A">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📌</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#8A7B4A">Key points to keep</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">记住这几点</div>
+        </div>
+      </div>
+      <div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Investigation types: fair test, model, field study, survey.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 探究种类:公平测试、模型、田野调查、调查。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Fair test produces reliable AND valid results; biased does not.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 公平测试产生可靠&quot;而且&quot;有效的结果;有偏测试不会。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Independent = changed; dependent = measured; control = kept the same.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 自变量=改变的;因变量=测量的;控制变量=保持不变的。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Change only ONE variable to keep a test fair.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 只改&quot;一个&quot;变量,才能让测试公平。</div></div>
+    </div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3B6FD4">🔁 Cover & recall · 盖住回想</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Cover the summary.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Say each key point out loud from memory, then check.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 盖住总结。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 凭记忆把每个要点说出来,再对照检查。</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">That sentence is the whole lesson in one line: change one, measure one, keep the rest fair.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">这一句就是整课:改一个,量一个,其他保持公平。</div></div><div style="background:#F6EAFA;border:2px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin:14px 0">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#9B3FC9">➡️ Next lesson · 下一课</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• L04 — Accuracy, precision, reliability and validity.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 第4课</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确度、精密度、可靠度、有效度。</div></div><div class="btn-row">
+      <button class="btn" onclick="showScreen('test')">← Test · 测试</button>
+      <button class="btn btn-primary" onclick="completeLesson()">Complete lesson · 完成本课 ✓</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Every experiment starts with the right question.", zh: "每个实验都从一个对的问题开始。" },
+  learn: { en: "Take it slowly — one idea at a time.", zh: "慢慢来,一次一个概念。" },
+  try:   { en: "Use the hints if you get stuck.", zh: "卡住了就看提示。" },
+  test:  { en: "No hints now — show what you know!", zh: "现在没提示啦,秀出你会的!" },
+  wrap:  { en: "Great work. Recall it before you go.", zh: "做得好。走之前先回想一遍。" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
