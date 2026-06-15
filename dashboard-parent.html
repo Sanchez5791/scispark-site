@@ -635,68 +635,60 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
 .doudou-greeting-text { font-size: 13px; color: var(--text); line-height: 1.5; }
 .doudou-greeting-en { display: block; }
 
-.doudou-metrics {
-  display: grid; grid-template-columns: 1fr; gap: 18px;
-  padding: 18px 0;
+/* status rows — weekly-rhythm "support" version (no daily attendance / no minutes) */
+.doudou-rows {
+  padding: 6px 0 14px;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
-@media (min-width: 640px) { .doudou-metrics { grid-template-columns: repeat(3, 1fr); } }
-.doudou-metric-label {
+.doudou-row { padding: 12px 0; }
+.doudou-row + .doudou-row { border-top: 1px dashed var(--border); }
+.doudou-row-label {
   font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
 }
-.doudou-metric-value {
-  font-family: var(--font-serif); font-size: 26px; font-weight: 500;
-  color: var(--text); line-height: 1.1;
+.doudou-row-value {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 500;
+  color: var(--text); line-height: 1.15;
 }
-.doudou-metric-value.is-yes { color: var(--green); }
-.doudou-metric-value.is-empty { color: var(--text-light); font-size: 18px; }
-.doudou-metric-sub {
-  font-size: 11px; color: var(--text-muted); margin-top: 6px;
+.doudou-row-value.is-empty { color: var(--text-light); font-size: 18px; }
+.doudou-row-sub {
+  font-size: 12px; color: var(--text-muted); margin-top: 6px;
   font-family: var(--font-zh); line-height: 1.4;
 }
 
-.doudou-progress-bar {
-  height: 6px; background: var(--bg-subtle); border-radius: 99px;
-  margin-top: 8px; overflow: hidden;
+/* weekly-rhythm pill — shows exactly ONE of: on-track / nudge / resting / — */
+.doudou-rhythm {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 7px 15px 7px 12px; border-radius: 99px;
+  font-size: 16px; font-weight: 600;
 }
-.doudou-progress-fill { height: 100%; background: var(--orange); border-radius: 99px; transition: width .3s; }
+.doudou-rhythm-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--text-light); flex-shrink: 0; }
+.doudou-rhythm[data-state="none"]     { background: var(--bg-subtle); color: var(--text-muted); }
+.doudou-rhythm[data-state="on-track"] { background: var(--green-bg); color: var(--green-text); }
+.doudou-rhythm[data-state="on-track"] .doudou-rhythm-dot { background: var(--green); }
+.doudou-rhythm[data-state="nudge"]    { background: var(--orange-light); color: var(--orange); }
+.doudou-rhythm[data-state="nudge"] .doudou-rhythm-dot { background: var(--orange); }
+.doudou-rhythm[data-state="resting"]  { background: var(--bg-subtle); color: var(--text); }
+.doudou-rhythm[data-state="resting"] .doudou-rhythm-dot { background: var(--text-muted); }
 
-.doudou-week { margin-bottom: 18px; }
-.doudou-week-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+/* row 3 — what parents can / can't see (fixed text) */
+.doudou-boundary { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px; }
+@media (min-width: 560px) { .doudou-boundary { grid-template-columns: 1fr 1fr; } }
+.doudou-boundary > div {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 12px 14px; border-radius: var(--radius-md);
+  font-size: 12.5px; line-height: 1.45;
 }
-.doudou-week-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-.doudou-day {
-  border-radius: var(--radius-sm); padding: 9px 0 7px; text-align: center;
-  border: 1.5px solid transparent; background: var(--bg-subtle);
+.doudou-boundary-see  { background: var(--green-bg); color: var(--green-text); }
+.doudou-boundary-hide { background: var(--bg-subtle); color: var(--text); }
+.doudou-boundary-ic { font-size: 15px; flex-shrink: 0; line-height: 1.3; }
+.doudou-boundary-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  opacity: .8; display: block; margin-bottom: 3px;
 }
-.doudou-day-mark { font-size: 15px; line-height: 1; }
-.doudou-day-name {
-  display: block; font-size: 10px; margin-top: 5px;
-  color: var(--text-muted); font-family: var(--font-zh);
-}
-.doudou-day.is-valid { background: var(--green-bg); }
-.doudou-day.is-valid .doudou-day-mark { color: var(--green-text); }
-.doudou-day.is-today { border-color: var(--orange); }
-.doudou-week-key {
-  font-size: 11px; color: var(--text-muted); margin-top: 10px;
-  font-family: var(--font-zh); line-height: 1.5;
-}
-.doudou-week-def { color: var(--text-light); }
-
-.doudou-note {
-  background: var(--orange-light);
-  border: 1px solid var(--orange-mid);
-  border-left: 3px solid var(--orange);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  font-size: 13px; color: var(--text); line-height: 1.5;
-  margin-bottom: 4px;
-}
+.doudou-boundary .zh { display: block; font-family: var(--font-zh); margin-top: 2px; opacity: .9; }
 
 .doudou-toggle-row {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -717,13 +709,19 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
 }
 .doudou-switch[aria-checked="true"] .doudou-switch-knob { transform: translateX(20px); }
 
-.doudou-privacy {
-  font-size: 12px; color: var(--text-muted); line-height: 1.5;
-  padding-top: 14px; border-top: 1px solid var(--border);
+/* row 4 — cooldown tip (always shown, fixed text) */
+.doudou-cooldown {
+  background: var(--orange-light);
+  border: 1px solid var(--orange-mid);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius-md);
+  padding: 13px 16px;
+  font-size: 13px; color: var(--text); line-height: 1.5;
+  margin-top: 14px;
 }
-.doudou-privacy .zh {
+.doudou-cooldown .zh {
   display: block; font-family: var(--font-zh);
-  color: var(--text-light); margin-top: 3px;
+  color: var(--text-muted); margin-top: 4px;
 }
 </style>
 </head>
@@ -849,67 +847,74 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
          data or an honest empty state — no demo/fake values ship. -->
     <div class="card doudou-card" id="learning-status-card" style="display:none">
 
-      <!-- (a) title + studied-today badge -->
+      <!-- title (no daily badge — this is a weekly view, not attendance) -->
       <div class="card-header">
         <div class="card-title">
           Learning Status
           <span class="zh-sub">学习状态 · <span id="doudou-child-name">—</span></span>
         </div>
-        <span class="badge badge-green doudou-today-badge" id="doudou-today-badge" style="display:none">Studied today · 今天有学习记录</span>
       </div>
 
-      <!-- (b) framing gate -->
+      <!-- framing gate -->
       <div class="doudou-gate">
-        💡 DouDou only shares <strong>progress</strong>, never gaps or mistakes. A rest day is okay.
-        <span class="zh">豆豆只展示进度，不展示缺漏、不展示错题。哪天休息也没关系。</span>
+        💡 This is a rhythm view, not an attendance sheet. DouDou shares <strong>how the week is going</strong> — never gaps, mistakes, or a daily score.
+        <span class="zh">这是「本周节奏」，不是考勤表。豆豆只说这周大致状态 —— 不报缺漏、不报错题、不报每天打卡。</span>
       </div>
 
-      <!-- (c) DouDou greeting -->
+      <!-- DouDou greeting (encouragement only, no specific data) -->
       <div class="doudou-greeting">
         <span class="doudou-avatar">🐣</span>
         <div class="doudou-greeting-text">
-          <span class="doudou-greeting-en">Hi <span data-parent-firstname>there</span> — I'm DouDou. Parents see study status only: time, lessons, completion — never answers or chat.</span>
-          <span class="zh">嗨，我是豆豆。家长只看学习状态：时长、课程、完成度 —— 看不到答案或对话内容。</span>
+          <span class="doudou-greeting-en">Hi <span data-parent-firstname>there</span> — I'm DouDou, <span data-doudou-childname>your child</span>'s study buddy. Here's the gentle version of how this week is going.</span>
+          <span class="zh">嗨，我是豆豆，<span data-doudou-childname-zh>孩子</span>的学习搭档。下面是这周大致的节奏，轻轻看看就好。</span>
         </div>
       </div>
 
-      <!-- (d) three metric blocks -->
-      <div class="doudou-metrics">
-        <div class="doudou-metric">
-          <div class="doudou-metric-label">Studied today · 今天有学习</div>
-          <div class="doudou-metric-value" id="doudou-studied-today">—</div>
-          <div class="doudou-metric-sub">有效学习，不是挂机 · valid learning, not idling</div>
+      <!-- rows 1 & 2 -->
+      <div class="doudou-rows">
+        <!-- row 1: this week's rhythm (one of three, or —) -->
+        <div class="doudou-row">
+          <div class="doudou-row-label">This week's rhythm · 本周学习节奏</div>
+          <div class="doudou-rhythm" id="doudou-rhythm" data-state="none">
+            <span class="doudou-rhythm-dot"></span>
+            <span id="doudou-rhythm-text">—</span>
+          </div>
+          <div class="doudou-row-sub" id="doudou-rhythm-sub"></div>
         </div>
-        <div class="doudou-metric">
-          <div class="doudou-metric-label">Today's active time · 今天活跃时长</div>
-          <div class="doudou-metric-value" id="doudou-active-min">—</div>
-          <div class="doudou-metric-sub" id="doudou-active-sub">Daily goal 20 min · 每日目标 20 分钟</div>
-        </div>
-        <div class="doudou-metric">
-          <div class="doudou-metric-label">Unit progress · 单元进度</div>
-          <div class="doudou-metric-value" id="doudou-unit-progress">—</div>
-          <div class="doudou-progress-bar"><div class="doudou-progress-fill" id="doudou-progress-fill" style="width:0%"></div></div>
-          <div class="doudou-metric-sub" id="doudou-unit-sub">—</div>
+        <!-- row 2: where the child is now -->
+        <div class="doudou-row">
+          <div class="doudou-row-label">Now learning · 现在学到</div>
+          <div class="doudou-row-value is-empty" id="doudou-now-learning">—</div>
         </div>
       </div>
 
-      <!-- (e) week strip -->
-      <div class="doudou-week">
-        <div class="doudou-week-label">This week · 这一周</div>
-        <div class="doudou-week-row" id="doudou-week-row"><!-- 7 day boxes injected by JS --></div>
-        <div class="doudou-week-key">
-          ✓ = 有效学习（valid learning） · 🛋️ = 休息日（rest day）
-          <span class="doudou-week-def">"Valid learning" = active reading or a completed practice; long idle does NOT count. · 有效学习＝认真阅读或完成练习，长时间挂机不计入。</span>
+      <!-- row 3: what parents can / can't see (fixed text) -->
+      <div class="doudou-boundary">
+        <div class="doudou-boundary-see">
+          <span class="doudou-boundary-ic">👁️</span>
+          <div>
+            <span class="doudou-boundary-label">You can see · 您能看到</span>
+            This week's rhythm + which unit they're on.
+            <span class="zh">本周节奏 + 学到哪个单元。</span>
+          </div>
+        </div>
+        <div class="doudou-boundary-hide">
+          <span class="doudou-boundary-ic">🔒</span>
+          <div>
+            <span class="doudou-boundary-label">You can't see · 您看不到</span>
+            Your child's mistakes, answers, or chat with DouDou.
+            <span class="zh">孩子的错题、答案、和豆豆的聊天。</span>
+          </div>
         </div>
       </div>
 
-      <!-- (f) DouDou companion note -->
-      <div class="doudou-note">
-        🐣 DouDou sent one gentle nudge today — you don't have to. DouDou never shows answers or messages to parents.
-        <span class="zh">今天豆豆轻轻提醒了娃一次 —— 您不必亲自出手。豆豆不会把答案或对话内容给家长看。</span>
+      <!-- row 4: cooldown tip (always shown, fixed text) -->
+      <div class="doudou-cooldown">
+        💛 This isn't an attendance sheet. If your child hasn't studied today, don't rush to push — ask "where are you stuck?" first.
+        <span class="zh">这不是考勤表。孩子今天没学，不建议马上催 —— 先问他「你卡在哪里?」</span>
       </div>
 
-      <!-- (g) nudge toggle (single on/off) -->
+      <!-- nudge toggle (single on/off setting) -->
       <div class="doudou-toggle-row">
         <div class="doudou-toggle-text">
           Let DouDou send one gentle nudge a day (skipped if already studied).
@@ -918,12 +923,6 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
         <button class="doudou-switch" id="doudou-nudge-toggle" role="switch" aria-checked="true" type="button" aria-label="Daily nudge on/off">
           <span class="doudou-switch-knob"></span>
         </button>
-      </div>
-
-      <!-- (h) privacy footer -->
-      <div class="doudou-privacy">
-        🔒 Parents see status only. Answers, mistakes, and chat stay private between your child and DouDou.
-        <span class="zh">家长只看状态。答案、错题、聊天内容仅在孩子和豆豆之间保留，家长不可见。</span>
       </div>
 
     </div>
@@ -1198,11 +1197,10 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
   }
   if (listEl) listEl.innerHTML = children.map(renderChild).join('');
 
-  /* Learning Status · DouDou (order v2) ───────────────────────────────
-     Real data only: studied-today, unit progress and the week strip are
-     derived from lesson_progress + lessons (same source as the student
-     dashboard). Active-minutes has NO real field yet, so it shows an
-     honest empty state — never a fake number. */
+  /* Learning Status · DouDou (weekly-rhythm support version) ───────────
+     This week's rhythm + current unit are derived from REAL lesson_progress
+     + lessons. No daily attendance, no minutes, no calendar grid. No data
+     anywhere → honest "—". See order: ParentStatus_Rework 2026-06-16. */
   await loadLearningStatus(children);
 
   /* Phase 3: Credits / Referral / Founding ─────────────────────────── */
@@ -1262,29 +1260,28 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
     }
   }
 
-  /* ── Learning Status loader ─────────────────────────────────────────
-     Binds to the first child (the v2 card is single-child). Every number
-     is real or an honest empty state — see order §4/§5. */
-  function doudouLocalDateKey(d) {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return y + '-' + m + '-' + day;
-  }
+  /* ── Learning Status loader (weekly-rhythm "support" version) ─────────
+     Binds to the first child. Shows: this week's rhythm + current unit +
+     fixed see/can't-see + cooldown tip. No daily Yes/No, no minutes, no
+     calendar. Every value is real or an honest "—" — never fabricated. */
   async function loadLearningStatus(kids) {
     const card = document.getElementById('learning-status-card');
     if (!card || !kids || !kids.length) return;
     const child = kids[0];
 
-    // Card subject = real child name; greeting = real parent first name.
+    // Child name → title + greeting; parent first name → greeting.
     const nameEl = document.getElementById('doudou-child-name');
     if (nameEl) nameEl.textContent = child.full_name || '—';
     const parentName = (prof && prof.full_name) ? prof.full_name : (user.email || '');
     const firstName = (parentName.split(/[\s@]/)[0]) || 'there';
     document.querySelectorAll('[data-parent-firstname]')
       .forEach(el => { el.textContent = firstName; });
+    document.querySelectorAll('[data-doudou-childname]')
+      .forEach(el => { el.textContent = child.full_name || 'your child'; });
+    document.querySelectorAll('[data-doudou-childname-zh]')
+      .forEach(el => { el.textContent = child.full_name || '孩子'; });
 
-    // 1. Published lessons for this child's year group → unit map.
+    // Published lessons for this year group → lesson lookup.
     let lessons = [];
     try {
       const { data } = await sb.from('lessons')
@@ -1293,12 +1290,10 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
         .eq('is_published', true);
       lessons = data || [];
     } catch (e) { console.warn('[learning-status] lessons fetch failed:', e); }
-    const unitLessons = {};
-    for (const l of lessons) {
-      (unitLessons[l.unit_number] = unitLessons[l.unit_number] || []).push(l.id);
-    }
+    const lessonById = {};
+    for (const l of lessons) lessonById[l.id] = l;
 
-    // 2. This child's lesson progress.
+    // This child's lesson progress (real).
     let lp = [];
     try {
       const { data } = await sb.from('lesson_progress')
@@ -1307,82 +1302,75 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
       lp = data || [];
     } catch (e) { console.warn('[learning-status] progress fetch failed:', e); }
     const completed = lp.filter(p => p.status === 'completed' && p.completed_at);
-    const completedDays = new Set(completed.map(p => doudouLocalDateKey(new Date(p.completed_at))));
 
-    card.style.display = ''; // a child exists → show card (data or honest empty)
+    card.style.display = ''; // a child exists → show card (data or honest "—")
 
-    // 3. Studied today (real).
-    const todayKey = doudouLocalDateKey(new Date());
-    const studiedToday = completedDays.has(todayKey);
-    const stEl = document.getElementById('doudou-studied-today');
-    const badge = document.getElementById('doudou-today-badge');
-    if (stEl) {
-      stEl.textContent = studiedToday ? 'Yes · 是' : 'No · 否';
-      stEl.classList.toggle('is-yes', studiedToday);
+    // Monday 00:00 of the week `weeksAgo` weeks before date `d`.
+    function doudouWeekStart(d, weeksAgo) {
+      const dow = (d.getDay() + 6) % 7; // 0 = Monday
+      const mon = new Date(d); mon.setHours(0, 0, 0, 0);
+      mon.setDate(d.getDate() - dow - 7 * weeksAgo);
+      return mon;
     }
-    if (badge) badge.style.display = studiedToday ? '' : 'none';
-
-    // 4. Active minutes — no real field yet → honest empty state (never fake).
-    const amEl = document.getElementById('doudou-active-min');
-    const asEl = document.getElementById('doudou-active-sub');
-    if (amEl) { amEl.textContent = '—'; amEl.classList.add('is-empty'); }
-    if (asEl) asEl.textContent = 'Active-time tracking coming soon · 活跃时长统计即将上线';
-
-    // 5. Unit progress (real) — the child's most-recently-active unit.
-    let activeUnit = null;
-    if (completed.length) {
-      const latest = completed.reduce((a, b) =>
-        (new Date(a.completed_at) >= new Date(b.completed_at) ? a : b));
-      for (const un in unitLessons) {
-        if (unitLessons[un].includes(latest.lesson_id)) { activeUnit = un; break; }
-      }
+    function weekCount(mon) {
+      const end = new Date(mon); end.setDate(mon.getDate() + 7);
+      return completed.filter(p => {
+        const t = new Date(p.completed_at); return t >= mon && t < end;
+      }).length;
     }
-    if (activeUnit === null) {
-      const nums = Object.keys(unitLessons).map(Number).sort((a, b) => a - b);
-      if (nums.length) activeUnit = String(nums[0]);
+
+    // ── Row 1: this week's rhythm — on-track / nudge / resting / "—" ──
+    // Derived from REAL completions only. No data at all → "—" (never guessed).
+    const rhythmEl   = document.getElementById('doudou-rhythm');
+    const rhythmText = document.getElementById('doudou-rhythm-text');
+    const rhythmSub  = document.getElementById('doudou-rhythm-sub');
+    function setRhythm(state, label, sub) {
+      if (rhythmEl)   rhythmEl.setAttribute('data-state', state);
+      if (rhythmText) rhythmText.textContent = label;
+      if (rhythmSub)  rhythmSub.textContent = sub || '';
     }
-    const upEl   = document.getElementById('doudou-unit-progress');
-    const fillEl = document.getElementById('doudou-progress-fill');
-    const usEl   = document.getElementById('doudou-unit-sub');
-    if (activeUnit !== null && unitLessons[activeUnit]) {
-      const ids = unitLessons[activeUnit];
-      const total = ids.length;
-      const doneInUnit = ids.filter(id =>
-        completed.some(p => p.lesson_id === id)).length;
-      const pct = total ? Math.round(doneInUnit / total * 100) : 0;
-      if (upEl) { upEl.textContent = doneInUnit + ' / ' + total + ' lessons'; upEl.classList.remove('is-empty'); }
-      if (fillEl) fillEl.style.width = pct + '%';
-      if (usEl) usEl.textContent = 'Cambridge ' + (child.year_group || '') + ' · Unit ' + activeUnit;
+    if (!completed.length) {
+      setRhythm('none', '—', 'No learning record yet · 还没有学习记录');
     } else {
-      // Honest empty state — no published lessons / no record yet.
-      if (upEl) { upEl.textContent = 'No record yet · 还没有记录'; upEl.classList.add('is-empty'); }
-      if (fillEl) fillEl.style.width = '0%';
-      if (usEl) usEl.textContent = 'No learning record yet · 还没有学习记录';
-    }
-
-    // 6. Week strip (real) — current Mon–Sun.
-    const row = document.getElementById('doudou-week-row');
-    if (row) {
-      const zhNames = ['一', '二', '三', '四', '五', '六', '日'];
       const now = new Date();
-      const dow = (now.getDay() + 6) % 7; // 0 = Monday
-      const monday = new Date(now); monday.setDate(now.getDate() - dow);
-      let html = '';
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(monday); d.setDate(monday.getDate() + i);
-        const key = doudouLocalDateKey(d);
-        const isValid = completedDays.has(key);
-        const isToday = key === todayKey;
-        const cls = 'doudou-day' + (isValid ? ' is-valid' : ' is-rest') + (isToday ? ' is-today' : '');
-        html += '<div class="' + cls + '">' +
-                  '<span class="doudou-day-mark">' + (isValid ? '✓' : '🛋️') + '</span>' +
-                  '<span class="doudou-day-name">' + zhNames[i] + '</span>' +
-                '</div>';
+      const inThisWeek = weekCount(doudouWeekStart(now, 0));
+      // Baseline = average completions over prior weeks (1–4) that had activity.
+      let priorTotal = 0, priorWeeks = 0;
+      for (let w = 1; w <= 4; w++) {
+        const c = weekCount(doudouWeekStart(now, w));
+        if (c > 0) { priorTotal += c; priorWeeks++; }
       }
-      row.innerHTML = html;
+      const baseline = priorWeeks ? priorTotal / priorWeeks : 0;
+      if (inThisWeek === 0) {
+        setRhythm('resting', 'Resting · 休息中', 'No record this week — rest is okay. · 本周还没有记录，休息也没关系。');
+      } else if (baseline > 0 && inThisWeek < baseline * 0.5) {
+        setRhythm('nudge', 'A gentle nudge helps · 需要轻提醒', 'A bit quieter than usual this week. · 本周比平时少一些。');
+      } else {
+        setRhythm('on-track', 'On track · 正常', 'Steady rhythm this week. · 本周节奏稳。');
+      }
     }
 
-    // 7. Nudge toggle (single on/off) — persisted locally per child; default ON.
+    // ── Row 2: where the child is now (latest touched lesson) ──
+    const nowEl = document.getElementById('doudou-now-learning');
+    if (nowEl) {
+      if (completed.length) {
+        const latest = completed.reduce((a, b) =>
+          (new Date(a.completed_at) >= new Date(b.completed_at) ? a : b));
+        const l = lessonById[latest.lesson_id];
+        if (l) {
+          const lnum = String(l.lesson_number).padStart(2, '0');
+          nowEl.textContent = (child.year_group ? child.year_group + ' · ' : '') +
+                              'Unit ' + l.unit_number + ' · L' + lnum;
+          nowEl.classList.remove('is-empty');
+        } else {
+          nowEl.textContent = '—'; nowEl.classList.add('is-empty');
+        }
+      } else {
+        nowEl.textContent = '—'; nowEl.classList.add('is-empty');
+      }
+    }
+
+    // ── Nudge toggle (single on/off) — persisted locally per child; default ON ──
     const toggle = document.getElementById('doudou-nudge-toggle');
     if (toggle) {
       const storeKey = 'doudou_nudge_' + child.id;
