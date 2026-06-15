@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U2 L09 · Non-metals and Comparison</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="9">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U2 · L09</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 2</div>
+      <div class="sidebar-unit-title" data-en="Properties of Materials" data-zh="材料的性质">Properties of Materials</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 机制</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Trace & predict<span class="zh"> · 推演与预测</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Connect & summarise<span class="zh"> · 连接与总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">HOOK · 钩子</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Non-metals and Comparison</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">非金属与对比</div></div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:12px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#7C5CD4;font-size:13px;">⏰ 热身 / Warm-up</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Pick one common object near you and ask: which property is useful here?</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">看身边一个普通物品，问自己：这里真正有用的是哪个性质？</li></ul></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin-bottom:16px;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:Inter;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Why does one device need both metals and non-metals? · 为什么一个装置同时需要金属和非金属？</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">A phone needs metals to carry electricity (copper wires inside) and non-metals to stop electricity from leaking out (plastic casing).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The job decides the material.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">👔 Materials engineers choose metals and non-metals for each part of a product so it works safely.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">👀 Look at any coin in your pocket and any plastic bottle near you — one conducts electricity, one does not.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">一部手机需要金属来导电（里面的铜线），也需要非金属来阻止电流漏出（塑料外壳）。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">用途决定材料。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">👔 材料工程师为产品的每个部件选择金属或非金属，让它安全运作。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">👀 看看口袋里的硬币和身边的塑料瓶——一个导电，一个不导电。</li></ul></div></div><div style="font-family:Inter;font-style:italic;color:#666;margin:4px 0 16px;">😄 Non-metals are usually the “no thanks” materials: no shine, no bending, no easy electricity. <span style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;font-style:normal;">非金属通常像“三不”材料：不亮、不好弯、不容易导电。</span></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Learn →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">LEARN · 学</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Non-metals and Comparison</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">非金属与对比</div></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Typical properties of metals · <span style="font-family:'Noto Sans SC';">金属的典型性质</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Metals usually conduct electricity, conduct heat, are shiny, are strong, are malleable, are ductile, are sonorous, and have high density and high melting points.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">金属通常导电、导热、有光泽、强韧、可锤打、可拉成丝、敲击有声，密度高、熔点高。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">side-by-side typical metal samples showing shiny lustre</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Side-by-side metal vs non-metal comparison table; colour-coded periodic split.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Forgetting metalloids (middle group); over-tidy metal/non-metal split.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="background:#FFF0DB;border:2px solid #FAD9A8;border-left:8px solid #D98A2B;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Typical properties of non-metals · <span style="font-family:'Noto Sans SC';">非金属的典型性质</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Non-metals usually do not conduct electricity, are poor heat conductors, are dull, are brittle, and have low density and low melting points.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">非金属通常不导电、导热差、暗淡、易碎，密度低、熔点低。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">side-by-side typical non-metal samples showing dull, brittle appearance</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Side-by-side metal vs non-metal comparison table; colour-coded periodic split.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Forgetting metalloids (middle group); over-tidy metal/non-metal split.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="background:#EAFBFF;border:2px solid #C2ECF5;border-left:8px solid #3AAEC8;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#C2ECF5;color:#3AAEC8;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Metals vs non-metals — comparison · <span style="font-family:'Noto Sans SC';">金属与非金属——对比</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">A comparison table of: electrical conductivity, thermal conductivity, appearance (lustre), malleability/ductility, density, melting point — metal column vs non-metal column.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">对比表，列出：导电性、导热性、外观（光泽）、延展性、密度、熔点——金属一栏对非金属一栏。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">two-column comparison table, metal vs non-metal, six property rows</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Side-by-side metal vs non-metal comparison table; colour-coded periodic split.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Forgetting metalloids (middle group); over-tidy metal/non-metal split.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#C00000;font-size:16px;margin-bottom:8px;">🟥 红牌 · 常见错误 / Red Card</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div style="flex:1;min-width:180px;background:#fff;border:2px solid #C00000;border-radius:10px;padding:10px;"><div style="color:#C00000;font-weight:800;font-family:Inter;font-size:13px;">✘ WRONG 错</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">If it is shiny, it must be a metal.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">“只要有光泽就一定是金属。”</div></div><div style="flex:1;min-width:180px;background:#F0FFF0;border:2px solid #2E7D32;border-radius:10px;padding:10px;"><div style="color:#2E7D32;font-weight:800;font-family:Inter;font-size:13px;">✔ RIGHT 对</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">Shine alone does not prove a metal. Some non-metals can look shiny too. Check conductivity and the other properties together, not one alone.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">单靠光泽不能判断是金属。有些非金属也可以看起来有光泽。要把导电性和其他性质一起看，不能只看一项。</div></div></div></div><div style="background:#F5F0E4;border:2px solid #8A7B4A;border-left:8px solid #6D4C41;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#6D4C41;font-size:16px;margin-bottom:8px;">⚖️ 考试 vs 真实 / Exam vs Reality</div><div style="font-family:Inter;color:#3b2f25;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In the exam, split elements into metals and non-metals.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In real life, there&#x27;s a middle group called &#x27;metalloids&#x27; — they act a bit like both.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Silicon is the most famous one (it makes computer chips).</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">“考试时分：金属 / 非金属。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">真实中间还有 &#x27;metalloid&#x27;（类金属），像 silicon（硅）。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">电脑芯片就用它。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">”</li></ul></div></div></div><div style="background:#F6EAFA;border:2px solid #E2C4EE;border-left:8px solid #9B3FC9;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#E2C4EE;color:#9B3FC9;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Where they sit on the Periodic Table · <span style="font-family:'Noto Sans SC';">它们在周期表上的位置</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Metals are mostly on the left, non-metals on the right.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">A student can read off whether an element is a metal or a non-metal from its position.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">📐 The reactivity series of metals is taught later in Y8 Unit 3.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">金属大多在左边，非金属在右边。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">学生可以从元素的位置判断它是金属还是非金属。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">📐 金属活性序列在 Y8 Unit 3 才教。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">simplified Periodic Table outline showing metal region (left) and non-metal region (right)</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Side-by-side metal vs non-metal comparison table; colour-coded periodic split.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Forgetting metalloids (middle group); over-tidy metal/non-metal split.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="background:#F6EAFA;border:2px solid #E2C4EE;border-left:8px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:800;color:#9B3FC9;font-size:14px;margin-bottom:6px;">🔗 比喻 / Analogy</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">A brittle non-metal is like a dry biscuit: push too hard and it breaks instead of bending.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">脆的非金属像干饼干：一用力不是弯，是断。</li></ul></div><div style="border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;background:#FFF8EE;"><div style="font-family:Inter;font-weight:900;color:#D98A2B;font-size:14px;margin-bottom:8px;">🎯 考官要什么 / What the examiner wants</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">State = short answer.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Describe = say what and how.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Explain = say why (fact + reason).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Define = exact syllabus wording.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">State = 简短作答。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Describe = 说出是什么、怎样。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Explain = 说出为什么(事实+原因)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Define = 用大纲原话精确定义。</li></ul></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Try →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">TRY · 练</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Non-metals and Comparison</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">非金属与对比</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q01</div><div style="font-family:Inter;font-weight:600;color:#222;">Use the key to decide which of the elements, A, D, G, Q, R, T and X are metals.
+The metallic elements are: ............................................................ [4]
+IMAGE_PROMPT: element-property key table with elements A, D, G, Q, R, T, X (data table from source)
+MARK_SCHEME_ACCEPT: G, Q, R and X
+MARK_SCHEME_REJECT: answers that contradict the stated property/data</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ G, Q, R and X
+  EXPECTED_ANSWER_ZH: G, Q, R 和 X
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: G, Q, R and X
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：G, Q, R 和 X
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Answer does not include the required scoring idea: G, Q, R and X — reject because this mark is evidence-based.
+  - [Q01] Correct keyword used for the wrong object/subpart — reject because each subpart is marked separately.
+  - [Q01] Vague answer such as “it changes” or “it is good” — reject because it does not state the science idea.
+  - [Q01] Answer contradicts the table, picture, or wording in this exact question — reject because question evidence wins.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 没写到本题得分点：G, Q, R 和 X —— 不收；这分按证据给。
+  - [Q01] 关键词对但用在错误物体/小题 —— 不收；每个小题分开改。
+  - [Q01] 只写“会变化”“很好”这种泛话 —— 不收；没有科学点。
+  - [Q01] 答案跟这题表格、图片或题干相反 —— 不收；题目证据优先。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Use the evidence in this question, then write the required point: G, Q, R and X.
+  FEEDBACK_WRONG_ZH: [Q01] 用这题自己的证据，再写这个得分点：G, Q, R 和 X。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">G, Q, R 和 X
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: G, Q, R and X
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：G, Q, R 和 X
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Answer does not include the required scoring idea: G, Q, R and X — reject because this mark is evidence-based.
+  - [Q01] Correct keyword used for the wrong object/subpart — reject because each subpart is marked separately.
+  - [Q01] Vague answer such as “it changes” or “it is good” — reject because it does not state the science idea.
+  - [Q01] Answer contradicts the table, picture, or wording in this exact question — reject because question evidence wins.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 没写到本题得分点：G, Q, R 和 X —— 不收；这分按证据给。
+  - [Q01] 关键词对但用在错误物体/小题 —— 不收；每个小题分开改。
+  - [Q01] 只写“会变化”“很好”这种泛话 —— 不收；没有科学点。
+  - [Q01] 答案跟这题表格、图片或题干相反 —— 不收；题目证据优先。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Use the evidence in this question, then write the required point: G, Q, R and X.
+  FEEDBACK_WRONG_ZH: [Q01] 用这题自己的证据，再写这个得分点：G, Q, R 和 X。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: G, Q, R and X
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：G, Q, R 和 X
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Answer does not include the required scoring idea: G, Q, R and X — reject because this mark is evidence-based.
+  - [Q01] Correct keyword used for the wrong object/subpart — reject because each subpart is marked separately.
+  - [Q01] Vague answer such as “it changes” or “it is good” — reject because it does not state the science idea.
+  - [Q01] Answer contradicts the table, picture, or wording in this exact question — reject because question evidence wins.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 没写到本题得分点：G, Q, R 和 X —— 不收；这分按证据给。
+  - [Q01] 关键词对但用在错误物体/小题 —— 不收；每个小题分开改。
+  - [Q01] 只写“会变化”“很好”这种泛话 —— 不收；没有科学点。
+  - [Q01] 答案跟这题表格、图片或题干相反 —— 不收；题目证据优先。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Use the evidence in this question, then write the required point: G, Q, R and X.
+  FEEDBACK_WRONG_ZH: [Q01] 用这题自己的证据，再写这个得分点：G, Q, R 和 X。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q02</div><div style="font-family:Inter;font-weight:600;color:#222;">Some substances are metals and other substances are non-metals.
+Metals often have high melting and boiling points, but non-metals often have low melting and boiling points.
+Write down two other differences between metals and non-metals.
+1 ............................................................
+2 ............................................................ [2]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals are hard; metals are shiny; metals are malleable; metals are ductile; metals are sonorous; metals have high density
+MARK_SCHEME_REJECT:
+- Metal answer used for a non-metal, or non-metal answer used for a metal; reason: wrong comparison side.
+- Vague property such as &quot;good&quot; or &quot;useful&quot;; reason: not a testable non-metal property.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals are hard; metals are shiny; metals are malleable; metals are ductile; metals are sonorous; metals have high density
+  EXPECTED_ANSWER_ZH: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are 结实/强; metals are 硬; metals are 有光泽; metals are 可锻; metals are 有延展性/可拉丝; metals are sonorous; metals have high 密度
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals are hard; metals are shiny; metals are malleable; metals are ductile; metals are sonorous; metals have high density
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are 结实/强; metals are 硬; metals are 有光泽; metals are 可锻; metals are 有延展性/可拉丝; metals are sonorous; metals have high 密度
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Giving a property that does not match the named material — reject because the accepted point is: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals....
+  - [Q02] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q02] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q02] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 性质跟材料不配 —— 不收；本题要点是：any two of — metals conduct electricity better than non-metals; metals conduct heat bet...。
+  - [Q02] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q02] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q02] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Check whether the question asks for a property, material, or use; this item needs: any two of — metals conduct electricity better than non-metals; metals conduc....
+  FEEDBACK_WRONG_ZH: [Q02] 先分清题目问性质、材料还是用途；这题要点是：any two of — metals conduct electricity better than non-metals; metals conduc...。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are 结实/强; metals are 硬; metals are 有光泽; metals are 可锻; metals are 有延展性/可拉丝; metals are sonorous; metals have high 密度
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals are hard; metals are shiny; metals are malleable; metals are ductile; metals are sonorous; metals have high density
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are 结实/强; metals are 硬; metals are 有光泽; metals are 可锻; metals are 有延展性/可拉丝; metals are sonorous; metals have high 密度
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Giving a property that does not match the named material — reject because the accepted point is: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals....
+  - [Q02] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q02] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q02] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 性质跟材料不配 —— 不收；本题要点是：any two of — metals conduct electricity better than non-metals; metals conduct heat bet...。
+  - [Q02] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q02] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q02] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Check whether the question asks for a property, material, or use; this item needs: any two of — metals conduct electricity better than non-metals; metals conduc....
+  FEEDBACK_WRONG_ZH: [Q02] 先分清题目问性质、材料还是用途；这题要点是：any two of — metals conduct electricity better than non-metals; metals conduc...。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals are hard; metals are shiny; metals are malleable; metals are ductile; metals are sonorous; metals have high density
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are 结实/强; metals are 硬; metals are 有光泽; metals are 可锻; metals are 有延展性/可拉丝; metals are sonorous; metals have high 密度
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Giving a property that does not match the named material — reject because the accepted point is: any two of — metals conduct electricity better than non-metals; metals conduct heat better; metals are strong; metals....
+  - [Q02] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q02] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q02] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 性质跟材料不配 —— 不收；本题要点是：any two of — metals conduct electricity better than non-metals; metals conduct heat bet...。
+  - [Q02] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q02] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q02] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Check whether the question asks for a property, material, or use; this item needs: any two of — metals conduct electricity better than non-metals; metals conduc....
+  FEEDBACK_WRONG_ZH: [Q02] 先分清题目问性质、材料还是用途；这题要点是：any two of — metals conduct electricity better than non-metals; metals conduc...。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q03</div><div style="font-family:Inter;font-weight:600;color:#222;">Ahmed finds this information about six substances.
+(a) Use these properties to sort the six substances into metals and non-metals.
+One has been done for you.
+[2]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: Metals: A, D, E, F. Non-metals: B, C.
+MARK_SCHEME_REJECT:
+- Metal answer used for a non-metal, or non-metal answer used for a metal; reason: wrong comparison side.
+- Vague property such as &quot;good&quot; or &quot;useful&quot;; reason: not a testable non-metal property.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ Metals: A, D, E, F. Non-metals: B, C.
+  EXPECTED_ANSWER_ZH: Metals: A, D, E, F. Non-metals: B, C.
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: Metals: A, D, E, F. Non-metals: B, C.
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：Metals: A, D, E, F. Non-metals: B, C.
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Giving a property that does not match the named material — reject because the accepted point is: Metals: A, D, E, F. Non-metals: B, C..
+  - [Q03] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q03] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q03] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 性质跟材料不配 —— 不收；本题要点是：Metals: A, D, E, F. Non-metals: B, C.。
+  - [Q03] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q03] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q03] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check whether the question asks for a property, material, or use; this item needs: Metals: A, D, E, F. Non-metals: B, C..
+  FEEDBACK_WRONG_ZH: [Q03] 先分清题目问性质、材料还是用途；这题要点是：Metals: A, D, E, F. Non-metals: B, C.。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Metals: A, D, E, F. Non-metals: B, C.
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: Metals: A, D, E, F. Non-metals: B, C.
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：Metals: A, D, E, F. Non-metals: B, C.
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Giving a property that does not match the named material — reject because the accepted point is: Metals: A, D, E, F. Non-metals: B, C..
+  - [Q03] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q03] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q03] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 性质跟材料不配 —— 不收；本题要点是：Metals: A, D, E, F. Non-metals: B, C.。
+  - [Q03] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q03] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q03] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check whether the question asks for a property, material, or use; this item needs: Metals: A, D, E, F. Non-metals: B, C..
+  FEEDBACK_WRONG_ZH: [Q03] 先分清题目问性质、材料还是用途；这题要点是：Metals: A, D, E, F. Non-metals: B, C.。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: Metals: A, D, E, F. Non-metals: B, C.
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：Metals: A, D, E, F. Non-metals: B, C.
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Giving a property that does not match the named material — reject because the accepted point is: Metals: A, D, E, F. Non-metals: B, C..
+  - [Q03] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q03] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q03] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 性质跟材料不配 —— 不收；本题要点是：Metals: A, D, E, F. Non-metals: B, C.。
+  - [Q03] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q03] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q03] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check whether the question asks for a property, material, or use; this item needs: Metals: A, D, E, F. Non-metals: B, C..
+  FEEDBACK_WRONG_ZH: [Q03] 先分清题目问性质、材料还是用途；这题要点是：Metals: A, D, E, F. Non-metals: B, C.。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q04</div><div style="font-family:Inter;font-weight:600;color:#222;">Elements can be either metals or non-metals.
+(a) The table contains descriptions of some elements.
+Decide if the element is a metal or a non-metal.
+Tick the correct column for each description.
+[2]
+(b) Choose from the list of properties of metals to complete the sentences.
+Each property may be used once or not at all.
+ductile / hard / very dense / strong
+(i) Steel is used as the cable in elevators because it is .................................... [1]
+(ii) Copper can be used to make wires because it is .................................... [1]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yellow dull low-melting solid = non-metal. (b)(i) strong; (b)(ii) ductile
+MARK_SCHEME_REJECT: answers that contradict the stated property/data</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yellow dull low-melting solid = non-metal. (b)(i) strong; (b)(ii) ductile
+  EXPECTED_ANSWER_ZH: (a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属; 黄色 暗淡 low-melting 固体 = 非金属. (b)(i) 结实/强; (b)(ii) 有延展性/可拉丝
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yellow dull low-melting solid = non-metal. (b)(i) strong; (b)(ii) ductile
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属; 黄色 暗淡 low-melting 固体 = 非金属. (b)(i) 结实/强; (b)(ii) 有延展性/可拉丝
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yello....
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属...。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal;....
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melti...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属; 黄色 暗淡 low-melting 固体 = 非金属. (b)(i) 结实/强; (b)(ii) 有延展性/可拉丝
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yellow dull low-melting solid = non-metal. (b)(i) strong; (b)(ii) ductile
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属; 黄色 暗淡 low-melting 固体 = 非金属. (b)(i) 结实/强; (b)(ii) 有延展性/可拉丝
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yello....
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属...。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal;....
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melti...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yellow dull low-melting solid = non-metal. (b)(i) strong; (b)(ii) ductile
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属; 黄色 暗淡 low-melting 固体 = 非金属. (b)(i) 结实/强; (b)(ii) 有延展性/可拉丝
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal; shiny high-melting solid = metal; yello....
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melting 固体 = 金属...。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) shiny liquid that conducts = metal; colourless non-conductor = non-metal;....
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) 有光泽 液体 that conducts = 金属; colourless non-conductor = 非金属; 有光泽 high-melti...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Test →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="screen-header"><div class="screen-eyebrow">TEST · 测</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Non-metals and Comparison</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">非金属与对比</div></div><div class="exam-mode-chip" style="margin-bottom:10px;"><span data-en="EXAM MODE · NO HINTS" data-zh="考试模式 · 无提示">EXAM MODE · NO HINTS · 考试模式</span></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q05</div><div style="font-family:Inter;font-weight:600;color:#222;">Complete the table by deciding if the information indicates that the element is a metal or a non-metal.
+[2]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: A = metal; B = metal; C = non-metal; D = non-metal; E = metal
+MARK_SCHEME_REJECT:
+- Metal answer used for a non-metal, or non-metal answer used for a metal; reason: wrong comparison side.
+- Vague property such as &quot;good&quot; or &quot;useful&quot;; reason: not a testable non-metal property.
+ATTEMPT_CAP: 3
+B1B_QUESTION_ID: [Q05]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 2
+  ATTEMPT_CAP_CHECK: 3 (matches L2)
+  EXPECTED_ANSWER_EN: A = metal; B = metal; C = non-metal; D = non-metal; E = metal
+  EXPECTED_ANSWER_ZH: A = 金属; B = 金属; C = 非金属; D = 非金属; E = 金属
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: A = metal; B = metal; C = non-metal; D = non-metal; E = metal
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：A = 金属; B = 金属; C = 非金属; D = 非金属; E = 金属
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Giving a property that does not match the named material — reject because the accepted point is: A = metal; B = metal; C = non-metal; D = non-metal; E = metal.
+  - [Q05] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q05] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q05] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 性质跟材料不配 —— 不收；本题要点是：A = 金属; B = 金属; C = 非金属; D = 非金属; E = 金属。
+  - [Q05] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q05] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q05] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Check whether the question asks for a property, material, or use; this item needs: A = metal; B = metal; C = non-metal; D = non-metal; E = metal.
+  FEEDBACK_WRONG_ZH: [Q05] 先分清题目问性质、材料还是用途；这题要点是：A = 金属; B = 金属; C = 非金属; D = 非金属; E = 金属。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q06</div><div style="font-family:Inter;font-weight:600;color:#222;">The table shows some properties of materials.
+(a) Which materials are metals? Explain your answer. [2]
+(b) Material A is zinc. Zinc reacts with dilute sulfuric acid to form a gas and a salt.
+(i) What is the name of the gas? [1]
+(ii) What is the name of the salt formed? [1]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: (a) A, C and E — because they conduct electricity. (b)(i) hydrogen; (b)(ii) zinc sulfate
+MARK_SCHEME_REJECT: answers that contradict the stated property/data
+ATTEMPT_CAP: 3
+B1B_QUESTION_ID: [Q06]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 4
+  ATTEMPT_CAP_CHECK: 3 (matches L2)
+  EXPECTED_ANSWER_EN: (a) A, C and E — because they conduct electricity. (b)(i) hydrogen; (b)(ii) zinc sulfate
+  EXPECTED_ANSWER_ZH: (a) A, C 和 E — because they conduct electricity. (b)(i) 氢气; (b)(ii) zinc sulfate
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) A, C and E — because they conduct electricity. (b)(i) hydrogen; (b)(ii) zinc sulfate
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) A, C 和 E — because they conduct electricity. (b)(i) 氢气; (b)(ii) zinc sulfate
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q06] Naming a gas that does not match the test result — reject because this question requires: (a) A, C and E — because they conduct electricity. (b)(i) hydrogen; (b)(ii) zinc sulfate.
+  - [Q06] Swapping squeaky pop, relighting splint, and limewater cloudy — reject because each result identifies a different gas.
+  - [Q06] Giving only the gas name when the question asks for test plus observation — reject because the required observation is missing.
+  - [Q06] Writing a reaction equation instead of the gas test — reject because this lesson marks test method and positive result only.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q06] 气体名称跟测试结果不配 —— 不收；本题要点是：(a) A, C 和 E — because they conduct electricity. (b)(i) 氢气; (b)(ii) zinc sulfate。
+  - [Q06] 把爆鸣、复燃、石灰水变浑浊互相换乱 —— 不收；每个现象对应不同气体。
+  - [Q06] 题目要“测试+现象”却只写气体名 —— 不收；少了阳性现象。
+  - [Q06] 用反应方程式代替气体测试 —— 不收；本课只改测试方法和阳性结果。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 4. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q06] Check the gas-test clue again; your answer must match this result: (a) A, C and E — because they conduct electricity. (b)(i) hydrogen; (b)(ii) z....
+  FEEDBACK_WRONG_ZH: [Q06] 重新看气体测试线索；这题要对到：(a) A, C 和 E — because they conduct electricity. (b)(i) 氢气; (b)(ii) zinc sulfate。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q07</div><div style="font-family:Inter;font-weight:600;color:#222;">The table shows the properties of six elements A-F.
+Each element could be a metal or a non-metal.
+Place one tick in the correct box for each element.
+[4]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: A = non-metal; B = metal; C = metal; D = metal; E = non-metal; F = non-metal
+MARK_SCHEME_REJECT: answers that contradict the stated property/data
+ATTEMPT_CAP: 3
+B1B_QUESTION_ID: [Q07]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: choice/tick
+  MARKS: 4
+  ATTEMPT_CAP_CHECK: 3 (matches L2)
+  EXPECTED_ANSWER_EN: A = non-metal; B = metal; C = metal; D = metal; E = non-metal; F = non-metal
+  EXPECTED_ANSWER_ZH: A = 非金属; B = 金属; C = 金属; D = 金属; E = 非金属; F = 非金属
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: A = non-metal; B = metal; C = metal; D = metal; E = non-metal; F = non-metal
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：A = 非金属; B = 金属; C = 金属; D = 金属; E = 非金属; F = 非金属
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q07] Giving a property that does not match the named material — reject because the accepted point is: A = non-metal; B = metal; C = metal; D = metal; E = non-metal; F = non-metal.
+  - [Q07] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q07] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q07] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q07] 性质跟材料不配 —— 不收；本题要点是：A = 非金属; B = 金属; C = 金属; D = 金属; E = 非金属; F = 非金属。
+  - [Q07] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q07] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q07] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 4. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q07] Check whether the question asks for a property, material, or use; this item needs: A = non-metal; B = metal; C = metal; D = metal; E = non-metal; F = non-metal.
+  FEEDBACK_WRONG_ZH: [Q07] 先分清题目问性质、材料还是用途；这题要点是：A = 非金属; B = 金属; C = 金属; D = 金属; E = 非金属; F = 非金属。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q08</div><div style="font-family:Inter;font-weight:600;color:#222;">Chen and Aiko investigate the properties of metals and non-metals. They look at data about element X.
+(a) Chen&#x27;s hypothesis: &#x27;Element X is a metal because it has the properties of a metal.&#x27;
+Write down two pieces of evidence that support his hypothesis.
+1 ............................................................
+2 ............................................................ [2]
+(b) Aiko&#x27;s hypothesis: &#x27;Element X is a non-metal because it has the properties of a non-metal.&#x27;
+Write down two pieces of evidence that support her hypothesis.
+1 ............................................................
+2 ............................................................ [2]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: (a) high melting point; good conductor of electricity. (b) any two of — dull; brittle; low density; poor ductility
+MARK_SCHEME_REJECT:
+- Metal answer used for a non-metal, or non-metal answer used for a metal; reason: wrong comparison side.
+- Vague property such as &quot;good&quot; or &quot;useful&quot;; reason: not a testable non-metal property.
+ATTEMPT_CAP: 4
+B1B_QUESTION_ID: [Q08]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 4
+  ATTEMPT_CAP_CHECK: 4 (matches L3)
+  EXPECTED_ANSWER_EN: (a) high melting point; good conductor of electricity. (b) any two of — dull; brittle; low density; poor ductility
+  EXPECTED_ANSWER_ZH: (a) high 熔点; good conductor of electricity. (b) any two of — 暗淡; 脆; 低密度; poor ductility
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) high melting point; good conductor of electricity. (b) any two of — dull; brittle; low density; poor ductility
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) high 熔点; good conductor of electricity. (b) any two of — 暗淡; 脆; 低密度; poor ductility
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q08] Giving a property that does not match the named material — reject because the accepted point is: (a) high melting point; good conductor of electricity. (b) any two of — dull; brittle; low density; poor ductility.
+  - [Q08] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q08] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q08] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q08] 性质跟材料不配 —— 不收；本题要点是：(a) high 熔点; good conductor of electricity. (b) any two of — 暗淡; 脆; 低密度; poor ductility。
+  - [Q08] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q08] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q08] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 4. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q08] Check whether the question asks for a property, material, or use; this item needs: (a) high melting point; good conductor of electricity. (b) any two of — dull;....
+  FEEDBACK_WRONG_ZH: [Q08] 先分清题目问性质、材料还是用途；这题要点是：(a) high 熔点; good conductor of electricity. (b) any two of — 暗淡; 脆; 低密度; poor...。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q09</div><div style="font-family:Inter;font-weight:600;color:#222;">Metals and non-metals have different physical properties.
+(a) Complete the table about metals and non-metals. [2]
+(b) Metals and non-metals are the two main groupings of elements.
+Write down three physical properties of metals that are different from non-metals.
+1 ............................................................
+2 ............................................................
+3 ............................................................ [3]
+IMAGE_PROMPT: none in source
+MARK_SCHEME_ACCEPT: (a) metal electrical conductivity = high; non-metal thermal conductivity = low; metal melting point = high; non-metal density = low. (b) any three of — strong; good thermal conductivity; good electrical conductivity; hard; sonorous; ductile; malleable; shiny/lustrous
+MARK_SCHEME_REJECT:
+- Metal answer used for a non-metal, or non-metal answer used for a metal; reason: wrong comparison side.
+- Vague property such as &quot;good&quot; or &quot;useful&quot;; reason: not a testable non-metal property.
+ATTEMPT_CAP: 4
+B1B_QUESTION_ID: [Q09]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 5
+  ATTEMPT_CAP_CHECK: 4 (matches L3)
+  EXPECTED_ANSWER_EN: (a) metal electrical conductivity = high; non-metal thermal conductivity = low; metal melting point = high; non-metal density = low. (b) any three of — strong; good thermal conductivity; good electrical conductivity; hard; sonorous; ductile; malleable; shiny/lustrous
+  EXPECTED_ANSWER_ZH: (a) 金属 electrical conductivity = high; 非金属 thermal conductivity = low; 金属 熔点 = high; 非金属 密度 = low. (b) any three of — 结实/强; good thermal conductivity; good electrical conductivity; 硬; sonorous; 有延展性/可拉丝; 可锻; 有光泽/有光泽
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) metal electrical conductivity = high; non-metal thermal conductivity = low; metal melting point = high; non-metal density = low. (b) any three of — strong; good thermal conductivity; good electrical conductivity; hard; sonorous; ductile; malleable; shiny/lustrous
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 金属 electrical conductivity = high; 非金属 thermal conductivity = low; 金属 熔点 = high; 非金属 密度 = low. (b) any three of — 结实/强; good thermal conductivity; good electrical conductivity; 硬; sonorous; 有延展性/可拉丝; 可锻; 有光泽/有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q09] Giving a property that does not match the named material — reject because the accepted point is: (a) metal electrical conductivity = high; non-metal thermal conductivity = low; metal melting point = high; non-metal....
+  - [Q09] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q09] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q09] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q09] 性质跟材料不配 —— 不收；本题要点是：(a) 金属 electrical conductivity = high; 非金属 thermal conductivity = low; 金属 熔点 = high; 非金...。
+  - [Q09] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q09] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q09] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 5. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q09] Check whether the question asks for a property, material, or use; this item needs: (a) metal electrical conductivity = high; non-metal thermal conductivity = lo....
+  FEEDBACK_WRONG_ZH: [Q09] 先分清题目问性质、材料还是用途；这题要点是：(a) 金属 electrical conductivity = high; 非金属 thermal conductivity = low; 金属 熔点 ...。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q10</div><div style="font-family:Inter;font-weight:600;color:#222;">Elements are organised in the Periodic Table.
+The diagram shows part of the Periodic Table.
+Write down one symbol for a metal and one symbol for a non-metal. Choose symbols from the diagram.
+metal ............................................................
+non-metal ............................................................ [2]
+IMAGE_PROMPT: partial Periodic Table diagram showing element symbols (data diagram from source)
+MARK_SCHEME_ACCEPT: metal = Na or Al; non-metal = H, C, Ne or Cl
+MARK_SCHEME_REJECT:
+- Metal answer used for a non-metal, or non-metal answer used for a metal; reason: wrong comparison side.
+- Vague property such as &quot;good&quot; or &quot;useful&quot;; reason: not a testable non-metal property.
+ATTEMPT_CAP: 3
+B1B_QUESTION_ID: [Q10]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 2
+  ATTEMPT_CAP_CHECK: 3 (matches L2)
+  EXPECTED_ANSWER_EN: metal = Na or Al; non-metal = H, C, Ne or Cl
+  EXPECTED_ANSWER_ZH: 金属 = Na 或 Al; 非金属 = H, C, Ne 或 Cl
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: metal = Na or Al; non-metal = H, C, Ne or Cl
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - poor electrical conductor / insulator
+  - dull appearance
+  - brittle
+  - not malleable
+  - not ductile
+  - low melting point when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：金属 = Na 或 Al; 非金属 = H, C, Ne 或 Cl
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - poor 导电体 / 绝缘体
+  - 暗淡 appearance
+  - 脆
+  - not 可锻
+  - not 有延展性/可拉丝
+  - low 熔点 when data supports it
+  - exception allowed if question data shows one
+  MARK_SCHEME_REJECT_EN:
+  - [Q10] Giving a property that does not match the named material — reject because the accepted point is: metal = Na or Al; non-metal = H, C, Ne or Cl.
+  - [Q10] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q10] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q10] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q10] 性质跟材料不配 —— 不收；本题要点是：金属 = Na 或 Al; 非金属 = H, C, Ne 或 Cl。
+  - [Q10] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q10] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q10] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Non-metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“非金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q10] Check whether the question asks for a property, material, or use; this item needs: metal = Na or Al; non-metal = H, C, Ne or Cl.
+  FEEDBACK_WRONG_ZH: [Q10] 先分清题目问性质、材料还是用途；这题要点是：金属 = Na 或 Al; 非金属 = H, C, Ne 或 Cl。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Wrap →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">WRAP · 总结</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Non-metals and Comparison</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">非金属与对比</div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#3B6FD4;font-size:14px;margin-bottom:8px;">🔁 盖住回想 / Cover &amp; recall</div><div style="font-family:Inter;font-weight:700;color:#222;margin-bottom:8px;">We can list the physical properties of metals and non-metals, compare them in a table, and decide which an element is from its place on the Periodic Table.</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;">想好了，看答案 →</button><div style="display:none;margin-top:8px;background:#fff;border-radius:8px;padding:10px;font-family:Inter;color:#222;">Steel is made from iron, but steel is harder than pure iron. How can mixing make a metal harder?</div></div><div class="wrap-summary" style="background:#171413;border-radius:14px;padding:18px 20px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:15px;margin-bottom:10px;">📌 今天学了什么 / What we learned</div><ul style="list-style:none;padding:0;margin:0;"><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">We can list the physical properties of metals and non-metals, compare them in a table, and decide which an element is from its place on the Periodic Table.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Steel is made from iron, but steel is harder than pure iron.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">How can mixing make a metal harder?</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Next lesson, the particle model answers it.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Look at anything made of steel near you — it is stronger than the iron it started as.</li></ul><ul style="list-style:none;padding:10px 0 0;margin:0;border-top:1px solid #444;"><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">我们能列出金属和非金属的物理性质，用表格对比，并从元素在周期表上的位置判断它是哪一类。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">钢是用铁做的，但钢比纯铁更硬。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">混一混怎么会让金属更硬？</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">下一课用粒子模型回答。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">看看身边任何钢制的东西——它比原来的铁更强。</li></ul></div><div style="background:#171413;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:13px;margin-bottom:6px;">🧠 口诀金句 / Memory hook</div><div style="font-family:Inter;font-weight:800;color:#fff;font-size:17px;">Non-metal checklist: dull, brittle, poor conductor.</div><div style="font-family:'Noto Sans SC';font-weight:700;color:#FFD84D;margin-top:4px;">非金属清单：暗、脆、不导电。</div></div><div class="btn-row"><button class="btn btn-primary" onclick="completeLesson()">Complete Lesson 9 ✓</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

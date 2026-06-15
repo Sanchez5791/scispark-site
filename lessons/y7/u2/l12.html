@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U2 L12 · Unit Review and Integration</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="12">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U2 · L12</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 2</div>
+      <div class="sidebar-unit-title" data-en="Properties of Materials" data-zh="材料的性质">Properties of Materials</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 机制</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Trace & predict<span class="zh"> · 推演与预测</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Connect & summarise<span class="zh"> · 连接与总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">HOOK · 钩子</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Unit Review and Integration</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Unit Review and Integration</div></div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:12px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#7C5CD4;font-size:13px;">⏰ 热身 / Warm-up</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Pick one common object near you and ask: which property is useful here?</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">看身边一个普通物品，问自己：这里真正有用的是哪个性质？</li></ul></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin-bottom:16px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">An R&amp;D scientist or lab manager uses this whole unit every day: they judge what a material is made of, test if a substance is an acid or alkali, read hazard symbols, and choose the right metal or alloy for a job.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Today you pull all of it together.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">一 个 R&amp;D 科学家 或 实验室 主管 每天 都 用 这 整 单元: 判断 材料 是 什么 做 的、测 一 种 物质 是 酸 还 是 碱、 看 危险 标志、为 一 个 任务 选 对的 金属 或 合金。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">今天 你 把 这些 全部 串 起来。</li></ul></div></div><div style="font-family:Inter;font-style:italic;color:#666;margin:4px 0 16px;">😄 This unit is a toolbox. Do not use the gas-test hammer on every acid-base nail. <span style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;font-style:normal;">这个单元像工具箱。别拿气体测试这把锤子去敲所有酸碱题。</span></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Learn →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">LEARN · 学</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Unit Review and Integration</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Unit Review and Integration</div></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">The whole-unit chain</div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Properties (physical vs chemical) -&gt; acids and alkalis (pH / indicators / classification) -&gt; gas tests (hydrogen, oxygen, carbon dioxide) -&gt; metals, non-metals and alloys.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Each part connects to the next.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">性质 (物理 vs 化学) -&gt; 酸 和 碱 (pH / 指示剂 / 分类) -&gt; 气体 测试 (氢、氧、二氧化碳) -&gt; 金属、非金属 和 合金。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">每 一 块 接 着 下 一 块。</li></ul></div></div><div style="background:#FFF0DB;border:2px solid #FAD9A8;border-left:8px solid #D98A2B;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Review: properties and materials</div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Materials are chosen by their properties: strong, ductile (can be drawn into wires), magnetic, sonorous, transparent.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Metals are usually strong, ductile and conduct;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">non-metals usually are not.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">材料 是 按 它们 的 性质 来 选 的: 强、可 延展 (能 拉 成 线)、 有 磁性、能 发声、透明。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">金属 通常 强、可 延展、能 导电;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">非金属 通常 不 是。</li></ul></div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#C00000;font-size:16px;margin-bottom:8px;">🟥 红牌 · 常见错误 / Red Card</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div style="flex:1;min-width:180px;background:#fff;border:2px solid #C00000;border-radius:10px;padding:10px;"><div style="color:#C00000;font-weight:800;font-family:Inter;font-size:13px;">✘ WRONG 错</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">All metals are magnetic.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">所有 金属 都 有 磁性。</div></div><div style="flex:1;min-width:180px;background:#F0FFF0;border:2px solid #2E7D32;border-radius:10px;padding:10px;"><div style="color:#2E7D32;font-weight:800;font-family:Inter;font-size:13px;">✔ RIGHT 对</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">Only iron, nickel, cobalt (and steel, which contains
+    iron) are magnetic. Copper, aluminium and gold are metals but are
+    NOT magnetic. Magnetic is not the same as metallic.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">只有 铁、镍、钴 (还有 含 铁 的 钢) 有 磁性。
+    铜、铝、金 是 金属, 但 没有 磁性。有 磁性 跟 是 金属 不 是 一 回事。</div></div></div></div><div style="background:#F5F0E4;border:2px solid #8A7B4A;border-left:8px solid #6D4C41;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#6D4C41;font-size:16px;margin-bottom:8px;">⚖️ 考试 vs 真实 / Exam vs Reality</div><div style="font-family:Inter;color:#3b2f25;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In the exam, write that the pH scale goes from 1 to 14.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In real life, very strong acids can have a pH below 0, and very strong bases above 14.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The 1-14 scale is a simplified range for everyday substances.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">考试 时 写: pH 是 1 到 14。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">真实 中, 很 强 的 酸 pH 可 到 0 以下, 很 强 的 碱 可 到 14 以上。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">1-14 只 是 给 日常 物质 用 的 简化 范围。</li></ul></div></div></div><div style="background:#F6EAFA;border:2px solid #E2C4EE;border-left:8px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:800;color:#9B3FC9;font-size:14px;margin-bottom:6px;">🔗 比喻 / Analogy</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The unit is like a detective case: each clue points to one material, gas, or substance type.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">整个单元像侦探案：每个线索指向一种材料、气体或物质类型。</li></ul></div><div style="border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;background:#FFF8EE;"><div style="font-family:Inter;font-weight:900;color:#D98A2B;font-size:14px;margin-bottom:8px;">🎯 考官要什么 / What the examiner wants</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">State = short answer.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Describe = say what and how.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Explain = say why (fact + reason).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Define = exact syllabus wording.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">State = 简短作答。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Describe = 说出是什么、怎样。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Explain = 说出为什么(事实+原因)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Define = 用大纲原话精确定义。</li></ul></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Try →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">TRY · 练</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Unit Review and Integration</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Unit Review and Integration</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q01</div><div style="font-family:Inter;font-weight:600;color:#222;">The diagram shows the materials that make up different parts of a car.
+(a) Which two labelled parts of the car are made from non-metals? [1]
+(b) Which property of steel is useful for making the car body? Circle
+    the correct answer: ductile / magnetic / sonorous / strong [1]
+(c) Which property of copper is useful for making the electrical wires?
+    Circle the correct answer: ductile / magnetic / sonorous / strong [1]
+(d) What is an advantage of using stainless steel instead of iron? [1]
+(e) The windows are made of glass because glass is transparent. What is
+    meant by the word transparent? [1]
+IMAGE_PROMPT: [B3 stage to write hyper-detailed prompt — reserved slot]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stainless steel does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  EXPECTED_ANSWER_ZH: (a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [1] 有延展性/可拉丝 (d) [1] stainless 钢 does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stainless steel does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [1] 有延展性/可拉丝 (d) [1] stainless 钢 does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Giving a property that does not match the named material — reject because the accepted point is: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stain....
+  - [Q01] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q01] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q01] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 性质跟材料不配 —— 不收；本题要点是：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [...。
+  - [Q01] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q01] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q01] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 5. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Check whether the question asks for a property, material, or use; this item needs: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) ....
+  FEEDBACK_WRONG_ZH: [Q01] 先分清题目问性质、材料还是用途；这题要点是：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] ...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [1] 有延展性/可拉丝 (d) [1] stainless 钢 does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stainless steel does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [1] 有延展性/可拉丝 (d) [1] stainless 钢 does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Giving a property that does not match the named material — reject because the accepted point is: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stain....
+  - [Q01] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q01] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q01] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 性质跟材料不配 —— 不收；本题要点是：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [...。
+  - [Q01] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q01] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q01] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 5. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Check whether the question asks for a property, material, or use; this item needs: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) ....
+  FEEDBACK_WRONG_ZH: [Q01] 先分清题目问性质、材料还是用途；这题要点是：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] ...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stainless steel does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [1] 有延展性/可拉丝 (d) [1] stainless 钢 does not rust / corrode easily (e) [1] transparent = allows light through / can be seen through
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Giving a property that does not match the named material — reject because the accepted point is: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) [1] strong (c) [1] ductile (d) [1] stain....
+  - [Q01] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q01] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q01] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 性质跟材料不配 —— 不收；本题要点是：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] 结实/强 (c) [...。
+  - [Q01] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q01] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q01] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 5. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Check whether the question asks for a property, material, or use; this item needs: (a) [1] bumper / fender made from polymers; rubber tyres filled with air (b) ....
+  FEEDBACK_WRONG_ZH: [Q01] 先分清题目问性质、材料还是用途；这题要点是：(a) [1] bumper / fender made from polymers; 橡胶 tyres filled with air (b) [1] ...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q02</div><div style="font-family:Inter;font-weight:600;color:#222;">A scientist tests three solutions with Universal Indicator.
+Solution A turns red. Solution B turns green. Solution C turns purple.
+(a) State whether Solution A is an acid, an alkali, or neutral. [1]
+(b) State the approximate pH of Solution B. [1]
+(c) State whether Solution C is an acid or an alkali. [1]
+IMAGE_PROMPT: (none)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali
+  EXPECTED_ANSWER_ZH: (a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali.
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali.
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali.
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali.
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali.
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] acid (b) [1] pH 7 (accept neutral / about 7) (c) [1] alkali.
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：(a) [1] 酸 (b) [1] pH 7 (accept 中性 / about 7) (c) [1] 碱。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q03</div><div style="font-family:Inter;font-weight:600;color:#222;">Three gases are tested: hydrogen, oxygen, carbon dioxide.
+(a) State which gas relights a glowing splint. [1]
+(b) State which gas gives a squeaky pop with a lit splint. [1]
+(c) State which gas turns limewater milky / cloudy. [1]
+IMAGE_PROMPT: (none)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide
+  EXPECTED_ANSWER_ZH: (a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Naming a gas that does not match the test result — reject because this question requires: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide.
+  - [Q03] Swapping squeaky pop, relighting splint, and limewater cloudy — reject because each result identifies a different gas.
+  - [Q03] Giving only the gas name when the question asks for test plus observation — reject because the required observation is missing.
+  - [Q03] Writing a reaction equation instead of the gas test — reject because this lesson marks test method and positive result only.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 气体名称跟测试结果不配 —— 不收；本题要点是：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳。
+  - [Q03] 把爆鸣、复燃、石灰水变浑浊互相换乱 —— 不收；每个现象对应不同气体。
+  - [Q03] 题目要“测试+现象”却只写气体名 —— 不收；少了阳性现象。
+  - [Q03] 用反应方程式代替气体测试 —— 不收；本课只改测试方法和阳性结果。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check the gas-test clue again; your answer must match this result: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide.
+  FEEDBACK_WRONG_ZH: [Q03] 重新看气体测试线索；这题要对到：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Naming a gas that does not match the test result — reject because this question requires: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide.
+  - [Q03] Swapping squeaky pop, relighting splint, and limewater cloudy — reject because each result identifies a different gas.
+  - [Q03] Giving only the gas name when the question asks for test plus observation — reject because the required observation is missing.
+  - [Q03] Writing a reaction equation instead of the gas test — reject because this lesson marks test method and positive result only.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 气体名称跟测试结果不配 —— 不收；本题要点是：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳。
+  - [Q03] 把爆鸣、复燃、石灰水变浑浊互相换乱 —— 不收；每个现象对应不同气体。
+  - [Q03] 题目要“测试+现象”却只写气体名 —— 不收；少了阳性现象。
+  - [Q03] 用反应方程式代替气体测试 —— 不收；本课只改测试方法和阳性结果。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check the gas-test clue again; your answer must match this result: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide.
+  FEEDBACK_WRONG_ZH: [Q03] 重新看气体测试线索；这题要对到：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Naming a gas that does not match the test result — reject because this question requires: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide.
+  - [Q03] Swapping squeaky pop, relighting splint, and limewater cloudy — reject because each result identifies a different gas.
+  - [Q03] Giving only the gas name when the question asks for test plus observation — reject because the required observation is missing.
+  - [Q03] Writing a reaction equation instead of the gas test — reject because this lesson marks test method and positive result only.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 气体名称跟测试结果不配 —— 不收；本题要点是：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳。
+  - [Q03] 把爆鸣、复燃、石灰水变浑浊互相换乱 —— 不收；每个现象对应不同气体。
+  - [Q03] 题目要“测试+现象”却只写气体名 —— 不收；少了阳性现象。
+  - [Q03] 用反应方程式代替气体测试 —— 不收；本课只改测试方法和阳性结果。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check the gas-test clue again; your answer must match this result: (a) [1] oxygen (b) [1] hydrogen (c) [1] carbon dioxide.
+  FEEDBACK_WRONG_ZH: [Q03] 重新看气体测试线索；这题要对到：(a) [1] 氧气 (b) [1] 氢气 (c) [1] 二氧化碳。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q04</div><div style="font-family:Inter;font-weight:600;color:#222;">(a) State one physical property of a material. [1]
+(b) State one chemical property of a material. [1]
+IMAGE_PROMPT: none (text question; slot reserved only)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes
+  EXPECTED_ANSWER_ZH: (a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1....
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / cor...。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1....
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / cor...。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1] e.g. burns / reacts with acid / corrodes.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / corrodes。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] e.g. melting point / density / hardness / conducts electricity (b) [1....
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) [1] e.g. 熔点 / 密度 / hardness / 导电 (b) [1] e.g. burns / reacts with 酸 / cor...。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q05</div><div style="font-family:Inter;font-weight:600;color:#222;">Three solutions have pH 2, pH 7 and pH 11.
+(a) Identify the acidic solution. [1]
+(b) Identify the neutral solution. [1]
+(c) Identify the alkaline solution. [1]
+IMAGE_PROMPT: none (text question; slot reserved only)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  EXPECTED_ANSWER_ZH: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11.
+  - [Q05] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q05] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q05] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11。
+  - [Q05] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q05] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q05] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11.
+  FEEDBACK_WRONG_ZH: [Q05] 重看 pH 或指示剂证据；这一分要写：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11.
+  - [Q05] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q05] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q05] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11。
+  - [Q05] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q05] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q05] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11.
+  FEEDBACK_WRONG_ZH: [Q05] 重看 pH 或指示剂证据；这一分要写：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11.
+  - [Q05] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q05] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q05] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11。
+  - [Q05] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q05] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q05] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11.
+  FEEDBACK_WRONG_ZH: [Q05] 重看 pH 或指示剂证据；这一分要写：(a) [1] pH 2 (b) [1] pH 7 (c) [1] pH 11。
+END_B1B_THICK_MARKING</div></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Test →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="screen-header"><div class="screen-eyebrow">TEST · 测</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Unit Review and Integration</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Unit Review and Integration</div></div><div class="exam-mode-chip" style="margin-bottom:10px;"><span data-en="EXAM MODE · NO HINTS" data-zh="考试模式 · 无提示">EXAM MODE · NO HINTS · 考试模式</span></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q06</div><div style="font-family:Inter;font-weight:600;color:#222;">A bridge is built from steel, which is an alloy, instead of pure iron.
+(a) State what an alloy is. [1]
+(b) Explain one reason why an alloy such as steel is chosen for the
+    bridge instead of pure iron. [1]
+IMAGE_PROMPT: (none)
+MARK_SCHEME_ACCEPT:
+(a) [1] an alloy is a mixture of a metal with one or more other elements
+(b) [1] alloy is stronger / harder than the pure metal (accept: does not
+    bend/deform as easily)
+MARK_SCHEME_REJECT:
+(b) answers about rusting only (out of unit scope — rusting is Y7 U3)
+B1B_QUESTION_ID: [Q06]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 2
+  ATTEMPT_CAP_CHECK: 2 (matches L1)
+  EXPECTED_ANSWER_EN: (a) [1] an alloy is a mixture of a metal with one or more other elements (b) [1] alloy is stronger / harder than the pure metal (accept: does not bend/deform as easily)
+  EXPECTED_ANSWER_ZH: (a) [1] an 合金 is a 混合物 of a 金属 with one 或 more other elements (b) [1] 合金 is stronger / 更硬 than the 纯金属 (accept: does not bend/deform as easily)
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] an alloy is a mixture of a metal with one or more other elements (b) [1] alloy is stronger / harder than the pure metal (accept: does not bend/deform as easily)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] an 合金 is a 混合物 of a 金属 with one 或 more other elements (b) [1] 合金 is stronger / 更硬 than the 纯金属 (accept: does not bend/deform as easily)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q06] Giving a property that does not match the named material — reject because the accepted point is: (a) [1] an alloy is a mixture of a metal with one or more other elements (b) [1] alloy is stronger / harder than the ....
+  - [Q06] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q06] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q06] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q06] 性质跟材料不配 —— 不收；本题要点是：(a) [1] an 合金 is a 混合物 of a 金属 with one 或 more other elements (b) [1] 合金 is stronger / ...。
+  - [Q06] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q06] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q06] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q06] Check whether the question asks for a property, material, or use; this item needs: (a) [1] an alloy is a mixture of a metal with one or more other elements (b) ....
+  FEEDBACK_WRONG_ZH: [Q06] 先分清题目问性质、材料还是用途；这题要点是：(a) [1] an 合金 is a 混合物 of a 金属 with one 或 more other elements (b) [1] 合金 is s...。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q07</div><div style="font-family:Inter;font-weight:600;color:#222;">A student lists some properties of copper:
+boiling point, colour, density, reacts with acid, conducts electricity.
+Sort each property into physical property or chemical property.
+(a) State the physical properties from the list. [1]
+(b) State the chemical property from the list. [1]
+IMAGE_PROMPT: (none)
+MARK_SCHEME_ACCEPT:
+(a) [1] boiling point, colour, density, conducts electricity
+(b) [1] reacts with acid
+MARK_SCHEME_REJECT:
+(b) any physical property listed as chemical
+B1B_QUESTION_ID: [Q07]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: classification
+  MARKS: 2
+  ATTEMPT_CAP_CHECK: 2 (matches L1)
+  EXPECTED_ANSWER_EN: (a) [1] boiling point, colour, density, conducts electricity (b) [1] reacts with acid
+  EXPECTED_ANSWER_ZH: (a) [1] 沸点, colour, 密度, 导电 (b) [1] reacts with 酸
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] boiling point, colour, density, conducts electricity (b) [1] reacts with acid
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 沸点, colour, 密度, 导电 (b) [1] reacts with 酸
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q07] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] boiling point, colour, density, conducts electricity (b) [1] reacts with acid.
+  - [Q07] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q07] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q07] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q07] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] 沸点, colour, 密度, 导电 (b) [1] reacts with 酸。
+  - [Q07] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q07] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q07] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 2. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q07] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] boiling point, colour, density, conducts electricity (b) [1] reacts w....
+  FEEDBACK_WRONG_ZH: [Q07] 重看 pH 或指示剂证据；这一分要写：(a) [1] 沸点, colour, 密度, 导电 (b) [1] reacts with 酸。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q08</div><div style="font-family:Inter;font-weight:600;color:#222;">An alkali with pH 9 has acid added to it a little at a time.
+(a) Name the reaction between the acid and the alkali. [1]
+(b) Explain what happens to the pH as more acid is added. [2]
+IMAGE_PROMPT: none (text question; slot reserved only)
+MARK_SCHEME_ACCEPT:
+(a) [1] neutralisation
+(b) [2] the pH falls / decreases towards 7 (and below if acid is in excess)
+MARK_SCHEME_REJECT:
+saying the pH rises
+B1B_QUESTION_ID: [Q08]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 3
+  ATTEMPT_CAP_CHECK: 3 (matches L2)
+  EXPECTED_ANSWER_EN: (a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (and below if acid is in excess)
+  EXPECTED_ANSWER_ZH: (a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (和 below if 酸 is in excess)
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (and below if acid is in excess)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (和 below if 酸 is in excess)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q08] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (and below if acid is in excess).
+  - [Q08] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q08] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q08] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q08] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (和 below if 酸 is in e...。
+  - [Q08] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q08] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q08] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q08] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (and below ....
+  FEEDBACK_WRONG_ZH: [Q08] 重看 pH 或指示剂证据；这一分要写：(a) [1] neutralisation (b) [2] the pH falls / decreases towards 7 (和 below if...。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q09</div><div style="font-family:Inter;font-weight:600;color:#222;">(a) State the test for oxygen and the positive result. [2]
+(b) State the test for hydrogen and the positive result. [2]
+IMAGE_PROMPT: none (text question; slot reserved only)
+MARK_SCHEME_ACCEPT:
+(a) [2] glowing splint; it relights
+(b) [2] lighted splint; squeaky pop
+MARK_SCHEME_REJECT:
+mixing up the two gas results
+B1B_QUESTION_ID: [Q09]
+B1B_THICK_MARKING:
+  QUESTION_TYPE: text_short/fill_blank
+  MARKS: 4
+  ATTEMPT_CAP_CHECK: 3 (matches L2)
+  EXPECTED_ANSWER_EN: (a) [2] glowing splint; it relights (b) [2] lighted splint; squeaky pop
+  EXPECTED_ANSWER_ZH: (a) [2] 余烬木条; it 复燃 (b) [2] 点燃木条; 尖锐爆鸣声
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [2] glowing splint; it relights (b) [2] lighted splint; squeaky pop
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test and observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] 余烬木条; it 复燃 (b) [2] 点燃木条; 尖锐爆鸣声
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - answer matches the evidence given
+  - correct scientific name accepted
+  - correct symbol/description match accepted
+  - correct test 和 observation accepted
+  - clear equivalent wording accepted
+  MARK_SCHEME_REJECT_EN:
+  - [Q09] Naming a gas that does not match the test result — reject because this question requires: (a) [2] glowing splint; it relights (b) [2] lighted splint; squeaky pop.
+  - [Q09] Swapping squeaky pop, relighting splint, and limewater cloudy — reject because each result identifies a different gas.
+  - [Q09] Giving only the gas name when the question asks for test plus observation — reject because the required observation is missing.
+  - [Q09] Writing a reaction equation instead of the gas test — reject because this lesson marks test method and positive result only.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q09] 气体名称跟测试结果不配 —— 不收；本题要点是：(a) [2] 余烬木条; it 复燃 (b) [2] 点燃木条; 尖锐爆鸣声。
+  - [Q09] 把爆鸣、复燃、石灰水变浑浊互相换乱 —— 不收；每个现象对应不同气体。
+  - [Q09] 题目要“测试+现象”却只写气体名 —— 不收；少了阳性现象。
+  - [Q09] 用反应方程式代替气体测试 —— 不收；本课只改测试方法和阳性结果。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 4. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Unit Review and Integration idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“单元复习整合”的概念。
+  FEEDBACK_WRONG_EN: [Q09] Check the gas-test clue again; your answer must match this result: (a) [2] glowing splint; it relights (b) [2] lighted splint; squeaky pop.
+  FEEDBACK_WRONG_ZH: [Q09] 重新看气体测试线索；这题要对到：(a) [2] 余烬木条; it 复燃 (b) [2] 点燃木条; 尖锐爆鸣声。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q10</div><div style="font-family:Inter;font-weight:600;color:#222;">An engineer must choose a material to make a strong, hard-wearing tool.
+(a) Suggest whether a pure metal or an alloy would be better. [1]
+(b) Explain your answer using the particle model. [2]
+(c) State one other property the engineer should check before choosing. [1]
+IMAGE_PROMPT: none (text question; slot reserved only)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Wrap →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">WRAP · 总结</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Unit Review and Integration</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Unit Review and Integration</div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#3B6FD4;font-size:14px;margin-bottom:8px;">🔁 盖住回想 / Cover &amp; recall</div><div style="font-family:Inter;font-weight:700;color:#222;margin-bottom:8px;">You have now linked the whole unit: properties, acids and alkalis, gas tests, and metals and alloys.</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;">想好了，看答案 →</button><div style="display:none;margin-top:8px;background:#fff;border-radius:8px;padding:10px;font-family:Inter;color:#222;">You have finished Unit 2 on the properties of materials. Next, Unit 3 looks at chemical changes and reactions — what happens when materials change into new substances.</div></div><div class="wrap-summary" style="background:#171413;border-radius:14px;padding:18px 20px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:15px;margin-bottom:10px;">📌 今天学了什么 / What we learned</div><ul style="list-style:none;padding:0;margin:0;"><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">You have now linked the whole unit: properties, acids and alkalis, gas tests, and metals and alloys.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">You have finished Unit 2 on the properties of materials.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Next, Unit 3 looks at chemical changes and reactions — what happens when materials change into new substances.</li></ul><ul style="list-style:none;padding:10px 0 0;margin:0;border-top:1px solid #444;"><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">你 现在 把 整 单元 串 起来 了: 性质、酸 和 碱、气体 测试、 金属 和 合金。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">第二 单元 (材料 的 性质) 走 完 了。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">接下来 第三 单元 看 化学 变化 和 反应 — 材料 变成 新 物质 时 发生 什么。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">No new vocabulary in this lesson.</li></ul></div><div style="background:#171413;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:13px;margin-bottom:6px;">🧠 口诀金句 / Memory hook</div><div style="font-family:Inter;font-weight:800;color:#fff;font-size:17px;">Property → pH/indicator → gas test → metal/non-metal → alloy.</div><div style="font-family:'Noto Sans SC';font-weight:700;color:#FFD84D;margin-top:4px;">总链：性质 → pH/指示剂 → 气体测试 → 金属/非金属 → 合金。</div></div><div class="btn-row"><button class="btn btn-primary" onclick="completeLesson()">Complete Lesson 12 ✓</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U2 L03 · The pH Scale (0-14)</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="3">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U2 · L03</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 2</div>
+      <div class="sidebar-unit-title" data-en="Properties of Materials" data-zh="材料的性质">Properties of Materials</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 机制</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Trace & predict<span class="zh"> · 推演与预测</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Connect & summarise<span class="zh"> · 连接与总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">HOOK · 钩子</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">The pH Scale (0-14)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">pH 标度 (0-14)</div></div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:12px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#7C5CD4;font-size:13px;">⏰ 热身 / Warm-up</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Pick one common object near you and ask: which property is useful here?</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">看身边一个普通物品，问自己：这里真正有用的是哪个性质？</li></ul></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin-bottom:16px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">How do you know if water is safe?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">CONTEXT_ANCHOR (personal/career): EN: A water-quality technician tests pool and drinking water every day.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">They dip a strip of pH paper into the water and read the colour.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The number it gives — the pH — tells them in seconds whether the water is too acidic, too alkaline, or just right.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">ZH: 化验师每天测泳池水和饮用水。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">他们把一条 pH 试纸放进水里看颜色。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">它给出的数字 — pH 值 — 几秒钟内就告诉他们水是太酸、太碱、还是刚好。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">LOOK_AROUND_YOU (Global Commons, no place name): EN: Think of any glass of water near you.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Is it acidic, neutral, or alkaline?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">By the end of this lesson you will be able to put a number on it.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">ZH: 想想你身边任何一杯水。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">它是酸性、中性、还是碱性?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">这节课结束后 你就能给它一个数字。</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">你怎么知道水是不是安全的?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">CONTEXT_ANCHOR (personal/career): EN: A water-quality technician tests pool and drinking water every day.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">They dip a strip of pH paper into the water and read the colour.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">The number it gives — the pH — tells them in seconds whether the water is too acidic, too alkaline, or just right.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">ZH: 化验师每天测泳池水和饮用水。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">他们把一条 pH 试纸放进水里看颜色。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">它给出的数字 — pH 值 — 几秒钟内就告诉他们水是太酸、太碱、还是刚好。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">LOOK_AROUND_YOU (Global Commons, no place name): EN: Think of any glass of water near you.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Is it acidic, neutral, or alkaline?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">By the end of this lesson you will be able to put a number on it.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">ZH: 想想你身边任何一杯水。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">它是酸性、中性、还是碱性?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">这节课结束后 你就能给它一个数字。</li></ul></div></div><div style="font-family:Inter;font-style:italic;color:#666;margin:4px 0 16px;">😄 pH 7 is the peaceful middle child: not acidic, not alkaline, just staying out of drama. <span style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;font-style:normal;">pH 7 像家里最和平的中间孩子：不酸不碱，不参加吵架。</span></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Learn →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">LEARN · 学</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">The pH Scale (0-14)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">pH 标度 (0-14)</div></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">The pH scale runs from 0 to 14 · <span style="font-family:'Noto Sans SC';">pH 标度从 0 到 14</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The pH scale is a number line from 0 to 14.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">0 to 6 = acidic.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">7 = neutral.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">8 to 14 = alkaline.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Lower number = more acidic.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Higher number = more alkaline.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">pH 标度是从 0 到 14 的数字线。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">0 到 6 = 酸性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">7 = 中性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">8 到 14 = 碱性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">数字越小 = 越酸。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">数字越大 = 越碱。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">Horizontal pH number line 0 to 14, labelled &quot;acidic 0-6&quot;,
+  &quot;neutral 7&quot;, &quot;alkaline 8-14&quot;. No brand, no place name.
+  (Reserved slot — no source image; new image</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Colour pH strip 0-14 with everyday examples; note &#x27;each step = 10x&#x27;.</div><div><b>Animate?:</b> STATIC (D1). If a slider is ever added it is NOT one of the 5 flagships (D3) -&gt; keep static.</div><div><b>Trap to flag:</b> pH 4 is NOT &#x27;twice&#x27; pH 5; &#x27;10x per step&#x27;.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame. D3: only 5 flagship sliders exist (rate, refraction, F=ma, limiting factors, resistance); else light loop/static.</div></div></div></div><div style="background:#FFF0DB;border:2px solid #FAD9A8;border-left:8px solid #D98A2B;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Each pH has a colour · <span style="font-family:'Noto Sans SC';">每个 pH 都有一个颜色</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Universal Indicator turns a different colour for each pH value.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Strong acid = red.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Weak acid = orange/yellow.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Neutral = green.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Weak alkali = blue.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Strong alkali = purple.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Match the colour to a chart to read the pH.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">万能指示剂在每个 pH 值会变成不同的颜色。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">强酸 = 红。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">弱酸 = 橙/黄。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">中性 = 绿。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">弱碱 = 蓝。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">强碱 = 紫。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">把颜色对到色卡上就能读出 pH。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">Universal Indicator colour spectrum strip aligned to pH 0-14,
+  red-&gt;orange-&gt;yellow-&gt;green-&gt;blue-&gt;purple. No brand, no place name.
+  (Reserved slot — no source </span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Colour pH strip 0-14 with everyday examples; note &#x27;each step = 10x&#x27;.</div><div><b>Animate?:</b> STATIC (D1). If a slider is ever added it is NOT one of the 5 flagships (D3) -&gt; keep static.</div><div><b>Trap to flag:</b> pH 4 is NOT &#x27;twice&#x27; pH 5; &#x27;10x per step&#x27;.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame. D3: only 5 flagship sliders exist (rate, refraction, F=ma, limiting factors, resistance); else light loop/static.</div></div></div></div><div style="background:#EAFBFF;border:2px solid #C2ECF5;border-left:8px solid #3AAEC8;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#C2ECF5;color:#3AAEC8;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Where everyday liquids sit on the scale · <span style="font-family:'Noto Sans SC';">日常液体在标度上的位置</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Lemon juice and vinegar are acidic (low pH).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Pure water is neutral (pH 7).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Soap and oven/paint cleaners are alkaline (high pH).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Use only Global Commons examples: water, lemon, vinegar, soap.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">柠檬汁和醋是酸性 (pH 低)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">纯水是中性 (pH 7)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">肥皂和清洁剂是碱性 (pH 高)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">只用全球通用的例子: 水、柠檬、醋、肥皂。</li></ul></div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#C00000;font-size:16px;margin-bottom:8px;">🟥 红牌 · 常见错误 / Red Card</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div style="flex:1;min-width:180px;background:#fff;border:2px solid #C00000;border-radius:10px;padding:10px;"><div style="color:#C00000;font-weight:800;font-family:Inter;font-size:13px;">✘ WRONG 错</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">A higher pH number always means more dangerous.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">pH 数字越大就越危险。</div></div><div style="flex:1;min-width:180px;background:#F0FFF0;border:2px solid #2E7D32;border-radius:10px;padding:10px;"><div style="color:#2E7D32;font-weight:800;font-family:Inter;font-size:13px;">✔ RIGHT 对</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">A higher pH means more alkaline, NOT more dangerous.
+      Both very low pH (strong acid) and very high pH (strong alkali)
+      can be dangerous. pH 7 (neutral) is the safe middle.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">pH 越大代表越碱, 不是越危险。
+      很低的 pH (强酸) 和很高的 pH (强碱) 都可能危险。
+      pH 7 (中性) 是安全的中间。</div></div></div></div><div style="background:#F5F0E4;border:2px solid #8A7B4A;border-left:8px solid #6D4C41;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#6D4C41;font-size:16px;margin-bottom:8px;">⚖️ 考试 vs 真实 / Exam vs Reality</div><div style="font-family:Inter;color:#3b2f25;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">📝 考试: The pH scale goes from 0 to 14, with 7 = neutral.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">🔬 真实: Very strong acids can have a pH below 0, and very
+  strong alkalis can have a pH above 14. The 0-14 scale is a
+  simplified range for everyday substances, not a physical limit.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In the exam, write pH 0 to 14.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In real life the scale can go beyond both ends.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">📝 考试: pH 标度从 0 到 14, 7 = 中性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">🔬 真实: 很强的酸 pH 可以低于 0, 很强的碱 pH 可以高于 14。
+  0-14 是日常物质的简化范围, 不是物理上限。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">考试时写 pH 0 到 14。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">真实生活里两端都可以超出。</li></ul></div></div></div><div style="background:#F6EAFA;border:2px solid #E2C4EE;border-left:8px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:800;color:#9B3FC9;font-size:14px;margin-bottom:6px;">🔗 比喻 / Analogy</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The pH scale is a number ruler for sour-to-slippery behaviour.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">pH 标度就是一把数字尺，用来量“酸到碱”的程度。</li></ul></div><div style="border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;background:#FFF8EE;"><div style="font-family:Inter;font-weight:900;color:#D98A2B;font-size:14px;margin-bottom:8px;">🎯 考官要什么 / What the examiner wants</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">State = short answer.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Describe = say what and how.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Explain = say why (fact + reason).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Define = exact syllabus wording.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">State = 简短作答。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Describe = 说出是什么、怎样。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Explain = 说出为什么(事实+原因)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Define = 用大纲原话精确定义。</li></ul></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Try →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">TRY · 练</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">The pH Scale (0-14)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">pH 标度 (0-14)</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q01</div><div style="font-family:Inter;font-weight:600;color:#222;">Universal Indicator can be used to estimate the pH value of a solution.
+  (a) Which is the best description for a solution with a pH of 5?
+      Tick (check) the correct box.
+      [ ] neutral
+      [ ] strongly acidic
+      [ ] strongly alkaline
+      [ ] weakly acidic
+      [ ] weakly alkaline
+      [1]
+  (b) What is the pH of a neutral solution? [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">万能指示剂可用来估计溶液的 pH 值。
+  (a) 对 pH 为 5 的溶液, 哪个描述最好? 勾选正确的格子。
+      [ ] 中性  [ ] 强酸性  [ ] 强碱性  [ ] 弱酸性  [ ] 弱碱性  [1]
+  (b) 中性溶液的 pH 是多少? [1]
+COMMAND_WORD: Tick / Write down (selection + recall)
+TIP_EN: pH below 7 is acidic; how far below 7 tells you weak or strong.
+TIP_ZH: pH 低于 7 是酸性; 离 7 多远决定弱还是强。</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] weakly acidic (b) [1] 7
+  EXPECTED_ANSWER_ZH: (a) [1] weakly 酸性 (b) [1] 7
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] weakly acidic (b) [1] 7
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] weakly 酸性 (b) [1] 7
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] weakly acidic (b) [1] 7.
+  - [Q01] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q01] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q01] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] weakly 酸性 (b) [1] 7。
+  - [Q01] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q01] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q01] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 2. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] weakly acidic (b) [1] 7.
+  FEEDBACK_WRONG_ZH: [Q01] 重看 pH 或指示剂证据；这一分要写：(a) [1] weakly 酸性 (b) [1] 7。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q01]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] weakly 酸性 (b) [1] 7
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] weakly acidic (b) [1] 7
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] weakly 酸性 (b) [1] 7
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] weakly acidic (b) [1] 7.
+  - [Q01] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q01] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q01] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] weakly 酸性 (b) [1] 7。
+  - [Q01] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q01] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q01] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 2. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] weakly acidic (b) [1] 7.
+  FEEDBACK_WRONG_ZH: [Q01] 重看 pH 或指示剂证据；这一分要写：(a) [1] weakly 酸性 (b) [1] 7。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q01]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] weakly acidic (b) [1] 7
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] weakly 酸性 (b) [1] 7
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] weakly acidic (b) [1] 7.
+  - [Q01] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q01] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q01] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] weakly 酸性 (b) [1] 7。
+  - [Q01] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q01] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q01] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 2. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] weakly acidic (b) [1] 7.
+  FEEDBACK_WRONG_ZH: [Q01] 重看 pH 或指示剂证据；这一分要写：(a) [1] weakly 酸性 (b) [1] 7。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q01]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q02</div><div style="font-family:Inter;font-weight:600;color:#222;">The colour of pH paper can change in different solutions.
+  (a) Maryam tests different fruit juices with pH paper.
+      (i) Which juice is neutral? [1]
+      (ii) Which juice is the most acidic? [1]
+  (b) Maryam dips pH paper into a solution of pH 10.
+      Suggest the colour of the pH paper. [1]
+  (c) Maryam mixes an alkaline solution with orange juice.
+      What is the name of this reaction between an alkali and an acid? [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">pH 试纸的颜色在不同溶液里会变化。
+  (a) Maryam 用 pH 试纸测不同果汁。
+      (i) 哪种果汁是中性? [1]
+      (ii) 哪种果汁最酸? [1]
+  (b) Maryam 把 pH 试纸放进 pH 10 的溶液。猜 pH 试纸的颜色。[1]
+  (c) Maryam 把碱性溶液和橙汁混合。酸和碱之间这个反应叫什么? [1]
+COMMAND_WORD: Read off / Suggest / Name
+TIP_EN: Read the chart for (a) and (b); (c) is a key word to recall.
+TIP_ZH: (a)(b) 读图; (c) 是一个要记住的关键词。</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise)
+  EXPECTED_ANSWER_ZH: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neutralise)
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neutralise)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise).
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neut...。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 4. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (....
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (ac...。
+  GRAPH_CALIBRATION_TODO_[Q02]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neutralise)
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neutralise)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise).
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neut...。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 4. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (....
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (ac...。
+  GRAPH_CALIBRATION_TODO_[Q02]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neutralise)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (accept: neutralise).
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (accept: neut...。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 4. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark blue (c) [1] neutralisation (....
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：(a)(i) [1] mango (a)(ii) [1] lemon (b) [1] dark 蓝色 (c) [1] neutralisation (ac...。
+  GRAPH_CALIBRATION_TODO_[Q02]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q03</div><div style="font-family:Inter;font-weight:600;color:#222;">The pH scale runs from 0 to 14.
+  (a) Write down the pH of the most strongly acidic solution on this scale. [1]
+  (b) Write down the pH of the most strongly alkaline solution on this scale. [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">pH 标度从 0 到 14。
+  (a) 写出标度上酸性最强的溶液的 pH。[1]
+  (b) 写出标度上碱性最强的溶液的 pH。[1]
+COMMAND_WORD: Write down (recall)
+TIP_EN: The lowest number is the most acidic; the highest is the most alkaline.
+TIP_ZH: 数字最小最酸,最大最碱。</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] 0 (b) [1] 14
+  EXPECTED_ANSWER_ZH: (a) [1] 0 (b) [1] 14
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] 0 (b) [1] 14
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 0 (b) [1] 14
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Answer does not include the required scoring idea: (a) [1] 0 (b) [1] 14 — reject because this mark is evidence-based.
+  - [Q03] Correct keyword used for the wrong object/subpart — reject because each subpart is marked separately.
+  - [Q03] Vague answer such as “it changes” or “it is good” — reject because it does not state the science idea.
+  - [Q03] Answer contradicts the table, picture, or wording in this exact question — reject because question evidence wins.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 没写到本题得分点：(a) [1] 0 (b) [1] 14 —— 不收；这分按证据给。
+  - [Q03] 关键词对但用在错误物体/小题 —— 不收；每个小题分开改。
+  - [Q03] 只写“会变化”“很好”这种泛话 —— 不收；没有科学点。
+  - [Q03] 答案跟这题表格、图片或题干相反 —— 不收；题目证据优先。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 2 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Use the evidence in this question, then write the required point: (a) [1] 0 (b) [1] 14.
+  FEEDBACK_WRONG_ZH: [Q03] 用这题自己的证据，再写这个得分点：(a) [1] 0 (b) [1] 14。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q03]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] 0 (b) [1] 14
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] 0 (b) [1] 14
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 0 (b) [1] 14
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Answer does not include the required scoring idea: (a) [1] 0 (b) [1] 14 — reject because this mark is evidence-based.
+  - [Q03] Correct keyword used for the wrong object/subpart — reject because each subpart is marked separately.
+  - [Q03] Vague answer such as “it changes” or “it is good” — reject because it does not state the science idea.
+  - [Q03] Answer contradicts the table, picture, or wording in this exact question — reject because question evidence wins.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 没写到本题得分点：(a) [1] 0 (b) [1] 14 —— 不收；这分按证据给。
+  - [Q03] 关键词对但用在错误物体/小题 —— 不收；每个小题分开改。
+  - [Q03] 只写“会变化”“很好”这种泛话 —— 不收；没有科学点。
+  - [Q03] 答案跟这题表格、图片或题干相反 —— 不收；题目证据优先。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 2 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Use the evidence in this question, then write the required point: (a) [1] 0 (b) [1] 14.
+  FEEDBACK_WRONG_ZH: [Q03] 用这题自己的证据，再写这个得分点：(a) [1] 0 (b) [1] 14。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q03]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] 0 (b) [1] 14
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] 0 (b) [1] 14
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Answer does not include the required scoring idea: (a) [1] 0 (b) [1] 14 — reject because this mark is evidence-based.
+  - [Q03] Correct keyword used for the wrong object/subpart — reject because each subpart is marked separately.
+  - [Q03] Vague answer such as “it changes” or “it is good” — reject because it does not state the science idea.
+  - [Q03] Answer contradicts the table, picture, or wording in this exact question — reject because question evidence wins.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 没写到本题得分点：(a) [1] 0 (b) [1] 14 —— 不收；这分按证据给。
+  - [Q03] 关键词对但用在错误物体/小题 —— 不收；每个小题分开改。
+  - [Q03] 只写“会变化”“很好”这种泛话 —— 不收；没有科学点。
+  - [Q03] 答案跟这题表格、图片或题干相反 —— 不收；题目证据优先。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 2 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Use the evidence in this question, then write the required point: (a) [1] 0 (b) [1] 14.
+  FEEDBACK_WRONG_ZH: [Q03] 用这题自己的证据，再写这个得分点：(a) [1] 0 (b) [1] 14。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q03]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q04</div><div style="font-family:Inter;font-weight:600;color:#222;">Four solutions have pH values: 1, 6, 7 and 13.
+  (a) Which solution is neutral? [1]
+  (b) Which solution is the most strongly alkaline? [1]
+  (c) Which two solutions are acidic? [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">四种溶液的 pH 值是:1、6、7、13。
+  (a) 哪种溶液是中性?[1]
+  (b) 哪种溶液碱性最强?[1]
+  (c) 哪两种溶液是酸性?[1]
+COMMAND_WORD: Identify (read the scale)
+TIP_EN: 7 is neutral; below 7 acidic; above 7 alkaline.
+TIP_ZH: 7 中性;小于 7 酸性;大于 7 碱性。</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6
+  EXPECTED_ANSWER_ZH: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6.
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q04]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6.
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q04]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the The pH Scale (0-14) idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“pH 标度”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 and pH 6.
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) [1] pH 7 (b) [1] pH 13 (c) [1] pH 1 和 pH 6。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+  GRAPH_CALIBRATION_TODO_[Q04]:
+    GRAPH_CALIBRATION_ORIGIN_X_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_ORIGIN_Y_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_GRID_PX: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_X_UNIT: pH number / substance category
+    GRAPH_CALIBRATION_Y_UNIT: indicator colour band / pH reading
+    GRAPH_CALIBRATION_X_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_Y_PER_GRID: TO_MEASURE_BEFORE_HTML
+    GRAPH_CALIBRATION_NOTE: Measure these 8 fields from the actual displayed source image before any auto-marking. Missing calibration = teacher review only.
+END_B1B_THICK_MARKING</div></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Test →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="screen-header"><div class="screen-eyebrow">TEST · 测</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">The pH Scale (0-14)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">pH 标度 (0-14)</div></div><div class="exam-mode-chip" style="margin-bottom:10px;"><span data-en="EXAM MODE · NO HINTS" data-zh="考试模式 · 无提示">EXAM MODE · NO HINTS · 考试模式</span></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q05</div><div style="font-family:Inter;font-weight:600;color:#222;">Chen tests some chemicals with Universal Indicator.
+  His results are shown on a pH chart. Use the pH chart to answer.
+  (a) Write down the pH of vinegar. [1]
+  (b) Paint stripper is tested with Universal Indicator.
+      Write down the colour of the Universal Indicator after the test. [1]
+  (c) Pure water is neutral. Write down the pH of a neutral solution. [1]
+  (d) Which chemical in the pH chart is the most acidic? [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">Chen 用万能指示剂测一些化学品, 结果显示在 pH 图表上。用图表回答。
+  (a) 写下醋的 pH。[1]
+  (b) 用万能指示剂测除漆剂, 写下测后指示剂的颜色。[1]
+  (c) 纯水是中性, 写下中性溶液的 pH。[1]
+  (d) 图表中哪个化学品最酸? [1]
+COMMAND_WORD: Write down (read data from chart)
+TIP_EN: Every answer is read directly off the pH chart.
+TIP_ZH: 每个答案都直接从 pH 图表读出。</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q06</div><div style="font-family:Inter;font-weight:600;color:#222;">Carlos investigates the pH of some liquids. Some are very acidic and
+  some are very alkaline.
+  (a) Describe how Carlos measures the pH of the liquids. [1]
+  (b) Some of the liquids are dangerous to use. Write down one safety
+      precaution Carlos takes during his investigation. Explain why this
+      safety precaution is needed. [2]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">Carlos 调查一些液体的 pH。有些很酸, 有些很碱。
+  (a) 描述 Carlos 怎么测这些液体的 pH。[1]
+  (b) 有些液体使用起来很危险。写下 Carlos 调查时采取的一个安全措施,
+      并解释为什么需要这个措施。[2]
+COMMAND_WORD: Describe / Write down + Explain
+TIP_EN: (a) name a measuring tool; (b) one precaution + a matching reason.
+TIP_ZH: (a) 说出一个测量工具; (b) 一个措施 + 对应的理由。</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q07</div><div style="font-family:Inter;font-weight:600;color:#222;">Mike investigates three substances: milk, vinegar and bleach. He wants
+  to know the pH of each of the three liquids. Write down how Mike does
+  this investigation. Include:
+    - the names of any chemicals he uses
+    - the method
+    - how Mike is able to make a conclusion from his results
+  [3]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">Mike 调查三种物质: 牛奶、醋、漂白剂。他想知道每种液体的 pH。
+  写下 Mike 怎么做这个调查, 包括:
+    - 他用的任何化学品的名称
+    - 方法
+    - Mike 怎么从结果得出结论
+  [3]
+COMMAND_WORD: Write down (full method + conclusion)
+TIP_EN: Three marks = name the chemical, give the method, say how the
+  result becomes a conclusion.
+TIP_ZH: 三分 = 说出化学品、给出方法、说明结果怎么变成结论。</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q08</div><div style="font-family:Inter;font-weight:600;color:#222;">A student tests rainwater with universal indicator. It turns orange,
+  matching pH 5.
+  (a) State whether the rainwater is acidic, neutral or alkaline. [1]
+  (b) State whether it is weakly or strongly acidic. [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">学生用万用指示剂测雨水。指示剂变橙色,对应 pH 5。
+  (a) 说出雨水是酸性、中性还是碱性。[1]
+  (b) 说出它是弱酸性还是强酸性。[1]
+COMMAND_WORD: State (interpret the colour)
+TIP_EN: pH 5 is below 7, but only a little.
+TIP_ZH: pH 5 低于 7,但只低一点。</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q09</div><div style="font-family:Inter;font-weight:600;color:#222;">Solution X has pH 2. Solution Y has pH 6. Both are acids.
+  (a) State which solution is the stronger acid. [1]
+  (b) Explain your answer using the pH scale. [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">溶液 X 的 pH 是 2。溶液 Y 的 pH 是 6。两者都是酸。
+  (a) 说出哪种溶液是较强的酸。[1]
+  (b) 用 pH 标度解释你的答案。[1]
+COMMAND_WORD: State / Explain (compare on the scale)
+TIP_EN: The further below 7, the stronger the acid.
+TIP_ZH: 离 7 越远,酸越强。</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q10</div><div style="font-family:Inter;font-weight:600;color:#222;">A gardener measures the soil pH as 8.
+  (a) State whether the soil is acidic, neutral or alkaline. [1]
+  (b) The gardener wants the soil to be neutral. State whether the pH
+      should go up or down. [1]
+  (c) Suggest what type of substance (acid or alkali) could be added to do this. [1]</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">园丁测得土壤 pH 为 8。
+  (a) 说出土壤是酸性、中性还是碱性。[1]
+  (b) 园丁想让土壤变中性。说出 pH 应该升高还是降低。[1]
+  (c) 说出可以加入哪类物质(酸还是碱)来做到这点。[1]
+COMMAND_WORD: State / Suggest (apply the scale)
+TIP_EN: Neutral is pH 7; you must move pH 8 down to 7.
+TIP_ZH: 中性是 pH 7;要把 pH 8 降到 7。</div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Wrap →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">WRAP · 总结</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">The pH Scale (0-14)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">pH 标度 (0-14)</div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#3B6FD4;font-size:14px;margin-bottom:8px;">🔁 盖住回想 / Cover &amp; recall</div><div style="font-family:Inter;font-weight:700;color:#222;margin-bottom:8px;">The pH scale is a number line from 0 to 14.</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;">想好了，看答案 →</button><div style="display:none;margin-top:8px;background:#fff;border-radius:8px;padding:10px;font-family:Inter;color:#222;">0-6 is acidic, 7 is neutral, 8-14 is alkaline. We read pH from the colour of an indicator matched to a chart.</div></div><div class="wrap-summary" style="background:#171413;border-radius:14px;padding:18px 20px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:15px;margin-bottom:10px;">📌 今天学了什么 / What we learned</div><ul style="list-style:none;padding:0;margin:0;"><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">The pH scale is a number line from 0 to 14.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">0-6 is acidic, 7 is neutral, 8-14 is alkaline.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">We read pH from the colour of an indicator matched to a chart.</li></ul><ul style="list-style:none;padding:10px 0 0;margin:0;border-top:1px solid #444;"><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">pH 标度是 0 到 14 的数字线。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">0-6 酸性, 7 中性, 8-14 碱性。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">我们把指示剂的颜色对到色卡上读出 pH。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">Y9_BOUNDARY_LINE_EN: Working out a pH from numbers comes later — in Y9.</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">Y9_BOUNDARY_LINE_ZH: 用数字算出 pH 是以后的事 — Y9 才教。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">meet the tools that reveal pH — indicators.</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">— 指示剂。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">label — does it warn it is acidic or alkaline?</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">是酸性还是碱性?</li></ul></div><div style="background:#171413;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:13px;margin-bottom:6px;">🧠 口诀金句 / Memory hook</div><div style="font-family:Inter;font-weight:800;color:#fff;font-size:17px;">Low = acid, seven = neutral, high = alkali.</div><div style="font-family:'Noto Sans SC';font-weight:700;color:#FFD84D;margin-top:4px;">低是酸，七中性，高是碱。</div></div><div class="btn-row"><button class="btn btn-primary" onclick="completeLesson()">Complete Lesson 3 ✓</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
