@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U7 L05 · Falling Objects</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U7 L05 · Falling Objects",
+  "navMeta": "Y7 · U7 · L05",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 7",
+  "unitTitleEn": "Forces and Motion",
+  "unitTitleZh": "力与运动",
+  "userLevel": "1",
+  "lessonData": "5"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="5">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U7 · L05</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U7 parsed.json — text poured verbatim. Image placeholders kept. [Qnn] tag normalised out of feedback. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Falling Objects" data-zh="下落的物体">Falling Objects</div>
+      <div class="screen-title-zh">下落的物体</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Falling Objects</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A skydiver jumps from a plane. At first they speed up. Then they stop speeding up — even though they are still falling. Why? Today we find out why falling objects do not keep getting faster forever. <span class="zh">跳伞的人从飞机上跳下。一开始越掉越快。后来不再加速 —— 但人还在往下掉。为什么?今天我们就来看为什么掉下来的东西不会永远越掉越快。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Key words today: gravity (pulls down), air resistance (pushes up against motion), terminal velocity (the steady falling speed). <span class="zh">今天的关键词:gravity 重力(往下拉)、air resistance 空气阻力(往上顶、对抗运动)、terminal velocity 终端速度(稳定的下落速度)。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Falling Objects" data-zh="下落的物体">Falling Objects</div>
+      <div class="screen-title-zh">下落的物体</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">When an object falls, gravity pulls it down. Air resistance pushes up against its motion. At the start, gravity is bigger, so the object speeds up. As it falls faster, air resistance grows. When air resistance grows equal to gravity, the forces are balanced — the object stops speeding up. This steady speed is called terminal velocity. <span class="zh">物体下落时,重力把它往下拉。空气阻力往上顶住它的运动。一开始重力比较大,所以物体加速。掉得越快,空气阻力越大。当空气阻力大到等于重力,两个力平衡 —— 物体不再加速。这个稳定的速度叫 terminal velocity 终端速度。</span></p>
+      
+        <figure class="img-slot" data-ref="L05_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q03_IMG01" data-recraft-prompt="[STATIC IMAGE NEEDED] Force diagram of a falling object (skydiver). Downward arrow labelled &quot;gravity / weight&quot;. Upward arrow labelled &quot;air resistance&quot;. Show arrow LENGTH proportional to force size. Three stages side by side: (1) start: long down arrow, short up arrow (speeding up); (2) middle: arrows getting closer in length (slowing the increase); (3) terminal velocity: both arrows EQUAL length (balanced, steady speed). NO numbers." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Watch how the skydiver's speed changes: first they speed up, then the increase slows, then they reach a steady speed (terminal velocity). The speed does not keep rising forever. <span class="zh">看跳伞者的速度怎么变:先加速,然后加速变慢,最后达到稳定速度(终端速度)。速度不会一直往上升。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">RED CARD — Wrong idea: "Heavy things always fall faster than light things." Correct: in air, shape and air resistance matter, not just weight. In a vacuum (no air), all objects fall at the same rate. <span class="zh">红牌 —— 错误想法:"重的东西总是比轻的掉得快。"正确:在空气中,形状和空气阻力才是关键,不只是重量。在真空里(没有空气),所有东西掉得一样快。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong>  </p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong>  </p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>📝 Exam<span class="zh"> 考试</span>:</strong> In the exam, write "ignoring air resistance". <span class="zh">考试时写:"忽略空气阻力"。</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:6px;"><strong>🌍 Reality<span class="zh"> 真实</span>:</strong> In real life, air resistance always exists. After falling a long time, an object reaches "terminal velocity" and stops speeding up. That is why skydivers do not keep accelerating forever. <span class="zh">真实空气阻力一直在。掉久了速度会停(terminal velocity)。跳伞的人不会永远越掉越快。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict · 预测</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">(a) Write down (b) Complete / Draw (c) Write down (d) Suggest · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Liz and Rena investigate how high a ball bounces. They use a metre ruler and a tennis ball. Liz drops the ball from different heights. Rena watches and records the height of the first bounce. They measure the height from the bottom of the ball.<br>(a) Write down one reason why Rena will find it difficult to record the height of the bounce accurately. [1]<br>(b) Complete the graph by: plotting the last two points; drawing a best fit straight line. [2]<br>(c) One advantage of plotting a graph is that the trend can be seen more clearly than in the table. Write down one other advantage of displaying results in a graph. [1]<br>(d) Another group does the test. Their points were all far from their line. What does this suggest about their results? [1]<br><span class="zh">Liz 和 Rena 研究球能弹多高。用一把米尺和一个网球。Liz 从不同高度放球。Rena 看着并记录第一次弹起的高度。从球的底部量高度。<br>(a) 写出一个原因,说明为什么 Rena 很难准确记录弹起的高度。[1]<br>(b) 完成图表:画出最后两个点;画一条最佳拟合直线。[2]<br>(c) 画图的一个好处是趋势比表格更清楚。再写出展示结果用图表的另一个好处。[1]<br>(d) 另一组做同样的测试。他们的点都离线很远。这说明他们的结果怎么样?[1]</span></p>
+        
+        <figure class="img-slot" data-ref="L05_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L05_Q01_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q01_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          (a) Think about how fast the ball moves and where your eyes are. (c) Think what else a graph lets you do with the numbers. (d) Far-from-line points mean the data is not...? <span class="zh">(a) 想想球动得多快、你的眼睛在哪。(c) 想想图还能让你拿这些数字做什么。(d) 点离线很远,说明数据不够...?</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) ball moves quickly / hard to look at eye level / hard to watch ball and scale together (b) both points plotted correctly; appropriate straight line drawn (c) anomalies more easily spotted / other values can be predicted (d) less reliable / not as accurate / whole test needs repeating.</strong> <span class="zh">正确答案要包含：(a) ball moves quickly / hard to look at eye level / hard to watch ball and scale together (b) both points plotted correctly; appropriate 直线 drawn (c) anomalies 较多 easily spotted / other values can be predicted (d) 较少 可靠 / not as 准确 / whole test needs repeating。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) ball moves quickly / hard to look at eye level / hard to watch ball and scale together (b) both points plotted correctly; appropriate straight line drawn (c) anomalies more easily spotted / other values can be predicted (d) less reliable / not as accurate / whole test needs repeating. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) ball moves quickly / hard to look at eye level / hard to watch ball and scale together (b) both points plotted correctly; appropriate 直线 drawn (c) anomalies 较多 easily spotted / other values can be predicted (d) 较少 可靠 / not as 准确 / whole test needs repeating。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) ball moves quickly / hard to look at eye level / hard to watch ball and scale together (b) both points plotted correctly; appropriate straight line drawn (c) anomalies more eas. <span class="zh">对。 你抓到本题关键：弹跳实验要看测量困难、图表趋势和数据可靠性。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Liz and Rena investigate how high a ball bounces. They use a metre ruler and a tennis ball. Liz drops the ball. Your answer must lead to: (a) ball moves quickly / hard to look at eye level / hard to watch ball and scale together (b) both points plotted corre. <span class="zh">这题在看实验和图：球太快不易观察，点和直线要画准；异常值可从图上看出，异常会降低可靠性。</span></span><br>
+          </div>
+          <div class="source-note">Source: liz and rena bounce investigation</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">(a) Name (b)(i) Identify (b)(ii) Identify (b)(iii) Write down (b)(iv) Suggest (c) List · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">9 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Jakub is a skydiver. He jumps from a plane.<br>(a)(i) Jakub falls towards the Earth before his parachute opens. Name force A and force B on the diagram. [2]<br>(b) Jakub's parachute opens. Some students investigate how the size of the parachute affects how fast he falls. They talk about their ideas.<br>(i) Which two ideas are about controlling a variable (fair test)? ____ and ____ [1]<br>(ii) Which idea is a prediction? [1]<br>(iii) Write down another possible prediction. [1]<br>(iv) Suggest one reason why the students need to make models. [1]<br>(c) List two measurements they need to make and what equipment they could use for each. [3]<br><span class="zh">Jakub 是跳伞员。他从飞机上跳下。<br>(a)(i) 降落伞打开前 Jakub 向地球下落。说出图上力 A 和力 B 的名称。[2]<br>(b) 降落伞打开了。一些学生研究降落伞大小如何影响下落速度。他们讨论想法。<br>(i) 哪两个想法是关于控制变量(公平测试)?____ 和 ____ [1]<br>(ii) 哪个想法是一个预测?[1]<br>(iii) 写出另一个可能的预测。[1]<br>(iv) 说出学生为什么需要做模型的一个原因。[1]<br>(c) 列出他们需要做的两个测量,以及每个测量可以用什么器材。[3]</span></p>
+        
+        <figure class="img-slot" data-ref="L05_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L05_Q02_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q02_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L05_Q02_IMG03" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q02_IMG03" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          (a) One force pushes up against the fall, one pulls straight down to Earth. (b)(i) A fair test changes one thing and keeps others the same. (c) You must measure TIME and one feature of the parachute. <span class="zh">(a) 一个力往上顶住下落,一个力直直往地球拉。(b)(i) 公平测试只改一样,其它保持不变。(c) 你要量 时间 和 降落伞的一个特征。</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) A = air resistance; B = gravity / g (b)(i) Idea 1 and Idea 4 (b)(ii) Idea 5 (b)(iii) any sensible prediction, e.g. bigger area = longer time to fall (b)(iv) not safe to test on people / compare different conditions / compare to real situations (c) time — stopwatch; height/distance of fall — ruler; mass of parachute — balance; size/area — ruler.</strong> <span class="zh">正确答案要包含：(a) A = 空气阻力; B = 重力 / g (b)(i) Idea 1 and Idea 4 (b)(ii) Idea 5 (b)(iii) any sensible prediction, e.g. bigger 面积 = longer time to fall (b)(iv) not safe to test on people / compare different conditions / compare to real situations (c) time — stopwatch; height/distance of fall — 尺; 质量 of parachute — balance; size/面积 — 尺。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) A = air resistance; B = gravity / g (b)(i) Idea 1 and Idea 4 (b)(ii) Idea 5 (b)(iii) any sensible prediction, e.g. bigger area = longer time to fall (b)(iv) not safe to test on people / compare different conditions / compare to real situations (c) time — stopwatch; height/distance of fall — ruler; mass of parachute — balance; size/area — ruler. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) A = 空气阻力; B = 重力 / g (b)(i) Idea 1 and Idea 4 (b)(ii) Idea 5 (b)(iii) any sensible prediction, e.g. bigger 面积 = longer time to fall (b)(iv) not safe to test on people / compare different conditions / compare to real situations (c) time — stopwatch; height/distance of fall — 尺; 质量 of parachute — balance; size/面积 — 尺。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) A = air resistance; B = gravity / g (b)(i) Idea 1 and Idea 4 (b)(ii) Idea 5 (b)(iii) any sensible prediction, e.g. bigger area = longer time to fall (b)(iv) not safe to test on. <span class="zh">对。 你抓到本题关键：跳伞者受向下重力和向上空气阻力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Jakub is a skydiver. He jumps from a plane. (a)(i) Jakub falls towards the Earth before his parachute opens. N. Your answer must lead to: (a) A = air resistance; B = gravity / g (b)(i) Idea 1 and Idea 4 (b)(ii) Idea 5 (b)(iii) any sensible prediction, e.g. b. <span class="zh">降落伞题要分力名、想法编号、安全原因和仪器；不要把空气阻力、重力、时间、面积混成一项。</span></span><br>
+          </div>
+          <div class="source-note">Source: jakub skydiver — forces + fair test</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">(a) Name (b) Name (c) Compare / State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A skydiver is falling and has reached terminal velocity.<br>(a) Name the force that pulls the skydiver down. [1]<br>(b) Name the force that pushes up against the skydiver's motion. [1]<br>(c) At terminal velocity, how do the sizes of these two forces compare? [1]<br><span class="zh">一个跳伞员正在下落,已经达到终端速度。<br>(a) 说出把跳伞员往下拉的力。[1]<br>(b) 说出往上顶住跳伞员运动的力。[1]<br>(c) 在终端速度时,这两个力的大小怎么比较?[1]</span></p>
+        
+        <figure class="img-slot" data-ref="L05_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q03_IMG01" data-recraft-prompt="[STATIC IMAGE NEEDED] reuse the LEARN L1 force-balance diagram (down arrow gravity, up arrow air resistance, terminal-velocity stage where arrows equal). NO numbers." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Down = the force from Earth. Up = the force from air particles. Balanced means...? <span class="zh">往下 = 地球给的力。往上 = 空气粒子给的力。平衡的意思是...?</span>
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) gravity / weight (b) air resistance (c) equal / the same size / balanced.</strong> <span class="zh">正确答案要包含：(a) 重力 / 重量/重力 (b) 空气阻力 (c) equal / the 相同 size / 平衡。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) gravity / weight (b) air resistance (c) equal / the same size / balanced. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 重力 / 重量/重力 (b) 空气阻力 (c) equal / the 相同 size / 平衡。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) gravity / weight (b) air resistance (c) equal / the same size / balanced. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A skydiver is falling and has reached terminal velocity. (a) Name the force that pulls the skydiver down. [1]. Your answer must lead to: (a) gravity / weight (b) air resistance (c) equal / the same size / balanced.. <span class="zh">下落时向下是重力或重量，向上是空气阻力；到稳定时两个力大小相等。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">(a) Explain (b) State · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A student says: "A heavy stone always falls faster than a light feather, so heavier objects always fall faster."<br>(a) Explain why the stone falls faster than the feather in air. Use the idea of air resistance. [2]<br>(b) State what would happen to the stone and the feather if they were dropped in a vacuum. [1]<br><span class="zh">一个学生说:"重的石头总是比轻的羽毛掉得快,所以重的东西总是掉得快。"<br>(a) 解释为什么在空气中石头比羽毛掉得快。用空气阻力的想法。[2]<br>(b) 说出如果在真空中放下石头和羽毛会发生什么。[1]</span></p>
+        
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) feather has more air resistance than the stone / air pushes up more on the feather (because of its shape/area); stone has less air resistance so falls faster (b) they fall at the same rate / same speed (no air resistance in a vacuum).</strong> <span class="zh">正确答案要包含：(a) feather has 较多 空气阻力 than the stone / air pushes 向上 较多 on the feather (因为 of its shape/面积); stone has 较少 空气阻力 so falls faster (b) they fall at the 相同速率 / 相同 speed (no 空气阻力 in a 真空)。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) feather has more air resistance than the stone / air pushes up more on the feather (because of its shape/area); stone has less air resistance so falls faster (b) they fall at the same rate / same speed (no air resistance in a vacuum). - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) feather has 较多 空气阻力 than the stone / air pushes 向上 较多 on the feather (因为 of its shape/面积); stone has 较少 空气阻力 so falls faster (b) they fall at the 相同速率 / 相同 speed (no 空气阻力 in a 真空)。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) feather has more air resistance than the stone / air pushes up more on the feather (because of its shape/area); stone has less air resistance so falls faster (b) they fall at t. <span class="zh">对。 你抓到本题关键：真空没有空气阻力，物体会同时落地。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A student says: "A heavy stone always falls faster than a light feather, so heavier objects always fall faster. Your answer must lead to: (a) feather has more air resistance than the stone / air pushes up more on the feather (because of its shape/area); ston. <span class="zh">在空气中羽毛因空气阻力大而较慢；在真空中没有空气阻力，两者同速下落。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">(a) Describe (b) Explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A skydiver jumps and falls for a long time before opening the parachute.<br>(a) Describe how the skydiver's speed changes from the moment they jump until they reach terminal velocity. [2]<br>(b) Explain, using forces, why the skydiver stops speeding up at terminal velocity. [2]<br><span class="zh">一个跳伞员跳下后下落很久才打开降落伞。<br>(a) 描述从跳下那一刻到达到终端速度,跳伞员的速度怎么变化。[2]<br>(b) 用力来解释,为什么跳伞员在终端速度时不再加速。[2]</span></p>
+        
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) speeds up at first / then the speeding-up slows / then reaches a steady (constant) speed (b) as speed increases, air resistance increases; when air resistance becomes equal to gravity, the forces are balanced; so there is no overall force to speed it up = terminal velocity.</strong> <span class="zh">正确答案要包含：(a) speeds 向上 at first / then the speeding-向上 slows / then reaches a steady (constant) speed (b) as speed 增加, 空气阻力 增加; when 空气阻力 becomes equal to 重力, the forces are 平衡; so there is no overall 力 to speed it 向上 = 终端速度。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) speeds up at first / then the speeding-up slows / then reaches a steady (constant) speed (b) as speed increases, air resistance increases; when air resistance becomes equal to gravity, the forces are balanced; so there is no overall force to speed it up = terminal velocity. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) speeds 向上 at first / then the speeding-向上 slows / then reaches a steady (constant) speed (b) as speed 增加, 空气阻力 增加; when 空气阻力 becomes equal to 重力, the forces are 平衡; so there is no overall 力 to speed it 向上 = 终端速度。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) speeds up at first / then the speeding-up slows / then reaches a steady (constant) speed (b) as speed increases, air resistance increases; when air resistance becomes equal to. <span class="zh">对。 你抓到本题关键：跳伞者受向下重力和向上空气阻力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A skydiver jumps and falls for a long time before opening the parachute. (a) Describe how the skydiver's speed. Your answer must lead to: (a) speeds up at first / then the speeding-up slows / then reaches a steady (constant) speed (b) as speed increases, air. <span class="zh">速度变化要按顺序写：先变快，再加速变小，最后匀速；原因是空气阻力逐渐增大到等于重力。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A stone is dropped from a bridge and falls towards the water.<br>(a) State the name of the force that pulls the stone down. [1]<br>(b) State the direction this force acts in. [1]<br><span class="zh">一块石头从桥上落下, 朝水面下落。<br>(a) 说出把石头往下拉的力叫什么名字。[1]<br>(b) 说出这个力作用的方向。[1]</span></p>
+        
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) gravity / weight (b) downwards (towards the ground / centre of the Earth).</strong> <span class="zh">正确答案要包含：(a) 重力 / 重量/重力 (b) 向下 (towards the ground / centre of the Earth)。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) gravity / weight (b) downwards (towards the ground / centre of the Earth). - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 重力 / 重量/重力 (b) 向下 (towards the ground / centre of the Earth)。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) gravity / weight (b) downwards (towards the ground / centre of the Earth). <span class="zh">对。 你抓到本题关键：管内物质越能阻挡运动，下落越慢；真空阻力最小。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A stone is dropped from a bridge and falls towards the water. (a) State the name of the force that pulls the s. Your answer must lead to: (a) gravity / weight (b) downwards (towards the ground / centre of the Earth).. <span class="zh">这题只问下落基本力：力名是重力或重量，方向是向下、指向地球中心。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Two balls of the same size, one heavy and one light, are dropped<br>together in a place with no air.<br>Explain which ball lands first, and give a reason. [2]<br><span class="zh">两个大小相同的球, 一个重一个轻, 在没有空气的地方一起放下。<br>解释哪个球先落地, 并给出理由。[2]</span></p>
+        
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>they land at the same time; with no air there is no air resistance, so gravity makes both fall at the same rate regardless of mass.</strong> <span class="zh">正确答案要包含：they land at the 相同 time; with no air there is no 空气阻力, so 重力 makes both fall at the 相同速率 regardless of 质量。</span><br><br>✓ Accept: - Accept the exact answer meaning: they land at the same time; with no air there is no air resistance, so gravity makes both fall at the same rate regardless of mass. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：they land at the 相同 time; with no air there is no 空气阻力, so 重力 makes both fall at the 相同速率 regardless of 质量。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: they land at the same time; with no air there is no air resistance, so gravity makes both fall at the same rate regardless of mass. <span class="zh">对。 你抓到本题关键：本题自己的对象、方向、数值和原因。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Two balls of the same size, one heavy and one light, are dropped together in a place with no air. Explain whic. Your answer must lead to: they land at the same time; with no air there is no air resistance, so gravity makes both fall at the same rate regardle. <span class="zh">无空气时没有空气阻力，质量不同也会同速下落；写“重的先到”是日常直觉，不是本题答案。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A ball is dropped and falls through the air.<br>Describe how the speed of the ball changes during the first part<br>of its fall. [2]<br><span class="zh">一个球被放下, 在空气中下落。<br>描述球在下落开始那段时间里速度如何变化。[2]</span></p>
+        
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the ball speeds up / gets faster; because gravity pulling down is bigger than air resistance, so there is an overall downward force.</strong> <span class="zh">正确答案要包含：the ball speeds 向上 / gets faster; 因为 重力 pulling 向下 is bigger than 空气阻力, so there is an overall 向下 力。</span><br><br>✓ Accept: - Accept the exact answer meaning: the ball speeds up / gets faster; because gravity pulling down is bigger than air resistance, so there is an overall downward force. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：the ball speeds 向上 / gets faster; 因为 重力 pulling 向下 is bigger than 空气阻力, so there is an overall 向下 力。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: the ball speeds up / gets faster; because gravity pulling down is bigger than air resistance, so there is an overall downward force. <span class="zh">对。 你抓到本题关键：本题自己的对象、方向、数值和原因。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A ball is dropped and falls through the air. Describe how the speed of the ball changes during the first part. Your answer must lead to: the ball speeds up / gets faster; because gravity pulling down is bigger than air resistance, so there is an overall dow. <span class="zh">球会加速，因为向下重力大于向上空气阻力；只说“有重力”但不比较大小还不够。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State / Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A skydiver opens a parachute during a fall.<br>(a) State what happens to the air resistance when the parachute<br>opens. [1]<br>(b) Explain what happens to the skydiver's speed just after the<br>parachute opens. [2]<br><span class="zh">一名跳伞者在下落时打开降落伞。<br>(a) 说出降落伞打开时空气阻力会怎样。[1]<br>(b) 解释降落伞刚打开后跳伞者的速度会怎样。[2]</span></p>
+        
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) air resistance increases (much larger) (b) the skydiver slows down; because air resistance is now bigger than gravity, so there is an overall upward force.</strong> <span class="zh">正确答案要包含：(a) 空气阻力 增加 (much 较大) (b) the skydiver slows 向下; 因为 空气阻力 is now bigger than 重力, so there is an overall 向上 力。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) air resistance increases (much larger) (b) the skydiver slows down; because air resistance is now bigger than gravity, so there is an overall upward force. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 空气阻力 增加 (much 较大) (b) the skydiver slows 向下; 因为 空气阻力 is now bigger than 重力, so there is an overall 向上 力。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) air resistance increases (much larger) (b) the skydiver slows down; because air resistance is now bigger than gravity, so there is an overall upward force. <span class="zh">对。 你抓到本题关键：跳伞者受向下重力和向上空气阻力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A skydiver opens a parachute during a fall. (a) State what happens to the air resistance when the parachute op. Your answer must lead to: (a) air resistance increases (much larger) (b) the skydiver slows down; because air resistance is now bigger than gravit. <span class="zh">打开伞后空气阻力变大，而且大过重力，所以合力向上，天空人会减速。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">During a long fall, a skydiver reaches terminal velocity.<br>Explain what terminal velocity is, using the forces of gravity and<br>air resistance. [3]<br><span class="zh">在长时间下落中, 跳伞者达到终端速度。<br>用引力和空气阻力, 解释什么是终端速度。[3]</span></p>
+        
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>as the skydiver speeds up, air resistance increases; when air resistance becomes equal to gravity, the forces are balanced; there is no overall force, so the speed stays constant — this steady speed is terminal velocity.</strong> <span class="zh">正确答案要包含：as the skydiver speeds 向上, 空气阻力 增加; when 空气阻力 becomes equal to 重力, the forces are 平衡; there is no overall 力, so the speed stays constant — this steady speed is 终端速度。</span><br><br>✓ Accept: - Accept the exact answer meaning: as the skydiver speeds up, air resistance increases; when air resistance becomes equal to gravity, the forces are balanced; there is no overall force, so the speed stays constant — this steady speed is terminal velocity. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：as the skydiver speeds 向上, 空气阻力 增加; when 空气阻力 becomes equal to 重力, the forces are 平衡; there is no overall 力, so the speed stays constant — this steady speed is 终端速度。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: as the skydiver speeds up, air resistance increases; when air resistance becomes equal to gravity, the forces are balanced; there is no overall force, so the speed stays constant —. <span class="zh">对。 你抓到本题关键：跳伞者受向下重力和向上空气阻力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: During a long fall, a skydiver reaches terminal velocity. Explain what terminal velocity is, using the forces. Your answer must lead to: as the skydiver speeds up, air resistance increases; when air resistance becomes equal to gravity, the forces are balanc. <span class="zh">终端速度不是没有力；是空气阻力等于重力，合力为零，所以速度保持不变。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Falling objects have two forces: gravity down, air resistance up. They speed up until the forces balance, then fall at a steady terminal velocity. In a vacuum there is no air resistance, so all objects fall at the same rate. <span class="zh">下落的物体有两个力:重力往下,空气阻力往上。它们加速直到两个力平衡,然后以稳定的终端速度下落。在真空里没有空气阻力,所以所有物体掉得一样快。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Can you (1) name the two forces on a falling object, (2) explain why speed stops increasing, (3) say what happens in a vacuum? <span class="zh">你能不能 (1) 说出下落物体上的两个力,(2) 解释为什么速度不再增加,(3) 说出真空里会怎样?</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Going deeper later: speed-time graphs -&gt; Y9 U7. The F = ma acceleration formula -&gt; Y8/Y9. <span class="zh">以后会学更深的:速度-时间图 → Y9 U7。F = ma 加速度公式 → Y8/Y9。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>
