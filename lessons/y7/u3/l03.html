@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U3 L03 · Particles Rearrange in Reactions</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="3">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U3 · L03</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 3</div>
+      <div class="sidebar-unit-title" data-en="Chemical Changes and Reactions" data-zh="化学变化与反应">Chemical Changes and Reactions</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">[Hook sub-label]<span class="zh"> · [钩子副标签]</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">[Learn sub-label]<span class="zh"> · [学习副标签]</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">[Try sub-label]<span class="zh"> · [练习副标签]</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">[Wrap sub-label]<span class="zh"> · [总结副标签]</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div style="background:#C00000;color:#fff;display:inline-block;font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:13px;letter-spacing:1px;padding:5px 14px;border-radius:8px;margin-bottom:12px;">HOOK · 生活化学</div><h2 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;color:#C00000;margin:0 0 4px 0;line-height:1.15;">Particles Rearrange in Reactions</h2><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#C2410C;margin-bottom:8px;">反应中粒子重新排列</div></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;padding:5px 14px;border-radius:9px;margin-bottom:12px;">Real-world spark</div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>A materials engineer designs a new metal.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>To do it, they have to know what happens to the tiny particles when substances react.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>In a reaction, no particle is created or destroyed — the same particles just join up in new ways, like the same building blocks rebuilt into a different model.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>This lesson looks at reactions at the particle level.</span></div><div style="height:6px;"></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>材料工程师设计一种新金属。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>要做到这点,得知道物质反应时那些微小粒子发生了什么。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>反应中,没有粒子被创造或消灭——同一批粒子只是用新方式重新组合,就像同一堆积木 拼成不同模型。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>这节课从粒子层面看反应。</span></div></div><div style="background:#FBF8F2;border:2px dashed #D9D0BF;border-radius:14px;padding:16px 18px;margin:0 0 18px 0;display:flex;gap:16px;align-items:flex-start;"><div style="font-size:56px;line-height:1;flex-shrink:0;">⚛️</div><div><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#9A3D08;letter-spacing:.5px;margin-bottom:6px;">🖼️ IMAGE PENDING · 配图待出</div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:#0F172A;line-height:1.5;"><b>Best visual:</b> Particle model: same atoms regroup into new molecules; count atoms before=after<br><b>Animate:</b> Short loop (regroup), end on labelled frozen frame &nbsp;|&nbsp; <b>Trap to flag:</b> atoms are created or destroyed in a reaction</div></div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:inline-block;background:#3B6FD4;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;padding:5px 14px;border-radius:9px;margin-bottom:14px;">🔁 COVER & RECALL · 盖住回想</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:16px;color:#0F172A;line-height:1.5;margin-bottom:4px;">Watch out for this trap:</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.5;margin-bottom:14px;">小心这个坑：</div><button onclick="var a=document.getElementById('recall-l01');a.style.display=a.style.display=='none'?'block':'none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:9px;padding:9px 18px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;">看答案 / Reveal</button><div id="recall-l01" style="display:none;margin-top:14px;padding-top:14px;border-top:1.5px dashed #B9CCEC;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#0F172A;line-height:1.5;">particles disappear during reactions  — is that always true? (No.)</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.5;margin-top:4px;">反应时粒子消失  — 一定对吗？（不一定。）</div></div></div><div class="btn-row" style="margin-top:8px;"><button class="btn-primary" onclick="showScreen('learn')" style="background:#C00000;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;cursor:pointer;">Learn · 学 →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div style="background:#C00000;color:#fff;display:inline-block;font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:13px;letter-spacing:1px;padding:5px 14px;border-radius:8px;margin-bottom:12px;">LEARN · 核心</div><h2 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;color:#C00000;margin:0 0 4px 0;line-height:1.15;">Particles Rearrange in Reactions</h2><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#C2410C;margin-bottom:8px;">反应中粒子重新排列</div></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>In a chemical reaction, the particles of the reactants are rearranged to make the products.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>No particles are made and none are lost — they are just joined together in a new way.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>This is why a reaction makes a new substance.</span></div><div style="height:6px;"></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>化学反应里,反应物的粒子重新排列,做出产物。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>没有粒子被造出来,也没有粒子消失 ——只是用新方式连在一起。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#2E7D32;flex-shrink:0;font-weight:800;">•</span><span>这就是反应会做出新物质的原因。</span></div></div><div style="background:#FFF0DB;border:1.5px solid #FAD9A8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>An element is made of one kind of particle.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>A compound is made of two or more kinds of particle joined together.</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>In a gas the particles are far apart and random;</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#0F172A;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>in a solid they are close together in a fixed, regular arrangement.</span></div><div style="height:6px;"></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>元素由一种粒子组成。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>化合物由两种或多种粒子连在一起组成。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>气体里粒子相距远、 排列乱;固体里粒子靠得近、排列固定整齐。</span></div><div style="display:flex;gap:8px;align-items:flex-start;margin:0 0 9px 0;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;line-height:1.5;color:#C2410C;"><span style="color:#D98A2B;flex-shrink:0;font-weight:800;">•</span><span>GAP_POINT_LINE (LOW #1) :</span></div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:inline-block;background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:14px;padding:5px 14px;border-radius:9px;margin-bottom:14px;">⛔ RED CARD · 常错红牌</div><div style="display:flex;gap:8px;margin:0 0 6px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#C00000;line-height:1.5;"><span style="flex-shrink:0;">✘</span><span>In a reaction, old particles disappear and brand new particles appear.</span></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C00000;margin:0 0 14px 22px;line-height:1.5;">反应中,旧粒子消失,全新的粒子出现。</div><div style="display:flex;gap:8px;margin:0 0 6px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#0F172A;line-height:1.5;"><span style="flex-shrink:0;color:#2E7D32;">✔</span><span>The same particles stay; they are only rearranged into new groupings. Nothing is created or destroyed — that is why the atoms can be counted before and after and the totals match.</span></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;margin:0 0 0 22px;line-height:1.5;">同一批粒子还在;只是重新组合成新的组合。没有被创造或消灭——所以反应 前后原子能数得出来、总数对得上。</div></div><div style="background:#171413;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#FFFF00;letter-spacing:1px;margin-bottom:10px;">🧠 口诀金句 · MNEMONIC</div><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:20px;color:#FFFF00;line-height:1.4;margin-bottom:6px;">Re-action = re-arrange.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:#FFE8A3;line-height:1.4;">反应=重排，不是魔法。</div></div><div class="btn-row" style="margin-top:8px;"><button class="btn-primary" onclick="showScreen('try')" style="background:#C00000;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;cursor:pointer;">Try · 练 →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div style="background:#C00000;color:#fff;display:inline-block;font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:13px;letter-spacing:1px;padding:5px 14px;border-radius:8px;margin-bottom:12px;">TRY · 追踪与预测</div><h2 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;color:#C00000;margin:0 0 4px 0;line-height:1.15;">Particles Rearrange in Reactions</h2><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#C2410C;margin-bottom:8px;">反应中粒子重新排列</div></div><div style="background:#FFFDF8;border:2px dashed #D98A2B;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:inline-block;background:#FAD9A8;color:#9A5A0B;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;padding:5px 14px;border-radius:9px;margin-bottom:14px;">🎯 EXAMINER · 考官要什么</div><div style="margin:0 0 9px 0;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;color:#0F172A;"><b style="color:#D98A2B;">State</b> = give a short answer <span style="font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;">· 简短答</span></div><div style="margin:0 0 9px 0;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;color:#0F172A;"><b style="color:#D98A2B;">Explain</b> = give a fact AND its reason <span style="font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;">· 给事实 + 原因</span></div><div style="margin:0 0 9px 0;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;color:#0F172A;"><b style="color:#D98A2B;">Give</b> = name an example <span style="font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;">· 举一个例子</span></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q1</span><span style="background:#185FA5;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L2</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[1 mark]</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">Name / Suggest / Draw</span></div><div style="background:#FBF8F2;border:1.5px dashed #D9D0BF;border-radius:10px;padding:10px 14px;margin:0 0 12px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#9A3D08;">🖼️ IMAGE PENDING · 配图待出 (L03_Q01_IMG01, L03_Q01_IMG02)</div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">Oliver has a piece of grey magnesium. He heats the magnesium in air. The magnesium reacts with oxygen to make a compound. The compound is a white powder. (a) Name the compound made.</div><div style="background:#F3F0FF;border-left:4px solid #6D28D9;border-radius:8px;padding:10px 14px;margin:0 0 12px 0;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#4C2889;line-height:1.5;">💡 (a) Metal + oxygen makes a metal &quot;oxide&quot;. (c) Gas particles are far apart and random; solid particles are close and regular.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;">(a) 金属 + 氧气做出金属&quot;氧化物&quot;。(c) 气体粒子相距远又乱;固体粒子 靠得近又整齐。</div></div><button onclick="var a=document.getElementById('ans-l03-q1');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q1" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">(a) Magnesium oxide. (b) Any one: colour change; new substance formed; solid changes to powder; white powder formed; bright white light; mass changes. (c)(i) A gas particle model with at least four oxygen particles randomly arranged and far apart. (ii) A solid compound model with oxygen and magnesium particles in a regular fixed arrangement.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">(a) 氧化镁. (b) 任意一个: 颜色变化; 新物质 formed; solid changes to powder; white powder formed; bright white light; 质量 changes. (c)(i) A 气体 particle model with at least four 氧气 particles randomly arranged and far apart. (ii) A solid compound model with 氧气 and 镁 particles in a regular fixed arrangement.</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q2</span><span style="background:#2E7D32;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L1</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[1 mark]</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">State</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">During a chemical reaction, are any particles made or lost? State what happens to the particles.</div><div style="background:#F3F0FF;border-left:4px solid #6D28D9;border-radius:8px;padding:10px 14px;margin:0 0 12px 0;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#4C2889;line-height:1.5;">💡 Think about whether the building blocks change in number, or just join up differently.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;">想想积木的数目有没有变,还是只是换个方式拼起来。</div></div><button onclick="var a=document.getElementById('ans-l03-q2');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q2" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">No particles are made or lost; the particles are rearranged / joined together in a new way.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">No particles are made or lost; the particles are rearranged / joined together in a new way.</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q3</span><span style="background:#2E7D32;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L1</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[1 mark]</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">State</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">In a chemical reaction the atoms are not made or destroyed. State what happens to the atoms during a reaction.</div><div style="background:#F3F0FF;border-left:4px solid #6D28D9;border-radius:8px;padding:10px 14px;margin:0 0 12px 0;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#4C2889;line-height:1.5;">💡 The same atoms end up joined in a different way.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;">同样的原子最后以不同方式连接。</div></div><button onclick="var a=document.getElementById('ans-l03-q3');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q3" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">They are rearranged / they join together in new ways.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">They are rearranged / they join together in new ways.</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q4</span><span style="background:#185FA5;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L2</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[1 mark]</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">Compare</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">A particle diagram shows the reactants on the left and the products on the right of an arrow. Compare the number of atoms before and after the reaction.</div><div style="background:#F3F0FF;border-left:4px solid #6D28D9;border-radius:8px;padding:10px 14px;margin:0 0 12px 0;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#4C2889;line-height:1.5;">💡 Atoms are not made or lost in a reaction.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;">反应中原子不会被制造或丢失。</div></div><button onclick="var a=document.getElementById('ans-l03-q4');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q4" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">The number of atoms is the same before and after (atoms are conserved).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">The number of atoms is the same before and after (atoms are conserved).</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q5</span><span style="background:#185FA5;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L2</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[2 marks]</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">Describe</span></div><div style="background:#FBF8F2;border:1.5px dashed #D9D0BF;border-radius:10px;padding:10px 14px;margin:0 0 12px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#9A3D08;">🖼️ IMAGE PENDING · 配图待出 (L03_Q02_IMG01)</div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">Two hydrogen atoms join with one oxygen atom to make a water particle. Describe how the atoms are arranged before and after this reaction, using the words &quot;separate&quot; and &quot;joined&quot;.</div><div style="background:#F3F0FF;border-left:4px solid #6D28D9;border-radius:8px;padding:10px 14px;margin:0 0 12px 0;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#4C2889;line-height:1.5;">💡 Before: the atoms are in their starting groups. After: they form a new group.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;">反应前:原子在起始组里。反应后:形成新的一组。</div></div><button onclick="var a=document.getElementById('ans-l03-q5');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q5" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">Before, the hydrogen and oxygen atoms are in separate starting groups (1); after, they are joined together in a new water particle (1).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">Before, the 氢气 and 氧气 atoms are in separate starting groups (1); after, they are joined together in a new 水 particle (1).</div></div></div><div class="btn-row" style="margin-top:8px;"><button class="btn-primary" onclick="showScreen('test')" style="background:#C00000;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;cursor:pointer;">Test · 测 →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="screen-header"><div style="background:#C00000;color:#fff;display:inline-block;font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:13px;letter-spacing:1px;padding:5px 14px;border-radius:8px;margin-bottom:12px;">TEST · 独立应用</div><h2 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;color:#C00000;margin:0 0 4px 0;line-height:1.15;">Particles Rearrange in Reactions</h2><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#C2410C;margin-bottom:8px;">反应中粒子重新排列</div></div><div style="display:inline-block;background:#15803D;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:12px;padding:5px 14px;border-radius:8px;margin-bottom:16px;">EXAM MODE · NO HINTS · 考试模式 · 无提示</div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q6</span><span style="background:#185FA5;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L2</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[1 mark]</span></div><div style="background:#FBF8F2;border:1.5px dashed #D9D0BF;border-radius:10px;padding:10px 14px;margin:0 0 12px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#9A3D08;">🖼️ IMAGE PENDING · 配图待出 (L03_Q02_IMG01)</div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">Hydrogen and nitrogen react to make ammonia. Look at a model of this reaction. The reactants and product are shown by particle models. (a) Complete the table to show the total number of atoms of: - hydrogen and nitrogen in the reactants - hydrogen and nitrogen in the products.</div><button onclick="var a=document.getElementById('ans-l03-q6');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q6" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">(a) Reactants: hydrogen = 6, nitrogen = 2. Product: hydrogen = 6, nitrogen = 2. (b) Any sensible limitation, such as: the model is not to scale, does not show bonds, does not show state, does not show rate, or only shows a sample.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">(a) 反应物: 氢气 = 6, nitrogen = 2. 产物: 氢气 = 6, nitrogen = 2. (b) Any sensible limitation, such as: the model is not to scale, does not show bonds, does not show 写出, does not show rate, or only shows a sample.</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q7</span><span style="background:#185FA5;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L2</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[2 marks]</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">In a reaction, 8 atoms are present in the reactants. Explain how many atoms must be present in the products, and why.</div><button onclick="var a=document.getElementById('ans-l03-q7');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q7" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">8 atoms; because no particles are made or lost in a reaction, the atoms are only rearranged, so the number stays the same.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">8 atoms; because no particles are made or lost in a reaction, the atoms are only rearranged, so the number stays the same.</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q8</span><span style="background:#9B3FC9;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L3</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[2 marks]</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">A student draws a particle model of a gas and a particle model of a solid. Describe two differences the student should show between the gas particles and the solid particles.</div><button onclick="var a=document.getElementById('ans-l03-q8');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q8" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">gas particles are far apart, solid particles are close together; gas particles are random / disordered, solid particles are in a regular fixed arrangement; gas particles move freely, solid particles only vibrate in place.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">气体 particles are far apart, solid particles are close together; 气体 particles are random / disordered, solid particles are in a regular fixed arrangement; 气体 particles move freely, solid particles only vibrate in place.</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q9</span><span style="background:#185FA5;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L2</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[2 marks]</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">A new substance is made in a reaction, even though no new atoms appear. Explain how a new substance can form if the atoms are the same ones as before.</div><button onclick="var a=document.getElementById('ans-l03-q9');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q9" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">The same atoms are joined together in a different arrangement (1); a different arrangement of atoms is a different substance (1).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">The same atoms are joined together in a different arrangement (1); a different arrangement of atoms is a different substance (1).</div></div></div><div class="question-block" style="background:#FFFCF7;border:1.5px solid #E8E2D8;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="margin-bottom:12px;"><span style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:18px;color:#0F172A;margin-right:10px;">Q10</span><span style="background:#9B3FC9;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:2px 9px;border-radius:6px;">L3</span><span style="background:#E8E2D8;color:#6b6358;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;padding:2px 9px;border-radius:6px;margin-left:6px;">[2 marks]</span></div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;line-height:1.6;margin-bottom:12px;">A student draws a reaction and shows 6 atoms on the reactant side but only 5 atoms on the product side. Explain why the student&#x27;s diagram must be wrong.</div><button onclick="var a=document.getElementById('ans-l03-q10');a.style.display=a.style.display=='none'?'block':'none';" style="background:#15803D;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">看答案 / Answer</button><div id="ans-l03-q10" style="display:none;margin-top:12px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:10px;padding:12px 16px;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#14532D;line-height:1.5;">Atoms are not made or destroyed in a reaction (1); so the number of atoms must be the same on both sides — 6 must equal 6, not 5 (1).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;line-height:1.5;margin-top:4px;">Atoms are not made or destroyed in a reaction (1); so the number of atoms must be the same on both sides — 6 must equal 6, not 5 (1).</div></div></div><div class="btn-row" style="margin-top:8px;"><button class="btn-primary" onclick="showScreen('wrap')" style="background:#C00000;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;cursor:pointer;">Wrap · 总结 →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div style="background:#C00000;color:#fff;display:inline-block;font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:13px;letter-spacing:1px;padding:5px 14px;border-radius:8px;margin-bottom:12px;">WRAP · 连接与总结</div><h2 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;color:#C00000;margin:0 0 4px 0;line-height:1.15;">Particles Rearrange in Reactions</h2><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#C2410C;margin-bottom:8px;">反应中粒子重新排列</div></div><div style="background:#F5F0E4;border-radius:16px;padding:22px 24px;margin:0 0 18px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#6D4C41;margin-bottom:14px;">📌 SUMMARY · 总结</div><div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#0F172A;"><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>Summary.</span></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>A chemical reaction rearranges particles to make a new substance.</span></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>No particles are made or lost, so the number of atoms is the same before and after.</span></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>Particle models help us picture this, but every model leaves something out.</span></div></div><div style="height:6px;"></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>总结。</span></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>化学反应把粒子重新排列,做出新物质。</span></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>没有粒子被造出来或消失,所以反应前 后原子数目一样。</span></div><div style="display:flex;gap:8px;margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;color:#C2410C;font-weight:700;"><span style="color:#8A7B4A;font-weight:800;flex-shrink:0;">◆</span><span>粒子模型帮我们想象这件事,但每个模型都漏掉一些东西。</span></div></div><div style="background:#171413;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#FFFF00;letter-spacing:1px;margin-bottom:10px;">🧠 口诀金句 · MNEMONIC</div><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:20px;color:#FFFF00;line-height:1.4;margin-bottom:6px;">Re-action = re-arrange.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:#FFE8A3;line-height:1.4;">反应=重排，不是魔法。</div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:16px;padding:20px 22px;margin:0 0 18px 0;"><div style="display:inline-block;background:#3B6FD4;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;padding:5px 14px;border-radius:9px;margin-bottom:14px;">🔁 COVER & RECALL · 盖住回想</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:16px;color:#0F172A;line-height:1.5;margin-bottom:4px;">Say the key idea of this lesson in one line.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.5;margin-bottom:14px;">用一句话说出这节课的核心。</div><button onclick="var a=document.getElementById('recall-l01');a.style.display=a.style.display=='none'?'block':'none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:9px;padding:9px 18px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;">看答案 / Reveal</button><div id="recall-l01" style="display:none;margin-top:14px;padding-top:14px;border-top:1.5px dashed #B9CCEC;"><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#0F172A;line-height:1.5;">Re-action = re-arrange.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.5;margin-top:4px;">反应=重排，不是魔法。</div></div></div><div class="btn-row" style="margin-top:8px;"><button class="btn-primary" onclick="completeLesson()" style="background:#C00000;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;cursor:pointer;">✓ Complete Lesson 3 · 完成第 3 节</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
