@@ -358,11 +358,30 @@ body:not(.zh-mode) .zh { display: none !important; }
 body.zh-mode .zh { display: revert !important; }
 .feedback-right { background:#E8F8EF; border-left:3px solid #1F9D55; color:#155A38; }
 .feedback-wrong { background:#FCEBEB; border-left:3px solid #A32D2D; color:#7A1F1F; }
-#Q-submit-disabled, button[disabled] { opacity:.5; cursor:not-allowed; }
-#tts-screen-btn { position:fixed; left:18px; bottom:18px; z-index:60; background:#fff; border:1.5px solid #E8E2D8;
-  border-radius:999px; padding:9px 15px; font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
-  color:#171413; box-shadow:0 4px 14px rgba(0,0,0,.12); cursor:pointer; }
-#tts-screen-btn:hover { border-color:#EA580C; }
+button[disabled] { opacity:.5; cursor:not-allowed; }
+/* Keep the nav language toggle visible on mobile too (shell hides it < 640px) */
+.top-nav .lang-toggle { display:inline-flex !important; }
+/* Prominent always-visible language toggle (top-right) */
+#l01-lang { position:fixed; right:12px; top:64px; z-index:80; background:#EA580C; color:#fff; border:0;
+  border-radius:999px; padding:10px 18px; font-family:'Inter',sans-serif; font-weight:800; font-size:15px;
+  box-shadow:0 4px 16px rgba(234,88,12,.45); cursor:pointer; }
+#l01-lang:active { transform:scale(.96); }
+/* Bottom-left control cluster: read-aloud + speed + mute */
+#l01-tools { position:fixed; left:12px; bottom:14px; z-index:80; display:flex; gap:7px; align-items:center;
+  flex-wrap:wrap; max-width:74vw; }
+#l01-tools button, #l01-tools select { font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
+  border-radius:999px; border:1.5px solid #E8E2D8; background:#fff; color:#171413; padding:9px 14px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12); cursor:pointer; }
+#l01-tools select { padding:9px 10px; }
+#l01-read.is-on { background:#EA580C; color:#fff; border-color:#EA580C; }
+#l01-mute.is-muted { background:#9B8E7E; color:#fff; border-color:#9B8E7E; }
+/* Read-aloud teleprompter caption with per-word highlight */
+#l01-caption { position:fixed; left:50%; transform:translateX(-50%); bottom:74px; z-index:78;
+  max-width:min(680px,92vw); max-height:32vh; overflow:auto; background:#171413; color:#F5F0E4;
+  border-radius:16px; padding:16px 20px; font-family:'Inter',sans-serif; font-size:17px; line-height:1.75;
+  box-shadow:0 10px 36px rgba(0,0,0,.34); display:none; }
+#l01-caption .cw { padding:0 2px; border-radius:5px; }
+#l01-caption .cw.on { background:#EA580C; color:#fff; font-weight:800; }
 </style>
 
 <script>
@@ -445,18 +464,61 @@ body.zh-mode .zh { display: revert !important; }
     }
   }
 
-  function readActiveScreen(btn){
-    if(!('speechSynthesis' in window)){ alert('Read-aloud is not supported in this browser.'); return; }
-    if(window.speechSynthesis.speaking){ window.speechSynthesis.cancel(); if(btn) btn.innerHTML='🔊 Read aloud · 朗读'; return; }
+  // ── Language toggle (prominent, works on mobile) ──
+  function l01SyncLang(){
+    var b=document.getElementById('l01-lang'); if(!b) return;
+    var isZh=document.body.classList.contains('zh-mode');
+    b.innerHTML = isZh ? 'EN' : '中文';
+    b.setAttribute('aria-label', isZh ? 'Switch to English' : '切换到中文');
+  }
+  function l01ToggleLang(){
+    var isZh=document.body.classList.contains('zh-mode');
+    try{ if(window.setLang) setLang(isZh ? 'en' : 'zh'); }catch(e){}
+    l01SyncLang();
+  }
+
+  // ── Mute (mirror shell state on a big, tappable button) ──
+  function l01SyncMute(){
+    var b=document.getElementById('l01-mute'); if(!b) return;
+    var navm=document.getElementById('mute-toggle');
+    var muted = navm ? (navm.textContent.indexOf('🔇')>-1) : false;
+    b.classList.toggle('is-muted', muted);
+    b.innerHTML = muted ? '🔇 Sound off · 静音' : '🔊 Sound on · 有声';
+  }
+  function l01ToggleMute(){
+    try{ if(window.toggleMute) toggleMute(); }catch(e){}
+    l01SyncMute();
+  }
+
+  // ── Read-aloud: adjustable speed + per-word highlight (teleprompter) ──
+  function l01ReadDone(){
+    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.remove('is-on'); btn.innerHTML='🔊 Read aloud · 朗读'; }
+    var cap=document.getElementById('l01-caption'); if(cap){ cap.style.display='none'; cap.innerHTML=''; }
+  }
+  function l01Read(){
+    if(!('speechSynthesis' in window)){ alert('Read-aloud is not supported in this browser. · 此浏览器不支持朗读。'); return; }
+    if(window.speechSynthesis.speaking || window.speechSynthesis.pending){ window.speechSynthesis.cancel(); l01ReadDone(); return; }
     var scr=document.querySelector('.screen.active'); if(!scr) return;
     var clone=scr.cloneNode(true);
-    clone.querySelectorAll('.zh, textarea, button, script, [id$="-feedback"], [id$="-attempts"]').forEach(function(e){ e.remove(); });
+    clone.querySelectorAll('.zh, textarea, button, select, script, .answer-widget, [id$="-feedback"], [id$="-attempts"], [id^="ans_"]').forEach(function(e){ e.remove(); });
     var text=(clone.innerText||clone.textContent||'').replace(/\s+/g,' ').trim();
     if(!text) return;
-    var u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=0.9;
-    if(btn) btn.innerHTML='⏸ Stop · 停止';
-    u.onend=function(){ if(btn) btn.innerHTML='🔊 Read aloud · 朗读'; };
-    u.onerror=function(){ if(btn) btn.innerHTML='🔊 Read aloud · 朗读'; };
+    // build word spans + char-start index for onboundary mapping
+    var words=text.split(' '), html='', idx=0, starts=[];
+    for(var i=0;i<words.length;i++){ starts.push(idx); html+='<span class="cw" id="cw'+i+'">'+words[i].replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span> '; idx+=words[i].length+1; }
+    var cap=document.getElementById('l01-caption'); cap.innerHTML=html; cap.style.display='block';
+    var rateSel=document.getElementById('l01-rate');
+    var rate=rateSel ? parseFloat(rateSel.value)||0.7 : 0.7;
+    var u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=rate; u.pitch=1.0;
+    u.onboundary=function(ev){
+      if(ev.name && ev.name!=='word') return;
+      var ci=ev.charIndex, wi=0;
+      for(var j=0;j<starts.length;j++){ if(starts[j]<=ci) wi=j; else break; }
+      var prev=cap.querySelector('.cw.on'); if(prev) prev.classList.remove('on');
+      var cur=document.getElementById('cw'+wi); if(cur){ cur.classList.add('on'); cur.scrollIntoView({block:'nearest',inline:'center'}); }
+    };
+    u.onend=l01ReadDone; u.onerror=l01ReadDone;
+    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.add('is-on'); btn.innerHTML='⏸ Stop · 停止'; }
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
   }
@@ -477,20 +539,38 @@ body.zh-mode .zh { display: revert !important; }
         }
       }catch(e){}
     });
-    // run progress summary whenever WRAP is shown
+    // run progress summary on WRAP; stop reading when leaving a screen
     var orig=window.showScreen;
     if(typeof orig==='function'){
-      window.showScreen=function(id){ orig(id); if(id==='wrap') showProgressSummary(); };
+      window.showScreen=function(id){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} l01ReadDone(); orig(id); if(id==='wrap') showProgressSummary(); };
     }
+    // keep my prominent toggle in sync when the nav EN/中文 buttons are used
+    var origSetLang=window.setLang;
+    if(typeof origSetLang==='function'){
+      window.setLang=function(m){ origSetLang(m); l01SyncLang(); };
+    }
+    l01SyncLang(); l01SyncMute();
     if(document.querySelector('.screen.active#screen-wrap')) showProgressSummary();
   }
 
   window.submitAnswer=submitAnswer;
   window.showProgressSummary=showProgressSummary;
-  window.readActiveScreen=readActiveScreen;
+  window.l01Read=l01Read;
+  window.l01ToggleLang=l01ToggleLang;
+  window.l01ToggleMute=l01ToggleMute;
   if(document.readyState==='loading') window.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-<button id="tts-screen-btn" onclick="readActiveScreen(this)" aria-label="Read this screen aloud">🔊 Read aloud · 朗读</button>
+<button id="l01-lang" onclick="l01ToggleLang()" aria-label="Toggle language">中文</button>
+<div id="l01-tools">
+  <button id="l01-read" onclick="l01Read()" aria-label="Read this screen aloud">🔊 Read aloud · 朗读</button>
+  <select id="l01-rate" aria-label="Reading speed · 朗读速度">
+    <option value="0.6" selected>🐢 Slow · 慢</option>
+    <option value="0.85">Normal · 正常</option>
+    <option value="1.1">🐇 Fast · 快</option>
+  </select>
+  <button id="l01-mute" onclick="l01ToggleMute()" aria-label="Mute or unmute sound">🔊 Sound on · 有声</button>
+</div>
+<div id="l01-caption" aria-live="polite"></div>
 </body>
 </html>
