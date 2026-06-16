@@ -401,4 +401,10 @@
     weekBounds: weekBounds,
     _esc: esc
   };
-})(typeof window !== 'undefined' ? window : this);
+})(typeof globalThis !== 'undefined' ? globalThis : (typeof window !== 'undefined' ? window : this));
+
+/* Node (Vercel serverless) — let the weekly-email cron require() the SAME
+   compute logic, so the email numbers can never drift from the web page. */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = (typeof globalThis !== 'undefined' ? globalThis : this).WeeklyReportCore;
+}
