@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- ============ SCISPARK LOGO + SOCIAL ============ -->
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+<link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — 成就墙 · Achievements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<!-- 共用设计盒子(颜色 / 字体 / 背景的单一来源,与首页 + 课堂页 + 其它 dashboard 同一档) -->
+<link rel="stylesheet" href="/public/design-tokens.css">
+<style>
+/* ============================================================
+   SciSpark · 学生成就墙 (Student Achievements) — NEW page
+   纯展示。无钱。所有数字 / 已解锁徽章都来自真表;无真数据
+   一律显示「未解锁 / 暂无」+ 鼓励语,绝不编造。
+   颜色/字体来自 /public/design-tokens.css(全站一致)。
+   隐私:学生只看自己的数据(沿用 dashboard-student 的 child 取数)。
+   ============================================================ */
+:root {
+  --ac-nav:        #1a1917;
+  --ac-text:       var(--ink, #171413);
+  --ac-muted:      #8b8178;
+  --ac-faint:      #b6aca3;
+  --ac-light:      #c5bbb4;
+  --ac-line:       var(--line, #E6DFD3);
+  --ac-line-soft:  #F0EBE2;
+  --ac-paper:      var(--paper, #FFFFFF);
+  --ac-paper-soft: var(--paper-soft, #F4EFE7);
+  --ac-orange:     var(--orange, #EA580C);
+  --ac-orange-pale:var(--orange-pale, #FFF6EE);
+  --ac-orange-soft:var(--orange-soft, #FFE9D6);
+  --ac-green:      var(--green, #2E7D5B);
+  --ac-green-soft: var(--green-soft, #DCFCE7);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg, #FBF8F4);
+  color: var(--ac-text);
+  font-family: var(--font-sans, 'Geist', system-ui, sans-serif);
+  font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+.zh { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); }
+/* default = English shown, Chinese shown together (bilingual). The lang
+   toggle only emphasises one; both stay legible per the brief. */
+
+/* ================ NAV ================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--ac-nav); height: 60px;
+  display: flex; align-items: center; padding: 0 24px; color: #fff;
+}
+.nav-inner { width: 100%; max-width: 1080px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; }
+.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-brand .logo-bolt {
+  width: 34px; height: 34px; background: var(--ac-orange); border-radius: 7px;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0;
+}
+.nav-brand .logo-bolt svg { width: 18px; height: 18px; }
+.nav-brand .logo-text { display: flex; flex-direction: column; line-height: 1; }
+.nav-brand .brand-text {
+  font-family: var(--font-serif, 'Fraunces', serif); font-weight: 600; font-size: 22px;
+  letter-spacing: -0.3px; color: #fff;
+}
+.nav-brand .brand-text .spark { color: var(--ac-orange); }
+.nav-brand .brand-sub {
+  font-family: var(--font-mono, 'Geist Mono', monospace);
+  font-size: 11px; font-weight: 500; letter-spacing: 1.4px; color: var(--ac-light); margin-top: 4px;
+}
+.nav-brand .brand-sub .zh { display: none; }
+body.lang-zh .nav-brand .brand-sub .en { display: none; }
+body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-link {
+  font-size: 13px; color: var(--ac-light); text-decoration: none;
+  padding: 6px 12px; border-radius: 100px; transition: .15s;
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,.08); }
+.nav-user-name { font-size: 14px; color: #fff; display: none; max-width: 160px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--ac-orange); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0;
+  overflow: hidden;
+}
+.nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.lang-toggle {
+  background: none; border: 1px solid #3a3733; padding: 5px 11px; border-radius: 999px;
+  cursor: pointer; font: inherit; font-size: 12px; color: var(--ac-light); transition: .15s;
+}
+.lang-toggle:hover { color: #fff; border-color: #555; }
+@media (min-width: 768px) { .nav-user-name { display: inline-block; } }
+
+/* ================ DEMO BANNER (preview only, ?demo=) ================ */
+.demo-banner {
+  background: #1e293b; color: #fff; text-align: center;
+  font-size: 12.5px; padding: 8px 16px; letter-spacing: .02em;
+}
+.demo-banner b { color: #fbbf24; }
+.demo-banner .zh { color: #cbd5e1; }
+
+/* ================ LAYOUT ================ */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px 72px; }
+
+/* ================ HEADER ================ */
+.hero { padding: 30px 0 6px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ac-muted); margin-bottom: 12px;
+}
+.eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ac-orange); }
+.eyebrow .zh { font-size: 11px; letter-spacing: 0; font-weight: 500; }
+.hero h1 {
+  font-family: var(--font-serif, 'Fraunces', serif); font-weight: 500;
+  font-size: 30px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ac-text);
+}
+@media (min-width: 768px) { .hero h1 { font-size: 40px; } }
+.hero h1 .accent { color: var(--ac-orange); font-style: italic; font-weight: 400; }
+.hero .sub { font-size: 15px; color: var(--ac-muted); margin-top: 12px; max-width: 580px; }
+.hero .sub .zh { display: block; font-size: 13px; margin-top: 3px; }
+
+/* DouDou cheer line */
+.doudou-cheer {
+  display: inline-flex; align-items: center; gap: 12px; margin-top: 20px;
+  background: var(--ac-paper); border: 1px solid var(--ac-line); border-radius: 100px;
+  padding: 8px 18px 8px 10px;
+}
+.doudou-cheer .doudou-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--ac-orange-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.doudou-cheer .doudou-say { font-size: 13.5px; color: var(--ac-text); }
+.doudou-cheer .doudou-say .zh { display: block; font-size: 12px; color: var(--ac-muted); margin-top: 1px; }
+
+/* ================ HEADLINE STATS ================ */
+.stats {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  margin-top: 24px;
+}
+@media (min-width: 640px) { .stats { grid-template-columns: repeat(4, 1fr); gap: 14px; } }
+.stat-card {
+  background: var(--ac-paper); border: 1px solid var(--ac-line);
+  border-radius: var(--radius, 10px); padding: 16px 18px;
+}
+.stat-card .label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ac-muted); margin-bottom: 8px;
+}
+.stat-card .value {
+  font-family: var(--font-serif, serif); font-size: 28px; font-weight: 600;
+  color: var(--ac-text); line-height: 1; letter-spacing: -0.01em;
+}
+.stat-card .value .small { font-size: 14px; color: var(--ac-muted); font-weight: 400; }
+.stat-card .value.empty { color: var(--ac-faint); }
+.stat-card .zh { font-size: 11px; color: var(--ac-muted); margin-top: 6px; }
+
+/* ================ SECTION HEAD ================ */
+.section-head { display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; margin: 42px 0 16px; }
+.section-head h2 { font-family: var(--font-serif, serif); font-size: 24px; font-weight: 500; }
+.section-head h2 .zh { font-size: 15px; color: var(--ac-muted); font-weight: 400; margin-left: 8px; }
+.section-head .count { font-size: 12px; font-weight: 600; color: var(--ac-orange);
+  font-family: var(--font-mono, monospace); }
+
+/* ================ BADGE WALL ================ */
+.badge-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+@media (min-width: 560px) { .badge-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 860px) { .badge-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+.badge-card {
+  background: var(--ac-paper); border: 1px solid var(--ac-line);
+  border-radius: var(--radius-lg, 16px); padding: 22px 18px 18px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  position: relative; transition: .18s; min-height: 188px;
+}
+.badge-card.earned { border-color: var(--ac-orange-soft); box-shadow: 0 6px 22px rgba(234,88,12,.08); }
+.badge-card.earned:hover { transform: translateY(-2px); }
+.badge-card.locked { background: var(--ac-paper-soft); border-style: dashed; }
+.badge-ico {
+  width: 62px; height: 62px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 30px; margin-bottom: 14px;
+  background: var(--ac-orange-soft);
+}
+.badge-card.locked .badge-ico { background: #ece6dd; filter: grayscale(1); opacity: .55; }
+.badge-name { font-family: var(--font-serif, serif); font-size: 16px; font-weight: 600;
+  color: var(--ac-text); line-height: 1.2; }
+.badge-card.locked .badge-name { color: var(--ac-muted); }
+.badge-name-zh { font-family: var(--font-zh, sans-serif); font-size: 12px;
+  color: var(--ac-muted); margin-top: 3px; }
+.badge-state { margin-top: 12px; width: 100%; }
+.badge-earned-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ac-green); background: var(--ac-green-soft);
+  padding: 4px 11px; border-radius: 100px;
+}
+.badge-req { font-size: 11.5px; color: var(--ac-muted); line-height: 1.45; }
+.badge-req .zh { display: block; margin-top: 2px; }
+.badge-mini-bar {
+  height: 5px; background: #e4ddd2; border-radius: 100px; overflow: hidden;
+  margin: 9px 0 6px;
+}
+.badge-mini-bar > span { display: block; height: 100%; background: var(--ac-orange); border-radius: 100px; }
+.badge-mini-count { font-size: 11px; font-weight: 600; color: var(--ac-orange);
+  font-family: var(--font-mono, monospace); }
+
+/* ================ PROGRESS-TO-NEXT ================ */
+.next-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 640px) { .next-grid { grid-template-columns: 1fr 1fr; } }
+.next-card {
+  background: var(--ac-paper); border: 1px solid var(--ac-line);
+  border-radius: var(--radius, 10px); padding: 18px 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.next-ico {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--ac-orange-pale);
+  display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+  filter: grayscale(.4); opacity: .8;
+}
+.next-body { flex: 1; min-width: 0; }
+.next-name { font-size: 14px; font-weight: 600; color: var(--ac-text); }
+.next-name .zh { font-family: var(--font-zh, sans-serif); font-weight: 400; color: var(--ac-muted); font-size: 12px; margin-left: 6px; }
+.next-hint { font-size: 12px; color: var(--ac-muted); margin-top: 2px; }
+.next-bar { height: 6px; background: var(--ac-paper-soft); border-radius: 100px; overflow: hidden; margin-top: 9px; }
+.next-bar > span { display: block; height: 100%; background: var(--ac-orange); border-radius: 100px; transition: width .4s; }
+.next-frac { font-family: var(--font-serif, serif); font-size: 20px; font-weight: 600; color: var(--ac-orange);
+  flex-shrink: 0; line-height: 1; }
+.next-frac .of { font-size: 13px; color: var(--ac-muted); }
+
+/* ================ EMPTY STATE ================ */
+.empty-state {
+  text-align: center; padding: 40px 20px; color: var(--ac-muted);
+  background: var(--ac-paper-soft); border: 1px dashed var(--ac-line); border-radius: var(--radius, 10px);
+}
+.empty-state .em-ico { font-size: 36px; margin-bottom: 12px; }
+.empty-state .big { font-family: var(--font-serif, serif); font-size: 18px; color: var(--ac-text); margin-bottom: 8px; }
+.empty-state .small { font-size: 13.5px; line-height: 1.55; max-width: 420px; margin: 0 auto; }
+.empty-state .small .zh { display: block; margin-top: 3px; }
+
+/* ================ PRIVACY FOOTER ================ */
+.foot {
+  margin-top: 44px; padding: 18px 22px; background: var(--ac-paper-soft);
+  border: 1px solid var(--ac-line); border-radius: var(--radius, 10px);
+  font-size: 12px; color: var(--ac-muted); display: flex; gap: 12px; align-items: flex-start;
+}
+.foot svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--ac-green); margin-top: 1px; }
+.foot .zh { display: block; margin-top: 2px; }
+
+/* loading / gate */
+.gate { min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--ac-muted); }
+.spin { width: 26px; height: 26px; border: 3px solid var(--ac-line); border-top-color: var(--ac-orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- DEMO banner (only rendered by JS when ?demo= is present) -->
+<div id="demo-banner" hidden></div>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/dashboard-student" class="nav-brand">
+      <span class="logo-bolt">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/></svg>
+      </span>
+      <span class="logo-text">
+        <span class="brand-text">Sci<span class="spark">Spark</span></span>
+        <span class="brand-sub"><span class="en">An IG Spark Centre Product</span><span class="zh">IG Spark Centre 出品</span></span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <a class="nav-link" href="/dashboard-student"><span class="en">← Dashboard</span><span class="zh" style="display:none">← 面板</span></a>
+      <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Toggle language">中 / EN</button>
+      <span class="nav-user-name" data-student-name>—</span>
+      <div class="nav-avatar" data-student-initials>·</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== LOADING GATE ===================== -->
+<div id="gate" class="gate">
+  <div class="spin"></div>
+  <div>Loading your achievements… · 正在加载成就墙…</div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div class="wrap" id="app" hidden>
+
+  <!-- HEADER -->
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span><span>Achievements</span><span class="zh">成就墙</span></div>
+    <h1>
+      <span data-greet-en>Your achievements,</span> <span class="accent" data-greet-name>friend.</span>
+    </h1>
+    <p class="sub">
+      <span class="en">Everything here is earned from your own real learning — lessons, quizzes and streaks.</span>
+      <span class="zh">这里的每一项都来自你自己真实的学习 —— 上过的课、做过的测评、连续的坚持。</span>
+    </p>
+    <div class="doudou-cheer" id="doudou-cheer" hidden>
+      <span class="doudou-avatar">🐣</span>
+      <span class="doudou-say">
+        <span class="en" data-cheer-en>Nice work — keep collecting!</span>
+        <span class="zh" data-cheer-zh>做得好 —— 继续收集吧!</span>
+      </span>
+    </div>
+
+    <!-- HEADLINE STATS -->
+    <div class="stats" id="stats-row">
+      <div class="stat-card">
+        <div class="label">Lessons done</div>
+        <div class="value" id="stat-lessons">0</div>
+        <div class="zh">完成课程</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Quizzes taken</div>
+        <div class="value" id="stat-quizzes">0</div>
+        <div class="zh">参与测评</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Current streak</div>
+        <div class="value" id="stat-streak">0<span class="small"> d</span></div>
+        <div class="zh">连续学习天数</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Study time</div>
+        <div class="value empty" id="stat-time">—</div>
+        <div class="zh">学习时长</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BADGE WALL -->
+  <div class="section-head">
+    <h2>Badge wall<span class="zh">徽章墙</span></h2>
+    <div class="count" id="badge-count">&nbsp;</div>
+  </div>
+  <div class="badge-grid" id="badge-grid"></div>
+
+  <!-- PROGRESS TO NEXT -->
+  <section id="next-section" hidden>
+    <div class="section-head">
+      <h2>Almost there<span class="zh">就快解锁了</span></h2>
+    </div>
+    <div class="next-grid" id="next-grid"></div>
+  </section>
+
+  <!-- PRIVACY FOOTER -->
+  <div class="foot">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    <div>
+      These are your own achievements only — nobody else can see this wall, and every badge is earned from your real activity.
+      <span class="zh">这些只属于你自己 —— 别人看不到你的成就墙,每一枚徽章都来自你真实的学习记录。</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+/* ── SciSpark · 学生成就墙 (Student Achievements) ────────────────────────
+   真数据 only。Auth → 取本学生(child)→ lesson_progress + assessment_attempts
+   + 已上线 lessons → 计算统计 + 徽章解锁状态 → 渲染。无真数据 = 诚实空态。
+   隐私:沿用 dashboard-student 的取数(getSession → 自己的 child,按 child.id 过滤)。
+   预览:?demo=active / ?demo=empty 用「一次性假数据」走同一套计算+渲染,
+        顶部显示 DEMO 横幅;真页面绝不出现假数据。
+──────────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  /* ---------- helpers ---------- */
+  var $ = function (s) { return document.querySelector(s); };
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function localDay(d){
+    // local YYYY-MM-DD (so "active days" follow the learner's calendar)
+    var y = d.getFullYear(), m = d.getMonth()+1, day = d.getDate();
+    return y + '-' + (m<10?'0':'') + m + '-' + (day<10?'0':'') + day;
+  }
+  function yrNum(yg){ return String(yg == null ? '' : yg).replace(/[^0-9]/g,''); }
+
+  /* ---------- BADGE DEFINITIONS — every rule keyed off REAL stats ---------- */
+  /* progress(): returns {cur,target,unitEn,unitZh} for the locked hint / bar,
+     or null when the badge is binary (no meaningful partial progress). */
+  var BADGES = [
+    { id:'first-lesson', icon:'📘', en:'First Lesson', zh:'第一课',
+      earned:function(s){ return s.lessons >= 1; },
+      progress:function(s){ return {cur:Math.min(s.lessons,1), target:1, unitEn:'lesson', unitZh:'课'}; },
+      reqEn:'Complete 1 lesson', reqZh:'完成 1 节课解锁' },
+    { id:'quiz-starter', icon:'📋', en:'Quiz Starter', zh:'测评新手',
+      earned:function(s){ return s.quizzes >= 1; },
+      progress:function(s){ return {cur:Math.min(s.quizzes,1), target:1, unitEn:'quiz', unitZh:'次测评'}; },
+      reqEn:'Take 1 quiz or assessment', reqZh:'完成 1 次测评解锁' },
+    { id:'three-lessons', icon:'🔥', en:'Getting Going', zh:'渐入佳境',
+      earned:function(s){ return s.lessons >= 3; },
+      progress:function(s){ return {cur:s.lessons, target:3, unitEn:'lessons', unitZh:'课'}; },
+      reqEn:'Complete 3 lessons', reqZh:'完成 3 节课解锁' },
+    { id:'streak-3', icon:'📅', en:'3-Day Streak', zh:'三日连续',
+      earned:function(s){ return s.streak >= 3; },
+      progress:function(s){ return {cur:s.streak, target:3, unitEn:'days', unitZh:'天'}; },
+      reqEn:'Learn 3 days in a row', reqZh:'连续学习 3 天解锁' },
+    { id:'ten-lessons', icon:'🎯', en:'Ten Lessons', zh:'十课里程',
+      earned:function(s){ return s.lessons >= 10; },
+      progress:function(s){ return {cur:s.lessons, target:10, unitEn:'lessons', unitZh:'课'}; },
+      reqEn:'Complete 10 lessons', reqZh:'完成 10 节课解锁' },
+    { id:'streak-7', icon:'🗓️', en:'7-Day Streak', zh:'坚持一周',
+      earned:function(s){ return s.streak >= 7; },
+      progress:function(s){ return {cur:s.streak, target:7, unitEn:'days', unitZh:'天'}; },
+      reqEn:'Learn 7 days in a row', reqZh:'连续学习 7 天解锁' },
+    { id:'unit-complete', icon:'🏆', en:'Unit Complete', zh:'单元完成',
+      earned:function(s){ return s.unitsComplete >= 1; },
+      progress:null,
+      reqEn:'Finish every lesson in a unit', reqZh:'完成某单元的全部课程解锁' },
+    { id:'perfect-score', icon:'⭐', en:'Perfect Score', zh:'满分',
+      earned:function(s){ return s.perfect; },
+      progress:null,
+      reqEn:'Score 100% on any quiz', reqZh:'任意测评满分解锁' }
+  ];
+
+  /* ---------- stats from real rows ---------- */
+  function computeStats(progress, attempts, lessons){
+    progress = progress || []; attempts = attempts || []; lessons = lessons || [];
+
+    // lessons completed (dedup by lesson_id)
+    var completed = {};
+    progress.forEach(function(p){ if (p.status === 'completed' && p.lesson_id != null) completed[p.lesson_id] = true; });
+    var completedIds = Object.keys(completed);
+    var lessonsCompleted = completedIds.length;
+
+    // quizzes / assessments taken (every attempt the student has made)
+    var quizzes = attempts.length;
+
+    // total study time — only assessment_attempts carry time_spent_seconds today
+    var studySeconds = 0;
+    attempts.forEach(function(a){ var t = Number(a.time_spent_seconds); if (t > 0) studySeconds += t; });
+
+    // perfect score — real scored data only (total_marks present & > 0)
+    var perfect = attempts.some(function(a){
+      return a.total_marks != null && Number(a.total_marks) > 0 && a.total_score != null
+          && Number(a.total_score) === Number(a.total_marks);
+    });
+
+    // active-day set → current streak (consecutive days ending today/yesterday)
+    var dayset = {};
+    function add(ts){ if (!ts) return; var d = new Date(ts); if (!isNaN(d)) dayset[localDay(d)] = true; }
+    progress.forEach(function(p){ add(p.completed_at); add(p.updated_at); add(p.started_at); });
+    attempts.forEach(function(a){ add(a.submitted_at); add(a.started_at); add(a.created_at); });
+    var streak = computeStreak(dayset);
+
+    // units complete — only count units that have published lessons in the DB,
+    // and where this student has completed every one of them.
+    var unitTotal = {}, unitDone = {};
+    lessons.forEach(function(l){
+      var k = yrNum(l.year_group) + '-' + l.unit_number;
+      unitTotal[k] = (unitTotal[k] || 0) + 1;
+      if (completed[l.id]) unitDone[k] = (unitDone[k] || 0) + 1;
+    });
+    var unitsComplete = 0;
+    Object.keys(unitTotal).forEach(function(k){
+      if (unitTotal[k] > 0 && (unitDone[k] || 0) === unitTotal[k]) unitsComplete++;
+    });
+
+    return {
+      lessons: lessonsCompleted, quizzes: quizzes, streak: streak,
+      studySeconds: studySeconds, perfect: perfect, unitsComplete: unitsComplete,
+      anyActivity: lessonsCompleted > 0 || quizzes > 0
+    };
+  }
+
+  function computeStreak(dayset){
+    var keys = Object.keys(dayset);
+    if (!keys.length) return 0;
+    var d = new Date();
+    if (!dayset[localDay(d)]) {            // not active today? try yesterday as anchor
+      d.setDate(d.getDate() - 1);
+      if (!dayset[localDay(d)]) return 0;  // gap → streak broken
+    }
+    var n = 0;
+    while (dayset[localDay(d)]) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+
+  function fmtTime(sec){
+    if (!sec || sec <= 0) return null;
+    var m = Math.round(sec / 60);
+    if (m < 60) return { num: m, unit: ' min', zh: '分钟' };
+    var h = Math.floor(m / 60), rem = m % 60;
+    return { num: h, unit: 'h ' + rem + 'm', zh: '小时' };
+  }
+
+  /* ---------- render ---------- */
+  function render(stats, displayName){
+    // greeting
+    $('[data-greet-name]').textContent = displayName ? displayName + '.' : 'friend.';
+
+    // headline stats
+    $('#stat-lessons').textContent = stats.lessons;
+    $('#stat-quizzes').textContent = stats.quizzes;
+    var sEl = $('#stat-streak');
+    sEl.innerHTML = stats.streak + '<span class="small"> d</span>';
+    var t = fmtTime(stats.studySeconds);
+    var tEl = $('#stat-time');
+    if (t) { tEl.classList.remove('empty'); tEl.innerHTML = t.num + '<span class="small">' + t.unit + '</span>'; }
+    else   { tEl.classList.add('empty'); tEl.textContent = '—'; }
+
+    // badge wall
+    var earnedCount = 0;
+    var grid = $('#badge-grid');
+    grid.innerHTML = BADGES.map(function(b){
+      var isEarned = !!b.earned(stats);
+      if (isEarned) earnedCount++;
+      var state;
+      if (isEarned) {
+        state = '<span class="badge-earned-tag">✓ Earned · 已获得</span>';
+      } else {
+        var pr = b.progress ? b.progress(stats) : null;
+        if (pr && pr.target > 1 && pr.cur > 0) {
+          var pct = Math.max(0, Math.min(100, Math.round(pr.cur / pr.target * 100)));
+          state = '<div class="badge-mini-bar"><span style="width:' + pct + '%"></span></div>' +
+                  '<div class="badge-mini-count">' + pr.cur + ' / ' + pr.target + '</div>';
+        } else {
+          state = '<div class="badge-req">' + esc(b.reqEn) +
+                  '<span class="zh">' + esc(b.reqZh) + '</span></div>';
+        }
+      }
+      return '<div class="badge-card ' + (isEarned ? 'earned' : 'locked') + '">' +
+        '<div class="badge-ico">' + b.icon + '</div>' +
+        '<div class="badge-name">' + esc(b.en) + '</div>' +
+        '<div class="badge-name-zh">' + esc(b.zh) + '</div>' +
+        '<div class="badge-state">' + state + '</div>' +
+      '</div>';
+    }).join('');
+    $('#badge-count').textContent = earnedCount + ' / ' + BADGES.length + ' earned · 已获得';
+
+    // DouDou cheer — only when something is actually earned
+    var cheer = $('#doudou-cheer');
+    if (earnedCount > 0) {
+      cheer.hidden = false;
+      if (earnedCount === BADGES.length) {
+        $('[data-cheer-en]').textContent = 'Every badge — incredible! 🎉';
+        $('[data-cheer-zh]').textContent = '全部集齐了 —— 太厉害啦!🎉';
+      } else {
+        $('[data-cheer-en]').textContent = 'You’ve earned ' + earnedCount + ' badge' + (earnedCount>1?'s':'') + ' — keep going!';
+        $('[data-cheer-zh]').textContent = '你已经拿到 ' + earnedCount + ' 枚徽章 —— 继续加油!';
+      }
+    } else {
+      cheer.hidden = true;
+    }
+
+    // progress-to-next — 1–2 nearest unearned badges with a real, measurable gap
+    var candidates = BADGES.filter(function(b){ return !b.earned(stats) && b.progress; })
+      .map(function(b){
+        var pr = b.progress(stats);
+        var remaining = Math.max(0, pr.target - pr.cur);
+        return { b: b, pr: pr, remaining: remaining, ratio: pr.cur / pr.target };
+      })
+      // a measurable gap (target>1 so there is something to inch toward), nearest first
+      .filter(function(c){ return c.pr.target > 1; })
+      .sort(function(a, b){ return (b.ratio - a.ratio) || (a.remaining - b.remaining); })
+      .slice(0, 2);
+
+    var nextSection = $('#next-section');
+    if (candidates.length) {
+      nextSection.hidden = false;
+      $('#next-grid').innerHTML = candidates.map(function(c){
+        var pct = Math.max(0, Math.min(100, Math.round(c.pr.cur / c.pr.target * 100)));
+        return '<div class="next-card">' +
+          '<div class="next-ico">' + c.b.icon + '</div>' +
+          '<div class="next-body">' +
+            '<div class="next-name">' + esc(c.b.en) + '<span class="zh">' + esc(c.b.zh) + '</span></div>' +
+            '<div class="next-hint">' + c.remaining + ' more ' + esc(c.pr.unitEn) +
+              ' · 还差 ' + c.remaining + ' ' + esc(c.pr.unitZh) + '</div>' +
+            '<div class="next-bar"><span style="width:' + pct + '%"></span></div>' +
+          '</div>' +
+          '<div class="next-frac">' + c.pr.cur + '<span class="of"> / ' + c.pr.target + '</span></div>' +
+        '</div>';
+      }).join('');
+    } else {
+      nextSection.hidden = true;
+    }
+
+    // honest empty state — no activity at all → encourage, all badges already show locked
+    if (!stats.anyActivity) {
+      cheer.hidden = false;
+      $('[data-cheer-en]').textContent = 'No badges yet — your first lesson unlocks the first one!';
+      $('[data-cheer-zh]').textContent = '还没有徽章 —— 上完第一节课就能解锁第一枚!';
+    }
+
+    $('#gate').hidden = true;
+    $('#app').hidden = false;
+  }
+
+  function setStudentChrome(name, avatarUrl){
+    var initials = (String(name||'').trim().split(/\s+/).map(function(w){return w[0];})
+      .filter(Boolean).slice(0,2).join('').toUpperCase()) || '?';
+    document.querySelectorAll('[data-student-name]').forEach(function(el){ el.textContent = name || '—'; });
+    document.querySelectorAll('[data-student-initials]').forEach(function(el){
+      if (avatarUrl) { el.innerHTML = ''; var img = document.createElement('img'); img.src = avatarUrl; img.alt = name || ''; el.appendChild(img); }
+      else { el.textContent = initials; }
+    });
+  }
+
+  /* ---------- language toggle (bilingual stays; toggle just persists pref) ---------- */
+  (function initLang(){
+    var KEY = 'scispark_lang';
+    var saved;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === 'zh') document.body.classList.add('lang-zh');
+    var btn = $('#lang-toggle');
+    if (btn) btn.addEventListener('click', function(){
+      var zh = document.body.classList.toggle('lang-zh');
+      try { localStorage.setItem(KEY, zh ? 'zh' : 'en'); } catch (e) {}
+    });
+  })();
+
+  /* ---------- DEMO mode (preview only) — throwaway stubbed data, NOT shipped as real ---------- */
+  function demoData(kind){
+    function daysAgo(n){ var d = new Date(); d.setDate(d.getDate() - n); return d.toISOString(); }
+    // published lessons: Y7 U1 (3 lessons) + Y7 U2 (4 lessons)
+    var lessons = [
+      {id:'l1', year_group:'Y7', unit_number:1, lesson_number:1},
+      {id:'l2', year_group:'Y7', unit_number:1, lesson_number:2},
+      {id:'l3', year_group:'Y7', unit_number:1, lesson_number:3},
+      {id:'l4', year_group:'Y7', unit_number:2, lesson_number:1},
+      {id:'l5', year_group:'Y7', unit_number:2, lesson_number:2},
+      {id:'l6', year_group:'Y7', unit_number:2, lesson_number:3},
+      {id:'l7', year_group:'Y7', unit_number:2, lesson_number:4}
+    ];
+    if (kind === 'empty') {
+      return { name:'小明 Ming', progress:[], attempts:[], lessons:lessons };
+    }
+    // active: U1 fully done (3) + 2 of U2 = 5 lessons; activity on 4 consecutive days incl. today
+    var progress = [
+      {lesson_id:'l1', status:'completed', completed_at:daysAgo(3)},
+      {lesson_id:'l2', status:'completed', completed_at:daysAgo(2)},
+      {lesson_id:'l3', status:'completed', completed_at:daysAgo(1)},
+      {lesson_id:'l4', status:'completed', completed_at:daysAgo(0)},
+      {lesson_id:'l5', status:'completed', completed_at:daysAgo(0)}
+    ];
+    var attempts = [
+      {assessment_code:'Y7_ENTRY', total_marks:60, total_score:null, time_spent_seconds:1800, submitted_at:daysAgo(3)},
+      {assessment_code:'Y7_QUIZ_U1', total_marks:20, total_score:null, time_spent_seconds:900, submitted_at:daysAgo(1)}
+    ];
+    return { name:'小明 Ming', progress:progress, attempts:attempts, lessons:lessons };
+  }
+
+  function showDemoBanner(kind){
+    var b = $('#demo-banner');
+    b.hidden = false;
+    b.className = 'demo-banner';
+    b.innerHTML = '<b>DEMO PREVIEW</b> · stubbed data, not a real account · ' +
+      '<span class="zh">演示数据,非真实账户(' + (kind === 'empty' ? 'no-activity 无活动' : 'active 有活动') + ')</span>';
+  }
+
+  /* ---------- boot ---------- */
+  var params = new URLSearchParams(location.search);
+  var demo = params.get('demo');
+
+  if (demo === 'active' || demo === 'empty') {
+    var d = demoData(demo);
+    showDemoBanner(demo);
+    setStudentChrome(d.name, null);
+    render(computeStats(d.progress, d.attempts, d.lessons), (d.name || '').split(/\s+/)[0]);
+    return;
+  }
+
+  /* real path — mirrors dashboard-student auth + child lookup */
+  (async function init(){
+    var SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+    var SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+    var sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+    var sess = await sb.auth.getSession();
+    var session = sess && sess.data ? sess.data.session : null;
+    if (!session) { window.location.replace('/signin.html'); return; }
+    var user = session.user;
+
+    // child record: support ?child_id= (validated against own children), else first child
+    var child = null;
+    var requested = params.get('child_id');
+    if (requested) {
+      var byId = await sb.from('children')
+        .select('id, full_name, year_group, parent_id, avatar_url')
+        .eq('id', requested).eq('parent_id', user.id).maybeSingle();
+      child = byId.data;
+    }
+    if (!child) {
+      var first = await sb.from('children')
+        .select('id, full_name, year_group, parent_id, avatar_url')
+        .eq('parent_id', user.id)
+        .order('created_at', { ascending: true })
+        .limit(1).maybeSingle();
+      child = first.data;
+    }
+    if (!child) { window.location.replace('/dashboard-parent.html'); return; }
+
+    setStudentChrome(child.full_name, child.avatar_url);
+
+    // fetch in parallel — every query scoped to THIS child only (privacy)
+    var results = await Promise.all([
+      sb.from('lesson_progress')
+        .select('lesson_id, status, started_at, completed_at, updated_at')
+        .eq('child_id', child.id),
+      sb.from('assessment_attempts')
+        .select('assessment_code, status, total_marks, total_score, time_spent_seconds, submitted_at, started_at, created_at')
+        .eq('student_id', child.id),
+      sb.from('lessons')
+        .select('id, year_group, unit_number, lesson_number, is_published')
+        .eq('is_published', true)
+    ]);
+    var progress = results[0].data || [];
+    var attempts = results[1].data || [];
+    var lessons  = results[2].data || [];
+
+    var firstName = (child.full_name || '').trim().split(/\s+/)[0] || '';
+    render(computeStats(progress, attempts, lessons), firstName);
+  })().catch(function(err){
+    console.error('[achievements] init failed:', err);
+    $('#gate').innerHTML = '<div>Something went wrong loading your achievements.<br>出了点问题,请稍后重试。</div>';
+  });
+})();
+</script>
+
+</body>
+</html>
