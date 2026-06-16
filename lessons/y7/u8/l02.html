@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U8 L02 · Energy Changes (From X to Y)</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U8 L02 · Energy Changes (From X to Y)",
+  "navMeta": "Y7 · U8 · L02",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 8",
+  "unitTitleEn": "Energy & Sound",
+  "unitTitleZh": "能量与声音",
+  "userLevel": "1",
+  "lessonData": "2"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="2">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U8 · L02</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 8</div>
+      <div class="sidebar-unit-title" data-en="Energy & Sound" data-zh="能量与声音">Energy & Sound</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U8 parsed JSON (3rd pass) — text poured verbatim; red cards detected by wrong/right text (flag unreliable); L01 cmd-word intro recovered from source. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Energy Changes (From X to Y)" data-zh="能量转换 (从 X 到 Y)">Energy Changes (From X to Y)</div>
+      <div class="screen-title-zh">能量转换 (从 X 到 Y)</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Energy Changes (From X to Y)</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#FFF7ED;border:1px solid #FED7AA;">
+      <div style="font-size:11px;font-weight:700;color:#C2410C;margin-bottom:4px;">🌞 Warm-up<span class="zh" style="color:#C2410C;"> · 热身</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">只写 “energy changes” 就像跟 Grab 司机说“去那边”——听了, 但完全不知道去哪里。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">每题先问: 原本能量在哪? 后来变成什么? 中间怎么转过去?</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Energy changes from one form to another <span class="zh">能量从一种形式变成另一种</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">When you toast a slice of bread, energy is transferred from the chemical store (electricity → element) to thermal energy that browns the bread. Energy did not appear or vanish — it changed form. <span class="zh">你烤一片面包时,能量从化学储存(电 → 发热元件)转换成热能, 把面包烤黄。能量没有凭空出现,也没有消失 —— 它改变了形式。</span></p>
+      
+        <figure class="img-slot" data-ref="L02_HOOK_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_HOOK_IMG01" data-recraft-prompt="[STILL] A toaster with a slice of bread; an IN arrow labelled &quot;electrical&quot; and an OUT arrow labelled &quot;thermal (+ light)&quot;. Flat vector, white background, no brand. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="[STILL] A toaster with a slice of bread; an IN arrow labelled &quot;electrical&quot; and an OUT arrow labelled &quot;thermal (+ light)&quot;. Flat vector, white background, no brand."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_HOOK_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Energy Changes (From X to Y)" data-zh="能量转换 (从 X 到 Y)">Energy Changes (From X to Y)</div>
+      <div class="screen-title-zh">能量转换 (从 X 到 Y)</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">这屏只抓一个重点，先会认，再会写。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">能量像包裹搬家: from 是原地址, to 是新地址, by 是运输方式。少写一个, 快递员找不到路。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">答能量变化只背一条: from 老家 → to 新家, by 走哪条路。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Say it the right way: "from X to Y" <span class="zh">用对句式:"从 X 到 Y"</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">The accepted way to describe an energy change is: "energy is transferred FROM [store X] TO [store Y] BY [pathway]". Always keep "from" and "to". A STORE is where energy sits; a PATHWAY is how it moves. <span class="zh">描述能量转换的标准说法是: "能量从[储存 X]转移到[储存 Y],通过[路径]"。 一定要保留"从"和"到"。储存 = 能量待的地方;路径 = 能量怎么走。</span></p>
+      
+        <figure class="img-slot" data-ref="L02_LEARN_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_LEARN_IMG01" data-recraft-prompt="[STILL] A two-column cheat-sheet card. Left column &quot;STORES&quot; lists 7 labelled icons; right column &quot;PATHWAYS&quot; lists 4 labelled icons. A sample sentence underneath: &quot;chemical store → (electrical pathway) → light + thermal&quot;. Flat vector, white background. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="[STILL] A two-column cheat-sheet card. Left column &quot;STORES&quot; lists 7 labelled icons; right column &quot;PATHWAYS&quot; lists 4 labelled icons. A sample sentence underneath: &quot;chemical store → (electrical pathway) → light + thermal&quot;. Flat vector, white background."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_LEARN_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <div style="font-weight:700;color:#7f1d1d;margin-bottom:8px;">Common mistake — don't fall for this! <span class="zh">常见错误 — 别上当!</span></div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">"Students treat energy stores and energy transfers (pathways) as the same thing." <span class="zh">"学生把能量储存和能量转移(路径)当成一样。"</span></p>
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;margin-top:6px;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "energy is transferred from chemical to electrical" (electrical is a pathway, not a store). </p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> "energy is transferred from the chemical store to the kinetic store BY an electrical pathway". <span class="zh">"能量从化学储存转移到动能储存,通过电的路径"。</span></p>
+      
+        <figure class="img-slot" data-ref="L02_LEARN_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L02_LEARN_IMG02" data-recraft-prompt="[STILL] Red-card panel. ❌ side: arrow &quot;chemical → electrical&quot; with a cross. ✓ side: &quot;chemical store → (electrical pathway) → kinetic store&quot;. Plain English. Flat vector. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="[STILL] Red-card panel. ❌ side: arrow &quot;chemical → electrical&quot; with a cross. ✓ side: &quot;chemical store → (electrical pathway) → kinetic store&quot;. Plain English. Flat vector."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_LEARN_IMG02<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Around the World: James Joule <span class="zh">环球科学家:詹姆斯·焦耳</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">James Joule (UK, 1843) showed that one form of energy can be changed into another by the same fixed amount — the idea behind "from X to Y". <span class="zh">詹姆斯·焦耳(英国,1843)证明一种能量可以按固定的量变成 另一种 —— 这就是"从 X 到 Y"背后的想法。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Guided practice · 带提示</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Many everyday items use energy transfers. A torch transfers energy of one type into other types. Use the words in the list to complete the sentences. The torch battery is an energy source. It stores ____________________ energy. The torch is switched on. Energy is transferred from the battery to the bulb. This is ____________________ energy. Energy is transferred by the bulb to the surroundings as ____________________ energy and ____________________ energy. [3]<br><span class="zh">(双语:同题中文呈现 —— 用清单里的词填空,描述手电筒 的能量转换:电池储存__能,开灯后是__能,灯泡向四周以 __能和__能传出。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Fill each blank with one short word." <span class="zh">"每个空填一个短词。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q01_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q01_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q01_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L02_Q01_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q01_IMG02" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q01_IMG02"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q01_IMG02<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In torch transfer blanks, underline the clue that points to chemical/electrical input leading to light and thermal outputs as shown. <span class="zh">手电筒能量填空先划出指向化学/电输入，转为光和热等输出的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>chemical; electrical; thermal (heat); light</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: chemical; electrical; thermal (heat); light · Accept also: light energy / brightness / 光 / 光能 · Accept also: thermal energy / heat / 热 / 热能 · Accept also: chemical / stored in food or fuel / 化学能 / 储存在食物或燃料里 · Accept also: electrical / electric / 电能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for torch transfer blanks: putting light in the battery blank reverses the direction of the transfer. This does not earn the mark for chemical/electrical input leading to light and thermal outputs as shown. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for torch transfer blanks; the named idea must be chemical/electrical input leading to light and thermal outputs as shown. · Reject an answer that gives the opposite direction or wrong stage in torch transfer blanks; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to torch transfer blanks; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in torch transfer blanks unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in torch transfer blanks, the answer earns credit because it states chemical/electrical input leading to light and thermal outputs as shown. <span class="zh">对。手电筒能量填空这题得分，因为写中了化学/电输入，转为光和热等输出。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — torch transfer blanks is not asking for “nearby science words”; the likely trap is putting light in the battery blank reverses the direction of the transfer, while the needed idea is chemical/electrical input leading to light and thermal outputs as shown. <span class="zh">还不对。手电筒能量填空不是随便写相近术语；常见陷阱是把光填进电池空格，会把转移方向写反，真正要点是化学/电输入，转为光和热等输出。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Look at the energy transfer diagram. (a) What is the energy input? Circle the correct answer. electrical kinetic light magnetic sound [1]<br><span class="zh">(双语:看能量转换图,圈出能量的输入是哪一个。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Circle the right one." <span class="zh">"圈出对的那个。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q02_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q02_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q02_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In energy input diagram, underline the clue that points to electrical energy as the input. <span class="zh">输入能量图先划出指向输入是电能的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>electrical</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: electrical · Accept also: electrical / electric / 电能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for energy input diagram: choosing light or sound gives an output, not the input. This does not earn the mark for electrical energy as the input. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for energy input diagram; the named idea must be electrical energy as the input. · Reject an answer that gives the opposite direction or wrong stage in energy input diagram; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to energy input diagram; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in energy input diagram unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in energy input diagram, the answer earns credit because it states electrical energy as the input. <span class="zh">对。输入能量图这题得分，因为写中了输入是电能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — energy input diagram is not asking for “nearby science words”; the likely trap is choosing light or sound gives an output, not the input, while the needed idea is electrical energy as the input. <span class="zh">还不对。输入能量图不是随便写相近术语；常见陷阱是选光或声是在写输出，不是输入，真正要点是输入是电能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Energy is transferred from one form into another. (a) The diagram shows a television. Complete the energy transfer for the television. ____________________ energy → ____________________ energy ____________________ energy [1]<br><span class="zh">(双语:图是一台电视。完成电视的能量转换:__能 → __能 / __能。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Write the transfer; keep 'from ... to ...'." <span class="zh">"写出转换,保留'从…到…'。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q03_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q03_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q03_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In television transfer, underline the clue that points to electrical energy changing to light and sound energy. <span class="zh">电视能量转移先划出指向电能转为光能和声能的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>electrical energy → light energy + sound energy (also thermal)</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: electrical energy → light energy + sound energy (also thermal) · Accept also: light energy / brightness / 光 / 光能 · Accept also: thermal energy / heat / 热 / 热能 · Accept also: sound energy / noise / 声 / 声能 · Accept also: electrical / electric / 电能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for television transfer: omitting either light or sound gives only part of the television output. This does not earn the mark for electrical energy changing to light and sound energy. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for television transfer; the named idea must be electrical energy changing to light and sound energy. · Reject an answer that gives the opposite direction or wrong stage in television transfer; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to television transfer; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in television transfer unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in television transfer, the answer earns credit because it states electrical energy changing to light and sound energy. <span class="zh">对。电视能量转移这题得分，因为写中了电能转为光能和声能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — television transfer is not asking for “nearby science words”; the likely trap is omitting either light or sound gives only part of the television output, while the needed idea is electrical energy changing to light and sound energy. <span class="zh">还不对。电视能量转移不是随便写相近术语；常见陷阱是漏掉光或声会少写电视的一部分输出，真正要点是电能转为光能和声能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">During an activity there are changes in energy. Oliver climbs up the steps, walks along the platform and jumps into the water. (a) Complete the sentences to describe the changes in energy. Choose from the list. When Oliver makes a splash in the water, some of his energy is converted into ____________________ energy and some into ____________________ energy. [2]<br><span class="zh">(双语:Oliver 跳进水里溅起水花时,他的一些能量变成__能, 一些变成__能。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Fill each blank with one short word." <span class="zh">"每个空填一个短词。"</span></div>
+
+        <textarea class="short-input" id="Q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In jumping into water, underline the clue that points to thermal and sound energy released during the activity. <span class="zh">跳入水中活动先划出指向产生热能和声能的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>thermal energy AND sound energy</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: thermal energy AND sound energy · Accept also: thermal energy / heat / 热 / 热能 · Accept also: sound energy / noise / 声 / 声能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for jumping into water: writing only kinetic ignores the energy released when movement ends. This does not earn the mark for thermal and sound energy released during the activity. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for jumping into water; the named idea must be thermal and sound energy released during the activity. · Reject an answer that gives the opposite direction or wrong stage in jumping into water; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to jumping into water; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in jumping into water unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in jumping into water, the answer earns credit because it states thermal and sound energy released during the activity. <span class="zh">对。跳入水中活动这题得分，因为写中了产生热能和声能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — jumping into water is not asking for “nearby science words”; the likely trap is writing only kinetic ignores the energy released when movement ends, while the needed idea is thermal and sound energy released during the activity. <span class="zh">还不对。跳入水中活动不是随便写相近术语；常见陷阱是只写动能会漏掉运动结束时释放出的能量，真正要点是产生热能和声能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">This question is about energy. (a) Complete the sentences to describe changes in energy. Choose words from the list. Lily walks across a room. Her body uses ____________________ energy from her food. As Lily walks across the room, some of the energy is transferred to the room as ____________________ and ____________________. Lily switches on a lamp in her room. ____________________ energy is transferred as light. [3]<br><span class="zh">(双语:Lily 用食物里的__能走路;走动时把一些能量以__和 __传给房间;开灯时__能转成光。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Fill each blank with one short word." <span class="zh">"每个空填一个短词。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q05_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q05_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q05_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q05-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q05-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In Lily walking sentence, underline the clue that points to chemical energy changing into heat and sound, with electrical where the item uses electricity. <span class="zh">Lily 走路句子先划出指向化学能转为热能和声能；用电物体写电能的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>chemical; heat AND sound; electrical</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: chemical; heat AND sound; electrical · Accept also: sound energy / noise / 声 / 声能 · Accept also: chemical / stored in food or fuel / 化学能 / 储存在食物或燃料里 · Accept also: electrical / electric / 电能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for Lily walking sentence: using “transferred” alone is too vague because no store is named. This does not earn the mark for chemical energy changing into heat and sound, with electrical where the item uses electricity. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for Lily walking sentence; the named idea must be chemical energy changing into heat and sound, with electrical where the item uses electricity. · Reject an answer that gives the opposite direction or wrong stage in Lily walking sentence; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to Lily walking sentence; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in Lily walking sentence unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in Lily walking sentence, the answer earns credit because it states chemical energy changing into heat and sound, with electrical where the item uses electricity. <span class="zh">对。Lily 走路句子这题得分，因为写中了化学能转为热能和声能；用电物体写电能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — Lily walking sentence is not asking for “nearby science words”; the likely trap is using “transferred” alone is too vague because no store is named, while the needed idea is chemical energy changing into heat and sound, with electrical where the item uses electricity. <span class="zh">还不对。Lily 走路句子不是随便写相近术语；常见陷阱是只写 transferred 太空，没有写能量储存，真正要点是化学能转为热能和声能；用电物体写电能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q05-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:6px;">
+        <span data-en="PLAY · Energy Forms and Changes" data-zh="动手玩 · 能量形式与变化">动手玩 · 能量形式与变化</span>
+      </div>
+      <div style="position:relative;width:100%;padding-top:62.5%;border-radius:10px;overflow:hidden;border:1px solid #e6e0d3;">
+        <iframe
+          src="https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_zh_CN.html"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+          allowfullscreen
+          loading="lazy"
+          title="Energy Forms and Changes"></iframe>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">This question is about energy changes. Look at the diagram showing Mike climbing a slide. (a) There is an energy change when Mike climbs the stairs and travels down the slide. Complete the sentences to describe the main energy changes. As Mike climbs the stairs, ____________________ energy increases. As Mike travels down the slide, ____________________ energy increases. [2]<br><span class="zh">(双语:Mike 爬楼梯时__能增加;滑下滑梯时__能增加。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Fill each blank with one short word." <span class="zh">"每个空填一个短词。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q06_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q06_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q06_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q06_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>gravitational potential; kinetic</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: gravitational potential; kinetic · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: gravitational potential / position / height / 重力势能 / 位置能量 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for Mike climbing slide: starting with kinetic at the top loses the raised-position store. This does not earn the mark for gravitational potential energy changing to kinetic energy. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for Mike climbing slide; the named idea must be gravitational potential energy changing to kinetic energy. · Reject an answer that gives the opposite direction or wrong stage in Mike climbing slide; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to Mike climbing slide; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in Mike climbing slide unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in Mike climbing slide, the answer earns credit because it states gravitational potential energy changing to kinetic energy. <span class="zh">对。Mike 爬滑梯这题得分，因为写中了重力势能转为动能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — Mike climbing slide is not asking for “nearby science words”; the likely trap is starting with kinetic at the top loses the raised-position store, while the needed idea is gravitational potential energy changing to kinetic energy. <span class="zh">还不对。Mike 爬滑梯不是随便写相近术语；常见陷阱是一开始就写动能，会漏掉高处的位置能量，真正要点是重力势能转为动能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Hot air balloons travel through the air. The air inside the balloon is heated by burning propane fuel. Tick (✓) the three correct sentences. □ The hot air balloon has the most kinetic energy when moving the fastest. □ The hot air balloon has the most kinetic energy after it has landed on the ground. □ The chemical energy in the propane fuel is changed into heat energy. □ The hot air balloon has no light or sound energy when it is travelling through the air. □ The hot air balloon has the most potential energy when it is the highest in the sky. [2]<br><span class="zh">(双语:勾出 3 句对的关于热气球的能量说法。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Tick the correct ones." <span class="zh">"勾出对的。"</span></div>
+
+        <textarea class="short-input" id="Q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Tick: fastest = most kinetic; propane chemical → heat; highest = most potential.</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: Tick: fastest = most kinetic; propane chemical → heat; highest = most potential. · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: chemical / stored in food or fuel / 化学能 / 储存在食物或燃料里 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for hot-air balloon tick table: ticking every true-looking sentence without checking energy direction overcounts wrong rows. This does not earn the mark for correct statements about faster particles and propane chemical energy transfer. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for hot-air balloon tick table; the named idea must be correct statements about faster particles and propane chemical energy transfer. · Reject an answer that gives the opposite direction or wrong stage in hot-air balloon tick table; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to hot-air balloon tick table; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in hot-air balloon tick table unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in hot-air balloon tick table, the answer earns credit because it states correct statements about faster particles and propane chemical energy transfer. <span class="zh">对。热气球勾选表这题得分，因为写中了选出粒子更快和丙烷化学能转移等正确项。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — hot-air balloon tick table is not asking for “nearby science words”; the likely trap is ticking every true-looking sentence without checking energy direction overcounts wrong rows, while the needed idea is correct statements about faster particles and propane chemical energy transfer. <span class="zh">还不对。热气球勾选表不是随便写相近术语；常见陷阱是看到像真的就全勾，会把方向错的行也算进去，真正要点是选出粒子更快和丙烷化学能转移等正确项。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Complete the table to show the useful energy transfer that happens in each case. The first one has been done for you. [3]<br><span class="zh">(双语:补完表格,写出每个例子里有用的能量转换。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Complete the transfer for each row." <span class="zh">"把每一行的转换补完。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q08_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q08_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q08_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q08_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>light bulb: electrical → light; wood-burning fire: chemical → thermal; battery in a circuit: chemical → electrical</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: light bulb: electrical → light; wood-burning fire: chemical → thermal; battery in a circuit: chemical → electrical · Accept also: light energy / brightness / 光 / 光能 · Accept also: thermal energy / heat / 热 / 热能 · Accept also: chemical / stored in food or fuel / 化学能 / 储存在食物或燃料里 · Accept also: electrical / electric / 电能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for useful transfer table: writing wasted heat when the row asks useful output answers the wrong column. This does not earn the mark for each object matched to its useful energy transfer. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for useful transfer table; the named idea must be each object matched to its useful energy transfer. · Reject an answer that gives the opposite direction or wrong stage in useful transfer table; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to useful transfer table; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in useful transfer table unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in useful transfer table, the answer earns credit because it states each object matched to its useful energy transfer. <span class="zh">对。有用能量转移表这题得分，因为写中了每个物体配对它的有用输出。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — useful transfer table is not asking for “nearby science words”; the likely trap is writing wasted heat when the row asks useful output answers the wrong column, while the needed idea is each object matched to its useful energy transfer. <span class="zh">还不对。有用能量转移表不是随便写相近术语；常见陷阱是题目问有用输出时写浪费热能，是答错栏，真正要点是每个物体配对它的有用输出。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">(a) Write down the useful energy outputs from (i) a torch ________________________________________________<br><span class="zh">(双语:写出每样东西有用的能量输出,例如手电筒。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Write the useful outputs." <span class="zh">"写出有用的输出。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q09_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q09_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q09_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q09_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L02_Q09_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q09_IMG02" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q09_IMG02"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q09_IMG02<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>torch → light (useful output). [Other rows per the official key — see FLAG: marks reconstructed.]</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: torch → light (useful output). [Other rows per the official key — see FLAG: marks reconstructed.] · Accept also: light energy / brightness / 光 / 光能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for torch useful output row: putting thermal first treats waste as the main useful output. This does not earn the mark for light as the useful output from the torch. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for torch useful output row; the named idea must be light as the useful output from the torch. · Reject an answer that gives the opposite direction or wrong stage in torch useful output row; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to torch useful output row; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in torch useful output row unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in torch useful output row, the answer earns credit because it states light as the useful output from the torch. <span class="zh">对。手电筒有用输出这题得分，因为写中了手电筒的有用输出是光能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — torch useful output row is not asking for “nearby science words”; the likely trap is putting thermal first treats waste as the main useful output, while the needed idea is light as the useful output from the torch. <span class="zh">还不对。手电筒有用输出不是随便写相近术语；常见陷阱是把热能放第一，会把浪费输出当有用输出，真正要点是手电筒的有用输出是光能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Write the missing terms in these energy transformation diagrams.<br><span class="zh">(双语:在这些能量转换图里写出缺的词。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Write the missing energy words." <span class="zh">"写出缺的能量词。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q10_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q10_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q10_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q10_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>[(a)-(e) energy terms read from the diagram — per official key, 1 mark each]</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: [(a)-(e) energy terms read from the diagram — per official key, 1 mark each] <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for transformation diagram labels: filling a pathway word where a store label is needed breaks the diagram. This does not earn the mark for the five missing energy terms taken from the diagram positions. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for transformation diagram labels; the named idea must be the five missing energy terms taken from the diagram positions. · Reject an answer that gives the opposite direction or wrong stage in transformation diagram labels; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to transformation diagram labels; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in transformation diagram labels unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in transformation diagram labels, the answer earns credit because it states the five missing energy terms taken from the diagram positions. <span class="zh">对。能量转化图标签这题得分，因为写中了按图中位置填五个能量词。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — transformation diagram labels is not asking for “nearby science words”; the likely trap is filling a pathway word where a store label is needed breaks the diagram, while the needed idea is the five missing energy terms taken from the diagram positions. <span class="zh">还不对。能量转化图标签不是随便写相近术语；常见陷阱是把转移路径词填进储存标签，会破坏图意，真正要点是按图中位置填五个能量词。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q11</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Ranjit is playing with a ball. He drops the ball and watches it bounce. This involves some energy transfers. (a) Complete the energy transfer happening at each stage. (i) As the ball falls: gravitational potential energy → ________________________________________________ [1]<br><span class="zh">(双语:球下落时,重力位能 → __。补完每一阶段的转换。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Complete the transfer at each stage." <span class="zh">"补完每一阶段的转换。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q11_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q11_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q11_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q11_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q11-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q11-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q11-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>as the ball falls: gravitational potential → kinetic energy. [Later stages per official key — see FLAG.]</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: as the ball falls: gravitational potential → kinetic energy. [Later stages per official key — see FLAG.] · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: gravitational potential / position / height / 重力势能 / 位置能量 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for bouncing ball transfer: saying energy is lost during the fall misses the falling transfer. This does not earn the mark for gravitational potential energy changing to kinetic energy as the ball falls. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for bouncing ball transfer; the named idea must be gravitational potential energy changing to kinetic energy as the ball falls. · Reject an answer that gives the opposite direction or wrong stage in bouncing ball transfer; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to bouncing ball transfer; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in bouncing ball transfer unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in bouncing ball transfer, the answer earns credit because it states gravitational potential energy changing to kinetic energy as the ball falls. <span class="zh">对。弹跳球下落这题得分，因为写中了下落时重力势能转为动能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — bouncing ball transfer is not asking for “nearby science words”; the likely trap is saying energy is lost during the fall misses the falling transfer, while the needed idea is gravitational potential energy changing to kinetic energy as the ball falls. <span class="zh">还不对。弹跳球下落不是随便写相近术语；常见陷阱是写下落时能量丢失，会漏掉下落转移，真正要点是下落时重力势能转为动能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q11-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q12</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Hair dryers work by using energy transfers. The picture shows the inside of a hair dryer. Complete the labels to show the energy transfers. Choose from [list]. [2]<br><span class="zh">(双语:吹风机靠能量转换工作。图是吹风机内部。补完标签 写出能量转换。)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Label each energy transfer." <span class="zh">"标出每个能量转换。"</span></div>
+
+        <figure class="img-slot" data-ref="L02_Q12_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q12_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L02_Q12_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L02_Q12_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q12-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q12-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q12-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>hot air = thermal energy; air leaving makes noise = sound energy; motor turns = kinetic energy; supplied with electrical energy.</strong> <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: hot air = thermal energy; air leaving makes noise = sound energy; motor turns = kinetic energy; supplied with electrical energy. · Accept also: thermal energy / heat / 热 / 热能 · Accept also: sound energy / noise / 声 / 声能 · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: electrical / electric / 电能 <span class="zh">本题要用 from X to Y 写清楚能量转移方向。答案必须有起点能量和终点能量；按题目可接受化学能、电能、光能、热能、声能、动能等正确组合。</span><br>✗ Reject: Reject for hair dryer labels: labelling the hot air as light or the noise as kinetic misreads the outputs. This does not earn the mark for thermal energy in the hot air and sound energy in the noise. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for hair dryer labels; the named idea must be thermal energy in the hot air and sound energy in the noise. · Reject an answer that gives the opposite direction or wrong stage in hair dryer labels; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to hair dryer labels; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in hair dryer labels unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in hair dryer labels, the answer earns credit because it states thermal energy in the hot air and sound energy in the noise. <span class="zh">对。吹风机标签这题得分，因为写中了热空气是热能，噪声是声能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — hair dryer labels is not asking for “nearby science words”; the likely trap is labelling the hot air as light or the noise as kinetic misreads the outputs, while the needed idea is thermal energy in the hot air and sound energy in the noise. <span class="zh">还不对。吹风机标签不是随便写相近术语；常见陷阱是把热空气写成光能或把噪声写成动能，是读错输出，真正要点是热空气是热能，噪声是声能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q12-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">What you learned <span class="zh">你学到了什么</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Every event transfers energy "from X to Y". Always keep "from" and "to", and never mix a STORE (where energy sits) with a PATHWAY (how it moves). <span class="zh">每件事都把能量"从 X 转到 Y"。一定保留"从"和"到", 不要把储存(能量待的地方)和路径(怎么走)搞混。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">答能量变化只背一条: from 老家 → to 新家, by 走哪条路。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>
