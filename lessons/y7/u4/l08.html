@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U4 L08 · Specialised Cells — Animal Examples</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+<style id="lx-bilingual">.lx-zh{display:none}body.lang-zh .lx-en{display:none !important}body.lang-zh .lx-zh{display:inline !important}body.lang-zh ul.lx-zh{display:block !important}</style>
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="8">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U4 · L08</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 4</div>
+      <div class="sidebar-unit-title" data-en="Cells and Biological Structure" data-zh="细胞与生物结构">Cells and Biological Structure</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div class="hook-band"><div class="hook-band-content">
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Hook · Observe<span class="lx-zh" style="display:none"> · 钩子 · 观察</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Specialised Cells — Animal Examples</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">特化细胞 — 动物例子</span></h1></div>
+</div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="background:#FAD9A8;padding:11px 18px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:19px;color:#D98A2B">One body, many cell shapes</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#C2410C">同一个身体，细胞却长得不一样</span></div><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">A blood scientist (haematologist) looks down a microscope and sees cells of completely different shapes — round red cells, long nerve cells, tailed sperm cells. Each shape does a different job.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">血液科学家(血液学家)在显微镜下看到形状完全不同的细胞 — 圆的红血球、长长的神经细胞、有尾巴的精子。每种形状做不同的工作。</span></div></div></div></div>
+
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('learn')"><span class="lx-en">Start learning →</span><span class="lx-zh" style="display:none">开始学习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Learn · Define<span class="lx-zh" style="display:none"> · 学习 · 定义</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Specialised Cells — Animal Examples</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">特化细胞 — 动物例子</span></h1></div>
+<div style="background:#E8FFE8;border:2px solid #BFE6BF;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="background:#BFE6BF;padding:11px 18px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:19px;color:#2E7D32">What is a specialised cell?</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#C2410C">什么是特化细胞?</span></div><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#2E7D32;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">A specialised cell has a SHAPE and PARTS that fit ONE job. Its structure is adapted to its function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">特化细胞有适合&quot;某一种工作&quot;的形状和部件。它的结构对应它的功能。</span></div></div></div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="background:#FAD9A8;padding:11px 18px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:19px;color:#D98A2B">Five animal specialised cells</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#C2410C">五种动物特化细胞</span></div><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Red blood cell — carries oxygen; biconcave, no nucleus, has haemoglobin.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">红血球 — 运送氧气;双凹、无细胞核、含血红蛋白。</span></div></div><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Sperm cell — fertilises egg; has a tail (flagellum), many mitochondria.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">精子 — 使卵子受精;有尾巴(鞭毛)、很多粒线体。</span></div></div><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Nerve cell (neurone) — carries electrical signals; long, branched.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">神经细胞(神经元) — 传电信号;长、有分支。</span></div></div><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Muscle cell — contracts to cause movement; many mitochondria.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">肌肉细胞 — 收缩产生运动;很多粒线体。</span></div></div><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Ciliated cell — moves dust/mucus; has cilia (tiny hairs).</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">纤毛细胞 — 移动灰尘/黏液;有纤毛(小毛)。</span></div></div></div></div>
+<div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#C00000;padding:10px 18px;border-radius:14px 14px 0 0"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff;letter-spacing:.5px">🟥 RED CARD · Common mistake</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟥 红牌 · 常见错误</span></div><div style="padding:14px 18px"><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✘ The error</span><span class="lx-zh" style="display:none">✘ 错误想法</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">❌ &quot;All cells look the same.&quot;</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">❌ &quot;所有细胞长得一样。&quot;</span></div><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#B45309;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">Why it's wrong</span><span class="lx-zh" style="display:none">为什么错</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">Specialised cells differ a lot: a nerve cell can be very long, a red blood cell is tiny and flat, a sperm cell has a tail.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">特化细胞差很多:神经细胞可以很长，红血球又小又扁，精子有尾巴。</span></div><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✓ Correct idea</span><span class="lx-zh" style="display:none">✓ 正确想法</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">✓ Shape matches the job (adaptation). Different jobs → different shapes.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">✓ 形状对应工作(适应)。工作不同 → 形状不同。</span></div></div></div>
+<div style="background:#F5F0E4;border:2px solid #6D4C41;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#6D4C41;padding:10px 18px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff">🟫 Exam vs Reality</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟫 考试 vs 真实</span></div><div style="padding:14px 18px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#3E2723;line-height:1.6">In the exam, draw the textbook cell with a nucleus. In real life, cells look very different depending on their job. Red blood cells have no nucleus at all. Muscle cells have many. The textbook picture is a general template, not a real specific cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.65">考试时画课本那张细胞图(有核，有各部分)。真实不同细胞长得完全不一样: 红血球没核，肌肉细胞有多个核。课本那张是拼出来的模板，不是真实某个细胞。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('try')"><span class="lx-en">Try it →</span><span class="lx-zh" style="display:none">来练习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Try · Practise<span class="lx-zh" style="display:none"> · 练习 · 应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Specialised Cells — Animal Examples</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">特化细胞 — 动物例子</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q1</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY / NAME</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">10 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The diagrams show four cells labelled A to D.  (a) Which of the cells is a plant cell? Write the letter ...... [1] (b) Name cell B. ...... [1] (c) Complete the table with the letter of the cell matched to its function. [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">图 显示 四个 细胞 标注为 A到D。  （小题一） 哪一个的细胞 是 植物细胞? 写 字母。 [1] （小题二） 说出名称 细胞 B。 [1] （小题三） 完整 表格有字母的细胞 配对到它的 功能。 [3] 答案_骨骼 （硬 答案从官方 关键）:</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q01_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to root hair cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「根毛细胞」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) D; (b) sperm cell / sperm cell; (c) signals=A, absorb water=D, carry oxygen=C</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） D；（小题二） 精子细胞/精子细胞；（小题三） 传递信号=A，吸收水=D，运输氧气=C</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) D</li><li style="margin:2px 0">(b) sperm cell</li><li style="margin:2px 0">sperm cell</li><li style="margin:2px 0">(c) signals=A, absorb water=D, carry oxygen=C</li><li style="margin:2px 0">sperm</li><li style="margin:2px 0">nerve cell</li><li style="margin:2px 0">neurone</li><li style="margin:2px 0">root hair cell</li><li style="margin:2px 0">red blood cell</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） D</li><li style="margin:2px 0">（小题二） 精子细胞</li><li style="margin:2px 0">精子细胞</li><li style="margin:2px 0">（小题三） 传递信号=A，吸收水=D，运输氧气=C</li><li style="margin:2px 0">精子</li><li style="margin:2px 0">神经细胞</li><li style="margin:2px 0">根毛细胞</li><li style="margin:2px 0">红血球</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">cell with tail alone — reject: it swaps the tested role with another role</li><li style="margin:2px 0">A — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">C as sperm — reject: it misses the key word required by this item</li><li style="margin:2px 0">male gamete alone — reject: the answer must name the specialised cell, not only the broad role</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">细胞有尾巴 单独 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">A — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">C 当作 精子 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">雄性 配子 单独 — 不给分：答案必须写出特化细胞名称，不能只写大概功能</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q2</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">8 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">This question is about cells. (a) The diagram shows a plant cell.  Which letter shows the cell membrane? ...... [1] (b) Draw a line from the cell diagram to the correct function. The cells are not all drawn to the same scale.    [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">这 题目 是 关于 细胞。 （小题一） 图 显示 植物细胞。  哪一个 字母 显示 细胞膜?。 [1] （小题二） 画 线从细胞 图到正确 功能。 细胞 是不全部 画出到相同 比例。    [3]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q02_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q02_IMG02</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q02_IMG03</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q02_IMG04</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell membrane.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞膜」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) E; (b) each correct cell-function match = 1; more than one line from a cell = 0 for that cell</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） E；（小题二） 每个 正确 细胞-功能 配对 = 1；更多 比 一个 线从细胞 = 0用于那 细胞</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) E</li><li style="margin:2px 0">(b) each correct cell-function match = 1</li><li style="margin:2px 0">more than one line from a cell = 0 for that cell</li><li style="margin:2px 0">E</li><li style="margin:2px 0">muscle contracts</li><li style="margin:2px 0">RBC carries O2</li><li style="margin:2px 0">root hair absorbs water</li><li style="margin:2px 0">minerals</li><li style="margin:2px 0">written pairs instead of lines</li><li style="margin:2px 0">controls entry and exit</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） E</li><li style="margin:2px 0">（小题二） 每个 正确 细胞-功能 配对 = 1</li><li style="margin:2px 0">更多 比 一个 线从细胞 = 0用于那 细胞</li><li style="margin:2px 0">E</li><li style="margin:2px 0">肌肉 收缩</li><li style="margin:2px 0">红血球 运输氧气</li><li style="margin:2px 0">根毛细胞 吸收水</li><li style="margin:2px 0">矿物质</li><li style="margin:2px 0">写成 配对 代替的线</li><li style="margin:2px 0">控制进出</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">cell wall — reject: it misses the key word required by this item</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">细胞壁 — 不给分：它漏掉本题需要的关键词</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q3</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">NAME / DESCRIBE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">14 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The human body is made of different types of cells. (a) Look at the diagram of a ciliated cell.  Name structures A, B and C. A ...... B ...... C ...... [3] (b) A red blood cell is adapted to carry oxygen in the human body.  Describe two ways a red blood cell is adapted to carry oxygen. Give an explanation for each adaptation. adaptation ...... explanation ...... adaptation ...... explanation ...... [4]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">人 身体 是 组成的不同 类型的细胞。 （小题一） 看在图的 纤毛细胞。  说出名称 结构 A，B和C。 A。 B。 C。 [3] （小题二） A 红血球 是 适应到运输氧气在人 身体。  描述 两个 方式 红血球 是 适应到运输氧气。 给出 解释用于每个 适应性。 适应性。 解释。 适应性。 解释。 [4]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q03_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q03_IMG02</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 2 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Link the answer to its job: A cell membrane; B cytoplasm; C nucleus. RBC: large surface area / no nucleus / haemoglobin / flexible / biconcave, each with link.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">连接 答案到它的 功能: A 细胞膜；B 细胞质；C 细胞核。 红血球: 大表面积/没有细胞核/血红蛋白/有弹性/双凹形，每个有连接。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">A cell membrane; B cytoplasm; C nucleus. RBC: large surface area / no nucleus / haemoglobin / flexible / biconcave, each with linked oxygen explanation</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">A 细胞膜；B 细胞质；C 细胞核。 红血球: 大表面积/没有细胞核/血红蛋白/有弹性/双凹形，每个有连接到 氧气 解释</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">A cell membrane</li><li style="margin:2px 0">B cytoplasm</li><li style="margin:2px 0">C nucleus. RBC: large surface area</li><li style="margin:2px 0">no nucleus</li><li style="margin:2px 0">haemoglobin</li><li style="margin:2px 0">flexible</li><li style="margin:2px 0">biconcave, each with linked oxygen explanation</li><li style="margin:2px 0">large surface area</li><li style="margin:2px 0">biconcave</li><li style="margin:2px 0">more space for oxygen</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">A 细胞膜</li><li style="margin:2px 0">B 细胞质</li><li style="margin:2px 0">C 细胞核。 红血球: 大表面积</li><li style="margin:2px 0">没有细胞核</li><li style="margin:2px 0">血红蛋白</li><li style="margin:2px 0">有弹性</li><li style="margin:2px 0">双凹形，每个有连接到 氧气 解释</li><li style="margin:2px 0">大表面积</li><li style="margin:2px 0">双凹形</li><li style="margin:2px 0">更多空间用于氧气</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">haemoglobin gives energy — reject: energy release is the mitochondria job; the nucleus controls cell activities</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it changes the biological level being tested</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cell wall — reject: the wall supports plant cells; the membrane controls what enters and leaves</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">血红蛋白 给出 能量 — 不给分：释放能量是线粒体的功能；细胞核负责控制细胞活动</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞壁 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q4</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE / IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">8 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Some cells are specialised. (a) Draw a straight line from each specialised cell to its main function. [3] (b) Look at the diagram of a neurone.  Neurones are specialised cells that transmit electrical signals in the nervous system. Write down one way the structure of a neurone is related to its function. ...... [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">一些 细胞 是 特化。 （小题一） 画 直接 线从每个 特化 细胞到它的 主要 功能。 [3] （小题二） 看在图的 神经细胞。  神经细胞 是 特化 细胞 那 传递 电 信号在神经系统。 写 下 一个 方式 结构的 神经细胞 是 相关到它的 功能。 [1]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q04_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to chloroplast.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「叶绿体」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">ciliated / palisade / root hair / red blood cells matched to functions. Neurone: thin / long / branched / myelin sheath linked to carrying signals</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">纤毛细胞/栅栏细胞/根毛细胞/红 血液 细胞 配对到功能。 神经细胞: 细/长/有分支/髓鞘 鞘 连接到到运输 信号</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">ciliated</li><li style="margin:2px 0">palisade</li><li style="margin:2px 0">root hair</li><li style="margin:2px 0">red blood cells matched to functions. Neurone: thin</li><li style="margin:2px 0">long</li><li style="margin:2px 0">branched</li><li style="margin:2px 0">myelin sheath linked to carrying signals</li><li style="margin:2px 0">cilia move dust</li><li style="margin:2px 0">particles</li><li style="margin:2px 0">O2</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">纤毛细胞</li><li style="margin:2px 0">栅栏细胞</li><li style="margin:2px 0">根毛细胞</li><li style="margin:2px 0">红 血液 细胞 配对到功能。 神经细胞: 细</li><li style="margin:2px 0">长</li><li style="margin:2px 0">有分支</li><li style="margin:2px 0">髓鞘 鞘 连接到到运输 信号</li><li style="margin:2px 0">纤毛 移动 灰尘</li><li style="margin:2px 0">粒子</li><li style="margin:2px 0">氧气</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">ciliated photosynthesis — reject: it changes the biological level being tested</li><li style="margin:2px 0">root hair oxygen — reject: root hair cells absorb water and minerals from soil, not oxygen for blood</li><li style="margin:2px 0">neurone chloroplasts — reject: chloroplasts are plant photosynthesis structures, not this animal-cell answer</li><li style="margin:2px 0">vague &quot;special shape — reject: a safety answer needs the exact action, not a vague warning</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">nucleus in a mature red blood cell — reject: mature red blood cells lack a nucleus, leaving more room for haemoglobin</li><li style="margin:2px 0">oxygen transport — reject: root hair cells absorb water and minerals from soil, not oxygen for blood</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">纤毛细胞 光合作用 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">根毛细胞 氧气 — 不给分：根毛细胞从土壤吸收水和矿物质，不为血液运输氧气</li><li style="margin:2px 0">神经细胞 叶绿体 — 不给分：叶绿体 是 植物细胞 光合作用 结构，不 这 动物细胞-细胞 答案</li><li style="margin:2px 0">含糊 特殊 形状 — 不给分：安全答案要写具体动作，不能只写含糊提醒</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">细胞核在成熟 红血球 — 不给分：成熟红血球没有细胞核，可留出更多空间给血红蛋白</li><li style="margin:2px 0">运输氧气 — 不给分：根毛细胞从土壤吸收水和矿物质，不为血液运输氧气</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q5</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">10 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Different cells have different functions. Draw a line between each picture of a cell and its function.  [5]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">不同 细胞有不同 功能。 画 线 之间 每个 图的 细胞和它的 功能。  [5] 答案_骨骼 （重建 —不官方）:</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q05_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to chloroplast.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「叶绿体」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">RBC→oxygen; palisade→photosynthesis; sperm→egg; root hair→water; neurone→electrical messages</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">红血球→氧气；栅栏细胞→光合作用；精子→卵子；根毛细胞→水；神经细胞→电 信息</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">RBC→oxygen</li><li style="margin:2px 0">palisade→photosynthesis</li><li style="margin:2px 0">sperm→egg</li><li style="margin:2px 0">root hair→water</li><li style="margin:2px 0">neurone→electrical messages</li><li style="margin:2px 0">O2</li><li style="margin:2px 0">makes food</li><li style="margin:2px 0">fertilises egg</li><li style="margin:2px 0">absorbs minerals</li><li style="margin:2px 0">nerve impulses</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">红血球→氧气</li><li style="margin:2px 0">栅栏细胞→光合作用</li><li style="margin:2px 0">精子→卵子</li><li style="margin:2px 0">根毛细胞→水</li><li style="margin:2px 0">神经细胞→电 信息</li><li style="margin:2px 0">氧气</li><li style="margin:2px 0">制造食物</li><li style="margin:2px 0">使卵子受精</li><li style="margin:2px 0">吸收 矿物质</li><li style="margin:2px 0">神经 信号</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">root hair→messages — reject: it describes the wrong cell structure for this mark</li><li style="margin:2px 0">sperm→oxygen — reject: root hair cells absorb water and minerals from soil, not oxygen for blood</li><li style="margin:2px 0">palisade→water — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">neurone→chloroplast/photosynthesis — reject: chloroplasts are plant photosynthesis structures, not this animal-cell answer</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">neurone→chloroplast — reject: chloroplasts are plant photosynthesis structures, not this animal-cell answer</li><li style="margin:2px 0">photosynthesis — reject: it swaps the tested role with another role</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">根毛细胞→信息 — 不给分：它描述了错误的细胞结构</li><li style="margin:2px 0">精子→氧气 — 不给分：根毛细胞从土壤吸收水和矿物质，不为血液运输氧气</li><li style="margin:2px 0">栅栏细胞→水 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">神经细胞→叶绿体/光合作用 — 不给分：叶绿体 是 植物细胞 光合作用 结构，不 这 动物细胞-细胞 答案</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">神经细胞→叶绿体 — 不给分：叶绿体 是 植物细胞 光合作用 结构，不 这 动物细胞-细胞 答案</li><li style="margin:2px 0">光合作用 — 不给分：它把本题考的功能换成了另一个功能</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('test')"><span class="lx-en">Go to test →</span><span class="lx-zh" style="display:none">去检测 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;letter-spacing:.5px;margin-bottom:8px"><span class="lx-en">EXAM MODE · NO HINTS</span><span class="lx-zh" style="display:none">考试模式 · 无提示</span></div>
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Test · Apply solo<span class="lx-zh" style="display:none"> · 检测 · 独立应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Specialised Cells — Animal Examples</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">特化细胞 — 动物例子</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q6</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">6 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Different cells have different functions. Draw lines from the cell function to the correct type of cell.  [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">不同 细胞有不同 功能。 画 线从细胞 功能到正确 类型的细胞。  [3]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q06_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">root hair→absorbs water/mineral salts; muscle→contracts; RBC→transports oxygen; palisade→uses light to make food. Each correct line=1; double line invalid</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">根毛细胞→吸收水和矿物盐；肌肉→收缩；红血球→运输氧气；栅栏细胞→使用 光到制造食物。 每个 正确 线=1；重复 线 无效</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">root hair→absorbs water</li><li style="margin:2px 0">mineral salts</li><li style="margin:2px 0">muscle→contracts</li><li style="margin:2px 0">RBC→transports oxygen</li><li style="margin:2px 0">palisade→uses light to make food. Each correct line=1</li><li style="margin:2px 0">double line invalid</li><li style="margin:2px 0">minerals</li><li style="margin:2px 0">mineral ions</li><li style="margin:2px 0">O2</li><li style="margin:2px 0">photosynthesis</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">根毛细胞→吸收水</li><li style="margin:2px 0">矿物盐</li><li style="margin:2px 0">肌肉→收缩</li><li style="margin:2px 0">红血球→运输氧气</li><li style="margin:2px 0">栅栏细胞→使用 光到制造食物。 每个 正确 线=1</li><li style="margin:2px 0">重复 线 无效</li><li style="margin:2px 0">矿物质</li><li style="margin:2px 0">矿物离子</li><li style="margin:2px 0">氧气</li><li style="margin:2px 0">光合作用</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">root hair oxygen — reject: root hair cells absorb water and minerals from soil, not oxygen for blood</li><li style="margin:2px 0">RBC contraction — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">palisade minerals — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">muscle absorbs water — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">nucleus in a mature red blood cell — reject: mature red blood cells lack a nucleus, leaving more room for haemoglobin</li><li style="margin:2px 0">oxygen transport — reject: root hair cells absorb water and minerals from soil, not oxygen for blood</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">根毛细胞 氧气 — 不给分：根毛细胞从土壤吸收水和矿物质，不为血液运输氧气</li><li style="margin:2px 0">红血球 收缩 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">栅栏细胞 矿物质 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">肌肉 吸收水 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">细胞核在成熟 红血球 — 不给分：成熟红血球没有细胞核，可留出更多空间给血红蛋白</li><li style="margin:2px 0">运输氧气 — 不给分：根毛细胞从土壤吸收水和矿物质，不为血液运输氧气</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q7</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">4 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Different cells have different functions. Draw a line from each cell to its function.  [2]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">不同 细胞有不同 功能。 画 线从每个 细胞到它的 功能。  [2]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q07_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">absorbs water/mineral ions from soil; transmits nerve impulses; fertilises egg; carries oxygen. All three=2; two=1; one=0</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">吸收水/矿物离子从土壤；传递 神经 信号；使卵子受精；运输氧气。 全部 三个=2；两个=1；一个=0</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">absorbs water</li><li style="margin:2px 0">mineral ions from soil</li><li style="margin:2px 0">transmits nerve impulses</li><li style="margin:2px 0">fertilises egg</li><li style="margin:2px 0">carries oxygen. All three=2</li><li style="margin:2px 0">two=1</li><li style="margin:2px 0">one=0</li><li style="margin:2px 0">carries messages</li><li style="margin:2px 0">electrical signals</li><li style="margin:2px 0">joins egg</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">吸收水</li><li style="margin:2px 0">矿物离子从土壤</li><li style="margin:2px 0">传递 神经 信号</li><li style="margin:2px 0">使卵子受精</li><li style="margin:2px 0">运输氧气。 全部 三个=2</li><li style="margin:2px 0">两个=1</li><li style="margin:2px 0">一个=0</li><li style="margin:2px 0">运输 信息</li><li style="margin:2px 0">电 信号</li><li style="margin:2px 0">结合 卵子</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">nerve absorbs water — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">root hair nerve impulses — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">sperm oxygen — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">RBC fertilises egg — reject: it is too broad to meet this mark point</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">神经 吸收水 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">根毛细胞 神经 信号 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">精子 氧气 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">红血球 使卵子受精 — 不给分：它太笼统，达不到这个得分点</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q8</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">DESCRIBE / EXPLAIN</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">6 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Look at the diagrams of some cells.  (a) Describe one way the structure of a nerve cell is different to a cheek cell. ...... [1] (b) The structure of a red blood cell is adapted for its function. Explain how. function ...... adaptation ...... [2]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">看在图的一些 细胞。  （小题一） 描述 一个 方式 结构的 神经细胞 是 不同到脸颊 细胞。 [1] （小题二） 结构的 红血球 是 适应用于它的 功能。 解释 如何。 功能。 适应性。 [2]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q08_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">nerve cell has extensions/connections/larger surface area/not round; RBC function = carry oxygen; adaptation = large SA / rounded / flexible / haemoglobin / no nucleus</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">神经细胞有突起/连接/更大表面积/不 圆；红血球 功能 = 运输氧气；适应性 = 大表面积/圆形/有弹性/血红蛋白/没有细胞核</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">nerve cell has extensions</li><li style="margin:2px 0">connections</li><li style="margin:2px 0">larger surface area</li><li style="margin:2px 0">RBC function = carry oxygen</li><li style="margin:2px 0">adaptation = large SA</li><li style="margin:2px 0">rounded</li><li style="margin:2px 0">flexible</li><li style="margin:2px 0">haemoglobin</li><li style="margin:2px 0">no nucleus</li><li style="margin:2px 0">branches</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">神经细胞有突起</li><li style="margin:2px 0">连接</li><li style="margin:2px 0">更大表面积</li><li style="margin:2px 0">红血球 功能 = 运输氧气</li><li style="margin:2px 0">适应性 = 大表面积</li><li style="margin:2px 0">圆形</li><li style="margin:2px 0">有弹性</li><li style="margin:2px 0">血红蛋白</li><li style="margin:2px 0">没有细胞核</li><li style="margin:2px 0">分支</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">only &quot;different shapes — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">nerve carries oxygen — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">RBC sends impulses — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">haemoglobin makes energy — reject: energy release is the mitochondria job; the nucleus controls cell activities</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">只 不同 形状 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">神经 运输氧气 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">红血球 发送 信号 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">血红蛋白 制造 能量 — 不给分：释放能量是线粒体的功能；细胞核负责控制细胞活动</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q9</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">8 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Draw one line from each cell drawing to its correct function. Draw only five lines.  [4]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">画 一个 线从每个 细胞 图到它的 正确 功能。 画 只 五个 线。  [4]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q09_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">makes sugar via photosynthesis; contracts to cause movement; joins with egg; pollinates stigma; detects changes; absorbs water/minerals; transports oxygen. All five=4; four=3; two/three=2; one=1; more than one line from a drawing=0 for that drawing</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">制造 糖 通过 光合作用；收缩造成运动；与卵子结合；给柱头授粉；感受变化；吸收水/矿物质；运输氧气。 全部 五个=4；四个=3；两个/三个=2；一个=1；更多 比 一个 线从图=0用于那 图</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">makes sugar via photosynthesis</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">joins with egg</li><li style="margin:2px 0">pollinates stigma</li><li style="margin:2px 0">detects changes</li><li style="margin:2px 0">absorbs water</li><li style="margin:2px 0">minerals</li><li style="margin:2px 0">transports oxygen. All five=4</li><li style="margin:2px 0">four=3</li><li style="margin:2px 0">two</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">制造 糖 通过 光合作用</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">与卵子结合</li><li style="margin:2px 0">给柱头授粉</li><li style="margin:2px 0">感受变化</li><li style="margin:2px 0">吸收水</li><li style="margin:2px 0">矿物质</li><li style="margin:2px 0">运输氧气。 全部 五个=4</li><li style="margin:2px 0">四个=3</li><li style="margin:2px 0">两个</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">RBC joins egg — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">palisade carries oxygen — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">sperm absorbs water — reject: it swaps the tested role with another role</li><li style="margin:2px 0">root hair photosynthesis — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">nerve pollinates stigma — reject: it misses the key word required by this item</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">红血球 结合 卵子 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">栅栏细胞 运输氧气 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">精子 吸收水 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">根毛细胞 光合作用 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">神经 给柱头授粉 — 不给分：它漏掉本题需要的关键词</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q10</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">NAME</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Look at the diagrams of two specialised cells. (a) What is the name of cell A? [1] (b) [second part in source — cell B / root hair: explain its adaptation] [marks per official key]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">看在图的两个 特化 细胞。 （小题一） 什么 是 说出名称的细胞 A? [1] （小题二） [第二 部分在来源 — 细胞 B/根毛细胞: 解释 它的 适应性] [分 每 官方 关键]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L08_Q10_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">[needs source answer before auto-marking]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[需要 来源 答案 之前 自动-批改]</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">[needs source answer before auto-marking]</li><li style="margin:2px 0">absorbs water and minerals</li><li style="margin:2px 0">large surface area for absorption</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">[需要 来源 答案 之前 自动-批改]</li><li style="margin:2px 0">吸收水和矿物质</li><li style="margin:2px 0">大表面积用于吸收</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">unrelated science word — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">oxygen transport — reject: it swaps the tested role with another role</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">无关 科学 词 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">运输氧气 — 不给分：它把本题考的功能换成了另一个功能</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('wrap')"><span class="lx-en">Wrap up →</span><span class="lx-zh" style="display:none">总结 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Wrap · Reflect<span class="lx-zh" style="display:none"> · 总结 · 回顾</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Specialised Cells — Animal Examples</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">特化细胞 — 动物例子</span></h1></div>
+<div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#D98A2B;margin-bottom:8px">🎯 What the examiner wants · 考官要什么</div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">STATE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">short, one-line answer</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">简短一句话</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DESCRIBE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">say what happens; no reasons</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">说出样子，不用原因</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">EXPLAIN</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give reasons; use &#x27;because&#x27;</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给原因，用「因为」</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DEFINE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give the exact meaning</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给准确定义</span></div></div>
+<div style="background:#171413;border-radius:14px;padding:16px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#FFFF00;letter-spacing:1px">🧠 REMEMBER THIS · 记牢这句</div><div style="margin-top:8px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1.4">Specialised Cells — Animal Examples — structure fits function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#FFE08A;line-height:1.5">结构决定功能。</span></div></div>
+<div style="background:#EAFBFF;border:2px solid #C2ECF5;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#3AAEC8;letter-spacing:.5px">🔮 NEXT · 下一课</div><div style="margin-top:6px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">Animal cells have special shapes. Do plant cells have specialised shapes too? Next: plant specialised cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">动物细胞有特别形状。植物细胞也有特化形状吗?下一课:植物特化细胞。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="completeLesson()"><span class="lx-en">Complete lesson ✓</span><span class="lx-zh" style="display:none">完成这一课 ✓</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

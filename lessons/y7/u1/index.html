@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U1 · Lesson Index</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+<!-- Brand tokens + nav styles inherited from the v4 lesson shell -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+
+<!-- Supabase client (same project as the lesson shell) — for the live lesson_progress read -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#EA580C">
+
+<style>
+/* ════════════════════════════════════════════════════════════════
+   UNIT LESSON INDEX PAGE — page-specific styles
+   Tokens (--bg, --ink, --accent …) come from /lesson-shell-v4.css.
+   ════════════════════════════════════════════════════════════════ */
+
+body { background: var(--bg); color: var(--ink); font-family: var(--ff-body); }
+
+.uli-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* ─── Unit header block ─── */
+.uli-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+.uli-title {
+  font-family: var(--ff-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.08;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.uli-summary {
+  font-size: 1.02rem;
+  color: var(--ink-2);
+  max-width: 56ch;
+  margin-bottom: 24px;
+}
+
+/* Progress bar */
+.uli-progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.uli-progress__track {
+  flex: 1;
+  height: 8px;
+  background: var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.uli-progress__fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.5s ease;
+}
+.uli-progress__label {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* ─── Lesson list ─── */
+.uli-list { display: flex; flex-direction: column; gap: 10px; }
+
+.uli-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+.uli-row[data-tappable="yes"] { cursor: pointer; }
+.uli-row[data-tappable="yes"]:hover {
+  border-color: var(--line-2);
+  box-shadow: 0 4px 14px rgba(15,23,42,0.06);
+}
+.uli-row[data-tappable="yes"]:active { transform: translateY(1px); }
+
+/* state icon (left ~28px circle) */
+.uli-icon {
+  flex: 0 0 auto;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+}
+.uli-icon svg { width: 15px; height: 15px; display: block; }
+
+/* lesson number tag */
+.uli-num {
+  flex: 0 0 auto;
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  width: 30px;
+}
+
+/* title block */
+.uli-text { flex: 1 1 auto; min-width: 0; }
+.uli-lesson-title {
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.uli-lesson-sub {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+
+/* chevron */
+.uli-chevron {
+  flex: 0 0 auto;
+  color: var(--line-2);
+  display: flex;
+}
+.uli-chevron svg { width: 16px; height: 16px; }
+
+/* ── STATE: DONE ── */
+.uli-row[data-state="done"] .uli-icon { background: var(--ok); color: #fff; }
+
+/* ── STATE: CURRENT ── */
+.uli-row[data-state="current"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  border-left-width: 3px;
+}
+.uli-row[data-state="current"] .uli-icon {
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+.uli-row[data-state="current"] .uli-lesson-title { color: var(--accent-ink); }
+.uli-row[data-state="current"] .uli-chevron { color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .uli-row[data-state="current"] .uli-icon { animation: uli-pulse 2s ease-in-out infinite; }
+}
+@keyframes uli-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234,88,12,0.30); }
+  50%      { box-shadow: 0 0 0 6px rgba(234,88,12,0); }
+}
+
+/* ── STATE: AVAILABLE ── */
+.uli-row[data-state="available"] .uli-icon {
+  background: transparent;
+  border: 2px solid var(--line-2);
+}
+
+/* ── STATE: LOCKED ── */
+.uli-row[data-state="locked"] {
+  cursor: not-allowed;
+  background: var(--bg-2);
+}
+.uli-row[data-state="locked"] .uli-icon { background: transparent; color: var(--ink-3); }
+.uli-row[data-state="locked"] .uli-lesson-title,
+.uli-row[data-state="locked"] .uli-num { color: var(--ink-3); }
+
+/* Lock tooltip */
+.uli-row[data-state="locked"] { position: relative; }
+.uli-row[data-state="locked"]::after {
+  content: attr(data-tip);
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.96);
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-family: var(--ff-body);
+  padding: 5px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.uli-row[data-state="locked"]:hover::after,
+.uli-row[data-state="locked"]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 520px) {
+  .uli-wrap { padding: 24px 14px 64px; }
+  .uli-row { min-height: 56px; padding: 10px 12px; gap: 10px; }
+  .uli-num { width: 26px; }
+}
+</style>
+</head>
+
+<body>
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<div class="app">
+
+<!-- ─── TOP NAV (matches lesson shell) ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U1</div>
+  <div class="nav-badge">Chemistry</div>
+  <div class="nav-spacer"></div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+</nav>
+
+<main class="uli-wrap">
+
+  <!-- Unit header block -->
+  <header>
+    <div class="uli-eyebrow">UNIT 1 · YEAR 7 SCIENCE</div>
+    <h1 class="uli-title">Matter and the Particle Model</h1>
+    <p class="uli-summary">What everything is made of, and how particles explain it.</p>
+    <div class="uli-progress">
+      <div class="uli-progress__track">
+        <div class="uli-progress__fill" id="uli-fill" style="width:0%"></div>
+      </div>
+      <div class="uli-progress__label" id="uli-progress-label">0 / 0 lessons done</div>
+    </div>
+  </header>
+
+  <!-- Lesson list (rendered from data) -->
+  <div class="uli-list" id="uli-list"></div>
+
+</main>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   DATA — Y7 Unit 1 lesson list.
+   Titles + order taken verbatim from the lesson source files in
+   /lessons/y7/u1/ (the authoritative content). Do NOT invent or
+   re-word: edit a lesson's <title> at source, not here.
+   `id` = the lesson's data-lesson-id UUID (used to read real
+   completion from the lesson_progress store when wired up).
+   ════════════════════════════════════════════════════════════════ */
+const UNIT = {
+  eyebrow: 'UNIT 1 · YEAR 7 SCIENCE',
+  title:   'Matter and the Particle Model',
+  summary: 'What everything is made of, and how particles explain it.',
+};
+
+/* `prereq` = the lesson that must be DONE before this one unlocks.
+   Source: SCISPARK_Y7_U1_LESSON_PREREQUISITE_TABLE_v1 (Founder-confirmed).
+   Y7 U1 is a single linear track, so prereq = the previous lesson.
+   `id` = data-lesson-id UUID (used to read real completion from
+   lesson_progress). Only L01 has one so far; the rest are assigned
+   when those lesson files get their UUIDs. */
+const LESSONS = [
+  { n: 'L01', title: 'What is Matter?',                       href: 'l01.html', prereq: null,  id: '99fbc889-0417-4b76-b66d-e0392634d843' },
+  { n: 'L02', title: 'Sizes of Matter',                       href: 'l02.html', prereq: 'L01' },
+  { n: 'L03', title: 'Why the Particle Model?',               href: 'l03.html', prereq: 'L02' },
+  { n: 'L04', title: 'Atoms, Elements and Symbols',           href: 'l04.html', prereq: 'L03' },
+  { n: 'L05', title: 'Periodic Table (intro)',                href: 'l05.html', prereq: 'L04' },
+  { n: 'L06', title: 'Element / Compound / Mixture',          href: 'l06.html', prereq: 'L05' },
+  { n: 'L07', title: 'Separating Mixtures (4 Methods)',       href: 'l07.html', prereq: 'L06' },
+  { n: 'L08', title: 'Particle Arrangement in Three States',  href: 'l08.html', prereq: 'L07' },
+  { n: 'L09', title: 'Particle Motion in Three States',       href: 'l09.html', prereq: 'L08' },
+  { n: 'L10', title: 'Particle Attraction in Three States',   href: 'l10.html', prereq: 'L09' },
+  { n: 'L11', title: 'Changes of State (Six Changes)',        href: 'l11.html', prereq: 'L10' },
+  { n: 'L12', title: 'Heating / Cooling Curves',              href: 'l12.html', prereq: 'L11' },
+  { n: 'L13', title: 'Vacuum',                                href: 'l13.html', prereq: 'L12' },
+  { n: 'L14', title: 'Unit Review and Integration',           href: 'l14.html', prereq: 'L13' },
+];
+
+/* ── State resolver ───────────────────────────────────────────────
+   Source of truth for completion = Supabase `lesson_progress`
+   (status='completed', keyed by lesson UUID). deriveStates applies
+   the Founder-confirmed prerequisite table (linear track), per
+   SCISPARK_Y7_U1_LESSON_PREREQUISITE_TABLE_v1 §3:
+     • DONE  → completion data says so
+     • a lesson whose prereq is NOT done → LOCKED
+     • of the lessons whose prereq IS done but aren't done themselves,
+       the FIRST (in order) → CURRENT, any others → AVAILABLE
+   Edge cases: nothing done → L01 CURRENT, L02–L14 LOCKED;
+               all done → all DONE, no CURRENT.
+   ──────────────────────────────────────────────────────────────── */
+function deriveStates(lessons, completed) {
+  let currentAssigned = false;
+  return lessons.map((l) => {
+    if (completed.has(l.n)) return { ...l, state: 'done' };
+    const prereqDone = !l.prereq || completed.has(l.prereq);
+    if (!prereqDone) return { ...l, state: 'locked' };
+    if (!currentAssigned) { currentAssigned = true; return { ...l, state: 'current' }; }
+    return { ...l, state: 'available' };
+  });
+}
+
+/* ── Completion sources ──────────────────────────────────────────── */
+const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+
+// PREVIEW ONLY: ?demo=N marks the first N lessons DONE so the Founder can
+// see populated states on desktop/phone without a signed-in account.
+function demoCompleted() {
+  const m = new URLSearchParams(location.search).get('demo');
+  const n = m ? parseInt(m, 10) : 0;
+  const done = new Set();
+  if (n > 0) LESSONS.slice(0, Math.min(n, LESSONS.length)).forEach(l => done.add(l.n));
+  return done;
+}
+
+// Live read: which lessons this child has completed, from lesson_progress.
+// Only lessons with a UUID in LESSONS can be resolved (L02–L14 await UUIDs).
+async function fetchCompletedFromSupabase() {
+  const done = new Set();
+  if (!window.supabase || typeof window.supabase.createClient !== 'function') return done;
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  const { data: { user } = {}, error: authErr } = await sb.auth.getUser();
+  if (authErr || !user) return done; // signed out → safe default (L01 current)
+
+  const { data: child } = await sb.from('children')
+    .select('id').eq('parent_id', user.id).limit(1).maybeSingle();
+  if (!child) return done;
+
+  const { data: rows, error } = await sb.from('lesson_progress')
+    .select('lesson_id, status').eq('child_id', child.id);
+  if (error || !rows) return done;
+
+  const idToN = {};
+  LESSONS.forEach(l => { if (l.id) idToN[l.id] = l.n; });
+  rows.forEach(r => {
+    if (r.status === 'completed' && idToN[r.lesson_id]) done.add(idToN[r.lesson_id]);
+  });
+  return done;
+}
+
+/* ── Icons ── */
+const ICON = {
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  lock:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+};
+
+function iconFor(state) {
+  if (state === 'done')   return ICON.check;
+  if (state === 'locked') return ICON.lock;
+  return ''; // current / available = hollow ring, no glyph
+}
+
+function render(completed) {
+  const rows = deriveStates(LESSONS, completed);
+  const list = document.getElementById('uli-list');
+
+  list.innerHTML = rows.map((l) => {
+    const tappable = l.state !== 'locked';
+    const tag = tappable ? 'a' : 'div';
+    const hrefAttr = tappable ? ` href="${l.href}"` : '';
+    // Locked → must finish this lesson's own prerequisite first.
+    const tip = l.state === 'locked' && l.prereq ? ` data-tip="Finish ${l.prereq} first"` : '';
+    const ariaLabel = `${l.n} ${l.title} — ${l.state}`;
+    const chevron = tappable ? `<span class="uli-chevron">${ICON.chevron}</span>` : '';
+    const sub = l.sub ? `<div class="uli-lesson-sub">${l.sub}</div>` : '';
+    return `
+      <${tag} class="uli-row" data-state="${l.state}" data-tappable="${tappable ? 'yes' : 'no'}"${hrefAttr}${tip}
+              role="listitem" aria-label="${ariaLabel}"${l.state === 'locked' ? ' tabindex="0" aria-disabled="true"' : ''}>
+        <span class="uli-icon">${iconFor(l.state)}</span>
+        <span class="uli-num">${l.n}</span>
+        <span class="uli-text">
+          <div class="uli-lesson-title">${l.title}</div>
+          ${sub}
+        </span>
+        ${chevron}
+      </${tag}>`;
+  }).join('');
+
+  // Progress bar (DONE lessons only)
+  const doneCount = rows.filter(r => r.state === 'done').length;
+  const pct = Math.round((doneCount / rows.length) * 100);
+  document.getElementById('uli-fill').style.width = pct + '%';
+  document.getElementById('uli-progress-label').textContent =
+    `${doneCount} / ${rows.length} lessons done`;
+}
+
+(async function init() {
+  document.getElementById('uli-list').setAttribute('role', 'list');
+
+  // 1) Paint immediately from the demo param (preview) — safe default otherwise.
+  const demo = demoCompleted();
+  render(demo);
+
+  // 2) Replace with the live read if a real completion set comes back
+  //    (and we aren't in an explicit demo override).
+  if (demo.size === 0) {
+    try {
+      const live = await fetchCompletedFromSupabase();
+      render(live);
+      console.log(`[SciSpark] Unit index: ${live.size} lesson(s) resolved from lesson_progress`);
+    } catch (e) {
+      console.warn('[SciSpark] Unit index: lesson_progress read failed —', e.message);
+    }
+  }
+})();
+</script>
+</body>
+</html>

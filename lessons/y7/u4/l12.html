@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U4 L12 · Organs → Organ Systems</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+<style id="lx-bilingual">.lx-zh{display:none}body.lang-zh .lx-en{display:none !important}body.lang-zh .lx-zh{display:inline !important}body.lang-zh ul.lx-zh{display:block !important}</style>
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="12">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U4 · L12</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 4</div>
+      <div class="sidebar-unit-title" data-en="Cells and Biological Structure" data-zh="细胞与生物结构">Cells and Biological Structure</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div class="hook-band"><div class="hook-band-content">
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Hook · Observe<span class="lx-zh" style="display:none"> · 钩子 · 观察</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Organs → Organ Systems</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">器官 → 器官系统</span></h1></div>
+</div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:16px 18px;margin:14px 0"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:16px;color:#1F2937;line-height:1.6">Eating uses many organs in a row: mouth, food pipe, stomach, intestine. Together they are the digestive system. A group of organs working together is an organ system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:16px;color:#C2410C;line-height:1.65">吃东西用到一排器官:嘴巴、食道、胃、肠道。它们合起来 = 消化系统。 一群器官一起工作 = 器官系统。</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🫀</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L12_Q00_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">Labelled diagram of the human digestive system showing mouth, oesophagus, stomach, intestine as one connected team.</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Nested hierarchy: cell -&gt; tissue -&gt; organ -&gt; system -&gt; organism, icons at each level<br>
+      <b>Animate?:</b> Optional zoom<br>
+      <b>Trap to flag:</b> Mixing up &#x27;tissue&#x27; and &#x27;organ&#x27;
+    </div>
+  </div>
+</div>
+
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('learn')"><span class="lx-en">Start learning →</span><span class="lx-zh" style="display:none">开始学习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Learn · Define<span class="lx-zh" style="display:none"> · 学习 · 定义</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Organs → Organ Systems</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">器官 → 器官系统</span></h1></div>
+<div style="background:#E8FFE8;border:2px solid #BFE6BF;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#2E7D32;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">An organ system is a group of organs that work together to do one big job for the body.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">器官系统 = 一群器官一起工作,为身体做一件大工作。</span></div></div></div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Digestive system breaks down food. Circulatory system transports blood. Respiratory system does gas exchange. Nervous system controls and coordinates.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">消化系统分解食物。循环系统运输血液。呼吸系统做气体交换。 神经系统控制和协调。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🫀</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L12_Q00_IMG02</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">Two organ systems side by side, e.g. digestive system and circulatory system, each labelled with its main job.</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Nested hierarchy: cell -&gt; tissue -&gt; organ -&gt; system -&gt; organism, icons at each level<br>
+      <b>Animate?:</b> Optional zoom<br>
+      <b>Trap to flag:</b> Mixing up &#x27;tissue&#x27; and &#x27;organ&#x27;
+    </div>
+  </div>
+</div></div>
+<div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#C00000;padding:10px 18px;border-radius:14px 14px 0 0"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff;letter-spacing:.5px">🟥 RED CARD · Common mistake</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟥 红牌 · 常见错误</span></div><div style="padding:14px 18px"><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✓ Correct idea</span><span class="lx-zh" style="display:none">✓ 要记住</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">RED CARD: An organ system is NOT just one organ. It is several organs working together. The stomach alone is an organ; the whole digestion team is the organ system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">&quot;红牌:器官系统不是一个器官。它是好几个器官一起工作。 单个胃是器官;整个消化团队才是器官系统。&quot; ================================================================</span></div></div></div>
+<div style="margin-top:18px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#64748B;letter-spacing:.5px;margin-bottom:6px">MORE DIAGRAMS · 更多配图</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L12_Q02_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L12_Q03_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L12_Q04_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('try')"><span class="lx-en">Try it →</span><span class="lx-zh" style="display:none">来练习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Try · Practise<span class="lx-zh" style="display:none"> · 练习 · 应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Organs → Organ Systems</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">器官 → 器官系统</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q1</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Identify</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">3 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The human body is made up of organ systems. (a) Draw a line to connect each organ system to its main function. [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to digestive -&gt; break down nutrients.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「消化 → 分解营养物质」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">digestive -&gt; break down nutrients; circulatory -&gt; transport nutrients; nervous -&gt; coordination; excretory -&gt; remove waste; respiratory -&gt; gas exchange. 5 correct = 3; 3/4 correct = 2; 1/2 correct = 1. [accept digest food / break down food / carry nutrients / coordination / remove waste / gas exchange]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">消化 → 分解营养物质；循环 → 运输营养物质；神经 → 协调；排泄 → 排出废物；呼吸 → 气体交换。 5 正确 = 3；3/4 正确 = 2；1/2 正确 = 1。 [可接受 消化 食物/分解食物/运输 营养物质/协调/排出废物/气体交换]</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">digestive -&gt; break down nutrients</li><li style="margin:2px 0">circulatory -&gt; transport nutrients</li><li style="margin:2px 0">nervous -&gt; coordination</li><li style="margin:2px 0">excretory -&gt; remove waste</li><li style="margin:2px 0">respiratory -&gt; gas exchange. 5 correct = 3</li><li style="margin:2px 0">3</li><li style="margin:2px 0">4 correct = 2</li><li style="margin:2px 0">1</li><li style="margin:2px 0">2 correct = 1. [accept digest food</li><li style="margin:2px 0">break down food</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">消化 → 分解营养物质</li><li style="margin:2px 0">循环 → 运输营养物质</li><li style="margin:2px 0">神经 → 协调</li><li style="margin:2px 0">排泄 → 排出废物</li><li style="margin:2px 0">呼吸 → 气体交换。 5 正确 = 3</li><li style="margin:2px 0">3</li><li style="margin:2px 0">4 正确 = 2</li><li style="margin:2px 0">1</li><li style="margin:2px 0">2 正确 = 1。 [可接受 消化 食物</li><li style="margin:2px 0">分解食物</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">swapped system functions — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">换错 系统 功能 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q2</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Identify</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">6 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The diagram shows the positions of two organs in a human body. (a) Choose names from the list to label the two organs. bladder / heart / liver / lung / stomach .................................................. [2] (b) Organs form parts of organ systems. The boxes show the names of four organs and four organ systems. Match each organ to its organ system. [4]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to organ.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「器官」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">upper organ = lung; lower organ = stomach; heart -&gt; circulatory; lung -&gt; respiratory; kidney -&gt; excretory; stomach -&gt; digestive. [accept &quot;lungs&quot;; system descriptions like breathing/gas exchange/blood transport/urine system]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">上方 器官 = 肺；下方 器官 = 胃；心脏 → 循环；肺 → 呼吸；肾脏 → 排泄；胃 → 消化。 [可接受 肺；系统 描述 像 呼吸/气体交换/血液 运输/尿液 系统]</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">upper organ = lung</li><li style="margin:2px 0">lower organ = stomach</li><li style="margin:2px 0">heart -&gt; circulatory</li><li style="margin:2px 0">lung -&gt; respiratory</li><li style="margin:2px 0">kidney -&gt; excretory</li><li style="margin:2px 0">stomach -&gt; digestive. [accept &quot;lungs</li><li style="margin:2px 0">system descriptions like breathing</li><li style="margin:2px 0">gas exchange</li><li style="margin:2px 0">blood transport</li><li style="margin:2px 0">urine system]</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">上方 器官 = 肺</li><li style="margin:2px 0">下方 器官 = 胃</li><li style="margin:2px 0">心脏 → 循环</li><li style="margin:2px 0">肺 → 呼吸</li><li style="margin:2px 0">肾脏 → 排泄</li><li style="margin:2px 0">胃 → 消化。 [可接受 肺</li><li style="margin:2px 0">系统 描述 像 呼吸</li><li style="margin:2px 0">气体交换</li><li style="margin:2px 0">血液 运输</li><li style="margin:2px 0">尿液 系统]</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">bladder for upper/lower organ — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">lung -&gt; digestive — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">kidney -&gt; respiratory — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">stomach -&gt; excretory — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">tissue only — reject: a tissue is one cell type; an organ contains different tissues</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">膀胱用于上方/下方 器官 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">肺 → 消化 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">肾脏 → 呼吸 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">胃 → 排泄 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">组织 只 — 不给分：组织是一种细胞类型；器官包含不同组织</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q3</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Identify</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">3 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The diagrams show four major human organ systems. Draw straight lines to join each organ system to its correct name. [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to digestive -&gt; break down food.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「消化 → 分解食物」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">digestive -&gt; break down food / absorb nutrients; circulatory -&gt; transport substances; nervous -&gt; coordinate / control; skeletal -&gt; support / protection / movement. [accept blood vessels -&gt; circulatory; brain/nerves -&gt; nervous; skeleton -&gt; skeletal]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">消化 → 分解食物/吸收 营养物质；循环 → 运输物质；神经 → 协调/控制；骨骼 → 支撑/保护/运动。 [可接受 血管 → 循环；脑/神经 → 神经；骨骼 → 骨骼]</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">digestive -&gt; break down food</li><li style="margin:2px 0">absorb nutrients</li><li style="margin:2px 0">circulatory -&gt; transport substances</li><li style="margin:2px 0">nervous -&gt; coordinate</li><li style="margin:2px 0">control</li><li style="margin:2px 0">skeletal -&gt; support</li><li style="margin:2px 0">protection</li><li style="margin:2px 0">movement. [accept blood vessels -&gt; circulatory</li><li style="margin:2px 0">brain</li><li style="margin:2px 0">nerves -&gt; nervous</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">消化 → 分解食物</li><li style="margin:2px 0">吸收 营养物质</li><li style="margin:2px 0">循环 → 运输物质</li><li style="margin:2px 0">神经 → 协调</li><li style="margin:2px 0">控制</li><li style="margin:2px 0">骨骼 → 支撑</li><li style="margin:2px 0">保护</li><li style="margin:2px 0">运动。 [可接受 血管 → 循环</li><li style="margin:2px 0">脑</li><li style="margin:2px 0">神经 → 神经</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">digestive -&gt; transport blood — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">circulatory -&gt; digest food — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">nervous -&gt; support — reject: it answers a neighbouring concept rather than this question</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">消化 → 运输 血液 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">循环 → 消化 食物 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">神经 → 支撑 — 不给分：它答成了相邻概念，不是本题内容</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q4</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">State</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Look at the diagram of a human skeleton. The skeleton is part of the support system of the body. Write down one function of the skeleton. .................................................. [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to organ.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「器官」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">any one of: protection (protects organs); movement of joints / muscles attach to bones; support; mineral storage (stores calcium/phosphate)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">任意 一个 的: 保护 （保护器官）；运动的关节/肌肉 附着到骨骼；支撑；储存矿物质 （储存钙/磷酸盐）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">any one of: protection (protects organs)</li><li style="margin:2px 0">movement of joints</li><li style="margin:2px 0">muscles attach to bones</li><li style="margin:2px 0">support</li><li style="margin:2px 0">mineral storage (stores calcium</li><li style="margin:2px 0">phosphate)</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">任意 一个 的: 保护 （保护器官）</li><li style="margin:2px 0">运动的关节</li><li style="margin:2px 0">肌肉 附着到骨骼</li><li style="margin:2px 0">支撑</li><li style="margin:2px 0">储存矿物质 （储存 钙</li><li style="margin:2px 0">磷酸盐）</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">ligament — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">muscle — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">bone marrow — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">cartilage as the function — reject: it swaps the tested role with another role</li><li style="margin:2px 0">pumps blood — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">digests food — reject: it misses the key word required by this item</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">韧带 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">肌肉 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">骨骼 骨髓 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">软骨 当作 功能 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">泵送 血液 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">消化 食物 — 不给分：它漏掉本题需要的关键词</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q5</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Explain</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The stomach is one organ. The digestive system is an organ system. Explain the difference between an organ and an organ system. .................................................. [2]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to organ system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「器官 系统」的线索。</span></div></details>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 2 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Link the answer to its job: an organ is a single structure made of different tissues (1); an organ system is a group of several organs working together to do .</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">连接 答案到它的 功能: 器官 是 单个 结构 组成的不同 组织 （1）； 器官 系统 是 一组的多个器官一起工作到做。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">an organ is a single structure made of different tissues (1); an organ system is a group of several organs working together to do one big job (1)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">器官 是 单个 结构 组成的不同 组织 （1）； 器官 系统 是 一组的多个器官一起工作到做 一个 大 功能 （1）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">an organ is a single structure made of different tissues (1)</li><li style="margin:2px 0">an organ system is a group of several organs working together to do one big job (1)</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li><li style="margin:2px 0">group of organs working together</li><li style="margin:2px 0">several organs doing one function</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">器官 是 单个 结构 组成的不同 组织 （1）</li><li style="margin:2px 0">器官 系统 是 一组的多个器官一起工作到做 一个 大 功能 （1）</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li><li style="margin:2px 0">一组器官一起工作</li><li style="margin:2px 0">几个 器官 做 一个 功能</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">treating organ and organ system as the same — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">an organ system is a bigger organ — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">answers that only name examples without the difference — reject: it swaps the tested role with another role</li><li style="margin:2px 0">organ — one level too high for this question — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — one organ alone is not a system — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">single organ only — reject: an organ has different tissues; a tissue is similar cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">当作 器官和器官 系统 当作 相同 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 系统 是 更大 器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">答案 那 只 说出名称 例子没有差异 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 一个 器官 单独 是不 系统 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">单个 器官 只 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('test')"><span class="lx-en">Go to test →</span><span class="lx-zh" style="display:none">去检测 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;letter-spacing:.5px;margin-bottom:8px"><span class="lx-en">EXAM MODE · NO HINTS</span><span class="lx-zh" style="display:none">考试模式 · 无提示</span></div>
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Test · Apply solo<span class="lx-zh" style="display:none"> · 检测 · 独立应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Organs → Organ Systems</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">器官 → 器官系统</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q6</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">DEFINE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Define the term &quot;organ system&quot;.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">给器官 系统下定义。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">a group of organs working together to carry out a particular function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">多个器官一起工作，完成一个特定功能。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">a group of organs working together to carry out a particular function</li><li style="margin:2px 0">group of organs working together</li><li style="margin:2px 0">several organs doing one function</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">多个器官一起工作，完成一个特定功能</li><li style="margin:2px 0">一组器官一起工作</li><li style="margin:2px 0">几个 器官 做 一个 功能</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">a single organ — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">a group of the same cells — reject: it swaps the tested role with another role</li><li style="margin:2px 0">organ — one organ alone is not a system — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">single organ only — reject: it misses the key word required by this item</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">单个 器官 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">一组的相同 细胞 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">器官 — 一个 器官 单独 是不 系统 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">单个 器官 只 — 不给分：它漏掉本题需要的关键词</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q7</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">NAME</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Name the organ system that breaks down food.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出分解食物的器官 系统的名称。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">digestive system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">消化系统。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">digestive system</li><li style="margin:2px 0">group of organs working together</li><li style="margin:2px 0">several organs doing one function</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">消化系统</li><li style="margin:2px 0">一组器官一起工作</li><li style="margin:2px 0">几个 器官 做 一个 功能</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">circulatory system — reject: it swaps the tested role with another role</li><li style="margin:2px 0">respiratory system — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">organ — one organ alone is not a system — reject: it misses the key word required by this item</li><li style="margin:2px 0">single organ only — reject: it changes the biological level being tested</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">循环系统 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">呼吸系统 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">器官 — 一个 器官 单独 是不 系统 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">单个 器官 只 — 不给分：它把本题考的生物层级换掉了</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q8</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the level of organisation that is one step above an organ.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出比器官高一级的层次。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">organ system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">器官 系统。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">organ system</li><li style="margin:2px 0">group of organs working together</li><li style="margin:2px 0">several organs doing one function</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">器官 系统</li><li style="margin:2px 0">一组器官一起工作</li><li style="margin:2px 0">几个 器官 做 一个 功能</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">organ — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">organism — reject: it misses the key word required by this item</li><li style="margin:2px 0">organ — one organ alone is not a system — reject: it changes the biological level being tested</li><li style="margin:2px 0">single organ only — reject: an organ system needs several organs working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">器官 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">生物体 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">器官 — 一个 器官 单独 是不 系统 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">单个 器官 只 — 不给分：器官系统需要多个器官一起工作</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q9</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">GIVE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Give one organ found in the circulatory system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">给出循环系统中的一个器官。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">heart (accept blood vessels).</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">心脏 （可接受 血管）。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">heart (accept blood vessels)</li><li style="margin:2px 0">made of different tissues</li><li style="margin:2px 0">different tissues working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">心脏 （可接受 血管）</li><li style="margin:2px 0">组成的不同 组织</li><li style="margin:2px 0">不同组织一起工作</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">stomach — reject: it misses the key word required by this item</li><li style="margin:2px 0">lung — reject: it changes the biological level being tested</li><li style="margin:2px 0">tissue only — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">胃 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">肺 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">组织 只 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q10</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">EXPLAIN</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Explain why the heart and blood vessels together are called an organ system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">解释为什么心脏和血管合在一起被称为器官 系统。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">because they are several organs working together to carry out one function (transporting blood), which is an organ system.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">因为 它们 是 多个器官一起工作到运输 出 一个 功能 （运输 血液），哪一个 是 器官 系统。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">because they are several organs working together to carry out one function (transporting blood), which is an organ system</li><li style="margin:2px 0">group of organs working together</li><li style="margin:2px 0">several organs doing one function</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">因为 它们 是 多个器官一起工作到运输 出 一个 功能 （运输 血液），哪一个 是 器官 系统</li><li style="margin:2px 0">一组器官一起工作</li><li style="margin:2px 0">几个 器官 做 一个 功能</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">because the heart is big — reject: it changes the biological level being tested</li><li style="margin:2px 0">because they are tissues — reject: a tissue is one cell type; an organ contains different tissues</li><li style="margin:2px 0">organ — one organ alone is not a system — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">single organ only — reject: an organ system needs several organs working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">因为 心脏 是 大 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">因为 它们 是 组织 — 不给分：组织是一种细胞类型；器官包含不同组织</li><li style="margin:2px 0">器官 — 一个 器官 单独 是不 系统 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">单个 器官 只 — 不给分：器官系统需要多个器官一起工作</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('wrap')"><span class="lx-en">Wrap up →</span><span class="lx-zh" style="display:none">总结 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Wrap · Reflect<span class="lx-zh" style="display:none"> · 总结 · 回顾</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Organs → Organ Systems</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">器官 → 器官系统</span></h1></div>
+<div style="background:#F5F0E4;border:2px solid #DDD3A0;border-radius:16px;padding:16px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#8A7B4A;margin-bottom:10px">📌 Summary · 总结</div><div style="display:flex;gap:9px;margin:0 0 10px 0;align-items:flex-start"><span style="color:#8A7B4A;font-weight:900;font-size:15px;flex-shrink:0">•</span><div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#3E2723;line-height:1.55">Level 4 of the hierarchy: several organs working together make an organ system. Examples: digestive, circulatory, respiratory, nervous, skeletal.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C">层级第四层:好几个器官一起工作 = 器官系统。 例子:消化、循环、呼吸、神经、骨骼系统。</span></div></div><div style="display:flex;gap:9px;margin:0 0 10px 0;align-items:flex-start"><span style="color:#8A7B4A;font-weight:900;font-size:15px;flex-shrink:0">•</span><div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#3E2723;line-height:1.55">Organs teamed up into systems. But your digestive system, circulatory system and all the others must work together too. What do you call all the systems combined? Next: Organ Systems -&gt; Organism.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C">器官组成系统。但你的消化系统、循环系统等等也必须一起工作。 所有系统合起来叫什么?下一课:器官系统 -&gt; 生物体。</span></div></div></div>
+<div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#D98A2B;margin-bottom:8px">🎯 What the examiner wants · 考官要什么</div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">STATE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">short, one-line answer</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">简短一句话</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DESCRIBE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">say what happens; no reasons</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">说出样子，不用原因</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">EXPLAIN</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give reasons; use &#x27;because&#x27;</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给原因，用「因为」</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DEFINE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give the exact meaning</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给准确定义</span></div></div>
+<div style="background:#171413;border-radius:14px;padding:16px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#FFFF00;letter-spacing:1px">🧠 REMEMBER THIS · 记牢这句</div><div style="margin-top:8px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1.4">Organs → Organ Systems — structure fits function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#FFE08A;line-height:1.5">结构决定功能。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="completeLesson()"><span class="lx-en">Complete lesson ✓</span><span class="lx-zh" style="display:none">完成这一课 ✓</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

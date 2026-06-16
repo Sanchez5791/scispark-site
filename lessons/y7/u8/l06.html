@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U8 L06 · Echo</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U8 L06 · Echo",
+  "navMeta": "Y7 · U8 · L06",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 8",
+  "unitTitleEn": "Energy & Sound",
+  "unitTitleZh": "能量与声音",
+  "userLevel": "1",
+  "lessonData": "6"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="6">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U8 · L06</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 8</div>
+      <div class="sidebar-unit-title" data-en="Energy & Sound" data-zh="能量与声音">Energy & Sound</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U8 parsed JSON (3rd pass) — text poured verbatim; red cards detected by wrong/right text (flag unreliable); L01 cmd-word intro recovered from source. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Echo" data-zh="Echo">Echo</div>
+      <div class="screen-title-zh"></div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Echo</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#FFF7ED;border:1px solid #FED7AA;">
+      <div style="font-size:11px;font-weight:700;color:#C2410C;margin-bottom:4px;">🌞 Warm-up<span class="zh" style="color:#C2410C;"> · 热身</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">你在隧道喊名字, 不是墙在学你讲话。是你的声音被反射回来了。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">硬、平、大的表面更容易有回声。软的表面会吸收更多声音。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">回声像球撞墙弹回, 但弹回的是声音的振动路径, 不是粒子本人。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">Echo = hit wall, come back。中文就记: 碰硬面, 反回来。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Shout your name once in an empty room or a tunnel. A moment later you hear your own voice again. That returning sound is an echo. <span class="zh">在空房间或隧道里喊一声你的名字。过一会儿你又听到自己的声音。 那个返回来的声音就是回声 (echo)。</span></p>
+      
+        <figure class="img-slot" data-ref="L06_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q01_IMG01" data-recraft-prompt="A person standing at the mouth of a tunnel / in an empty room shouting; curved arrows showing the sound wave going out to the wall and reflecting back to the person's ear. Label &quot;echo&quot;. — Best visual: Ray diagram with the normal (dashed) + equal angles i and r marked | Animate: No (static) | Trap to flag: Measuring the angle from the mirror/wall, not from the normal | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="A person standing at the mouth of a tunnel / in an empty room shouting; curved arrows showing the sound wave going out to the wall and reflecting back to the person's ear. Label &quot;echo&quot;."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q01_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Today's question: what makes the sound come back to you? <span class="zh">今天的问题：是什么让声音又回到你这里？</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Echo" data-zh="Echo">Echo</div>
+      <div class="screen-title-zh"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">这屏只抓一个重点，先会认，再会写。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">回声像球撞墙弹回, 但弹回的是声音的振动路径, 不是粒子本人。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">Echo = hit wall, come back。中文就记: 碰硬面, 反回来。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">An echo is a reflected sound. The vibration travels and reflects; the particles stay in place. <span class="zh">回声是被反射的声音。振动会传播和反射；粒子留在原地。</span></p>
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;margin-top:6px;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "Sound particles fly from the wall back to your ear." <span class="zh">"声音的粒子从墙飞回你的耳朵。"</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> "Particles vibrate in place. The vibration is passed on and reflected; the particles themselves do not travel." <span class="zh">"粒子在原地振动。被传递和反射的是振动，粒子本身不移动。"</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A sound wave hits a hard surface (wall, cliff, tunnel) and is reflected. The reflected sound is called an echo. <span class="zh">声波碰到硬表面（墙、悬崖、隧道）后被反射。被反射的声音叫回声。</span></p>
+      
+        <figure class="img-slot" data-ref="L06_Q01_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q01_IMG02" data-recraft-prompt="Sound wave from a source hitting a wall and reflecting back; arrows in then out. Label &quot;reflection&quot; and &quot;echo&quot;. — Best visual: Ray diagram with the normal (dashed) + equal angles i and r marked | Animate: No (static) | Trap to flag: Measuring the angle from the mirror/wall, not from the normal | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="Sound wave from a source hitting a wall and reflecting back; arrows in then out. Label &quot;reflection&quot; and &quot;echo&quot;."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q01_IMG02<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">The vibration path is reflected; the energy spreads out over the longer distance, so the echo sounds quieter. <span class="zh">振动的传播路径被反射；能量在更长的距离上散开，所以回声听起来更小声。</span></p>
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;margin-top:6px;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "An echo is sound particles bouncing off the wall." <span class="zh">"回声是声音粒子从墙上弹回来。"</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> "An echo is the reflection of the vibration. The sound seems quieter because of the longer distance and dissipation, not because particles bounced." <span class="zh">"回声是振动的反射。听起来变小是因为距离更长 + 能量散开， 不是因为粒子弹回来。"</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Animals like bats send out sound and listen for the reflected echo to find objects. This is echolocation. <span class="zh">像蝙蝠这样的动物发出声音，再听被反射回来的回声来找到物体。 这叫回声定位 (echolocation)。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Guided practice · 带提示</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Carlos investigates echoes. He stands outside his school, measures the distance, claps his hands, and records the time to hear the echo, repeating at different distances. (a) Why does Carlos hear an echo when he claps his hands? [2]<br><span class="zh">Carlos 研究回声。他站在学校外面，量好距离，拍手，记录听到 回声所用的时间，并在不同距离重复。 (a) 为什么 Carlos 拍手时会听到回声？[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain = give the reason. Use 'because'. Name the sound wave AND say it reflected." <span class="zh">"Explain = 说原因，用 because。要说出声波 + 说它被反射。"</span></div>
+
+        <figure class="img-slot" data-ref="L06_Q01_IMG03" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q01_IMG03" data-recraft-prompt="Best visual: Ray diagram with the normal (dashed) + equal angles i and r marked | Animate: No (static) | Trap to flag: Measuring the angle from the mirror/wall, not from the normal | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L06_Q01_IMG03"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q01_IMG03<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In school clap echo, underline the clue that points to clap sound reflects from the school and returns. <span class="zh">学校外拍手回声先划出指向拍手声从学校反射回来的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>sound / wave from clapping; reflected from the school.</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: sound / wave from clapping; reflected from the school. · Accept: sound wave bounces back from the school = 2 marks. · Accept also: sound energy / noise / 声 / 声能 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for school clap echo: saying the school produces the second clap misses reflection. This does not earn the mark for clap sound reflects from the school and returns. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for school clap echo; the named idea must be clap sound reflects from the school and returns. · Reject an answer that gives the opposite direction or wrong stage in school clap echo; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to school clap echo; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in school clap echo; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in school clap echo, the answer earns credit because it states clap sound reflects from the school and returns. <span class="zh">对。学校外拍手回声这题得分，因为写中了拍手声从学校反射回来。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — school clap echo is not asking for “nearby science words”; the likely trap is saying the school produces the second clap misses reflection, while the needed idea is clap sound reflects from the school and returns. <span class="zh">还不对。学校外拍手回声不是随便写相近术语；常见陷阱是写学校产生第二次拍手声，会漏掉反射，真正要点是拍手声从学校反射回来。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Sound is reflected by hard surfaces. (a) What is the name given to a reflected sound? [1]<br><span class="zh">声音被硬表面反射。 (a) 被反射的声音叫什么名字？[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State = one-word answer, no explanation." <span class="zh">"State = 一个词答出来，不用解释。"</span></div>
+
+        <figure class="img-slot" data-ref="L06_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q02_IMG01" data-recraft-prompt="Best visual: Ray diagram with the normal (dashed) + equal angles i and r marked | Animate: No (static) | Trap to flag: Measuring the angle from the mirror/wall, not from the normal | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L06_Q02_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q02_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In name reflected sound, underline the clue that points to echo. <span class="zh">被反射声音名称先划出指向echo / 回声的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>echo</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: echo · Accept also: echo / reflected sound / 回声 / 被反射的声音 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for name reflected sound: writing reflection only names the process, not the reflected sound name. This does not earn the mark for echo. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for name reflected sound; the named idea must be echo. · Reject an answer that gives the opposite direction or wrong stage in name reflected sound; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to name reflected sound; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in name reflected sound; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in name reflected sound, the answer earns credit because it states echo. <span class="zh">对。被反射声音名称这题得分，因为写中了echo / 回声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — name reflected sound is not asking for “nearby science words”; the likely trap is writing reflection only names the process, not the reflected sound name, while the needed idea is echo. <span class="zh">还不对。被反射声音名称不是随便写相近术语；常见陷阱是只写 reflection 是过程，不是被反射声音的名称，真正要点是echo / 回声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Hassan stands at the entrance of a tunnel and shouts his name into the tunnel. A few seconds later he hears his name again. Explain why. [2]<br><span class="zh">Hassan 站在隧道口，对着隧道喊自己的名字。几秒后他又听到 自己的名字。解释为什么。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain = give the reason. Mention sound wave + reflected + echo." <span class="zh">"Explain = 说原因。要提到声波 + 被反射 + 回声。"</span></div>
+
+        <figure class="img-slot" data-ref="L06_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q03_IMG01" data-recraft-prompt="Best visual: Ray diagram with the normal (dashed) + equal angles i and r marked | Animate: No (static) | Trap to flag: Measuring the angle from the mirror/wall, not from the normal | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L06_Q03_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q03_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In tunnel shout, underline the clue that points to the shout sound wave reflects from the tunnel wall and returns as an echo. <span class="zh">隧道喊名字先划出指向喊声从隧道墙反射回来成为回声的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>any two of — sound wave; is reflected; this is an echo.</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: any two of — sound wave; is reflected; this is an echo. · Accept also: sound energy / noise / 声 / 声能 · Accept also: echo / reflected sound / 回声 / 被反射的声音 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for tunnel shout: claiming the tunnel repeats the name like a speaker is not the physics. This does not earn the mark for the shout sound wave reflects from the tunnel wall and returns as an echo. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for tunnel shout; the named idea must be the shout sound wave reflects from the tunnel wall and returns as an echo. · Reject an answer that gives the opposite direction or wrong stage in tunnel shout; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to tunnel shout; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in tunnel shout; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in tunnel shout, the answer earns credit because it states the shout sound wave reflects from the tunnel wall and returns as an echo. <span class="zh">对。隧道喊名字这题得分，因为写中了喊声从隧道墙反射回来成为回声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — tunnel shout is not asking for “nearby science words”; the likely trap is claiming the tunnel repeats the name like a speaker is not the physics, while the needed idea is the shout sound wave reflects from the tunnel wall and returns as an echo. <span class="zh">还不对。隧道喊名字不是随便写相近术语；常见陷阱是写隧道像喇叭重复名字，不是物理解释，真正要点是喊声从隧道墙反射回来成为回声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Echolocation is used by bats to find their prey. (a) Explain how the bat uses echoes to find the prey. [2]<br><span class="zh">蝙蝠用回声定位来找猎物。 (a) 解释蝙蝠如何利用回声找到猎物。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain = give the reason. Say the sound is reflected from the prey and travels back to the bat. Do NOT say particles fly across." <span class="zh">"Explain = 说原因。要说声音从猎物反射后传回蝙蝠。 不要说粒子飞过去。"</span></div>
+
+        <figure class="img-slot" data-ref="L06_Q04_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q04_IMG01" data-recraft-prompt="Best visual: Ray diagram with the normal (dashed) + equal angles i and r marked | Animate: No (static) | Trap to flag: Measuring the angle from the mirror/wall, not from the normal | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L06_Q04_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q04_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>sound is reflected from the prey; sound travels back</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: sound is reflected from the prey; sound travels back · to the bat / bat hears or detects the reflected sound. · Accept also: sound energy / noise / 声 / 声能 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for bat echolocation: forgetting the return trip leaves out how the bat detects the prey. This does not earn the mark for bat sound reflects from prey and returns to the bat. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for bat echolocation; the named idea must be bat sound reflects from prey and returns to the bat. · Reject an answer that gives the opposite direction or wrong stage in bat echolocation; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to bat echolocation; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in bat echolocation; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in bat echolocation, the answer earns credit because it states bat sound reflects from prey and returns to the bat. <span class="zh">对。蝙蝠回声定位这题得分，因为写中了蝙蝠发出的声音从猎物反射并返回。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — bat echolocation is not asking for “nearby science words”; the likely trap is forgetting the return trip leaves out how the bat detects the prey, while the needed idea is bat sound reflects from prey and returns to the bat. <span class="zh">还不对。蝙蝠回声定位不是随便写相近术语；常见陷阱是漏写返回路径，就没解释蝙蝠怎样探测猎物，真正要点是蝙蝠发出的声音从猎物反射并返回。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Yuri stands next to a cliff. He claps his hands once. He hears a sound. A short time later, he hears another sound. Explain why Yuri hears another sound a short time after hearing the first. [2]<br><span class="zh">Yuri 站在悬崖旁边。他拍一次手。他听到一个声音。过一小会儿， 他又听到另一个声音。解释为什么 Yuri 在听到第一个声音后不久又听到 另一个声音。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain = give the reason. Reflection from the cliff = echo." <span class="zh">"Explain = 说原因。从悬崖反射 = 回声。"</span></div>
+
+        <figure class="img-slot" data-ref="L06_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L06_Q05_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L06_Q05_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L06_Q05_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>first sound reflects from the cliff; produces an echo.</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: first sound reflects from the cliff; produces an echo. · Accept also: sound energy / noise / 声 / 声能 · Accept also: echo / reflected sound / 回声 / 被反射的声音 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for cliff second sound: saying the second sound is a new clap ignores the delay after one clap. This does not earn the mark for first clap reflects from the cliff to produce the echo. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for cliff second sound; the named idea must be first clap reflects from the cliff to produce the echo. · Reject an answer that gives the opposite direction or wrong stage in cliff second sound; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to cliff second sound; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in cliff second sound; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in cliff second sound, the answer earns credit because it states first clap reflects from the cliff to produce the echo. <span class="zh">对。悬崖第二个声音这题得分，因为写中了第一次拍手声从悬崖反射产生回声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — cliff second sound is not asking for “nearby science words”; the likely trap is saying the second sound is a new clap ignores the delay after one clap, while the needed idea is first clap reflects from the cliff to produce the echo. <span class="zh">还不对。悬崖第二个声音不是随便写相近术语；常见陷阱是写第二声是新拍手，会忽略只拍了一次，真正要点是第一次拍手声从悬崖反射产生回声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A sound wave hits a hard, flat wall and comes back. (a) State the word for a sound that has been reflected. [1]<br><span class="zh">一个声波碰到坚硬、平整的墙壁又返回来。 (a) 写出被反射的声音叫什么词。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State = one word, no explanation." <span class="zh">"State = 一个词，不用解释。"</span></div>
+
+        <textarea class="short-input" id="Q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>echo</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: echo · Accept also: echo / reflected sound / 回声 / 被反射的声音 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for hard flat wall word: writing loudness or noise does not name the reflected sound. This does not earn the mark for echo. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for hard flat wall word; the named idea must be echo. · Reject an answer that gives the opposite direction or wrong stage in hard flat wall word; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to hard flat wall word; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in hard flat wall word; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in hard flat wall word, the answer earns credit because it states echo. <span class="zh">对。硬平墙反射词这题得分，因为写中了回声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — hard flat wall word is not asking for “nearby science words”; the likely trap is writing loudness or noise does not name the reflected sound, while the needed idea is echo. <span class="zh">还不对。硬平墙反射词不是随便写相近术语；常见陷阱是写响度或噪音没有命名反射声，真正要点是回声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A clap is made near each surface. Identify which one would give the clearest echo: a thick curtain, a flat stone wall, a pile of soft cushions. [1]<br><span class="zh">在每个表面附近拍一次手。选出哪一个会给出最清楚的回声： 厚窗帘、平整的石墙、一堆软垫子。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Identify = pick the surface that reflects sound best." <span class="zh">"Identify = 选出最能反射声音的表面。"</span></div>
+
+        <textarea class="short-input" id="Q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the flat stone wall (a hard, flat surface reflects</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the flat stone wall (a hard, flat surface reflects · sound best) · Accept also: sound energy / noise / 声 / 声能 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for clearest echo surface: choosing curtain/cushions confuses absorption with reflection. This does not earn the mark for flat stone wall because hard flat surfaces reflect best. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for clearest echo surface; the named idea must be flat stone wall because hard flat surfaces reflect best. · Reject an answer that gives the opposite direction or wrong stage in clearest echo surface; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to clearest echo surface; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in clearest echo surface; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in clearest echo surface, the answer earns credit because it states flat stone wall because hard flat surfaces reflect best. <span class="zh">对。最清楚回声表面这题得分，因为写中了平石墙，因为硬平面最会反射。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — clearest echo surface is not asking for “nearby science words”; the likely trap is choosing curtain/cushions confuses absorption with reflection, while the needed idea is flat stone wall because hard flat surfaces reflect best. <span class="zh">还不对。最清楚回声表面不是随便写相近术语；常见陷阱是选窗帘/软垫是把吸收当反射，真正要点是平石墙，因为硬平面最会反射。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A girl shouts once inside a large empty hall and hears her shout a moment later. Explain why she hears the sound a second time. [2]<br><span class="zh">一个女孩在一个又大又空的大厅里喊一声，过一会儿又听到自己的 喊声。解释为什么她第二次听到这个声音。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain = give the reason. Mention sound wave + reflected." <span class="zh">"Explain = 说原因。要提到声波 + 被反射。"</span></div>
+
+        <textarea class="short-input" id="Q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>her voice is a sound wave; it is reflected from the</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: her voice is a sound wave; it is reflected from the · wall; the reflected sound is an echo. · Accept also: sound energy / noise / 声 / 声能 · Accept also: echo / reflected sound / 回声 / 被反射的声音 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for empty hall second sound: saying someone else shouted back contradicts the one-shout setup. This does not earn the mark for voice sound reflects from the hall wall and returns as an echo. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for empty hall second sound; the named idea must be voice sound reflects from the hall wall and returns as an echo. · Reject an answer that gives the opposite direction or wrong stage in empty hall second sound; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to empty hall second sound; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in empty hall second sound; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in empty hall second sound, the answer earns credit because it states voice sound reflects from the hall wall and returns as an echo. <span class="zh">对。大厅第二次听到这题得分，因为写中了声音从大厅墙反射回来成为回声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — empty hall second sound is not asking for “nearby science words”; the likely trap is saying someone else shouted back contradicts the one-shout setup, while the needed idea is voice sound reflects from the hall wall and returns as an echo. <span class="zh">还不对。大厅第二次听到不是随便写相近术语；常见陷阱是写别人喊回来，和只喊一次的情境矛盾，真正要点是声音从大厅墙反射回来成为回声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A boy claps near a wall, then walks further from the wall and claps again. State what happens to the time before he hears the echo as he moves further away. [1]<br><span class="zh">一个男孩在墙边拍手，然后走到离墙更远的地方再拍一次。 说出他走得更远时，听到回声前的时间会怎么变化。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State = short answer; say what changes about the echo." <span class="zh">"State = 短答案；说出回声有什么变化。"</span></div>
+
+        <textarea class="short-input" id="Q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the time gets longer / increases (the sound travels</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the time gets longer / increases (the sound travels · a greater distance there and back). · Accept also: sound energy / noise / 声 / 声能 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for farther wall time: saying the echo gets instant ignores the longer path. This does not earn the mark for echo time increases because sound travels a longer there-and-back distance. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for farther wall time; the named idea must be echo time increases because sound travels a longer there-and-back distance. · Reject an answer that gives the opposite direction or wrong stage in farther wall time; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to farther wall time; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in farther wall time; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in farther wall time, the answer earns credit because it states echo time increases because sound travels a longer there-and-back distance. <span class="zh">对。离墙更远时间这题得分，因为写中了回声时间变长，因为来回距离更长。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — farther wall time is not asking for “nearby science words”; the likely trap is saying the echo gets instant ignores the longer path, while the needed idea is echo time increases because sound travels a longer there-and-back distance. <span class="zh">还不对。离墙更远时间不是随便写相近术语；常见陷阱是写回声马上到，会忽略更长路径，真正要点是回声时间变长，因为来回距离更长。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A ship sends a sound down to the sea floor and listens for the echo to measure depth. Explain what travels back up to the ship, and why it is wrong to say the water particles fly up to the ship. [2]<br><span class="zh">一艘船向海底发出声音，并听回声来测量深度。解释什么传回到 船上，以及为什么说水粒子飞回船上是错的。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain = give the reason. Say the vibration reflects and travels back. Do NOT say particles fly across." <span class="zh">"Explain = 说原因。要说振动被反射并传回来。不要说粒子飞过去。"</span></div>
+
+        <textarea class="short-input" id="Q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the reflected sound / vibration travels back to the</strong> <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: the reflected sound / vibration travels back to the · ship; the particles vibrate in place and pass the vibration on, they · do not travel up to the ship. · Accept also: sound energy / noise / 声 / 声能 · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音/声波遇到硬表面后被反射；反射回来的声音叫回声；回声不是粒子从墙上弹回来。</span><br>✗ Reject: Reject for ship depth echo: saying particles from the sea floor travel to the ship repeats the particle-travel trap. This does not earn the mark for reflected sound/vibration returns while water particles vibrate in place. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for ship depth echo; the named idea must be reflected sound/vibration returns while water particles vibrate in place. · Reject an answer that gives the opposite direction or wrong stage in ship depth echo; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to ship depth echo; key words only count when they answer this exact question. · Reject answers that do not mention reflection/returning sound in ship depth echo; echo needs a reflected sound path.<br><span style="color:var(--ink-3);">If right: Correct — in ship depth echo, the answer earns credit because it states reflected sound/vibration returns while water particles vibrate in place. <span class="zh">对。船测深回声这题得分，因为写中了反射的声音/振动传回，水粒子原地振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — ship depth echo is not asking for “nearby science words”; the likely trap is saying particles from the sea floor travel to the ship repeats the particle-travel trap, while the needed idea is reflected sound/vibration returns while water particles vibrate in place. <span class="zh">还不对。船测深回声不是随便写相近术语；常见陷阱是写海底粒子跑回船，是粒子旅行陷阱，真正要点是反射的声音/振动传回，水粒子原地振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Echo = a sound wave reflected from a hard surface. The vibration travels and reflects; the particles vibrate in place. <span class="zh">回声 = 声波被硬表面反射。传播和反射的是振动；粒子在原地振动。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Later you will use echoes to calculate distance with a formula. <span class="zh">以后你会用回声配公式来计算距离。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">"Who does this for a living?" <span class="zh">"谁靠这个吃饭？"</span></div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Acoustic engineers shape concert-hall walls so sound reflects the right amount — Berlin Philharmonie (Germany), Tokyo Suntory Hall (Japan), Sydney Opera House (Australia). <span class="zh">声学工程师设计音乐厅的墙壁，让声音反射恰到好处——柏林爱乐厅（德国）、 东京三得利厅（日本）、悉尼歌剧院（澳大利亚）。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">Echo = hit wall, come back。中文就记: 碰硬面, 反回来。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

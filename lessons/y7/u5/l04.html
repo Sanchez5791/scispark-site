@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U5 L04 · Viruses — The Borderline Case</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="4">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U5 · L04</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 5</div>
+      <div class="sidebar-unit-title" data-en="Life Processes" data-zh="生命过程">Life Processes</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习诊断</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">Hook · 观察 Observe</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Viruses</span> — The <span style="color:#FFFF00">Borderline</span> <span style="color:#FFFF00">Case</span></h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">病毒 — 模糊地带</div></div><div style="background:#F4F0FF;border:1.5px solid #D6C9F0;border-left:6px solid #7C5CD4;border-radius:14px;padding:14px 18px;margin:14px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4;margin-bottom:6px;">⏰ 热身一句话 · Warm-up</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Viruses are the tricky border case: they copy only inside living cells.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">病毒是最难判的边界例子：进活细胞才会复制。</li></ul></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Career / Real-world anchor</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Around the World: Wendell Stanley (USA) once turned a virus into crystals — a thing that looked dead in a jar but could still infect plants.</li><li style="margin:0 0 9px 0;line-height:1.5;">Scientists argued: is it alive?</li><li style="margin:0 0 9px 0;line-height:1.5;">Look around you: Think of a &quot;common cold&quot; as a concept (not any named illness) — is the thing that causes it alive?</li><li style="margin:0 0 9px 0;line-height:1.5;">ZH: 把「普通感冒」当成一个概念来想（不指任何具体疾病）—— 引起它的东西，活不活？</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">环游世界：温德尔·斯坦利（美国）曾把病毒做成结晶 —— 罐子里看起来像死的，却仍能感染植物。</li><li style="margin:0 0 9px 0;line-height:1.5;">科学家争论：它到底活不活？</li><li style="margin:0 0 9px 0;line-height:1.5;">CAREER_ANCHOR: virologist / classification scientist deciding how to classify a borderline thing.</li><li style="margin:0 0 9px 0;line-height:1.5;">LOOK_AROUND_YOU:</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L04_H1_IMG01</div></div></div></div><div style="font-family:'Inter',sans-serif;font-style:italic;color:#6b6358;font-size:13px;margin:10px 0;">😄 A virus is like “I only work when someone else opens the door.” <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;">病毒像“别人不开门，我就不工作”。
+
+SLIDE H1 — Career / Real-world anchor EN: Around the World: Wendell Stanley (USA) once turned a virus into crystals — a thing that looked dead in a jar but could still infect plants. Scientists argued: is it alive? ZH: 环游世界：温德尔·斯坦利（美国）曾把病毒做成结晶 —— 罐子里看起来像死的，却仍能感染植物。 科学家争论：它到底活不活？</span></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">Learn · 定义 Define</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Viruses</span> — The <span style="color:#FFFF00">Borderline</span> <span style="color:#FFFF00">Case</span></h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">病毒 — 模糊地带</div></div><div style="background:#171413;border-radius:16px;padding:18px 20px;margin:16px 0;text-align:center;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#9a8;letter-spacing:1px;margin-bottom:8px;">🧠 口诀金句 · Memory Hook</div><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:21px;color:#fff;line-height:1.4;">Virus rule: copy in host, fail alone.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:#FFFF00;margin-top:6px;">病毒口诀：进宿主会复制，单独过不了清单。
+
+SLIDE L1 — MRS GREN recap (required each lesson L03-L08) EN: MRS GREN = Movement / Respiration / Sensitivity / Growth / Reproduction / Excretion / Nutrition. We test the virus against these 7. ZH: MRS GREN = 运动 / 呼吸 / 应激 / 生长 / 繁殖 / 排泄 / 营养。我们用这 7 个来检验病毒。</div></div><div style="background:#F5F0E4;border:1.5px solid #D8CBB0;border-left:6px solid #6D4C41;border-radius:14px;padding:16px 20px;margin:16px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;color:#6D4C41;margin-bottom:8px;">⚖️ 考试 vs 真实 · Exam vs Reality</div><div style="margin:8px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#B5651D;margin-bottom:4px;">📝 考试这样写 · In the exam</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">In the exam, say viruses are borderline and need host cells.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">考试写：病毒是边界例子，需要宿主细胞。</li></ul></div><div style="margin:8px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#6D4C41;margin-bottom:4px;">🔬 真实科学 · Real science</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Scientists still debate life definitions; this lesson avoids disease details.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">科学家仍讨论生命定义；本课不讲具体疾病。</li></ul></div></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">MRS GREN recap (required each lesson L03-L08)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">MRS GREN = Movement / Respiration / Sensitivity / Growth / Reproduction / Excretion / Nutrition.</li><li style="margin:0 0 9px 0;line-height:1.5;">We test the virus against these 7.</li><li style="margin:0 0 9px 0;line-height:1.5;">MRS GREN is the base of Y7 biology — every later biology unit uses it.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">MRS GREN = 运动 / 呼吸 / 应激 / 生长 / 繁殖 / 排泄 / 营养。我们用这 7 个来检验病毒。</li><li style="margin:0 0 9px 0;line-height:1.5;">MRS GREN 是 Y7 生物的基础，后续每个生物单元都会用到。</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L04_L1_IMG01</div></div></div></div><div style="background:#FFF0DB;border:1.5px solid #FAD9A8;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">The SAME 7-row checklist, ticked/crossed for a virus (REQUIRED visual)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Put a virus through the same Living Checklist.</li><li style="margin:0 0 9px 0;line-height:1.5;">Tick what it shows, cross what it does not.</li><li style="margin:0 0 9px 0;line-height:1.5;">A virus shows only one characteristic, and only inside a host.</li><li style="margin:0 0 9px 0;line-height:1.5;">So it ends up at &quot;borderline&quot;.</li><li style="margin:0 0 9px 0;line-height:1.5;">Movement / 运动        [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Respiration / 呼吸     [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Sensitivity / 应激     [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Growth / 生长          [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Reproduction / 繁殖    [ tick — but ONLY inside a host cell ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Excretion / 排泄       [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Nutrition / 营养       [ cross ]</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">用同一张生命检查表检查病毒。有的打勾，没有的打叉。</li><li style="margin:0 0 9px 0;line-height:1.5;">CHECKLIST_7_ROWS (same visual as L03; tick/cross filled for a virus):</li><li style="margin:0 0 9px 0;line-height:1.5;">Movement / 运动        [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Respiration / 呼吸     [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Sensitivity / 应激     [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Growth / 生长          [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Reproduction / 繁殖    [ tick — but ONLY inside a host cell ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Excretion / 排泄       [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">Nutrition / 营养       [ cross ]</li><li style="margin:0 0 9px 0;line-height:1.5;">病毒只展现一个特征，而且要在宿主里才行。所以它落在「borderline（边界）」。</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L04_L2_IMG01</div></div></div></div><div style="background:#EAFBFF;border:1.5px solid #C2ECF5;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#C2ECF5;color:#3AAEC8;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Has vs Lacks</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Has: can reproduce (inside a host).</li><li style="margin:0 0 9px 0;line-height:1.5;">Lacks: cannot move, respire, sense, grow, excrete, or feed on its own.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">有：能繁殖（在宿主里）。缺：不能自己运动、呼吸、应激、生长、排泄、进食。</li><li style="margin:0 0 9px 0;line-height:1.5;">BOUNDARY_NOTE:</li></ul></div><div style="background:#F6EAFA;border:1.5px solid #E2C4EE;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#E2C4EE;color:#9B3FC9;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">MISCONCEPTION RED CARD (&gt;=1 required)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">WRONG: &quot;Viruses are clearly alive because they spread.&quot; RIGHT: Viruses only reproduce inside a host and lack the other characteristics, so scientists call them borderline.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">错：「病毒会传播，所以明显是活的。」 对：病毒只在宿主里繁殖，缺其它特征，所以科学家叫它 borderline。</li></ul></div><div style="background:#FFFBE6;border:1.5px solid #FCEFB8;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#FCEFB8;color:#C9A227;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">EXAM-vs-REAL-SCIENCE box (HIGH risk -&gt; required)</div></div><div style="background:#FFF8EE;border:2px dashed #D98A2B;border-radius:14px;padding:16px 20px;margin:16px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#B5651D;margin-bottom:8px;">🎯 考官要什么 · Command Words</div><ul style="margin:0;padding-left:20px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;"><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">State</b> = give a short word/phrase · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">短答, 直接给词</span></li><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">Describe</b> = say what / how · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">讲发生什么、怎么样</span></li><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">Explain</b> = give a reason (fact + because) · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">讲为什么 (事实+原因配对)</span></li><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">Define</b> = exact syllabus wording · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">照大纲原话, 准确术语</span></li></ul></div><div style="font-family:'Inter',sans-serif;font-style:italic;color:#6b6358;font-size:13px;margin:10px 0;">🔗 A virus is like a USB drive: outside it sits there; inside a host it can be copied. <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;">病毒像 USB：外面躺着，进宿主才可能被复制。</span></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('try')">Try it · 试一试</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">Try · 练习 + 诊断 Define &amp; diagnose</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Practice</span> with hints</h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">带提示练习</div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q01</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Explain / Write down Question: Pierre uses the internet to research about viruses. Three websites say that viruses are living organisms. Six websites say that viruses are non-living. (a) Explain why it is important for Pierre to know the source of each website. [2] (b) Pierre says, &quot;Some people classify viruses as alive because they show one of the seven characteristics of living organisms.&quot; Write down this characteristic. [1]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">3 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_01_r');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_01_r" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) website may be biased / incorrect / not written by experts</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">按英文答案意思作答：(a) website may be biased / incorrect / not written by experts</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) website may be biased / incorrect / not written by experts.</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) reproduction.</li><li style="margin:0 0 9px 0;line-height:1.5;">accept movement.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) website may be 有偏见 / 不正确 / not 由专家撰写。</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) 繁殖。</li><li style="margin:0 0 9px 0;line-height:1.5;">accept 运动。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q02</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Use / State Question: A student fills in the 7-characteristic checklist for a virus. [IMAGE: L04_Q02_IMG01 here] (a) Use the checklist to state the ONE characteristic a virus can show. [1] (b) State one characteristic a virus does NOT show on its own. [1]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L04_Q02_IMG01</div></div></div><button onclick="var x=document.getElementById('ans_02_r');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_02_r" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) reproduction (only inside a host)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 繁殖 (only inside a 宿主)</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) reproduction (only inside a host)</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) any of movement / respiration / sensitivity / growth / excretion / nutrition.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 繁殖 (只在宿主内)</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) any of 运动 / 呼吸作用 / 感应 / 生长 / 排泄 / 营养。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('test')">Go to Test · 进入测试</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1px;border-radius:8px;padding:5px 12px;margin-bottom:10px;">EXAM MODE · 考试模式 · NO HINTS</div><div class="screen-header"><div class="screen-eyebrow">Test · 独立应用 Apply solo</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Test</span> yourself</h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">独立测试</div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q03</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Explain Question: A virus can only make copies of itself when it gets inside a living cell. Explain why this makes it hard to decide if a virus is a living organism. [2]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">2 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_03_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_03_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">it can reproduce but only inside a host / it lacks the other 6 characteristics, so it is between living and non-living (borderline).</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">it 能reproduce but only inside a 宿主 / it lacks the other 6 特征, so it is between 活的 和 非活的 (边界).</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">it can reproduce but only inside a host / it lacks the other 6 characteristics, so it is between living and non-living (borderline)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">it 能繁殖 but only inside a 宿主 / it lacks the other 6 特征, so it is between 活的 和 非活的 (边界)</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q04</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Decide / Give Question: Two students disagree. Ali says a virus is living. Bea says it is non-living. [IMAGE: L04_Q04_IMG01 here] (a) Decide whether the evidence fully supports Ali OR Bea. [1] (b) Give one reason a scientist would call a virus &quot;borderline&quot; instead. [2]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">3 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L04_Q04_IMG01</div></div></div><button onclick="var x=document.getElementById('ans_04_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_04_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) neither is fully supported</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">按英文答案意思作答：(a) neither is fully supported</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) neither is fully supported.</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) shows reproduction but lacks the other characteristics / only reproduces inside a host -&gt; borderline.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) neither is 完全支持。</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) shows 繁殖 but lacks the other 特征 / only reproduces inside a 宿主 -&gt; 边界情况。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q05</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Compare / Write down Question: Compare a bacterium (a full living cell) and a virus using the checklist. (a) Write down one characteristic a bacterium shows that a virus does not. [1] (b) Write down the one characteristic both can do. [1]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_05_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_05_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) any of movement / respiration / sensitivity / growth / excretion / nutrition (something a bacterium does independently)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) any of 移动 / 呼吸 / 感应 / 生长 / 排泄 / 营养 (something a bacterium does independently)</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) any of movement / respiration / sensitivity / growth / excretion / nutrition (something a bacterium does independently)</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) reproduction.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) any of 运动 / 呼吸作用 / 感应 / 生长 / 排泄 / 营养 (something a bacterium does independently)</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) 繁殖。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q06</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">State Question: A virus is described as a &quot;borderline&quot; case between living and non-living. (a) State the one characteristic of living organisms that a virus can show. [1] (b) State the one thing a virus must have in order to do this. [1]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_06_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_06_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) reproduction / replication</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 繁殖 / replication</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) reproduction / replication.</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) a host cell / living cell.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 繁殖 / 复制。</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) a 宿主 细胞 / 活的 细胞。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q07</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Identify Question: Here are four statements about a virus.
+1. It can copy itself inside a host cell.
+2. It does not respire on its own.
+3. It is not made of cells.
+4. It does not grow. Identify which statement gives a reason some scientists think a virus could be living, and which three give reasons it could be non-living. [4]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">4 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_07_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_07_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">living reason = statement 1 (reproduction)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">活的 原因 = statement 1 (繁殖)</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">living reason = statement 1 (reproduction)</li><li style="margin:0 0 9px 0;line-height:1.5;">non-living reasons = statements 2, 3 and 4.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">活的 理由 = statement 1 (繁殖)</li><li style="margin:0 0 9px 0;line-height:1.5;">非活的 reasons = statements 2, 3 and 4。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q08</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Explain Question: A bacterium and a virus both cause disease, but only one is fully living. Explain why a bacterium is counted as living while a virus is treated as a borderline case. Use the seven characteristics in your answer. [3]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">3 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_08_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_08_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">a bacterium is a single living cell that carries out all seven characteristics (movement/respiration/sensitivity/ growth/reproduction/excretion/nutrition) by itself</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">a bacterium is a single 活的 cell that carries out all seven 特征 (移动/呼吸/感应/ 生长/繁殖/排泄/营养) by itself</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">a bacterium is a single living cell that carries out all seven characteristics (movement/respiration/sensitivity / growth/reproduction/excretion/nutrition) by itself.</li><li style="margin:0 0 9px 0;line-height:1.5;">a virus shows only reproduction and only inside a host cell, and is not made of cells, so it is borderline / not fully living.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">a bacterium is a single 活的 细胞 that carries out all seven 特征 (运动/呼吸作用/感应 / 生长/繁殖/排泄/营养) by itself。</li><li style="margin:0 0 9px 0;line-height:1.5;">a 病毒 shows only 繁殖 and 只在宿主细胞内, and is 不是由细胞构成, so it is 边界情况 / 不是完全活的。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q09</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">State / Suggest Question: Outside a living body, a virus can sit on a surface for hours doing nothing at all. (a) State whether the virus is showing any of the seven signs of life while it sits on the surface. [1] (b) Suggest why this behaviour makes it hard to decide if a virus is living. [2]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">3 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_09_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_09_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) no / none</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 否 / none</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) no / none.</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) it shows no signs of life on its own and only reproduces inside a host, so it fits neither &quot;clearly living&quot; nor &quot;clearly non-living&quot;.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) no / none。</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) it shows no signs of life on its own and only reproduces inside a 宿主, so it fits neither &quot;clearly 活的&quot; nor &quot;clearly 非活的&quot;。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q10</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Compare Question: Compare a virus and a simple living cell using the seven-sign checklist. (a) Write down two signs of life the living cell shows that the virus cannot show on its own. [2] (b) Write down the one sign both can be linked to. [1]</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">3 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;"></div><button onclick="var x=document.getElementById('ans_10_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_10_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) any two of respiration / growth / excretion / nutrition / sensitivity / movement done independently</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 以下任意两个 呼吸 / 生长 / 排泄 / 营养 / 感应 / 移动 done independently</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) any two of respiration / growth / excretion / nutrition / sensitivity / movement done independently.</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) reproduction.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">(a) 任意两个 呼吸作用 / 生长 / 排泄 / 营养 / 感应 / 运动 done independently。</li><li style="margin:0 0 9px 0;line-height:1.5;">(b) 繁殖。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you used evidence on both sides of the virus borderline.</div></div></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 总结</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">Wrap · 反思 Reflect</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Viruses</span> — The <span style="color:#FFFF00">Borderline</span> <span style="color:#FFFF00">Case</span></h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">病毒 — 模糊地带</div></div><div style="background:#EEF4FF;border:1.5px solid #C3D4F5;border-left:6px solid #3B6FD4;border-radius:14px;padding:16px 20px;margin:16px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#3B6FD4;margin-bottom:8px;">🔁 盖住回想 · Cover & Recall</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;margin-bottom:4px;">What is the one thing to remember?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-bottom:10px;">今天最该记住的一句?</div><button onclick="var x=document.getElementById('recall_4');x.style.display=x.style.display=='none'?'block':'none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">想好了, 看答案 · Show answer</button><div id="recall_4" style="display:none;margin-top:10px;padding:12px;background:#fff;border-radius:10px;"><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Borderline does not mean random.</li><li style="margin:0 0 9px 0;line-height:1.5;">Use evidence for both sides.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">边界不等于乱判；两边证据都要看。</li><li style="margin:0 0 9px 0;line-height:1.5;">SLIDE W1 — Summary EN: A virus shows only reproduction, and only inside a host.</li><li style="margin:0 0 9px 0;line-height:1.5;">It lacks the other 6 characteristics, so it sits at &quot;borderline&quot;.</li><li style="margin:0 0 9px 0;line-height:1.5;">ZH: 病毒只展现繁殖，而且要在宿主里。它缺其它 6 个特征，所以落在「borderline」。</li></ul></div></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Summary</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">A virus shows only reproduction, and only inside a host.</li><li style="margin:0 0 9px 0;line-height:1.5;">It lacks the other 6 characteristics, so it sits at &quot;borderline&quot;.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">病毒只展现繁殖，而且要在宿主里。它缺其它 6 个特征，所以落在「borderline」。</li></ul></div><div style="background:#FFF0DB;border:1.5px solid #FAD9A8;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Cliffhanger + Stay Curious (required)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Now we can sort the living things.</li><li style="margin:0 0 9px 0;line-height:1.5;">First step: what exactly is a species?</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">现在我们可以给活的东西分类了。第一步：什么才是一个 species（物种）？</li><li style="margin:0 0 9px 0;line-height:1.5;">STAY_CURIOUS:</li></ul></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="completeLesson()" style="background:#D98A2B;">Complete Lesson · 完成本课 ✓</button></div>
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this lesson teach?
+        <span class="ai-prompt-btn-zh">这节课在教什么?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Give me a hint for the hardest question.
+        <span class="ai-prompt-btn-zh">给我最难那题一个提示。</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">考试怎么考这个?</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

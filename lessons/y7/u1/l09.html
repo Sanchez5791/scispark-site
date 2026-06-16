@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U1 L09 · Particle Motion in Three States</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U1 L09 · Particle Motion in Three States",
+  "navMeta": "Y7 · U1 · L09",
+  "subjectEn": "Chemistry",
+  "subjectZh": "化学",
+  "unitLabel": "Y7 Unit 1",
+  "unitTitleEn": "Matter and Particle Model",
+  "unitTitleZh": "物质与粒子模型",
+  "userLevel": "1",
+  "lessonData": "9"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="9">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U1 · L09</div>
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 1</div>
+      <div class="sidebar-unit-title" data-en="Matter and Particle Model" data-zh="物质与粒子模型">Matter and Particle Model</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 反应机理</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Trace &amp; predict<span class="zh"> · 追踪与预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Connect &amp; summarise<span class="zh"> · 联系与总结</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B1b Y7U1 — text poured verbatim. Image/widget placeholders kept. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Real-world spark</div>
+      <div class="screen-title" data-en="A smell crossing the room" data-zh="味道飘过房间">A smell crossing the room</div>
+      <div class="screen-title-zh">味道飘过房间</div>
+    </div>
+
+    <!-- DouDou hook video placeholder -->
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · A smell crossing the room</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Particles are moving</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">粒子在动</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">When food cooks on one side, the smell travels across on its own — the gas particles are moving, fast and in all directions. <span class="zh">一边在煮东西,味道自己跑到另一头——带味道的气体粒子在动,又快又乱。</span></p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Motion means "how particles move", not "where they are arranged". Solid = shake; Liquid = slide; Gas = go everywhere. (Gas particles are like students after the bell — everyone goes everywhere at once.) <span class="zh">运动是说粒子怎么动,不是说粒子排在哪。固体 shake、液体 slide、气体 everywhere(摇、滑、飞)。 (气体粒子像下课铃响后的学生——一秒四散。)</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Mechanism</div>
+      <div class="screen-title" data-en="How particles move" data-zh="粒子怎么动">How particles move</div>
+      <div class="screen-title-zh">粒子怎么动</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Arrangement vs Motion</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">排列 vs 运动</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">L08 was where particles SIT (arrangement). This lesson is whether and how they MOVE. <span class="zh">L08 说粒子「站在哪」(排列)。这课说「动不动、怎么动」。</span></p>
+      
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Solid 固体 — particles only vibrate on the spot; they do not leave their place. <span class="zh">粒子只在原地振动,不离开位置。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Liquid 液体 — particles slide past each other but stay close together. <span class="zh">粒子能滑动、换位置,但仍挨在一起。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Gas 气体 — particles move fast and randomly in all directions, far apart. <span class="zh">粒子快速、随机、四面八方地飞,相距远。</span></div>
+          
+        </div></div>
+      
+      
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L09_SCREEN_IMG01" alt="三态粒子图带运动箭头:固(原地小振动)/液(短滑动)/气(长随机)。"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L09_SCREEN_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">三态粒子图带运动箭头:固(原地小振动)/液(短滑动)/气(长随机)。</figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Heat = faster</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">加热 = 更快</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">When a substance is heated, its particles gain energy and move faster. <span class="zh">加热时,粒子获得能量、动得更快。</span></p>
+      
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Solid 固体 — cannot flow; particles are fixed and only vibrate. <span class="zh">不能流;粒子被固定,只振动。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Liquid 液体 — flows and takes the container's shape; particles change places. <span class="zh">能流、取容器形状;粒子换位置。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Gas 气体 — flows and fills the container; particles move everywhere. <span class="zh">能流、填满容器;粒子到处动。</span></div>
+          
+        </div></div>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn, #a32d2d);background:var(--warn-bg, #fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn, #a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <p style="font-size:14px;color:var(--warn, #a32d2d);line-height:1.6;"><strong>✗ Wrong:</strong> "Solid particles do not move at all." <span class="zh">「固体粒子完全不动。」</span></p>
+      <p style="font-size:14px;color:var(--ok-text, #2a6a2a);line-height:1.6;margin-top:8px;"><strong>✓ Right:</strong> Solid particles still move — they vibrate in place. They just do not travel from their fixed position. <span class="zh">固体粒子还是动的——在原地振动,只是不离开固定位置。</span></p>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>In the exam:</strong> Draw solid particles touching in a regular pattern. <span class="zh">考试画法:固体粒子紧挨着,排列规则。</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:8px;"><strong>Real science:</strong> Real particles have tiny gaps held by attraction forces; heating means particles move faster. <span class="zh">真实粒子之间有极小缝隙,由吸引力拉住;加热表示粒子动得更快。</span></p>
+      <p style="font-size:11px;color:#0369A1;margin-top:8px;font-family:var(--ff-mono);">REF: SCISPARK_EXAM_VS_REAL_SCIENCE_REFERENCE #1</p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+      <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+    </div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Complete · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The table shows some information about solids, liquids and gases. Complete the table. [5] <span class="zh">表格列出固、液、气的一些信息。把表格补完整。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Think movement, forces between particles, and spacing for each state. </div>
+
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Find the key science word in the question, then match it to the particle model. <span class="zh">先找题目的科学关键词，再把它连到粒子模型。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Solid: vibrates / moves to and fro / oscillates. Solid forces: very strong. Liquid forces: weak (weaker than solid, stronger than gas). Gas distance: far apart. Gas shape: takes the shape of / fills the container.</strong> <span class="zh">固体：在原地振动 / 来回动。固体粒子间的力：非常强。液体粒子间的力：弱（比固体弱、比气体强）。气体粒子的距离：相距很远。气体的形状：随容器形状 / 填满容器。</span><br><br>✓ Accept: Solid: vibrates / moves to and fro / oscillates. Solid forces: very strong. Liquid forces: weak (weaker than solid, stronger than gas). Gas distance: far apart. Gas shape: takes the shape of / fills the container. <span class="zh">接受这些内容：固体：在原地振动 / 来回动。固体粒子间的力：非常强。液体粒子间的力：弱（比固体弱、比气体强）。气体粒子的距离：相距很远。气体的形状：随容器形状 / 填满容器。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">Partial: 5 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 5 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">State / Describe · L09_Q02_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A student uses a dye to change the colour of his tee-shirt. (a) Why is a metal bucket more suitable than a plastic bucket? [1] (b) When the bucket is heated, what happens to the movement of the particles in the metal? [1] (c) The dyed tee-shirt is hung up to dry in a warm room. What physical change happens to the water from the dye solution? [1] <span class="zh">学生用染料给T恤染色。(a) 为什么金属桶比塑料桶更合适? (b) 桶被加热时,金属里粒子的运动怎么变?(c) T恤在暖房晾干, 染料里的水发生什么物理变化?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ (b) heating always makes particles move faster. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L09_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L09_Q02_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Find the key science word in the question, then match it to the particle model. <span class="zh">先找题目的科学关键词，再把它连到粒子模型。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) Metal conducts heat better than plastic (plastic is an insulator). (b) The particles move / vibrate faster. (c) Evaporation (the water changes to water vapour).</strong> <span class="zh">(a) 金属导热比塑料好（塑料是隔热的）。(b) 粒子动得 / 振动得更快。(c) 蒸发（水变成水蒸气）。</span><br><br>✓ Accept: (a) Metal conducts heat better than plastic (plastic is an insulator). (b) The particles move / vibrate faster. (c) Evaporation (the water changes to water vapour). <span class="zh">接受这些内容：(a) 金属导热比塑料好（塑料是隔热的）。(b) 粒子动得 / 振动得更快。(c) 蒸发（水变成水蒸气）。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Tick / Underline / State · L09_Q03_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">(a) When substances are heated, what happens to their particles? Tick the correct box. [1] (b) The diagram shows how the particles in a substance are moving. (i) In what state is the substance? Underline: gas / liquid / solid [1] (ii) The substance is now cooled and changes to another state. What state will it change to first? [1] (iii) What is the name of this change of state? [1] <span class="zh">(a) 加热时粒子怎样?勾正确的。(b) 图为某物质粒子的运动。 (b)(i) 它是什么态?(b)(ii) 冷却后先变成哪态?(b)(iii) 这个状态变化叫什么?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Far-apart, fast-moving particles = a gas; cooling a gas gives a liquid. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L09_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L09_Q03_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Heating speeds particles up; cooling a gas first makes a liquid (condensation). <span class="zh">加热让粒子更快;气体冷却先变液体(凝结)。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            ✓ Accept: (a) tick "they move more quickly". [1] (b)(i) gas. [1] (b)(ii) liquid. [1] (b)(iii) condensation / condensing. [1]<br>✗ Reject: particles bigger/lighter/slower; solid/liquid for the gas diagram; freezing/melting/evaporation.<br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+      <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Complete / State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The table shows the properties of solids, liquids and gases. (a) Complete the table. [2] (b)(i) Name the process by which particles spread out to fill a space. [1] (b)(ii) Explain what happens to the particles during this process. [1] <span class="zh">表格列出固液气的性质。(a) 把表格补完整。 (b)(i) 粒子散开填满空间的过程叫什么?(b)(ii) 这过程中粒子发生什么?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Match movement words to each state; spreading out = diffusion. </div>
+
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) Solid: close together / regular / vibrate. Liquid: close together / move slowly / flow. Gas: far apart / random / move quickly. (b)(i) diffusion. (b)(ii) the particles spread out to fill the space / move randomly from high to low concentration.</strong> <span class="zh">(a) 固体：紧挨着 / 排列规则 / 振动。液体：挨在一起 / 慢慢移动 / 能流动。气体：相距远 / 随机 / 动得快。(b)(i) 扩散。(b)(ii) 粒子散开填满空间 / 从浓的地方随机散到淡的地方。</span><br><br>✓ Accept: (a) Solid: close together / regular / vibrate. Liquid: close together / move slowly / flow. Gas: far apart / random / move quickly. (b)(i) diffusion. (b)(ii) the particles spread out to fill the space / move randomly from high to low concentration. <span class="zh">接受这些内容：(a) 固体：紧挨着 / 排列规则 / 振动。液体：挨在一起 / 慢慢移动 / 能流动。气体：相距远 / 随机 / 动得快。(b)(i) 扩散。(b)(ii) 粒子散开填满空间 / 从浓的地方随机散到淡的地方。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">Partial: 4 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 4 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A puddle of water slowly dries up on a warm day. As the water evaporates, the water left behind becomes slightly cooler. Use ideas about particle motion to explain why the water left behind becomes cooler. [2] <span class="zh">暖天一滩水慢慢干掉。蒸发时,留下的水会稍微变凉。 用粒子运动的道理,解释为什么留下的水会变凉。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Think about which particles are able to escape from the surface. </div>
+
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>The fastest-moving particles escape from the surface (evaporate) (1); the particles left behind move more slowly on average / have lower average energy, so the temperature falls (1).</strong> <span class="zh">动得最快的粒子先从表面跑掉（蒸发）(1)；留下的粒子平均动得更慢 / 平均能量更低，所以温度下降 (1)。</span><br><br>✓ Accept: The fastest-moving particles escape from the surface (evaporate) (1); the particles left behind move more slowly on average / have lower average energy, so the temperature falls (1). <span class="zh">接受这些内容：动得最快的粒子先从表面跑掉（蒸发）(1)；留下的粒子平均动得更慢 / 平均能量更低，所以温度下降 (1)。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">Partial: 4 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 4 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">In which state do the particles move the fastest? A. Solid B. Liquid C. Gas [1 mark] <span class="zh">哪个状态里粒子动得最快? (A 固体 / B 液体 / C 气体)</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The freest, most spread-out state has the fastest particles. </div>
+
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>C (gas).</strong> <span class="zh">C（气体）。</span><br><br>✓ Accept: C (gas). <span class="zh">接受这些内容：C（气体）。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">In a solid, the particles cannot move from place to place. State how the particles in a solid DO move. [1 mark] <span class="zh">固体里,粒子不能从一个地方移到另一个地方。 固体里的粒子是怎么动的?[1 分]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ They stay in place but still move a little. </div>
+
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>They vibrate (in place) / vibrate about a fixed position.</strong> <span class="zh">它们在原地振动 / 绕着固定位置振动。</span><br><br>✓ Accept: They vibrate (in place) / vibrate about a fixed position. <span class="zh">接受这些内容：它们在原地振动 / 绕着固定位置振动。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A liquid can be poured and takes the shape of its container, but a solid keeps its own shape. Use ideas about particle motion to explain why a liquid can flow but a solid cannot. [2] <span class="zh">液体能倒、会随容器变形,而固体保持自己的形状。 用粒子运动的道理,解释为什么液体能流动而固体不能。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Compare whether the particles can move past each other. </div>
+
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>In a liquid the particles can slide / move past each other, so the liquid can flow (1); in a solid the particles only vibrate in fixed places and cannot move past each other, so the solid keeps its shape (1).</strong> <span class="zh">液体里粒子能互相滑过 / 越过，所以液体能流动 (1)；固体里粒子只能在固定位置振动、不能互相越过，所以固体保持形状 (1)。</span><br><br>✓ Accept: In a liquid the particles can slide / move past each other, so the liquid can flow (1); in a solid the particles only vibrate in fixed places and cannot move past each other, so the solid keeps its shape (1). <span class="zh">接受这些内容：液体里粒子能互相滑过 / 越过，所以液体能流动 (1)；固体里粒子只能在固定位置振动、不能互相越过，所以固体保持形状 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">Partial: 4 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 4 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A gas is put into a sealed box. The gas quickly fills the whole box evenly. State what this shows about how gas particles move. [1 mark] <span class="zh">把气体放进一个密封盒子。气体很快均匀填满整个盒子。 这说明气体粒子是怎么动的?[1 分]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ They do not stay in one corner. </div>
+
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Gas particles move quickly in all directions / move randomly and spread out to fill the whole space.</strong> <span class="zh">气体粒子朝各个方向快速运动 / 随机乱动，散开填满整个空间。</span><br><br>✓ Accept: Gas particles move quickly in all directions / move randomly and spread out to fill the whole space. <span class="zh">接受这些内容：气体粒子朝各个方向快速运动 / 随机乱动，散开填满整个空间。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: Wrong state/process; answer does not match the particle model or the question direction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：Wrong state/process; answer does not match the 粒子 model or the question direction.。原因：它和本题考的状态、粒子、图表或变化方向不符。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A balloon is left in a warm room and the air particles inside it are heated. Use ideas about particle motion to explain what happens to the speed of the air particles, and why this can make the balloon push out harder on its walls. [2] <span class="zh">一个气球放在暖房间里,里面的空气粒子被加热。 用粒子运动的道理,解释空气粒子的速度发生什么变化,以及为什么这会 让气球更用力地往气球壁外推。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Heating changes how fast particles move. </div>
+
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            ✓ Accept: Heating makes the air particles move faster; faster particles hit the balloon walls more often and harder, so they push out more on the walls. [2] (1 mark particles move faster when heated; 1 mark they hit the walls more often/harder → push out more.)<br>✗ Reject: the balloon gets lighter; particles get bigger; more particles are made; "hot air rises" with no particle idea = 0. ---------------------------------------------------------------<br>
+          </div>
+          <div class="source-note">Source: ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Connect & summarise</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+
+
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+      <div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Solid vibrate in place; liquid slide past; gas move fast &amp; random.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">固体原地振动;液体互相滑动;气体快速乱动。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Heating makes particles move faster.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">加热让粒子动更快。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Motion explains flow and evaporation.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">运动解释流动和蒸发。</span></div></div>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Next — why don't liquid particles fly apart like a gas? The forces of attraction. <span class="zh">下一课——液体粒子为什么不像气体飞散?粒子之间的吸引力。</span></p>
+      
+    </div>
+
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

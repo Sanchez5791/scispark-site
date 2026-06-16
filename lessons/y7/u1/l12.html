@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U1 L12 · Heating / Cooling Curves</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U1 L12 · Heating / Cooling Curves",
+  "navMeta": "Y7 · U1 · L12",
+  "subjectEn": "Chemistry",
+  "subjectZh": "化学",
+  "unitLabel": "Y7 Unit 1",
+  "unitTitleEn": "Matter and Particle Model",
+  "unitTitleZh": "物质与粒子模型",
+  "userLevel": "1",
+  "lessonData": "12"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="12">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U1 · L12</div>
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 1</div>
+      <div class="sidebar-unit-title" data-en="Matter and Particle Model" data-zh="物质与粒子模型">Matter and Particle Model</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 反应机理</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Trace &amp; predict<span class="zh"> · 追踪与预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Connect &amp; summarise<span class="zh"> · 联系与总结</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B1b Y7U1 — text poured verbatim. Image/widget placeholders kept. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Real-world spark</div>
+      <div class="screen-title" data-en="Why does the line go flat?" data-zh="为什么线会变平?">Why does the line go flat?</div>
+      <div class="screen-title-zh">为什么线会变平?</div>
+    </div>
+
+    <!-- DouDou hook video placeholder -->
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Why does the line go flat?</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Temperature vs time</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">温度对时间</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">Measure a cooling drink every minute and plot it — you draw a cooling curve. Why does the line go flat at certain points even while you keep heating or cooling? <span class="zh">每分钟量一次冷却的饮料并画出来,就是冷却曲线。为什么一直加热/冷却,线却在某些点变平?</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Mechanism</div>
+      <div class="screen-title" data-en="Reading the curve" data-zh="看曲线">Reading the curve</div>
+      <div class="screen-title-zh">看曲线</div>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Sloping section 斜段 — the temperature is changing. <span class="zh">斜的一段——温度在变化。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Flat section / plateau 平段(平台) — temperature stays the same even though heating/cooling continues. <span class="zh">平的一段(平台)——就算还在加热或冷却,温度也保持不变。</span></div>
+          
+        </div></div>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Plateau = changing state</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">平台 = 正在变状态</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">During a plateau, energy is used to overcome forces between particles, not to raise temperature. Melting point = solid→liquid plateau; boiling point = liquid→gas plateau. <span class="zh">平台段时,能量用来克服粒子之间的力,不是升温。熔点=固→液的平台;沸点=液→气的平台。</span></p>
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn, #a32d2d);background:var(--warn-bg, #fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn, #a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <p style="font-size:14px;color:var(--warn, #a32d2d);line-height:1.6;"><strong>✗ Wrong:</strong> "If the line is flat, no energy is being added and nothing is happening." <span class="zh">「如果线是平的,就表示没有加能量、什么都没发生。」</span></p>
+      <p style="font-size:14px;color:var(--ok-text, #2a6a2a);line-height:1.6;margin-top:8px;"><strong>✓ Right:</strong> Energy is still being added during a plateau. It is being used to change the state, not to raise the temperature. <span class="zh">平台段时仍然在加能量。这些能量用来改变物质的状态,而不是用来升高温度。</span></p>
+      
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">SAFETY — heating and boiling-water experiments must be supervised; wear eye protection, keep hands away from hot apparatus. NOTE — the exact energy during a plateau can be calculated with a formula, studied in a later year. Here we only read and describe the curve. <span class="zh">安全——加热和沸水实验必须有老师看着;戴护目镜,手远离烫的仪器。 提醒——平台段的确切能量可用公式算出,以后年级才学。这一课只读图和描述曲线。</span></p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Slope = temperature changes. Flat = state changes. A flat section does not mean nothing happens — the substance is changing state while temperature stays the same. (A heating curve is like a progress bar: slopes = temperature progress; flat parts = energy spent changing state.) <span class="zh">斜线=温度变;平线=状态变。平的线不是什么都没发生——物质在变状态,温度暂时不变。 (加热曲线像进度条:斜段是温度在变;平段是能量拿去改变状态。)</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+      <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+    </div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Name / Describe / Complete · L12_Q01_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Oliver investigates change of state. He puts crushed ice into a beaker and heats it gently. [IMAGE: L12_Q01_IMG01 here] Every 2 minutes Oliver records the temperature using apparatus X. (a) What is the name of apparatus X? .................. [1] (b) The table shows Oliver's results. (i) Describe the pattern in these results after the first 2 minutes. .................. [1] (ii) Which result does not fit this pattern? temperature .................. deg C [1] (c) Complete these sentences. In the first 2 minutes ice changes state from a .................. to a .................. . In the next two minutes the particles gain more .................. and move .................. . [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The instrument that records temperature is a thermometer. Look for the one result that breaks the rising pattern. <span class="zh">记录温度的仪器是温度计。找出那个不符合上升规律的结果。</span></div>
+
+        <div class="widget-mount" data-mount="q01-widget" data-widget="none-name-apparatus-fill"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — name apparatus + fill) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q01_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Apparatus that measures temperature = thermometer. After the first 2 minutes the temperature should keep increasing. <span class="zh">量温度的仪器 = 温度计。第一个 2 分钟之后,温度应该持续 上升。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) thermometer (accept: temperature probe) (b)(i) temperature increases as time increases after the first 2 minutes (b)(ii) 50 deg C (accept: 50) (c) solid to liquid; particles gain energy and move faster / apart (accept: gain kinetic energy)</strong> <span class="zh">(a) 温度计（接受：temperature probe / 温度探针）(b)(i) 前 2 分钟之后，时间越长，温度越高 (b)(ii) 50 °C（接受：50）(c) 固体变液体；粒子获得能量并动得更快 / 更分散（接受：获得 kinetic energy）。</span><br><br>✓ Accept: (a) thermometer (accept: temperature probe) (b)(i) temperature increases as time increases after the first 2 minutes (b)(ii) 50 deg C (accept: 50) (c) solid to liquid; particles gain energy and move faster / apart (accept: gain kinetic energy) <span class="zh">接受这些内容：(a) 温度计（接受：temperature probe / 温度探针）(b)(i) 前 2 分钟之后，时间越长，温度越高 (b)(ii) 50 °C（接受：50）(c) 固体变液体；粒子获得能量并动得更快 / 更分散（接受：获得 kinetic energy）。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: 0 deg C; liquid to gas; particles get bigger. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：0 °C；液体变气体；粒子变大。原因：读图数值和状态变化方向不符。</span><br><span style="color:var(--ink-3);">Partial: 5 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 5 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">State / Explain · L12_Q02_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Sanjeet investigates changes of state. He puts ice cubes into a beaker and leaves them to melt. Every 5 minutes Sanjeet measures the temperature. He keeps measuring until the water reaches room temperature. The graph shows his results. [IMAGE: L12_Q02_IMG01 here] (a) What is the temperature of the room? .................. deg C [1] (b) Use the particle theory to explain what is happening to the water particles between 10 minutes and 20 minutes. [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Room temperature is the value the curve flattens out to at the end. Between 10 and 20 minutes the water is warming up. <span class="zh">室温是曲线最后变平时停在的那个值。10 到 20 分钟之间,水 正在升温。</span></div>
+
+        <div class="widget-mount" data-mount="q02-widget" data-widget="none-read-graph-short-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — read graph + short answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q02_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          The room temperature is where the line levels off at the end. Warming particles gain energy and move faster. <span class="zh">室温是线在最后变平的地方。升温的粒子得到能量、动得更快。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) 20 deg C (b) particles gain energy / kinetic energy; move faster / more / further apart</strong> <span class="zh">(a) 20 °C (b) 粒子获得能量 / kinetic energy；动得更快 / 运动更多 / 相距更远。</span><br><br>✓ Accept: (a) 20 deg C (b) particles gain energy / kinetic energy; move faster / more / further apart <span class="zh">接受这些内容：(a) 20 °C (b) 粒子获得能量 / kinetic energy；动得更快 / 运动更多 / 相距更远。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: 0 / 10 / 25; particles melt or change solid to liquid between 10-20 min; particles become gas / bigger. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：0 / 10 / 25；说 10–20 min 之间粒子熔化或由固体变液体；说粒子变成气体或变大。原因：这段是升温，不是状态变化。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">State / Describe · L12_Q03_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Mia makes a thermometer. Look at the apparatus she uses. [IMAGE: L12_Q03_IMG01 here] (a) Mia measures the height, h, of the liquid in the glass tube. Mia then places the boiling tube into a beaker of water and ice. (i) What happens to the height of the liquid in the glass tube? .................. [1] (ii) Describe how the movement and arrangement of water particles change as the water gets colder. .................. [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Cooling makes the liquid contract, so its height in the tube falls. As water gets colder, particles slow down and pack closer. <span class="zh">冷却让液体收缩,所以管里的高度下降。水越冷,粒子越慢、靠 得越近。</span></div>
+
+        <div class="widget-mount" data-mount="q03-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q03_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          When a liquid cools it contracts. Colder particles move more slowly and get closer / more ordered. <span class="zh">液体冷却时会收缩。更冷的粒子动得更慢、靠得更近 / 更有序。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a)(i) the height of the liquid falls / goes down (a)(ii) any two: lose energy / move slower; particles get closer together; arrangement becomes more ordered / less random</strong> <span class="zh">(a)(i) 液体高度下降 / 变低 (a)(ii) 任意两点：失去能量 / 移动变慢；粒子靠得更近；排列变得更有序 / 更少随机。</span><br><br>✓ Accept: (a)(i) the height of the liquid falls / goes down (a)(ii) any two: lose energy / move slower; particles get closer together; arrangement becomes more ordered / less random <span class="zh">接受这些内容：(a)(i) 液体高度下降 / 变低 (a)(ii) 任意两点：失去能量 / 移动变慢；粒子靠得更近；排列变得更有序 / 更少随机。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: height rises; particles get bigger / disappear; particles move faster. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：高度上升；粒子变大 / 消失；粒子动得更快。原因：冷却时粒子失去能量并靠得更近。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Record / Read · L12_Q07_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Angelique measures the temperature of three samples of water. The diagrams show her results. [IMAGE: L12_Q07_IMG01 here] Record the temperature of each thermometer in the table. </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Read each thermometer scale carefully, including the one below zero (negative value). <span class="zh">仔细读每支温度计的刻度,包括零度以下的那支(负值)。</span></div>
+
+        <div class="widget-mount" data-mount="q04-widget" data-widget="none-read-thermometers-into-a-table"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — read thermometers into a table) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q07_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q07_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          One reading is below 0 deg C, so it is negative. Read the scale markings carefully. <span class="zh">有一个读数在 0 度以下,所以是负的。仔细看刻度。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            ✓ Accept: A = 0.0 deg C; B = -11.0 deg C; C = 32.5 deg C (accept: 0; -11) ; 3 correct = 2; 2 correct = 1; 0 or 1 = 0<br>✗ Reject: +11; 32 / 33 unless graph tolerance confirmed ================================================================<br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+      <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Circle / Describe / Sketch · L12_Q04_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The diagram shows a cooling curve for a pure substance. [IMAGE: L12_Q04_IMG01 here] (a) Which word describes the process X on the cooling curve? Circle the correct answer. boiling   condensing   freezing   melting (b) Describe two things that happen to the particles of the substance during freezing. 1 .................. 2 .................. [2] (c) A solid is heated until it becomes a gas. Sketch a graph to show how the temperature changes during this process. Use the axes provided. [RESERVED IMAGE SLOT — model-answer sketch graph, no source diagram supplied; to be drawn at build] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ On a cooling curve, going from gas down means condensing then freezing. A solid heated to a gas has two flat sections. <span class="zh">在冷却曲线上,从气往下是先凝结再凝固。固体加热到气体, 会有两段平的线。</span></div>
+
+        <div class="widget-mount" data-mount="q05-widget" data-widget="graph-sketch-q04-c-sketch-heating-graph"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · graph_sketch (Q04(c) — sketch heating graph) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q04_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q04_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) condensing (b) any two: lose energy; slow down; more ordered / less random / lattice; closer / tightly packed; attractive forces increase (c) increasing graph with two horizontal sections (plateaus)</strong> <span class="zh">(a) 凝结 / condensing (b) 任意两点：失去能量；变慢；排列更有序 / 更少随机 / 形成晶格；更靠近 / 紧密排列；吸引力增大 (c) 一条整体上升的图线，并有两个水平段（平台）。</span><br><br>✓ Accept: (a) condensing (b) any two: lose energy; slow down; more ordered / less random / lattice; closer / tightly packed; attractive forces increase (c) increasing graph with two horizontal sections (plateaus) <span class="zh">接受这些内容：(a) 凝结 / condensing (b) 任意两点：失去能量；变慢；排列更有序 / 更少随机 / 形成晶格；更靠近 / 紧密排列；吸引力增大 (c) 一条整体上升的图线，并有两个水平段（平台）。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: evaporation; gain energy; straight rising graph with no flats. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：蒸发；获得能量；没有水平段、一路直线上升的图。原因：凝结和加热曲线平台的科学意义不符。</span><br><span style="color:var(--ink-3);">Partial: 2 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 2 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">Write / Draw · L12_Q05_IMG01, L12_Q05_IMG02, L12_Q05_IMG03 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">[IMAGE: L12_Q05_IMG01 here] (a) The table contains descriptions for each letter in the diagram. Write the correct letter next to each description. One has been done for you. [2] (b) The diagram shows the particles at point H on the cooling curve. [IMAGE: L12_Q05_IMG02 here] [IMAGE: L12_Q05_IMG03 here] Draw the particles at point F in this box. </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Match each letter on the cooling curve to its state or process. Gas particles are spread out, random and not touching. <span class="zh">把冷却曲线上每个字母对到它的状态或过程。气体粒子散开、 随机、不接触。</span></div>
+
+        <div class="widget-mount" data-mount="q06-widget" data-widget="particle-draw-q05-b-draw-gas-particles-at-point-f"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · particle_draw (Q05(b) — draw gas particles at point F) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q05_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q05_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q05_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q05_IMG02%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q05_IMG03" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q05_IMG03%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) solid = K; condensing = G; freezing = J; liquid = H; gas = F (given) (b) draw 2-12 gas particles, not in a pattern, not touching (accept: 2-6 molecules; ignore arrows / different sizes)</strong> <span class="zh">(a) 固体 = K；凝结 = G；凝固 = J；液体 = H；气体 = F（已给）(b) 画 2–12 个气体粒子，不成规则排列，不互相接触（接受：2–6 个分子；忽略箭头 / 大小不同）。</span><br><br>✓ Accept: (a) solid = K; condensing = G; freezing = J; liquid = H; gas = F (given) (b) draw 2-12 gas particles, not in a pattern, not touching (accept: 2-6 molecules; ignore arrows / different sizes) <span class="zh">接受这些内容：(a) 固体 = K；凝结 = G；凝固 = J；液体 = H；气体 = F（已给）(b) 画 2–12 个气体粒子，不成规则排列，不互相接触（接受：2–6 个分子；忽略箭头 / 大小不同）。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: close-packed / regular; only one particle. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：紧密排列 / 规则排列；只画一个粒子。原因：气体粒子应该分散、随机、不接触。</span><br><span style="color:var(--ink-3);">Partial: 2 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 2 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Tick / State / Complete / Draw · L12_Q06_IMG01, L12_Q06_IMG02, L12_Q06_IMG03 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">10 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">This question is about liquids. (a) When a liquid is put into a beaker it takes on the shape of the beaker. Why do liquids take on the shape of the beaker? Tick the boxes next to two correct answers. Liquids have no fixed shape.                       [ ] Liquids have no fixed volume.                      [ ] Liquid particles only vibrate.                     [ ] The particles in a liquid expand.                  [ ] The particles in a liquid move around.             [ ]   [2] (b) Pierre investigates the boiling point of water. He heats pure water until it boils and measures the boiling point, repeating with new pure-water samples, then three more times with salt water. The table shows some results. (i) There is one result missing. The thermometer shows Pierre's missing result. [IMAGE: L12_Q06_IMG01 here] What is this missing result? .................. [1] (ii) What effect does adding salt have on the boiling point of water? .................. [1] (c) Gabriella investigates change of state. She heats water gently and records the temperature every 2 minutes. The graph shows her results. (i) How many minutes does it take for the temperature of the water to reach 100 deg C? .................. minutes [1] (ii) Complete the sentences to explain what is happening to the water particles between 8 and 10 minutes. The water particles gain more .................. energy. The particles move .................. . This causes the particles to .................. out. [3] (iii) The diagram shows the particles in liquid water. [IMAGE: L12_Q06_IMG02 here] Complete this diagram to show the particles in solid ice. [IMAGE: L12_Q06_IMG03 here] [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Liquids take the shape of the container because particles move around. Solid-ice particles are touching and arranged in a regular pattern. <span class="zh">液体随容器变形,因为粒子到处动。固态冰的粒子互相接触、 排列成规则图案。</span></div>
+
+        <div class="widget-mount" data-mount="q07-widget" data-widget="particle-draw-q06-c-draw-solid-ice-particles"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · particle_draw (Q06(c) — draw solid-ice particles) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q06_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q06_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q06_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q06_IMG02%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q06_IMG03" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q06_IMG03%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) tick: liquids have no fixed shape; the particles in a liquid move around (b)(i) 103 deg C (b)(ii) boiling point increases / goes up (c)(i) (value read from graph) (c)(ii) kinetic; faster; spread (c)(iii) solid-ice particles touching / almost touching; in rows / a set pattern (close / touching = 1; regular rows / lattice = 1)</strong> <span class="zh">(a) 勾选：液体没有固定形状；液体中的粒子会移动 (b)(i) 103 °C (b)(ii) 沸点升高 / 上升 (c)(i) 从图中读出的数值 (c)(ii) kinetic（动能）；更快；散开 (c)(iii) 固态冰的粒子互相接触 / 几乎接触；成行 / 有固定规则排列（靠近 / 接触 = 1 分；规则成行 / 晶格 = 1 分）。</span><br><br>✓ Accept: (a) tick: liquids have no fixed shape; the particles in a liquid move around (b)(i) 103 deg C (b)(ii) boiling point increases / goes up (c)(i) (value read from graph) (c)(ii) kinetic; faster; spread (c)(iii) solid-ice particles touching / almost touching; in rows / a set pattern (close / touching = 1; regular rows / lattice = 1) <span class="zh">接受这些内容：(a) 勾选：液体没有固定形状；液体中的粒子会移动 (b)(i) 103 °C (b)(ii) 沸点升高 / 上升 (c)(i) 从图中读出的数值 (c)(ii) kinetic（动能）；更快；散开 (c)(iii) 固态冰的粒子互相接触 / 几乎接触；成行 / 有固定规则排列（靠近 / 接触 = 1 分；规则成行 / 晶格 = 1 分）。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: liquids have no fixed volume; particles expand; 100 / 102 / 104; melting point increases; ice particles far apart / random / gas-like OVER_TICK_RULE: over-ticking caps the mark. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：液体没有固定体积；粒子膨胀；100 / 102 / 104；熔点升高；冰粒子相距很远 / 随机 / 像气体。多勾规则：多勾会封顶。原因：这些与液体性质、沸点变化或固态冰的粒子图不符。</span><br><span style="color:var(--ink-3);">Partial: 10 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 10 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">State / Name · L12_Q08_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">(b) Rajiv investigates the cooling curve of a substance. He measures the temperature of a hot liquid every minute. The graph shows his results. [IMAGE: L12_Q08_IMG01 here] (i) What is the temperature of the hot liquid at the start? .................. deg C [1] (ii) Name the process that happens when a liquid changes into a solid. .................. [1] (iii) At what temperature does the liquid change into a solid? .................. deg C [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Read the starting temperature from the top of the curve. Liquid to solid is freezing; the plateau temperature is where it freezes. <span class="zh">从曲线最上面读起始温度。液到固是凝固;平台的温度就是它 凝固的温度。</span></div>
+
+        <div class="widget-mount" data-mount="q08-widget" data-widget="none-read-cooling-curve-name-process"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — read cooling curve + name process) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q08_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q08_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(b)(i) 81-82 deg C (b)(ii) freezing (b)(iii) 60 deg C</strong> <span class="zh">(b)(i) 81–82 °C (b)(ii) 凝固 (b)(iii) 60 °C。</span><br><br>✓ Accept: (b)(i) 81-82 deg C (b)(ii) freezing (b)(iii) 60 deg C <span class="zh">接受这些内容：(b)(i) 81–82 °C (b)(ii) 凝固 (b)(iii) 60 °C。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: particles bigger / slower as answer to wrong part; 80 / 83; melting / evaporation; wrong graph value. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：把“粒子变大 / 变慢”答在错误小问；80 / 83；熔化 / 蒸发；读图数值错误。原因：每一小问对应的读图点或过程不同。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State / Identify · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Lily investigates the boiling points of some liquids. (a) She uses a Bunsen burner to heat 20 cm3 of each liquid in a beaker. Which equipment should Lily use to measure the boiling point of the liquid? .................. [1] (b) Write down one safety precaution that Lily should take. .................. [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ To measure a boiling point you need a thermometer. A safety precaution must be a concrete action, not "be careful". <span class="zh">量沸点要用温度计。安全措施必须是具体动作,不能写「小心」。</span></div>
+
+        <div class="widget-mount" data-mount="q09-widget" data-widget="none-choose-equipment-safety"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — choose equipment + safety) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) thermometer (b) one of: goggles / safety glasses; tie hair back; heatproof gloves; apron / lab coat; stand up; use clamp / tongs</strong> <span class="zh">(a) 温度计 (b) 任意一个：护目镜 / 安全眼镜；把头发绑起；隔热手套；围裙 / 实验袍；站立做实验；使用夹子 / 钳子。</span><br><br>✓ Accept: (a) thermometer (b) one of: goggles / safety glasses; tie hair back; heatproof gloves; apron / lab coat; stand up; use clamp / tongs <span class="zh">接受这些内容：(a) 温度计 (b) 任意一个：护目镜 / 安全眼镜；把头发绑起；隔热手套；围裙 / 实验袍；站立做实验；使用夹子 / 钳子。</span><br><span style="color:var(--ink-3);">Number/unit rule: If a number is required, accept the stated value with the unit asked in the question. For graph / thermometer reading, allow ±0.5 small square or ±1 deg C unless the source scale is clearer; unit deg C or minutes must be present when the blank asks for it.</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: "be careful"; "repeat the experiment"; "record carefully". Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：“小心一点”；“重复实验”；“认真记录”。原因：这些太笼统，不是具体安全措施或仪器名称。</span><br><span style="color:var(--ink-3);">Partial: 2 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 2 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">State · L12_Q10_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A heating curve for a pure substance has a flat section (a plateau) where the temperature stays the same for a while even though heating continues. (a) State what is happening to the substance during the flat section. .................. [1] (b) State what happens to the temperature during the flat section. .................. [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A flat section (plateau) on a heating curve means a change of state is happening and the temperature stays constant. <span class="zh">加热曲线上的平台段表示正在变态,温度保持不变。 [IMAGE: L12_Q10_IMG01 here]</span></div>
+
+        <div class="widget-mount" data-mount="q10-widget" data-widget="none-read-a-heating-curve"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — read a heating curve) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L12_Q10_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L12_Q10_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            ✓ Accept: (a) a change of state is happening (e.g. melting or boiling) [1] (b) the temperature stays constant / stays the same [1]<br>✗ Reject: (a) "the substance is heating up"; "nothing is happening" (b) "the temperature rises"; "the temperature falls" ================================================================<br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Connect & summarise</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+
+
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+      <div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">A plateau means a change of state is happening, and temperature stays constant while it does.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">平台段表示正在发生状态变化,变化时温度保持不变。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Whole unit chain: particles → particle model → atoms &amp; elements → periodic table → element/compound/mixture → separating → three states (arrangement/motion/attraction) → changes of state → heating/cooling curves.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">全单元串联:粒子→粒子模型→原子和元素→周期表→元素/化合物/混合物→分离→三态(排列/运动/吸引力)→状态变化→加热/冷却曲线。</span></div></div>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Next — what happens when there are no particles at all? A vacuum. <span class="zh">下一课——如果完全没有粒子会怎样?那就是真空。</span></p>
+      
+    </div>
+
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

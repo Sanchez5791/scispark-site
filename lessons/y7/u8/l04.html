@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U8 L04 · Particle Vibration</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U8 L04 · Particle Vibration",
+  "navMeta": "Y7 · U8 · L04",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 8",
+  "unitTitleEn": "Energy & Sound",
+  "unitTitleZh": "能量与声音",
+  "userLevel": "1",
+  "lessonData": "4"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="4">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U8 · L04</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 8</div>
+      <div class="sidebar-unit-title" data-en="Energy & Sound" data-zh="能量与声音">Energy & Sound</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U8 parsed JSON (3rd pass) — text poured verbatim; red cards detected by wrong/right text (flag unreliable); L01 cmd-word intro recovered from source. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Particle Vibration" data-zh="Particle Vibration">Particle Vibration</div>
+      <div class="screen-title-zh"></div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Particle Vibration</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#FFF7ED;border:1px solid #FED7AA;">
+      <div style="font-size:11px;font-weight:700;color:#C2410C;margin-bottom:4px;">🌞 Warm-up<span class="zh" style="color:#C2410C;"> · 热身</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">粒子没有买机票飞去你耳朵。它只是原地抖, 把“抖”传给隔壁。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">vibrate = 来回抖。in place = 原地。最重要: 粒子原地抖, 不旅行。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">粒子像排队传口令的人: 每个人只在原地动一下, 消息传过去, 人没有跑过去。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">声音三字诀: 振、传、不飞。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Tap the table with your finger. You feel it buzz. The table surface is vibrating — moving a tiny bit back and forth. It stays where it is; it does not fly off to your hand. <span class="zh">用手指敲桌子。你感到它在抖。桌面在振动 — 来回动一点点。 它留在原地; 它不会飞到你手上。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Particle Vibration" data-zh="Particle Vibration">Particle Vibration</div>
+      <div class="screen-title-zh"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">这屏只抓一个重点，先会认，再会写。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">粒子像排队传口令的人: 每个人只在原地动一下, 消息传过去, 人没有跑过去。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">声音三字诀: 振、传、不飞。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Particles vibrate — they move a small distance back and forth around one spot. The double-headed arrow ↔ shows this: out and back, out and back, staying in the same place. <span class="zh">粒子在振动 — 它们绕着一个点来回动一小段。双头箭头 ↔ 就是 这个意思: 出去再回来, 出去再回来, 停在同一个地方。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">"Students think particles travel from the source across to the listener (the particle flies over)." <span class="zh">"学生以为粒子从声源飞过去到听者那里。"</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">This is how sound works. A vibrating object makes the particles next to it vibrate. They pass it on, particle to particle, in place. That passed-on vibration is sound. <span class="zh">声音就是这样来的。一个振动的物体让旁边的粒子振动。它们一个 传一个, 都在原地。这传下去的振动就是声音。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Guided practice · 带提示</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">When sound travels through the air, what do the air particles do? Choose ONE. [1] A. They fly all the way from the source to your ear. B. They vibrate in place and pass the vibration to the next particle. C. They stay completely still. D. They turn into sound.<br><span class="zh">当声音在空气中传播时,空气粒子做什么?选一个。[1] A. 它们一路从声源飞到你的耳朵。 B. 它们在原地振动,并把振动传给下一个粒子。 C. 它们完全不动。 D. 它们变成声音。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Pick the one correct statement." <span class="zh">"选出唯一正确的那句。"</span></div>
+
+        <textarea class="short-input" id="Q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In air particles in sound, underline the clue that points to particles vibrate in place. <span class="zh">声音中的空气粒子先划出指向粒子在原地振动的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>B</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: B <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for air particles in sound: choosing “fly to the ear” confuses vibration transfer with particle travel. This does not earn the mark for particles vibrate in place. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for air particles in sound; the named idea must be particles vibrate in place. · Reject an answer that gives the opposite direction or wrong stage in air particles in sound; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to air particles in sound; key words only count when they answer this exact question. · Reject particle-travel wording in air particles in sound; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in air particles in sound, the answer earns credit because it states particles vibrate in place. <span class="zh">对。声音中的空气粒子这题得分，因为写中了粒子在原地振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — air particles in sound is not asking for “nearby science words”; the likely trap is choosing “fly to the ear” confuses vibration transfer with particle travel, while the needed idea is particles vibrate in place. <span class="zh">还不对。声音中的空气粒子不是随便写相近术语；常见陷阱是选“飞到耳朵”会把振动传递误当粒子移动，真正要点是粒子在原地振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q02 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">DESCRIBE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Describe how a single particle moves when sound passes through. [1]<br><span class="zh">描述当声音经过时,单个粒子如何运动。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State what it looks like. Don't give reasons." <span class="zh">"说出长什么样, 不要给原因。"</span></div>
+
+        <textarea class="short-input" id="Q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q02-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>It vibrates back and forth in place.</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: It vibrates back and forth in place. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for single particle motion: describing one-way travel is not vibration. This does not earn the mark for back-and-forth vibration in place. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for single particle motion; the named idea must be back-and-forth vibration in place. · Reject an answer that gives the opposite direction or wrong stage in single particle motion; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to single particle motion; key words only count when they answer this exact question. · Reject particle-travel wording in single particle motion; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in single particle motion, the answer earns credit because it states back-and-forth vibration in place. <span class="zh">对。单个粒子运动这题得分，因为写中了在原地来回振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — single particle motion is not asking for “nearby science words”; the likely trap is describing one-way travel is not vibration, while the needed idea is back-and-forth vibration in place. <span class="zh">还不对。单个粒子运动不是随便写相近术语；常见陷阱是写单向移动就不是振动，真正要点是在原地来回振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A student says: "When I shout, the air particles from my mouth fly into my friend's ear." Explain why this is wrong. [2]<br><span class="zh">一个学生说:"我喊叫时,我嘴里的空气粒子飞进我朋友的耳朵。" 解释为什么这是错的。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a reason — use 'because'." <span class="zh">"给原因 — 用'因为'。"</span></div>
+
+        <textarea class="short-input" id="Q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q03-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Particles do not fly across; each vibrates in place and passes the vibration on, so only the vibration travels.</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: Particles do not fly across; each vibrates in place and passes the vibration on, so only the vibration travels. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for shouting misconception: agreeing with particles from the mouth entering the ear is the target misconception. This does not earn the mark for particles do not fly; each passes vibration along. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for shouting misconception; the named idea must be particles do not fly; each passes vibration along. · Reject an answer that gives the opposite direction or wrong stage in shouting misconception; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to shouting misconception; key words only count when they answer this exact question. · Reject particle-travel wording in shouting misconception; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in shouting misconception, the answer earns credit because it states particles do not fly; each passes vibration along. <span class="zh">对。喊话误区这题得分，因为写中了粒子不飞过去，而是逐个传振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — shouting misconception is not asking for “nearby science words”; the likely trap is agreeing with particles from the mouth entering the ear is the target misconception, while the needed idea is particles do not fly; each passes vibration along. <span class="zh">还不对。喊话误区不是随便写相近术语；常见陷阱是同意嘴巴粒子进耳朵就是本题陷阱，真正要点是粒子不飞过去，而是逐个传振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A drum skin is hit and makes a sound. State what the drum skin does to the air particles touching it. [1]<br><span class="zh">一张鼓皮被敲击发出声音。说出鼓皮对接触它的空气粒子做了什么。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a short answer." <span class="zh">"给一句短答案。"</span></div>
+
+        <textarea class="short-input" id="Q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>It makes them vibrate (in place).</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: It makes them vibrate (in place). · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for drum skin to air: writing that the drum pushes particles across the room goes too far. This does not earn the mark for the drum skin makes nearby air particles vibrate. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for drum skin to air; the named idea must be the drum skin makes nearby air particles vibrate. · Reject an answer that gives the opposite direction or wrong stage in drum skin to air; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to drum skin to air; key words only count when they answer this exact question. · Reject particle-travel wording in drum skin to air; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in drum skin to air, the answer earns credit because it states the drum skin makes nearby air particles vibrate. <span class="zh">对。鼓皮带动空气这题得分，因为写中了鼓皮让附近空气粒子振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — drum skin to air is not asking for “nearby science words”; the likely trap is writing that the drum pushes particles across the room goes too far, while the needed idea is the drum skin makes nearby air particles vibrate. <span class="zh">还不对。鼓皮带动空气不是随便写相近术语；常见陷阱是写鼓把粒子推到房间另一端，超过实际模型，真正要点是鼓皮让附近空气粒子振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">COMPARE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Compare what travels and what stays still when sound moves through the air. [2]<br><span class="zh">比较声音在空气中传播时,什么在传播、什么留在原地。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Say how the two are different." <span class="zh">"说出两者怎么不一样。"</span></div>
+
+        <textarea class="short-input" id="Q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>The vibration/energy travels; the particles stay and vibrate in place.</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: The vibration/energy travels; the particles stay and vibrate in place. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for what travels vs stays: saying particles travel reverses the model. This does not earn the mark for vibration/energy travels while particles stay in place. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for what travels vs stays; the named idea must be vibration/energy travels while particles stay in place. · Reject an answer that gives the opposite direction or wrong stage in what travels vs stays; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to what travels vs stays; key words only count when they answer this exact question. · Reject particle-travel wording in what travels vs stays; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in what travels vs stays, the answer earns credit because it states vibration/energy travels while particles stay in place. <span class="zh">对。什么传走什么留原地这题得分，因为写中了振动/能量传走，粒子留在原地。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — what travels vs stays is not asking for “nearby science words”; the likely trap is saying particles travel reverses the model, while the needed idea is vibration/energy travels while particles stay in place. <span class="zh">还不对。什么传走什么留原地不是随便写相近术语；常见陷阱是写粒子传走会把模型反过来，真正要点是振动/能量传走，粒子留在原地。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A guitar string is plucked and makes a sound in the air. Which statement about the air particles is correct? Choose ONE. [1] A. The particles travel from the string all the way to your ear. B. The particles vibrate in place and pass the vibration on. C. The particles disappear once the sound is heard. D. The particles stay completely still.<br><span class="zh">一根吉他弦被拨动,在空气中发出声音。关于空气粒子,哪个说法正确?选一个。[1] A. 粒子从弦一路飞到你的耳朵。 B. 粒子在原地振动并把振动传下去。 C. 声音被听到后粒子就消失。 D. 粒子完全不动。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Pick the one correct statement." <span class="zh">"选出唯一正确的那句。"</span></div>
+
+        <textarea class="short-input" id="Q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>B</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: B <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for guitar string air particles: choosing particles leaving the string is the wrong travel model. This does not earn the mark for air particles vibrate in place and pass the vibration on. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for guitar string air particles; the named idea must be air particles vibrate in place and pass the vibration on. · Reject an answer that gives the opposite direction or wrong stage in guitar string air particles; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to guitar string air particles; key words only count when they answer this exact question. · Reject particle-travel wording in guitar string air particles; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in guitar string air particles, the answer earns credit because it states air particles vibrate in place and pass the vibration on. <span class="zh">对。吉他弦和空气粒子这题得分，因为写中了空气粒子原地振动并传下去。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — guitar string air particles is not asking for “nearby science words”; the likely trap is choosing particles leaving the string is the wrong travel model, while the needed idea is air particles vibrate in place and pass the vibration on. <span class="zh">还不对。吉他弦和空气粒子不是随便写相近术语；常见陷阱是选粒子离开琴弦，是错误旅行模型，真正要点是空气粒子原地振动并传下去。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A loudspeaker cone moves quickly in and out. State what this movement does to the air particles right in front of it. [1]<br><span class="zh">一个扬声器纸盆快速地来回进出。说出这个运动对它正前方的空气粒子做了什么。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a short answer." <span class="zh">"给一句短答案。"</span></div>
+
+        <textarea class="short-input" id="Q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>It makes them vibrate in place.</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: It makes them vibrate in place. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for loudspeaker cone: saying the cone creates new particles is not sound production. This does not earn the mark for nearby air particles are forced to vibrate. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for loudspeaker cone; the named idea must be nearby air particles are forced to vibrate. · Reject an answer that gives the opposite direction or wrong stage in loudspeaker cone; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to loudspeaker cone; key words only count when they answer this exact question. · Reject particle-travel wording in loudspeaker cone; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in loudspeaker cone, the answer earns credit because it states nearby air particles are forced to vibrate. <span class="zh">对。扬声器纸盆这题得分，因为写中了纸盆让前方空气粒子振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — loudspeaker cone is not asking for “nearby science words”; the likely trap is saying the cone creates new particles is not sound production, while the needed idea is nearby air particles are forced to vibrate. <span class="zh">还不对。扬声器纸盆不是随便写相近术语；常见陷阱是写纸盆制造新粒子，不是声音产生，真正要点是纸盆让前方空气粒子振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Complete the sentence with ONE word. When sound passes through the air, the thing that travels is the ................... , while the particles stay in place. [1]<br><span class="zh">用一个词完成句子。当声音经过空气时,传播的是 ……………… ,而粒子留在原地。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Pick out the correct word." <span class="zh">"选出正确的词。"</span></div>
+
+        <textarea class="short-input" id="Q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>vibration (or energy)</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: vibration (or energy) <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for missing word vibration: writing air as the travelling thing repeats the particle-travel mistake. This does not earn the mark for vibration is what travels. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for missing word vibration; the named idea must be vibration is what travels. · Reject an answer that gives the opposite direction or wrong stage in missing word vibration; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to missing word vibration; key words only count when they answer this exact question. · Reject particle-travel wording in missing word vibration; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in missing word vibration, the answer earns credit because it states vibration is what travels. <span class="zh">对。填空：传过去的东西这题得分，因为写中了传过去的是振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — missing word vibration is not asking for “nearby science words”; the likely trap is writing air as the travelling thing repeats the particle-travel mistake, while the needed idea is vibration is what travels. <span class="zh">还不对。填空：传过去的东西不是随便写相近术语；常见陷阱是写空气本身传过去，会重复粒子旅行错误，真正要点是传过去的是振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A coin taps the side of a glass of water and a sound is made. State what each water particle does to make the sound travel. [1]<br><span class="zh">一枚硬币敲一杯水的杯壁,发出声音。说出每个水粒子做了什么使声音传播。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a short answer." <span class="zh">"给一句短答案。"</span></div>
+
+        <textarea class="short-input" id="Q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>It vibrates in place and passes the vibration on.</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: It vibrates in place and passes the vibration on. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for water particle sound: saying water particles swim to the ear is not the model. This does not earn the mark for each water particle vibrates and passes the vibration on. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for water particle sound; the named idea must be each water particle vibrates and passes the vibration on. · Reject an answer that gives the opposite direction or wrong stage in water particle sound; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to water particle sound; key words only count when they answer this exact question. · Reject particle-travel wording in water particle sound; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in water particle sound, the answer earns credit because it states each water particle vibrates and passes the vibration on. <span class="zh">对。水中粒子传声这题得分，因为写中了水粒子振动并把振动传下去。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — water particle sound is not asking for “nearby science words”; the likely trap is saying water particles swim to the ear is not the model, while the needed idea is each water particle vibrates and passes the vibration on. <span class="zh">还不对。水中粒子传声不是随便写相近术语；常见陷阱是写水粒子游到耳朵，不是模型，真正要点是水粒子振动并把振动传下去。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A student says: "Sound is the air particles themselves moving from the bell to my ear." Explain why the student is wrong, and say what really travels. [2]<br><span class="zh">一个学生说:"声音就是空气粒子本身从铃传到我的耳朵。" 解释为什么这个学生错了,并说出真正传播的是什么。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a reason — use 'because'." <span class="zh">"给原因 — 用'因为'。"</span></div>
+
+        <textarea class="short-input" id="Q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>The particles do not travel to the ear; each one vibrates in place and passes the vibration on, so only the vibration (energy) travels.</strong> <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: The particles do not travel to the ear; each one vibrates in place and passes the vibration on, so only the vibration (energy) travels. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：粒子在原地来回振动；振动传给旁边粒子；粒子本身不会从声源飞到耳朵。</span><br>✗ Reject: Reject for bell-to-ear explanation: only saying “sound travels” without explaining particles is too thin for L3. This does not earn the mark for particles stay local; vibration/energy travels to the ear. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for bell-to-ear explanation; the named idea must be particles stay local; vibration/energy travels to the ear. · Reject an answer that gives the opposite direction or wrong stage in bell-to-ear explanation; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to bell-to-ear explanation; key words only count when they answer this exact question. · Reject particle-travel wording in bell-to-ear explanation; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in bell-to-ear explanation, the answer earns credit because it states particles stay local; vibration/energy travels to the ear. <span class="zh">对。铃到耳朵解释这题得分，因为写中了粒子留在本地，振动/能量传到耳朵。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — bell-to-ear explanation is not asking for “nearby science words”; the likely trap is only saying “sound travels” without explaining particles is too thin for L3, while the needed idea is particles stay local; vibration/energy travels to the ear. <span class="zh">还不对。铃到耳朵解释不是随便写相近术语；常见陷阱是只写声音传播但不解释粒子，L3 不够厚，真正要点是粒子留在本地，振动/能量传到耳朵。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Particles vibrate in place — back and forth around one spot (double-headed arrow ↔). They pass the vibration to the next particle. The vibration travels; the particle does NOT. This is how sound moves, and we build on it next lesson. <span class="zh">粒子在原地振动 — 绕着一个点来回(双头箭头 ↔)。它们把振动传给 隔壁粒子。振动在传; 粒子不动。声音就是这样移动的, 下一课接着学。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Remember the table you tapped — the surface buzzed in place. Same idea everywhere sound is made. <span class="zh">记得你敲的桌子 — 桌面在原地抖。任何发出声音的地方都是同一个道理。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">声音三字诀: 振、传、不飞。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

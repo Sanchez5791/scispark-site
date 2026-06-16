@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U4 L10 · Cells → Tissues</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+<style id="lx-bilingual">.lx-zh{display:none}body.lang-zh .lx-en{display:none !important}body.lang-zh .lx-zh{display:inline !important}body.lang-zh ul.lx-zh{display:block !important}</style>
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="10">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U4 · L10</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 4</div>
+      <div class="sidebar-unit-title" data-en="Cells and Biological Structure" data-zh="细胞与生物结构">Cells and Biological Structure</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div class="hook-band"><div class="hook-band-content">
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Hook · Observe<span class="lx-zh" style="display:none"> · 钩子 · 观察</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Cells → Tissues</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">细胞 → 组织</span></h1></div>
+</div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:16px 18px;margin:14px 0"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:16px;color:#1F2937;line-height:1.6">One muscle cell cannot lift your arm. Thousands of the same cell, working together, can. A group of the same type of cell working together is called a tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:16px;color:#C2410C;line-height:1.65">一个肌肉细胞抬不起你的手臂。成千上万个同一种细胞一起用力就可以。 一群同一种细胞一起工作,叫做组织 (tissue)。</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🔬</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L10_Q00_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">Side-by-side micrograph — left: a single muscle cell (long fibre); right: muscle tissue (many identical muscle cells bundled together). Label &quot;1 cell&quot; vs &quot;many same cells = tissue&quot;.</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Microscope zoom + size scale bar<br>
+      <b>Animate?:</b> Static (or short zoom loop)<br>
+      <b>Trap to flag:</b> Confusing magnification with resolution
+    </div>
+  </div>
+</div>
+
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('learn')"><span class="lx-en">Start learning →</span><span class="lx-zh" style="display:none">开始学习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Learn · Define<span class="lx-zh" style="display:none"> · 学习 · 定义</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Cells → Tissues</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">细胞 → 组织</span></h1></div>
+<div style="background:#E8FFE8;border:2px solid #BFE6BF;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#2E7D32;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">A tissue is a group of cells of the SAME type that work together to do one job.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">组织 = 一群同一种类的细胞一起工作,做同一件事。</span></div></div></div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Muscle tissue is made of many muscle cells. Epithelial tissue is a sheet of cells that lines or covers a surface.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">肌肉组织 = 很多肌肉细胞组成。上皮组织 = 一层细胞,铺在表面或里面当衬里。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🔬</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L10_Q00_IMG02</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">Two labelled micrographs: (a) muscle tissue, (b) epithelial tissue sheet.</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Microscope zoom + size scale bar<br>
+      <b>Animate?:</b> Static (or short zoom loop)<br>
+      <b>Trap to flag:</b> Confusing magnification with resolution
+    </div>
+  </div>
+</div></div>
+<div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#C00000;padding:10px 18px;border-radius:14px 14px 0 0"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff;letter-spacing:.5px">🟥 RED CARD · Common mistake</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟥 红牌 · 常见错误</span></div><div style="padding:14px 18px"><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✓ Correct idea</span><span class="lx-zh" style="display:none">✓ 要记住</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">RED CARD: A tissue is NOT a random mix of different cells. A tissue is many cells of the SAME type. Different types of cell together do not make one tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">&quot;红牌:组织不是把不同种细胞随便混在一起。组织是很多同一种细胞。 不同种细胞凑在一起,不算一个组织。&quot; ================================================================</span></div></div></div>
+<div style="margin-top:18px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#64748B;letter-spacing:.5px;margin-bottom:6px">MORE DIAGRAMS · 更多配图</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L10_Q01_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('try')"><span class="lx-en">Try it →</span><span class="lx-zh" style="display:none">来练习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Try · Practise<span class="lx-zh" style="display:none"> · 练习 · 应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Cells → Tissues</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">细胞 → 组织</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q1</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Name</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">This question is about cells, tissues and organs. Stem cells are able to turn into many other types of cell that form different tissues. Different tissues are then used to build organs. This is shown in the diagram. (a) Name cell A. Choose from the list. blood cell / bone cell / liver cell / sperm cell .................................................. [1] (b) Name organ B. Choose from the list. kidney / salivary gland / skull / spinal cord .................................................. [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to (a) bone cell [accept &quot;bone&quot; if clearly the c.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">看用于线索 那 得分点到（小题一） 骨细胞 [可接受 骨骼 如果 清楚 。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) bone cell [accept &quot;bone&quot; if clearly the cell]; (b) spinal cord [accept clear spelling variant]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 骨细胞 [可接受 骨骼 如果 清楚 细胞]；（小题二） 脊髓 [可接受 清楚 拼写 变体]</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) bone cell [accept &quot;bone&quot; if clearly the cell]</li><li style="margin:2px 0">(b) spinal cord [accept clear spelling variant]</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 骨细胞 [可接受 骨骼 如果 清楚 细胞]</li><li style="margin:2px 0">（小题二） 脊髓 [可接受 清楚 拼写 变体]</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) blood cell, liver cell, sperm cell — reject: it misses the key word required by this item</li><li style="margin:2px 0">(b) kidney, skull, brain — reject: it changes the biological level being tested</li><li style="margin:2px 0">any answer with more than one option chosen — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 血液 细胞，肝脏 细胞，精子细胞 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">（小题二） 肾脏，头骨，脑 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">任意 答案有更多 比 一个 选项 选择 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q2</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">State</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State what a tissue is. Choose the best answer. A. one single cell on its own B. a group of cells of the same type working together C. a group of different organs working together D. a liquid found inside a cell .................................................. [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to B.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「B」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">B</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">B</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">B</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">B</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">A, C, D — reject: it changes the biological level being tested</li><li style="margin:2px 0">more than one answer — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">A，C，D — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">更多 比 一个 答案 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q3</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Give</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Give one example of a tissue found in the human body. .................................................. [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「组织」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">muscle tissue / epithelial tissue [accept any one correct named human tissue]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">肌肉组织/上皮组织 [可接受 任意 一个 正确 说出名称的 人 组织]</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">muscle tissue</li><li style="margin:2px 0">epithelial tissue [accept any one correct named human tissue]</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li><li style="margin:2px 0">contracts to cause movement</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">肌肉组织</li><li style="margin:2px 0">上皮组织 [可接受 任意 一个 正确 说出名称的 人 组织]</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li><li style="margin:2px 0">收缩造成运动</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">a single cell — reject: it describes the wrong cell structure for this mark</li><li style="margin:2px 0">an organ (e.g. heart, stomach) — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — one level too high for this question — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — reject: an organ has different tissues; a tissue is similar cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">单个 细胞 — 不给分：它描述了错误的细胞结构</li><li style="margin:2px 0">器官 （例如。 心脏，胃） — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q4</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Describe</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">A scientist looks at muscle tissue under a microscope. Describe what muscle tissue is made of. .................................................. [2]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to many cells (1).</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「很多 细胞 （1）」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">many cells (1); all of the same type / all muscle cells (1)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">很多细胞 （1）；全部的同一种/全部 肌肉细胞 （1）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">many cells (1)</li><li style="margin:2px 0">all of the same type</li><li style="margin:2px 0">all muscle cells (1)</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">很多细胞 （1）</li><li style="margin:2px 0">全部的同一种</li><li style="margin:2px 0">全部 肌肉细胞 （1）</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">one cell — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">many different types of cell — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">answers that give a reason instead of a description — reject: it leaves out the specific feature needed for credit</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">一个细胞 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">很多 不同 类型的细胞 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">答案 那 给出 原因 代替的 描述 — 不给分：它漏掉得分需要的具体特征</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q5</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Explain</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">A single muscle cell is very weak on its own. Explain why grouping many muscle cells together into muscle tissue is useful for the body. .................................................. [2]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">[看见 原题 题目 上方文本]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to because many cells of the same type work toge.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">看用于线索 那 得分点到因为 很多细胞的同一种 工作 一起。</span></div></details>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 2 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Link the answer to its job: because many cells of the same type work together (1); so the combined effect/force is much greater than one cell alone, letting t.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">连接 答案到它的 功能: 因为 很多细胞的同一种 工作 一起 （1）；所以 合起来的 效果/用力压 是 更 更大 比 一个细胞 单独，让 它。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">because many cells of the same type work together (1); so the combined effect/force is much greater than one cell alone, letting the body move/do the job (1)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">因为 很多细胞的同一种 工作 一起 （1）；所以 合起来的 效果/用力压 是 更 更大 比 一个细胞 单独，让 身体 移动/做 功能 （1）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">because many cells of the same type work together (1)</li><li style="margin:2px 0">so the combined effect</li><li style="margin:2px 0">force is much greater than one cell alone, letting the body move</li><li style="margin:2px 0">do the job (1)</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">因为 很多细胞的同一种 工作 一起 （1）</li><li style="margin:2px 0">所以 合起来的 效果</li><li style="margin:2px 0">用力压 是 更 更大 比 一个细胞 单独，让 身体 移动</li><li style="margin:2px 0">做 功能 （1）</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">because cells are small — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">answers that only describe (no reason) — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">confusing tissue with organ — reject: it answers a neighbouring concept rather than this question</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">因为 细胞 是 小 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">答案 那 只 描述 （没有 原因） — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">混淆 组织有器官 — 不给分：它答成了相邻概念，不是本题内容</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('test')"><span class="lx-en">Go to test →</span><span class="lx-zh" style="display:none">去检测 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;letter-spacing:.5px;margin-bottom:8px"><span class="lx-en">EXAM MODE · NO HINTS</span><span class="lx-zh" style="display:none">考试模式 · 无提示</span></div>
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Test · Apply solo<span class="lx-zh" style="display:none"> · 检测 · 独立应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Cells → Tissues</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">细胞 → 组织</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q6</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">DEFINE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Define the term &quot;tissue&quot;.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">给组织下定义。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">a group of cells of the same type working together.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">同一种细胞一起工作形成的一组结构。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">a group of cells of the same type working together</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">同一种细胞一起工作形成的一组结构</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">a single cell — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">a group of organs — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">organ — one level too high for this question — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">organ — reject: it swaps the tested role with another role</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">单个 细胞 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">一组的器官 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">器官 — 不给分：它把本题考的功能换成了另一个功能</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q7</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">NAME</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Name the tissue made of cells that can contract.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出由能收缩的细胞组成的组织的名称。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">muscle (tissue).</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">肌肉 （组织）。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">muscle (tissue)</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">肌肉 （组织）</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">nerve tissue — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">bone — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">organ — one level too high for this question — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — reject: an organ has different tissues; a tissue is similar cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">神经 组织 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">骨骼 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q8</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the level of organisation that is one step above a single cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出比单个细胞高一级的组织层次。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">组织。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">tissue</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">组织</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">organ — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ system — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — one level too high for this question — reject: an organ has different tissues; a tissue is similar cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 系统 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q9</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Identify whether &quot;a group of muscle cells working together&quot; is a cell, a tissue or an organ.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">指出一群一起工作的肌肉细胞是细胞、组织还是器官。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">组织。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">tissue</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li><li style="margin:2px 0">made of different tissues</li><li style="margin:2px 0">different tissues working together</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">组织</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li><li style="margin:2px 0">组成的不同 组织</li><li style="margin:2px 0">不同组织一起工作</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">cell — reject: it swaps the tested role with another role</li><li style="margin:2px 0">organ — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — one level too high for this question — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">tissue only — reject: it changes the biological level being tested</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">细胞 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">组织 只 — 不给分：它把本题考的生物层级换掉了</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q10</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">EXPLAIN</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Explain why a group of identical muscle cells is called a tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">解释为什么一群相同的肌肉细胞被称为组织。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">because it is many cells of the same type working together, which is the definition of a tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">因为 它 是 很多细胞的同一种 一起工作，哪一个 是 定义的 组织。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">because it is many cells of the same type working together, which is the definition of a tissue</li><li style="margin:2px 0">group of similar cells</li><li style="margin:2px 0">same type of cells working together</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">因为 它 是 很多细胞的同一种 一起工作，哪一个 是 定义的 组织</li><li style="margin:2px 0">一组相似细胞</li><li style="margin:2px 0">同一种细胞一起工作</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">because they are big — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">because they are organs — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — one level too high for this question — reject: an organ has different tissues; a tissue is similar cells working together</li><li style="margin:2px 0">organ — reject: an organ has different tissues; a tissue is similar cells working together</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">因为 它们 是 大 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">因为 它们 是 器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 一个 层级 太 高用于这 题目 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li><li style="margin:2px 0">器官 — 不给分：器官由不同组织组成；组织是一组相似细胞一起工作</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('wrap')"><span class="lx-en">Wrap up →</span><span class="lx-zh" style="display:none">总结 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Wrap · Reflect<span class="lx-zh" style="display:none"> · 总结 · 回顾</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Cells → Tissues</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">细胞 → 组织</span></h1></div>
+<div style="background:#F5F0E4;border:2px solid #DDD3A0;border-radius:16px;padding:16px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#8A7B4A;margin-bottom:10px">📌 Summary · 总结</div><div style="display:flex;gap:9px;margin:0 0 10px 0;align-items:flex-start"><span style="color:#8A7B4A;font-weight:900;font-size:15px;flex-shrink:0">•</span><div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#3E2723;line-height:1.55">Level 2 of the hierarchy: many cells of the same type, working together, make a tissue. Examples: muscle tissue, epithelial tissue.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C">层级第二层:很多同一种细胞一起工作 = 组织。例子:肌肉组织、上皮组织。</span></div></div><div style="display:flex;gap:9px;margin:0 0 10px 0;align-items:flex-start"><span style="color:#8A7B4A;font-weight:900;font-size:15px;flex-shrink:0">•</span><div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#3E2723;line-height:1.55">Same-type cells made a tissue. But a real body part, like your stomach, has MORE than one tissue inside it. What do you get when different tissues team up? Next: Tissues -&gt; Organs.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C">同种细胞组成组织。但真实的器官,例如你的胃,里面不止一种组织。 不同组织合在一起会变成什么?下一课:组织 -&gt; 器官。</span></div></div></div>
+<div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#D98A2B;margin-bottom:8px">🎯 What the examiner wants · 考官要什么</div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">STATE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">short, one-line answer</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">简短一句话</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DESCRIBE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">say what happens; no reasons</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">说出样子，不用原因</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">EXPLAIN</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give reasons; use &#x27;because&#x27;</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给原因，用「因为」</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DEFINE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give the exact meaning</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给准确定义</span></div></div>
+<div style="background:#171413;border-radius:14px;padding:16px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#FFFF00;letter-spacing:1px">🧠 REMEMBER THIS · 记牢这句</div><div style="margin-top:8px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1.4">Cells → Tissues — structure fits function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#FFE08A;line-height:1.5">结构决定功能。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="completeLesson()"><span class="lx-en">Complete lesson ✓</span><span class="lx-zh" style="display:none">完成这一课 ✓</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

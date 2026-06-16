@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U8 L08 · Unit Review and Integration</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U8 L08 · Unit Review and Integration",
+  "navMeta": "Y7 · U8 · L08",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 8",
+  "unitTitleEn": "Energy & Sound",
+  "unitTitleZh": "能量与声音",
+  "userLevel": "1",
+  "lessonData": "8"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="8">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U8 · L08</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 8</div>
+      <div class="sidebar-unit-title" data-en="Energy & Sound" data-zh="能量与声音">Energy & Sound</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U8 parsed JSON (3rd pass) — text poured verbatim; red cards detected by wrong/right text (flag unreliable); L01 cmd-word intro recovered from source. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Unit Review and Integration" data-zh="Unit Review and Integration">Unit Review and Integration</div>
+      <div class="screen-title-zh"></div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Unit Review and Integration</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#FFF7ED;border:1px solid #FED7AA;">
+      <div style="font-size:11px;font-weight:700;color:#C2410C;margin-bottom:4px;">🌞 Warm-up<span class="zh" style="color:#C2410C;"> · 热身</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">今天不是新魔王, 是打总复习 boss。前面每课都是你捡到的装备。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">先认能量, 再说 from-to, 再解释声音怎么靠粒子振动传。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">You have finished 8 lessons. Look at one ordinary morning: the sun warms your room, your phone battery powers an alarm, the alarm makes a sound, you hear it. Every step is energy. <span class="zh">你已经上完 8 节课。看一个普通的早上: 太阳晒暖房间,手机电池让闹钟响,闹钟发出声音,你听见它。 每一步都是能量。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG01" data-recraft-prompt="A simple morning scene split into labelled energy moments (sunlight = thermal/light, phone = electric, alarm = sound). Flat icon style, bilingual labels. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="A simple morning scene split into labelled energy moments (sunlight = thermal/light, phone = electric, alarm = sound). Flat icon style, bilingual labels."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">This unit was one chain: Energy -&gt; 7 Energy Stores -&gt; Particle Vibration -&gt; Sound -&gt; Echo -&gt; Dissipation. <span class="zh">这个单元是一条链: 能量 -&gt; 7 种能量储存 -&gt; 粒子振动 -&gt; 声音 -&gt; 回声 -&gt; 耗散。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG02" data-recraft-prompt="A left-to-right chain diagram of the 6 unit stages with one icon each. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="A left-to-right chain diagram of the 6 unit stages with one icon each."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG02<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Unit Review and Integration" data-zh="Unit Review and Integration">Unit Review and Integration</div>
+      <div class="screen-title-zh"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">这屏只抓一个重点，先会认，再会写。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">复习像把 8 张拼图拼成一张图: 能量线和声音线最后接在一起。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">整单元一条链: 能量变 → 会散开；物体振 → 声传开；碰墙 → 回声；没粒子 → 没声音。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Energy is in every event. It is held in 7 stores: kinetic, gravitational potential, chemical, thermal, elastic, electric, magnetic. <span class="zh">每个事件里都有能量。它存放在 7 种储存里: 动能、重力位能、化学能、热能、 弹性能、电能、磁能。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG03" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG03" data-recraft-prompt="A collage thumbnail of the 7 store icons in one row. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="A collage thumbnail of the 7 store icons in one row."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG03<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Events change energy from one store to another. Example: a ball at the top has gravitational potential; as it falls, this changes to kinetic. <span class="zh">事件让能量从一种储存变成另一种。 例子:球在顶端有重力位能; 它落下时,变成动能。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG04" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG04" data-recraft-prompt="A &quot;From X to Y&quot; arrow diagram: GPE -&gt; kinetic. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="A &quot;From X to Y&quot; arrow diagram: GPE -&gt; kinetic."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG04<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">RED CARD: sound is NOT particles flying from the source to your ear. Particles vibrate in place and pass the vibration to the next particle. The vibration travels; the particles do NOT travel. <span class="zh">红牌:声音不是粒子从声源飞到你的耳朵。 粒子在原地振动,把振动传给隔壁的粒子。 传过去的是振动;粒子本身不移动。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG05" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG05" data-recraft-prompt="Double-headed arrow (vibrate in place) on a row of particles; a big red cross over a &quot;particle flying across&quot; arrow. — Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="Double-headed arrow (vibrate in place) on a row of particles; a big red cross over a &quot;particle flying across&quot; arrow."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG05<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Sound needs particles (a medium). In a vacuum there are no particles, so there is no sound. Sound can reflect off a hard surface and come back as an echo. <span class="zh">声音需要粒子(介质)。真空里没有粒子, 所以没有声音。声音碰到硬表面会反射回来,变成回声。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG06" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG06" data-recraft-prompt="Split panel: bell jar with no particles = no sound | sound wave bouncing off a wall = echo. — Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="Split panel: bell jar with no particles = no sound | sound wave bouncing off a wall = echo."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG06<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Energy is never destroyed. It spreads out to the surroundings (dissipation). Once spread out, it is too thin to use again. This is irreversible. <span class="zh">能量永远不会被消灭。它分散到周围(耗散)。 一旦分散开,就太稀薄,不能再用。这是不可逆的。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG07" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG07" data-recraft-prompt="A hot cup with thermal energy arrows spreading to air, table, hand. — Best visual: Sankey diagram, width = energy amount (useful vs wasted) | Animate: No (static) | Trap to flag: 'Wasted energy disappears'; inputs/outputs not balancing | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="A hot cup with thermal energy arrows spreading to air, table, hand."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG07<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Next years go deeper. You will meet formulas: KE = 1/2 m v^2, GPE = m g h, and the wave rule v = f lambda. We only show them today — you will learn them later. <span class="zh">之后的年级会更深入。你会遇到公式: KE = 1/2 m v^2、GPE = m g h,还有波的规律 v = f lambda。 今天只是给你看一眼 —— 以后才学。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG08" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG08" data-recraft-prompt="Three faded &quot;coming soon&quot; formula cards (KE, GPE, v=f lambda) behind a Y8/Y9 signpost. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="Three faded &quot;coming soon&quot; formula cards (KE, GPE, v=f lambda) behind a Y8/Y9 signpost."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG08<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Guided practice · 带提示</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">State / Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A stretched rubber band is about to be released. Which energy store does it hold?<br><span class="zh">一条被拉长的橡皮筋即将被放开。它储存了哪一种能量?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Identify" = pick the right one; no explanation needed. <span class="zh">"Identify" = 选出正确的那个;不用解释。</span></div><div class="q-options" style="margin:6px 0 8px;font-size:14px;color:var(--ink-2);line-height:1.8;">A) elastic B) magnetic C) chemical D) thermal<br><span class="zh">A) 弹性能 B) 磁能 C) 化学能 D) 热能</span></div>
+
+        <textarea class="short-input" id="Q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In rubber band review, underline the clue that points to elastic energy store. <span class="zh">橡皮筋复习先划出指向弹性能储存的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>A (elastic)</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: A (elastic) · Accept also: elastic potential / stretched or squashed shape / 弹性势能 / 弹性能 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for rubber band review: choosing magnetic has no stretched-shape clue. This does not earn the mark for elastic energy store. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for rubber band review; the named idea must be elastic energy store. · Reject an answer that gives the opposite direction or wrong stage in rubber band review; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to rubber band review; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into rubber band review; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in rubber band review, the answer earns credit because it states elastic energy store. <span class="zh">对。橡皮筋复习这题得分，因为写中了弹性能储存。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — rubber band review is not asking for “nearby science words”; the likely trap is choosing magnetic has no stretched-shape clue, while the needed idea is elastic energy store. <span class="zh">还不对。橡皮筋复习不是随便写相近术语；常见陷阱是选磁能没有拉伸形状线索，真正要点是弹性能储存。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A torch is switched on. Describe the energy change, using "from X to Y".<br><span class="zh">一支手电筒被打开。用 "from X to Y" 描述能量变化。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Describe" = say what changes into what; use "from ... to ...". <span class="zh">"Describe" = 说出什么变成什么;用 "from ... to ..."。</span></div>
+
+        <textarea class="short-input" id="Q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In torch from-to review, underline the clue that points to from chemical in battery to light and thermal output. <span class="zh">手电筒 from-to 复习先划出指向从电池化学能到光能/热能的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>from chemical (store, in the battery) to light (and thermal)</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: from chemical (store, in the battery) to light (and thermal) · Accept also: light energy / brightness / 光 / 光能 · Accept also: thermal energy / heat / 热 / 热能 · Accept also: chemical / stored in food or fuel / 化学能 / 储存在食物或燃料里 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for torch from-to review: leaving out from-to wording makes the transfer direction unclear. This does not earn the mark for from chemical in battery to light and thermal output. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for torch from-to review; the named idea must be from chemical in battery to light and thermal output. · Reject an answer that gives the opposite direction or wrong stage in torch from-to review; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to torch from-to review; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into torch from-to review; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in torch from-to review, the answer earns credit because it states from chemical in battery to light and thermal output. <span class="zh">对。手电筒 from-to 复习这题得分，因为写中了从电池化学能到光能/热能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — torch from-to review is not asking for “nearby science words”; the likely trap is leaving out from-to wording makes the transfer direction unclear, while the needed idea is from chemical in battery to light and thermal output. <span class="zh">还不对。手电筒 from-to 复习不是随便写相近术语；常见陷阱是不写 from-to 会让转移方向不清楚，真正要点是从电池化学能到光能/热能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q03 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A drum is hit and you hear it across the room. Which statement is correct?<br><span class="zh">一面鼓被敲响,你在房间另一头听见它。哪个句子是正确的?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Identify" = choose the correct statement. <span class="zh">"Identify" = 选出正确的句子。</span></div><div class="q-options" style="margin:6px 0 8px;font-size:14px;color:var(--ink-2);line-height:1.8;">A) The air particles travel from the drum to your ear. B) The particles vibrate in place and pass the vibration along. C) The sound jumps through empty space with no particles. D) The particles fly faster than the sound.<br><span class="zh">A) 空气粒子从鼓飞到你的耳朵。 B) 粒子在原地振动,把振动一路传下去。 C) 声音穿过没有粒子的空旷空间。 D) 粒子飞得比声音还快。</span></div>
+
+        <textarea class="short-input" id="Q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q03-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>B</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: B <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for drum sound statement: choosing particles travel repeats the main sound misconception. This does not earn the mark for particles vibrate in place and pass vibration along. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for drum sound statement; the named idea must be particles vibrate in place and pass vibration along. · Reject an answer that gives the opposite direction or wrong stage in drum sound statement; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to drum sound statement; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into drum sound statement; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in drum sound statement, the answer earns credit because it states particles vibrate in place and pass vibration along. <span class="zh">对。鼓声选择题这题得分，因为写中了粒子原地振动并传递振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — drum sound statement is not asking for “nearby science words”; the likely trap is choosing particles travel repeats the main sound misconception, while the needed idea is particles vibrate in place and pass vibration along. <span class="zh">还不对。鼓声选择题不是随便写相近术语；常见陷阱是选粒子旅行就是本单元大误区，真正要点是粒子原地振动并传递振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">An astronaut on the Moon claps her hands. A friend standing close by sees the clap but hears nothing. Explain why there is no sound.<br><span class="zh">一名太空人在月球上拍手。旁边的朋友看到她拍手, 却什么都听不到。解释为什么没有声音。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain" = give a reason, say WHY. <span class="zh">"Explain" = 给出原因,说出为什么。</span></div>
+
+        <textarea class="short-input" id="Q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the Moon (space) is a vacuum / has no air / no particles;</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the Moon (space) is a vacuum / has no air / no particles; · sound needs particles (a medium) to travel; no medium = no sound · Accept also: sound energy / noise / 声 / 声能 · Accept also: vacuum / no particles / 真空 / 没有粒子 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for Moon clap vacuum: saying the friend is too far away ignores that the key is vacuum. This does not earn the mark for no particles/air on the Moon to transmit sound. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for Moon clap vacuum; the named idea must be no particles/air on the Moon to transmit sound. · Reject an answer that gives the opposite direction or wrong stage in Moon clap vacuum; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to Moon clap vacuum; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into Moon clap vacuum; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in Moon clap vacuum, the answer earns credit because it states no particles/air on the Moon to transmit sound. <span class="zh">对。月球拍手真空这题得分，因为写中了月球无空气/粒子，不能传声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — Moon clap vacuum is not asking for “nearby science words”; the likely trap is saying the friend is too far away ignores that the key is vacuum, while the needed idea is no particles/air on the Moon to transmit sound. <span class="zh">还不对。月球拍手真空不是随便写相近术语；常见陷阱是写朋友太远会漏掉真空关键，真正要点是月球无空气/粒子，不能传声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A car brakes hard and stops. The brakes become hot. Explain what happened to the car's kinetic energy. State whether the energy was destroyed.<br><span class="zh">一辆车急刹停下。刹车变热了。解释车的动能去了哪里。 说明这些能量有没有被消灭。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain" = give a reason; use the word "dissipated". <span class="zh">"Explain" = 给出原因;用上 "dissipated" 这个词。</span></div>
+
+        <textarea class="short-input" id="Q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>kinetic energy changed to thermal energy (in the brakes);</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: kinetic energy changed to thermal energy (in the brakes); · it dissipated / spread out to the surroundings; · energy was NOT destroyed (energy is conserved) · Accept also: thermal energy / heat / 热 / 热能 · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: dissipated / spread to surroundings / 耗散 / 分散到周围 · Accept also: destroyed / disappear to nothing / 消灭 / 消失成没有 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for car braking heat: saying the kinetic energy vanishes breaks conservation. This does not earn the mark for kinetic energy changes to thermal and dissipates, not destroyed. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for car braking heat; the named idea must be kinetic energy changes to thermal and dissipates, not destroyed. · Reject an answer that gives the opposite direction or wrong stage in car braking heat; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to car braking heat; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into car braking heat; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in car braking heat, the answer earns credit because it states kinetic energy changes to thermal and dissipates, not destroyed. <span class="zh">对。汽车刹车变热这题得分，因为写中了动能转为热能并耗散，没有被消灭。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — car braking heat is not asking for “nearby science words”; the likely trap is saying the kinetic energy vanishes breaks conservation, while the needed idea is kinetic energy changes to thermal and dissipates, not destroyed. <span class="zh">还不对。汽车刹车变热不是随便写相近术语；常见陷阱是写动能消失违反守恒，真正要点是动能转为热能并耗散，没有被消灭。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A guitar string is plucked and you hear a note. Which energy form is given out as the sound?<br><span class="zh">一根吉他弦被拨动,你听到一个音。声音以哪种能量形式放出?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Identify" = pick the right one; no explanation needed. <span class="zh">"Identify" = 选出正确的那个;不用解释。</span></div><div class="q-options" style="margin:6px 0 8px;font-size:14px;color:var(--ink-2);line-height:1.8;">A) sound B) magnetic C) gravitational D) chemical<br><span class="zh">A) 声能 B) 磁能 C) 重力能 D) 化学能</span></div>
+
+        <textarea class="short-input" id="Q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>A (sound)</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: A (sound) · Accept also: sound energy / noise / 声 / 声能 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for guitar note output: choosing light or thermal does not match hearing a note. This does not earn the mark for sound energy. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for guitar note output; the named idea must be sound energy. · Reject an answer that gives the opposite direction or wrong stage in guitar note output; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to guitar note output; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into guitar note output; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in guitar note output, the answer earns credit because it states sound energy. <span class="zh">对。吉他声输出这题得分，因为写中了声能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — guitar note output is not asking for “nearby science words”; the likely trap is choosing light or thermal does not match hearing a note, while the needed idea is sound energy. <span class="zh">还不对。吉他声输出不是随便写相近术语；常见陷阱是选光能或热能不符合听到音符，真正要点是声能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A ball is dropped from a high shelf and falls to the floor. Describe the energy change as it falls, using "from X to Y".<br><span class="zh">一个球从高架子上掉到地板。用 "from X to Y" 描述它下落时的 能量变化。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Describe" = say what changes into what; use "from ... to ...". <span class="zh">"Describe" = 说出什么变成什么;用 "from ... to ..."。</span></div>
+
+        <textarea class="short-input" id="Q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>from gravitational (potential) energy to kinetic (movement) energy</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: from gravitational (potential) energy to kinetic (movement) energy · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: gravitational potential / position / height / 重力势能 / 位置能量 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for falling ball from-to: starting with chemical energy ignores height as the initial store. This does not earn the mark for from gravitational potential to kinetic energy. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for falling ball from-to; the named idea must be from gravitational potential to kinetic energy. · Reject an answer that gives the opposite direction or wrong stage in falling ball from-to; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to falling ball from-to; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into falling ball from-to; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in falling ball from-to, the answer earns credit because it states from gravitational potential to kinetic energy. <span class="zh">对。下落球 from-to这题得分，因为写中了从重力势能到动能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — falling ball from-to is not asking for “nearby science words”; the likely trap is starting with chemical energy ignores height as the initial store, while the needed idea is from gravitational potential to kinetic energy. <span class="zh">还不对。下落球 from-to不是随便写相近术语；常见陷阱是从化学能开始会忽略高度储存，真正要点是从重力势能到动能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A boy stands far from a high cliff, claps once, and hears the clap again a moment later. Explain why he hears the second sound.<br><span class="zh">一个男孩站在离高悬崖很远的地方,拍一次手,过一会儿又听到 拍手声。解释他为什么听到第二个声音。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain" = give a reason, say WHY. <span class="zh">"Explain" = 给出原因,说出为什么。</span></div>
+
+        <textarea class="short-input" id="Q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the clap is a sound wave; it is reflected from the cliff;</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the clap is a sound wave; it is reflected from the cliff; · the reflected sound is an echo · Accept also: sound energy / noise / 声 / 声能 · Accept also: echo / reflected sound / 回声 / 被反射的声音 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for cliff echo review: writing another person clapped contradicts the single-clap clue. This does not earn the mark for clap sound reflects from the cliff and returns as an echo. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for cliff echo review; the named idea must be clap sound reflects from the cliff and returns as an echo. · Reject an answer that gives the opposite direction or wrong stage in cliff echo review; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to cliff echo review; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into cliff echo review; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in cliff echo review, the answer earns credit because it states clap sound reflects from the cliff and returns as an echo. <span class="zh">对。悬崖回声复习这题得分，因为写中了拍手声从悬崖反射回来成为回声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — cliff echo review is not asking for “nearby science words”; the likely trap is writing another person clapped contradicts the single-clap clue, while the needed idea is clap sound reflects from the cliff and returns as an echo. <span class="zh">还不对。悬崖回声复习不是随便写相近术语；常见陷阱是写别人也拍手与只拍一次矛盾，真正要点是拍手声从悬崖反射回来成为回声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A bell rings at one end of a room and a girl hears it at the other end. She says the air particles flew from the bell into her ear. Explain why she is wrong and state what actually travels.<br><span class="zh">一个铃在房间一端响起,一个女孩在另一端听到。她说空气粒子从 铃飞进了她的耳朵。解释她为什么错,并说出真正移动的是什么。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain" = give a reason; say what really travels. <span class="zh">"Explain" = 给出原因;说出真正移动的是什么。</span></div>
+
+        <textarea class="short-input" id="Q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the particles do not travel across; each one vibrates in</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the particles do not travel across; each one vibrates in · place and passes the vibration on; it is the vibration · (energy) that travels, not the particles · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for bell particles correction: only saying sound travels does not correct the particle mistake. This does not earn the mark for particles do not travel; vibration passes along. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for bell particles correction; the named idea must be particles do not travel; vibration passes along. · Reject an answer that gives the opposite direction or wrong stage in bell particles correction; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to bell particles correction; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into bell particles correction; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in bell particles correction, the answer earns credit because it states particles do not travel; vibration passes along. <span class="zh">对。铃声粒子纠错这题得分，因为写中了粒子不旅行，振动传下去。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — bell particles correction is not asking for “nearby science words”; the likely trap is only saying sound travels does not correct the particle mistake, while the needed idea is particles do not travel; vibration passes along. <span class="zh">还不对。铃声粒子纠错不是随便写相近术语；常见陷阱是只写声音传播没有纠正粒子错误，真正要点是粒子不旅行，振动传下去。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A lamp takes in 100 J of electrical energy and gives out 20 J of useful light energy. Explain what happens to the other 80 J and state whether any energy is destroyed.<br><span class="zh">一盏灯输入 100 J 电能,给出 20 J 有用的光能。解释另外的 80 J 去了哪里,并说明有没有能量被消灭。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain" = give a reason; use the numbers and the word "dissipated". <span class="zh">"Explain" = 给出原因;用数字和 "dissipated" 这个词。</span></div>
+
+        <textarea class="short-input" id="Q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the other 80 J is dissipated / spreads out to the</strong> <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the other 80 J is dissipated / spreads out to the · surroundings as thermal energy; no energy is destroyed; · energy is conserved (100 J in = 100 J out) · Accept also: thermal energy / heat / 热 / 热能 · Accept also: dissipated / spread to surroundings / 耗散 / 分散到周围 · Accept also: destroyed / disappear to nothing / 消灭 / 消失成没有 <span class="zh">本题按复习概念给分：能量储存/转移、粒子原地振动、声音需要介质、回声是反射、能量耗散但不消失。</span><br>✗ Reject: Reject for lamp 80 J dissipated: calling the 80 J destroyed loses both dissipation and conservation. This does not earn the mark for 80 J dissipates as thermal energy and energy is conserved. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for lamp 80 J dissipated; the named idea must be 80 J dissipates as thermal energy and energy is conserved. · Reject an answer that gives the opposite direction or wrong stage in lamp 80 J dissipated; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to lamp 80 J dissipated; key words only count when they answer this exact question. · Reject mixing another lesson’s idea into lamp 80 J dissipated; this review item still marks the specific clue in front of the student.<br><span style="color:var(--ink-3);">If right: Correct — in lamp 80 J dissipated, the answer earns credit because it states 80 J dissipates as thermal energy and energy is conserved. <span class="zh">对。灯 80 J 耗散这题得分，因为写中了80 J 以热能形式耗散，总能量守恒。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — lamp 80 J dissipated is not asking for “nearby science words”; the likely trap is calling the 80 J destroyed loses both dissipation and conservation, while the needed idea is 80 J dissipates as thermal energy and energy is conserved. <span class="zh">还不对。灯 80 J 耗散不是随便写相近术语；常见陷阱是写 80 J 被消灭会同时丢耗散和守恒，真正要点是80 J 以热能形式耗散，总能量守恒。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">In 8 lessons you went from "energy is everywhere" all the way to "energy dissipates and cannot be destroyed". Sound was energy you could hear — particles vibrating in place. <span class="zh">8 节课里,你从 "能量无处不在" 一路走到 "能量耗散,且不能被消灭"。声音是你听得见的能量 —— 粒子在原地振动。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG09" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG09" data-recraft-prompt="8-lesson review collage thumbnail (all 8 lesson icons in a grid). — Best visual: Three particle boxes (solid vibrate / liquid slide / gas free) + macro-&gt;micro zoom | Animate: Short loops (particles jiggling); end on a labelled frozen frame | Trap to flag: Particles 'expand / grow' when heated | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="8-lesson review collage thumbnail (all 8 lesson icons in a grid)."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG09<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">STAY CURIOUS: next years you will put numbers on energy and sound. How fast does a wave go? How much energy does a moving car carry? The formulas KE = 1/2 m v^2, GPE = m g h, and v = f lambda are waiting for you. <span class="zh">保持好奇:之后的年级,你会给能量和声音加上数字。 一个波跑得多快?一辆行驶的车带着多少能量? 公式 KE = 1/2 m v^2、GPE = m g h、v = f lambda 在等你。</span></p>
+      
+        <figure class="img-slot" data-ref="L08_Q00_IMG10" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q00_IMG10" data-recraft-prompt="A signpost pointing to &quot;Year 8&quot; and &quot;Year 9&quot; with faded formula cards behind it. — Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="A signpost pointing to &quot;Year 8&quot; and &quot;Year 9&quot; with faded formula cards behind it."
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L08_Q00_IMG10<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">整单元一条链: 能量变 → 会散开；物体振 → 声传开；碰墙 → 回声；没粒子 → 没声音。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

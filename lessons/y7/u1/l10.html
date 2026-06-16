@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U1 L10 · Particle Attraction in Three States</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U1 L10 · Particle Attraction in Three States",
+  "navMeta": "Y7 · U1 · L10",
+  "subjectEn": "Chemistry",
+  "subjectZh": "化学",
+  "unitLabel": "Y7 Unit 1",
+  "unitTitleEn": "Matter and Particle Model",
+  "unitTitleZh": "物质与粒子模型",
+  "userLevel": "1",
+  "lessonData": "10"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="10">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U1 · L10</div>
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 1</div>
+      <div class="sidebar-unit-title" data-en="Matter and Particle Model" data-zh="物质与粒子模型">Matter and Particle Model</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 反应机理</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Trace &amp; predict<span class="zh"> · 追踪与预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Connect &amp; summarise<span class="zh"> · 联系与总结</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B1b Y7U1 — text poured verbatim. Image/widget placeholders kept. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Real-world spark</div>
+      <div class="screen-title" data-en="Why is a rock hard?" data-zh="石头为什么硬?">Why is a rock hard?</div>
+      <div class="screen-title-zh">石头为什么硬?</div>
+    </div>
+
+    <!-- DouDou hook video placeholder -->
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Why is a rock hard?</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Strength of attraction</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">吸引力的强弱</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">Why is a rock hard, water flows, gas spreads everywhere? It comes down to how strongly the particles pull on each other. <span class="zh">石头为什么硬?水为什么流?气体为什么到处跑?关键是粒子之间互相拉的力有多强。</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Mechanism</div>
+      <div class="screen-title" data-en="Strong, medium, weak" data-zh="强、中、弱">Strong, medium, weak</div>
+      <div class="screen-title-zh">强、中、弱</div>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Solid 固体 — strongest attraction; particles locked in place, only vibrate → fixed shape &amp; volume. <span class="zh">吸引力最强;粒子被锁在固定位置,只振动 → 固定形状、固定体积。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Liquid 液体 — medium attraction; holds particles close but lets them slide → no fixed shape, fixed volume. <span class="zh">吸引力中等;把粒子拉在一起,又让它们滑动 → 没固定形状,有固定体积。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Gas 气体 — weakest, almost none; particles free, far apart → no fixed shape or volume; fills container. <span class="zh">吸引力最弱、几乎没有;粒子自由、离得远 → 没固定形状也没固定体积;填满容器。</span></div>
+          
+        </div></div>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn, #a32d2d);background:var(--warn-bg, #fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn, #a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <p style="font-size:14px;color:var(--warn, #a32d2d);line-height:1.6;"><strong>✗ Wrong:</strong> "Gas particles have no force between them at all, so they can never be turned into a liquid." <span class="zh">「气体粒子之间完全没有力,所以永远不能变成液体。」</span></p>
+      <p style="font-size:14px;color:var(--ok-text, #2a6a2a);line-height:1.6;margin-top:8px;"><strong>✓ Right:</strong> Gas particles still have a very weak attraction. If cooled enough, this weak attraction can pull them back into a liquid. <span class="zh">气体粒子之间还有一点点很弱的吸引力。冷却到足够低时,这点弱吸引力能把它们重新拉回成液体。</span></p>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>In the exam:</strong> In the exam, draw solid particles touching in a regular pattern. <span class="zh">考试画:粒子紧挨着,排列规则。</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:8px;"><strong>Real science:</strong> In real life there are tiny gaps between them held by forces — that's why solids can be squeezed a tiny bit. <span class="zh">真实粒子之间其实有很小的缝隙,靠吸引力拉住——所以固体能被压缩一点点。</span></p>
+      <p style="font-size:11px;color:#0369A1;margin-top:8px;font-family:var(--ff-mono);">REF: SCISPARK_EXAM_VS_REAL_SCIENCE_REFERENCE #1</p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Strong = solid, Medium = liquid, Weak = gas (S-M-W → S-L-G). Attraction means how strongly particles pull on each other: more pull = harder to move apart. (Like small magnets between particles — but it is not real magnetism, just a model.) <span class="zh">强=固,中=液,弱=气(强中弱→固液气)。吸引力就是粒子互相拉得多紧:拉得越强,越难分开。 (像粒子之间的小磁铁——但不是真磁铁,只是帮助理解的模型。)</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+      <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+    </div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">State / Identify · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">(b)(i)  In which state, solid, liquid or gas, are methane particles furthest apart? ......................................................... [1] (ii)    In which state, solid, liquid or gas, do methane particles vibrate about fixed positions? ......................................................... [1] (iii)   In which state, solid, liquid or gas, is methane most easily compressed? ......................................................... [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Match each state to how its particles behave; "furthest apart" and "most easily compressed" both point to the same state. <span class="zh">把每个状态对到粒子的行为;「离得最远」和「最容易被压缩」 都指向同一个状态。</span></div>
+
+        <div class="widget-mount" data-mount="q01-widget" data-widget="none-text-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — text answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Particles furthest apart = the state with the weakest attraction. Particles fixed in place = the state with the strongest attraction. <span class="zh">粒子离得最远 = 吸引力最弱的状态。粒子被固定 = 吸引力 最强的状态。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(b)(i) gas (ii) solid (iii) gas Also accept: gaseous state; solid methane.</strong> <span class="zh">(b)(i) 气体 (ii) 固体 (iii) 气体。也接受：气态；固态 methane。</span><br><br>✓ Accept: (b)(i) gas (ii) solid (iii) gas Also accept: gaseous state; solid methane. <span class="zh">接受这些内容：(b)(i) 气体 (ii) 固体 (iii) 气体。也接受：气态；固态 methane。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: liquid for fixed vibration; solid or liquid for most compressible.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：把“固定位置振动”写成液体；把“最容易被压缩”写成固体或液体。原因：这些状态和 methane 的粒子行为不符。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">Match · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Match each strength of attraction to the correct state of matter. (a) Strongest force of attraction  ......................  [1] (b) Medium force of attraction     ......................  [1] (c) Weakest force of attraction    ......................  [1] Choose from: solid / liquid / gas (use each once). </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Strongest attraction holds particles most tightly; weakest attraction lets them escape. <span class="zh">吸引力最强的把粒子抓得最紧;吸引力最弱的让粒子跑掉。</span></div>
+
+        <div class="widget-mount" data-mount="q02-widget" data-widget="none-connect-matching-text-answer-form"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — connect / matching, text answer form) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          The state with a fixed shape AND fixed volume has the strongest attraction. <span class="zh">既有固定形状又有固定体积的状态,吸引力最强。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            ✓ Accept: (a) solid (b) liquid (c) gas<br>✗ Reject: any state used more than once; gas for strongest; solid for weakest. ================================================================<br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+      <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Complete · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Ice, water and steam all contain water molecules. Complete these sentences using words from the list. You may use them once, more than once, or not at all. larger than          the same as          smaller than (a) In steam, the distance between the molecules is .................... the distance between the molecules in water. [1] (b) In steam, the forces between the molecules are .................... the forces between the molecules in water. [1] (c) In water, the mass of one molecule is .................... the mass of one molecule in steam. [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Compare steam (gas) with water (liquid): distance, force, and mass each behave differently. <span class="zh">把蒸汽(气)和水(液)比一比:距离、力、质量各自表现不同。</span></div>
+
+        <div class="widget-mount" data-mount="q03-widget" data-widget="none-fill-from-word-list"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — fill from word list) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) larger than (b) smaller than (c) the same as Also accept: farther apart; weaker than; equal to / no change.</strong> <span class="zh">(a) 大于 (b) 小于 (c) 相同。也接受：距离更远；吸引力更弱；相等 / 没有改变。</span><br><br>✓ Accept: (a) larger than (b) smaller than (c) the same as Also accept: farther apart; weaker than; equal to / no change. <span class="zh">接受这些内容：(a) 大于 (b) 小于 (c) 相同。也接受：距离更远；吸引力更弱；相等 / 没有改变。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: steam molecule lighter or heavier; same force; closer distance.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：说蒸汽分子本身更轻或更重；说吸引力相同；说距离更近。原因：本题比较的是粒子距离和吸引力，不是分子质量。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Explain · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A liquid takes the shape of its container but keeps the same volume. Use the idea of attraction between particles to explain why a liquid has no fixed shape but a fixed volume. [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Link the property (no fixed shape) to the strength of attraction and how the particles can move. <span class="zh">把性质(没有固定形状)连到吸引力的强弱和粒子怎么动。</span></div>
+
+        <div class="widget-mount" data-mount="q04-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Attraction is medium / not strong enough to fix positions, so particles can slide past each other -&gt; no fixed shape (1). Attraction is still strong enough to keep particles close together, so the volume stays the same (1).</strong> <span class="zh">吸引力是中等的 / 不够强到把粒子固定在位置上，所以粒子能互相滑过，因此液体没有固定形状 (1)。吸引力仍足够强把粒子保持在一起，所以体积保持不变 (1)。</span><br><br>✓ Accept: Attraction is medium / not strong enough to fix positions, so particles can slide past each other -&gt; no fixed shape (1). Attraction is still strong enough to keep particles close together, so the volume stays the same (1). <span class="zh">接受这些内容：吸引力是中等的 / 不够强到把粒子固定在位置上，所以粒子能互相滑过，因此液体没有固定形状 (1)。吸引力仍足够强把粒子保持在一起，所以体积保持不变 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: "particles get bigger"; "no force at all"; answers that do not mention attraction or particle movement.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：“粒子变大”；“完全没有力”；没有提到吸引力或粒子运动的答案。原因：液体性质来自粒子运动和中等吸引力，不是粒子大小改变。</span><br><span style="color:var(--ink-3);">Partial: 2 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 2 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Explain · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A gas is cooled until it turns into a liquid. Use the idea of attraction between particles to explain why the gas can change into a liquid when it is cooled. [3] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Combine all three ideas from this set of lessons: arrangement, motion, and attraction. <span class="zh">把这几课的三个想法合起来:排列、运动、吸引力。</span></div>
+
+        <div class="widget-mount" data-mount="q05-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Cooling removes energy / particles move more slowly (1). Particles can no longer overcome the (weak) attraction between them (1). The attraction pulls particles closer together, forming a liquid (1).</strong> <span class="zh">冷却会移走能量 / 粒子移动变慢 (1)。粒子不能再克服彼此之间较弱的吸引力 (1)。吸引力把粒子拉得更近，形成液体 (1)。</span><br><br>✓ Accept: Cooling removes energy / particles move more slowly (1). Particles can no longer overcome the (weak) attraction between them (1). The attraction pulls particles closer together, forming a liquid (1). <span class="zh">接受这些内容：冷却会移走能量 / 粒子移动变慢 (1)。粒子不能再克服彼此之间较弱的吸引力 (1)。吸引力把粒子拉得更近，形成液体 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: "particles disappear"; "particles get smaller"; "no force exists in a gas"; answers with no mention of attraction or slowing down.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：“粒子消失”；“粒子变小”；“气体里没有力”；没有提到吸引力或变慢的答案。原因：凝结是粒子变慢并被吸引力拉近。</span><br><span style="color:var(--ink-3);">Partial: 3 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 3 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">State · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">In which state is the force of attraction between particles the </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Compare how strongly the particles pull on each other. <span class="zh">比较粒子之间互相拉得有多强。</span></div>
+
+        <div class="widget-mount" data-mount="q06-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Solid (1).</strong> <span class="zh">固体 (1)。</span><br><br>✓ Accept: Solid (1). <span class="zh">接受这些内容：固体 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: liquid; gas; "they are all the same".. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：液体；气体；“三种都一样”。原因：三态的粒子吸引力强弱不同。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">State · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A gas spreads out to fill any container it is put in. State what this tells you about the force of attraction between gas particles: is it strong or very weak? [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Think how much pull is left between gas particles. <span class="zh">想想气体粒子之间还剩多少吸引力。</span></div>
+
+        <div class="widget-mount" data-mount="q07-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Very weak / almost no attraction between gas particles (1).</strong> <span class="zh">气体粒子之间的吸引力很弱 / 几乎没有吸引力 (1)。</span><br><br>✓ Accept: Very weak / almost no attraction between gas particles (1). <span class="zh">接受这些内容：气体粒子之间的吸引力很弱 / 几乎没有吸引力 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: "strong"; "medium"; answers with no mention of weak attraction.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：“强”；“中等”；没有提到弱吸引力的答案。原因：气体能散开是因为粒子间吸引力很弱。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Explain · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A solid keeps its own fixed shape and does not flow. Use the idea of attraction between particles to explain why a solid keeps a fixed shape. [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Link the strong pull to why the shape cannot change. <span class="zh">把强吸引力连到为什么形状不能变。</span></div>
+
+        <div class="widget-mount" data-mount="q08-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>The attraction between particles is very strong (1), so it holds the particles in fixed positions and they cannot move past each other / cannot flow, so the shape stays fixed (1).</strong> <span class="zh">粒子之间的吸引力非常强 (1)，所以粒子被保持在固定位置，不能互相滑过 / 不能流动，因此形状保持固定 (1)。</span><br><br>✓ Accept: The attraction between particles is very strong (1), so it holds the particles in fixed positions and they cannot move past each other / cannot flow, so the shape stays fixed (1). <span class="zh">接受这些内容：粒子之间的吸引力非常强 (1)，所以粒子被保持在固定位置，不能互相滑过 / 不能流动，因此形状保持固定 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: "particles are stuck together with glue"; "no force"; answers with no mention of strong attraction or fixed positions.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：“粒子像用胶水粘住”；“没有力”；没有提到强吸引力或固定位置的答案。原因：固体形状固定来自强吸引力，不是胶水或没有力。</span><br><span style="color:var(--ink-3);">Partial: 2 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 2 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">Explain · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A gas has no fixed shape and no fixed volume. Use the idea of attraction between particles to explain why a gas has no fixed shape and no fixed volume. [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Combine arrangement, motion and attraction for a gas. <span class="zh">把排列、运动、吸引力三样合起来解释气体。</span></div>
+
+        <div class="widget-mount" data-mount="q09-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>The attraction between gas particles is very weak (1), so the particles are free to move far apart in all directions and fill any container, giving no fixed shape and no fixed volume (1).</strong> <span class="zh">气体粒子之间的吸引力非常弱 (1)，所以粒子能在各个方向自由移动、相距很远并填满任何容器，因此气体没有固定形状，也没有固定体积 (1)。</span><br><br>✓ Accept: The attraction between gas particles is very weak (1), so the particles are free to move far apart in all directions and fill any container, giving no fixed shape and no fixed volume (1). <span class="zh">接受这些内容：气体粒子之间的吸引力非常弱 (1)，所以粒子能在各个方向自由移动、相距很远并填满任何容器，因此气体没有固定形状，也没有固定体积 (1)。</span><br><span style="color:var(--ink-3);">Spelling: Accept minor spelling errors if the science meaning is still clear; reject if the spelling changes the meaning to a different science word.</span><br>✗ Reject: "particles get bigger"; "strong attraction"; answers with no mention of weak attraction or free movement.. Reject because it conflicts with the state / particle / graph idea being tested, or answers the wrong direction of change. <span class="zh">拒绝这些内容：“粒子变大”；“吸引力很强”；没有提到弱吸引力或自由运动的答案。原因：气体性质来自弱吸引力和自由运动。</span><br><span style="color:var(--ink-3);">Partial: 2 marks total. Award 1 mark for each independent correct point listed in MARK_SCHEME_ACCEPT_EN. Do not bundle marks. If one part is blank or unclear, mark that part NEEDS_TEACHER_REVIEW rather than auto-zero. 共 2 分。MARK_SCHEME_ACCEPT_ZH 里每个独立得分点各 1 分，不捆绑。空白或看不清的部分标 NEEDS_TEACHER_REVIEW，不直接打零。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the particle / state-change idea needed for this question.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — check whether the particles are closer or further apart, moving faster or slower, or whether the change direction is reversed.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · (none) <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A solid is heated strongly until it melts into a liquid. Use the idea of attraction between particles to explain why heating can turn a solid into a liquid. [3] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Think what heating does to motion, and how that affects the pull holding particles together. <span class="zh">想加热对运动做了什么,以及这怎么影响把粒子拉在一起的吸引力。</span></div>
+
+        <div class="widget-mount" data-mount="q10-widget" data-widget="none-short-written-answer"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · (none — short written answer) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            ✓ Accept: Heating gives the particles more energy / they move faster (1). The particles can now partly overcome the strong attraction holding them in fixed positions (1). The particles break free from fixed positions and slide past each other, so the solid becomes a liquid (1).<br>✗ Reject: "particles melt"; "particles get smaller"; "the attraction disappears completely"; answers with no mention of energy/faster motion or overcoming attraction. ================================================================<br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Connect & summarise</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">1</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">Arrangement (L08) — how particles are packed. <span class="zh">排列(L08)——粒子怎么堆。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">2</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">Motion (L09) — how particles move. <span class="zh">运动(L09)——粒子怎么动。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">3</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">Attraction (L10) — how strongly particles pull on each other. <span class="zh">吸引力(L10)——粒子互相拉得多强。</span></div>
+        </div>
+      <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-top:10px;">Together these explain the shape and volume of solids, liquids and gases. <span class="zh">三者一起,解释固体、液体、气体的形状和体积。</span></p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Next — what happens at the moment a substance changes from one state to another? <span class="zh">下一课——物质从一个状态变成另一个状态的那一刻,会发生什么?</span></p>
+      
+    </div>
+
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

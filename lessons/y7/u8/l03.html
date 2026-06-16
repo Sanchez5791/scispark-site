@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U8 L03 · 7 Energy Stores</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U8 L03 · 7 Energy Stores",
+  "navMeta": "Y7 · U8 · L03",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 8",
+  "unitTitleEn": "Energy & Sound",
+  "unitTitleZh": "能量与声音",
+  "userLevel": "1",
+  "lessonData": "3"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="3">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U8 · L03</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 8</div>
+      <div class="sidebar-unit-title" data-en="Energy & Sound" data-zh="能量与声音">Energy & Sound</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U8 parsed JSON (3rd pass) — text poured verbatim; red cards detected by wrong/right text (flag unreliable); L01 cmd-word intro recovered from source. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="7 Energy Stores" data-zh="7 Energy Stores">7 Energy Stores</div>
+      <div class="screen-title-zh"></div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · 7 Energy Stores</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#FFF7ED;border:1px solid #FED7AA;">
+      <div style="font-size:11px;font-weight:700;color:#C2410C;margin-bottom:4px;">🌞 Warm-up<span class="zh" style="color:#C2410C;"> · 热身</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">一辆车不是只有动能。它还有燃料化学能、引擎热能。它不是“单技能角色”, 是全能玩家。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">store 不是“能量跑出来了”, 是“能量暂时放在哪里”。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">energy store 像抽屉: 同一个房间可以有很多抽屉, 同一个物体也可以同时有很多能量储存。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">7 stores 顺口念: 动、重、化、热、弹、电、磁。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A renewable energy engineer looks at a solar farm, a wind turbine and a hydro dam and asks one question for each: "Which energy store is this, and what does it change into?" <span class="zh">可再生能源工程师看着太阳能场、风力发电机、水坝, 对每一个 问同一个问题: "这是哪种能量储存, 它变成什么?"</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="7 Energy Stores" data-zh="7 Energy Stores">7 Energy Stores</div>
+      <div class="screen-title-zh"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">这屏只抓一个重点，先会认，再会写。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">energy store 像抽屉: 同一个房间可以有很多抽屉, 同一个物体也可以同时有很多能量储存。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">7 stores 顺口念: 动、重、化、热、弹、电、磁。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Energy is stored in 7 ways. The 7 stores are: kinetic, gravitational (potential), chemical, thermal, elastic (potential), electric, magnetic. <span class="zh">能量有 7 种储存方式。7 种储存是: 动能、重力(势能)、化学、热、弹性(势能)、电、磁。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">"Students think 'energy types' and 'energy stores' are different lists, or that an object can only ever hold one store." <span class="zh">"学生以为'能量种类'和'能量储存'是两份 不同的清单, 或以为一个物体只能有一种储存。"</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A renewable energy engineer turns one store into a more useful one: sunlight (light) into electric; moving water (kinetic) into electric; wind (kinetic) into electric. <span class="zh">可再生能源工程师把一种储存变成更有用的: 阳光(光)变成电; 流水(动能)变成电; 风(动能)变成电。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Guided practice · 带提示</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Draw a line from each type of energy to its description. [3]<br><span class="zh">把每一种能量连到它的描述。[3]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Match each one to the right description." <span class="zh">"把每一个对到正确的描述。"</span></div>
+
+        <textarea class="short-input" id="Q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In matching store descriptions, underline the clue that points to each energy store linked to the correct description. <span class="zh">能量储存配描述先划出指向每种能量储存对上正确描述的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>chemical → energy stored in food or fuel; heat (thermal) → energy that flows because of a temperature difference; gravitational potential → energy it has because of its position; elastic potential → energy it has because it has changed shape; kinetic → energy it has because it is moving</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: chemical → energy stored in food or fuel · heat (thermal) → energy that flows because of a temperature difference · gravitational potential → energy it has because of its position · elastic potential → energy it has because it has changed shape · kinetic → energy it has because it is moving <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for matching store descriptions: matching by familiar words only can pair the store with the wrong cause. This does not earn the mark for each energy store linked to the correct description. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for matching store descriptions; the named idea must be each energy store linked to the correct description. · Reject an answer that gives the opposite direction or wrong stage in matching store descriptions; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to matching store descriptions; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in matching store descriptions unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in matching store descriptions, the answer earns credit because it states each energy store linked to the correct description. <span class="zh">对。能量储存配描述这题得分，因为写中了每种能量储存对上正确描述。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — matching store descriptions is not asking for “nearby science words”; the likely trap is matching by familiar words only can pair the store with the wrong cause, while the needed idea is each energy store linked to the correct description. <span class="zh">还不对。能量储存配描述不是随便写相近术语；常见陷阱是只看熟词乱配，会把储存和原因配错，真正要点是每种能量储存对上正确描述。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q02 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">NAME · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Here are six objects. Each object transfers energy into useful types of energy. Write down the useful type of energy released below each object. Choose from the list given. [3]<br><span class="zh">这里有六个物体。每个物体把能量转换成有用的能量类型。在每个物体下面写出它释放的有用能量类型,从给出的列表中选择。[3]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give the useful energy each object gives out." <span class="zh">"说出每个物体放出的有用能量。"</span></div>
+
+        <figure class="img-slot" data-ref="L03_Q04_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q04_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L03_Q04_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L03_Q04_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q02-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>lamp = light; kettle = thermal; cooker = thermal; megaphone = sound; radio = sound; bicycle = kinetic; Accept: heat for thermal</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: lamp = light · kettle = thermal · cooker = thermal · megaphone = sound · radio = sound · bicycle = kinetic · Accept: heat for thermal <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for six-object useful outputs: giving the input energy instead of the useful output answers a different question. This does not earn the mark for lamp/kettle/cooker/megaphone/radio/bicycle matched to light/thermal/sound/kinetic. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for six-object useful outputs; the named idea must be lamp/kettle/cooker/megaphone/radio/bicycle matched to light/thermal/sound/kinetic. · Reject an answer that gives the opposite direction or wrong stage in six-object useful outputs; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to six-object useful outputs; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in six-object useful outputs unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in six-object useful outputs, the answer earns credit because it states lamp/kettle/cooker/megaphone/radio/bicycle matched to light/thermal/sound/kinetic. <span class="zh">对。六个物体有用输出这题得分，因为写中了灯=光，水壶/炉具=热，扩音器/收音机=声，自行车=动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — six-object useful outputs is not asking for “nearby science words”; the likely trap is giving the input energy instead of the useful output answers a different question, while the needed idea is lamp/kettle/cooker/megaphone/radio/bicycle matched to light/thermal/sound/kinetic. <span class="zh">还不对。六个物体有用输出不是随便写相近术语；常见陷阱是写输入能量而不是有用输出，是答错问题，真正要点是灯=光，水壶/炉具=热，扩音器/收音机=声，自行车=动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Carlos investigates the energy stored in a stretched elastic band. He stretches the band, lets go, and measures how far it travels (repeated at 10 cm, 12 cm, 14 cm, 16 cm). (a) Energy is stored in the stretched elastic band. There is an energy change when Carlos lets go. Complete the diagram to suggest the types of energy released. stored energy → __________ + __________ [2]<br><span class="zh">Carlos 研究拉长的橡皮筋里储存的能量。他拉长橡皮筋、放手,并测量它飞多远(在 10 cm、12 cm、14 cm、16 cm 重复)。(a) 能量储存在拉长的橡皮筋里。Carlos 放手时发生能量变化。完成图示,写出释放出来的能量类型。储存的能量 → __________ + __________ [2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a short answer — the energy types only." <span class="zh">"给短答案 — 只要能量种类。"</span></div>
+
+        <figure class="img-slot" data-ref="L03_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q01_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L03_Q01_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L03_Q01_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q03-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>thermal / heat; sound; (also from official key) metre ruler / ruler / measuring tape; Accept: any correct answer in terms of energy or gravity; more energy transferred to GPE than kinetic energy</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: thermal / heat · sound · (also from official key) metre ruler / ruler / measuring tape · Accept: any correct answer in terms of energy or gravity; more energy transferred to GPE than kinetic energy · Accept also: thermal energy / heat / 热 / 热能 · Accept also: sound energy / noise / 声 / 声能 <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for elastic band release: writing the measuring ruler answers the investigation tool, not the energy output. This does not earn the mark for thermal and sound energy released by the band. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for elastic band release; the named idea must be thermal and sound energy released by the band. · Reject an answer that gives the opposite direction or wrong stage in elastic band release; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to elastic band release; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in elastic band release unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in elastic band release, the answer earns credit because it states thermal and sound energy released by the band. <span class="zh">对。橡皮筋释放这题得分，因为写中了释放时有热能和声能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — elastic band release is not asking for “nearby science words”; the likely trap is writing the measuring ruler answers the investigation tool, not the energy output, while the needed idea is thermal and sound energy released by the band. <span class="zh">还不对。橡皮筋释放不是随便写相近术语；常见陷阱是写尺子是在写测量工具，不是能量输出，真正要点是释放时有热能和声能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The diagrams show four objects. (a) Complete the table about the type of energy each object has. Put one tick (✓) in each row. [2]<br><span class="zh">图中显示四个物体。(a) 完成下表,写出每个物体具有的能量类型。每一行打一个勾(✓)。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Tick the energy type each object has." <span class="zh">"勾出每个物体有的能量种类。"</span></div>
+
+        <figure class="img-slot" data-ref="L03_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q03_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L03_Q03_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L03_Q03_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong></strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept:  <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for object tick table: ticking more than one column per row breaks the table rule. This does not earn the mark for one tick per object in the correct energy-store column. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for object tick table; the named idea must be one tick per object in the correct energy-store column. · Reject an answer that gives the opposite direction or wrong stage in object tick table; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to object tick table; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in object tick table unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in object tick table, the answer earns credit because it states one tick per object in the correct energy-store column. <span class="zh">对。物体能量勾选表这题得分，因为写中了每个物体只在正确能量栏打一勾。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — object tick table is not asking for “nearby science words”; the likely trap is ticking more than one column per row breaks the table rule, while the needed idea is one tick per object in the correct energy-store column. <span class="zh">还不对。物体能量勾选表不是随便写相近术语；常见陷阱是一行勾多个栏会违反表格规则，真正要点是每个物体只在正确能量栏打一勾。</span></span><br><span style="display:block;margin-top:8px;color:#B45309;font-weight:600;">⚑ Answer pending teacher verification<span class="zh"> · 答案待老师确认</span> — the official key for this question is marked “reconstructed / not official”. Hold for teacher confirmation before auto-marking.</span>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Draw a line from the type of energy to its description and example. One has been done for you. [4]<br><span class="zh">把能量类型连到它的描述和例子。已示范一个。[4]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Match energy to its description AND example." <span class="zh">"把能量对到它的描述和例子。"</span></div>
+
+        <figure class="img-slot" data-ref="L03_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q05_IMG01" data-recraft-prompt="Best visual: Energy bar chart (amount per store) + Sankey diagram (flow + waste) | Animate: Optional (static is fine; bars/Sankey can draw in) | Trap to flag: Treating energy as a substance that is 'used up' | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame.; D6: Use 'energy stores / bars' for the concept; exam 'forms' wording only where the exam demands it." alt="L03_Q05_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L03_Q05_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>also called heat energy → thermal → a fire; energy of moving objects → kinetic → a girl running; energy released by vibrating objects → sound → a boy talking; stored energy → chemical → food; (given, already done) also called radiant energy → light → the Sun</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 4</span><br>✓ Accept: also called heat energy → thermal → a fire · energy of moving objects → kinetic → a girl running · energy released by vibrating objects → sound → a boy talking · stored energy → chemical → food · (given, already done) also called radiant energy → light → the Sun <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for description-example matching: matching the description but not the example leaves the line only half correct. This does not earn the mark for thermal/kinetic/sound/chemical matched to both description and example. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for description-example matching; the named idea must be thermal/kinetic/sound/chemical matched to both description and example. · Reject an answer that gives the opposite direction or wrong stage in description-example matching; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to description-example matching; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in description-example matching unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in description-example matching, the answer earns credit because it states thermal/kinetic/sound/chemical matched to both description and example. <span class="zh">对。描述和例子配对这题得分，因为写中了热/动/声/化学同时配对描述和例子。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — description-example matching is not asking for “nearby science words”; the likely trap is matching the description but not the example leaves the line only half correct, while the needed idea is thermal/kinetic/sound/chemical matched to both description and example. <span class="zh">还不对。描述和例子配对不是随便写相近术语；常见陷阱是只配描述不配例子，会少一半，真正要点是热/动/声/化学同时配对描述和例子。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">NAME · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A stretched spring is held ready to fire a toy. Name the energy store held in the stretched spring. [1]<br><span class="zh">一根被拉长的弹簧准备发射一个玩具。说出拉长的弹簧里储存的能量。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Just give the word — the energy store." <span class="zh">"只写出那个词 — 能量储存。"</span></div>
+
+        <textarea class="short-input" id="Q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>elastic (potential) energy</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: elastic (potential) energy · Accept also: elastic potential / stretched or squashed shape / 弹性势能 / 弹性能 <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for stretched spring: writing kinetic describes after release, not the stored state before firing. This does not earn the mark for elastic potential energy stored in the stretched spring. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for stretched spring; the named idea must be elastic potential energy stored in the stretched spring. · Reject an answer that gives the opposite direction or wrong stage in stretched spring; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to stretched spring; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in stretched spring unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in stretched spring, the answer earns credit because it states elastic potential energy stored in the stretched spring. <span class="zh">对。拉长弹簧这题得分，因为写中了拉长弹簧储存弹性势能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — stretched spring is not asking for “nearby science words”; the likely trap is writing kinetic describes after release, not the stored state before firing, while the needed idea is elastic potential energy stored in the stretched spring. <span class="zh">还不对。拉长弹簧不是随便写相近术语；常见陷阱是写动能是在描述释放后，不是发射前的储存，真正要点是拉长弹簧储存弹性势能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A bar magnet is held close to a steel paperclip. Identify which energy store this is an example of. [1]<br><span class="zh">一块条形磁铁靠近一个钢制回形针。指出这是哪一种能量储存的例子。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Pick out the right store." <span class="zh">"选出对的储存。"</span></div>
+
+        <textarea class="short-input" id="Q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>magnetic energy</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: magnetic energy · Accept also: magnetic / 磁能 <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for magnet and paperclip: writing electric confuses magnetism with a different store. This does not earn the mark for magnetic energy store. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for magnet and paperclip; the named idea must be magnetic energy store. · Reject an answer that gives the opposite direction or wrong stage in magnet and paperclip; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to magnet and paperclip; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in magnet and paperclip unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in magnet and paperclip, the answer earns credit because it states magnetic energy store. <span class="zh">对。磁铁和回形针这题得分，因为写中了磁能储存。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — magnet and paperclip is not asking for “nearby science words”; the likely trap is writing electric confuses magnetism with a different store, while the needed idea is magnetic energy store. <span class="zh">还不对。磁铁和回形针不是随便写相近术语；常见陷阱是写电能会把磁和电混成一类，真正要点是磁能储存。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">IDENTIFY · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Match each object to its main energy store: (a) a moving bus, (b) a battery, (c) a book on a high shelf. Choose from: kinetic, chemical, gravitational. [3]<br><span class="zh">把每个物体连到它主要的能量储存:(a) 行驶的公交车,(b) 电池,(c) 高架上的书。从下列选择:动能、化学能、重力(势)能。[3]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Match each object to its main energy store." <span class="zh">"把每个物体对到它主要的能量储存。"</span></div>
+
+        <textarea class="short-input" id="Q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>bus=kinetic, battery=chemical, book=gravitational</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: bus=kinetic, battery=chemical, book=gravitational · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: chemical / stored in food or fuel / 化学能 / 储存在食物或燃料里 · Accept also: gravitational potential / position / height / 重力势能 / 位置能量 <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for bus battery book matching: using one store for all three ignores the different clues. This does not earn the mark for bus=kinetic, battery=chemical, high book=gravitational. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for bus battery book matching; the named idea must be bus=kinetic, battery=chemical, high book=gravitational. · Reject an answer that gives the opposite direction or wrong stage in bus battery book matching; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to bus battery book matching; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in bus battery book matching unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in bus battery book matching, the answer earns credit because it states bus=kinetic, battery=chemical, high book=gravitational. <span class="zh">对。巴士电池高处书配对这题得分，因为写中了巴士=动能，电池=化学能，高处书=重力势能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — bus battery book matching is not asking for “nearby science words”; the likely trap is using one store for all three ignores the different clues, while the needed idea is bus=kinetic, battery=chemical, high book=gravitational. <span class="zh">还不对。巴士电池高处书配对不是随便写相近术语；常见陷阱是三个都写同一种能量会无视不同线索，真正要点是巴士=动能，电池=化学能，高处书=重力势能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">STATE · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A coin is moving through the air after being flicked upwards. State TWO energy stores the moving coin has at that moment. [2]<br><span class="zh">一枚硬币被向上弹起后在空中运动。说出此刻运动的硬币具有的两种能量储存。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a short answer." <span class="zh">"给一句短答案。"</span></div>
+
+        <textarea class="short-input" id="Q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>kinetic AND gravitational</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: kinetic AND gravitational · Accept also: kinetic / movement / motion / 动能 / 运动能量 · Accept also: gravitational potential / position / height / 重力势能 / 位置能量 <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for flicked coin: choosing only kinetic misses the coin being raised in the air. This does not earn the mark for kinetic and gravitational stores at the same time. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for flicked coin; the named idea must be kinetic and gravitational stores at the same time. · Reject an answer that gives the opposite direction or wrong stage in flicked coin; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to flicked coin; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in flicked coin unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in flicked coin, the answer earns credit because it states kinetic and gravitational stores at the same time. <span class="zh">对。被弹起的硬币这题得分，因为写中了同时有动能和重力势能。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — flicked coin is not asking for “nearby science words”; the likely trap is choosing only kinetic misses the coin being raised in the air, while the needed idea is kinetic and gravitational stores at the same time. <span class="zh">还不对。被弹起的硬币不是随便写相近术语；常见陷阱是只写动能会漏掉在空中的高度能量，真正要点是同时有动能和重力势能。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">EXPLAIN · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">An electric kettle is switched on to boil water. The label says it is meant to give out thermal energy. Explain why the kettle does not turn all of its electrical energy into useful thermal energy in the water. [2]<br><span class="zh">一个电热水壶被打开来烧水。标签说它应该放出热能。解释为什么水壶不能把全部电能都变成水里有用的热能。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Give a reason — use 'because'." <span class="zh">"给原因 — 用'因为'。"</span></div>
+
+        <textarea class="short-input" id="Q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Some energy heats the kettle and the air and makes sound, so not all of it becomes useful thermal energy in the water; the energy is not destroyed.</strong> <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: Some energy heats the kettle and the air and makes sound, so not all of it becomes useful thermal energy in the water; the energy is not destroyed. · Accept also: thermal energy / heat / 热 / 热能 · Accept also: sound energy / noise / 声 / 声能 · Accept also: destroyed / disappear to nothing / 消灭 / 消失成没有 <span class="zh">本题要把 7 种能量储存或有用输出配对正确：动能、重力势能、化学能、热能、弹性能、电能、磁能；按题目物品给对应答案。</span><br>✗ Reject: Reject for electric kettle inefficiency: claiming 100 percent useful thermal output ignores wasted transfers. This does not earn the mark for some energy also heats the kettle/air and makes sound, so not all becomes useful thermal energy in water. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for electric kettle inefficiency; the named idea must be some energy also heats the kettle/air and makes sound, so not all becomes useful thermal energy in water. · Reject an answer that gives the opposite direction or wrong stage in electric kettle inefficiency; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to electric kettle inefficiency; key words only count when they answer this exact question. · Reject using a material, colour, object name, or pathway as the energy answer in electric kettle inefficiency unless the question specifically asks for it.<br><span style="color:var(--ink-3);">If right: Correct — in electric kettle inefficiency, the answer earns credit because it states some energy also heats the kettle/air and makes sound, so not all becomes useful thermal energy in water. <span class="zh">对。电水壶效率这题得分，因为写中了部分能量加热水壶/空气并产生声音，不全进水里。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — electric kettle inefficiency is not asking for “nearby science words”; the likely trap is claiming 100 percent useful thermal output ignores wasted transfers, while the needed idea is some energy also heats the kettle/air and makes sound, so not all becomes useful thermal energy in water. <span class="zh">还不对。电水壶效率不是随便写相近术语；常见陷阱是写 100% 都变有用热能会漏掉浪费转移，真正要点是部分能量加热水壶/空气并产生声音，不全进水里。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">There are 7 energy stores: kinetic, gravitational, chemical, thermal, elastic, electric, magnetic. One object can hold more than one store. Useful energy is what a device gives out. <span class="zh">有 7 种能量储存: 动能、重力、化学、热、弹性、电、磁。 一个物体可以有不止一种储存。有用能量是装置放出来的那种。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Renewable energy engineers identify energy stores and design machines that convert them — solar (light→electric), wind and hydro (kinetic→electric). <span class="zh">可再生能源工程师识别能量储存, 设计机器把它们转换 — 太阳能(光→电)、风能和水力(动能→电)。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">7 stores 顺口念: 动、重、化、热、弹、电、磁。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

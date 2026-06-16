@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U4 L07 · Plant vs Animal Cells</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+<style id="lx-bilingual">.lx-zh{display:none}body.lang-zh .lx-en{display:none !important}body.lang-zh .lx-zh{display:inline !important}body.lang-zh ul.lx-zh{display:block !important}</style>
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="7">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U4 · L07</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 4</div>
+      <div class="sidebar-unit-title" data-en="Cells and Biological Structure" data-zh="细胞与生物结构">Cells and Biological Structure</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div class="hook-band"><div class="hook-band-content">
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Hook · Observe<span class="lx-zh" style="display:none"> · 钩子 · 观察</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Plant vs Animal Cells</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">植物细胞 vs 动物细胞</span></h1></div>
+</div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:16px 18px;margin:14px 0"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:16px;color:#1F2937;line-height:1.6">A cell biologist is handed a microscope slide with no label. Plant or animal? They look for three clues: a tough outer wall, green chloroplasts, one big vacuole. If those are there, it is a plant cell. This sorting skill — telling two things apart by their parts — is how biologists classify all living material.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:16px;color:#C2410C;line-height:1.65">细胞生物学家拿到一张没有标签的显微镜切片。植物还是动物? 他们找 三个线索: 坚硬的外壁、绿色叶绿体、一个大液泡。三个都在, 就是植物 细胞。这种分辨能力 — 靠部分把两个东西分开 — 就是生物学家给所有 生命物质分类的方法。</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🌿</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_H1_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">[STATIC] plant cell and animal cell side by side with the three plant-only clues highlighted (wall, chloroplast, vacuole).</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Side-by-side comparison + two labelled cells<br>
+      <b>Animate?:</b> Static<br>
+      <b>Trap to flag:</b> Giving animal cells a cell wall
+    </div>
+  </div>
+</div>
+
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('learn')"><span class="lx-en">Start learning →</span><span class="lx-zh" style="display:none">开始学习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Learn · Define<span class="lx-zh" style="display:none"> · 学习 · 定义</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Plant vs Animal Cells</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">植物细胞 vs 动物细胞</span></h1></div>
+<div style="background:#E8FFE8;border:2px solid #BFE6BF;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#2E7D32;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">BOTH plant and animal cells have: nucleus, cytoplasm, cell membrane, mitochondria. ONLY the plant cell has: cell wall, chloroplast, large (sap) vacuole. So every difference is a part the animal cell is missing.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">植物和动物细胞都有: 细胞核、细胞质、细胞膜、线粒体。只有植物细胞 才有: 细胞壁、叶绿体、大液泡。所以每一个不同, 都是动物细胞少了的 那个部分。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🌿</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_L1_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">[STATIC] comparison table: rows = parts, columns = plant / animal, ticks and crosses; OR a Venn diagram of the two.</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Side-by-side comparison + two labelled cells<br>
+      <b>Animate?:</b> Static<br>
+      <b>Trap to flag:</b> Giving animal cells a cell wall
+    </div>
+  </div>
+</div></div>
+<div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#C00000;padding:10px 18px;border-radius:14px 14px 0 0"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff;letter-spacing:.5px">🟥 RED CARD · Common mistake</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟥 红牌 · 常见错误</span></div><div style="padding:14px 18px"><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✘ The error</span><span class="lx-zh" style="display:none">✘ 错误想法</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">The cell membrane and the cell wall are the same thing, so animal cells have a wall too.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">细胞膜和细胞壁是同一个东西, 所以动物细胞也有壁。</span></div><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✓ Correct idea</span><span class="lx-zh" style="display:none">✓ 正确想法</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">Every cell has a thin cell membrane that controls what enters and leaves. Only plant cells ALSO have a thick cell wall outside the membrane for rigid support. Membrane = both; wall = plant only.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">每个细胞都有一层薄的细胞膜, 控制进出。只有植物细胞在膜外面 还多一层厚的细胞壁来做坚硬支撑。膜 = 两者都有; 壁 = 只有植物。</span></div></div></div>
+<div style="background:#F5F0E4;border:2px solid #6D4C41;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#6D4C41;padding:10px 18px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff">🟫 Exam vs Reality</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟫 考试 vs 真实</span></div><div style="padding:14px 18px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#3E2723;line-height:1.6">In the exam, draw the textbook cell with a nucleus. In real life, cells look very different depending on their job. Red blood cells have no nucleus at all. Muscle cells have many. The textbook picture is a general template, not a real specific cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.65">考试时画课本那张细胞图 (有核, 有各部分)。真实不同细胞长得完全 不一样: 红血球没核, 肌肉细胞有多个核。课本那张是拼出来的模板, 不是真实某个细胞。</span></div></div>
+<div style="margin-top:18px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#64748B;letter-spacing:.5px;margin-bottom:6px">MORE DIAGRAMS · 更多配图</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_Q01_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_Q03_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_Q04_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_Q05_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_Q09_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L07_Q10_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('try')"><span class="lx-en">Try it →</span><span class="lx-zh" style="display:none">来练习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Try · Practise<span class="lx-zh" style="display:none"> · 练习 · 应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Plant vs Animal Cells</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">植物细胞 vs 动物细胞</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q1</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Complete</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">9 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">(a) The list contains the names of different parts of a cell: cell membrane, cell wall, chloroplast, cytoplasm, nucleus. (b) The table shows where different parts of a cell are found. Complete the table by placing ticks in the correct boxes. One has been done for you. [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 列表里是细胞不同部分的名称: 细胞膜、细胞壁、叶绿体、细胞质、细胞核。 （小题二） 表格显示细胞不同部分在哪里出现。在正确的格子里打勾补齐表格。 已经帮你完成一个。[3]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">membrane = both; cell wall = plant only; cytoplasm = both; nucleus = both; chloroplast = plant only. (all four correct = 3; three = 2; two = 1)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">膜 = 两者都有；细胞壁 = 植物细胞才有；细胞质 = 两者都有；细胞核 = 两者都有；叶绿体 = 植物细胞才有。 （全部 四个 正确 = 3；三个 = 2；两个 = 1）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">membrane = both</li><li style="margin:2px 0">cell wall = plant only</li><li style="margin:2px 0">cytoplasm = both</li><li style="margin:2px 0">nucleus = both</li><li style="margin:2px 0">chloroplast = plant only. (all four correct = 3</li><li style="margin:2px 0">three = 2</li><li style="margin:2px 0">two = 1)</li><li style="margin:2px 0">cell nucleus</li><li style="margin:2px 0">control centre</li><li style="margin:2px 0">controls cell activities</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">膜 = 两者都有</li><li style="margin:2px 0">细胞壁 = 植物细胞才有</li><li style="margin:2px 0">细胞质 = 两者都有</li><li style="margin:2px 0">细胞核 = 两者都有</li><li style="margin:2px 0">叶绿体 = 植物细胞才有。 （全部 四个 正确 = 3</li><li style="margin:2px 0">三个 = 2</li><li style="margin:2px 0">两个 = 1）</li><li style="margin:2px 0">细胞核</li><li style="margin:2px 0">控制中心</li><li style="margin:2px 0">控制细胞活动</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">wall = both — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">chloroplast = both — reject: it swaps the tested role with another role</li><li style="margin:2px 0">membrane = plant-only — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li><li style="margin:2px 0">cytoplasm = animal-only — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it changes the biological level being tested</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: the wall supports plant cells; the membrane controls what enters and leaves</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">壁 = 两者都有 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">叶绿体 = 两者都有 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">膜 = 植物细胞才有 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li><li style="margin:2px 0">细胞质 = 动物细胞-只 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q2</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Complete</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">9 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The list contains the names of different parts of a cell: cell membrane, cell wall, chloroplast. Complete the table by placing ticks in the correct boxes. [3]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">列表里是细胞不同部分的名称: 细胞膜、细胞壁、叶绿体。 在正确的格子里打勾补齐表格。[3]</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">cell membrane = both; cell wall = plant only; chloroplast = plant only. (all three = 2; two = 1; more than one tick in a row = 0 for that row)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">细胞膜 = 两者都有；细胞壁 = 植物细胞才有；叶绿体 = 植物细胞才有。 （全部 三个 = 2；两个 = 1；更多 比 一个 勾在行 = 0用于那 行）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">cell membrane = both</li><li style="margin:2px 0">cell wall = plant only</li><li style="margin:2px 0">chloroplast = plant only. (all three = 2</li><li style="margin:2px 0">two = 1</li><li style="margin:2px 0">more than one tick in a row = 0 for that row)</li><li style="margin:2px 0">controls entry and exit</li><li style="margin:2px 0">controls substances moving in and out</li><li style="margin:2px 0">plasma membrane</li><li style="margin:2px 0">cellulose cell wall</li><li style="margin:2px 0">rigid cell wall</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">细胞膜 = 两者都有</li><li style="margin:2px 0">细胞壁 = 植物细胞才有</li><li style="margin:2px 0">叶绿体 = 植物细胞才有。 （全部 三个 = 2</li><li style="margin:2px 0">两个 = 1</li><li style="margin:2px 0">更多 比 一个 勾在行 = 0用于那 行）</li><li style="margin:2px 0">控制进出</li><li style="margin:2px 0">控制物质进出</li><li style="margin:2px 0">细胞膜</li><li style="margin:2px 0">纤维素 细胞壁</li><li style="margin:2px 0">坚硬 细胞壁</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">membrane plant-only — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li><li style="margin:2px 0">animal-only — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">wall both — reject: it misses the key word required by this item</li><li style="margin:2px 0">animal — reject: it changes the biological level being tested</li><li style="margin:2px 0">chloroplast both — reject: it describes the wrong cell structure for this mark</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">膜 植物细胞才有 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li><li style="margin:2px 0">动物细胞-只 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">壁 两者都有 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">动物细胞 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">叶绿体 两者都有 — 不给分：它描述了错误的细胞结构</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q3</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Complete / Name</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">5 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">This question is about animal and plant cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">这 题目 是 关于 动物细胞和植物细胞 细胞。</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) nucleus; cytoplasm; cell membrane; mitochondrion (b) any two plant-only: chloroplast; cell wall; sap (large) vacuole (c) release energy from food / respiration</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 细胞核；细胞质；细胞膜；线粒体 （小题二） 任意 两个 植物细胞才有: 叶绿体；细胞壁；细胞液 （大型） 液泡 （小题三） 从食物中释放能量/呼吸作用</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) nucleus</li><li style="margin:2px 0">cytoplasm</li><li style="margin:2px 0">cell membrane</li><li style="margin:2px 0">mitochondrion (b) any two plant-only: chloroplast</li><li style="margin:2px 0">cell wall</li><li style="margin:2px 0">sap (large) vacuole (c) release energy from food</li><li style="margin:2px 0">respiration</li><li style="margin:2px 0">cell nucleus</li><li style="margin:2px 0">control centre</li><li style="margin:2px 0">controls cell activities</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 细胞核</li><li style="margin:2px 0">细胞质</li><li style="margin:2px 0">细胞膜</li><li style="margin:2px 0">线粒体 （小题二） 任意 两个 植物细胞才有: 叶绿体</li><li style="margin:2px 0">细胞壁</li><li style="margin:2px 0">细胞液 （大型） 液泡 （小题三） 从食物中释放能量</li><li style="margin:2px 0">呼吸作用</li><li style="margin:2px 0">细胞核</li><li style="margin:2px 0">控制中心</li><li style="margin:2px 0">控制细胞活动</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) cell wall — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">chloroplast as an animal label (b) chlorophyll as a structure (c) &quot;mitochondria make food&quot; (they release energy, not — reject: energy release is the mitochondria job; the nucleus controls cell activities</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it changes the biological level being tested</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 细胞壁 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">叶绿体 当作 动物细胞 标签 （小题二） 叶绿素 当作 结构 （小题三） 线粒体 制造食物 （它们 释放能量，不 — 不给分：释放能量是线粒体的功能；细胞核负责控制细胞活动</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q4</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Match / Write down</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">5 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">This question is about cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">这 题目 是 关于 细胞。</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) chloroplast→photosynthesis; cytoplasm→reactions; nucleus→genetic information / control; mitochondrion→release energy / respiration; sap vacuole→keeps cell firm / turgid (b) any two of: cell wall; chloroplast; sap vacuole</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 叶绿体→光合作用；细胞质→反应；细胞核→遗传 信息/控制；线粒体→释放能量/呼吸作用；液泡→保持 细胞 坚挺/坚挺 （小题二） 任意 两个 的: 细胞壁；叶绿体；液泡</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) chloroplast→photosynthesis</li><li style="margin:2px 0">cytoplasm→reactions</li><li style="margin:2px 0">nucleus→genetic information</li><li style="margin:2px 0">control</li><li style="margin:2px 0">mitochondrion→release energy</li><li style="margin:2px 0">respiration</li><li style="margin:2px 0">sap vacuole→keeps cell firm</li><li style="margin:2px 0">turgid (b) any two of: cell wall</li><li style="margin:2px 0">chloroplast</li><li style="margin:2px 0">sap vacuole</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 叶绿体→光合作用</li><li style="margin:2px 0">细胞质→反应</li><li style="margin:2px 0">细胞核→遗传 信息</li><li style="margin:2px 0">控制</li><li style="margin:2px 0">线粒体→释放能量</li><li style="margin:2px 0">呼吸作用</li><li style="margin:2px 0">液泡→保持 细胞 坚挺</li><li style="margin:2px 0">坚挺 （小题二） 任意 两个 的: 细胞壁</li><li style="margin:2px 0">叶绿体</li><li style="margin:2px 0">液泡</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) chloroplast→controls cell — reject: chloroplasts do photosynthesis; mitochondria release energy</li><li style="margin:2px 0">cytoplasm→releases energy — reject: energy release is the mitochondria job; the nucleus controls cell activities</li><li style="margin:2px 0">nucleus→photosynthesis (b) membrane as plant-only — reject: the nucleus controls the cell; the vacuole stores cell sap</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 叶绿体→控制细胞 — 不给分：叶绿体进行光合作用；线粒体释放能量</li><li style="margin:2px 0">细胞质→释放能量 — 不给分：释放能量是线粒体的功能；细胞核负责控制细胞活动</li><li style="margin:2px 0">细胞核→光合作用 （小题二） 膜 当作 植物细胞才有 — 不给分：细胞核 控制细胞； 液泡 储存细胞液</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q5</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Write down / State</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">4 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Look at the diagrams of different cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">看在图的不同 细胞。</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) B, D, E, F (any order, all four = 1) (b) any two: no cell wall; no chloroplasts; no (large) sap vacuole (c) one cell / single-celled / unicellular</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） B，D，E，F （任意 顺序，全部 四个 = 1） （小题二） 任意 两个:没有细胞壁；没有 叶绿体；没有 （大型） 液泡 （小题三） 一个细胞/单细胞/单细胞</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) B, D, E, F (any order, all four = 1) (b) any two: no cell wall</li><li style="margin:2px 0">no chloroplasts</li><li style="margin:2px 0">no (large) sap vacuole (c) one cell</li><li style="margin:2px 0">single-celled</li><li style="margin:2px 0">unicellular</li><li style="margin:2px 0">cellulose cell wall</li><li style="margin:2px 0">rigid cell wall</li><li style="margin:2px 0">supports the plant cell</li><li style="margin:2px 0">contains chlorophyll</li><li style="margin:2px 0">site of photosynthesis</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） B，D，E，F （任意 顺序，全部 四个 = 1） （小题二） 任意 两个:没有细胞壁</li><li style="margin:2px 0">没有 叶绿体</li><li style="margin:2px 0">没有 （大型） 液泡 （小题三） 一个细胞</li><li style="margin:2px 0">单细胞</li><li style="margin:2px 0">纤维素 细胞壁</li><li style="margin:2px 0">坚硬 细胞壁</li><li style="margin:2px 0">支撑 植物细胞</li><li style="margin:2px 0">含有 叶绿素</li><li style="margin:2px 0">位置的光合作用</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) A or C as animal cells (b) &quot;animal cells have wall — reject: it changes the biological level being tested</li><li style="margin:2px 0">chloroplasts&quot; (c) many cells — reject: it describes the wrong cell structure for this mark</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li><li style="margin:2px 0">mitochondria — reject: mitochondria release energy; chloroplasts absorb light for photosynthesis</li><li style="margin:2px 0">nucleus — reject: the nucleus controls the cell; the vacuole stores cell sap</li><li style="margin:2px 0">cell membrane only — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） A或C 当作 动物细胞 细胞 （小题二） 动物细胞 细胞有壁 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">叶绿体 （小题三） 很多细胞 — 不给分：它描述了错误的细胞结构</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li><li style="margin:2px 0">线粒体 — 不给分：线粒体释放能量；叶绿体吸收光进行光合作用</li><li style="margin:2px 0">细胞核 — 不给分：细胞核 控制细胞； 液泡 储存细胞液</li><li style="margin:2px 0">细胞膜 只 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('test')"><span class="lx-en">Go to test →</span><span class="lx-zh" style="display:none">去检测 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;letter-spacing:.5px;margin-bottom:8px"><span class="lx-en">EXAM MODE · NO HINTS</span><span class="lx-zh" style="display:none">考试模式 · 无提示</span></div>
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Test · Apply solo<span class="lx-zh" style="display:none"> · 检测 · 独立应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Plant vs Animal Cells</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">植物细胞 vs 动物细胞</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q6</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Name / Tick / Underline</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">5 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The diagram shows a plant cell and an animal cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">图 显示 植物细胞和动物细胞。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) A = cytoplasm; B = nucleus (b) controls what enters / leaves the cell (c) cell wall / large vacuole / chloroplast (d) organ</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） A = 细胞质；B = 细胞核 （小题二） 控制 什么 进入/离开 细胞 （小题三） 细胞壁/大型 液泡/叶绿体 （小题四） 器官</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) A = cytoplasm</li><li style="margin:2px 0">B = nucleus (b) controls what enters</li><li style="margin:2px 0">leaves the cell (c) cell wall</li><li style="margin:2px 0">large vacuole</li><li style="margin:2px 0">chloroplast (d) organ</li><li style="margin:2px 0">cell nucleus</li><li style="margin:2px 0">control centre</li><li style="margin:2px 0">controls cell activities</li><li style="margin:2px 0">jelly-like cytoplasm</li><li style="margin:2px 0">where cell reactions happen</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） A = 细胞质</li><li style="margin:2px 0">B = 细胞核 （小题二） 控制 什么 进入</li><li style="margin:2px 0">离开 细胞 （小题三） 细胞壁</li><li style="margin:2px 0">大型 液泡</li><li style="margin:2px 0">叶绿体 （小题四） 器官</li><li style="margin:2px 0">细胞核</li><li style="margin:2px 0">控制中心</li><li style="margin:2px 0">控制细胞活动</li><li style="margin:2px 0">胶状物-像 细胞质</li><li style="margin:2px 0">哪里 细胞 反应 发生</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) A = nucleus — reject: the nucleus controls the cell; the vacuole stores cell sap</li><li style="margin:2px 0">B = vacuole (b) membrane = wall (c) &quot;animal cell has wall — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li><li style="margin:2px 0">cytoplasm controls cell — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） A = 细胞核 — 不给分：细胞核 控制细胞； 液泡 储存细胞液</li><li style="margin:2px 0">B = 液泡 （小题二） 膜 = 壁 （小题三） 动物细胞有壁 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li><li style="margin:2px 0">细胞质 控制细胞 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q7</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Complete / Match</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">6 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Plants and animals contain cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">植物和动物 含有 细胞。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) nucleus/cytoplasm/membrane = both; wall/vacuole = plant only (b) A = nucleus (control / genetic information); B = chloroplast (photosynthesis); C = cytoplasm (reactions); D = cell wall (rigid support)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 细胞核/细胞质/膜 = 两者都有；壁/液泡 = 植物细胞才有 （小题二） A = 细胞核 （控制/遗传 信息）；B = 叶绿体 （光合作用）；C = 细胞质 （反应）；D = 细胞壁 （坚硬 支撑）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) nucleus</li><li style="margin:2px 0">cytoplasm</li><li style="margin:2px 0">membrane = both</li><li style="margin:2px 0">wall</li><li style="margin:2px 0">vacuole = plant only (b) A = nucleus (control</li><li style="margin:2px 0">genetic information)</li><li style="margin:2px 0">B = chloroplast (photosynthesis)</li><li style="margin:2px 0">C = cytoplasm (reactions)</li><li style="margin:2px 0">D = cell wall (rigid support)</li><li style="margin:2px 0">cell nucleus</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 细胞核</li><li style="margin:2px 0">细胞质</li><li style="margin:2px 0">膜 = 两者都有</li><li style="margin:2px 0">壁</li><li style="margin:2px 0">液泡 = 植物细胞才有 （小题二） A = 细胞核 （控制</li><li style="margin:2px 0">遗传 信息）</li><li style="margin:2px 0">B = 叶绿体 （光合作用）</li><li style="margin:2px 0">C = 细胞质 （反应）</li><li style="margin:2px 0">D = 细胞壁 （坚硬 支撑）</li><li style="margin:2px 0">细胞核</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) wall — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">vacuole — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">chloroplast ticked for animal (b) swapped A–D — reject: chloroplasts are plant photosynthesis structures, not this animal-cell answer</li><li style="margin:2px 0">cytoplasm = genetic information — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">cell membrane — membrane is flexible boundary, not rigid support wall — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 壁 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">液泡 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">叶绿体 打勾用于动物细胞 （小题二） 换错 A–D — 不给分：叶绿体 是 植物细胞 光合作用 结构，不 这 动物细胞-细胞 答案</li><li style="margin:2px 0">细胞质 = 遗传 信息 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">细胞膜 — 膜 是 有弹性 边界，不 坚硬 支撑 壁 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q8</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Complete / Explain</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">4 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Chloroplasts are found in plant cells but not in animal cells. Other structures are found in both plant and animal cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">叶绿体 是 存在在植物细胞 细胞 但是不在 动物细胞 细胞。 其他 结构 是 存在在两者都有 植物细胞和动物细胞 细胞。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) plant = membrane, wall, chloroplast, cytoplasm, nucleus, vacuole; animal = membrane, cytoplasm, nucleus (wall/chloroplast/vacuole = cross) (b) absorb light / for photosynthesis / to make food (glucose / sugar / starch / oxygen)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 植物细胞 = 膜，壁，叶绿体，细胞质，细胞核，液泡；动物细胞 = 膜，细胞质，细胞核 （壁/叶绿体/液泡 = 横切） （小题二） 吸收 光/用于 光合作用/到 制造食物 （葡萄糖/糖/淀粉/氧气）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) plant = membrane, wall, chloroplast, cytoplasm, nucleus, vacuole</li><li style="margin:2px 0">animal = membrane, cytoplasm, nucleus (wall</li><li style="margin:2px 0">chloroplast</li><li style="margin:2px 0">vacuole = cross) (b) absorb light</li><li style="margin:2px 0">for photosynthesis</li><li style="margin:2px 0">to make food (glucose</li><li style="margin:2px 0">sugar</li><li style="margin:2px 0">starch</li><li style="margin:2px 0">oxygen)</li><li style="margin:2px 0">cell nucleus</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 植物细胞 = 膜，壁，叶绿体，细胞质，细胞核，液泡</li><li style="margin:2px 0">动物细胞 = 膜，细胞质，细胞核 （壁</li><li style="margin:2px 0">叶绿体</li><li style="margin:2px 0">液泡 = 横切） （小题二） 吸收 光</li><li style="margin:2px 0">用于 光合作用</li><li style="margin:2px 0">到 制造食物 （葡萄糖</li><li style="margin:2px 0">糖</li><li style="margin:2px 0">淀粉</li><li style="margin:2px 0">氧气）</li><li style="margin:2px 0">细胞核</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) wall — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">chloroplast ticked for animal — reject: chloroplasts are plant photosynthesis structures, not this animal-cell answer</li><li style="margin:2px 0">membrane plant-only (b) &quot;chloroplast controls the cell — reject: chloroplasts are plant photosynthesis structures, not this animal-cell answer</li><li style="margin:2px 0">chlorophyll named as a structure — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it swaps the tested role with another role</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 壁 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">叶绿体 打勾用于动物细胞 — 不给分：叶绿体 是 植物细胞 光合作用 结构，不 这 动物细胞-细胞 答案</li><li style="margin:2px 0">膜 植物细胞才有 （小题二） 叶绿体 控制细胞 — 不给分：叶绿体 是 植物细胞 光合作用 结构，不 这 动物细胞-细胞 答案</li><li style="margin:2px 0">叶绿素 说出名称的 当作 结构 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q9</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Match / Name</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">4 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">The diagram shows an animal cell and a plant cell. Parts of the cells are labelled with the letters A, B, C, D and E.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">图 显示 动物细胞和植物细胞。 部分的细胞 是 标注为有字母 A，B，C，D和E。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">A = cell membrane; B = nucleus; C = cytoplasm; D = cell wall; E = chloroplast. (all five = 4; 3/4 = 3; 2 = 2; 1 = 1; two or more lines from one letter = 0 for that letter)</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">A = 细胞膜；B = 细胞核；C = 细胞质；D = 细胞壁；E = 叶绿体。 （全部 五个 = 4；3/4 = 3；2 = 2；1 = 1；两个或更多 线从一个 字母 = 0用于那 字母）</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">A = cell membrane</li><li style="margin:2px 0">B = nucleus</li><li style="margin:2px 0">C = cytoplasm</li><li style="margin:2px 0">D = cell wall</li><li style="margin:2px 0">E = chloroplast. (all five = 4</li><li style="margin:2px 0">3</li><li style="margin:2px 0">4 = 3</li><li style="margin:2px 0">2 = 2</li><li style="margin:2px 0">1 = 1</li><li style="margin:2px 0">two or more lines from one letter = 0 for that letter)</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">A = 细胞膜</li><li style="margin:2px 0">B = 细胞核</li><li style="margin:2px 0">C = 细胞质</li><li style="margin:2px 0">D = 细胞壁</li><li style="margin:2px 0">E = 叶绿体。 （全部 五个 = 4</li><li style="margin:2px 0">3</li><li style="margin:2px 0">4 = 3</li><li style="margin:2px 0">2 = 2</li><li style="margin:2px 0">1 = 1</li><li style="margin:2px 0">两个或更多 线从一个 字母 = 0用于那 字母）</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">A = wall — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">B = cytoplasm — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">C = nucleus — reject: nucleus means control; this answer needs the cell boundary function</li><li style="margin:2px 0">D = membrane — reject: the membrane is flexible; the plant cell wall is the rigid support layer</li><li style="margin:2px 0">E = mitochondria — reject: mitochondria release energy; chloroplasts absorb light for photosynthesis</li><li style="margin:2px 0">chlorophyll — reject: it misses the key word required by this item</li><li style="margin:2px 0">chlorophyll alone — pigment is not the organelle unless the question asks pigment — reject: it changes the biological level being tested</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">A = 壁 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">B = 细胞质 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">C = 细胞核 — 不给分：细胞核 表示 控制；这 答案 需要 细胞 边界 功能</li><li style="margin:2px 0">D = 膜 — 不给分：细胞膜有弹性；植物细胞壁是坚硬支撑层</li><li style="margin:2px 0">E = 线粒体 — 不给分：线粒体释放能量；叶绿体吸收光进行光合作用</li><li style="margin:2px 0">叶绿素 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">叶绿素 单独 — 色素 是不细胞器 除非 题目 问的 色素 — 不给分：它把本题考的生物层级换掉了</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q10</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">Match</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">3 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">This question is about cells.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">这 题目 是 关于 细胞。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">plant-only structures: cell wall; chloroplast (accept sap vacuole). each structure matched to its correct function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">植物细胞才有 结构: 细胞壁；叶绿体 （可接受 液泡）。 每个 结构 配对到它的 正确 功能。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">plant-only structures: cell wall</li><li style="margin:2px 0">chloroplast (accept sap vacuole). each structure matched to its correct function</li><li style="margin:2px 0">cellulose cell wall</li><li style="margin:2px 0">rigid cell wall</li><li style="margin:2px 0">supports the plant cell</li><li style="margin:2px 0">contains chlorophyll</li><li style="margin:2px 0">site of photosynthesis</li><li style="margin:2px 0">large sap vacuole</li><li style="margin:2px 0">permanent vacuole</li><li style="margin:2px 0">stores cell sap</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">植物细胞才有 结构: 细胞壁</li><li style="margin:2px 0">叶绿体 （可接受 液泡）。 每个 结构 配对到它的 正确 功能</li><li style="margin:2px 0">纤维素 细胞壁</li><li style="margin:2px 0">坚硬 细胞壁</li><li style="margin:2px 0">支撑 植物细胞</li><li style="margin:2px 0">含有 叶绿素</li><li style="margin:2px 0">位置的光合作用</li><li style="margin:2px 0">大型液泡</li><li style="margin:2px 0">永久液泡</li><li style="margin:2px 0">储存细胞液</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">chloroplast→control centre — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">cytoplasm→energy released — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">nucleus→photosynthesis — reject: the nucleus controls the cell; the vacuole stores cell sap</li><li style="margin:2px 0">mitochondrion→prevents shrinking — reject: mitochondria release energy; chloroplasts absorb light for photosynthesis</li><li style="margin:2px 0">sap vacuole→chemical reactions — reject: it misses the key word required by this item</li><li style="margin:2px 0">nucleus — reject: the nucleus controls the cell; the vacuole stores cell sap</li><li style="margin:2px 0">cytoplasm — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">叶绿体→控制中心 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">细胞质→能量 释放 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">细胞核→光合作用 — 不给分：细胞核 控制细胞； 液泡 储存细胞液</li><li style="margin:2px 0">线粒体→防止 萎缩 — 不给分：线粒体释放能量；叶绿体吸收光进行光合作用</li><li style="margin:2px 0">液泡→化学 反应 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">细胞核 — 不给分：细胞核 控制细胞； 液泡 储存细胞液</li><li style="margin:2px 0">细胞质 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('wrap')"><span class="lx-en">Wrap up →</span><span class="lx-zh" style="display:none">总结 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Wrap · Reflect<span class="lx-zh" style="display:none"> · 总结 · 回顾</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Plant vs Animal Cells</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">植物细胞 vs 动物细胞</span></h1></div>
+<div style="background:#F5F0E4;border:2px solid #DDD3A0;border-radius:16px;padding:16px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#8A7B4A;margin-bottom:10px">📌 Summary · 总结</div><div style="display:flex;gap:9px;margin:0 0 10px 0;align-items:flex-start"><span style="color:#8A7B4A;font-weight:900;font-size:15px;flex-shrink:0">•</span><div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#3E2723;line-height:1.55">Plant and animal cells share four parts: nucleus, cytoplasm, cell membrane, mitochondria. The plant cell adds three: cell wall, chloroplast, large vacuole. To classify an unlabelled cell, look for those three plant-only parts.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C">植物和动物细胞共有四个部分: 细胞核、细胞质、细胞膜、线粒体。植物 细胞多三个: 细胞壁、叶绿体、大液泡。要给没标签的细胞分类, 就找这 三个只有植物才有的部分。 BRIDGE FORWARD: L07 → L08: plant and animal cells differ — but inside one animal body, cells also differ by job. Next: specialised animal cells.</span></div></div></div>
+<div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#D98A2B;margin-bottom:8px">🎯 What the examiner wants · 考官要什么</div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">STATE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">short, one-line answer</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">简短一句话</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DESCRIBE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">say what happens; no reasons</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">说出样子，不用原因</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">EXPLAIN</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give reasons; use &#x27;because&#x27;</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给原因，用「因为」</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DEFINE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give the exact meaning</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给准确定义</span></div></div>
+<div style="background:#171413;border-radius:14px;padding:16px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#FFFF00;letter-spacing:1px">🧠 REMEMBER THIS · 记牢这句</div><div style="margin-top:8px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1.4">Plant vs Animal Cells — structure fits function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#FFE08A;line-height:1.5">结构决定功能。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="completeLesson()"><span class="lx-en">Complete lesson ✓</span><span class="lx-zh" style="display:none">完成这一课 ✓</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

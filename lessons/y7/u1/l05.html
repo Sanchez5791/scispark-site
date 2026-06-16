@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U1 L05 · Periodic Table (intro)</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U1 L05 · Periodic Table (intro)",
+  "navMeta": "Y7 · U1 · L05",
+  "subjectEn": "Chemistry",
+  "subjectZh": "化学",
+  "unitLabel": "Y7 Unit 1",
+  "unitTitleEn": "Matter and Particle Model",
+  "unitTitleZh": "物质与粒子模型",
+  "userLevel": "1",
+  "lessonData": "5"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="5">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U1 · L05</div>
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 1</div>
+      <div class="sidebar-unit-title" data-en="Matter and Particle Model" data-zh="物质与粒子模型">Matter and Particle Model</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 反应机理</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Trace &amp; predict<span class="zh"> · 追踪与预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Connect &amp; summarise<span class="zh"> · 联系与总结</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B1b Y7U1 — text poured verbatim. Image/widget placeholders kept. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Real-world spark</div>
+      <div class="screen-title" data-en="One chart for all elements" data-zh="一张表装下所有元素">One chart for all elements</div>
+      <div class="screen-title-zh">一张表装下所有元素</div>
+    </div>
+
+    <!-- DouDou hook video placeholder -->
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · One chart for all elements</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Every element has its place</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">每种元素都有位置</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">About 90 elements is a lot. Scientists order them in one big chart — the Periodic Table. <span class="zh">大约 90 种元素很难全记。科学家把它们排进一张大表——周期表。</span></p>
+      
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L05_SCREEN_IMG01" alt="简化版周期表总览。"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L05_SCREEN_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">简化版周期表总览。</figcaption>
+        </figure>
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Dmitri Mendeleev (Russia) arranged the first widely used Periodic Table; chemists still use it to pick the right element. Today you only learn how to READ the table, not memorise every box. (It is like the class seating plan — nobody wants 90 students at the door.) <span class="zh">Dmitri Mendeleev(俄国)排出第一张被广泛使用的周期表;化学家至今用它挑合适的元素。 今天只学「怎么看懂这张表」,不是背完整张表。 (它像班级座位表——90 个学生全站门口可不行。)</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Mechanism</div>
+      <div class="screen-title" data-en="How to read the table" data-zh="怎么看周期表">How to read the table</div>
+      <div class="screen-title-zh">怎么看周期表</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">1</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">The Periodic Table lists all known elements in order. <span class="zh">周期表把所有已知元素按顺序排好。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">2</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">Each box shows one element's chemical symbol. <span class="zh">每个格子放一种元素的化学符号。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">3</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">Metals are on the left/middle; non-metals on the right. <span class="zh">金属在左/中,非金属在右。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);">
+          <div style="flex:0 0 26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;">4</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.6;">Groups (columns) and periods (rows) give each element a place. <span class="zh">group(列)和 period(行)给每种元素一个位置。</span></div>
+        </div>
+      
+      
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L05_SCREEN_IMG02" alt="真实的简化周期表(非手绘)。"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L05_SCREEN_IMG02%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">真实的简化周期表(非手绘)。</figcaption>
+        </figure>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Metals 金属 — left/middle; conduct heat &amp; electricity; malleable and ductile. <span class="zh">金属 — 左/中;导电、导热;可锤打、可拉成丝。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Non-metals 非金属 — on the right of the table. <span class="zh">非金属 — 在表的右边。</span></div>
+          
+        </div></div>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn, #a32d2d);background:var(--warn-bg, #fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn, #a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <p style="font-size:14px;color:var(--warn, #a32d2d);line-height:1.6;"><strong>✗ Wrong:</strong> "Sodium does not conduct heat" / treating a metal as having non-metal properties. <span class="zh">「钠不导热」/ 把金属当成有非金属性质。</span></p>
+      <p style="font-size:14px;color:var(--ok-text, #2a6a2a);line-height:1.6;margin-top:8px;"><strong>✓ Right:</strong> Metals (e.g. sodium) conduct heat AND electricity, and are ductile and malleable. <span class="zh">金属(例如钠)既导电又导热,可拉成丝、可锤打。</span></p>
+      <p style="font-size:12px;color:var(--ink-3);margin-top:8px;">Picking the wrong property loses the mark. <span class="zh">选错性质就不给分。</span></p>
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Column = Group, Row = Period</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">列 = group,行 = period</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">A column is a group; a row is a period. Sodium is in Group 1. (This lesson only reads positions &amp; symbols.) <span class="zh">一列叫 group,一行叫 period。钠在 Group 1。(这课只看位置和符号,不计算。)</span></p>
+      
+    </div>
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Think of it as an apartment block: group = column address, period = floor/row. (But position is set by atomic number &amp; properties, not by people.) <span class="zh">像一栋公寓:group 是列地址,period 是行地址。(但位置由 atomic number 和性质决定,不是人。)</span></p>
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>In the exam:</strong> Split elements into metals and non-metals. <span class="zh">考试先分金属和非金属。</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:8px;"><strong>Real science:</strong> Some elements are metalloids, like silicon; they act a bit like both. <span class="zh">真实中间还有类金属,例如硅,性质有点像两边。</span></p>
+      <p style="font-size:11px;color:#0369A1;margin-top:8px;font-family:var(--ff-mono);">REF: SCISPARK_EXAM_VS_REAL_SCIENCE_REFERENCE #5</p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+      <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+    </div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Write down · self-made to match L05 level (read symbol from a position).  <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The element potassium is in Group 1 of the Periodic Table. Write down the chemical symbol for potassium. ........................ [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ potassium's symbol comes from its old Latin-style name, not "P". </div>
+
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          potassium's symbol comes from its old Latin-style name, not "P". <span class="zh">先看元素符号、位置,再判断金属或非金属。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>K.</strong> <span class="zh">正确答案按本题答案骨架给分: K.</span><br><br>✓ Accept: K. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: K.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: P (that is phosphorus); Po; lowercase k; wrong case. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: P (that is phosphorus); Po; lowercase k; wrong case.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: K.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">Circle · self-made to match L05 level (metal vs non-metal sorting). S <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Here are four elements. Circle the two that are metals. oxygen    iron    sulfur    copper [2] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ metals are usually on the left/middle of the table; non-metals on the right. </div>
+
+        <div class="widget-mount" data-mount="q02-widget" data-widget="placeholder-circle-select-interactive"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · placeholder — circle/select interactive <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          metals are usually on the left/middle of the table; non-metals on the right. <span class="zh">先看元素符号、位置,再判断金属或非金属。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>iron and copper.</strong> <span class="zh">正确答案按本题答案骨架给分: iron and copper.</span><br><br>✓ Accept: iron and copper. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: iron and copper.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: oxygen or sulfur circled as a metal. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: oxygen or sulfur circled as a metal.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">Partial: both needed for 2 marks; over-circling loses marks.. Award each independent mark separately; do not bundle marks. If a required explanation depends on a correct choice, follow the dependency stated in the answer bone. both needed for 2 marks; over-circling loses marks.。每一分独立给;不要捆绑。若解释分依赖正确选择,照答案骨架的依赖规则。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: iron and copper.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+      <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">(a) Name  (b) Write the symbol in the box  (c) State · past-paper, uses a real Periodic Table diagram image. <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">This diagram shows part of the Periodic Table of elements. [IMAGE: L05_Q01_IMG01 here] (a) Name the elements shown in the table that are metals. .......... [1] (b) Write the symbol for hydrogen in the appropriate empty box. [1] (c) What is the symbol for silicon? ........................ [1] </p>
+        
+
+        <div class="widget-mount" data-mount="q03-widget" data-widget="placeholder-place-symbol-in-box-interactive-for-b"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · placeholder — place-symbol-in-box interactive for (b) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L05_Q01_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) lithium, sodium, potassium (accept Li, Na, K). (b) H placed in the hydrogen box (correct placement). (c) Si.</strong> <span class="zh">正确答案按本题答案骨架给分: (a) lithium, sodium, potassium (accept Li, Na, K). (b) H placed in the hydrogen box (correct placement). (c) Si.</span><br><br>✓ Accept: (a) lithium, sodium, potassium (accept Li, Na, K). (b) H placed in the hydrogen box (correct placement). (c) Si. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) lithium, sodium, potassium (accept Li, Na, K). (b) H placed in the hydrogen box (correct placement). (c) Si.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: non-metals named as metals; SI / si; wrong box. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: non-metals named as metals; SI / si; wrong box.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: (a) lithium, sodium, potassium (accept Li, Na, K). (b) H placed in the hydrogen box (correct placement). (c) Si.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br><span style="color:#B45309;">⚑ Needs teacher review: yes — diagram-dependent / source-key issue / unclear student line or placement must be checked by a human.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">(a) Write down  (b) Tick · past-paper, symbol + property tick. <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Sodium is in Group 1 of the Periodic Table. (a) Write down the chemical symbol for sodium. ........................ [1] (b) Sodium is a metal. Tick the boxes next to the two correct properties of sodium. Sodium conducts electricity.      [ ] Sodium does not conduct heat.     [ ] Sodium has a low boiling point.   [ ] Sodium is ductile.                [ ] Sodium is not malleable.          [ ] [2] </p>
+        
+
+        <div class="widget-mount" data-mount="q04-widget" data-widget="placeholder-checkbox-tick-interactive"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · placeholder — checkbox/tick interactive <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) Na. (b) tick: "Sodium conducts electricity" and "Sodium is ductile".</strong> <span class="zh">正确答案按本题答案骨架给分: (a) Na. (b) tick: "Sodium conducts electricity" and "Sodium is ductile".</span><br><br>✓ Accept: (a) Na. (b) tick: "Sodium conducts electricity" and "Sodium is ductile". Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) Na. (b) tick: "Sodium conducts electricity" and "Sodium is ductile".。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: NA / na; ticking a wrong property. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: NA / na; ticking a wrong property.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">Partial: 3 ticks with the 2 correct = 1; 4 or 5 ticks = 0.. Award each independent mark separately; do not bundle marks. If a required explanation depends on a correct choice, follow the dependency stated in the answer bone. 3 ticks with the 2 correct = 1; 4 or 5 ticks = 0.。每一分独立给;不要捆绑。若解释分依赖正确选择,照答案骨架的依赖规则。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: (a) Na. (b) tick: "Sodium conducts electricity" and "Sodium is ductile".</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">(a) State  (b) Name · self-made to match L05 level (group/period reading + metallo <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A column in the Periodic Table is called a group and a row is called a period. (a) Lithium and sodium are both in the same column. State the name given to a column. ........................ [1] (b) Silicon does not behave fully like a metal or fully like a non-metal. Name the in-between group that silicon belongs to. ........................ [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ a column = group; the in-between elements are metalloids. </div>
+
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) group.  (b) metalloid (accept "semi-metal").</strong> <span class="zh">正确答案按本题答案骨架给分: (a) group.  (b) metalloid (accept "semi-metal").</span><br><br>✓ Accept: (a) group.  (b) metalloid (accept "semi-metal"). Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) group.  (b) metalloid (accept "semi-metal").。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: (a) period / row; (b) metal or non-metal alone. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: (a) period / row; (b) metal or non-metal alone.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: (a) group.  (b) metalloid (accept "semi-metal").</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">Name · self-made to match L05 level (read element symbol from a box <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A box in the Periodic Table shows the symbol O. Name the element with the symbol O. ........................ [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ each box shows one element symbol. </div>
+
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>oxygen.</strong> <span class="zh">正确答案按本题答案骨架给分: oxygen.</span><br><br>✓ Accept: oxygen. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: oxygen.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: any other element; lower-case start for the name is fine. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: any other element; lower-case start for the name is fine.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: oxygen.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Write down · self-made to match L05 level (write a symbol from a name). S <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Hydrogen is the first element in the Periodic Table. Write down the symbol for hydrogen. ........................ [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ an element symbol starts with a capital letter. </div>
+
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>H (capital H).</strong> <span class="zh">正确答案按本题答案骨架给分: H (capital H).</span><br><br>✓ Accept: H (capital H). Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: H (capital H).。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: h (lower case); HY; wrong symbol. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: h (lower case); HY; wrong symbol.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: H (capital H).</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">State · self-made to match L05 level (metal vs non-metal position).  <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">In the Periodic Table, metals and non-metals sit in different areas. State where non-metals are mostly found: on the left side or the right side of the table. ........................ [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ metals are on the left and middle; non-metals are on the right. </div>
+
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the right side / right.</strong> <span class="zh">正确答案按本题答案骨架给分: the right side / right.</span><br><br>✓ Accept: the right side / right. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: the right side / right.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: the left; the middle. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: the left; the middle.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: the right side / right.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State · self-made to match L05 level (atomic number = order in table <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Each element has an atomic number that gives its place in order in the Periodic Table. Hydrogen has atomic number 1 and helium has atomic number 2. State which element comes first in the table. ............... [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ a smaller atomic number comes earlier in the table. </div>
+
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>hydrogen.</strong> <span class="zh">正确答案按本题答案骨架给分: hydrogen.</span><br><br>✓ Accept: hydrogen. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: hydrogen.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: helium; any element with a higher atomic number. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: helium; any element with a higher atomic number.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: hydrogen.</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">(a) Name  (b) Write the symbol · self-made to match L05 level (match symbol to name; hardest) <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Look at these two element symbols: C and Fe. (a) Name the element with the symbol C. ........................ [1] (b) Iron has the symbol Fe. Write the symbol for iron in the box. ........................ [1] </p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ a two-letter symbol has one capital then one small letter. </div>
+
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) carbon.  (b) Fe (capital F, lower-case e).</strong> <span class="zh">正确答案按本题答案骨架给分: (a) carbon.  (b) Fe (capital F, lower-case e).</span><br><br>✓ Accept: (a) carbon.  (b) Fe (capital F, lower-case e). Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) carbon.  (b) Fe (capital F, lower-case e).。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: (a) calcium / copper; (b) FE / fe / Ir. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: (a) calcium / copper; (b) FE / fe / Ir.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for periodic table: (a) carbon.  (b) Fe (capital F, lower-case e).</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the periodic table rule.</span><br>
+          </div>
+          <div class="source-note">Source: SCISPARK_ORIGINAL</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Connect & summarise</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+
+
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+      <div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">The Periodic Table puts all elements in order.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">周期表把所有元素排好顺序。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Each box shows one element symbol.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">每个格子一个元素符号。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Metals left/middle; non-metals right; metalloids between.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">金属左中,非金属右,类金属中间。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Columns = groups; rows = periods.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">列 = group;行 = period。</span></div></div>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Table = order. Box = symbol. Left/middle = metals. Right = non-metals. <span class="zh">表=顺序。格=符号。左中=金属。右=非金属。</span></p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Next — element, compound and mixture. <span class="zh">下一课——元素、化合物、混合物。</span></p>
+      
+    </div>
+
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

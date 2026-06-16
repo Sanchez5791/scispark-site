@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U8 L05 · Sound = Particle Vibration Traveling</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U8 L05 · Sound = Particle Vibration Traveling",
+  "navMeta": "Y7 · U8 · L05",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 8",
+  "unitTitleEn": "Energy & Sound",
+  "unitTitleZh": "能量与声音",
+  "userLevel": "1",
+  "lessonData": "5"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="5">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U8 · L05</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 8</div>
+      <div class="sidebar-unit-title" data-en="Energy & Sound" data-zh="能量与声音">Energy & Sound</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U8 parsed JSON (3rd pass) — text poured verbatim; red cards detected by wrong/right text (flag unreliable); L01 cmd-word intro recovered from source. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Sound = Particle Vibration Traveling" data-zh="Sound = Particle Vibration Traveling">Sound = Particle Vibration Traveling</div>
+      <div class="screen-title-zh"></div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Sound = Particle Vibration Traveling</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#FFF7ED;border:1px solid #FED7AA;">
+      <div style="font-size:11px;font-weight:700;color:#C2410C;margin-bottom:4px;">🌞 Warm-up<span class="zh" style="color:#C2410C;"> · 热身</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">太空电影里爆炸“轰”一声很爽, 但科学老师会在旁边冷冷说: 真空里没人帮你传声。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">compression = 粒子挤近。rarefaction = 粒子分开。amplitude 越大, 声音越响。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">声音像一排人传波浪动作: 动作传过去, 人还站在原位。真空没人排队, 所以传不了。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">有粒子才有声: no particles, no pass, no sound。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">When you hum against a cup, the cup vibrates. That vibration is passed to the particles around it. That is how sound travels. <span class="zh">对着杯子哼歌,杯子会振动。振动传给旁边的粒子。声音就是这样传的。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Sound = Particle Vibration Traveling" data-zh="Sound = Particle Vibration Traveling">Sound = Particle Vibration Traveling</div>
+      <div class="screen-title-zh"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F8FAFC;border:1px solid #E2E8F0;">
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;">💬 Plain talk<span class="zh" style="color:#475569;"> · 大白话</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">这屏只抓一个重点，先会认，再会写。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#F0FDF4;border:1px solid #BBF7D0;">
+      <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">🔗 Analogy<span class="zh" style="color:#166534;"> · 类比</span></div>
+      <p style="font-size:14px;line-height:1.7;"><span class="zh">声音像一排人传波浪动作: 动作传过去, 人还站在原位。真空没人排队, 所以传不了。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">有粒子才有声: no particles, no pass, no sound。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Sound is a type of energy. Sound is made when particles vibrate. The vibration is passed from one particle to the next. <span class="zh">声音是一种能量。粒子振动时就产生声音。振动一个粒子传给下一个粒子。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;margin-top:6px;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong>  </p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> Particles do NOT fly across from the source to your ear. Each particle vibrates IN PLACE. Only the vibration (the energy) travels — the particles stay where they are. <span class="zh">粒子不会从声源飞到耳朵。每个粒子在原地振动。传过去的是 振动(能量),不是粒子本身。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Where particles are close together = a compression. Where they are far apart = a rarefaction. Sound travels through solids, liquids and gases. It cannot travel through a vacuum, because a vacuum has no particles. <span class="zh">粒子靠近 = 压缩(compression)。粒子分开 = 稀疏(rarefaction)。 声音能在固体、液体、气体中传。真空里没有粒子,所以声音不能传。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+      <p style="font-size:13px;color:#075985;line-height:1.7;">In the exam, say sound travels through solids, liquids, and gases. In real life, sound moves 4x faster in water and 15x faster in steel than in air. That is why putting your ear on a railway track lets you hear a train coming before you hear it through air. <span class="zh">考试时写:声能在固/液/气中传。真实速度差很多:水中快4倍, 钢中快15倍。所以耳朵贴铁轨能早听到火车。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A sound can be drawn as an amplitude-time graph. The taller the wave (bigger amplitude), the louder the sound. <span class="zh">声音可以画成 amplitude-time 图。波越高(amplitude 越大),声音越响。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Guided practice · 带提示</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Complete · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Brigitte plays a musical instrument called a saxophone. Her teacher asks her to explain the sound the saxophone makes. (a) Complete the sentences that Brigitte writes. Choose from the following words. Sound is a type of ................................................. . Sound is made when the particles in the air .................... . [2]<br><span class="zh">Brigitte 演奏一种叫萨克斯风的乐器。老师让她解释萨克斯风发出的声音。(a) 完成 Brigitte 写的句子,从下列词语中选择。声音是一种 ……………… 。当空气中的粒子 ……………… 时,就产生声音。[2]</span></p>
+        
+
+        <textarea class="short-input" id="Q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In saxophone sentence, underline the clue that points to sound is energy and air particles vibrate. <span class="zh">萨克斯句子先划出指向声音是能量，空气粒子振动的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Sound is a type of energy.</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: Sound is a type of energy. · Sound is made when the particles in the air vibrate. · Accept also: sound energy / noise / 声 / 声能 · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for saxophone sentence: writing only “music” does not complete either science blank. This does not earn the mark for sound is energy and air particles vibrate. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for saxophone sentence; the named idea must be sound is energy and air particles vibrate. · Reject an answer that gives the opposite direction or wrong stage in saxophone sentence; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to saxophone sentence; key words only count when they answer this exact question. · Reject particle-travel wording in saxophone sentence; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in saxophone sentence, the answer earns credit because it states sound is energy and air particles vibrate. <span class="zh">对。萨克斯句子这题得分，因为写中了声音是能量，空气粒子振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — saxophone sentence is not asking for “nearby science words”; the likely trap is writing only “music” does not complete either science blank, while the needed idea is sound is energy and air particles vibrate. <span class="zh">还不对。萨克斯句子不是随便写相近术语；常见陷阱是只写 music 不能完成科学填空，真正要点是声音是能量，空气粒子振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">This question is about sound. (a) Describe how sound travels through a material. [1]<br><span class="zh">这道题与声音有关。(a) 描述声音如何在介质中传播。[1]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q02_IMG01" data-recraft-prompt="Best visual: Three particle boxes (solid vibrate / liquid slide / gas free) + macro-&gt;micro zoom | Animate: Short loops (particles jiggling); end on a labelled frozen frame | Trap to flag: Particles 'expand / grow' when heated | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q02_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q02_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In sound through material, underline the clue that points to particles vibrate in the same direction as sound travel. <span class="zh">声音穿过材料先划出指向粒子沿声音传播方向振动的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the particles vibrate in the same direction as the direction of travel</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: the particles vibrate in the same direction as the direction of travel · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for sound through material: describing sideways vibration gives the wrong direction for this model. This does not earn the mark for particles vibrate in the same direction as sound travel. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for sound through material; the named idea must be particles vibrate in the same direction as sound travel. · Reject an answer that gives the opposite direction or wrong stage in sound through material; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to sound through material; key words only count when they answer this exact question. · Reject particle-travel wording in sound through material; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in sound through material, the answer earns credit because it states particles vibrate in the same direction as sound travel. <span class="zh">对。声音穿过材料这题得分，因为写中了粒子沿声音传播方向振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — sound through material is not asking for “nearby science words”; the likely trap is describing sideways vibration gives the wrong direction for this model, while the needed idea is particles vibrate in the same direction as sound travel. <span class="zh">还不对。声音穿过材料不是随便写相近术语；常见陷阱是写横向振动会给错方向，真正要点是粒子沿声音传播方向振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Yuri draws a diagram to show how he hears the sound made by a loudspeaker. The dots in the diagram represent air particles. (a) Describe what happens to air particles when the loudspeaker makes a sound. [2]<br><span class="zh">Yuri 画了一张图,显示他如何听到扬声器发出的声音。图中的点代表空气粒子。(a) 描述当扬声器发声时,空气粒子会发生什么。[2]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q03_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q03_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q03_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In loudspeaker particles, underline the clue that points to air particles vibrate, collide, and form compressions/rarefactions. <span class="zh">扬声器空气粒子先划出指向空气粒子振动、碰撞、形成压缩/稀疏的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Any two:</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: Any two: · particles vibrate · particles collide · particles move closer together or further apart · particles move in the same direction as the sound wave · Accept: compression / rarefaction. · Accept also: sound energy / noise / 声 / 声能 · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for loudspeaker particles: saying particles simply move from speaker to ear misses compression and rarefaction. This does not earn the mark for air particles vibrate, collide, and form compressions/rarefactions. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for loudspeaker particles; the named idea must be air particles vibrate, collide, and form compressions/rarefactions. · Reject an answer that gives the opposite direction or wrong stage in loudspeaker particles; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to loudspeaker particles; key words only count when they answer this exact question. · Reject particle-travel wording in loudspeaker particles; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in loudspeaker particles, the answer earns credit because it states air particles vibrate, collide, and form compressions/rarefactions. <span class="zh">对。扬声器空气粒子这题得分，因为写中了空气粒子振动、碰撞、形成压缩/稀疏。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — loudspeaker particles is not asking for “nearby science words”; the likely trap is saying particles simply move from speaker to ear misses compression and rarefaction, while the needed idea is air particles vibrate, collide, and form compressions/rarefactions. <span class="zh">还不对。扬声器空气粒子不是随便写相近术语；常见陷阱是只写粒子从喇叭到耳朵，会漏掉压缩和稀疏，真正要点是空气粒子振动、碰撞、形成压缩/稀疏。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Carlos investigates sound using a bell in a glass jar. Look at his assembled equipment. (a) Explain why Carlos hears a sound when the hammer hits the bell. [3]<br><span class="zh">Carlos 用玻璃罩里的电铃研究声音。看他装好的装置。(a) 解释为什么锤子敲到铃时 Carlos 能听到声音。[3]</span></p>
+        
+
+        <textarea class="short-input" id="Q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In bell jar sound, underline the clue that points to the bell vibrates and air particles pass the vibration; if the jar is a vacuum, no particles means no sound travels. <span class="zh">玻璃罩铃声先划出指向铃振动，空气粒子传递振动；如果是真空，没有粒子就不能传声的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>Any three:</strong> <span class="zh">核心答案：声音需要介质粒子来传递振动；真空没有粒子，所以声音不能在真空中传播。</span><br><br><span style="color:var(--ink-3);">Marks: 3</span><br>✓ Accept: Any three: · bell vibrates · air particles vibrate · air particles move closer together and further apart · in the same direction as the direction of travel · Accept: any part of the ear vibrates. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音需要介质粒子来传递振动；真空没有粒子，所以声音不能在真空中传播。</span><br>✗ Reject: Reject for bell jar sound: treating the jar like an unrelated return-path problem instead of checking whether air particles are present. This does not earn the mark for the bell vibrates and air particles pass the vibration; if the jar is a vacuum, no particles means no sound travels. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for bell jar sound; the named idea must be the bell vibrates and air particles pass the vibration; if the jar is a vacuum, no particles means no sound travels. · Reject an answer that gives the opposite direction or wrong stage in bell jar sound; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to bell jar sound; key words only count when they answer this exact question. · Reject particle-travel wording in bell jar sound; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in bell jar sound, the answer earns credit because it states the bell vibrates and air particles pass the vibration; if the jar is a vacuum, no particles means no sound travels. <span class="zh">对。玻璃罩铃声这题得分，因为写中了铃振动，空气粒子传递振动；如果是真空，没有粒子就不能传声。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — bell jar sound is not asking for “nearby science words”; the likely trap is treating the jar like an unrelated return-path problem instead of checking whether air particles are present, while the needed idea is the bell vibrates and air particles pass the vibration; if the jar is a vacuum, no particles means no sound travels. <span class="zh">还不对。玻璃罩铃声不是随便写相近术语；常见陷阱是把玻璃罩题当成无关的返回路径题，而不是先看有没有空气粒子，真正要点是铃振动，空气粒子传递振动；如果是真空，没有粒子就不能传声。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Suggest · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">This question is about sound. Look at the table showing the speed of sound through the three states of matter. (a) Suggest why sound travels faster through a solid. Use ideas about particles. [2]<br><span class="zh">这道题与声音有关。看表中声音在三种物态里的传播速度。(a) 用粒子的概念,解释为什么声音在固体里传得更快。[2]</span></p>
+        
+
+        <textarea class="short-input" id="Q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q05-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q05-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In speed in different media, underline the clue that points to closer particles pass vibrations faster. <span class="zh">不同介质声速先划出指向粒子越靠近，振动传得越快的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>particles are closer together</strong> <span class="zh">核心答案：声音能在固体、液体、气体中传播；不同介质声速不同；通常固体最快，液体其次，气体较慢。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: particles are closer together · vibrations are passed on more quickly <span class="zh">核心答案：声音能在固体、液体、气体中传播；不同介质声速不同；通常固体最快，液体其次，气体较慢。</span><br>✗ Reject: Reject for speed in different media: claiming all media have the same speed ignores the table pattern. This does not earn the mark for closer particles pass vibrations faster. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for speed in different media; the named idea must be closer particles pass vibrations faster. · Reject an answer that gives the opposite direction or wrong stage in speed in different media; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to speed in different media; key words only count when they answer this exact question. · Reject particle-travel wording in speed in different media; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in speed in different media, the answer earns credit because it states closer particles pass vibrations faster. <span class="zh">对。不同介质声速这题得分，因为写中了粒子越靠近，振动传得越快。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — speed in different media is not asking for “nearby science words”; the likely trap is claiming all media have the same speed ignores the table pattern, while the needed idea is closer particles pass vibrations faster. <span class="zh">还不对。不同介质声速不是随便写相近术语；常见陷阱是写各介质声速一样，会无视表格规律，真正要点是粒子越靠近，振动传得越快。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q05-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Outer space is a vacuum. What is a vacuum? [1]<br><span class="zh">外太空是真空。什么是真空?[1]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q06_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q06_IMG01" data-recraft-prompt="Best visual: Three particle boxes (solid vibrate / liquid slide / gas free) + macro-&gt;micro zoom | Animate: Short loops (particles jiggling); end on a labelled frozen frame | Trap to flag: Particles 'expand / grow' when heated | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q06_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q06_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q06-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="Q06-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In vacuum definition, underline the clue that points to a vacuum has no matter or particles. <span class="zh">真空定义先划出指向真空没有物质/粒子的关键词。</span>
+        </div>
+        <div class="answer-reveal" id="Q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>region which is devoid of matter</strong> <span class="zh">核心答案：声音需要介质粒子来传递振动；真空没有粒子，所以声音不能在真空中传播。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: region which is devoid of matter · Accept: no matter / no particles. <span class="zh">核心答案：声音需要介质粒子来传递振动；真空没有粒子，所以声音不能在真空中传播。</span><br>✗ Reject: Reject for vacuum definition: writing “quiet air” is wrong because air still has particles. This does not earn the mark for a vacuum has no matter or particles. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for vacuum definition; the named idea must be a vacuum has no matter or particles. · Reject an answer that gives the opposite direction or wrong stage in vacuum definition; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to vacuum definition; key words only count when they answer this exact question. · Reject particle-travel wording in vacuum definition; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in vacuum definition, the answer earns credit because it states a vacuum has no matter or particles. <span class="zh">对。真空定义这题得分，因为写中了真空没有物质/粒子。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — vacuum definition is not asking for “nearby science words”; the likely trap is writing “quiet air” is wrong because air still has particles, while the needed idea is a vacuum has no matter or particles. <span class="zh">还不对。真空定义不是随便写相近术语；常见陷阱是写“很安静的空气”错误，因为空气仍有粒子，真正要点是真空没有物质/粒子。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('Q06-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Chen and Priya are using a Slinky (spring) to model a sound wave. Priya attaches the other end of the Slinky to a piece of card. Chen moves one end of the Slinky backwards and forwards. (a) What does Chen's moving hand model? [1]<br><span class="zh">Chen 和 Priya 用弹簧(Slinky)来模拟声波。Priya 把弹簧的另一端固定在一张卡片上。Chen 把弹簧的一端来回前后推动。(a) Chen 来回动的手模拟的是什么?[1]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q07_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q07_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q07_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q07_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>sound source</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: sound source · Accept: named sound source. · Accept also: sound energy / noise / 声 / 声能 <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for Slinky sound model: calling the card the source swaps the model parts. This does not earn the mark for the moving end/source represents a sound source. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for Slinky sound model; the named idea must be the moving end/source represents a sound source. · Reject an answer that gives the opposite direction or wrong stage in Slinky sound model; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to Slinky sound model; key words only count when they answer this exact question. · Reject particle-travel wording in Slinky sound model; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in Slinky sound model, the answer earns credit because it states the moving end/source represents a sound source. <span class="zh">对。Slinky 声音模型这题得分，因为写中了移动的一端/声源代表声音来源。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — Slinky sound model is not asking for “nearby science words”; the likely trap is calling the card the source swaps the model parts, while the needed idea is the moving end/source represents a sound source. <span class="zh">还不对。Slinky 声音模型不是随便写相近术语；常见陷阱是把纸卡叫声源会调换模型部件，真正要点是移动的一端/声源代表声音来源。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Describe / Explain · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Rajiv makes a model to show how we hear sounds. Rajiv: • places a rubber sheet over a cup • holds the rubber sheet in place using an elastic band • places grains of uncooked rice on the top of the rubber sheet • claps his hands near to the cup. Describe what Rajiv sees when he claps his hands. Explain why this happens. description .................................................. explanation .................................................. [2]<br><span class="zh">Rajiv 做了一个模型来显示我们如何听到声音。Rajiv:把一张橡皮膜盖在杯子上;用橡皮筋把橡皮膜固定;在橡皮膜上放一些生米粒;在杯子旁边拍手。描述 Rajiv 拍手时看到什么。解释为什么会这样。描述 ……………… 解释 ……………… [2]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q08_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q08_IMG01" data-recraft-prompt="Best visual: Three particle boxes (solid vibrate / liquid slide / gas free) + macro-&gt;micro zoom | Animate: Short loops (particles jiggling); end on a labelled frozen frame | Trap to flag: Particles 'expand / grow' when heated | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q08_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q08_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>description: rice moves</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: description: rice moves · explanation: sound waves travel in the air and make the rubber · sheet vibrate · Accept: particles in the air vibrate and make the rubber sheet vibrate. · Accept also: sound energy / noise / 声 / 声能 · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for rice on rubber sheet: saying the rice moves by wind alone misses the vibration evidence. This does not earn the mark for sound waves make the rubber sheet vibrate so the rice moves. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for rice on rubber sheet; the named idea must be sound waves make the rubber sheet vibrate so the rice moves. · Reject an answer that gives the opposite direction or wrong stage in rice on rubber sheet; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to rice on rubber sheet; key words only count when they answer this exact question. · Reject particle-travel wording in rice on rubber sheet; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in rice on rubber sheet, the answer earns credit because it states sound waves make the rubber sheet vibrate so the rice moves. <span class="zh">对。米粒橡皮膜实验这题得分，因为写中了声波让橡皮膜振动，所以米粒动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — rice on rubber sheet is not asking for “nearby science words”; the likely trap is saying the rice moves by wind alone misses the vibration evidence, while the needed idea is sound waves make the rubber sheet vibrate so the rice moves. <span class="zh">还不对。米粒橡皮膜实验不是随便写相近术语；常见陷阱是只写风把米吹动，会漏掉振动证据，真正要点是声波让橡皮膜振动，所以米粒动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">Complete · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Sound is made by a loudspeaker. The air particles move. (a) What does the loudspeaker do to make sound? Complete the sentence. Choose the best word from the list. The loudspeaker .................................................. . [1]<br><span class="zh">扬声器发出声音。空气粒子在动。(a) 扬声器做了什么才发出声音?完成句子,从列表中选最合适的词。扬声器 ……………… 。[1]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q09_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q09_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q09_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q09_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>The loudspeaker vibrates.</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: The loudspeaker vibrates. · Accept also: vibrate / vibrates / vibration / back and forth / 振动 / 来回动 <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for loudspeaker action: writing “heats” or “shines” names other outputs, not how sound starts. This does not earn the mark for the loudspeaker vibrates. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for loudspeaker action; the named idea must be the loudspeaker vibrates. · Reject an answer that gives the opposite direction or wrong stage in loudspeaker action; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to loudspeaker action; key words only count when they answer this exact question. · Reject particle-travel wording in loudspeaker action; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in loudspeaker action, the answer earns credit because it states the loudspeaker vibrates. <span class="zh">对。扬声器动作这题得分，因为写中了扬声器振动。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — loudspeaker action is not asking for “nearby science words”; the likely trap is writing “heats” or “shines” names other outputs, not how sound starts, while the needed idea is the loudspeaker vibrates. <span class="zh">还不对。扬声器动作不是随便写相近术语；常见陷阱是写发热或发光，是别的输出，不是声音开始方式，真正要点是扬声器振动。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Complete · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The properties of sound can be explained using a diagram. Complete the sentences. The first sentence has been done for you. Choose words from The dots on the diagram are air particles. In area A the dots are .......................................... . This area is called a ........................................... . In area B the dots are .......................................... . This area is called a ........................................... . [4]<br><span class="zh">可以用图来解释声音的性质。完成句子,第一句已示范。从列表选词。图上的点是空气粒子。在 A 区,点是 ……………… 。这个区叫 ……………… 。在 B 区,点是 ……………… 。这个区叫 ……………… 。[4]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q10_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q10_IMG01" data-recraft-prompt="Best visual: Three particle boxes (solid vibrate / liquid slide / gas free) + macro-&gt;micro zoom | Animate: Short loops (particles jiggling); end on a labelled frozen frame | Trap to flag: Particles 'expand / grow' when heated | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q10_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q10_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>In area A the dots are close together.</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 4</span><br>✓ Accept: In area A the dots are close together. · This area is called a compression. · In area B the dots are far apart. · This area is called a rarefaction. <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for compression/rarefaction labels: using amplitude/frequency words for particle spacing mislabels the diagram. This does not earn the mark for close dots=compression and far dots=rarefaction. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for compression/rarefaction labels; the named idea must be close dots=compression and far dots=rarefaction. · Reject an answer that gives the opposite direction or wrong stage in compression/rarefaction labels; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to compression/rarefaction labels; key words only count when they answer this exact question. · Reject particle-travel wording in compression/rarefaction labels; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in compression/rarefaction labels, the answer earns credit because it states close dots=compression and far dots=rarefaction. <span class="zh">对。压缩稀疏标签这题得分，因为写中了点靠近=压缩，点分开=稀疏。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — compression/rarefaction labels is not asking for “nearby science words”; the likely trap is using amplitude/frequency words for particle spacing mislabels the diagram, while the needed idea is close dots=compression and far dots=rarefaction. <span class="zh">还不对。压缩稀疏标签不是随便写相近术语；常见陷阱是用振幅/频率去标粒子间距，会标错图，真正要点是点靠近=压缩，点分开=稀疏。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q11</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Mia investigates sound. She makes a sound using a loudspeaker. The sound is detected by the microphone. (a) Describe how the sound travels from the loudspeaker to the microphone. [2]<br><span class="zh">Mia 研究声音。她用扬声器发出声音,声音被麦克风探测到。(a) 描述声音如何从扬声器传到麦克风。[2]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q11_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q11_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q11_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q11_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q11-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q11-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q11-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>vibrating / moving</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: vibrating / moving · air particles · Accept: rarefaction and compression as alternative to vibrating. <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for microphone travel description: saying the loudspeaker itself travels to the microphone is impossible. This does not earn the mark for vibrating air particles carry the sound to the microphone. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for microphone travel description; the named idea must be vibrating air particles carry the sound to the microphone. · Reject an answer that gives the opposite direction or wrong stage in microphone travel description; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to microphone travel description; key words only count when they answer this exact question. · Reject particle-travel wording in microphone travel description; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in microphone travel description, the answer earns credit because it states vibrating air particles carry the sound to the microphone. <span class="zh">对。麦克风听到声音这题得分，因为写中了振动的空气粒子把声音传到麦克风。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — microphone travel description is not asking for “nearby science words”; the likely trap is saying the loudspeaker itself travels to the microphone is impossible, while the needed idea is vibrating air particles carry the sound to the microphone. <span class="zh">还不对。麦克风听到声音不是随便写相近术语；常见陷阱是写扬声器本身移动到麦克风不可能，真正要点是振动的空气粒子把声音传到麦克风。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q11-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q12</div>
+        <div class="q-topic">Complete · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Mia hears the sound from a loudspeaker. (a) Complete the two missing labels. Choose words from the list. [2]<br><span class="zh">Mia 听到扬声器的声音。(a) 完成两个缺失的标签,从列表选词。[2]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q12_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q12_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q12_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q12_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q12-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q12-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q12-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>compression</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: compression · rarefaction <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for missing labels compression rarefaction: switching the two labels reverses the particle spacing pattern. This does not earn the mark for compression and rarefaction. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for missing labels compression rarefaction; the named idea must be compression and rarefaction. · Reject an answer that gives the opposite direction or wrong stage in missing labels compression rarefaction; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to missing labels compression rarefaction; key words only count when they answer this exact question. · Reject particle-travel wording in missing labels compression rarefaction; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in missing labels compression rarefaction, the answer earns credit because it states compression and rarefaction. <span class="zh">对。缺失标签：压缩和稀疏这题得分，因为写中了compression 和 rarefaction。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — missing labels compression rarefaction is not asking for “nearby science words”; the likely trap is switching the two labels reverses the particle spacing pattern, while the needed idea is compression and rarefaction. <span class="zh">还不对。缺失标签：压缩和稀疏不是随便写相近术语；常见陷阱是把两个标签对调，会反转粒子间距规律，真正要点是compression 和 rarefaction。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q12-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q13</div>
+        <div class="q-topic">Circle / Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Look at the diagram of air particles in a sound wave. (a) When the air particles are closer together, it is called a compression. Circle the two letters showing a compression. [1]<br><span class="zh">看声波中空气粒子的图。(a) 当空气粒子靠得更近时,叫做压缩(compression)。圈出显示压缩的那两个字母。[1]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q13_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q13_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q13_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q13_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q13-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q13-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q13-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>A and B</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: A and B <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for letters for close particles: circling spread-out regions answers rarefaction, not compression. This does not earn the mark for letters placed on the close-particle compression regions. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for letters for close particles; the named idea must be letters placed on the close-particle compression regions. · Reject an answer that gives the opposite direction or wrong stage in letters for close particles; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to letters for close particles; key words only count when they answer this exact question. · Reject particle-travel wording in letters for close particles; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in letters for close particles, the answer earns credit because it states letters placed on the close-particle compression regions. <span class="zh">对。压缩区域字母这题得分，因为写中了选点靠近的压缩区域。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — letters for close particles is not asking for “nearby science words”; the likely trap is circling spread-out regions answers rarefaction, not compression, while the needed idea is letters placed on the close-particle compression regions. <span class="zh">还不对。压缩区域字母不是随便写相近术语；常见陷阱是圈点分散区域是在答稀疏，不是压缩，真正要点是选点靠近的压缩区域。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q13-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q14</div>
+        <div class="q-topic">Circle / Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The properties of sound can be explained using a diagram. (a) What do the dots represent? Circle the correct answer. [1]<br><span class="zh">可以用图来解释声音的性质。(a) 这些点代表什么?圈出正确答案。[1]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q14_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q14_IMG01" data-recraft-prompt="Best visual: Three particle boxes (solid vibrate / liquid slide / gas free) + macro-&gt;micro zoom | Animate: Short loops (particles jiggling); end on a labelled frozen frame | Trap to flag: Particles 'expand / grow' when heated | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q14_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q14_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q14-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q14-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q14-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>air particles</strong> <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br><br><span style="color:var(--ink-3);">Marks: 1</span><br>✓ Accept: air particles <span class="zh">核心答案：声音是一种能量；声音由振动产生；空气/介质粒子振动、互相碰撞，并出现压缩和稀疏。</span><br>✗ Reject: Reject for dots in sound diagram: writing sound waves for the dots confuses the model symbol with the particles. This does not earn the mark for the dots represent air particles. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for dots in sound diagram; the named idea must be the dots represent air particles. · Reject an answer that gives the opposite direction or wrong stage in dots in sound diagram; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to dots in sound diagram; key words only count when they answer this exact question. · Reject particle-travel wording in dots in sound diagram; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in dots in sound diagram, the answer earns credit because it states the dots represent air particles. <span class="zh">对。声音图里的点这题得分，因为写中了点代表空气粒子。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — dots in sound diagram is not asking for “nearby science words”; the likely trap is writing sound waves for the dots confuses the model symbol with the particles, while the needed idea is the dots represent air particles. <span class="zh">还不对。声音图里的点不是随便写相近术语；常见陷阱是写点代表声波，会把模型符号和粒子混淆，真正要点是点代表空气粒子。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q14-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q15</div>
+        <div class="q-topic">Label / Mark · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Yuri draws a picture to show the air particles in front of a loudspeaker. Write the letter C on the diagram where there is a compression of air particles. Write the letter R on the diagram where there is a rarefaction of air particles. [2]<br><span class="zh">Yuri 画了一张图显示扬声器前方的空气粒子。在图上有空气粒子压缩的地方写字母 C。在图上有空气粒子稀疏(rarefaction)的地方写字母 R。[2]</span></p>
+        
+
+        <figure class="img-slot" data-ref="L05_Q15_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q15_IMG01" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q15_IMG01"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q15_IMG01<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L05_Q15_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L05_Q15_IMG02" data-recraft-prompt="Best visual: Longitudinal compression loop + waveform; vary amplitude / frequency; annotated CRO trace | Animate: Yes (2-3s loop, then freeze on a labelled frame) | Trap to flag: Louder = higher pitch; counting half-cycles as cycles | House rules: D1: Static-first. Add a 2-3s loop ONLY where rotation/flow/change is the point; end on a frozen labelled frame." alt="L05_Q15_IMG02"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING · L05_Q15_IMG02<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="Q15-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="Q15-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="Q15-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>letter C touching area where dots are close together</strong> <span class="zh">核心答案：声音能在固体、液体、气体中传播；不同介质声速不同；通常固体最快，液体其次，气体较慢。</span><br><br><span style="color:var(--ink-3);">Marks: 2</span><br>✓ Accept: letter C touching area where dots are close together · letter R touching area where dots are far apart · [NOTE: official mark scheme reconstructed in intake — flag at audit] <span class="zh">核心答案：声音能在固体、液体、气体中传播；不同介质声速不同；通常固体最快，液体其次，气体较慢。</span><br>✗ Reject: Reject for compression and rarefaction marking: putting both letters in one region shows you did not compare spacing. This does not earn the mark for C on close dots and R on far-apart dots. · Reject a vague answer such as only “energy”, “it changes”, or “it happens” for compression and rarefaction marking; the named idea must be C on close dots and R on far-apart dots. · Reject an answer that gives the opposite direction or wrong stage in compression and rarefaction marking; the mark depends on the clue in this item. · Reject copied vocabulary that is not tied to compression and rarefaction marking; key words only count when they answer this exact question. · Reject particle-travel wording in compression and rarefaction marking; this lesson requires local vibration or a medium-based sound model.<br><span style="color:var(--ink-3);">If right: Correct — in compression and rarefaction marking, the answer earns credit because it states C on close dots and R on far-apart dots. <span class="zh">对。标 C 和 R这题得分，因为写中了C 标在点靠近处，R 标在点分开处。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet — compression and rarefaction marking is not asking for “nearby science words”; the likely trap is putting both letters in one region shows you did not compare spacing, while the needed idea is C on close dots and R on far-apart dots. <span class="zh">还不对。标 C 和 R不是随便写相近术语；常见陷阱是两个字母放同一区域，说明没有比较间距，真正要点是C 标在点靠近处，R 标在点分开处。</span></span><br>
+          </div>
+          <div class="source-note">Source: SciSpark</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('Q15-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Sound is energy carried by vibrating particles. The particles stay in place; only the vibration travels. No particles means no sound, which is why a vacuum is silent. <span class="zh">声音是靠振动的粒子传的能量。粒子留在原地,只有振动传过去。没有 粒子就没有声音,所以真空里是安静的。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;background:#171413;border:1px solid #000;">
+      <div style="font-size:11px;font-weight:700;color:#FACC15;margin-bottom:4px;">🧠 Memory jingle<span class="zh" style="color:#FACC15;"> · 口诀</span></div>
+      <p style="font-size:14px;color:#FDE68A;line-height:1.7;"><span class="zh">有粒子才有声: no particles, no pass, no sound。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U4 L04 · Animal Cell — 5 Organelles in Detail</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+<style id="lx-bilingual">.lx-zh{display:none}body.lang-zh .lx-en{display:none !important}body.lang-zh .lx-zh{display:inline !important}body.lang-zh ul.lx-zh{display:block !important}</style>
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="4">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U4 · L04</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 4</div>
+      <div class="sidebar-unit-title" data-en="Cells and Biological Structure" data-zh="细胞与生物结构">Cells and Biological Structure</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div class="hook-band"><div class="hook-band-content">
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Hook · Observe<span class="lx-zh" style="display:none"> · 钩子 · 观察</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Animal Cell — 5 Organelles in Detail</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">动物细胞 — 五个细胞器详解</span></h1></div>
+</div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:16px 18px;margin:14px 0"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:16px;color:#1F2937;line-height:1.6">Cell biologists study mitochondria — the energy part of the cell. When mitochondria do not work properly, it is linked to certain diseases. Understanding organelles helps doctors and researchers.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:16px;color:#C2410C;line-height:1.65">细胞生物学家研究线粒体 — 细胞里负责能量的部分。当线粒体工作不正 常时,会和某些疾病有关。了解细胞器能帮助医生和研究人员。</span></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:16px 18px;margin:14px 0"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:16px;color:#1F2937;line-height:1.6">We know an animal cell has 5 organelles. Now: what does each one actually do?</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:16px;color:#C2410C;line-height:1.65">我们知道动物细胞有 5 个细胞器。现在:每一个到底做什么?</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_HOOK_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<div style="margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#64748B;letter-spacing:.5px;margin-bottom:8px">KEY WORDS · 关键词</div><div style="display:flex;flex-wrap:wrap;gap:8px"><div style="background:#fff;border:2px solid #E2E8F0;border-radius:10px;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#334155">nucleus (plural: nuclei)</div><div style="background:#fff;border:2px solid #E2E8F0;border-radius:10px;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#334155">cytoplasm</div><div style="background:#fff;border:2px solid #E2E8F0;border-radius:10px;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#334155">cell membrane</div><div style="background:#fff;border:2px solid #E2E8F0;border-radius:10px;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#334155">mitochondria (singular: mitochondrion)</div><div style="background:#fff;border:2px solid #E2E8F0;border-radius:10px;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#334155">ribosome</div></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('learn')"><span class="lx-en">Start learning →</span><span class="lx-zh" style="display:none">开始学习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Learn · Define<span class="lx-zh" style="display:none"> · 学习 · 定义</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Animal Cell — 5 Organelles in Detail</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">动物细胞 — 五个细胞器详解</span></h1></div>
+<div style="background:#E8FFE8;border:2px solid #BFE6BF;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#2E7D32;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">The nucleus is the control centre. It controls what the cell does.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">细胞核是控制中心。它控制细胞做什么。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_LEARN_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div></div>
+<div style="background:#FFF0DB;border:2px solid #FAD9A8;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#D98A2B;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">The cytoplasm is the jelly-like inside where the cell&#x27;s reactions take place.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">细胞质是果冻状的内部,细胞的反应在这里进行。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_LEARN_IMG02</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div></div>
+<div style="background:#EAFBFF;border:2px solid #C2ECF5;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#3AAEC8;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">The cell membrane is the outer boundary. It controls what enters and leaves the cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">细胞膜是外边界。它控制什么进入和离开细胞。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_LEARN_IMG03</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div></div>
+<div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#C00000;padding:10px 18px;border-radius:14px 14px 0 0"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff;letter-spacing:.5px">🟥 RED CARD · Common mistake</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟥 红牌 · 常见错误</span></div><div style="padding:14px 18px"><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✘ The error</span><span class="lx-zh" style="display:none">✘ 错误想法</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">Many students think mitochondria MAKE energy out of nothing.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">很多同学以为线粒体凭空&quot;制造&quot;能量。</span></div><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#B45309;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">Why it's wrong</span><span class="lx-zh" style="display:none">为什么错</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">Energy is not created. Mitochondria RELEASE energy that is already stored in food.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">能量不是被创造出来的。线粒体是把已经储存在食物里的能量释放出来。</span></div><div style="margin:0 0 10px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;letter-spacing:.5px;margin-bottom:3px"><span class="lx-en">✓ Correct idea</span><span class="lx-zh" style="display:none">✓ 正确想法</span></div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">Say mitochondria &quot;release energy from food&quot;, not &quot;make energy&quot;.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.6">要说线粒体&quot;从食物中释放能量&quot;,不要说&quot;制造能量&quot;。</span></div></div></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_LEARN_IMG04</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<div style="background:#F6EAFA;border:2px solid #E2C4EE;border-radius:16px;padding:0;margin:14px 0;overflow:hidden"><div style="padding:14px 18px"><div style="display:flex;gap:9px;margin:0 0 11px 0;align-items:flex-start"><span style="color:#9B3FC9;font-weight:900;font-size:16px;line-height:1.4;flex-shrink:0">•</span><div style="flex:1"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#1F2937;line-height:1.55">Ribosomes are very tiny. They make proteins for the cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C;line-height:1.6">核糖体非常小。它们为细胞制造蛋白质。</span></div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_LEARN_IMG05</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div></div>
+<div style="background:#F5F0E4;border:2px solid #6D4C41;border-radius:14px;margin:16px 0;overflow:hidden"><div style="background:#6D4C41;padding:10px 18px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#fff">🟫 Exam vs Reality</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#fff">🟫 考试 vs 真实</span></div><div style="padding:14px 18px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#3E2723;line-height:1.6">In the exam, draw the textbook cell with one nucleus and a few mitochondria. In real life, the number of mitochondria varies a lot — busy cells like muscle cells have many. The textbook picture is a general template, not a real specific cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#C2410C;line-height:1.65">考试时画课本那张细胞图(一个核、几个线粒体)。真实里线粒体 的数量差别很大 — 像肌肉细胞这种忙碌的细胞有很多个。课本那张是通用 模板，不是真实某个细胞。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('try')"><span class="lx-en">Try it →</span><span class="lx-zh" style="display:none">来练习 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Try · Practise<span class="lx-zh" style="display:none"> · 练习 · 应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Animal Cell — 5 Organelles in Detail</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">动物细胞 — 五个细胞器详解</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q1</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the function of the nucleus.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出细胞核的功能。</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to nucleus.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞核」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">controls the cell / control centre of the cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">控制细胞/细胞控制中心。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">controls the cell</li><li style="margin:2px 0">control centre of the cell</li><li style="margin:2px 0">cell nucleus</li><li style="margin:2px 0">control centre</li><li style="margin:2px 0">controls cell activities</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">控制细胞</li><li style="margin:2px 0">细胞控制中心</li><li style="margin:2px 0">细胞核</li><li style="margin:2px 0">控制中心</li><li style="margin:2px 0">控制细胞活动</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">makes energy — reject: energy release is the mitochondria job; the nucleus controls cell activities</li><li style="margin:2px 0">controls what enters/leaves&quot; (that is the membrane) — reject: movement in and out is the cell membrane job, not the nucleus answer</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">cell membrane — reject: it is too broad to meet this mark point</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">制造 能量 — 不给分：释放能量是线粒体的功能；细胞核负责控制细胞活动</li><li style="margin:2px 0">控制 什么 进入/离开 （那 是 膜） — 不给分：物质进出是细胞膜的功能，不是细胞核答案</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">细胞膜 — 不给分：它太笼统，达不到这个得分点</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q2</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the function of the cell membrane.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出细胞膜的功能。</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell membrane.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞膜」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">controls what enters and leaves the cell / controls movement of substances in and out.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">控制物质进出细胞。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">controls what enters and leaves the cell</li><li style="margin:2px 0">controls movement of substances in and out</li><li style="margin:2px 0">controls entry and exit</li><li style="margin:2px 0">controls substances moving in and out</li><li style="margin:2px 0">plasma membrane</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">控制物质进出细胞</li><li style="margin:2px 0">控制物质进出</li><li style="margin:2px 0">控制进出</li><li style="margin:2px 0">细胞膜</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">keeps shape only — reject: it leaves out the specific feature needed for credit</li><li style="margin:2px 0">controls the cell&quot; (that is the nucleus) — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">cell wall — reject: it swaps the tested role with another role</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">保持 形状 只 — 不给分：它漏掉得分需要的具体特征</li><li style="margin:2px 0">控制细胞 （那 是 细胞核） — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">细胞壁 — 不给分：它把本题考的功能换成了另一个功能</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q3</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">EXPLAIN</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">A muscle cell has many more mitochondria than a skin cell. Explain why.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">肌肉细胞的线粒体比皮肤细胞多得多。解释为什么。</span></div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to mitochondria.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「线粒体」的线索。</span></div></details>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 2 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Link the answer to its job: muscle cells need more energy (for movement/work), and mitochondria release energy, so more mitochondria are needed.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">连接 答案到它的 功能: 肌肉细胞 需要 更多 能量 （用于 运动/工作），和 线粒体 释放能量，所以 更多 线粒体 是 需要的。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">muscle cells need more energy (for movement/work), and mitochondria release energy, so more mitochondria are needed.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">肌肉细胞 需要 更多 能量 （用于 运动/工作），和 线粒体 释放能量，所以 更多 线粒体 是 需要的。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">muscle cells need more energy (for movement</li><li style="margin:2px 0">work), and mitochondria release energy, so more mitochondria are needed</li><li style="margin:2px 0">mitochondria</li><li style="margin:2px 0">site of respiration</li><li style="margin:2px 0">releases energy from food</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">肌肉细胞 需要 更多 能量 （用于 运动</li><li style="margin:2px 0">工作），和 线粒体 释放能量，所以 更多 线粒体 是 需要的</li><li style="margin:2px 0">线粒体</li><li style="margin:2px 0">呼吸作用的位置</li><li style="margin:2px 0">从食物中释放能量</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">muscle cells are bigger — reject: it answers a neighbouring concept rather than this question</li><li style="margin:2px 0">mitochondria make energy — reject: it is too broad to meet this mark point</li><li style="margin:2px 0">chloroplast — photosynthesis part, not energy-release answer here — reject: chloroplasts do photosynthesis; mitochondria release energy</li><li style="margin:2px 0">chloroplast — reject: chloroplasts do photosynthesis; mitochondria release energy</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">肌肉细胞 是 更大 — 不给分：它答成了相邻概念，不是本题内容</li><li style="margin:2px 0">线粒体 制造 能量 — 不给分：它太笼统，达不到这个得分点</li><li style="margin:2px 0">叶绿体 — 光合作用 部分，不 能量-释放 答案 此处 — 不给分：叶绿体进行光合作用；线粒体释放能量</li><li style="margin:2px 0">叶绿体 — 不给分：叶绿体进行光合作用；线粒体释放能量</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q4</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">NAME (a, c) / STATE (b, d)</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">12 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Look at the diagram of an animal cell.  (a) Write down the name of structure A. [1] (b) Write down the function of structure A. [1] (c) Write down the name of structure B. [1] (d) Write down the function of structure B. [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">看在图的动物细胞。  （小题一） 写 下 说出名称的结构 A。 [1] （小题二） 写 下 功能的结构 A。 [1] （小题三） 写 下 说出名称的结构 B。 [1] （小题四） 写 下 功能的结构 B。 [1]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_Q01_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell membrane.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞膜」的线索。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) cell membrane. (b) controls movement in/out. Accept: controls substances entering/leaving. (c) mitochondrion / mitochondria. (d) respiration / release energy / ATP produced. Accept: site of respiration; releases energy; produces ATP.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 细胞膜。 （小题二） 控制 运动 在/出。 可接受: 控制 物质 进入/留下。 （小题三） 线粒体/线粒体。 （小题四） 呼吸作用/释放能量/ATP 产生。 可接受: 呼吸作用的位置；释放能量；产生 ATP。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) cell membrane. (b) controls movement in</li><li style="margin:2px 0">out. Accept: controls substances entering</li><li style="margin:2px 0">leaving. (c) mitochondrion</li><li style="margin:2px 0">mitochondria. (d) respiration</li><li style="margin:2px 0">release energy</li><li style="margin:2px 0">ATP produced. Accept: site of respiration</li><li style="margin:2px 0">releases energy</li><li style="margin:2px 0">produces ATP</li><li style="margin:2px 0">controls entry and exit</li><li style="margin:2px 0">controls substances moving in and out</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 细胞膜。 （小题二） 控制 运动 在</li><li style="margin:2px 0">出。 可接受: 控制 物质 进入</li><li style="margin:2px 0">留下。 （小题三） 线粒体</li><li style="margin:2px 0">线粒体。 （小题四） 呼吸作用</li><li style="margin:2px 0">释放能量</li><li style="margin:2px 0">ATP 产生。 可接受: 呼吸作用的位置</li><li style="margin:2px 0">产生 ATP</li><li style="margin:2px 0">控制进出</li><li style="margin:2px 0">控制物质进出</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a)/(c) cell wall — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">cytoplasm — reject: it swaps the tested role with another role</li><li style="margin:2px 0">nucleus. (b) membrane keeps shape only. (d) mitochondria stores information — reject: nucleus means control; this answer needs the cell boundary function</li><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">chloroplast — photosynthesis part, not energy-release answer here — reject: chloroplasts do photosynthesis; mitochondria release energy</li><li style="margin:2px 0">cell wall — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">chloroplast — reject: chloroplasts do photosynthesis; mitochondria release energy</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一）/（小题三） 细胞壁 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">细胞质 — 不给分：它把本题考的功能换成了另一个功能</li><li style="margin:2px 0">细胞核。 （小题二） 膜 保持 形状 只。 （小题四） 线粒体 储存 信息 — 不给分：细胞核 表示 控制；这 答案 需要 细胞 边界 功能</li><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">叶绿体 — 光合作用 部分，不 能量-释放 答案 此处 — 不给分：叶绿体进行光合作用；线粒体释放能量</li><li style="margin:2px 0">细胞壁 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">叶绿体 — 不给分：叶绿体进行光合作用；线粒体释放能量</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q5</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">IDENTIFY (a) / STATE (function part)</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">15 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">This question is about animal and plant cells. (a) Look at the diagram of an animal cell. Complete the labels on the diagram. Choose from the list. [2] cell wall / chloroplast / cytoplasm / mitochondrion / nucleus / cell membrane / sap vacuole (b) Name two parts that a plant cell has but this animal cell does not. [2] (c) State the function of the mitochondrion. [1]</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">这 题目 是 关于 动物细胞和植物细胞 细胞。 （小题一） 看在图的动物细胞。 完整 标签在图。 选择从列表。 [2] 细胞壁/叶绿体/细胞质/线粒体/细胞核/细胞膜/液泡 （小题二） 说出名称 两个 部分 那 植物细胞有但是 这 动物细胞 做 不。 [2] （小题三） 说出 功能的线粒体。 [1]</span></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start;background:#FBFBF9;border:2px dashed #D8C9A8;border-radius:14px;padding:14px 16px;margin:12px 0">
+  <div style="font-size:54px;line-height:1;flex-shrink:0">🖼️</div>
+  <div style="flex:1">
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#B45309;letter-spacing:.5px">IMAGE PENDING · 配图待出</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#475569;margin-top:4px">Slot: L04_Q02_IMG01</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13.5px;color:#1F2937;margin-top:6px;line-height:1.5">labelled diagram for this concept</div>
+    <div style="font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#6B7280;margin-top:8px;line-height:1.5">
+      <b>Best visual:</b> Clean labelled line drawing, simple icons over fine art<br>
+      <b>Animate?:</b> Static (D1: static-first)<br>
+      <b>Trap to flag:</b> Watch the common misconception for this topic
+    </div>
+  </div>
+</div>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 1 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Look for the clue that points to cell wall.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">找题目里指向「细胞壁」的线索。</span></div></details>
+<details class="hint" style="margin-top:10px;background:#EEF4FF;border:1px solid #3B6FD4;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#3B6FD4">💡 Hint 2 · 提示</summary><div style="padding:0 12px 10px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14px;color:#1F2937">Link the answer to its job: (a) nucleus, cytoplasm, cell membrane, mitochondrion. (b) any two from: chloroplast(s), cell wall, (sap) vacuole. (c) release ener.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">连接 答案到它的 功能: （小题一） 细胞核，细胞质，细胞膜，线粒体。 （小题二） 任意 两个 从: 叶绿体，细胞壁，（细胞液） 液泡。 （小题三） 释放能量。</span></div></details>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">(a) nucleus, cytoplasm, cell membrane, mitochondrion. (b) any two from: chloroplast(s), cell wall, (sap) vacuole. (c) release energy from food. Accept: respiration; site of respiration; provides energy for the cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">（小题一） 细胞核，细胞质，细胞膜，线粒体。 （小题二） 任意 两个 从: 叶绿体，细胞壁，（细胞液） 液泡。 （小题三） 从食物中释放能量。 可接受: 呼吸作用；呼吸作用的位置；提供 能量用于细胞。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">(a) nucleus, cytoplasm, cell membrane, mitochondrion. (b) any two from: chloroplast(s), cell wall, (sap) vacuole. (c) release energy from food. Accept: respiration</li><li style="margin:2px 0">site of respiration</li><li style="margin:2px 0">provides energy for the cell</li><li style="margin:2px 0">cell nucleus</li><li style="margin:2px 0">control centre</li><li style="margin:2px 0">controls cell activities</li><li style="margin:2px 0">jelly-like cytoplasm</li><li style="margin:2px 0">where cell reactions happen</li><li style="margin:2px 0">controls entry and exit</li><li style="margin:2px 0">controls substances moving in and out</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 细胞核，细胞质，细胞膜，线粒体。 （小题二） 任意 两个 从: 叶绿体，细胞壁，（细胞液） 液泡。 （小题三） 从食物中释放能量。 可接受: 呼吸作用</li><li style="margin:2px 0">呼吸作用的位置</li><li style="margin:2px 0">提供 能量用于细胞</li><li style="margin:2px 0">细胞核</li><li style="margin:2px 0">控制中心</li><li style="margin:2px 0">控制细胞活动</li><li style="margin:2px 0">胶状物-像 细胞质</li><li style="margin:2px 0">哪里 细胞 反应 发生</li><li style="margin:2px 0">控制进出</li><li style="margin:2px 0">控制物质进出</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">(a) cell wall — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">chloroplast — reject: chloroplasts do photosynthesis; mitochondria release energy</li><li style="margin:2px 0">sap vacuole — reject: it misses the key word required by this item</li><li style="margin:2px 0">cytoplasm — reject: cytoplasm is the reaction area; it is not the control centre</li><li style="margin:2px 0">cell membrane — reject: the membrane is a boundary; the nucleus is the control part</li><li style="margin:2px 0">mitochondrion — reject: mitochondria release energy; chloroplasts absorb light for photosynthesis</li><li style="margin:2px 0">starch grain. (c) make food — reject: it does not match the named example in the mark scheme</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">（小题一） 细胞壁 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">叶绿体 — 不给分：叶绿体进行光合作用；线粒体释放能量</li><li style="margin:2px 0">液泡 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">细胞质 — 不给分：细胞质是反应发生区域，不是控制中心</li><li style="margin:2px 0">细胞膜 — 不给分：细胞膜是边界；细胞核才是控制部分</li><li style="margin:2px 0">线粒体 — 不给分：线粒体释放能量；叶绿体吸收光进行光合作用</li><li style="margin:2px 0">淀粉 粒。 （小题三） 制造食物 — 不给分：它没有对上评分标准里的指定例子</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('test')"><span class="lx-en">Go to test →</span><span class="lx-zh" style="display:none">去检测 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;letter-spacing:.5px;margin-bottom:8px"><span class="lx-en">EXAM MODE · NO HINTS</span><span class="lx-zh" style="display:none">考试模式 · 无提示</span></div>
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Test · Apply solo<span class="lx-zh" style="display:none"> · 检测 · 独立应用</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Animal Cell — 5 Organelles in Detail</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">动物细胞 — 五个细胞器详解</span></h1></div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q6</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the function of the nucleus.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出细胞核的功能。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">controls the cell / control centre.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">控制细胞/控制中心。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">controls the cell</li><li style="margin:2px 0">control centre</li><li style="margin:2px 0">cell nucleus</li><li style="margin:2px 0">controls cell activities</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">控制细胞</li><li style="margin:2px 0">控制中心</li><li style="margin:2px 0">细胞核</li><li style="margin:2px 0">控制细胞活动</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">releases energy — reject: it names a different science idea from the answer line</li><li style="margin:2px 0">makes proteins — reject: it misses the key word required by this item</li><li style="margin:2px 0">cytoplasm — jelly-like material, not the control centre — reject: it changes the biological level being tested</li><li style="margin:2px 0">cell membrane — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">释放能量 — 不给分：它写成了另一个科学概念</li><li style="margin:2px 0">制造蛋白质 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">细胞质 — 胶状物-像 物质，不 控制中心 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">细胞膜 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q7</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the function of the mitochondria.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出线粒体的功能。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">release energy / site of respiration.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">释放能量/呼吸作用的位置。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">release energy</li><li style="margin:2px 0">site of respiration</li><li style="margin:2px 0">mitochondria</li><li style="margin:2px 0">releases energy from food</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">释放能量</li><li style="margin:2px 0">呼吸作用的位置</li><li style="margin:2px 0">线粒体</li><li style="margin:2px 0">从食物中释放能量</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">makes proteins — reject: it misses the key word required by this item</li><li style="margin:2px 0">controls the cell — reject: it changes the biological level being tested</li><li style="margin:2px 0">chloroplast — photosynthesis part, not energy-release answer here — reject: it describes the wrong cell structure for this mark</li><li style="margin:2px 0">chloroplast — reject: it gives a function that belongs to another structure</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">制造蛋白质 — 不给分：它漏掉本题需要的关键词</li><li style="margin:2px 0">控制细胞 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">叶绿体 — 光合作用 部分，不 能量-释放 答案 此处 — 不给分：它描述了错误的细胞结构</li><li style="margin:2px 0">叶绿体 — 不给分：它写成了另一个结构的功能</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q8</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">STATE</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">State the function of the ribosomes.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出核糖体的功能。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">make proteins.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">制造蛋白质。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">make proteins</li><li style="margin:2px 0">makes proteins</li><li style="margin:2px 0">protein synthesis</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">制造蛋白质</li><li style="margin:2px 0">蛋白质合成</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">release energy — reject: it changes the biological level being tested</li><li style="margin:2px 0">control the cell — reject: it describes the wrong cell structure for this mark</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">释放能量 — 不给分：它把本题考的生物层级换掉了</li><li style="margin:2px 0">控制细胞 — 不给分：它描述了错误的细胞结构</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q9</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">NAME</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">1 mark</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">Name the organelle that controls what enters and leaves the cell.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">说出名称 细胞器 那 控制物质进出细胞。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">cell membrane.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">细胞膜。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">cell membrane</li><li style="margin:2px 0">controls entry and exit</li><li style="margin:2px 0">controls substances moving in and out</li><li style="margin:2px 0">plasma membrane</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">细胞膜</li><li style="margin:2px 0">控制进出</li><li style="margin:2px 0">控制物质进出</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">nucleus — reject: nucleus means control; this answer needs the cell boundary function</li><li style="margin:2px 0">cytoplasm — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">cell wall — wall supports plant cells, not the general control boundary — reject: the wall supports plant cells; the membrane controls what enters and leaves</li><li style="margin:2px 0">cell wall — reject: the wall supports plant cells; the membrane controls what enters and leaves</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">细胞核 — 不给分：细胞核 表示 控制；这 答案 需要 细胞 边界 功能</li><li style="margin:2px 0">细胞质 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">细胞壁 — 壁 支撑 植物细胞 细胞，不 通用 控制 边界 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li><li style="margin:2px 0">细胞壁 — 不给分：细胞壁支撑植物细胞；细胞膜控制物质进出</li></ul></div></details>
+</div>
+<div class="question-block" style="background:#fff;border:2px solid #E2E8F0;border-radius:16px;padding:16px 18px;margin:14px 0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+<span style="background:#171413;color:#fff;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px">Q10</span>
+<span style="background:#FFF0DB;color:#D98A2B;border:1px dashed #D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;padding:3px 10px;border-radius:7px;letter-spacing:.5px">EXPLAIN</span>
+<span style="color:#64748B;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:12px">2 marks</span>
+</div>
+<div style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15.5px;color:#0F172A;line-height:1.6"><span class="lx-en">A muscle cell has many mitochondria. Explain why.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">肌肉细胞有许多线粒体。解释为什么。</span></div>
+<details style="margin-top:10px;background:#F0FDF4;border:1px solid #2E7D32;border-radius:10px;padding:0"><summary style="cursor:pointer;padding:8px 12px;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:13px;color:#2E7D32">🔁 Think first, then reveal answer · 先想再看答案</summary><div style="padding:6px 12px 12px"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32">ANSWER · 答案</div><div style="margin:4px 0 8px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#14532D">muscle cells need a lot of energy to contract / work, and mitochondria release energy, so many are needed.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">肌肉细胞 需要 大量的能量到收缩/工作，和 线粒体 释放能量，所以 很多 是 需要的。</span></div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#2E7D32;margin-top:6px">✓ ACCEPT · 给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#166534"><li style="margin:2px 0">muscle cells need a lot of energy to contract</li><li style="margin:2px 0">work, and mitochondria release energy, so many are needed</li><li style="margin:2px 0">mitochondria</li><li style="margin:2px 0">site of respiration</li><li style="margin:2px 0">releases energy from food</li><li style="margin:2px 0">contracts to cause movement</li><li style="margin:2px 0">muscle tissue</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">肌肉细胞 需要 大量的能量到收缩</li><li style="margin:2px 0">工作，和 线粒体 释放能量，所以 很多 是 需要的</li><li style="margin:2px 0">线粒体</li><li style="margin:2px 0">呼吸作用的位置</li><li style="margin:2px 0">从食物中释放能量</li><li style="margin:2px 0">收缩造成运动</li><li style="margin:2px 0">肌肉组织</li></ul><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#C00000;margin-top:8px">✘ REJECT · 不给分</div><ul class="lx-en" style="margin:4px 0 0;padding-left:18px;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#991B1B"><li style="margin:2px 0">to make the cell bigger — reject: it gives a function that belongs to another structure</li><li style="margin:2px 0">to store food — reject: it does not match the named example in the mark scheme</li><li style="margin:2px 0">chloroplast — photosynthesis part, not energy-release answer here — reject: chloroplasts do photosynthesis; mitochondria release energy</li><li style="margin:2px 0">chloroplast — reject: chloroplasts do photosynthesis; mitochondria release energy</li></ul><ul class="lx-zh" style="display:none;margin:4px 0 0;padding-left:18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13.5px;color:#C2410C"><li style="margin:2px 0">到 制造 细胞 更大 — 不给分：它写成了另一个结构的功能</li><li style="margin:2px 0">到 储存 食物 — 不给分：它没有对上评分标准里的指定例子</li><li style="margin:2px 0">叶绿体 — 光合作用 部分，不 能量-释放 答案 此处 — 不给分：叶绿体进行光合作用；线粒体释放能量</li><li style="margin:2px 0">叶绿体 — 不给分：叶绿体进行光合作用；线粒体释放能量</li></ul></div></details>
+</div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="showScreen('wrap')"><span class="lx-en">Wrap up →</span><span class="lx-zh" style="display:none">总结 →</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div class="screen-header" style="margin-bottom:6px"><div class="screen-eyebrow">Wrap · Reflect<span class="lx-zh" style="display:none"> · 总结 · 回顾</span></div><h1 style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:900;color:#C00000;margin:6px 0 0;font-size:30px;line-height:1.15"><span class="lx-en">Animal Cell — 5 Organelles in Detail</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;color:#C2410C">动物细胞 — 五个细胞器详解</span></h1></div>
+<div style="background:#F5F0E4;border:2px solid #DDD3A0;border-radius:16px;padding:16px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#8A7B4A;margin-bottom:10px">📌 Summary · 总结</div><div style="display:flex;gap:9px;margin:0 0 10px 0;align-items:flex-start"><span style="color:#8A7B4A;font-weight:900;font-size:15px;flex-shrink:0">•</span><div><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:15px;color:#3E2723;line-height:1.55">The 5 animal cell organelles: nucleus (control), cytoplasm (reactions), cell membrane (controls in/out), mitochondria (release energy), ribosomes (make proteins).</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:15px;color:#C2410C">动物细胞的 5 个细胞器:细胞核(控制)、细胞质(反应)、细胞膜 (控制进出)、线粒体(释放能量)、核糖体(制造蛋白质)。</span></div></div></div>
+<div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:16px;color:#D98A2B;margin-bottom:8px">🎯 What the examiner wants · 考官要什么</div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">STATE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">short, one-line answer</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">简短一句话</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DESCRIBE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">say what happens; no reasons</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">说出样子，不用原因</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">EXPLAIN</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give reasons; use &#x27;because&#x27;</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给原因，用「因为」</span></div><div style="display:flex;gap:10px;margin:5px 0"><span style="background:#fff;border:1px dashed #D98A2B;color:#D98A2B;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:6px;min-width:78px;text-align:center">DEFINE</span><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:13px;color:#1F2937">give the exact meaning</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:13px;color:#C2410C">给准确定义</span></div></div>
+<div style="background:#171413;border-radius:14px;padding:16px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#FFFF00;letter-spacing:1px">🧠 REMEMBER THIS · 记牢这句</div><div style="margin-top:8px"><span class="lx-en" style="font-family:'Baloo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;line-height:1.4">Animal Cell — 5 Organelles in Detail — structure fits function.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;font-size:17px;color:#FFE08A;line-height:1.5">结构决定功能。</span></div></div>
+<div style="background:#EAFBFF;border:2px solid #C2ECF5;border-radius:14px;padding:14px 18px;margin:14px 0"><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:12px;color:#3AAEC8;letter-spacing:.5px">🔮 NEXT · 下一课</div><div style="margin-top:6px"><span class="lx-en" style="font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;color:#1F2937;line-height:1.55">An animal cell is this complex. Is a plant cell the same? An onion will show us — plant cells have some extra parts.</span><span class="lx-zh" style="display:none;font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:700;color:#C2410C">动物细胞这么复杂。植物细胞一样吗?用洋葱给你看 — 植物细胞有一些额外的部分。</span></div></div>
+<div class="btn-row" style="margin-top:18px"><button class="btn btn-primary" onclick="completeLesson()"><span class="lx-en">Complete lesson ✓</span><span class="lx-zh" style="display:none">完成这一课 ✓</span></button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

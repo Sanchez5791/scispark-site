@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y8 U1 · L11 · Unit Review and Integration</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#FAF7F2;color:#0F172A;
+ font-family:'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif}
+.zh,.pt-zh{font-family:'Noto Sans SC','Inter',sans-serif;color:#C2410C;font-weight:700}
+.app{max-width:100%}
+.top-nav{display:flex;align-items:center;gap:14px;background:#171413;color:#fff;
+ padding:10px 18px;position:sticky;top:0;z-index:50}
+.logo-bolt{width:34px;height:34px;background:#EA580C;border-radius:7px;display:inline-flex;
+ align-items:center;justify-content:center;color:#fff}
+.nav-brand{display:flex;flex-direction:column;line-height:1.1}
+.brand-text{font-weight:800;font-size:20px;font-family:'Baloo 2',Georgia,serif}
+.brand-text .spark{color:#EA580C}
+.brand-sub{font-size:9.5px;letter-spacing:1.2px;color:rgba(255,255,255,.55);text-transform:uppercase;margin-top:3px}
+.nav-meta{font-weight:700;font-size:13px;opacity:.85}
+.nav-badge{background:#EA580C;border-radius:6px;padding:2px 9px;font-size:12px;font-weight:700}
+.nav-spacer{flex:1}
+.lang-toggle button{background:#2b2622;color:#fff;border:1px solid #3a342f;border-radius:6px;
+ padding:4px 9px;font-weight:700;cursor:pointer;margin-left:4px}
+.lang-toggle button.active{background:#EA580C;border-color:#EA580C}
+.body-wrap{display:flex;align-items:flex-start}
+.sidebar{width:210px;flex:0 0 210px;background:#fff;border-right:2px solid #EDE6DA;
+ min-height:100vh;padding:16px 10px;position:sticky;top:54px;align-self:flex-start}
+.sidebar-unit-label{font-size:11px;font-weight:800;color:#8a7b4a;letter-spacing:.5px}
+.sidebar-unit-title{font-weight:800;font-size:15px;margin:2px 0 14px}
+.screen-nav-item{display:flex;gap:10px;align-items:center;padding:9px 8px;border-radius:9px;
+ cursor:pointer;margin-bottom:4px}
+.screen-nav-item.active{background:#FFF3E8}
+.screen-num{width:24px;height:24px;border-radius:50%;background:#171413;color:#fff;
+ display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+.screen-nav-item.active .screen-num{background:#EA580C}
+.screen-nav-main{font-weight:800;font-size:14px}
+.screen-nav-sub{font-size:10.5px;color:#9a8f80}
+.sidebar-progress{margin-top:18px}
+.progress-bar{height:8px;background:#EDE6DA;border-radius:5px;overflow:hidden;margin-top:5px}
+.progress-fill{height:100%;background:#EA580C}
+.main-content{flex:1;padding:24px 30px;max-width:1000px}
+.screen{display:none}
+.screen.active{display:block}
+.screen-header{margin-bottom:14px}
+.banner{background:#C00000;color:#fff;font-family:'Baloo 2',Georgia,serif;font-weight:900;
+ font-size:26px;line-height:1.2;padding:14px 18px;border-radius:14px}
+.banner .kw{color:#FFFF00}
+.banner-zh{color:#FFFFFF;font-size:16px;font-weight:700;margin-top:4px;
+ font-family:'Noto Sans SC',sans-serif}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:1px;color:#EA580C;margin-bottom:6px}
+.card{border-radius:14px;padding:15px 17px;margin:13px 0;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.ck-h{font-weight:800;font-size:18px;margin-bottom:7px}
+.ck-hz{display:block;font-size:14px;color:#C2410C;font-weight:700;margin-top:1px}
+ul.pts{margin:6px 0;padding-left:20px}
+ul.pts li{margin:5px 0;line-height:1.5}
+li.pt-en{font-weight:600}
+li.pt-zh{color:#C2410C;font-weight:700}
+.pt-en{font-weight:600}
+.redcard{background:#FCEBEB;border-left:6px solid #A32D2D}
+.rc-h{color:#A32D2D;font-weight:800;font-size:16px;margin-bottom:6px}
+.exambox{background:#F5F0E4;border:2px solid #DDD3A0}
+.eb-h{color:#6D4C41;font-weight:800;font-size:15px;margin-bottom:6px}
+.examiner{background:#FFF7EE;border:2px dashed #EA580C}
+.ex-h{color:#D98A2B;font-weight:800;font-size:15px;margin-bottom:4px}
+.ex-sub{font-size:13px;margin-bottom:6px}
+.cwtab{width:100%;border-collapse:collapse;font-size:13px}
+.cwtab th,.cwtab td{border:1px solid #F0D9BF;padding:5px 8px;text-align:left}
+.cwtab th{background:#FCE9D5}
+td.cw{font-weight:800;color:#7a2e08;white-space:nowrap}
+.mnemonic{background:#171413}
+.mn-h{color:#FFD24A;font-weight:800;font-size:15px;margin-bottom:6px}
+.mn-en{color:#FFFF00;font-weight:800;font-size:18px}
+.mn-zh{color:#FFE08A;font-weight:700;font-size:15px;margin-top:3px}
+.warmup{background:#F4F0FF;border-left:6px solid #7C5CD4}
+.wu-h{color:#7C5CD4;font-weight:800;font-size:15px;margin-bottom:5px}
+.imgslot{background:#FFFDF6;border:2px dashed #C9BCA0;border-radius:10px;padding:11px 13px;
+ margin:9px 0;display:flex;flex-direction:column;gap:5px}
+.imgtag{font-weight:800;color:#8a7b4a;font-size:13px}
+.imgspec{font-size:11px;color:#9a8f80;line-height:1.4}
+.qcard{background:#fff;border:1px solid #EDE6DA;border-radius:14px;padding:15px 17px;margin:13px 0;
+ box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.qcard.test{background:#FBFAF7;border-left:6px solid #9a8f80}
+.qhdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.qno{background:#171413;color:#fff;font-weight:800;border-radius:7px;padding:2px 10px;font-size:13px}
+.cwtag{background:#FFE9D6;border:1px solid #EA580C;color:#7a2e08;border-radius:7px;
+ padding:2px 9px;font-weight:800;font-size:12px}
+.cwtip{display:block;font-weight:600;font-size:11px;margin-top:2px}
+.cap{color:#9a8f80;font-size:12px}
+.qstem{line-height:1.55;margin:4px 0}
+.qstem.pt-en{font-weight:600}
+.hints{margin:8px 0;background:#EEF4FF;border-radius:9px;padding:6px 12px}
+.hints summary{cursor:pointer;font-weight:700;color:#3B6FD4}
+.hints ul{margin:6px 0;padding-left:18px}
+.revealbtn{background:#EA580C;color:#fff;border:none;border-radius:9px;padding:8px 16px;
+ font-weight:800;cursor:pointer;margin-top:8px}
+.answer{display:none;margin-top:10px;background:#F4FBF4;border:1px solid #BFE6BF;
+ border-radius:10px;padding:11px 14px}
+.answer.show{display:block}
+.exp{margin:3px 0;line-height:1.5}
+.ak{margin-top:8px}
+.ak summary{cursor:pointer;font-weight:700;color:#2E7D32}
+.ak-sub{font-weight:800;font-size:13px;margin-top:7px}
+.ak ul{margin:4px 0;padding-left:18px;font-size:13px}
+.ak ul.rej li{color:#A32D2D}
+.fb-r{color:#2E7D32;font-weight:600;margin-top:4px}
+.fb-w{color:#A32D2D;font-weight:600;margin-top:2px}
+.btn-row{margin:22px 0 10px}
+.btn{background:#EA580C;color:#fff;border:none;border-radius:10px;padding:11px 22px;
+ font-weight:800;cursor:pointer;font-size:15px}
+.wrap-summary{background:#171413;color:#fff;border-radius:14px;padding:16px 18px}
+.wrap-summary .ck-h{color:#FFD24A}
+.wrap-summary li.pt-en{color:#fff}
+.wrap-summary li.pt-zh{color:#FFE08A}
+.footer{margin-top:30px;padding:16px 30px;color:#9a8f80;font-size:11px;border-top:1px solid #EDE6DA}
+body.lang-zh .pt-en{display:none}
+body.lang-en .pt-zh{display:none}
+@media(max-width:760px){.sidebar{display:none}.main-content{padding:16px}}
+</style></head>
+<body class="lang-en" data-lesson="11">
+<div class="app">
+<nav class="top-nav">
+ <span class="logo-bolt"><svg viewBox="0 0 24 24" fill="#fff" width="18" height="18"><path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/></svg></span>
+ <span class="nav-brand"><span class="brand-text">Sci<span class="spark">Spark</span></span>
+ <span class="brand-sub">An IG Spark Centre Product</span></span>
+ <span class="nav-meta">Y8 &middot; U1 &middot; L11</span>
+ <span class="nav-badge">Chemistry &middot; 化学</span>
+ <span class="nav-spacer"></span>
+ <span class="lang-toggle"><button id="b-en" class="active" onclick="setLang('en')">EN</button>
+ <button id="b-zh" onclick="setLang('zh')">中文</button></span>
+</nav>
+<div class="body-wrap">
+<aside class="sidebar">
+ <div class="sidebar-unit-label">Y8 Unit 1</div>
+ <div class="sidebar-unit-title">Matter &amp; Particle Model<span class="zh"> · 物质与粒子模型</span></div>
+ <div class="screen-nav-item active" id="nav-hook" onclick="showScreen('hook')"><div class="screen-num">1</div><div><div class="screen-nav-main">Hook</div><div class="screen-nav-sub">Real-world spark · 生活中的化学</div></div></div><div class="screen-nav-item" id="nav-learn" onclick="showScreen('learn')"><div class="screen-num">2</div><div><div class="screen-nav-main">Learn</div><div class="screen-nav-sub">Mechanism · 机制</div></div></div><div class="screen-nav-item" id="nav-try" onclick="showScreen('try')"><div class="screen-num">3</div><div><div class="screen-nav-main">Try</div><div class="screen-nav-sub">Trace & predict · 练习</div></div></div><div class="screen-nav-item" id="nav-test" onclick="showScreen('test')"><div class="screen-num">4</div><div><div class="screen-nav-main">Test</div><div class="screen-nav-sub">Apply solo · 独立应用</div></div></div><div class="screen-nav-item" id="nav-wrap" onclick="showScreen('wrap')"><div class="screen-num">5</div><div><div class="screen-nav-main">Wrap</div><div class="screen-nav-sub">Connect & summarise · 总结</div></div></div>
+ <div class="sidebar-progress"><div style="font-size:12px;font-weight:700">Progress · 进度 <span id="ppct">20%</span></div>
+ <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:20%"></div></div></div>
+</aside>
+<main class="main-content">
+<section class="screen active" id="screen-hook"><div class="screen-header"><div class="eyebrow">SCREEN 1 · HOOK</div><div class="banner">Unit Review and Integration<div class="banner-zh">单元复习与整合</div></div></div>
+<div class="card warmup"><div class="wu-h">&#9200; 热身 &middot; Warm-up hook</div><div class="pt-en">This unit is a detective case: invisible atoms leave clues.</div><div class="pt-zh">这单元像侦探案：看不见的原子留下线索。</div></div>
+<div class="card concept" style="background:#E8FFE8;border-left:6px solid #2E7D32"><ul class="pts">
+<li class="pt-en">Everything you have learned this unit is in one glass of water: atoms inside, purity you can test, dyes you can separate.</li>
+<li class="pt-zh">这个单元学的全部, 都在一杯水里: 里面是原子, 纯度你能测, 染 料你能分.</li>
+</ul><div class="imgslot" data-ref="L11_HOOK_IMG01"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div></div>
+<div class="btn-row"><button class="btn" onclick="showScreen('learn')">Next: Learn &rarr; · 下一步</button></div></section>
+<section class="screen" id="screen-learn"><div class="screen-header"><div class="eyebrow">SCREEN 2 · LEARN</div><div class="banner">Learn — Unit Review and Integration<div class="banner-zh">机制 · 单元复习与整合</div></div></div>
+<div class="card concept" style="background:#E8FFE8;border-left:6px solid #2E7D32"><ul class="pts">
+<li class="pt-zh">这个单元讲了一个故事: 从原子内部一路到现实物质.</li>
+</ul><ul class="pts">
+<li class="pt-zh">原子 → 它的粒子 → 为什么 hold 在一起 → 物质纯不纯 → 怎么 分离和鉴定它.</li>
+</ul><ul class="pts">
+<li class="pt-zh">原子模型 (L01-L03) → proton/neutron/electron (L04) → 静电 吸引让原子 hold 住 (L05) → 纯 vs 不纯 (L06-L07) → 色谱法分离 和鉴定 (L08-L09).</li>
+</ul><div class="imgslot" data-ref="L11_LEARN_IMG01"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div></div>
+<div class="card concept" style="background:#FFF0DB;border-left:6px solid #D98A2B"><ul class="pts">
+<li class="pt-zh">做题前快速回忆.</li>
+</ul><ul class="pts">
+<li class="pt-zh">你能指出来的东西: 硬币的原子、水的纯度、墨水的染料.</li>
+</ul><div class="imgslot" data-ref="L11_LEARN_IMG02"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div></div>
+<div class="card redcard"><div class="rc-h">&#10060; 常见错误 &middot; Common mistake — don't fall for this!</div><ul class="pts">
+<li class="pt-en">Students think tap water from the kitchen is a pure substance.</li>
+<li class="pt-zh">学生以为厨房的自来水是纯物质.</li>
+</ul><ul class="pts">
+<li class="pt-en">A pure substance has only one type of particle.</li>
+<li class="pt-en">Tap water carries dissolved minerals and other substances you cannot see — so &#x27;clear&#x27; does not mean &#x27;pure&#x27;.</li>
+<li class="pt-zh">纯物质只有一种粒子.</li>
+<li class="pt-zh">自来水带着你看不见的溶解矿物质和其他物 质 — 所以 &#x27;清澈&#x27; 不等于 &#x27;纯&#x27;.</li>
+</ul><div class="imgslot" data-ref="L11_LEARN_IMG03"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div></div>
+<div class="card mnemonic"><div class="mn-h">&#129504; 口诀金句 &middot; Golden phrase</div><div class="mn-en">Model → nucleus → charges → attraction → purity → chromatography.</div><div class="mn-zh">模型 → 原子核 → 电荷 → 吸引 → 纯度 → 色谱。</div></div>
+<div class="btn-row"><button class="btn" onclick="showScreen('try')">Next: Try &rarr; · 下一步</button></div></section>
+<section class="screen" id="screen-try"><div class="screen-header"><div class="eyebrow">SCREEN 3 · TRY</div><div class="banner">Try — practice with hints<div class="banner-zh">练习 · 有提示</div></div></div>
+<div class="qcard"><div class="qhdr"><span class="qno">Q1</span><div class="cwtag">&#127919; DESCRIBE<span class="cwtip pt-en">State what changed. Don&#x27;t give reasons.</span><span class="cwtip pt-zh">说出改变了什么, 不要给原因.</span></div> &middot; <span class="cap">2 attempts</span></div><div class="qstem pt-en">Scientists changed their model of the atom over time. Describe how the model of the atom changed from a solid ball to an atom with a nucleus. [2]</div><div class="qstem pt-zh">科学家随时间改变了原子模型. 描述原子模型怎么从一个实心球变成有一个 nucleus 的原子. [2]</div><div class="imgslot" data-ref="L11_Q01_IMG01"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div><details class="hints"><summary>&#128161; Hint &middot; 提示</summary><ul><li>What was at the centre in the new model that the old ball did not have?</li></ul></details><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> From a solid ball to an atom with a small dense nucleus and electrons around it.</div><div class="exp pt-zh"><b>答案：</b>从实心球变成有又小又密 nucleus、外面有电子的原子.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: From a solid ball to an atom with a small dense nucleus and electrons around it.</li><li>Accept skeleton-listed wording: From a solid ball to an atom with a small dense nucleus and electrons around it.</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: From a solid ball to an atom with a small dense nucleus and electrons around it.</li><li>Reject answers that name the wrong item for this question; the required point is: From a solid ball to an atom with a small dense nucleus and electrons around it.</li><li>Reject vague wording if it does not specifically state this answer point: From a solid ball to an atom with a small dense nucleus and electrons around it.</li><li>Reject answers that contradict this item’s answer point; compare against: From a solid ball to an atom with a small dense nucleus and electrons around it.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: From a solid ball to an atom with a small dense nucleus and electrons around it.&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: From a solid ball to an atom with a small dense nucleus and electrons around it. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard"><div class="qhdr"><span class="qno">Q2</span><div class="cwtag">&#127919; STATE<span class="cwtip pt-en">Answer in clear short terms. No explanation.</span><span class="cwtip pt-zh">用清楚的短答案. 不解释.</span></div> &middot; <span class="cap">2 attempts</span></div><div class="qstem pt-en">(a) State the relative charge of a proton, a neutron and an electron. [1] (b) An atom has 6 protons and 6 neutrons. State the number of electrons in the neutral atom. [1]</div><div class="qstem pt-zh">(a) 说出 proton、neutron、electron 的相对电荷. [1] (b) 一个原子有 6 个 proton 和 6 个 neutron. 说出这个中性原子里的 electron 数目. [1]</div><details class="hints"><summary>&#128161; Hint &middot; 提示</summary><ul><li>In a neutral atom, how do the number of electrons and protons compare?</li></ul></details><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> (a) +1, 0, -1 (b) 6 electrons.</div><div class="exp pt-zh"><b>答案：</b>(a) +1、0、-1 (b) 6 个 electron.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: (a) +1, 0, -1 (b) 6 electrons.</li><li>Accept skeleton-listed wording: (a) +1, 0, -1 (b) 6 electrons.</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: (a) +1, 0, -1 (b) 6 electrons.</li><li>Reject answers that name the wrong item for this question; the required point is: (a) +1, 0, -1 (b) 6 electrons.</li><li>Reject vague wording if it does not specifically state this answer point: (a) +1, 0, -1 (b) 6 electrons.</li><li>Reject answers that contradict this item’s answer point; compare against: (a) +1, 0, -1 (b) 6 electrons.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: (a) +1, 0, -1 (b) 6 electrons.&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: (a) +1, 0, -1 (b) 6 electrons. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard"><div class="qhdr"><span class="qno">Q3</span><div class="cwtag">&#127919; EXPLAIN<span class="cwtip pt-en">Say why. Use &#x27;because&#x27;.</span><span class="cwtip pt-zh">说为什么. 用 &#x27;because&#x27;.</span></div> &middot; <span class="cap">4 attempts</span></div><div class="qstem pt-en">Explain why the electrons in an atom do not simply fly away from the nucleus. [2]</div><div class="qstem pt-zh">解释为什么原子里的 electron 不会直接飞离 nucleus. [2]</div><div class="imgslot" data-ref="L11_Q03_IMG01"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div><details class="hints"><summary>&#128161; Hint &middot; 提示</summary><ul><li>What charge is the nucleus, and what charge is the electron?</li><li>Opposite charges attract. Which way does that pull the electron?</li></ul></details><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the nucleus.</div><div class="exp pt-zh"><b>答案：</b>因为 nucleus 带正电、electron 带负电; 异电相吸, 静电吸引把 electron 拉在 nucleus 附近.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the nucleus.</li><li>Accept skeleton-listed wording: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds t</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the nucleus.</li><li>Reject answers that name the wrong item for this question; the required point is: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the.</li><li>Reject vague wording if it does not specifically state this answer point: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the.</li><li>Reject answers that contradict this item’s answer point; compare against: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electro&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: Because the nucleus is positive and the electron negative; opposite charges attract, so electrostatic attraction holds the electron near the. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="btn-row"><button class="btn" onclick="showScreen('test')">Next: Test &rarr; · 下一步</button></div></section>
+<section class="screen" id="screen-test"><div class="screen-header"><div class="eyebrow">SCREEN 4 · TEST · EXAM MODE — NO HINTS</div><div class="banner">Test — apply solo<div class="banner-zh">独立应用 · 无提示</div></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q4</span><div class="cwtag">&#127919; EXPLAIN<span class="cwtip pt-en">Say why. Use &#x27;because&#x27;.</span><span class="cwtip pt-zh">说为什么. 用 &#x27;because&#x27;.</span></div> &middot; <span class="cap">3 attempts</span></div><div class="qstem pt-en">A student heats two white solids. Solid 1 melts at one sharp temperature. Solid 2 melts over a range of temperatures. (a) Explain which solid is pure. [2] (b) [TRAP] The student says &#x27;tap water is a pure substance because it looks clear.&#x27; Is this correct? Choose A or B and give a reason. A — yes, clear water is pure B — no, tap water is a mixture [2]</div><div class="qstem pt-zh">一个学生加热两种白色固体. 固体 1 在一个单一温度熔化. 固体 2 在一段温度范围内熔化. (a) 解释哪种固体是纯的. [2] (b) [陷阱题] 学生说 &#x27;自来水看起来清澈, 所以是纯物质.&#x27; 对吗? 选 A 或 B 并给一个原因. A — 对, 清澈的水是纯的 B — 不对, 自来水是混合物 [2]</div><div class="imgslot" data-ref="L11_Q04_IMG01"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so it is a mixture; clear does not mean pure.</div><div class="exp pt-zh"><b>答案：</b>(a) 固体 1, 因为它在单一固定温度熔化; 熔点范围 表示混合物. (b) B — 自来水有溶解矿物质, 所以是混合物; 清澈不等于纯.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so it is a mixture; cle</li><li>Accept skeleton-listed wording: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dis</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so it is a mi.</li><li>Reject answers that name the wrong item for this question; the required point is: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so.</li><li>Reject vague wording if it does not specifically state this answer point: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so.</li><li>Reject answers that contradict this item’s answer point; compare against: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved min&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: (a) Solid 1, because it melts at one sharp fixed temperature; a melting range means a mixture. (b) B — tap water has dissolved minerals, so. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q5</span><div class="cwtag">&#127919; IDENTIFY<span class="cwtip pt-en">Pick it out from the diagram and name it.</span><span class="cwtip pt-zh">从图里选出来 + 写名字.</span></div> &middot; <span class="cap">3 attempts</span></div><div class="qstem pt-en">A chromatogram shows an unknown ink with two spots, next to four pure dye references W, X, Y and Z. The unknown&#x27;s spots line up with W and Y. (a) Identify the dyes in the unknown ink. [1] (b) State whether the unknown ink is a single substance or a mixture. [1]</div><div class="qstem pt-zh">一张色谱图显示一种有两个斑点的未知墨水, 旁边有四种纯 染料参照 W、X、Y、Z. 未知墨水的斑点跟 W 和 Y 对齐. (a) 辨认未知墨水里的染料. [1] (b) 说出未知墨水是单一物质还是混合物. [1]</div><div class="imgslot" data-ref="L11_Q05_IMG01"><span class="imgtag">&#x1F5BC;&#xFE0F; 配图待出 &middot; Image pending</span><span class="imgspec">Best visual: labelled nucleus + shells, clearly marked NOT TO SCALE, nucleus marked &#x27;tiny&#x27;. Animate?: No (static). Trap to flag: do not believe the drawn scale; never draw electrons inside the nucleus.</span></div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> (a) W and Y (b) a mixture — it has more than one spot.</div><div class="exp pt-zh"><b>答案：</b>(a) W 和 Y (b) 混合物 — 不止一个斑点.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: (a) W and Y (b) a mixture — it has more than one spot.</li><li>Accept skeleton-listed wording: (a) W and Y (b) a mixture — it has more than one spot.</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: (a) W and Y (b) a mixture — it has more than one spot.</li><li>Reject answers that name the wrong item for this question; the required point is: (a) W and Y (b) a mixture — it has more than one spot.</li><li>Reject vague wording if it does not specifically state this answer point: (a) W and Y (b) a mixture — it has more than one spot.</li><li>Reject answers that contradict this item’s answer point; compare against: (a) W and Y (b) a mixture — it has more than one spot.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: (a) W and Y (b) a mixture — it has more than one spot.&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: (a) W and Y (b) a mixture — it has more than one spot. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q6</span><div class="cwtag">&#127919; STATE<span class="cwtip pt-en">One short line. No reason needed.</span><span class="cwtip pt-zh">一句话, 不用给原因.</span></div> &middot; <span class="cap">2 attempts</span></div><div class="qstem pt-en">The nuclear model of the atom replaced the plum pudding model. State the name of the experiment that gave the evidence for the nuclear model. [1]</div><div class="qstem pt-zh">原子的核模型取代了布丁模型. 说出为核模型提供证据的那个实验的名字. [1]</div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> The gold foil experiment.</div><div class="exp pt-zh"><b>答案：</b>金箔实验.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: The gold foil experiment.</li><li>Accept skeleton-listed wording: The gold foil experiment.</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: The gold foil experiment.</li><li>Reject answers that name the wrong item for this question; the required point is: The gold foil experiment.</li><li>Reject vague wording if it does not specifically state this answer point: The gold foil experiment.</li><li>Reject answers that contradict this item’s answer point; compare against: The gold foil experiment.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: The gold foil experiment.&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: The gold foil experiment. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q7</span><div class="cwtag">&#127919; DESCRIBE<span class="cwtip pt-en">Say what happens. No reasons needed.</span><span class="cwtip pt-zh">说出发生什么, 不用给原因.</span></div> &middot; <span class="cap">2 attempts</span></div><div class="qstem pt-en">Two solids are tested. Solid P is pure; solid Q is impure. Describe how the MELTING of solid P is different from the melting of solid Q. [2]</div><div class="qstem pt-zh">测试两个固体. 固体 P 是纯的; 固体 Q 是不纯的. 描述固体 P 的熔化和固体 Q 的熔化有什么不同. [2]</div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> P melts at one sharp fixed temperature; Q melts over a range of temperatures.</div><div class="exp pt-zh"><b>答案：</b>P 在一个固定温度熔化; Q 在一段温度范围内熔化.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: P melts at one sharp fixed temperature; Q melts over a range of temperatures.</li><li>Accept skeleton-listed wording: P melts at one sharp fixed temperature; Q melts over a range of temperatures.</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: P melts at one sharp fixed temperature; Q melts over a range of temperatures.</li><li>Reject answers that name the wrong item for this question; the required point is: P melts at one sharp fixed temperature; Q melts over a range of temperatures.</li><li>Reject vague wording if it does not specifically state this answer point: P melts at one sharp fixed temperature; Q melts over a range of temperatures.</li><li>Reject answers that contradict this item’s answer point; compare against: P melts at one sharp fixed temperature; Q melts over a range of temperatures.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: P melts at one sharp fixed temperature; Q melts over a range of temperatures.&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: P melts at one sharp fixed temperature; Q melts over a range of temperatures. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q8</span><div class="cwtag">&#127919; EXPLAIN<span class="cwtip pt-en">Say why. Use &#x27;because&#x27;.</span><span class="cwtip pt-zh">说为什么. 用 &#x27;because&#x27;.</span></div> &middot; <span class="cap">3 attempts</span></div><div class="qstem pt-en">A student draws the particles in a solid all touching, with no gaps, and says &#x27;when it is heated, the particles themselves swell up.&#x27; Explain the TWO things wrong in what the student has said. [2]</div><div class="qstem pt-zh">一个学生把固体里的粒子画成全部紧贴、没有缝隙, 还说 &#x27;加热时, 粒子本身会膨胀.&#x27; 解释这个学生说法里错的两点. [2]</div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not grow.</div><div class="exp pt-zh"><b>答案：</b>粒子之间有空间 (不是全贴在一起), 加热增加的是间距/运动 —— 粒子本身不会变大.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not grow.</li><li>Accept skeleton-listed wording: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not grow.</li><li>Reject answers that name the wrong item for this question; the required point is: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not g.</li><li>Reject vague wording if it does not specifically state this answer point: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not g.</li><li>Reject answers that contradict this item’s answer point; compare against: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not g.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselve&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: There is space between particles (they are not all touching), and heating increases the spacing/movement — the particles themselves do not g. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q9</span><div class="cwtag">&#127919; IDENTIFY<span class="cwtip pt-en">Pick the correct option. Choose A, B or C.</span><span class="cwtip pt-zh">选出正确的选项. 选 A、B 或 C.</span></div> &middot; <span class="cap">2 attempts</span></div><div class="qstem pt-en">A chromatogram of substance Z shows four separate spots. Identify the correct conclusion. Choose A, B or C. A - Z is a pure substance. B - Z is a mixture of at least four substances. C - Z is a single substance with four colours. [1]</div><div class="qstem pt-zh">物质 Z 的色谱图显示四个分开的斑点. 选出正确的结论. 选 A、B 或 C. A - Z 是纯物质. B - Z 是至少四种物质的混合物. C - Z 是有四种颜色的单一物质. [1]</div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> B</div><div class="exp pt-zh"><b>答案：</b>B</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: B</li><li>Accept skeleton-listed wording: B</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: B.</li><li>Reject answers that name the wrong item for this question; the required point is: B.</li><li>Reject vague wording if it does not specifically state this answer point: B.</li><li>Reject answers that contradict this item’s answer point; compare against: B.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: B&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: B. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="qcard test"><div class="qhdr"><span class="qno">Q10</span><div class="cwtag">&#127919; EXPLAIN<span class="cwtip pt-en">Say why. Use &#x27;because&#x27;.</span><span class="cwtip pt-zh">说为什么. 用 &#x27;because&#x27;.</span></div> &middot; <span class="cap">4 attempts</span></div><div class="qstem pt-en">An atom has a positive nucleus and negative electrons, and it stays held together. Explain, step by step, why the atom holds together. Use ideas about the charges on the nucleus and the electrons. [3]</div><div class="qstem pt-zh">一个原子有正核和负电子, 并且保持结合在一起. 一步一步解释这个原子为什么结合在一起. 用核和电子上电荷的概念. [3]</div><button class="revealbtn" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'Hide answer \u00b7 \u9690\u85cf':'Show answer \u00b7 \u770b\u7b54\u6848'">Show answer &middot; 看答案</button><div class="answer"><div class="exp pt-en"><b>Answer:</b> The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom together.</div><div class="exp pt-zh"><b>答案：</b>正核和负电子是异性电荷; 异电相吸, 这种静电吸引把原子结合在一起.</div><details class="ak"><summary>Mark scheme &middot; 评分要点</summary><div class="ak-sub">&#9989; Accept &middot; 收：</div><ul class="acc"><li>Accept exact expected idea: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom together.</li><li>Accept skeleton-listed wording: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attra</li><li>Accept clear shorter wording only if it still says the unit review chain idea for this item.</li><li>Accept minor spelling errors only when the intended term still clearly means model → p/n/e → charge → purity → chromatography.</li></ul><div class="ak-sub">&#10060; Do NOT accept &middot; 不收：</div><ul class="rej"><li>Reject answers that miss the required point for this question: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom together.</li><li>Reject answers that name the wrong item for this question; the required point is: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom.</li><li>Reject vague wording if it does not specifically state this answer point: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom.</li><li>Reject answers that contradict this item’s answer point; compare against: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom.</li></ul><div class="ak-sub">Feedback &middot; 反馈：</div><div class="fb-r pt-en">&#9989; Correct — you hit this item’s key idea: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction hold&quot;</div><div class="fb-w pt-en">&#10071; Not yet — this item needs: The positive nucleus and negative electrons are opposite charges; opposite charges attract, and this electrostatic attraction holds the atom. Check the exact clue in this question, not the whole lesson theme.&quot;</div></details></div></div>
+<div class="btn-row"><button class="btn" onclick="showScreen('wrap')">Next: Wrap &rarr; · 下一步</button></div></section>
+<section class="screen" id="screen-wrap"><div class="screen-header"><div class="eyebrow">SCREEN 5 · WRAP</div><div class="banner">Wrap — connect &amp; summarise<div class="banner-zh">总结 · 串联</div></div></div>
+<div class="card wrap-summary"><ul class="pts">
+<li class="pt-en">Y8 Unit 1 done: from the atom&#x27;s nucleus and electron cloud, to what holds it together, to whether real substances are pure, to separating and identifying them.</li>
+<li class="pt-en">One story, start to end.</li>
+<li class="pt-zh">Y8 Unit 1 完成: 从原子的核和电子云, 到什么把它 hold 住, 到现 实物质纯不纯, 到分离和鉴定它们.</li>
+<li class="pt-zh">一个故事, 从头到尾.</li>
+</ul><ul class="pts">
+<li class="pt-en">Some atoms of the same element have different numbers of neutrons — that&#x27;s isotopes.</li>
+<li class="pt-en">Y9 will teach this.</li>
+<li class="pt-zh">同一元素的有些原子中子数不同 — 那叫 isotopes 同位素.</li>
+<li class="pt-zh">Y9 会教.</li>
+</ul><ul class="pts">
+<li class="pt-en">Atoms can lose or gain electrons and become charged — ions.</li>
+<li class="pt-en">Y9 will teach this.</li>
+<li class="pt-zh">原子可以失去或得到 electron 而带电 — ions 离子.</li>
+<li class="pt-zh">Y9 会教.</li>
+</ul><ul class="pts">
+<li class="pt-en">Electrons sit in layers called shells.</li>
+<li class="pt-en">Y9 will teach this.</li>
+<li class="pt-zh">electron 排在叫 shells 的层里.</li>
+<li class="pt-zh">Y9 会教.</li>
+</ul><ul class="pts">
+<li class="pt-en">Chromatography spots get an exact Rf number to tell substances apart.</li>
+<li class="pt-en">Y9+ will teach this.</li>
+<li class="pt-zh">色谱斑点有一个精确的 Rf 数值来区分物质.</li>
+<li class="pt-zh">Y9+ 会教.</li>
+</ul><ul class="pts">
+<li class="pt-en">You&#x27;ve built the foundation of chemistry.</li>
+<li class="pt-en">Y9 opens the next door.</li>
+<li class="pt-zh">你已经打好化学的地基.</li>
+<li class="pt-zh">Y9 会打开下一扇门.</li>
+</ul></div>
+<div class="card mnemonic"><div class="mn-h">&#129504; 口诀金句 &middot; Golden phrase</div><div class="mn-en">Model → nucleus → charges → attraction → purity → chromatography.</div><div class="mn-zh">模型 → 原子核 → 电荷 → 吸引 → 纯度 → 色谱。</div></div>
+<div class="btn-row"><button class="btn" onclick="completeLesson()">Complete Lesson · 完成本课 ✓</button></div></section>
+</main></div>
+<footer class="footer">© 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product. All content original & copyrighted.
+<div class="zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div></footer>
+</div>
+<script>
+var SC=['hook','learn','try','test','wrap'];
+function showScreen(id){
+ SC.forEach(function(s){var e=document.getElementById('screen-'+s);if(e)e.classList.toggle('active',s===id);
+  var n=document.getElementById('nav-'+s);if(n)n.classList.toggle('active',s===id);});
+ var i=SC.indexOf(id)+1,p=Math.round(i/5*100);
+ document.getElementById('pfill').style.width=p+'%';document.getElementById('ppct').textContent=p+'%';
+ window.scrollTo(0,0);
+}
+function setLang(l){
+ document.body.className='lang-'+l+(document.body.dataset.lesson?'':'');
+ document.body.classList.add('lang-'+l);
+ document.body.classList.toggle('lang-en',l==='en');
+ document.body.classList.toggle('lang-zh',l==='zh');
+ document.getElementById('b-en').classList.toggle('active',l==='en');
+ document.getElementById('b-zh').classList.toggle('active',l==='zh');
+}
+function completeLesson(){alert('Lesson complete! · 本课完成! 🎉');}
+</script>
+</body></html>

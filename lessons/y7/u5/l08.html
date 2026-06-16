@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U5 L08 · Unit Review and Integration</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="8">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U5 · L08</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Biology" data-zh="生物">Biology</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 5</div>
+      <div class="sidebar-unit-title" data-en="Life Processes" data-zh="生命过程">Life Processes</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Define &amp; diagnose<span class="zh"> · 练习诊断</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">Hook · 观察 Observe</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Unit</span> <span style="color:#FFFF00">Review</span> and <span style="color:#FFFF00">Integration</span></h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">单元复习与整合</div></div><div style="background:#F4F0FF;border:1.5px solid #D6C9F0;border-left:6px solid #7C5CD4;border-radius:14px;padding:14px 18px;margin:14px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4;margin-bottom:6px;">⏰ 热身一句话 · Warm-up</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">This review is the whole story: life signs → living judge → virus → species → classification → key.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">复习课串整条线：生命特征→判断活不活→病毒→物种→分类→检索表。</li></ul></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">HOOK slide (personal/career context anchor)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Look around you right now.</li><li style="margin:0 0 9px 0;line-height:1.5;">A potted plant on the sill, a pet, a fly at the window, yourself breathing.</li><li style="margin:0 0 9px 0;line-height:1.5;">In 8 lessons you learned how to tell what is alive, what is not, and how scientists sort every living thing.</li><li style="margin:0 0 9px 0;line-height:1.5;">Today we put the whole unit together.</li><li style="margin:0 0 9px 0;line-height:1.5;">Look around you: &quot;Look at any living thing near you — can you name two of its life characteristics?&quot;</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">现在看看你身边。窗台上的盆栽、一只宠物、窗边的苍蝇、正在呼吸的你。</li><li style="margin:0 0 9px 0;line-height:1.5;">这 8 节课你学会了怎么判断什么是活的、什么不是,以及科学家怎么给所有生物分类。</li><li style="margin:0 0 9px 0;line-height:1.5;">今天我们把整个单元串起来。</li><li style="margin:0 0 9px 0;line-height:1.5;">CONTEXT_ANCHOR: Personal — the living things around the learner (potted plant, pet, fly, self).</li><li style="margin:0 0 9px 0;line-height:1.5;">LOOK_AROUND_YOU: &quot;Look at any living thing near you — can you name two of its life characteristics?&quot;</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q00_IMG01</div></div></div></div><div style="font-family:'Inter',sans-serif;font-style:italic;color:#6b6358;font-size:13px;margin:10px 0;">😄 Today is not a new boss fight. It is cleaning your science toolbox. <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;">今天不是新魔王，是整理你的科学工具箱。</span></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">Learn · 定义 Define</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Unit</span> <span style="color:#FFFF00">Review</span> and <span style="color:#FFFF00">Integration</span></h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">单元复习与整合</div></div><div style="background:#171413;border-radius:16px;padding:18px 20px;margin:16px 0;text-align:center;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#9a8;letter-spacing:1px;margin-bottom:8px;">🧠 口诀金句 · Memory Hook</div><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:21px;color:#fff;line-height:1.4;">Life → Judge → Virus → Species → Levels → Key.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:#FFFF00;margin-top:6px;">生命→判断→病毒→物种→层级→检索表。</div></div><div style="background:#F5F0E4;border:1.5px solid #D8CBB0;border-left:6px solid #6D4C41;border-radius:14px;padding:16px 20px;margin:16px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:16px;color:#6D4C41;margin-bottom:8px;">⚖️ 考试 vs 真实 · Exam vs Reality</div><div style="margin:8px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#B5651D;margin-bottom:4px;">📝 考试这样写 · In the exam</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">In the exam, use the simple Unit 5 rules.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">考试用 Unit 5 的简化规则。</li></ul></div><div style="margin:8px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#6D4C41;margin-bottom:4px;">🔬 真实科学 · Real science</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Real biology has edge cases; simple rules are the starting map.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">真实生物有边界例子；简化规则是起点地图。</li></ul></div></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Full unit narrative flow diagram (REQUIRED by Control v3.9 §2.1)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">The whole unit is one chain of questions: MRS GREN (7 life characteristics) -&gt; Living vs Non-Living judge -&gt; Virus (the borderline case) -&gt; Species (smallest group) -&gt; Classification (the 7 levels) -&gt; Dichotomous Key (the tool) -&gt; this Review.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">整个单元是一条问题链: MRS GREN(生命 7 特征)-&gt; 判断 活的还是非活的 -&gt; 病毒(边界个案)-&gt; 物种(最小的分类单位)-&gt; 分类(7 个层级)-&gt; 二歧检索表(工具)-&gt; 本节复习。</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q00_IMG02</div></div></div></div><div style="background:#FFF0DB;border:1.5px solid #FAD9A8;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">MRS GREN recap slide (REQUIRED: L03-L08 each recap MRS GREN at least once)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">MRS GREN = the 7 things all living things do: Movement / Respiration / Sensitivity / Growth / Reproduction / Excretion / Nutrition.</li><li style="margin:0 0 9px 0;line-height:1.5;">This is the foundation of Y7 Biology — every later biology unit uses it.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">MRS GREN = 所有生物都会做的 7 件事: 运动(Movement)/ 呼吸(Respiration)/ 应激(Sensitivity)/ 生长(Growth)/ 繁殖(Reproduction)/ 排泄(Excretion)/ 营养(Nutrition)。</li><li style="margin:0 0 9px 0;line-height:1.5;">这是 Y7 生物的基础 — 后续每个生物单元都会用到。</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q00_IMG03</div></div></div></div><div style="background:#EAFBFF;border:1.5px solid #C2ECF5;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#C2ECF5;color:#3AAEC8;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Living judge + virus borderline recap</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Use the 7-row checklist to judge.</li><li style="margin:0 0 9px 0;line-height:1.5;">A car moves and uses fuel but fails most rows -&gt; not living.</li><li style="margin:0 0 9px 0;line-height:1.5;">A virus is the hard case: it can reproduce (only inside a host) but has no independent nutrition, no growth, no respiration of its own -&gt; it sits on the borderline.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">用 7 行清单来判断。一辆车会动、会用燃料,但大多数行都不符合 -&gt; 不是活的。</li><li style="margin:0 0 9px 0;line-height:1.5;">病毒是难判的个案:它能繁殖(只能在宿主体内),但没有独立营养、不生长、自己不呼吸 -&gt; 它处在生命的边界上。</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q00_IMG04</div></div></div></div><div style="background:#F6EAFA;border:1.5px solid #E2C4EE;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#E2C4EE;color:#9B3FC9;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Species + classification + key recap, with Misconception RED CARD</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Species = a group whose members 能交配 and make 可育后代 (a mule is not fertile, so horse and donkey are different species).</li><li style="margin:0 0 9px 0;line-height:1.5;">Bigger grouping uses the 7 levels: Kingdom -&gt; Phylum -&gt; Class -&gt; Order -&gt; Family -&gt; Genus -&gt; Species.</li><li style="margin:0 0 9px 0;line-height:1.5;">A dichotomous key is the hands-on tool: answer yes/no questions until you reach one name.</li><li style="margin:0 0 9px 0;line-height:1.5;">[MISCONCEPTION RED CARD] RED CARD EN: &quot;Wrong idea: &#x27;A key gives the right answer for any animal.&#x27; Correct: a key only works for the set of organisms it was built for.</li><li style="margin:0 0 9px 0;line-height:1.5;">An organism not in that set cannot be identified by that key.&quot; RED CARD ZH: &quot;错误想法:&#x27;检索表对任何动物都能给出正确答案。&#x27; 正确:检索表只对它当初建立时所针对的那组生物有效。不在那组里的生物,这个表认不出来。&quot;</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">物种 = 彼此交配并产生有繁殖能力后代的一群(骡子不能繁殖,所以马和驴是不同物种)。</li><li style="margin:0 0 9px 0;line-height:1.5;">更大的分组用 7 个层级:界 -&gt; 门 -&gt; 纲 -&gt; 目 -&gt; 科 -&gt; 属 -&gt; 种。</li><li style="margin:0 0 9px 0;line-height:1.5;">二歧检索表是实战工具:不断回答 是/否 的问题,直到得到一个名字。</li><li style="margin:0 0 9px 0;line-height:1.5;">EXAM_VS_REAL_BOX (carried review box — see GAP_POINT above):</li></ul><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q00_IMG05</div></div></div></div><div style="background:#FFF8EE;border:2px dashed #D98A2B;border-radius:14px;padding:16px 20px;margin:16px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#B5651D;margin-bottom:8px;">🎯 考官要什么 · Command Words</div><ul style="margin:0;padding-left:20px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;"><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">State</b> = give a short word/phrase · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">短答, 直接给词</span></li><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">Describe</b> = say what / how · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">讲发生什么、怎么样</span></li><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">Explain</b> = give a reason (fact + because) · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">讲为什么 (事实+原因配对)</span></li><li style="margin:0 0 9px 0;line-height:1.5;"><b style="color:#B5651D;">Define</b> = exact syllabus wording · <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;">照大纲原话, 准确术语</span></li></ul></div><div style="font-family:'Inter',sans-serif;font-style:italic;color:#6b6358;font-size:13px;margin:10px 0;">🔗 Unit 5 is a toolbox. MRS GREN checks life; species and keys help sort life. <span style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;">Unit 5 像工具箱：MRS GREN 查生命，物种和检索表帮分类。</span></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('try')">Try it · 试一试</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">Try · 练习 + 诊断 Define &amp; diagnose</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Practice</span> with hints</h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">带提示练习</div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q01</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">State</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">State what the letters MRS GREN stand for. (Give all 7 words.)</div><div style="background:#FFFBEA;border-left:4px solid #D98A2B;border-radius:8px;padding:9px 13px;margin:8px 0;font-family:'Inter',sans-serif;font-size:13px;"><b style="color:#B5651D;">💡 Tip</b> One word per letter; they are the 7 life characteristics.<div style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;margin-top:3px;">每个字母对应一个词;它们是 7 个生命特征。</div></div><button onclick="var x=document.getElementById('ans_01_r');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_01_r" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Movement, Respiration, Sensitivity, Growth, Reproduction, Excretion, Nutrition (all 7)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">移动, 呼吸, 感应, 生长, 繁殖, 排泄, 营养 (all 7)</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Movement, Respiration, Sensitivity, Growth, Reproduction, Excretion, Nutrition (all 7)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">移动, 呼吸, 感应, 生长, 繁殖, 排泄, 营养 (all 7)</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q02</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Explain</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">A student says &quot;A car is alive because it moves and uses fuel.&quot; Explain why the car is NOT living. Use the 7-row checklist in your answer.</div><div style="background:#FFFBEA;border-left:4px solid #D98A2B;border-radius:8px;padding:9px 13px;margin:8px 0;font-family:'Inter',sans-serif;font-size:13px;"><b style="color:#B5651D;">💡 Tip</b> Moving and using fuel are only 2 rows; check the other rows (growth, reproduction, etc.).<div style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;margin-top:3px;">会动、会用燃料只是 2 行;检查其他行(生长、繁殖等)。</div></div><button onclick="var x=document.getElementById('ans_02_r');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_02_r" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">car fails growth / reproduction / sensitivity / excretion / nutrition (makes own food) — only mimics movement + energy use</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">car fails 生长 / 繁殖 / 感应 / 排泄 / 营养 (makes own food) — only mimics 移动 + energy use</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">car fails growth / reproduction / sensitivity / excretion / nutrition (makes own food) — only mimics movement + energy use.</li><li style="margin:0 0 9px 0;line-height:1.5;">needs most/all 7.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">car fails 生长 / 繁殖 / 感应 / 排泄 / 营养 (makes own food) — only mimics 运动 + energy use。</li><li style="margin:0 0 9px 0;line-height:1.5;">needs most/all 7。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q03</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Describe</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">Describe why a virus is called a &quot;borderline case&quot; between living and non-living. Give one life characteristic it has and one it lacks.</div><div style="background:#FFFBEA;border-left:4px solid #D98A2B;border-radius:8px;padding:9px 13px;margin:8px 0;font-family:'Inter',sans-serif;font-size:13px;"><b style="color:#B5651D;">💡 Tip</b> Think about what a virus can only do inside a host, and what it cannot do alone.<div style="font-family:'Noto Sans SC',sans-serif;color:#D98A2B;font-weight:700;margin-top:3px;">想想病毒只能在宿主体内做什么,以及它自己单独不能做什么。</div></div><button onclick="var x=document.getElementById('ans_03_r');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_03_r" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">HAS reproduction (only inside a host)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">HAS 繁殖 (only inside a 宿主)</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">HAS reproduction (only inside a host)</li><li style="margin:0 0 9px 0;line-height:1.5;">LACKS independent nutrition / growth / respiration / movement — any valid one each side.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">HAS 繁殖 (只在宿主内)</li><li style="margin:0 0 9px 0;line-height:1.5;">LACKS independent 营养 / 生长 / 呼吸作用 / 运动 — any valid one each side。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('test')">Go to Test · 进入测试</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1px;border-radius:8px;padding:5px 12px;margin-bottom:10px;">EXAM MODE · 考试模式 · NO HINTS</div><div class="screen-header"><div class="screen-eyebrow">Test · 独立应用 Apply solo</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Test</span> yourself</h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">独立测试</div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q04</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">State</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">A horse and a donkey can breed, but their 后代 (a mule) cannot have babies. State whether a horse and a donkey are the same species or different species, and give the reason.</div><button onclick="var x=document.getElementById('ans_04_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_04_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">different species</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">不同物种</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">different species.</li><li style="margin:0 0 9px 0;line-height:1.5;">because the offspring (mule) is not fertile / cannot reproduce, so they do not meet the fertile-offspring definition.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">不同物种。</li><li style="margin:0 0 9px 0;line-height:1.5;">因为后代（骡子）不可育/不能繁殖，所以不符合可育后代的定义。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q05</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Identify</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">Use this short key to identify animal X. 1  has a backbone -&gt; go to 2 no backbone -&gt; go to 3 2  has feathers -&gt; bird has fur -&gt; mammal 3  has 6 legs -&gt; insect has 8 legs -&gt; spider Animal X has a backbone and has fur. Identify animal X, and state which of the 7 classification levels (Kingdom to Species) the word &quot;animal&quot; belongs to as a Kingdom example.</div><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q05_IMG01</div></div></div><div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1.5px dashed #C9C2B6;border-radius:12px;padding:12px 14px;margin:8px 0;"><div style="font-size:38px;line-height:1;flex-shrink:0;">🖼️</div><div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b6358;"><div style="font-weight:700;color:#3a342f;">配图待出 · Image pending</div><div style="font-family:'Geist Mono',monospace;font-size:11px;margin-top:3px;color:#8a8276;">L08_Q05_IMG01</div></div></div><button onclick="var x=document.getElementById('ans_05_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_05_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">X = mammal</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">X = 哺乳类</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">X = mammal.</li><li style="margin:0 0 9px 0;line-height:1.5;">&quot;Animals/Animalia&quot; is a Kingdom = the top (first) of the 7 levels.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">X = 哺乳类。</li><li style="margin:0 0 9px 0;line-height:1.5;">&quot;Animals/Animalia&quot; is a 界 = the top (first) of the 7 levels。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q06</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">State</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">The seven characteristics of living organisms are remembered as MRS GREN. State the full word for the letters M, R (the first R) and S.</div><button onclick="var x=document.getElementById('ans_06_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_06_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">M = movement</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">M = 移动</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">M = movement.</li><li style="margin:0 0 9px 0;line-height:1.5;">R = respiration.</li><li style="margin:0 0 9px 0;line-height:1.5;">S = sensitivity.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">M = 运动。</li><li style="margin:0 0 9px 0;line-height:1.5;">R = 呼吸作用。</li><li style="margin:0 0 9px 0;line-height:1.5;">S = 感应。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q07</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Identify</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">A student tests four things with the seven-sign checklist: a frog, a candle flame, a wooden chair, and a sunflower. Identify the two that are living organisms.</div><button onclick="var x=document.getElementById('ans_07_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_07_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">frog and sunflower are living</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">frog 和 sunflower are 活的</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">frog and sunflower are living.</li><li style="margin:0 0 9px 0;line-height:1.5;">flame and chair are non-living.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">青蛙 and 向日葵 are 活的。</li><li style="margin:0 0 9px 0;line-height:1.5;">火焰 and 椅子 are 非活的。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q08</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">State</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">The 7 levels of classification run from the largest group to the smallest. State the largest (top) level and the smallest (bottom) level.</div><button onclick="var x=document.getElementById('ans_08_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_08_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">top = Kingdom</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">top = 界</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">top = Kingdom.</li><li style="margin:0 0 9px 0;line-height:1.5;">bottom = Species.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">top = 界。</li><li style="margin:0 0 9px 0;line-height:1.5;">bottom = 物种。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q09</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Explain</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">Two lions can breed and produce cubs that grow up and have their own cubs. A lion and a tiger can sometimes breed, but their 后代 usually cannot have young of their own. Explain whether lions and tigers are the same species or different species, using the species definition.</div><button onclick="var x=document.getElementById('ans_09_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_09_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">different species</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">不同物种</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">different species.</li><li style="margin:0 0 9px 0;line-height:1.5;">their offspring are usually not fertile / cannot reproduce, so they do not meet the fertile-offspring definition of one species.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">不同物种。</li><li style="margin:0 0 9px 0;line-height:1.5;">它们的后代通常不可育/不能繁殖，所以不符合一个物种的可育后代定义。</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="question-block" style="background:#fff;border:1.5px solid #E6DFD3;border-radius:14px;padding:16px 18px;margin:14px 0;"><div class="question-header" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="background:#C00000;color:#fff;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;border-radius:9px;padding:4px 12px;">Q10</span><span style="font-family:'Inter',sans-serif;font-size:12px;color:#6b6358;border:1px solid #ddd;border-radius:7px;padding:2px 9px;">Use</span><span style="font-family:'Geist Mono',monospace;font-size:12px;color:#8a8276;margin-left:auto;">1 marks</span></div><div class="question-text" style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;line-height:1.55;margin-bottom:10px;">Use this short key to identify animal Y. 1  has a backbone -&gt; go to 2 no backbone -&gt; go to 3 2  lays eggs in water -&gt; amphibian lays eggs on land -&gt; reptile 3  has a soft body and a shell -&gt; snail has a soft body and no shell -&gt; worm Animal Y has no backbone, a soft body and a shell. Use the key to identify animal Y.</div><button onclick="var x=document.getElementById('ans_10_t');x.style.display=x.style.display=='none'?'block':'none';" class="show-answer-btn" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">查看答案 · Show answer</button><div id="ans_10_t" style="display:none;margin-top:10px;padding:13px;background:#F3FBF3;border:1.5px solid #BFE6BF;border-radius:11px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:5px;">✅ 标准答案 · Answer</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Y = snail (no backbone, soft body, has a shell)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">Y = snail (否 脊柱, soft body, has a shell)</li></ul><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:12px;color:#6b6358;margin:8px 0 4px;">可接受 · Accept</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">Y = snail (no backbone, soft body, has a shell)</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">Y = 蜗牛 (否 脊柱, 柔软身体, 有壳)</li></ul><div style="margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#2E7D32;">👍 Good — you connected the answer to the right Unit 5 idea.</div></div></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 总结</button></div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">Wrap · 反思 Reflect</div><h1 style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:30px;background:#C00000;color:#fff;border-radius:14px;padding:14px 22px;margin:6px 0 4px 0;line-height:1.25;"><span style="color:#FFFF00">Unit</span> <span style="color:#FFFF00">Review</span> and <span style="color:#FFFF00">Integration</span></h1><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:18px;color:#D98A2B;margin-bottom:6px;">单元复习与整合</div></div><div style="background:#EEF4FF;border:1.5px solid #C3D4F5;border-left:6px solid #3B6FD4;border-radius:14px;padding:16px 20px;margin:16px 0;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:15px;color:#3B6FD4;margin-bottom:8px;">🔁 盖住回想 · Cover & Recall</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;margin-bottom:4px;">What is the one thing to remember?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-bottom:10px;">今天最该记住的一句?</div><button onclick="var x=document.getElementById('recall_8');x.style.display=x.style.display=='none'?'block':'none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">想好了, 看答案 · Show answer</button><div id="recall_8" style="display:none;margin-top:10px;padding:12px;background:#fff;border-radius:10px;"><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">If you can explain the chain, you own the unit.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">你能讲清整条链，就掌握这单元。</li></ul></div></div><div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Summary</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">You can now tell living from non-living with MRS GREN, explain why a virus is a hard case, define a species, place organisms in the 7 levels, and use a dichotomous key.</li><li style="margin:0 0 9px 0;line-height:1.5;">That is the whole foundation of Y7 Biology.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">现在你能用 MRS GREN 区分活与非活,解释为什么病毒是难判的个案,定义物种, 把生物放进 7 个层级,并使用二歧检索表。这就是 Y7 生物的整个基础。</li></ul></div><div style="background:#FFF0DB;border:1.5px solid #FAD9A8;border-radius:16px;padding:18px 20px;margin:16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:'Baloo 2','Inter',sans-serif;font-weight:800;font-size:19px;padding:7px 16px;border-radius:11px;margin-bottom:12px;">Cliffhanger + Stay Curious (REQUIRED by Control v3.9 §2.7)</div><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:inherit;"><li style="margin:0 0 9px 0;line-height:1.5;">You now know what living things ARE and how to sort them.</li><li style="margin:0 0 9px 0;line-height:1.5;">Next year: how living things WORK together — ecosystems, where every organism uses MRS GREN to survive.</li><li style="margin:0 0 9px 0;line-height:1.5;">Pick any living thing near you and try naming all 7 of its MRS GREN characteristics before next lesson.</li></ul><ul style="margin:6px 0 2px 0;padding-left:20px;list-style:disc;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B;"><li style="margin:0 0 9px 0;line-height:1.5;">现在你知道了生物&quot;是什么&quot;以及怎么分类。下学年:生物如何&quot;一起运作&quot;—— 生态系统,每个生物都用 MRS GREN 来生存。</li><li style="margin:0 0 9px 0;line-height:1.5;">在下节课之前,挑你身边任意一个生物,试着说出它全部 7 个 MRS GREN 特征。</li></ul></div><div class="btn-row" style="margin-top:20px;"><button class="btn btn-primary" onclick="completeLesson()" style="background:#D98A2B;">Complete Lesson · 完成本课 ✓</button></div>
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this lesson teach?
+        <span class="ai-prompt-btn-zh">这节课在教什么?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Give me a hint for the hardest question.
+        <span class="ai-prompt-btn-zh">给我最难那题一个提示。</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">考试怎么考这个?</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
