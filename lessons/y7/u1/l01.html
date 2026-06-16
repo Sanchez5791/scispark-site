@@ -55,7 +55,7 @@
 </head>
 
 
-<body data-user-level="2" data-lesson="1">
+<body data-user-level="2" data-lesson="1" class="bilingual">
 
 <div class="print-notice">&#169; SciSpark &#8212; Printing not permitted. &#35831;&#21247;&#25171;&#21360; &#183; &#21463;&#29256;&#26435;&#20445;&#25252;&#20869;&#23481;&#12290;</div>
 
@@ -502,7 +502,36 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
   }
 
   // ── Read-aloud: adjustable speed + per-word highlight (teleprompter) ──
+  // Highlight is driven by speechSynthesis "boundary" events WHERE AVAILABLE
+  // (accurate, desktop). Many mobile browsers (iOS Safari, some Android Chrome)
+  // never fire onboundary — so a time-based ticker also runs and advances the
+  // highlight from char-length + rate. A watchdog hands control back to the
+  // ticker if boundary events were firing but then go silent mid-utterance.
+  var l01Words=[], l01Idx=0, l01Tick=null, l01Watch=null, l01UseBound=false, l01LastBound=0, l01Rate=0.7;
+  function l01ClearTimers(){ if(l01Tick){clearTimeout(l01Tick);l01Tick=null;} if(l01Watch){clearInterval(l01Watch);l01Watch=null;} }
+  function l01HiAt(wi){
+    if(wi<0 || wi>=l01Words.length) return;
+    var cap=document.getElementById('l01-caption'); if(!cap) return;
+    var prev=cap.querySelector('.cw.on'); if(prev) prev.classList.remove('on');
+    var cur=document.getElementById('cw'+wi);
+    if(cur){ cur.classList.add('on'); try{ cur.scrollIntoView({block:'nearest',inline:'center'}); }catch(e){} }
+    l01Idx=wi;
+  }
+  function l01TickStart(){
+    if(l01Tick) clearTimeout(l01Tick);
+    var cps = 12 * (l01Rate||0.7);           // ~chars spoken per second, scaled by rate
+    (function step(){
+      if(l01UseBound) return;                // boundary events are in charge
+      var w=l01Words[l01Idx]||'wwww';
+      var dur=Math.max(150, ((w.length+1)/cps)*1000);
+      l01Tick=setTimeout(function(){
+        if(l01UseBound) return;
+        if(l01Idx+1 < l01Words.length){ l01HiAt(l01Idx+1); step(); }
+      }, dur);
+    })();
+  }
   function l01ReadDone(){
+    l01ClearTimers(); l01UseBound=false; l01Words=[]; l01Idx=0;
     var btn=document.getElementById('l01-read'); if(btn){ btn.classList.remove('is-on'); btn.innerHTML='🔊 Read aloud<span class="zh"> · 朗读</span>'; }
     var cap=document.getElementById('l01-caption'); if(cap){ cap.style.display='none'; cap.innerHTML=''; }
   }
@@ -520,18 +549,31 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     var cap=document.getElementById('l01-caption'); cap.innerHTML=html; cap.style.display='block';
     var rateSel=document.getElementById('l01-rate');
     var rate=rateSel ? parseFloat(rateSel.value)||0.7 : 0.7;
+    l01Words=words; l01Idx=0; l01UseBound=false; l01LastBound=0; l01Rate=rate;
     var u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=rate; u.pitch=1.0;
     u.onboundary=function(ev){
       if(ev.name && ev.name!=='word') return;
+      l01UseBound=true; l01LastBound=Date.now();   // accurate events available → take over from ticker
+      if(l01Tick){ clearTimeout(l01Tick); l01Tick=null; }
       var ci=ev.charIndex, wi=0;
       for(var j=0;j<starts.length;j++){ if(starts[j]<=ci) wi=j; else break; }
-      var prev=cap.querySelector('.cw.on'); if(prev) prev.classList.remove('on');
-      var cur=document.getElementById('cw'+wi); if(cur){ cur.classList.add('on'); cur.scrollIntoView({block:'nearest',inline:'center'}); }
+      l01HiAt(wi);
     };
+    u.onstart=function(){ l01HiAt(0); l01TickStart(); };
     u.onend=l01ReadDone; u.onerror=l01ReadDone;
     var btn=document.getElementById('l01-read'); if(btn){ btn.classList.add('is-on'); btn.innerHTML='⏸ Stop<span class="zh"> · 停止</span>'; }
+    // watchdog: if boundary events stop arriving mid-read, resume the ticker
+    l01ClearTimers();
+    l01Watch=setInterval(function(){
+      if(!window.speechSynthesis.speaking){ return; }
+      if(l01UseBound && (Date.now()-l01LastBound) > 1200){ l01UseBound=false; l01TickStart(); }
+    }, 600);
     window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
+    // some engines need a tick after cancel before speak() takes
+    setTimeout(function(){ try{ window.speechSynthesis.speak(u); }catch(e){ l01ReadDone(); }
+      // safety: if onstart never fires (engine quirk), kick the ticker
+      setTimeout(function(){ if(!l01UseBound && l01Idx===0 && window.speechSynthesis.speaking){ l01HiAt(0); l01TickStart(); } }, 350);
+    }, 30);
   }
 
   // ── Bring EVERY Chinese run under the language switch (English mode hides all Chinese) ──

@@ -29,7 +29,7 @@
     if (countAnswered() === 0) {
       e.stopImmediatePropagation();
       e.preventDefault();
-      alert('You have not answered any questions yet.\n\nPlease answer at least one question before submitting.\n\nYour timer is still running — close this and return to the questions.');
+      alert('You have not answered any questions yet.\n\nPlease answer at least one question before submitting.\n\nTake your time — close this and return to the questions.');
       return false;
     }
   }
