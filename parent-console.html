@@ -198,8 +198,15 @@ html, body {
 .empty-state .small .zh { display: block; margin-top: 2px; }
 
 /* progress bars */
+.year-head { display: flex; align-items: baseline; gap: 9px; margin: 22px 0 6px;
+  font-family: var(--font-serif, serif); font-size: 16px; font-weight: 600; color: var(--pc-text); }
+.year-head:first-child { margin-top: 2px; }
+.year-head .zh { font-size: 12px; color: var(--pc-muted); font-weight: 400; }
 .unit-row { padding: 13px 0; border-bottom: 1px solid var(--pc-line-soft); }
 .unit-row:last-child { border-bottom: none; }
+.unit-row.is-soon { opacity: 0.72; }
+.unit-row.is-soon .bar { opacity: 0.6; }
+.unit-sub { font-size: 11.5px; color: var(--pc-muted); margin-top: 6px; }
 .unit-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 7px; }
 .unit-name { font-size: 14px; font-weight: 500; }
 .unit-name .yr { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--pc-orange); margin-right: 8px; }
@@ -432,6 +439,36 @@ html, body {
   const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
   const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
+  /* Y7–Y9 curriculum outline — kept identical to school-select.html's
+     CAMBRIDGE_UNITS so the console shows the exact scope a parent buys.
+     'live' / 'soon' are display hints; real progress comes from the DB. */
+  const CAMBRIDGE_UNITS = {
+    '7': [
+      { num: 1, name: 'Matter and Particle Model', status: 'live' },
+      { num: 2, name: 'Forces and Motion',          status: 'soon' },
+      { num: 3, name: 'Cells and Living Things',    status: 'soon' },
+      { num: 4, name: 'Energy',                     status: 'soon' },
+      { num: 5, name: 'Ecosystems',                 status: 'soon' },
+      { num: 6, name: 'Earth and Space',            status: 'soon' }
+    ],
+    '8': [
+      { num: 1, name: 'Chemical Reactions',         status: 'soon' },
+      { num: 2, name: 'Electricity and Magnetism',  status: 'soon' },
+      { num: 3, name: 'Genetics and Reproduction',  status: 'soon' },
+      { num: 4, name: 'Waves and Sound',            status: 'soon' },
+      { num: 5, name: 'Forces in Action',           status: 'soon' }
+    ],
+    '9': [
+      { num: 1, name: 'Periodic Table and Reactions', status: 'soon' },
+      { num: 2, name: 'Electricity',                  status: 'soon' },
+      { num: 3, name: 'Inheritance and Selection',    status: 'soon' },
+      { num: 4, name: 'Waves and Space',              status: 'soon' },
+      { num: 5, name: 'Motion and Forces',            status: 'soon' }
+    ]
+  };
+  const YEAR_LABEL = { '7': ['Year 7','七年级'], '8': ['Year 8','八年级'], '9': ['Year 9','九年级'] };
+  const yrNum = yg => String(yg == null ? '' : yg).replace(/[^0-9]/g, '');
+
   const $  = s => document.querySelector(s);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -578,40 +615,56 @@ html, body {
       ? `${donePub} / ${totalPub} published lessons completed · 已完成 ${donePub} / ${totalPub} 节(已上线)`
       : 'No published lessons yet · 暂无已上线课程';
 
-    // group by year+unit
-    const groups = {};
+    // real progress per unit, from DB published lessons + this child's progress
+    const dbUnit = {};
     lessons.forEach(l => {
-      const key = `${l.year_group}__${l.unit_number}`;
-      (groups[key] = groups[key] || { yr: l.year_group, unit: l.unit_number, total: 0, done: 0 });
-      groups[key].total++;
-      if (completedIds.has(l.id)) groups[key].done++;
+      const k = yrNum(l.year_group) + '-' + l.unit_number;
+      (dbUnit[k] = dbUnit[k] || { total: 0, done: 0 }).total++;
+      if (completedIds.has(l.id)) dbUnit[k].done++;
     });
-    const list = Object.values(groups);
-    const host = $('#unit-list');
-    if (list.length === 0) {
-      host.innerHTML = `<div class="empty-state">
-        <div class="big">Curriculum coming online · 课程陆续上线中</div>
-        <div class="small">Unit progress bars appear here as lessons are published.
-        <span class="zh">单元进度条会随课程上线逐一出现。</span></div></div>`;
-    } else {
-      host.innerHTML = list.map(g => {
-        const p = g.total > 0 ? Math.round(g.done / g.total * 100) : 0;
-        const full = g.done === g.total && g.total > 0;
-        return `<div class="unit-row">
+
+    // render the FULL Y7–Y9 outline; live units show real %, the rest show 0% / 未开始
+    let html = '';
+    ['7','8','9'].forEach(yr => {
+      const units = CAMBRIDGE_UNITS[yr] || [];
+      if (!units.length) return;
+      const [yen, yzh] = YEAR_LABEL[yr];
+      html += `<div class="year-head"><span>${yen}</span><span class="zh">${yzh}</span></div>`;
+      units.forEach(u => {
+        const d = dbUnit[yr + '-' + u.num];
+        const hasLive = !!(d && d.total > 0);          // genuinely published in DB
+        const total = hasLive ? d.total : 0;
+        const done  = hasLive ? d.done : 0;
+        const pct   = hasLive && total > 0 ? Math.round(done / total * 100) : 0;
+        const full  = hasLive && total > 0 && done === total;
+        let right, pill, sub;
+        if (hasLive) {
+          right = pct + '%';
+          pill = full ? '<span class="pill green">Done · 已完成</span>'
+               : done > 0 ? '<span class="pill amber">In progress · 进行中</span>'
+               : '<span class="pill grey">Not started · 未开始</span>';
+          sub = `${done} / ${total} lessons · 已完成 ${done}/${total} 节`;
+        } else {
+          right = '0%';
+          pill = '<span class="pill grey">Coming soon · 即将上线</span>';
+          sub = 'Included in your subscription · 已含在订阅内';
+        }
+        html += `<div class="unit-row${hasLive?'':' is-soon'}">
           <div class="unit-top">
-            <div class="unit-name"><span class="yr">${esc(g.yr)} · U${esc(g.unit)}</span>
-              ${g.done>0?`${g.done} of ${g.total} done`:'Not started'}
-              <span class="zh">${g.done>0?`已完成 ${g.done}/${g.total}`:'尚未开始'}</span></div>
-            <div class="unit-count">${p}%</div>
+            <div class="unit-name"><span class="yr">Y${yr} · U${u.num}</span>${esc(u.name)} ${pill}</div>
+            <div class="unit-count">${right}</div>
           </div>
-          <div class="bar"><span class="${full?'done':''}" style="width:${p}%"></span></div>
+          <div class="bar"><span class="${full?'done':''}" style="width:${pct}%"></span></div>
+          <div class="unit-sub">${sub}</div>
         </div>`;
-      }).join('');
-    }
+      });
+    });
+    $('#unit-list').innerHTML = html;
+
     const note = $('#progress-note');
     note.hidden = false;
-    note.innerHTML = `Bars reflect lessons currently published on SciSpark; more units appear automatically as they go live.
-      <span class="zh">进度条只统计目前已上线的课程;更多单元上线后会自动加入。</span>`;
+    note.innerHTML = `Your subscription covers every Year 7–9 unit. Live units show real progress; the rest show 0% until they open, then update automatically.
+      <span class="zh">订阅已涵盖 Y7–Y9 全部单元。已上线单元显示真实进度,其余显示 0%,上线后自动更新。</span>`;
 
     // badge on entry card
     $('#badge-progress').textContent = pct == null ? '' : pct + '% overall';
