@@ -25,7 +25,7 @@
 <meta name="twitter:image" content="https://scisparklab.com/assets/twitter-card.png?v=2">
 <meta name="twitter:image:alt" content="SciSpark — Start with the right assessment. Continue on the right path.">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>SciSpark — Assessment Results</title>
+<title>SciSpark — Learning Start Check Results</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -222,7 +222,7 @@ body.lang-zh .brand-sub .zh{display:inline}
         <span class="si-icon">📊</span> Overview
       </a>
       <a href="dashboard-parent-assessment.html" class="sidebar-item active">
-        <span class="si-icon">📋</span> Assessment
+        <span class="si-icon">📋</span> Learning Start Check
       </a>
       <a href="#" class="sidebar-item">
         <span class="si-icon">📈</span> Progress
@@ -248,7 +248,7 @@ body.lang-zh .brand-sub .zh{display:inline}
     <div class="sidebar-footer">
       <div class="sidebar-student">
         <b>Alex Lim</b>
-        Year 7 · Assessment submitted
+        Year 7 · Learning Start Check submitted
       </div>
     </div>
   </aside>
@@ -261,12 +261,12 @@ body.lang-zh .brand-sub .zh{display:inline}
       <div class="breadcrumb">
         <a href="dashboard-parent.html">Dashboard</a>
         <span class="breadcrumb-sep">›</span>
-        <span>Assessment Results</span>
+        <span>Learning Start Check Results</span>
       </div>
-      <h1 class="page-title">Assessment Results</h1>
+      <h1 class="page-title">Learning Start Check Results</h1>
       <div class="page-meta">
         <div class="page-meta-item"><span class="meta-dot"></span>Alex Lim</div>
-        <div class="page-meta-item"><span class="meta-dot"></span>Year 7 Entry Assessment</div>
+        <div class="page-meta-item"><span class="meta-dot"></span>Year 7 Learning Start Check</div>
         <div class="page-meta-item"><span class="meta-dot"></span>Submitted 29 Apr 2026</div>
       </div>
     </div>
@@ -275,12 +275,12 @@ body.lang-zh .brand-sub .zh{display:inline}
     <div id="state-under-review">
       <div class="under-review">
         <div class="ur-icon">🔍</div>
-        <div class="ur-title">Assessment under review</div>
-        <div class="ur-text">Your child's assessment has been submitted and is currently being reviewed by a SciSpark teacher. Results are usually ready within 1–2 business days.</div>
+        <div class="ur-title">Learning Start Check under review</div>
+        <div class="ur-text">Your child's Learning Start Check has been submitted and is currently being reviewed by a SciSpark teacher. Results are usually ready within 1–2 business days.</div>
         <div class="ur-badge"><span>⏳</span> Review in progress</div>
       </div>
       <div class="info-note">
-        <b>What happens next?</b> Once the review is complete, you'll see the full results here — including the placement level, part scores, and a personalised learning recommendation.
+        <b>What happens next?</b> Once the review is complete, you'll see the full results here — including the level, part scores, and a personalised learning recommendation.
       </div>
     </div>
 
@@ -317,8 +317,8 @@ body.lang-zh .brand-sub .zh{display:inline}
         </div>
         <div class="results-stats">
           <div class="results-stat">
-            <span>Assessment</span>
-            <b>Year 7 Entry</b>
+            <span>Learning Start Check</span>
+            <b>Year 7 Start Check</b>
           </div>
           <div class="results-stat">
             <span>Submitted</span>
@@ -334,7 +334,7 @@ body.lang-zh .brand-sub .zh{display:inline}
           </div>
         </div>
         <div class="results-desc" id="results-desc">
-          Final level placement and learning recommendation will be confirmed once Part D review is complete. You will be notified by email once ready.
+          Final level and learning recommendation will be confirmed once Part D review is complete. You will be notified by email once ready.
         </div>
       </div>
     </div>
@@ -436,7 +436,7 @@ body.lang-zh .brand-sub .zh{display:inline}
 
     <!-- TEACHER REVIEW NOTE -->
     <div class="info-note">
-      <b>About teacher review:</b> A SciSpark teacher will review your child's assessment, including the extended response section, before confirming the placement level and recommended learning path. This usually takes 1–2 business days.
+      <b>About teacher review:</b> A SciSpark teacher will review your child's Learning Start Check, including the extended response section, before confirming the level and recommended learning path. This usually takes 1–2 business days.
     </div>
 
     <!-- QUESTION BREAKDOWN -->
@@ -613,7 +613,7 @@ function renderState(assessment, child, parent) {
   // ── Page meta ──
   const metaItems = document.querySelectorAll('.page-meta-item')
   if (metaItems[0]) metaItems[0].innerHTML = `<span class="meta-dot"></span>${childName}`
-  if (metaItems[1]) metaItems[1].innerHTML = `<span class="meta-dot"></span>${assessment?.assessment_name || 'Year 7 Entry Assessment'}`
+  if (metaItems[1]) metaItems[1].innerHTML = `<span class="meta-dot"></span>${assessment?.assessment_name || 'Year 7 Learning Start Check'}`
   if (metaItems[2]) metaItems[2].innerHTML = `<span class="meta-dot"></span>Submitted ${formatDate(assessment?.submitted_at)}`
 
   // ── STATE A: full under review (no scores yet) ──
@@ -660,7 +660,7 @@ function renderState(assessment, child, parent) {
   if (nameEl) nameEl.textContent = `${childName} — Year ${yearGroup}`
 
   const stats = document.querySelectorAll('.results-stat b')
-  if (stats[0]) stats[0].textContent = assessment?.assessment_name || 'Year 7 Entry'
+  if (stats[0]) stats[0].textContent = assessment?.assessment_name || 'Year 7 Start Check'
   if (stats[1]) stats[1].textContent = formatDate(assessment?.submitted_at)
   if (stats[2]) stats[2].textContent = teacherConfirmed ? formatDate(assessment.teacher_confirmed_at) : 'Teacher (pending)'
   if (stats[3]) stats[3].textContent = child?.assessment_language || 'English'
@@ -671,7 +671,7 @@ function renderState(assessment, child, parent) {
     if (teacherConfirmed && assessment?.recommendation) {
       descEl.textContent = assessment.recommendation
     } else {
-      descEl.textContent = 'Final level placement and learning recommendation will be confirmed once Part D review is complete. You will be notified by email once ready.'
+      descEl.textContent = 'Final level and learning recommendation will be confirmed once Part D review is complete. You will be notified by email once ready.'
     }
   }
 

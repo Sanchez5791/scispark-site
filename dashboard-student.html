@@ -1536,7 +1536,7 @@ function showToast(message, opts) {
 
   /* No assessment yet ----------------------------------------------- */
   if (!attempt) {
-    setLevel('Awaiting Assessment · 待测评');
+    setLevel('Awaiting Learning Start Check · 待学习起点检查');
 
     const prompt = document.createElement('div');
     prompt.id = 'dash-assessment-prompt';
@@ -1550,20 +1550,24 @@ function showToast(message, opts) {
     prompt.innerHTML =
       '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;' +
         'text-transform:uppercase;color:#9a8e84;margin-bottom:8px;">' +
-        'Entry Assessment · 入学测评</div>' +
+        'Learning Start Check · 学习起点检查</div>' +
       '<div style="font-family:var(--font-serif);font-size:22px;' +
         'font-weight:500;color:#2d2926;margin-bottom:12px;">' +
-        'Take your Entry Assessment first.</div>' +
+        'Your Learning Start Check is ready.</div>' +
+      '<p style="font-size:13px;color:#9a8e84;margin-bottom:10px;">' +
+        'This isn\'t a test. We\'re just checking whether your child needs more support ' +
+        'with English vocabulary, science concepts, or answering questions. · ' +
+        '这不是考试。我们只是确认孩子更需要加强英文词汇、科学概念，还是答题表达。</p>' +
       '<p style="font-size:13px;color:#9a8e84;margin-bottom:16px;">' +
-        'Complete the 45-minute ' + child.year_group + ' Entry Assessment to unlock your ' +
-        'personalised lesson path. · ' +
-        '完成 45 分钟 ' + child.year_group + ' 入学测评，解锁你的个性化学习路径。</p>' +
+        'Complete the 45-minute ' + child.year_group + ' Learning Start Check to unlock your ' +
+        'personalised lesson path. You can also do this later. · ' +
+        '完成 45 分钟 ' + child.year_group + ' 学习起点检查，解锁你的个性化学习路径。也可以稍后再做。</p>' +
       '<a href="' + (YEAR_TO_URL[child.year_group] || YEAR_TO_URL['Y7']) + '" ' +
         'style="display:inline-flex;align-items:center;gap:6px;' +
         'padding:10px 20px;background:var(--orange);color:white;' +
         'border-radius:100px;font-size:13px;font-weight:600;' +
         'text-decoration:none;">' +
-        'Start Entry Assessment →</a>';
+        'Begin Learning Start Check →</a>';
 
     if (unitGrid) unitGrid.parentNode.insertBefore(prompt, unitGrid);
     return;
@@ -1609,9 +1613,9 @@ function showToast(message, opts) {
     const lbl = scoreCard.querySelector('.stat-label');
     const val = scoreCard.querySelector('.stat-value');
     const zh  = scoreCard.querySelector('.stat-zh');
-    if (lbl) lbl.textContent = 'Entry Score';
+    if (lbl) lbl.textContent = 'Start Check Score';
     if (val) val.innerHTML = score + '<span class="small"> / ' + possible + '</span>';
-    if (zh)  zh.textContent = '入学测评成绩';
+    if (zh)  zh.textContent = '学习起点成绩';
     scoreCard.style.display = '';
   }
 
