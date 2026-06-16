@@ -156,7 +156,7 @@ html, body {
   color: var(--pc-muted); margin: 40px 0 14px;
 }
 .section-label .zh { letter-spacing: 0; text-transform: none; }
-.entries { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.entries { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
 @media (max-width: 880px) { .entries { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .entries { grid-template-columns: 1fr; } }
 .entry-card {
@@ -258,6 +258,36 @@ html, body {
 }
 .foot svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--pc-green); margin-top: 1px; }
 .foot .zh { display: block; margin-top: 2px; }
+
+/* ===== ⑤ LINKED ACCOUNTS (Wave 2) ===== */
+.linked-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.linked-card {
+  border: 1px solid var(--pc-line); border-radius: var(--radius, 10px);
+  background: var(--pc-paper-soft); padding: 16px 18px; display: flex; flex-direction: column; gap: 14px;
+}
+.linked-card.is-active { border-color: var(--pc-orange); background: var(--pc-orange-pale); }
+.linked-top { display: flex; align-items: center; gap: 12px; }
+.linked-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--pc-orange); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; flex-shrink: 0;
+}
+.linked-id { flex: 1; min-width: 0; }
+.linked-name { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.linked-now { font-size: 9px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--pc-orange); background: #fff; border: 1px solid var(--pc-orange-soft); padding: 2px 7px; border-radius: 100px; }
+.linked-year { font-size: 12px; color: var(--pc-muted); margin-top: 2px; }
+.linked-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  padding-top: 12px; border-top: 1px solid var(--pc-line-soft); }
+.linked-meta > div { display: flex; flex-direction: column; gap: 3px; }
+.lm-k { font-size: 9.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--pc-muted); }
+.lm-v { font-size: 13px; font-weight: 500; color: var(--pc-text); }
+.linked-view {
+  font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--pc-line); background: var(--pc-paper); color: var(--pc-text);
+  border-radius: 100px; padding: 8px 14px; transition: .15s; text-align: center;
+}
+.linked-view:hover:not(:disabled) { border-color: var(--pc-orange); color: var(--pc-orange); }
+.linked-view:disabled { opacity: .55; cursor: default; }
 
 /* loading / gate */
 .gate { min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--pc-muted); }
@@ -372,6 +402,12 @@ html, body {
       <p>Year, language, settings. <span class="zh">年级 · 语言 · 设置。</span></p>
       <div class="stat-badge" id="badge-profile">&nbsp;</div>
     </a>
+    <a class="entry-card" href="#sec-linked">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11a4 4 0 100-8 4 4 0 000 8z"/><path d="M8 14a4 4 0 100-8 4 4 0 000 8z"/><path d="M2 20v-1a4 4 0 014-4h2"/><path d="M14 15h2a4 4 0 014 4v1"/></svg></div>
+      <h5>Linked accounts<span class="zh">关联账户</span></h5>
+      <p>Children linked to you. <span class="zh">名下绑定的孩子。</span></p>
+      <div class="stat-badge" id="badge-linked">&nbsp;</div>
+    </a>
   </nav>
 
   <!-- ① PROGRESS -->
@@ -414,6 +450,20 @@ html, body {
       <p class="card-desc">Your child's basic details, collected at sign-up.
         <span class="zh">孩子的基本资料(注册时已收集)。Wave 1 仅供查看。</span></p>
       <div class="field-grid" id="profile-fields"></div>
+    </div>
+  </section>
+
+  <!-- ⑤ LINKED ACCOUNTS (Wave 2) -->
+  <section class="detail" id="sec-linked">
+    <div class="card">
+      <div class="card-head"><span class="n">05</span><h3>Linked accounts<span class="zh">关联账户</span></h3></div>
+      <p class="card-desc">The children linked to your account. Tap a child to view their progress, records and profile above.
+        <span class="zh">绑定在您账户下的孩子。点选任一孩子,可在上方查看其进度 · 记录 · 档案。</span></p>
+      <div id="linked-list"></div>
+      <p class="note">
+        For your child's safety, adding or removing a linked child is handled by our team for now — this page is view-only. If a link looks wrong, please contact us.
+        <span class="zh">为保护孩子账户安全,新增 / 解除绑定目前由我们团队处理,本页仅供查看。如发现绑定有误,请联系我们。</span>
+      </p>
     </div>
   </section>
 
@@ -525,18 +575,26 @@ html, body {
     sw.innerHTML = children.map(c =>
       `<button class="child-chip${c.id===active.id?' active':''}" data-cid="${esc(c.id)}">`+
       `${esc(c.full_name||'—')} <span class="yr">${esc(c.year_group||'')}</span></button>`).join('');
-    sw.querySelectorAll('.child-chip').forEach(btn => btn.addEventListener('click', () => {
-      const c = children.find(x => x.id === btn.dataset.cid); if (!c) return;
-      active = c;
-      sw.querySelectorAll('.child-chip').forEach(b => b.classList.toggle('active', b===btn));
-      const u = new URL(location); u.searchParams.set('child_id', c.id); history.replaceState(null,'',u);
-      renderGreeting(active);
-      loadChild(active);
-    }));
+    sw.querySelectorAll('.child-chip').forEach(btn =>
+      btn.addEventListener('click', () => switchTo(btn.dataset.cid)));
   }
 
   renderGreeting(active);
   loadChild(active);
+
+  /* switch the active child — shared by the top chips and the
+     Linked-accounts "View" buttons; keeps the URL + chips in sync */
+  function switchTo(cid, scrollTop) {
+    const c = children.find(x => x.id === cid);
+    if (!c) return;
+    active = c;
+    const sw = $('#child-switch');
+    if (sw) sw.querySelectorAll('.child-chip').forEach(b => b.classList.toggle('active', b.dataset.cid === cid));
+    const u = new URL(location); u.searchParams.set('child_id', c.id); history.replaceState(null, '', u);
+    renderGreeting(active);
+    loadChild(active);
+    if (scrollTop) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   /* ---------- renderers ---------- */
   function renderGreeting(c) {
@@ -598,6 +656,7 @@ html, body {
     renderRecords(lessons, progress, attempts);
     renderReports();           // no reports table → honest empty state
     renderProfile(c);
+    renderLinked(children, c.id);   // ⑤ Wave 2 — same privacy-filtered list, highlight current
     renderSummary(lessons, progress, attempts);
   }
 
@@ -769,6 +828,50 @@ html, body {
       </div>`;
     }).join('');
     $('#badge-profile').textContent = c.year_group ? esc(c.year_group) : '';
+  }
+
+  /* ── ⑤ LINKED ACCOUNTS (Wave 2) ──
+     Pure display of the children linked to THIS parent. Reuses the same
+     `children` array already filtered by parent_id=user.id (privacy red line:
+     a parent can only ever see their own bound children). View-only — no
+     add/unbind here. Binding date = the child record's created_at; every
+     child returned is, by definition, actively linked to this account. */
+  function renderLinked(list, activeId) {
+    const host = $('#linked-list');
+    if (!list || list.length === 0) {
+      host.innerHTML = `<div class="empty-state">
+        <div class="big">No linked children yet · 暂无绑定的孩子</div>
+        <div class="small">Once a child is registered to your account, they appear here.
+        <span class="zh">注册孩子到您的账户后,这里会显示绑定关系。</span></div></div>`;
+      $('#badge-linked').textContent = '';
+      return;
+    }
+    host.innerHTML = '<div class="linked-grid">' + list.map(c => {
+      const isActive = c.id === activeId;
+      const yr = c.year_group ? esc(c.year_group) : '暂无 · Not set';
+      const joined = fmtDate(c.created_at) || '暂无 · Not set';
+      return `<div class="linked-card${isActive ? ' is-active' : ''}">
+        <div class="linked-top">
+          <div class="linked-avatar">${esc(initials(c.full_name))}</div>
+          <div class="linked-id">
+            <div class="linked-name">${esc(c.full_name || '—')}${isActive ? '<span class="linked-now">Viewing · 当前查看</span>' : ''}</div>
+            <div class="linked-year">${yr}</div>
+          </div>
+          <span class="pill green">Linked · 已绑定</span>
+        </div>
+        <div class="linked-meta">
+          <div><span class="lm-k">Linked since · 绑定日期</span><span class="lm-v">${joined}</span></div>
+          <div><span class="lm-k">Status · 状态</span><span class="lm-v">Active · 正常</span></div>
+        </div>
+        <button class="linked-view" type="button" data-cid="${esc(c.id)}"${isActive ? ' disabled' : ''}>${
+          isActive ? 'Currently viewing · 正在查看' : 'View this child · 查看这个孩子'}</button>
+      </div>`;
+    }).join('') + '</div>';
+
+    host.querySelectorAll('.linked-view[data-cid]').forEach(btn =>
+      btn.addEventListener('click', () => switchTo(btn.dataset.cid, true)));
+
+    $('#badge-linked').textContent = list.length + (list.length > 1 ? ' children linked' : ' child linked');
   }
 
   /* ── BIG SUMMARY ── */
