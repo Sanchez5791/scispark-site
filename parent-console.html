@@ -240,6 +240,78 @@ html, body {
 .pill.amber { background: #FEF3C7; color: #B45309; }
 .pill.grey { background: var(--pc-paper-soft); color: var(--pc-muted); }
 
+/* ===== Records DEEPEN: trend chart ===== */
+.trend {
+  background: var(--pc-paper-soft); border: 1px solid var(--pc-line); border-radius: var(--radius, 10px);
+  padding: 18px 18px 14px; margin-bottom: 20px;
+}
+.trend-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.trend-head .t { font-family: var(--font-serif, serif); font-size: 15px; font-weight: 600; }
+.trend-head .t .zh { font-size: 12px; color: var(--pc-muted); font-weight: 400; margin-left: 6px; }
+.trend-head .legend { font-size: 11px; color: var(--pc-muted); }
+.trend svg { width: 100%; height: auto; display: block; }
+.trend .empty-mini { display: flex; align-items: flex-end; gap: 6px; height: 70px; padding: 8px 2px 0; }
+.trend .empty-mini i { flex: 1; background: var(--pc-line); border-radius: 3px 3px 0 0; opacity: .55; }
+.trend .empty-cap { font-size: 12px; color: var(--pc-muted); margin-top: 8px; }
+.trend .empty-cap .zh { display: block; margin-top: 1px; }
+.trend .dot-pt { fill: var(--pc-orange); }
+.trend .lbl-x { fill: var(--pc-muted); font-size: 9px; font-family: var(--font-mono, monospace); }
+.trend .lbl-y { fill: var(--pc-faint); font-size: 9px; font-family: var(--font-mono, monospace); }
+.trend .grid-ln { stroke: var(--pc-line); stroke-width: 1; }
+
+/* ===== Records DEEPEN: filter + sort toolbar ===== */
+.rec-tools { display: flex; flex-direction: column; gap: 12px; margin-bottom: 4px; }
+.tool-group { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.tool-lbl { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--pc-muted); margin-right: 4px; }
+.tool-lbl .zh { letter-spacing: 0; text-transform: none; font-weight: 500; }
+.chip-btn {
+  font: inherit; font-size: 12.5px; font-weight: 500; color: var(--pc-text); cursor: pointer;
+  background: var(--pc-paper); border: 1px solid var(--pc-line); border-radius: 100px; padding: 6px 13px; transition: .15s;
+}
+.chip-btn:hover { border-color: var(--pc-orange); }
+.chip-btn.active { background: var(--pc-orange); border-color: var(--pc-orange); color: #fff; }
+.tool-select {
+  font: inherit; font-size: 12.5px; color: var(--pc-text); background: var(--pc-paper);
+  border: 1px solid var(--pc-line); border-radius: 8px; padding: 6px 30px 6px 12px; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b8178' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.tool-select:hover { border-color: var(--pc-orange); }
+.rec-count { font-size: 12px; color: var(--pc-muted); margin: 14px 0 4px; }
+.rec-count b { color: var(--pc-text); font-weight: 600; }
+
+/* ===== Records DEEPEN: expandable row ===== */
+.rec-row.has-detail { cursor: pointer; }
+.rec-row .rec-chev { width: 16px; height: 16px; flex-shrink: 0; color: var(--pc-faint); transition: transform .2s; }
+.rec-item.open .rec-chev { transform: rotate(90deg); }
+.rec-item { border-bottom: 1px solid var(--pc-line-soft); }
+.rec-item:last-child { border-bottom: none; }
+.rec-item .rec-row { border-bottom: none; }
+.rec-detail {
+  display: none; padding: 4px 0 16px 48px; animation: recIn .18s ease;
+}
+.rec-item.open .rec-detail { display: block; }
+@keyframes recIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+.rec-detail .dk { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--pc-muted); margin-bottom: 8px; }
+.parts { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.part-pill { background: var(--pc-paper-soft); border: 1px solid var(--pc-line); border-radius: 8px; padding: 7px 12px; font-size: 12px; }
+.part-pill .pl { color: var(--pc-muted); margin-right: 7px; }
+.part-pill .pv { font-weight: 600; }
+.qbreak { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
+.qrow { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px dashed var(--pc-line-soft); font-size: 12.5px; }
+.qrow:first-child { border-top: none; }
+.qmark { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center;
+  justify-content: center; font-size: 11px; font-weight: 700; }
+.qmark.ok { background: var(--pc-green-soft); color: var(--pc-green); }
+.qmark.no { background: #FEE2E2; color: #b91c1c; }
+.qmark.part { background: #FEF3C7; color: #B45309; }
+.qrow .qt { flex: 1; min-width: 0; }
+.qrow .qt .topic { color: var(--pc-muted); font-size: 11px; }
+.qrow .qs { color: var(--pc-muted); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.rec-detail .nb { font-size: 12px; color: var(--pc-muted); font-style: italic; }
+
 /* profile fields */
 .field-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
 .field-row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
@@ -387,12 +459,45 @@ html, body {
     </div>
   </section>
 
-  <!-- ② RECORDS -->
+  <!-- ② RECORDS — deepened: trend chart + filter/sort + expandable rows -->
   <section class="detail" id="sec-records">
     <div class="card">
       <div class="card-head"><span class="n">02</span><h3>Lesson &amp; assessment records<span class="zh">课程 &amp; 测评记录</span></h3></div>
-      <p class="card-desc">Every lesson, quiz and entry assessment — kept in full so you can always look back.
-        <span class="zh">每节课 · 每次小测 · 每次入学评估,完整存档,可随时往回翻。</span></p>
+      <p class="card-desc">Every lesson, quiz and entry assessment — filter, sort and tap any row to see the breakdown.
+        <span class="zh">每节课 · 每次小测 · 每次入学评估,可筛选 · 排序,点任意一行查看明细。</span></p>
+
+      <!-- score-trend chart -->
+      <div class="trend" id="rec-trend" hidden></div>
+
+      <!-- filter + sort toolbar -->
+      <div class="rec-tools" id="rec-tools" hidden>
+        <div class="tool-group" id="filter-type">
+          <span class="tool-lbl">Type<span class="zh"> · 类型</span></span>
+          <button class="chip-btn active" data-type="all">All <span class="zh">全部</span></button>
+          <button class="chip-btn" data-type="lesson">Lessons <span class="zh">课程</span></button>
+          <button class="chip-btn" data-type="quiz">Quizzes <span class="zh">小测</span></button>
+          <button class="chip-btn" data-type="entry">Entry assessment <span class="zh">入学评估</span></button>
+        </div>
+        <div class="tool-group">
+          <span class="tool-lbl">Unit<span class="zh"> · 单元</span></span>
+          <select class="tool-select" id="filter-unit"></select>
+          <span class="tool-lbl" style="margin-left:8px;">When<span class="zh"> · 时间</span></span>
+          <select class="tool-select" id="filter-when">
+            <option value="all">All time · 全部时间</option>
+            <option value="week">This week · 本周</option>
+            <option value="month">This month · 本月</option>
+          </select>
+          <span class="tool-lbl" style="margin-left:8px;">Sort<span class="zh"> · 排序</span></span>
+          <select class="tool-select" id="sort-by">
+            <option value="new">Newest first · 最新优先</option>
+            <option value="old">Oldest first · 最早优先</option>
+            <option value="hi">Highest score · 分数高→低</option>
+            <option value="lo">Lowest score · 分数低→高</option>
+          </select>
+        </div>
+      </div>
+      <div class="rec-count" id="rec-count" hidden></div>
+
       <div id="records-list"></div>
     </div>
   </section>
@@ -585,7 +690,7 @@ html, body {
         .select('lesson_id, status, started_at, completed_at, updated_at')
         .eq('child_id', c.id),
       sb.from('assessment_attempts')
-        .select('assessment_code, year_group, status, total_marks, total_score, teacher_review_status, submitted_at')
+        .select('assessment_code, year_group, language, status, total_questions, total_marks, total_score, mcq_score, part_c_score, part_d_score, time_spent_seconds, teacher_review_status, ai_marking_status, marking_detail, submitted_at')
         .eq('student_id', c.id)
         .order('submitted_at', { ascending: false })
     ]);
@@ -670,34 +775,115 @@ html, body {
     $('#badge-progress').textContent = pct == null ? '' : pct + '% overall';
   }
 
-  /* ── ② RECORDS ── */
-  function renderRecords(lessons, progress, attempts) {
-    const titleById = {};
-    lessons.forEach(l => { titleById[l.id] = l.lesson_title_en || `${l.year_group} U${l.unit_number} L${l.lesson_number}`; });
+  /* ── ② RECORDS (deepened: trend + filter/sort + expand) ──
+     View-only. Single source of truth = the SAME lessons/progress/attempts
+     already fetched. NO fabrication: every score/breakdown/time shown is a
+     real DB value; missing values render an empty / 暂无 state, never a guess. */
+  const fmtDuration = sec => {
+    if (sec == null || !isFinite(sec) || sec < 0) return null;
+    sec = Math.round(sec);
+    if (sec < 60) return sec + 's';
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return s ? `${m}m ${s}s` : `${m} min`;
+  };
+  const numOr = v => (typeof v === 'number' && isFinite(v)) ? v : null;
 
+  /* Defensive per-question parser — marking_detail shape is not guaranteed,
+     so accept the common shapes and bail to null (→ no breakdown) otherwise. */
+  function parseQuestions(md) {
+    let arr = null;
+    if (Array.isArray(md)) arr = md;
+    else if (md && typeof md === 'object') {
+      arr = md.questions || md.items || md.breakdown || md.details || md.parts || null;
+      if (!Array.isArray(arr)) arr = null;
+    }
+    if (!arr || !arr.length) return null;
+    const out = arr.map((q, i) => {
+      if (q == null || typeof q !== 'object') return null;
+      const num = q.number ?? q.q ?? q.index ?? q.id ?? (i + 1);
+      const label = q.question || q.prompt || q.title || q.text || ('Question ' + num);
+      const topic = q.topic || q.topic_en || q.skill || q.strand || q.category || '';
+      const max = numOr(q.max ?? q.out_of ?? q.total ?? q.max_marks ?? q.marks_available);
+      const got = numOr(q.score ?? q.awarded ?? q.marks ?? q.marks_awarded ?? q.got);
+      let state = 'part';
+      if (typeof q.correct === 'boolean') state = q.correct ? 'ok' : 'no';
+      else if (got != null && max != null && max > 0) state = got >= max ? 'ok' : (got <= 0 ? 'no' : 'part');
+      else state = 'part';
+      const scoreText = (got != null && max != null) ? `${got}/${max}` : (got != null ? String(got) : '');
+      return { num, label: String(label), topic: String(topic || ''), state, scoreText };
+    }).filter(Boolean);
+    return out.length ? out : null;
+  }
+
+  function renderRecords(lessons, progress, attempts) {
+    const lessonMeta = {};
+    lessons.forEach(l => {
+      lessonMeta[l.id] = {
+        title: l.lesson_title_en || `${l.year_group} U${l.unit_number} L${l.lesson_number}`,
+        unitKey: yrNum(l.year_group) + '-' + l.unit_number,
+        unitLabel: `Y${yrNum(l.year_group)} · U${l.unit_number}`
+      };
+    });
+
+    /* ---- normalise every record to one shape ---- */
     const items = [];
     progress.forEach(p => {
+      const m = lessonMeta[p.lesson_id] || { title: 'Lesson', unitKey: null, unitLabel: '' };
       const when = p.completed_at || p.updated_at || p.started_at;
+      const parts = [];
+      if (p.started_at)   parts.push({ label: 'Started · 开始',   val: fmtDate(p.started_at) });
+      if (p.completed_at) parts.push({ label: 'Completed · 完成', val: fmtDate(p.completed_at) });
       items.push({
-        type: 'lesson', when,
-        title: titleById[p.lesson_id] || 'Lesson',
-        sub: 'Lesson · 课程',
-        status: p.status
+        kind: 'lesson', title: m.title,
+        sub: `Lesson · 课程${m.unitLabel ? ' · ' + m.unitLabel : ''}`,
+        unitKey: m.unitKey, when, scorePct: null, scoreText: null,
+        statusHtml: p.status === 'completed'
+          ? '<span class="pill green">Completed · 已完成</span>'
+          : '<span class="pill grey">In progress · 进行中</span>',
+        icon: '📘', iconCls: '',
+        detail: parts.length ? { parts, questions: null, note: null } : null
       });
     });
     attempts.forEach(a => {
+      const code = a.assessment_code || '';
+      const isEntry = /entry/i.test(code);
+      const kind = isEntry ? 'entry' : 'quiz';
+      const scoreText = (a.total_score != null && a.total_marks != null)
+        ? `${a.total_score} / ${a.total_marks}` : null;
+      const scorePct = (a.total_score != null && a.total_marks != null && a.total_marks > 0)
+        ? Math.round(a.total_score / a.total_marks * 100) : null;
+      const reviewed = a.teacher_review_status === 'completed';
+      const statusHtml = reviewed
+        ? '<span class="pill green">Reviewed · 已批改</span>'
+        : (a.status === 'submitted' ? '<span class="pill amber">Under review · 审阅中</span>'
+                                    : '<span class="pill grey">—</span>');
+      // real breakdown only — every part shown is a non-null DB value
+      const parts = [];
+      if (a.total_score != null && a.total_marks != null) parts.push({ label: 'Total · 总分', val: `${a.total_score} / ${a.total_marks}` });
+      if (a.mcq_score    != null) parts.push({ label: 'MCQ · 选择题',   val: String(a.mcq_score) });
+      if (a.part_c_score != null) parts.push({ label: 'Part C · C 部分', val: String(a.part_c_score) });
+      if (a.part_d_score != null) parts.push({ label: 'Part D · D 部分', val: String(a.part_d_score) });
+      if (a.total_questions != null) parts.push({ label: 'Questions · 题数', val: String(a.total_questions) });
+      const dur = fmtDuration(a.time_spent_seconds);
+      if (dur) parts.push({ label: 'Time spent · 用时', val: dur });
+      const questions = parseQuestions(a.marking_detail);
+      const note = (!reviewed && a.status === 'submitted' && a.total_score == null)
+        ? 'Marking in progress — the score breakdown will appear once review is complete. · 批改中,完成后这里会显示分项明细。'
+        : null;
       items.push({
-        type: 'assess', when: a.submitted_at,
-        title: (a.assessment_code || 'Entry assessment').replace(/_/g, ' '),
-        sub: `Entry assessment · 入学评估${a.year_group ? ' · ' + esc(a.year_group) : ''}`,
-        score: (a.total_score != null && a.total_marks != null) ? `${a.total_score} / ${a.total_marks}` : null,
-        review: a.teacher_review_status, status: a.status
+        kind, title: (code || 'Assessment').replace(/_/g, ' '),
+        sub: `${isEntry ? 'Entry assessment · 入学评估' : 'Quiz · 小测'}${a.year_group ? ' · ' + esc(a.year_group) : ''}`,
+        unitKey: null, when: a.submitted_at, scorePct, scoreText, timeSpent: a.time_spent_seconds,
+        statusHtml, icon: '📋', iconCls: 'assess',
+        detail: (parts.length || questions || note) ? { parts, questions, note } : null
       });
     });
-    items.sort((x, y) => new Date(y.when || 0) - new Date(x.when || 0));
 
     const host = $('#records-list');
+    const tools = $('#rec-tools'), countEl = $('#rec-count'), trendEl = $('#rec-trend');
+
     if (items.length === 0) {
+      tools.hidden = true; countEl.hidden = true; trendEl.hidden = true;
       host.innerHTML = `<div class="empty-state">
         <div class="big">No records yet · 暂无记录</div>
         <div class="small">Lessons and assessments will be listed here as your child completes them.
@@ -705,32 +891,177 @@ html, body {
       $('#badge-records').textContent = '';
       return;
     }
-    host.innerHTML = '<div class="rec-list">' + items.map(it => {
-      let right = '';
-      if (it.type === 'assess') {
-        if (it.score) right = `<div class="rec-date">${esc(it.score)}</div>`;
-        const rv = it.review === 'completed'
-          ? '<span class="pill green">Reviewed · 已批改</span>'
-          : (it.status === 'submitted' ? '<span class="pill amber">Under review · 审阅中</span>' : '<span class="pill grey">—</span>');
-        right += rv;
-      } else {
-        right = it.status === 'completed'
-          ? '<span class="pill green">Completed · 已完成</span>'
-          : '<span class="pill grey">In progress · 进行中</span>';
+    $('#badge-records').textContent = items.length + ' record' + (items.length > 1 ? 's' : '');
+
+    /* ---- score-trend chart (uses the SAME items; scored quizzes/assessments only) ---- */
+    renderTrend(items, trendEl);
+
+    /* ---- unit dropdown built from CAMBRIDGE_UNITS (single source of truth) ---- */
+    const unitSel = $('#filter-unit');
+    let opts = '<option value="all">All units · 全部单元</option>';
+    ['7', '8', '9'].forEach(yr => {
+      const units = CAMBRIDGE_UNITS[yr] || []; if (!units.length) return;
+      const [yen, yzh] = YEAR_LABEL[yr];
+      opts += `<optgroup label="${yen} · ${yzh}">`;
+      units.forEach(u => { opts += `<option value="${yr}-${u.num}">U${u.num} · ${esc(u.name)}</option>`; });
+      opts += '</optgroup>';
+    });
+    unitSel.innerHTML = opts;
+
+    /* ---- filter / sort state + apply ---- */
+    const state = { type: 'all', unit: 'all', when: 'all', sort: 'new' };
+    tools.hidden = false;
+
+    const inWhen = (when, mode) => {
+      if (mode === 'all') return true;
+      if (!when) return false;
+      const d = new Date(when); if (isNaN(d)) return false;
+      const now = new Date();
+      if (mode === 'month') return d >= new Date(now.getFullYear(), now.getMonth(), 1);
+      if (mode === 'week') { const day = (now.getDay() + 6) % 7; return d >= new Date(now.getFullYear(), now.getMonth(), now.getDate() - day); }
+      return true;
+    };
+
+    function apply() {
+      let rows = items.filter(it =>
+        (state.type === 'all' || it.kind === state.type) &&
+        (state.unit === 'all' || it.unitKey === state.unit) &&
+        inWhen(it.when, state.when));
+
+      const t = (a, b, sign) => sign * (new Date(a.when || 0) - new Date(b.when || 0));
+      rows.sort((a, b) => {
+        if (state.sort === 'hi' || state.sort === 'lo') {
+          const av = a.scorePct, bv = b.scorePct;
+          if (av == null && bv == null) return t(a, b, -1);
+          if (av == null) return 1;
+          if (bv == null) return -1;
+          return state.sort === 'hi' ? bv - av : av - bv;
+        }
+        return t(a, b, state.sort === 'old' ? 1 : -1);
+      });
+
+      countEl.hidden = false;
+      countEl.innerHTML = `Showing <b>${rows.length}</b> of ${items.length} record${items.length > 1 ? 's' : ''} · 共 ${items.length} 条,显示 ${rows.length} 条`;
+
+      if (rows.length === 0) {
+        host.innerHTML = `<div class="empty-state">
+          <div class="big">No matching records · 没有符合条件的记录</div>
+          <div class="small">Try a different filter. <span class="zh">换个筛选条件再看看。</span></div></div>`;
+        return;
       }
-      return `<div class="rec-row">
-        <div class="rec-ico ${it.type==='assess'?'assess':''}">${it.type==='assess'?'📋':'📘'}</div>
-        <div class="rec-body">
-          <div class="rec-title">${esc(it.title)}</div>
-          <div class="rec-sub">${it.sub}</div>
-        </div>
-        <div class="rec-right">
-          <div class="rec-date">${esc(fmtDate(it.when)) || '—'}</div>
-          ${right}
-        </div>
-      </div>`;
-    }).join('') + '</div>';
-    $('#badge-records').textContent = items.length + ' record' + (items.length>1?'s':'');
+      host.innerHTML = '<div class="rec-list">' + rows.map((it, i) => {
+        const expandable = !!it.detail;
+        let right = '';
+        if (it.scoreText) right += `<div class="rec-date">${esc(it.scoreText)}</div>`;
+        right += it.statusHtml;
+        let detailHtml = '';
+        if (expandable) {
+          const d = it.detail;
+          let inner = '';
+          if (d.parts && d.parts.length) {
+            inner += '<div class="dk">Breakdown · 明细</div><div class="parts">' +
+              d.parts.map(p => `<span class="part-pill"><span class="pl">${esc(p.label)}</span><span class="pv">${esc(p.val)}</span></span>`).join('') + '</div>';
+          }
+          if (d.questions && d.questions.length) {
+            inner += '<div class="dk">Per question · 逐题</div><div class="qbreak">' +
+              d.questions.map(q => `<div class="qrow">
+                <span class="qmark ${q.state}">${q.state === 'ok' ? '✓' : q.state === 'no' ? '✕' : '~'}</span>
+                <span class="qt">Q${esc(q.num)} ${esc(q.label)}${q.topic ? ` <span class="topic">· ${esc(q.topic)}</span>` : ''}</span>
+                <span class="qs">${esc(q.scoreText)}</span></div>`).join('') + '</div>';
+          }
+          if (d.note) inner += `<div class="nb">${esc(d.note)}</div>`;
+          detailHtml = `<div class="rec-detail">${inner}</div>`;
+        }
+        return `<div class="rec-item" data-i="${i}">
+          <div class="rec-row${expandable ? ' has-detail' : ''}">
+            <div class="rec-ico ${it.iconCls}">${it.icon}</div>
+            <div class="rec-body">
+              <div class="rec-title">${esc(it.title)}</div>
+              <div class="rec-sub">${it.sub}</div>
+            </div>
+            <div class="rec-right">
+              <div class="rec-date">${esc(fmtDate(it.when)) || '—'}</div>
+              ${right}
+            </div>
+            ${expandable
+              ? '<svg class="rec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'
+              : '<span style="width:16px;flex-shrink:0;"></span>'}
+          </div>
+          ${detailHtml}
+        </div>`;
+      }).join('') + '</div>';
+    }
+
+    // expand-on-tap (delegated; property assignment = idempotent across child switches)
+    host.onclick = e => {
+      const row = e.target.closest('.rec-row.has-detail');
+      if (!row) return;
+      row.closest('.rec-item').classList.toggle('open');
+    };
+    // wire controls (idempotent)
+    $('#filter-type').querySelectorAll('.chip-btn').forEach(btn => {
+      btn.onclick = () => {
+        state.type = btn.dataset.type;
+        $('#filter-type').querySelectorAll('.chip-btn').forEach(b => b.classList.toggle('active', b === btn));
+        apply();
+      };
+    });
+    $('#filter-type').querySelectorAll('.chip-btn').forEach(b => b.classList.toggle('active', b.dataset.type === state.type));
+    unitSel.value = 'all';
+    unitSel.onchange = () => { state.unit = unitSel.value; apply(); };
+    const whenSel = $('#filter-when'); whenSel.value = 'all'; whenSel.onchange = () => { state.when = whenSel.value; apply(); };
+    const sortSel = $('#sort-by'); sortSel.value = 'new'; sortSel.onchange = () => { state.sort = sortSel.value; apply(); };
+
+    apply();
+  }
+
+  /* ── score-trend chart: real scored quizzes/assessments over time ──
+     0–1 data points → honest empty/▁ state, never a fabricated line. */
+  function renderTrend(items, el) {
+    const pts = items
+      .filter(it => (it.kind === 'quiz' || it.kind === 'entry') && it.scorePct != null && it.when)
+      .map(it => ({ pct: it.scorePct, when: it.when, t: new Date(it.when).getTime() }))
+      .filter(p => isFinite(p.t))
+      .sort((a, b) => a.t - b.t);
+
+    el.hidden = false;
+    const head = `<div class="trend-head"><div class="t">Score trend<span class="zh">分数趋势</span></div>
+      <div class="legend">Quiz &amp; assessment scores over time · 测评分数随时间变化</div></div>`;
+
+    if (pts.length < 2) {
+      el.innerHTML = head +
+        `<div class="empty-mini">${[28,46,34,58,40].map(h => `<i style="height:${h}%"></i>`).join('')}</div>
+         <div class="empty-cap">${pts.length === 0
+            ? 'No marked scores yet — the trend appears once two or more assessments are scored.'
+            : 'One marked score so far — the trend line appears from the second scored assessment.'}
+          <span class="zh">${pts.length === 0 ? '暂无已评分记录 — 有两次或以上评分后显示趋势。' : '目前只有一次评分 — 第二次评分后显示趋势线。'}</span></div>`;
+      return;
+    }
+
+    // geometry
+    const W = 320, H = 120, padL = 30, padR = 12, padT = 12, padB = 22;
+    const x = i => padL + (W - padL - padR) * (pts.length === 1 ? 0.5 : i / (pts.length - 1));
+    const y = pct => padT + (H - padT - padB) * (1 - pct / 100);
+    let grid = '';
+    [0, 50, 100].forEach(g => {
+      const yy = y(g);
+      grid += `<line class="grid-ln" x1="${padL}" y1="${yy}" x2="${W - padR}" y2="${yy}"/>
+               <text class="lbl-y" x="${padL - 6}" y="${yy + 3}" text-anchor="end">${g}</text>`;
+    });
+    const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.pct).toFixed(1)}`).join(' ');
+    const dots = pts.map((p, i) => `<circle class="dot-pt" cx="${x(i).toFixed(1)}" cy="${y(p.pct).toFixed(1)}" r="3.2"/>`).join('');
+    const N = pts.length;
+    const xlabels = pts.map((p, i) => {
+      if (N > 4 && i !== 0 && i !== N - 1 && i !== Math.floor((N - 1) / 2)) return '';
+      const d = new Date(p.when);
+      const lab = isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+      return `<text class="lbl-x" x="${x(i).toFixed(1)}" y="${H - 6}" text-anchor="middle">${lab}</text>`;
+    }).join('');
+    el.innerHTML = head + `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Score trend chart">
+      ${grid}
+      <path d="${line}" fill="none" stroke="var(--pc-orange)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      ${dots}${xlabels}
+    </svg>`;
   }
 
   /* ── ③ REPORTS (no source table yet → honest empty) ── */
