@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- ============ SCISPARK LOGO + SOCIAL ============ -->
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+<link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — 家长控制台 · Parent Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<!-- 共用设计盒子(颜色 / 字体 / 背景的单一来源,与首页 + 课堂页 + 其它 dashboard 同一档) -->
+<link rel="stylesheet" href="/public/design-tokens.css">
+<style>
+/* ============================================================
+   SciSpark · 家长控制台 (Parent Console) — Wave 1
+   纯展示:① 进度 ② 课程&测评记录 ③ 报告 ④ 档案
+   颜色/字体来自 /public/design-tokens.css(全站一致)。
+   本档只补「muted 灰 / 边线深浅」等盒子里没有的辅助色。
+   红线:家长只能看自己绑定的孩子;无真数据一律显示「暂无」。
+   ============================================================ */
+:root {
+  --pc-nav:        #1a1917;                 /* 深色导航条(与其它 dashboard 一致) */
+  --pc-text:       var(--ink, #171413);
+  --pc-muted:      #8b8178;                 /* 次要灰字 */
+  --pc-faint:      #b6aca3;                  /* 最淡灰(占位) */
+  --pc-light:      #c5bbb4;                 /* 导航上的淡字 */
+  --pc-line:       var(--line, #E6DFD3);
+  --pc-line-soft:  #F0EBE2;
+  --pc-paper:      var(--paper, #FFFFFF);
+  --pc-paper-soft: var(--paper-soft, #F4EFE7);
+  --pc-orange:     var(--orange, #EA580C);
+  --pc-orange-pale:var(--orange-pale, #FFF6EE);
+  --pc-orange-soft:var(--orange-soft, #FFE9D6);
+  --pc-green:      var(--green, #2E7D5B);
+  --pc-green-soft: var(--green-soft, #DCFCE7);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg, #FBF8F4);
+  color: var(--pc-text);
+  font-family: var(--font-sans, 'Geist', system-ui, sans-serif);
+  font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+.zh { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); }
+
+/* ================ NAV ================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--pc-nav); height: 60px;
+  display: flex; align-items: center; padding: 0 24px; color: #fff;
+}
+.nav-inner { width: 100%; max-width: 1080px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; }
+.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-brand .logo-bolt {
+  width: 34px; height: 34px; background: var(--pc-orange); border-radius: 7px;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0;
+}
+.nav-brand .logo-bolt svg { width: 18px; height: 18px; }
+.nav-brand .logo-text { display: flex; flex-direction: column; line-height: 1; }
+.nav-brand .brand-text {
+  font-family: var(--font-serif, 'Fraunces', serif); font-weight: 600; font-size: 22px;
+  letter-spacing: -0.3px; color: #fff;
+}
+.nav-brand .brand-text .spark { color: var(--pc-orange); }
+.nav-brand .brand-sub {
+  font-family: var(--font-mono, 'Geist Mono', monospace);
+  font-size: 11px; font-weight: 500; letter-spacing: 1.4px; color: var(--pc-light); margin-top: 4px;
+}
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-user-name { font-size: 14px; color: #fff; display: none; max-width: 180px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--pc-orange); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0;
+}
+.nav-signout {
+  font-size: 13px; color: var(--pc-light); background: transparent; border: 1px solid #3a3733;
+  padding: 6px 14px; border-radius: 100px; cursor: pointer; font-family: inherit; display: none;
+}
+.nav-signout:hover { color: #fff; border-color: #555; }
+@media (min-width: 768px) { .nav-user-name, .nav-signout { display: inline-block; } }
+
+/* ================ LAYOUT ================ */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px 72px; }
+
+/* ================ WELCOME HERO ================ */
+.hero { padding: 30px 0 18px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--pc-muted); margin-bottom: 12px;
+}
+.eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pc-orange); }
+.eyebrow .zh { font-size: 11px; letter-spacing: 0; font-weight: 500; }
+.hero h1 {
+  font-family: var(--font-serif, 'Fraunces', serif); font-weight: 500;
+  font-size: 30px; line-height: 1.12; letter-spacing: -0.02em; color: var(--pc-text);
+}
+@media (min-width: 768px) { .hero h1 { font-size: 40px; } }
+.hero h1 .zh { display: block; font-size: 18px; font-weight: 500; color: var(--pc-muted); margin-top: 6px; }
+@media (min-width: 768px) { .hero h1 .zh { font-size: 22px; } }
+.hero .sub { font-size: 15px; color: var(--pc-muted); margin-top: 12px; max-width: 560px; }
+.hero .sub .zh { display: block; font-size: 13px; margin-top: 3px; }
+
+/* ── child switcher ── */
+.child-switch { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.child-chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px;
+  border: 1px solid var(--pc-line); background: var(--pc-paper); border-radius: 100px;
+  font-size: 13px; font-weight: 500; color: var(--pc-text); cursor: pointer; transition: .15s;
+}
+.child-chip:hover { border-color: var(--pc-orange); }
+.child-chip.active { background: var(--pc-orange); border-color: var(--pc-orange); color: #fff; }
+.child-chip .yr { font-size: 11px; opacity: .7; }
+
+/* ================ BIG SUMMARY CARD ================ */
+.summary {
+  background: var(--pc-paper); border: 1px solid var(--pc-line); border-radius: var(--radius-lg, 16px);
+  padding: 26px; margin-top: 22px; display: grid; gap: 26px;
+  grid-template-columns: 1fr; align-items: center;
+}
+@media (min-width: 720px) { .summary { grid-template-columns: auto 1px 1fr; padding: 30px 34px; } }
+.summary .ring-wrap { display: flex; align-items: center; gap: 20px; }
+.ring { position: relative; width: 104px; height: 104px; flex-shrink: 0; }
+.ring svg { transform: rotate(-90deg); }
+.ring .pct {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.ring .pct .n { font-family: var(--font-serif, serif); font-size: 28px; font-weight: 600; color: var(--pc-text); line-height: 1; }
+.ring .pct .lbl { font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--pc-muted); margin-top: 3px; }
+.summary .ring-side .h { font-family: var(--font-serif, serif); font-size: 19px; font-weight: 500; }
+.summary .ring-side .h .zh { display: block; font-size: 12px; color: var(--pc-muted); font-weight: 400; margin-top: 2px; }
+.summary .vline { background: var(--pc-line); width: 1px; align-self: stretch; display: none; }
+@media (min-width: 720px) { .summary .vline { display: block; } }
+.summary .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.stat .k { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--pc-muted); margin-bottom: 6px; }
+.stat .k .zh { display: inline; letter-spacing: 0; text-transform: none; }
+.stat .v { font-family: var(--font-serif, serif); font-size: 17px; font-weight: 500; color: var(--pc-text); line-height: 1.25; }
+.stat .v.empty { color: var(--pc-muted); font-style: italic; font-size: 15px; }
+.stat .meta { font-size: 12px; color: var(--pc-muted); margin-top: 3px; }
+
+/* ================ ENTRY CARDS (首页 account-card 同款) ================ */
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--pc-muted); margin: 40px 0 14px;
+}
+.section-label .zh { letter-spacing: 0; text-transform: none; }
+.entries { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+@media (max-width: 880px) { .entries { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .entries { grid-template-columns: 1fr; } }
+.entry-card {
+  background: var(--pc-paper); border: 1px solid var(--pc-line); border-radius: 8px;
+  padding: 20px 20px 18px; text-decoration: none; color: var(--pc-text);
+  display: block; transition: .15s;
+}
+.entry-card:hover { border-color: var(--pc-orange); box-shadow: 0 6px 20px rgba(234,88,12,.07); transform: translateY(-2px); }
+.entry-card .icon {
+  width: 30px; height: 30px; background: var(--pc-orange-pale); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; color: var(--pc-orange); margin-bottom: 12px;
+}
+.entry-card .icon svg { width: 16px; height: 16px; }
+.entry-card h5 { font-family: var(--font-serif, serif); font-weight: 600; font-size: 15.5px; letter-spacing: -.2px; margin-bottom: 3px; }
+.entry-card h5 .zh { font-size: 13px; color: var(--pc-muted); font-weight: 500; margin-left: 6px; }
+.entry-card p { font-size: 12.5px; color: var(--pc-muted); line-height: 1.5; }
+.entry-card .stat-badge { font-size: 12px; color: var(--pc-orange); font-weight: 600; margin-top: 8px; }
+
+/* ================ DETAIL SECTIONS ================ */
+.detail { scroll-margin-top: 72px; margin-top: 34px; }
+.card {
+  background: var(--pc-paper); border: 1px solid var(--pc-line); border-radius: var(--radius-lg, 16px);
+  padding: 24px; margin-bottom: 18px;
+}
+.card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.card-head .n { font-size: 11px; font-weight: 700; color: var(--pc-orange); font-family: var(--font-mono, monospace); }
+.card-head h3 { font-family: var(--font-serif, serif); font-size: 22px; font-weight: 500; }
+.card-head h3 .zh { font-size: 14px; color: var(--pc-muted); font-weight: 400; margin-left: 8px; }
+.card-desc { font-size: 13px; color: var(--pc-muted); margin-bottom: 20px; }
+.card-desc .zh { display: block; margin-top: 2px; }
+
+/* empty state */
+.empty-state {
+  text-align: center; padding: 28px 18px; color: var(--pc-muted);
+  background: var(--pc-paper-soft); border: 1px dashed var(--pc-line); border-radius: var(--radius, 10px);
+}
+.empty-state .big { font-family: var(--font-serif, serif); font-size: 17px; color: var(--pc-text); margin-bottom: 6px; }
+.empty-state .small { font-size: 13px; }
+.empty-state .small .zh { display: block; margin-top: 2px; }
+
+/* progress bars */
+.year-head { display: flex; align-items: baseline; gap: 9px; margin: 22px 0 6px;
+  font-family: var(--font-serif, serif); font-size: 16px; font-weight: 600; color: var(--pc-text); }
+.year-head:first-child { margin-top: 2px; }
+.year-head .zh { font-size: 12px; color: var(--pc-muted); font-weight: 400; }
+.unit-row { padding: 13px 0; border-bottom: 1px solid var(--pc-line-soft); }
+.unit-row:last-child { border-bottom: none; }
+.unit-row.is-soon { opacity: 0.72; }
+.unit-row.is-soon .bar { opacity: 0.6; }
+.unit-sub { font-size: 11.5px; color: var(--pc-muted); margin-top: 6px; }
+.unit-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 7px; }
+.unit-name { font-size: 14px; font-weight: 500; }
+.unit-name .yr { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--pc-orange); margin-right: 8px; }
+.unit-name .zh { color: var(--pc-muted); font-size: 12px; margin-left: 6px; }
+.unit-count { font-size: 12px; color: var(--pc-muted); flex-shrink: 0; }
+.bar { height: 8px; background: var(--pc-paper-soft); border-radius: 100px; overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--pc-orange); border-radius: 100px; transition: width .4s; }
+.bar > span.done { background: var(--pc-green); }
+.overall-bar { margin-bottom: 8px; }
+.note { font-size: 12px; color: var(--pc-muted); font-style: italic; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--pc-line-soft); }
+.note .zh { display: block; font-style: normal; margin-top: 2px; }
+
+/* records table */
+.rec-list { display: flex; flex-direction: column; }
+.rec-row { display: flex; align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--pc-line-soft); }
+.rec-row:last-child { border-bottom: none; }
+.rec-ico {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+  background: var(--pc-orange-pale); color: var(--pc-orange);
+}
+.rec-ico.assess { background: #EEF2FF; color: #4f46e5; }
+.rec-body { flex: 1; min-width: 0; }
+.rec-title { font-size: 14px; font-weight: 500; }
+.rec-sub { font-size: 12px; color: var(--pc-muted); margin-top: 1px; }
+.rec-right { text-align: right; flex-shrink: 0; }
+.rec-date { font-size: 12px; color: var(--pc-muted); }
+.pill { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em;
+  padding: 3px 9px; border-radius: 100px; margin-top: 3px; }
+.pill.green { background: var(--pc-green-soft); color: var(--pc-green); }
+.pill.amber { background: #FEF3C7; color: #B45309; }
+.pill.grey { background: var(--pc-paper-soft); color: var(--pc-muted); }
+
+/* profile fields */
+.field-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+.field-row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--pc-line-soft); }
+.field-row:last-child { border-bottom: none; }
+.field-k { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--pc-muted); flex-shrink: 0; }
+.field-k .zh { display: block; letter-spacing: 0; text-transform: none; font-weight: 500; margin-top: 1px; }
+.field-v { font-size: 14px; text-align: right; }
+.field-v.empty { color: var(--pc-muted); font-style: italic; }
+
+/* footer privacy note */
+.foot {
+  margin-top: 42px; padding: 18px 22px; background: var(--pc-paper-soft);
+  border: 1px solid var(--pc-line); border-radius: var(--radius, 10px);
+  font-size: 12px; color: var(--pc-muted); display: flex; gap: 12px; align-items: flex-start;
+}
+.foot svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--pc-green); margin-top: 1px; }
+.foot .zh { display: block; margin-top: 2px; }
+
+/* loading / gate */
+.gate { min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--pc-muted); }
+.spin { width: 26px; height: 26px; border: 3px solid var(--pc-line); border-top-color: var(--pc-orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/dashboard-parent" class="nav-brand">
+      <span class="logo-bolt">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/></svg>
+      </span>
+      <span class="logo-text">
+        <span class="brand-text">Sci<span class="spark">Spark</span></span>
+        <span class="brand-sub">An IG Spark Centre Product</span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <span class="nav-user-name" data-parent-name>—</span>
+      <div class="nav-avatar" data-parent-initials>·</div>
+      <button class="nav-signout" type="button">Sign out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== LOADING GATE ===================== -->
+<div id="gate" class="gate">
+  <div class="spin"></div>
+  <div>Loading your console… · 正在加载家长控制台…</div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div class="wrap" id="app" hidden>
+
+  <!-- WELCOME HERO -->
+  <header class="hero">
+    <div class="eyebrow">
+      <span class="dot"></span><span>Parent Console</span><span class="zh">家长控制台</span>
+    </div>
+    <h1>
+      <span data-greet-en>Hi there.</span>
+      <span class="zh" data-greet-zh>你好。</span>
+    </h1>
+    <p class="sub">
+      <span data-sub-en>Here is how your child is doing on SciSpark.</span>
+      <span class="zh" data-sub-zh>这是孩子在 SciSpark 的学习情况。</span>
+    </p>
+    <!-- child switcher (only shown when >1 child) -->
+    <div class="child-switch" id="child-switch" hidden></div>
+  </header>
+
+  <!-- BIG SUMMARY CARD -->
+  <section class="summary" aria-label="Overall summary · 整体概况">
+    <div class="ring-wrap">
+      <div class="ring">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="var(--pc-line)" stroke-width="9"/>
+          <circle id="ring-fg" cx="52" cy="52" r="46" fill="none" stroke="var(--pc-orange)" stroke-width="9"
+                  stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/>
+        </svg>
+        <div class="pct"><span class="n" id="overall-pct">—</span><span class="lbl">Overall</span></div>
+      </div>
+      <div class="ring-side">
+        <div class="h">Overall progress<span class="zh">整体进度</span></div>
+        <div class="stat meta" id="overall-meta" style="margin-top:8px;">—</div>
+      </div>
+    </div>
+    <div class="vline"></div>
+    <div class="stats">
+      <div class="stat">
+        <div class="k">Latest lesson <span class="zh">· 最近一节课</span></div>
+        <div class="v empty" id="recent-lesson">暂无 · None yet</div>
+        <div class="meta" id="recent-lesson-date"></div>
+      </div>
+      <div class="stat">
+        <div class="k">Latest score <span class="zh">· 最近一次分数</span></div>
+        <div class="v empty" id="recent-score">暂无 · None yet</div>
+        <div class="meta" id="recent-score-date"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTRY CARDS -->
+  <div class="section-label">Open a section <span class="zh">· 点击进入查看细节</span></div>
+  <nav class="entries" aria-label="Sections · 区块入口">
+    <a class="entry-card" href="#sec-progress">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <h5>Progress<span class="zh">进度</span></h5>
+      <p>Unit-by-unit progress, Y7&ndash;Y9. <span class="zh">逐单元进度。</span></p>
+      <div class="stat-badge" id="badge-progress">&nbsp;</div>
+    </a>
+    <a class="entry-card" href="#sec-records">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.74 0 5.19 1.22 6.84 3.16"/></svg></div>
+      <h5>Records<span class="zh">记录</span></h5>
+      <p>Lessons, quizzes &amp; assessments. <span class="zh">课程 · 测评。</span></p>
+      <div class="stat-badge" id="badge-records">&nbsp;</div>
+    </a>
+    <a class="entry-card" href="#sec-reports">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+      <h5>Reports<span class="zh">报告</span></h5>
+      <p>Weekly &amp; monthly, auto-archived. <span class="zh">每周 · 每月归档。</span></p>
+      <div class="stat-badge" id="badge-reports">&nbsp;</div>
+    </a>
+    <a class="entry-card" href="#sec-profile">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></div>
+      <h5>Profile<span class="zh">档案</span></h5>
+      <p>Year, language, settings. <span class="zh">年级 · 语言 · 设置。</span></p>
+      <div class="stat-badge" id="badge-profile">&nbsp;</div>
+    </a>
+  </nav>
+
+  <!-- ① PROGRESS -->
+  <section class="detail" id="sec-progress">
+    <div class="card">
+      <div class="card-head"><span class="n">01</span><h3>Progress<span class="zh">进度</span></h3></div>
+      <p class="card-desc">Overall and unit-by-unit, across the published Y7&ndash;Y9 curriculum.
+        <span class="zh">整体进度 + 已上线单元逐一进度(已上的课 / 该单元总课数)。</span></p>
+      <div class="overall-bar bar"><span id="overall-bar-fg" style="width:0%"></span></div>
+      <div class="unit-count" id="overall-count" style="margin-bottom:18px;">—</div>
+      <div id="unit-list"></div>
+      <p class="note" id="progress-note" hidden></p>
+    </div>
+  </section>
+
+  <!-- ② RECORDS -->
+  <section class="detail" id="sec-records">
+    <div class="card">
+      <div class="card-head"><span class="n">02</span><h3>Lesson &amp; assessment records<span class="zh">课程 &amp; 测评记录</span></h3></div>
+      <p class="card-desc">Every lesson, quiz and entry assessment — kept in full so you can always look back.
+        <span class="zh">每节课 · 每次小测 · 每次入学评估,完整存档,可随时往回翻。</span></p>
+      <div id="records-list"></div>
+    </div>
+  </section>
+
+  <!-- ③ REPORTS -->
+  <section class="detail" id="sec-reports">
+    <div class="card">
+      <div class="card-head"><span class="n">03</span><h3>Reports<span class="zh">报告</span></h3></div>
+      <p class="card-desc">Weekly and monthly parent reports archive here automatically once available.
+        <span class="zh">每周 / 每月家长报告会在生成后自动归档,可下载。</span></p>
+      <div id="reports-list"></div>
+    </div>
+  </section>
+
+  <!-- ④ PROFILE -->
+  <section class="detail" id="sec-profile">
+    <div class="card">
+      <div class="card-head"><span class="n">04</span><h3>Profile<span class="zh">档案</span></h3></div>
+      <p class="card-desc">Your child's basic details, collected at sign-up.
+        <span class="zh">孩子的基本资料(注册时已收集)。Wave 1 仅供查看。</span></p>
+      <div class="field-grid" id="profile-fields"></div>
+    </div>
+  </section>
+
+  <!-- PRIVACY FOOTER -->
+  <div class="foot">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    <div>
+      You only ever see your own child's data. Nothing here is shared with other families.
+      <span class="zh">您只能看到自己绑定孩子的数据,绝不会看到别人家孩子的资料。</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+/* ── SciSpark · 家长控制台 (Parent Console) — Wave 1 live data ──────────
+   纯展示 4 区块。数据全部来自真表;无真数据一律「暂无」,绝不编造。
+   隐私:children 按 parent_id 过滤(配合 RLS);其余表均按本家长的 child id 过滤。
+──────────────────────────────────────────────────────────────────────── */
+(async function parentConsoleInit() {
+  const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  /* Y7–Y9 curriculum outline — kept identical to school-select.html's
+     CAMBRIDGE_UNITS so the console shows the exact scope a parent buys.
+     'live' / 'soon' are display hints; real progress comes from the DB. */
+  const CAMBRIDGE_UNITS = {
+    '7': [
+      { num: 1, name: 'Matter and Particle Model', status: 'live' },
+      { num: 2, name: 'Forces and Motion',          status: 'soon' },
+      { num: 3, name: 'Cells and Living Things',    status: 'soon' },
+      { num: 4, name: 'Energy',                     status: 'soon' },
+      { num: 5, name: 'Ecosystems',                 status: 'soon' },
+      { num: 6, name: 'Earth and Space',            status: 'soon' }
+    ],
+    '8': [
+      { num: 1, name: 'Chemical Reactions',         status: 'soon' },
+      { num: 2, name: 'Electricity and Magnetism',  status: 'soon' },
+      { num: 3, name: 'Genetics and Reproduction',  status: 'soon' },
+      { num: 4, name: 'Waves and Sound',            status: 'soon' },
+      { num: 5, name: 'Forces in Action',           status: 'soon' }
+    ],
+    '9': [
+      { num: 1, name: 'Periodic Table and Reactions', status: 'soon' },
+      { num: 2, name: 'Electricity',                  status: 'soon' },
+      { num: 3, name: 'Inheritance and Selection',    status: 'soon' },
+      { num: 4, name: 'Waves and Space',              status: 'soon' },
+      { num: 5, name: 'Motion and Forces',            status: 'soon' }
+    ]
+  };
+  const YEAR_LABEL = { '7': ['Year 7','七年级'], '8': ['Year 8','八年级'], '9': ['Year 9','九年级'] };
+  const yrNum = yg => String(yg == null ? '' : yg).replace(/[^0-9]/g, '');
+
+  const $  = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmtDate = iso => { if (!iso) return ''; try {
+    return new Date(iso).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  } catch { return ''; } };
+  const initials = name => (String(name||'').trim().split(/\s+/).map(s=>s[0]).filter(Boolean).slice(0,2).join('').toUpperCase() || '?');
+
+  /* 1. Auth gate ----------------------------------------------------- */
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('/signin.html'); return; }
+  const user = session.user;
+
+  /* admin shortcut — keep parents-only (mirrors dashboard-parent) ----- */
+  if (user.email === 'info@scisparklab.com') { window.location.replace('/teacher-review-list'); return; }
+
+  /* sign out --------------------------------------------------------- */
+  document.querySelectorAll('.nav-signout').forEach(b =>
+    b.addEventListener('click', async () => { await sb.auth.signOut(); window.location.replace('/signin.html'); }));
+
+  /* 2. Parent display name ------------------------------------------- */
+  let parentName = user.email || 'Parent';
+  try {
+    const { data: prof } = await sb.from('profiles').select('full_name, email').eq('id', user.id).maybeSingle();
+    if (prof && prof.full_name) parentName = prof.full_name;
+  } catch (e) { console.warn('[console] profile fetch failed:', e); }
+  document.querySelectorAll('[data-parent-name]').forEach(el => el.textContent = parentName);
+  document.querySelectorAll('[data-parent-initials]').forEach(el => el.textContent = initials(parentName));
+
+  /* 3. Children — PRIVACY: only this parent's own children ----------- */
+  const { data: children, error: childErr } = await sb.from('children')
+    .select('id, full_name, year_group, assessment_language, lang_pref, goal, current_unit, school_textbook, enrollment_type, created_at')
+    .eq('parent_id', user.id)
+    .order('created_at', { ascending: true });
+
+  if (childErr) { console.error('[console] children query failed:', childErr); }
+
+  $('#gate').hidden = true;
+  $('#app').hidden = false;
+
+  if (!children || children.length === 0) {
+    renderNoChildren();
+    return;
+  }
+
+  /* pick active child (from ?child_id=, validated against own list) --- */
+  const params = new URLSearchParams(location.search);
+  const wanted = params.get('child_id');
+  let active = (wanted && children.find(c => c.id === wanted)) || children[0];
+
+  /* child switcher (only if >1) -------------------------------------- */
+  if (children.length > 1) {
+    const sw = $('#child-switch'); sw.hidden = false;
+    sw.innerHTML = children.map(c =>
+      `<button class="child-chip${c.id===active.id?' active':''}" data-cid="${esc(c.id)}">`+
+      `${esc(c.full_name||'—')} <span class="yr">${esc(c.year_group||'')}</span></button>`).join('');
+    sw.querySelectorAll('.child-chip').forEach(btn => btn.addEventListener('click', () => {
+      const c = children.find(x => x.id === btn.dataset.cid); if (!c) return;
+      active = c;
+      sw.querySelectorAll('.child-chip').forEach(b => b.classList.toggle('active', b===btn));
+      const u = new URL(location); u.searchParams.set('child_id', c.id); history.replaceState(null,'',u);
+      renderGreeting(active);
+      loadChild(active);
+    }));
+  }
+
+  renderGreeting(active);
+  loadChild(active);
+
+  /* ---------- renderers ---------- */
+  function renderGreeting(c) {
+    const nm = c.full_name || 'your child';
+    $('[data-greet-en]').textContent = `Hi, ${nm}'s parent.`;
+    $('[data-greet-zh]').textContent = `你好,${c.full_name || '孩子'} 的家长。`;
+    $('[data-sub-en]').textContent = `Here is how ${nm} is doing on SciSpark.`;
+    $('[data-sub-zh]').textContent = `这是 ${c.full_name || '孩子'} 在 SciSpark 的学习情况。`;
+  }
+
+  function renderNoChildren() {
+    renderGreeting({ full_name: '' });
+    $('[data-greet-en]').textContent = `Hi, ${parentName}.`;
+    $('[data-greet-zh]').textContent = `你好。`;
+    $('.summary').hidden = true;
+    $('.entries').hidden = true;
+    document.querySelector('.section-label').hidden = true;
+    document.querySelectorAll('.detail').forEach(d => d.hidden = true);
+    const host = $('#sec-progress'); host.hidden = false;
+    host.innerHTML = `<div class="card"><div class="empty-state">
+      <div class="big">No child added yet · 尚未添加孩子</div>
+      <div class="small">Once a child is registered, their progress, records and profile appear here.
+      <span class="zh">注册孩子后,这里会显示进度 · 记录 · 报告 · 档案。</span></div></div></div>`;
+  }
+
+  async function loadChild(c) {
+    // reset visuals (so switching to a child with no data clears the previous child)
+    setRing(null);
+    $('#overall-pct').textContent = '—';
+    $('#overall-meta').textContent = '—';
+    $('#overall-count').textContent = '—';
+    const rl = $('#recent-lesson'); rl.className = 'v empty'; rl.textContent = '暂无 · None yet'; $('#recent-lesson-date').textContent = '';
+    const rs = $('#recent-score'); rs.className = 'v empty'; rs.textContent = '暂无 · None yet'; $('#recent-score-date').textContent = '';
+    $('#unit-list').innerHTML = '<div class="empty-state"><div class="small">Loading… · 加载中…</div></div>';
+    $('#records-list').innerHTML = '<div class="empty-state"><div class="small">Loading… · 加载中…</div></div>';
+
+    /* fetch in parallel — every query scoped to this child only */
+    const [lessonsRes, progRes, attemptsRes] = await Promise.all([
+      sb.from('lessons')
+        .select('id, year_group, unit_number, lesson_number, lesson_title_en, lesson_title_zh, is_published')
+        .eq('is_published', true)
+        .order('year_group', { ascending: true })
+        .order('unit_number', { ascending: true })
+        .order('lesson_number', { ascending: true }),
+      sb.from('lesson_progress')
+        .select('lesson_id, status, started_at, completed_at, updated_at')
+        .eq('child_id', c.id),
+      sb.from('assessment_attempts')
+        .select('assessment_code, year_group, status, total_marks, total_score, teacher_review_status, submitted_at')
+        .eq('student_id', c.id)
+        .order('submitted_at', { ascending: false })
+    ]);
+
+    const lessons  = lessonsRes.data  || [];
+    const progress = progRes.data     || [];
+    const attempts = attemptsRes.data || [];
+
+    renderProgress(lessons, progress);
+    renderRecords(lessons, progress, attempts);
+    renderReports();           // no reports table → honest empty state
+    renderProfile(c);
+    renderSummary(lessons, progress, attempts);
+  }
+
+  /* ── ① PROGRESS ── */
+  function renderProgress(lessons, progress) {
+    const completedIds = new Set(progress.filter(p => p.status === 'completed').map(p => p.lesson_id));
+    const publishedIds = new Set(lessons.map(l => l.id));
+    const totalPub  = publishedIds.size;
+    const donePub   = [...completedIds].filter(id => publishedIds.has(id)).length;
+    const pct = totalPub > 0 ? Math.round(donePub / totalPub * 100) : null;
+
+    // overall bar
+    $('#overall-bar-fg').style.width = (pct == null ? 0 : pct) + '%';
+    $('#overall-count').innerHTML = totalPub > 0
+      ? `${donePub} / ${totalPub} published lessons completed · 已完成 ${donePub} / ${totalPub} 节(已上线)`
+      : 'No published lessons yet · 暂无已上线课程';
+
+    // real progress per unit, from DB published lessons + this child's progress
+    const dbUnit = {};
+    lessons.forEach(l => {
+      const k = yrNum(l.year_group) + '-' + l.unit_number;
+      (dbUnit[k] = dbUnit[k] || { total: 0, done: 0 }).total++;
+      if (completedIds.has(l.id)) dbUnit[k].done++;
+    });
+
+    // render the FULL Y7–Y9 outline; live units show real %, the rest show 0% / 未开始
+    let html = '';
+    ['7','8','9'].forEach(yr => {
+      const units = CAMBRIDGE_UNITS[yr] || [];
+      if (!units.length) return;
+      const [yen, yzh] = YEAR_LABEL[yr];
+      html += `<div class="year-head"><span>${yen}</span><span class="zh">${yzh}</span></div>`;
+      units.forEach(u => {
+        const d = dbUnit[yr + '-' + u.num];
+        const hasLive = !!(d && d.total > 0);          // genuinely published in DB
+        const total = hasLive ? d.total : 0;
+        const done  = hasLive ? d.done : 0;
+        const pct   = hasLive && total > 0 ? Math.round(done / total * 100) : 0;
+        const full  = hasLive && total > 0 && done === total;
+        let right, pill, sub;
+        if (hasLive) {
+          right = pct + '%';
+          pill = full ? '<span class="pill green">Done · 已完成</span>'
+               : done > 0 ? '<span class="pill amber">In progress · 进行中</span>'
+               : '<span class="pill grey">Not started · 未开始</span>';
+          sub = `${done} / ${total} lessons · 已完成 ${done}/${total} 节`;
+        } else {
+          right = '0%';
+          pill = '<span class="pill grey">Coming soon · 即将上线</span>';
+          sub = 'Included in your subscription · 已含在订阅内';
+        }
+        html += `<div class="unit-row${hasLive?'':' is-soon'}">
+          <div class="unit-top">
+            <div class="unit-name"><span class="yr">Y${yr} · U${u.num}</span>${esc(u.name)} ${pill}</div>
+            <div class="unit-count">${right}</div>
+          </div>
+          <div class="bar"><span class="${full?'done':''}" style="width:${pct}%"></span></div>
+          <div class="unit-sub">${sub}</div>
+        </div>`;
+      });
+    });
+    $('#unit-list').innerHTML = html;
+
+    const note = $('#progress-note');
+    note.hidden = false;
+    note.innerHTML = `Your subscription covers every Year 7–9 unit. Live units show real progress; the rest show 0% until they open, then update automatically.
+      <span class="zh">订阅已涵盖 Y7–Y9 全部单元。已上线单元显示真实进度,其余显示 0%,上线后自动更新。</span>`;
+
+    // badge on entry card
+    $('#badge-progress').textContent = pct == null ? '' : pct + '% overall';
+  }
+
+  /* ── ② RECORDS ── */
+  function renderRecords(lessons, progress, attempts) {
+    const titleById = {};
+    lessons.forEach(l => { titleById[l.id] = l.lesson_title_en || `${l.year_group} U${l.unit_number} L${l.lesson_number}`; });
+
+    const items = [];
+    progress.forEach(p => {
+      const when = p.completed_at || p.updated_at || p.started_at;
+      items.push({
+        type: 'lesson', when,
+        title: titleById[p.lesson_id] || 'Lesson',
+        sub: 'Lesson · 课程',
+        status: p.status
+      });
+    });
+    attempts.forEach(a => {
+      items.push({
+        type: 'assess', when: a.submitted_at,
+        title: (a.assessment_code || 'Entry assessment').replace(/_/g, ' '),
+        sub: `Entry assessment · 入学评估${a.year_group ? ' · ' + esc(a.year_group) : ''}`,
+        score: (a.total_score != null && a.total_marks != null) ? `${a.total_score} / ${a.total_marks}` : null,
+        review: a.teacher_review_status, status: a.status
+      });
+    });
+    items.sort((x, y) => new Date(y.when || 0) - new Date(x.when || 0));
+
+    const host = $('#records-list');
+    if (items.length === 0) {
+      host.innerHTML = `<div class="empty-state">
+        <div class="big">No records yet · 暂无记录</div>
+        <div class="small">Lessons and assessments will be listed here as your child completes them.
+        <span class="zh">孩子完成课程或测评后,这里会逐条列出。</span></div></div>`;
+      $('#badge-records').textContent = '';
+      return;
+    }
+    host.innerHTML = '<div class="rec-list">' + items.map(it => {
+      let right = '';
+      if (it.type === 'assess') {
+        if (it.score) right = `<div class="rec-date">${esc(it.score)}</div>`;
+        const rv = it.review === 'completed'
+          ? '<span class="pill green">Reviewed · 已批改</span>'
+          : (it.status === 'submitted' ? '<span class="pill amber">Under review · 审阅中</span>' : '<span class="pill grey">—</span>');
+        right += rv;
+      } else {
+        right = it.status === 'completed'
+          ? '<span class="pill green">Completed · 已完成</span>'
+          : '<span class="pill grey">In progress · 进行中</span>';
+      }
+      return `<div class="rec-row">
+        <div class="rec-ico ${it.type==='assess'?'assess':''}">${it.type==='assess'?'📋':'📘'}</div>
+        <div class="rec-body">
+          <div class="rec-title">${esc(it.title)}</div>
+          <div class="rec-sub">${it.sub}</div>
+        </div>
+        <div class="rec-right">
+          <div class="rec-date">${esc(fmtDate(it.when)) || '—'}</div>
+          ${right}
+        </div>
+      </div>`;
+    }).join('') + '</div>';
+    $('#badge-records').textContent = items.length + ' record' + (items.length>1?'s':'');
+  }
+
+  /* ── ③ REPORTS (no source table yet → honest empty) ── */
+  function renderReports() {
+    $('#reports-list').innerHTML = `<div class="empty-state">
+      <div class="big">No reports yet · 暂无报告</div>
+      <div class="small">Weekly and monthly reports will appear and archive here automatically once they are generated.
+      <span class="zh">每周 / 每月报告生成后会自动出现并归档,届时可下载。</span></div></div>`;
+    $('#badge-reports').textContent = '';
+  }
+
+  /* ── ④ PROFILE ── */
+  function renderProfile(c) {
+    const langRaw = (c.assessment_language || c.lang_pref || '').toLowerCase();
+    const langLabel = langRaw
+      ? (langRaw.includes('bil') ? 'Bilingual · 双语'
+        : langRaw.includes('chin') || langRaw.includes('zh') ? '中文 Chinese'
+        : 'English')
+      : null;
+    const rows = [
+      { k: 'Name', zh: '姓名', v: c.full_name },
+      { k: 'Year group', zh: '年级', v: c.year_group },
+      { k: 'Language', zh: '语言', v: langLabel },
+      { k: 'Current unit', zh: '当前单元', v: c.current_unit },
+      { k: 'School textbook', zh: '学校课本', v: c.school_textbook },
+      { k: 'Enrollment', zh: '注册类型', v: c.enrollment_type },
+      { k: 'Time zone', zh: '时区', v: null },          // not collected yet → 暂无
+      { k: 'Accessibility', zh: '无障碍设置', v: null }, // not collected yet → 暂无
+      { k: 'Joined', zh: '加入时间', v: fmtDate(c.created_at) }
+    ];
+    $('#profile-fields').innerHTML = rows.map(r => {
+      const has = r.v != null && String(r.v).trim() !== '';
+      return `<div class="field-row">
+        <div class="field-k">${r.k}<span class="zh">${r.zh}</span></div>
+        <div class="field-v${has?'':' empty'}">${has ? esc(r.v) : '暂无 · Not set'}</div>
+      </div>`;
+    }).join('');
+    $('#badge-profile').textContent = c.year_group ? esc(c.year_group) : '';
+  }
+
+  /* ── BIG SUMMARY ── */
+  function renderSummary(lessons, progress, attempts) {
+    const completedIds = new Set(progress.filter(p => p.status === 'completed').map(p => p.lesson_id));
+    const publishedIds = new Set(lessons.map(l => l.id));
+    const totalPub = publishedIds.size;
+    const donePub  = [...completedIds].filter(id => publishedIds.has(id)).length;
+    const pct = totalPub > 0 ? Math.round(donePub / totalPub * 100) : null;
+    setRing(pct);
+    $('#overall-pct').textContent = pct == null ? '—' : pct + '%';
+    $('#overall-meta').innerHTML = totalPub > 0
+      ? `${donePub} of ${totalPub} lessons · 已完成 ${donePub}/${totalPub} 节`
+      : 'Awaiting published lessons · 课程上线后开始统计';
+
+    // latest lesson
+    const titleById = {};
+    lessons.forEach(l => { titleById[l.id] = l.lesson_title_en || `${l.year_group} U${l.unit_number} L${l.lesson_number}`; });
+    const lat = progress.slice().sort((a,b) =>
+      new Date(b.completed_at||b.updated_at||b.started_at||0) - new Date(a.completed_at||a.updated_at||a.started_at||0))[0];
+    const rl = $('#recent-lesson'), rld = $('#recent-lesson-date');
+    if (lat) {
+      rl.classList.remove('empty');
+      rl.textContent = titleById[lat.lesson_id] || 'Lesson · 课程';
+      rld.textContent = fmtDate(lat.completed_at || lat.updated_at || lat.started_at);
+    }
+
+    // latest score (first attempt with a real total_score)
+    const scored = attempts.find(a => a.total_score != null);
+    const rs = $('#recent-score'), rsd = $('#recent-score-date');
+    if (scored) {
+      rs.classList.remove('empty');
+      rs.textContent = (scored.total_marks != null) ? `${scored.total_score} / ${scored.total_marks}` : String(scored.total_score);
+      rsd.textContent = fmtDate(scored.submitted_at);
+    } else if (attempts.length > 0) {
+      // attempt exists but not yet marked → honest "under review"
+      rs.textContent = '审阅中 · Under review';
+      rsd.textContent = fmtDate(attempts[0].submitted_at);
+    }
+  }
+
+  function setRing(pct) {
+    const C = 289; // 2πr, r=46
+    const off = pct == null ? C : C - (C * Math.max(0, Math.min(100, pct)) / 100);
+    const el = $('#ring-fg'); if (el) el.setAttribute('stroke-dashoffset', off);
+  }
+})();
+</script>
+
+</body>
+</html>
