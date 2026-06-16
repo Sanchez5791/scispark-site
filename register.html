@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<!-- ============ SCISPARK v2 LOGO + SOCIAL ============ -->
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+<link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#EA580C">
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SciSpark">
+<meta property="og:image" content="https://scisparklab.com/assets/og-image.png?v=2">
+<meta property="og:image:alt" content="SciSpark — Start with the right assessment. Continue on the right path.">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SciSpark — Create your account</title>
+<link rel="canonical" href="https://scisparklab.com/register.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f5efe5;--bg-card:#fff;--bg-subtle:#f0e9df;
+  --orange:#e8521a;--orange-h:#d44717;--orange-l:#fdf2ed;--orange-m:#f9d9cc;
+  --dark:#1a1917;--dark-c:#201e1b;
+  --text:#2d2926;--muted:#9a8e84;--light:#c5bbb4;--border:#e2d9ce;
+  --green:#2E7D5B;
+  --serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+  --r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none}
+input{font:inherit}
+
+/* NAV */
+.nav{background:var(--dark);height:60px;box-shadow:0 2px 16px rgba(0,0,0,.3)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:32px;height:32px;flex-shrink:0}
+.brand-text{display:flex;flex-direction:column;line-height:1.15}
+.brand-name{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.brand-name span{color:var(--orange)}
+.brand-sub{font-size:9px;color:var(--light);letter-spacing:.07em;text-transform:uppercase}
+.nav-back{font-size:13px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px;transition:.15s}
+.nav-back:hover{color:#fff}
+
+/* PAGE */
+.page{min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;padding:32px 16px}
+
+/* CARD */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:36px;width:min(460px,100%);box-shadow:0 4px 32px rgba(0,0,0,.07)}
+
+/* BRAND HEADER */
+.card-brand{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:24px;text-align:center}
+.card-logo{width:44px;height:44px}
+.card-title{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.05}
+.card-sub{font-size:13.5px;color:var(--muted);margin-top:4px}
+
+/* SETUP NOTE — tells parents what comes next (the 4 questions) */
+.setup-note{background:var(--orange-l);border:1px solid var(--orange-m);border-radius:var(--r-md);padding:13px 15px;margin-bottom:22px;font-size:12.8px;color:#8a3a18;line-height:1.55}
+.setup-note b{color:var(--orange-h);font-weight:600}
+
+/* FORM */
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.form-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.form-input{width:100%;border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px 14px;font-size:14.5px;color:var(--text);background:var(--bg-card);transition:.15s;outline:none}
+.form-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,82,26,.08)}
+.form-input::placeholder{color:var(--light)}
+.form-hint{font-size:11.5px;color:var(--muted);margin-top:1px}
+
+/* PASSWORD ROW */
+.pw-row{position:relative}
+.pw-row .form-input{padding-right:48px}
+.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;cursor:pointer;padding:4px;user-select:none}
+.pw-toggle:hover{color:var(--text)}
+
+/* SUBMIT */
+.btn-submit{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:#fff;border-radius:100px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;transition:.15s;margin-top:8px;border:0}
+.btn-submit:hover{background:var(--orange-h)}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-submit .spin{width:16px;height:16px;border-radius:99px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .6s linear infinite;display:none}
+.btn-submit.loading .spin{display:block}
+.btn-submit.loading .lbl{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* GOOGLE */
+.btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:1.5px solid var(--border);border-radius:100px;padding:12px;font-size:14px;font-weight:500;color:var(--text);background:var(--bg-card);cursor:pointer;transition:.15s}
+.btn-google:hover{border-color:var(--text);background:var(--bg)}
+
+/* MESSAGE (inline error / info) */
+.msg{display:none;padding:11px 14px;border-radius:var(--r-md);font-size:13px;line-height:1.5;margin-top:14px}
+.msg.error{display:block;background:rgba(185,28,28,.07);border:1px solid rgba(185,28,28,.2);color:#b91c1c}
+.msg.error a{color:#b91c1c;font-weight:600;text-decoration:underline}
+
+/* FOOTER LINKS */
+.card-footer{margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);text-align:center}
+.card-footer a{color:var(--orange);font-weight:500}
+.card-footer a:hover{opacity:.8}
+.fine{font-size:11.5px;color:var(--light);line-height:1.5;margin-top:6px}
+.fine a{color:var(--muted);text-decoration:underline}
+
+/* ===== CHECK-EMAIL SUCCESS STATE ===== */
+.sent{display:none;text-align:center}
+.sent.show{display:block}
+.sent-icon{width:64px;height:64px;margin:0 auto 18px;border-radius:99px;background:var(--orange-l);display:flex;align-items:center;justify-content:center;font-size:30px}
+.sent h2{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--dark);margin-bottom:8px;line-height:1.1}
+.sent p{font-size:14px;color:var(--text);line-height:1.6;max-width:34ch;margin:0 auto 6px}
+.sent .em{font-weight:600;color:var(--orange-h);word-break:break-all}
+.sent .zh{color:var(--muted);font-size:13px;margin-top:2px}
+.sent-steps{background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px;margin:20px 0 6px;text-align:left;font-size:13px;color:var(--text);line-height:1.7}
+.sent-steps b{color:var(--orange-h)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" opacity="0.22" transform="rotate(-20 50 50)"/>
+        <path d="M57 15 L43 46 L58 42 L40 85" stroke="#EA580C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="40" cy="85" r="3.5" fill="#EA580C" opacity="0.7"/>
+        <circle cx="57" cy="15" r="2.5" fill="#EA580C" opacity="0.5"/>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-name">Sci<span>Spark</span></span>
+        <span class="brand-sub">Year 7–9 Science · Cambridge 0893</span>
+      </div>
+    </a>
+    <a href="signin.html" class="nav-back">Already have an account? Sign in →</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="card">
+
+    <!-- ============ FORM STATE ============ -->
+    <div id="state-form">
+      <!-- Brand header -->
+      <div class="card-brand">
+        <svg class="card-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#EA580C" stroke-width="1.8" opacity="0.22" transform="rotate(-20 50 50)"/>
+          <path d="M57 15 L43 46 L58 42 L40 85" stroke="#EA580C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="40" cy="85" r="3.5" fill="#EA580C" opacity="0.7"/>
+          <circle cx="57" cy="15" r="2.5" fill="#EA580C" opacity="0.5"/>
+        </svg>
+        <div>
+          <div class="card-title">Create your account</div>
+          <div class="card-sub">注册 SciSpark 家长账户</div>
+        </div>
+      </div>
+
+      <!-- Tells the parent what happens next: the 4 questions -->
+      <div class="setup-note">
+        Parents sign up here. Next, <b>4 quick questions</b> set up your child's science path — year, name, language and goal.
+        <br>注册后回答 <b>4 个小问题</b>(年级 / 名字 / 语言 / 目标),为孩子定制学习路径。
+      </div>
+
+      <form id="reg-form" autocomplete="on" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email address · 邮箱</label>
+          <input type="email" class="form-input" id="reg-email" placeholder="parent@example.com" autocomplete="email" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-pw">Password · 密码</label>
+          <div class="pw-row">
+            <input type="password" class="form-input" id="reg-pw" placeholder="At least 8 characters" autocomplete="new-password" required/>
+            <span class="pw-toggle" id="pw-toggle-1">Show</span>
+          </div>
+          <span class="form-hint">至少 8 个字符 · At least 8 characters</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-pw2">Confirm password · 确认密码</label>
+          <div class="pw-row">
+            <input type="password" class="form-input" id="reg-pw2" placeholder="Re-enter your password" autocomplete="new-password" required/>
+            <span class="pw-toggle" id="pw-toggle-2">Show</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="reg-submit">
+          <span class="spin"></span>
+          <span class="lbl">Create account · 创建账户 →</span>
+        </button>
+      </form>
+
+      <div class="divider">or · 或</div>
+      <button class="btn-google" id="btn-google" type="button">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2a10.34 10.34 0 0 0-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92A8.78 8.78 0 0 0 17.64 9.2z" fill="#4285F4"/><path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.33-1.58-5.04-3.71H.96v2.33A9 9 0 0 0 9 18z" fill="#34A853"/><path d="M3.96 10.71A5.41 5.41 0 0 1 3.68 9c0-.6.1-1.17.28-1.71V4.96H.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l3-2.33z" fill="#FBBC05"/><path d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.42 0 9 0A9 9 0 0 0 .96 4.96l3 2.33C4.67 5.16 6.66 3.58 9 3.58z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+
+      <!-- inline error/info -->
+      <div class="msg" id="reg-msg"></div>
+
+      <!-- footer -->
+      <div class="card-footer">
+        <div>Already have an account? <a href="signin.html">Sign in →</a></div>
+        <div class="fine">By creating an account you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.</div>
+      </div>
+    </div>
+
+    <!-- ============ CHECK-EMAIL STATE ============ -->
+    <div class="sent" id="state-sent">
+      <div class="sent-icon">📩</div>
+      <h2>Check your email</h2>
+      <p>We've sent a confirmation link to<br><span class="em" id="sent-email">your inbox</span></p>
+      <p class="zh">我们已发送确认链接到你的邮箱。</p>
+      <div class="sent-steps">
+        <b>1.</b> Open the email from SciSpark · 打开 SciSpark 邮件<br>
+        <b>2.</b> Tap <b>Confirm your email</b> · 点击确认链接<br>
+        <b>3.</b> Answer 4 quick questions to set up your child · 回答 4 个问题完成设置
+      </div>
+      <div class="card-footer">
+        <div class="fine">Didn't get it? Check spam, or <a href="#" id="resend-link">resend the email</a>.</div>
+        <div><a href="signin.html">Back to sign in →</a></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  /* ── Supabase init (same project + publishable key as signin/signup-complete) ── */
+  const SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  let sb = null;
+  try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) {}
+
+  /* After email confirmation, the parent lands on the existing 4-question wizard. */
+  const NEXT_PAGE = '/signup-complete.html';
+  function redirectTarget(){
+    try { return window.location.origin + NEXT_PAGE; }
+    catch(e){ return 'https://scisparklab.com' + NEXT_PAGE; }
+  }
+
+  const form     = document.getElementById('reg-form');
+  const emailEl   = document.getElementById('reg-email');
+  const pwEl       = document.getElementById('reg-pw');
+  const pw2El      = document.getElementById('reg-pw2');
+  const submitBtn  = document.getElementById('reg-submit');
+  const msgEl      = document.getElementById('reg-msg');
+  const stateForm  = document.getElementById('state-form');
+  const stateSent  = document.getElementById('state-sent');
+  let lastEmail = '';
+
+  /* show / hide password toggles */
+  function wireToggle(toggleId, inputEl){
+    document.getElementById(toggleId).addEventListener('click', function(){
+      const show = inputEl.type === 'password';
+      inputEl.type = show ? 'text' : 'password';
+      this.textContent = show ? 'Hide' : 'Show';
+    });
+  }
+  wireToggle('pw-toggle-1', pwEl);
+  wireToggle('pw-toggle-2', pw2El);
+
+  function showError(html){ msgEl.className = 'msg error'; msgEl.innerHTML = html; }
+  function clearError(){ msgEl.className = 'msg'; msgEl.innerHTML = ''; }
+  function setLoading(on){ submitBtn.classList.toggle('loading', on); submitBtn.disabled = on; }
+
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    clearError();
+
+    const email = emailEl.value.trim();
+    const pw    = pwEl.value;
+    const pw2   = pw2El.value;
+
+    if (!validEmail(email)) { showError('Please enter a valid email address. · 请输入有效的邮箱地址。'); emailEl.focus(); return; }
+    if (pw.length < 8)      { showError('Password must be at least 8 characters. · 密码至少 8 个字符。'); pwEl.focus(); return; }
+    if (pw !== pw2)         { showError('Passwords do not match. · 两次密码不一致。'); pw2El.focus(); return; }
+    if (!sb)                { showError('Sign-up service unavailable. Please refresh. · 服务暂时不可用，请刷新。'); return; }
+
+    setLoading(true);
+    try {
+      const { data, error } = await sb.auth.signUp({
+        email: email,
+        password: pw,
+        options: { emailRedirectTo: redirectTarget() }
+      });
+
+      if (error) {
+        setLoading(false);
+        if (/already registered|already exists|user_already_exists/i.test(error.message || '')) {
+          showError('This email is already registered. <a href="signin.html">Sign in instead →</a> · 此邮箱已注册，请直接登录。');
+        } else {
+          showError((error.message || 'Something went wrong. Please try again.') + ' · 出了点问题，请重试。');
+        }
+        return;
+      }
+
+      /* Supabase obfuscates existing-user signups: a user with no identities = already registered. */
+      if (data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+        setLoading(false);
+        showError('This email is already registered. <a href="signin.html">Sign in instead →</a> · 此邮箱已注册，请直接登录。');
+        return;
+      }
+
+      /* If a session is returned (email confirmation disabled), go straight to the 4 questions. */
+      if (data && data.session) {
+        window.location.href = NEXT_PAGE;
+        return;
+      }
+
+      /* Normal path (confirmation required): show the check-email screen. */
+      lastEmail = email;
+      document.getElementById('sent-email').textContent = email;
+      stateForm.style.display = 'none';
+      stateSent.classList.add('show');
+
+    } catch(err) {
+      setLoading(false);
+      showError('An unexpected error occurred. Please try again. · 出了点问题，请重试。');
+    }
+  });
+
+  /* Resend confirmation email */
+  document.getElementById('resend-link').addEventListener('click', async function(e){
+    e.preventDefault();
+    if (!sb || !lastEmail) return;
+    const link = this;
+    link.textContent = 'sending…';
+    try {
+      await sb.auth.resend({ type: 'signup', email: lastEmail, options: { emailRedirectTo: redirectTarget() } });
+      link.textContent = 'sent ✓';
+    } catch(err) {
+      link.textContent = 'try again';
+    }
+  });
+
+  /* Google sign-up — same OAuth path as signin.html, lands on the same wizard */
+  document.getElementById('btn-google').addEventListener('click', async function(){
+    if (!sb) { showError('Sign-up service unavailable. · 服务暂时不可用。'); return; }
+    await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: redirectTarget() } });
+  });
+})();
+</script>
+</body>
+</html>
