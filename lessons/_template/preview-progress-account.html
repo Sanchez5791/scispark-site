@@ -2414,7 +2414,8 @@ input, textarea, .ai-input {
 <!-- FILL: data-lesson = 本课课号(用于「Lesson N」与进度);data-user-level 保持 2 -->
 <!-- ⛔ DO NOT MERGE — preview only. This copy of the FUNCTIONAL template carries a
      real published lesson UUID (Y7 U1 L1) so progress + score actually persist to the
-     account for the phone test. The shipped template keeps the placeholder, not this id. -->
+     account for the phone test. The shipped template keeps the placeholder, not this id.
+     It also adds the test-login + test-drive panel below (NOT in the shipped template). -->
 <body data-user-level="2" data-lesson="1" data-lesson-id="99fbc889-0417-4b76-b66d-e0392634d843">
 
 <div class="print-notice">&#169; SciSpark &#8212; Printing not permitted. &#35831;&#21247;&#25171;&#21360; &#183; &#21463;&#29256;&#26435;&#20445;&#25252;&#20869;&#23481;&#12290;</div>
@@ -3092,7 +3093,12 @@ Globals exposed (lesson HTML can call directly via onclick=):
   let xpEarned = {lesson:0, mcq:0, aha:0};
   let xpAnswered = new Set();
 
-  function showScreen(name, _opts) {
+  // When true, showScreen does NOT write the screen to the account. Boot sets this so
+  // the first paint can't overwrite the stored resume point before restoreFromAccount()
+  // reads it; restore (or a safety timer) clears it. See showScreen / boot / restore.
+  let _skipScreenSave = false;
+
+  function showScreen(name) {
     if (!SCREENS.includes(name)) return;
 
     // v4: unmount widgets in the screen we are leaving (frees Canvas/Lottie/listeners)
@@ -3138,8 +3144,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
 
     // Track to DB (account-side progress — survives device change / re-login).
-    // _opts.silent: used by boot's first paint so it can't clobber the stored resume point.
-    if (!(_opts && _opts.silent)) {
+    // Gated by _skipScreenSave (NOT a function arg) because the DouDou + skin layers
+    // re-wrap showScreen as single-arg functions and drop any extra parameter — so a
+    // module flag is the only reliable way to silence boot's first paint until
+    // restoreFromAccount() has read the stored resume point.
+    if (!_skipScreenSave) {
       saveProgressToAccount({ status: 'in_progress', lastScreen: name });
     }
 
@@ -3399,37 +3408,48 @@ Globals exposed (lesson HTML can call directly via onclick=):
     return (id && UUID_RE.test(id.trim())) ? id.trim() : null;
   }
 
-  // One-time, non-blocking "log in to save your progress" cue (honest degrade).
+  // Non-blocking "log in to save your progress" cue (honest degrade when logged out).
+  // Persists until the student logs in or taps ✕ — a brief flash is too easy to miss.
   let _loginCueShown = false;
   function showLoginCue() {
     if (_loginCueShown) return;
     _loginCueShown = true;
-    let el = document.getElementById('login-cue');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'login-cue';
-      el.setAttribute('role', 'status');
-      el.setAttribute('data-en', 'Log in to save your progress');
-      el.setAttribute('data-zh', '请登录以保存进度');
-      el.textContent = document.body.classList.contains('zh-mode')
-        ? '请登录以保存进度'
-        : 'Log in to save your progress';
-      el.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);' +
-        'z-index:9999;background:#FFF8F2;border:1.5px solid #EA580C;color:#9A3412;' +
-        "font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;" +
-        'border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.12);max-width:90vw;text-align:center;';
-      document.body.appendChild(el);
-    }
-    el.style.display = '';
-    setTimeout(function () { if (el) el.style.display = 'none'; }, 6000);
+    if (document.getElementById('login-cue')) return;
+    var el = document.createElement('div');
+    el.id = 'login-cue';
+    el.setAttribute('role', 'status');
+    el.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);' +
+      'z-index:9999;display:flex;align-items:center;gap:10px;background:#FFF8F2;' +
+      'border:1.5px solid #EA580C;color:#9A3412;' +
+      "font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:10px 16px;" +
+      'border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.12);max-width:90vw;';
+    var txt = document.createElement('span');
+    txt.setAttribute('data-en', 'Log in to save your progress');
+    txt.setAttribute('data-zh', '请登录以保存进度');
+    txt.textContent = document.body.classList.contains('zh-mode')
+      ? '请登录以保存进度'
+      : 'Log in to save your progress';
+    var x = document.createElement('button');
+    x.textContent = '✕';
+    x.setAttribute('aria-label', 'Dismiss');
+    x.style.cssText = 'border:0;background:transparent;color:#9A3412;font-weight:800;cursor:pointer;font-size:14px;line-height:1;padding:0;';
+    x.addEventListener('click', function () { el.remove(); });
+    el.appendChild(txt);
+    el.appendChild(x);
+    document.body.appendChild(el);
   }
 
   // Resolve the logged-in parent's child row. Returns null (quietly) when there is
   // no client / no session / no child. Shows the login cue only when truly logged out.
   async function resolveAccountChild() {
-    const client = await waitForSupabaseClient(3000);
+    // Make sure a Supabase client actually EXISTS. waitForSupabaseClient only polls —
+    // it never creates one, so on this self-contained template nothing was initialized
+    // and the saved login session was never read. ensureSupabase loads the CDN +
+    // creates window.sb (which restores any persisted session from this origin).
+    let client = getSupabaseClient();
+    if (!client) client = await ensureSupabase();
     if (!client) return null;
-    const { data: { user }, error: authErr } = await client.auth.getUser();
+    const { data: { user } = {}, error: authErr } = await client.auth.getUser();
     if (authErr || !user) { showLoginCue(); return null; }
     const { data: child } = await client
       .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
@@ -3514,12 +3534,16 @@ Globals exposed (lesson HTML can call directly via onclick=):
         updateXPDisplay();
       }
       // Resume screen — account is source of truth; respect an explicit ?s= override.
+      // Still under _skipScreenSave (set by boot), so this jump doesn't re-write.
       const params = new URLSearchParams(location.search);
       if (!params.get('s') && row.last_screen && SCREENS.includes(row.last_screen)) {
         showScreen(row.last_screen);
       }
     } catch (e) {
       console.warn('[SciSpark] restore error:', e && e.message);
+    } finally {
+      // Re-enable account writes now that the authoritative resume point is in place.
+      _skipScreenSave = false;
     }
   }
 
@@ -4153,6 +4177,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // SECTION 15: BOOT
   // ═════════════════════════════════════════════════════════════
   function boot() {
+    // Initialize the Supabase client up front (loads the CDN + restores any saved
+    // session for this origin) so login state is detected for progress/score/level.
+    try { ensureSupabase(); } catch (e) {}
+
     // Apply Supabase-driven level (v1)
     if (typeof applyLevelFromURL === 'function') {
       try { applyLevelFromURL(); } catch (e) {}
@@ -4220,13 +4248,17 @@ Globals exposed (lesson HTML can call directly via onclick=):
         if (saved && SCREENS.includes(saved)) startScreen = saved;
       } catch (e) {}
     }
-    // First paint is silent so it can't clobber the account's stored resume point
-    // before restoreFromAccount() has had a chance to read it.
-    showScreen(startScreen, { silent: true });
+    // First paint must NOT write to the account, or it clobbers the stored resume
+    // point before restoreFromAccount() reads it. Gate via the module flag (the
+    // showScreen wrappers drop function args, so a param won't survive).
+    _skipScreenSave = true;
+    showScreen(startScreen);
 
     // Account-side restore (source of truth) — resume screen + score across devices /
     // re-login. Async so initial render isn't blocked; degrades silently when logged out.
+    // restoreFromAccount() clears _skipScreenSave in its finally; this is a safety net.
     restoreFromAccount();
+    setTimeout(function () { _skipScreenSave = false; }, 6000);
 
     // Render constellation when entering Wrap
     document.querySelectorAll('.sidebar__btn[data-screen="wrap"], [data-go="wrap"]').forEach(b => {
@@ -5500,5 +5532,105 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
   <button id="l01-mute" onclick="l01ToggleMute()" aria-label="Mute or unmute sound">🔊 Sound on<span class="zh"> · 有声</span></button>
 </div>
 <div id="l01-caption" aria-live="polite"></div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     ⛔ TEST PANEL — PREVIEW ONLY (never ships in the template).
+     Test login on THIS origin + buttons to drive the lesson, because the
+     un-filled template has no questions/nav to click. Lets the boss verify
+     the account-side progress/score end to end.
+     ════════════════════════════════════════════════════════════════ -->
+<div id="test-login-panel" style="position:fixed;top:10px;right:10px;z-index:100000;width:280px;
+     background:#fff;border:2px solid #EA580C;border-radius:12px;padding:12px 14px;
+     font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#171413;
+     box-shadow:0 8px 28px rgba(0,0,0,.18);max-height:90vh;overflow:auto;">
+  <div style="font-weight:800;color:#EA580C;text-transform:uppercase;letter-spacing:.05em;
+       font-size:11px;margin-bottom:8px;">🔑 测试面板 · Test panel (preview only)</div>
+  <div id="tl-status" style="margin-bottom:8px;line-height:1.4;color:#6D4C41;">检查登录状态…</div>
+  <div id="tl-form">
+    <input id="tl-email" type="email" value="test-progress@scisparklab.com"
+       style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:7px 8px;border:1px solid #E8E2D8;border-radius:7px;font-size:12px;">
+    <input id="tl-pass" type="password" value="SciSpark-Test-2026"
+       style="width:100%;box-sizing:border-box;margin-bottom:8px;padding:7px 8px;border:1px solid #E8E2D8;border-radius:7px;font-size:12px;">
+    <button id="tl-login" style="width:100%;padding:8px;border:0;border-radius:8px;background:#EA580C;color:#fff;font-weight:700;cursor:pointer;">登录 Log in</button>
+  </div>
+  <div id="tl-drive" style="display:none;">
+    <div style="font-size:11px;color:#9B8E7E;margin:4px 0 6px;">驱动课程 Drive the lesson:</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+      <button class="tl-go" data-s="learn" style="flex:1;min-width:60px;padding:6px;border:1px solid #E8E2D8;border-radius:7px;background:#F5F0E4;cursor:pointer;">→ Learn</button>
+      <button class="tl-go" data-s="test" style="flex:1;min-width:60px;padding:6px;border:1px solid #E8E2D8;border-radius:7px;background:#F5F0E4;cursor:pointer;">→ Test</button>
+      <button id="tl-xp" style="flex:1;min-width:60px;padding:6px;border:1px solid #E8E2D8;border-radius:7px;background:#F5F0E4;cursor:pointer;">答对 +10</button>
+      <button id="tl-complete" style="flex:1;min-width:80px;padding:6px;border:0;border-radius:7px;background:#1F9D55;color:#fff;font-weight:700;cursor:pointer;">完成本课</button>
+    </div>
+    <div id="tl-saved" style="background:#FFF8F2;border:1px solid #FFD9B8;border-radius:8px;padding:8px;line-height:1.5;margin-bottom:8px;">已存进度读取中…</div>
+    <button id="tl-refresh" style="width:100%;padding:7px;border:1px solid #E8E2D8;border-radius:8px;background:#fff;cursor:pointer;margin-bottom:6px;">↻ 刷新「已存进度」</button>
+    <button id="tl-logout" style="width:100%;padding:7px;border:1px solid #E8E2D8;border-radius:8px;background:#F5F0E4;color:#6D4C41;font-weight:700;cursor:pointer;">退出 Log out</button>
+  </div>
+  <div id="tl-msg" style="margin-top:8px;color:#B91C1C;line-height:1.4;"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  var SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  var SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  var LESSON = '99fbc889-0417-4b76-b66d-e0392634d843';
+  function client() {
+    if (window.sb && window.sb.auth) return window.sb;            // reuse engine client (shared session)
+    if (window.supabase && window.supabase.createClient) { window.sb = window.supabase.createClient(SB_URL, SB_KEY); return window.sb; }
+    return null;
+  }
+  var $ = function (id) { return document.getElementById(id); };
+
+  async function childRow(c, uid) {
+    return (await c.from('children').select('id, full_name, year_group').eq('parent_id', uid).limit(1).maybeSingle()).data;
+  }
+  async function showSaved() {
+    var c = client(); if (!c) return;
+    var u = (await c.auth.getUser()).data.user; if (!u) return;
+    var ch = await childRow(c, u.id); if (!ch) { $('tl-saved').textContent = '⚠ 此账号无孩子记录'; return; }
+    var row = (await c.from('lesson_progress').select('status,last_screen,score,completed_at')
+       .eq('child_id', ch.id).eq('lesson_id', LESSON).maybeSingle()).data;
+    $('tl-saved').innerHTML = row
+      ? ('📌 <b>账号里已存的进度</b><br>状态: ' + row.status + '<br>停在屏: <b>' + (row.last_screen||'—') + '</b><br>分数 score: <b>' + (row.score==null?'—':row.score) + '</b>')
+      : '账号里这一课还没有记录(去驱动一下)。';
+  }
+  async function refresh() {
+    var c = client();
+    if (!c) { $('tl-status').textContent = '正在加载 Supabase…'; setTimeout(refresh, 400); return; }
+    try {
+      var u = (await c.auth.getUser()).data.user;
+      if (u) {
+        var ch = await childRow(c, u.id);
+        $('tl-status').innerHTML = '✅ 已登录 <b>' + u.email + '</b><br>孩子: ' + (ch ? (ch.full_name + ' (' + (ch.year_group||'?') + ')') : '⚠ 无孩子记录');
+        $('tl-form').style.display = 'none';
+        $('tl-drive').style.display = '';
+        showSaved();
+      } else {
+        $('tl-status').innerHTML = '⚠ 未登录 — 先在这里登录,进度才会存到账号。';
+        $('tl-form').style.display = '';
+        $('tl-drive').style.display = 'none';
+      }
+    } catch (e) { $('tl-status').textContent = '状态读取失败: ' + (e && e.message); }
+  }
+
+  $('tl-login').addEventListener('click', async function () {
+    $('tl-msg').textContent = ''; var c = client();
+    if (!c) { $('tl-msg').textContent = 'Supabase 还没加载好,稍等再试。'; return; }
+    this.textContent = '登录中…'; this.disabled = true;
+    var r = await c.auth.signInWithPassword({ email: $('tl-email').value.trim(), password: $('tl-pass').value });
+    this.textContent = '登录 Log in'; this.disabled = false;
+    if (r.error) { $('tl-msg').textContent = '登录失败: ' + r.error.message; return; }
+    location.reload();   // reload so the engine boots WITH the session and restores progress
+  });
+  $('tl-logout').addEventListener('click', async function () { var c = client(); if (c) await c.auth.signOut(); location.reload(); });
+  Array.prototype.forEach.call(document.querySelectorAll('.tl-go'), function (b) {
+    b.addEventListener('click', function () { if (window.showScreen) window.showScreen(b.getAttribute('data-s')); setTimeout(showSaved, 1500); });
+  });
+  $('tl-xp').addEventListener('click', function () { if (window.awardXP) window.awardXP(10, 'mcq'); setTimeout(showSaved, 1500); });
+  $('tl-complete').addEventListener('click', function () { if (window.completeLesson) window.completeLesson(); setTimeout(showSaved, 2000); });
+  $('tl-refresh').addEventListener('click', showSaved);
+
+  refresh();
+})();
+</script>
 </body>
 </html>

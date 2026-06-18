@@ -3089,7 +3089,12 @@ Globals exposed (lesson HTML can call directly via onclick=):
   let xpEarned = {lesson:0, mcq:0, aha:0};
   let xpAnswered = new Set();
 
-  function showScreen(name, _opts) {
+  // When true, showScreen does NOT write the screen to the account. Boot sets this so
+  // the first paint can't overwrite the stored resume point before restoreFromAccount()
+  // reads it; restore (or a safety timer) clears it. See showScreen / boot / restore.
+  let _skipScreenSave = false;
+
+  function showScreen(name) {
     if (!SCREENS.includes(name)) return;
 
     // v4: unmount widgets in the screen we are leaving (frees Canvas/Lottie/listeners)
@@ -3135,8 +3140,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
 
     // Track to DB (account-side progress — survives device change / re-login).
-    // _opts.silent: used by boot's first paint so it can't clobber the stored resume point.
-    if (!(_opts && _opts.silent)) {
+    // Gated by _skipScreenSave (NOT a function arg) because the DouDou + skin layers
+    // re-wrap showScreen as single-arg functions and drop any extra parameter — so a
+    // module flag is the only reliable way to silence boot's first paint until
+    // restoreFromAccount() has read the stored resume point.
+    if (!_skipScreenSave) {
       saveProgressToAccount({ status: 'in_progress', lastScreen: name });
     }
 
@@ -3396,37 +3404,48 @@ Globals exposed (lesson HTML can call directly via onclick=):
     return (id && UUID_RE.test(id.trim())) ? id.trim() : null;
   }
 
-  // One-time, non-blocking "log in to save your progress" cue (honest degrade).
+  // Non-blocking "log in to save your progress" cue (honest degrade when logged out).
+  // Persists until the student logs in or taps ✕ — a brief flash is too easy to miss.
   let _loginCueShown = false;
   function showLoginCue() {
     if (_loginCueShown) return;
     _loginCueShown = true;
-    let el = document.getElementById('login-cue');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'login-cue';
-      el.setAttribute('role', 'status');
-      el.setAttribute('data-en', 'Log in to save your progress');
-      el.setAttribute('data-zh', '请登录以保存进度');
-      el.textContent = document.body.classList.contains('zh-mode')
-        ? '请登录以保存进度'
-        : 'Log in to save your progress';
-      el.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);' +
-        'z-index:9999;background:#FFF8F2;border:1.5px solid #EA580C;color:#9A3412;' +
-        "font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;" +
-        'border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.12);max-width:90vw;text-align:center;';
-      document.body.appendChild(el);
-    }
-    el.style.display = '';
-    setTimeout(function () { if (el) el.style.display = 'none'; }, 6000);
+    if (document.getElementById('login-cue')) return;
+    var el = document.createElement('div');
+    el.id = 'login-cue';
+    el.setAttribute('role', 'status');
+    el.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);' +
+      'z-index:9999;display:flex;align-items:center;gap:10px;background:#FFF8F2;' +
+      'border:1.5px solid #EA580C;color:#9A3412;' +
+      "font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:10px 16px;" +
+      'border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.12);max-width:90vw;';
+    var txt = document.createElement('span');
+    txt.setAttribute('data-en', 'Log in to save your progress');
+    txt.setAttribute('data-zh', '请登录以保存进度');
+    txt.textContent = document.body.classList.contains('zh-mode')
+      ? '请登录以保存进度'
+      : 'Log in to save your progress';
+    var x = document.createElement('button');
+    x.textContent = '✕';
+    x.setAttribute('aria-label', 'Dismiss');
+    x.style.cssText = 'border:0;background:transparent;color:#9A3412;font-weight:800;cursor:pointer;font-size:14px;line-height:1;padding:0;';
+    x.addEventListener('click', function () { el.remove(); });
+    el.appendChild(txt);
+    el.appendChild(x);
+    document.body.appendChild(el);
   }
 
   // Resolve the logged-in parent's child row. Returns null (quietly) when there is
   // no client / no session / no child. Shows the login cue only when truly logged out.
   async function resolveAccountChild() {
-    const client = await waitForSupabaseClient(3000);
+    // Make sure a Supabase client actually EXISTS. waitForSupabaseClient only polls —
+    // it never creates one, so on this self-contained template nothing was initialized
+    // and the saved login session was never read. ensureSupabase loads the CDN +
+    // creates window.sb (which restores any persisted session from this origin).
+    let client = getSupabaseClient();
+    if (!client) client = await ensureSupabase();
     if (!client) return null;
-    const { data: { user }, error: authErr } = await client.auth.getUser();
+    const { data: { user } = {}, error: authErr } = await client.auth.getUser();
     if (authErr || !user) { showLoginCue(); return null; }
     const { data: child } = await client
       .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
@@ -3511,12 +3530,16 @@ Globals exposed (lesson HTML can call directly via onclick=):
         updateXPDisplay();
       }
       // Resume screen — account is source of truth; respect an explicit ?s= override.
+      // Still under _skipScreenSave (set by boot), so this jump doesn't re-write.
       const params = new URLSearchParams(location.search);
       if (!params.get('s') && row.last_screen && SCREENS.includes(row.last_screen)) {
         showScreen(row.last_screen);
       }
     } catch (e) {
       console.warn('[SciSpark] restore error:', e && e.message);
+    } finally {
+      // Re-enable account writes now that the authoritative resume point is in place.
+      _skipScreenSave = false;
     }
   }
 
@@ -4150,6 +4173,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // SECTION 15: BOOT
   // ═════════════════════════════════════════════════════════════
   function boot() {
+    // Initialize the Supabase client up front (loads the CDN + restores any saved
+    // session for this origin) so login state is detected for progress/score/level.
+    try { ensureSupabase(); } catch (e) {}
+
     // Apply Supabase-driven level (v1)
     if (typeof applyLevelFromURL === 'function') {
       try { applyLevelFromURL(); } catch (e) {}
@@ -4217,13 +4244,17 @@ Globals exposed (lesson HTML can call directly via onclick=):
         if (saved && SCREENS.includes(saved)) startScreen = saved;
       } catch (e) {}
     }
-    // First paint is silent so it can't clobber the account's stored resume point
-    // before restoreFromAccount() has had a chance to read it.
-    showScreen(startScreen, { silent: true });
+    // First paint must NOT write to the account, or it clobbers the stored resume
+    // point before restoreFromAccount() reads it. Gate via the module flag (the
+    // showScreen wrappers drop function args, so a param won't survive).
+    _skipScreenSave = true;
+    showScreen(startScreen);
 
     // Account-side restore (source of truth) — resume screen + score across devices /
     // re-login. Async so initial render isn't blocked; degrades silently when logged out.
+    // restoreFromAccount() clears _skipScreenSave in its finally; this is a safety net.
     restoreFromAccount();
+    setTimeout(function () { _skipScreenSave = false; }, 6000);
 
     // Render constellation when entering Wrap
     document.querySelectorAll('.sidebar__btn[data-screen="wrap"], [data-go="wrap"]').forEach(b => {
