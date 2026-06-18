@@ -1,0 +1,144 @@
+/* ============================================================
+   SciSpark · 家长报告(课后 5 行摘要)样式
+   建立:2026-06-18  分支:feat/parent-lesson-report
+   全部 class 以 lr- 开头,绝不污染别页。颜色 / 字体来自 design-tokens.css。
+   ============================================================ */
+
+.lr-sheet {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 22px 18px 64px;
+}
+
+/* ── 信头 ── */
+.lr-head { margin: 6px 2px 18px; }
+.lr-eyebrow {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ink-faint, #6b6358); font-weight: 600;
+}
+.lr-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange, #EA580C); display: inline-block; }
+.lr-zh-tag { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); color: var(--ink-faint, #6b6358); font-weight: 500; }
+.lr-name {
+  font-family: var(--font-serif, 'Fraunces', serif);
+  font-size: 30px; line-height: 1.15; font-weight: 600; color: var(--ink, #171413);
+  margin: 6px 0 4px;
+}
+.lr-yr {
+  font-family: var(--font-sans, 'Geist', sans-serif); font-size: 13px; font-weight: 600;
+  color: var(--orange-deep, #7a2e08); background: var(--orange-soft, #FFE9D6);
+  padding: 2px 9px; border-radius: 100px; vertical-align: middle; margin-left: 4px;
+}
+.lr-sub { font-size: 14px; color: var(--ink-soft, #3a342f); }
+
+/* ── 可转发金句(置顶高光块)── */
+.lr-quote {
+  position: relative;
+  background: linear-gradient(135deg, #FFF4EA 0%, #FFE9D6 100%);
+  border: 1px solid var(--orange-soft, #FFE9D6);
+  border-radius: var(--radius-lg, 16px);
+  padding: 18px 20px 16px;
+  margin: 0 0 22px;
+  box-shadow: 0 8px 24px rgba(234,88,12,.10);
+}
+.lr-quote-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  color: #fff; background: var(--orange, #EA580C);
+  padding: 3px 10px; border-radius: 100px; margin-bottom: 10px;
+}
+.lr-quote-zh {
+  font-family: var(--font-zh, 'Noto Sans SC', sans-serif);
+  font-size: 19px; line-height: 1.55; font-weight: 600;
+  color: var(--orange-deep, #7a2e08); margin: 0;
+}
+.lr-quote-en {
+  font-size: 13px; line-height: 1.5; color: var(--ink-soft, #3a342f);
+  margin-top: 8px; font-style: italic;
+}
+
+/* ── 五行 + 中文使用:统一卡片 ── */
+.lr-line {
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #E6DFD3);
+  border-radius: var(--radius-lg, 16px);
+  padding: 15px 18px 16px;
+  margin-bottom: 12px;
+}
+.lr-line--zh { background: var(--orange-pale, #FFF6EE); border-color: var(--orange-soft, #FFE9D6); }
+
+.lr-line-h {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px; color: var(--ink-faint, #6b6358);
+}
+.lr-n {
+  font-family: var(--font-serif, 'Fraunces', serif);
+  font-size: 16px; font-weight: 700; color: var(--orange, #EA580C);
+  min-width: 22px; text-align: center;
+}
+.lr-line-en { font-weight: 600; color: var(--ink, #171413); font-size: 14px; }
+.lr-line-zh { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); }
+
+/* 诚实占位 */
+.lr-empty {
+  font-family: var(--font-zh, 'Noto Sans SC', sans-serif);
+  font-size: 14px; color: var(--ink-faint, #6b6358);
+  background: var(--paper-soft, #F4EFE7);
+  border-radius: var(--radius, 10px); padding: 11px 13px; line-height: 1.5;
+}
+.lr-en { display: block; font-family: var(--font-sans, 'Geist', sans-serif); font-size: 12px; color: var(--ink-faint, #6b6358); margin-top: 3px; font-style: italic; }
+.lr-en-inline { font-family: var(--font-sans, 'Geist', sans-serif); font-size: 12px; color: var(--ink-faint, #6b6358); font-style: italic; }
+
+/* ① 学了什么 */
+.lr-learned-title { font-size: 16px; font-weight: 600; color: var(--ink, #171413); }
+.lr-learned-core {
+  margin-top: 9px; font-family: var(--font-zh, 'Noto Sans SC', sans-serif);
+  font-size: 14px; color: var(--ink-soft, #3a342f);
+  background: var(--orange-pale, #FFF6EE); border-radius: var(--radius, 10px); padding: 9px 12px;
+}
+
+/* ② 错在哪 */
+.lr-sub-line { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 13px; color: var(--ink-soft, #3a342f); margin-bottom: 8px; }
+.lr-allright { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 15px; color: var(--green, #2E7D5B); font-weight: 600; }
+.lr-gaps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.lr-gaps li {
+  font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 14px; color: var(--ink, #171413);
+  display: flex; align-items: baseline; gap: 8px;
+  background: var(--red-soft, #FEE2E2); border-radius: var(--radius, 10px); padding: 8px 12px;
+}
+.lr-x { color: var(--red, #B91C1C); font-weight: 700; }
+
+/* ③ 进步 */
+.lr-prog { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lr-prog-arrow { font-size: 18px; font-weight: 700; }
+.lr-prog.up .lr-prog-arrow, .lr-prog.up .lr-prog-word { color: var(--green, #2E7D5B); }
+.lr-prog.down .lr-prog-arrow, .lr-prog.down .lr-prog-word { color: var(--red, #B91C1C); }
+.lr-prog.flat .lr-prog-arrow, .lr-prog.flat .lr-prog-word { color: var(--ink-faint, #6b6358); }
+.lr-prog-num { font-family: var(--font-mono, 'Geist Mono', monospace); font-size: 18px; font-weight: 600; color: var(--ink, #171413); }
+.lr-prog-word { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 14px; font-weight: 600; }
+
+/* ④ 下一步 */
+.lr-next-row { display: flex; gap: 11px; align-items: flex-start; padding: 8px 0; }
+.lr-next-row + .lr-next-row { border-top: 1px solid var(--line-soft, #F0EBE2); }
+.lr-next-ico { font-size: 16px; line-height: 1.4; }
+.lr-next-t { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 12px; font-weight: 600; color: var(--orange-deep, #7a2e08); }
+.lr-next-d { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 14px; color: var(--ink, #171413); margin-top: 2px; }
+
+/* ⑤ 用时 */
+.lr-time { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.lr-time-big { font-family: var(--font-serif, 'Fraunces', serif); font-size: 24px; font-weight: 600; color: var(--ink, #171413); }
+.lr-time-exact { font-family: var(--font-mono, 'Geist Mono', monospace); font-size: 13px; color: var(--ink-faint, #6b6358); }
+.lr-foot-note { margin-top: 8px; font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 12px; color: var(--ink-faint, #6b6358); }
+
+/* 中文使用 */
+.lr-zhuse { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.lr-zhuse li {
+  font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 14px; line-height: 1.5; color: var(--ink, #171413);
+  background: var(--paper, #fff); border: 1px solid var(--orange-soft, #FFE9D6);
+  border-radius: var(--radius, 10px); padding: 9px 12px;
+}
+
+@media (max-width: 420px) {
+  .lr-name { font-size: 25px; }
+  .lr-quote-zh { font-size: 17px; }
+}
