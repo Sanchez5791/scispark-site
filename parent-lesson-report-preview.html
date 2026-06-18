@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — 家长报告 样本预览 · Lesson Report (SAMPLE)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/design-tokens.css">
+<link rel="stylesheet" href="/public/lesson-report.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg, #FBF8F4); color: var(--ink, #171413);
+  font-family: var(--font-sans, 'Geist', system-ui, sans-serif); font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; }
+.sample-banner {
+  background: repeating-linear-gradient(45deg, #1a1917, #1a1917 14px, #211f1c 14px, #211f1c 28px);
+  color: #fff; text-align: center; padding: 12px 16px; font-size: 13px; line-height: 1.5;
+}
+.sample-banner b { color: var(--orange, #EA580C); }
+.sample-banner .zh { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); }
+.sample-tag { display: inline-block; background: var(--orange, #EA580C); color: #fff; font-weight: 700;
+  font-size: 11px; letter-spacing: .1em; padding: 3px 10px; border-radius: 100px; margin-right: 8px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="sample-banner">
+  <span class="sample-tag">SAMPLE · 样本</span>
+  <span class="zh">以下为<b>示例数据</b>,非真实学生 —— 仅供老板预览「完整设计」。真实页接真表,没数据一律显示「暂无」,绝不编造。</span>
+  <br>This is <b>sample data</b>, not a real student — full-design preview only. The live page uses real tables and shows “none” when empty.
+</div>
+
+<main class="lr-sheet" id="sheet"></main>
+
+<script src="/public/lesson-report-core.js"></script>
+<script>
+/* 示例数据 —— 用来展示「5 行全部有料 + 金句 + 中文场景进步」的完整长相。
+   NOT 真实。真实页(parent-lesson-report.html)接真表;那些没采集的栏位会诚实显示「暂无」。 */
+(function () {
+  const Core = window.LessonReportCore;
+  const start = '2026-06-18T08:30:00.000Z';
+  const finish = '2026-06-18T08:42:20.000Z';   // 12分20秒
+
+  const model = Core.computeLessonReport({
+    child: { full_name: '示例学生 Sample', year_group: 'Y7' },
+    lesson: {
+      year_group: 'Y7', unit_number: 1, lesson_number: 1,
+      lesson_title_en: 'What is Matter?', lesson_title_zh: '什么是物质',
+      core_idea_zh: '物质 = 有质量 + 占空间', core_idea_en: 'Matter = has mass + takes up space'
+    },
+    attempt: { status: 'completed', started_at: start, completed_at: finish },
+
+    /* ② 错在哪 —— 逐题记录(示例) */
+    questionsCaptured: true,
+    questions: [
+      { concept_en: 'Mass vs space', concept_zh: '质量 vs 空间', correct: true },
+      { concept_en: 'Matter examples', concept_zh: '物质的例子', correct: true },
+      { concept_en: 'Air is matter', concept_zh: '空气也是物质', correct: false },
+      { concept_en: 'Light is not matter', concept_zh: '光不是物质', correct: false },
+      { concept_en: 'Classify matter / non-matter', concept_zh: '区分物质与非物质', correct: true }
+    ],
+
+    /* ③ 进步 —— 对比基线(示例) */
+    priorPct: 60,
+    thisPct: 80,
+
+    /* 中文使用 —— 场景 + 进步(示例) */
+    chineseUsage: [
+      { concept_en: 'mass / density', concept_zh: '质量与密度', total: 3, independentFrom: 4 }
+    ],
+
+    /* ④ 下一步(示例) */
+    nextLesson: {
+      year_group: 'Y7', unit_number: 1, lesson_number: 2,
+      lesson_title_en: 'The Particle Model', lesson_title_zh: '粒子模型'
+    }
+  });
+  document.getElementById('sheet').innerHTML = Core.renderLessonReport(model);
+})();
+</script>
+</body>
+</html>

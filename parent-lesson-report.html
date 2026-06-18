@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — 课后家长报告 · Lesson Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/design-tokens.css">
+<link rel="stylesheet" href="/public/lesson-report.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg, #FBF8F4); color: var(--ink, #171413);
+  font-family: var(--font-sans, 'Geist', system-ui, sans-serif); font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; }
+.lr-topbar {
+  max-width: 640px; margin: 0 auto; padding: 16px 18px 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.lr-brand { font-family: var(--font-serif, 'Fraunces', serif); font-weight: 600; font-size: 17px; color: var(--ink, #171413); text-decoration: none; }
+.lr-brand b { color: var(--orange, #EA580C); }
+.lr-back { font-size: 13px; color: var(--ink-faint, #6b6358); text-decoration: none; }
+.lr-back:hover { color: var(--orange, #EA580C); }
+.lr-picker {
+  max-width: 640px; margin: 14px auto 0; padding: 0 18px;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.lr-picker-lbl { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); font-size: 12px; color: var(--ink-faint, #6b6358); }
+.lr-chip {
+  font-family: var(--font-sans, 'Geist', sans-serif); font-size: 13px;
+  border: 1px solid var(--line, #E6DFD3); background: var(--paper, #fff); color: var(--ink-soft, #3a342f);
+  padding: 5px 12px; border-radius: 100px; cursor: pointer;
+}
+.lr-chip.active { background: var(--orange, #EA580C); color: #fff; border-color: var(--orange, #EA580C); }
+.lr-chip .yr { opacity: .65; font-size: 11px; }
+.lr-state {
+  max-width: 640px; margin: 40px auto; padding: 0 18px; text-align: center;
+  font-family: var(--font-zh, 'Noto Sans SC', sans-serif); color: var(--ink-faint, #6b6358);
+}
+.lr-state .big { font-family: var(--font-serif, 'Fraunces', serif); font-size: 20px; color: var(--ink, #171413); margin-bottom: 8px; }
+.lr-state .en { display: block; font-family: var(--font-sans, 'Geist', sans-serif); font-size: 13px; font-style: italic; margin-top: 6px; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="lr-topbar">
+  <a class="lr-brand" href="/parent-console">Sci<b>Spark</b></a>
+  <a class="lr-back" href="/parent-console">← 返回家长控制台 · Console</a>
+</div>
+
+<div id="gate" class="lr-state"><div class="big">载入中…</div><span class="en">Loading…</span></div>
+
+<div id="app" hidden>
+  <div id="child-switch" class="lr-picker" hidden></div>
+  <div id="lesson-switch" class="lr-picker" hidden></div>
+  <main class="lr-sheet" id="sheet"></main>
+</div>
+
+<div id="emptystate" class="lr-state" hidden>
+  <div class="big">暂无已完成的课程</div>
+  以孩子上完第一课后,这里会自动生成课后报告。
+  <span class="en">A lesson report appears here automatically once your child completes a lesson.</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/public/lesson-report-core.js"></script>
+<script>
+/* ── SciSpark · 课后家长报告(per-lesson report)— 真数据 ───────────────
+   一节课上完 → 5 行摘要 + 可转发金句。数据全部来自真表;
+   没采集的栏位(逐题作答 / 进步基线 / 中文使用)一律「暂无」,绝不编造。
+   隐私:children 按 parent_id;其余表按本家长的 child id。
+──────────────────────────────────────────────────────────────────────── */
+(async function lessonReportInit() {
+  const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const yrNum = yg => String(yg == null ? '' : yg).replace(/[^0-9]/g, '');
+  const orderKey = l => (Number(yrNum(l.year_group)) * 10000) + (Number(l.unit_number) * 100) + Number(l.lesson_number);
+
+  /* 1. Auth gate (mirror parent-console) */
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('/signin.html'); return; }
+  const user = session.user;
+  if (user.email === 'info@scisparklab.com') { window.location.replace('/teacher-review-list'); return; }
+
+  /* 2. This parent's own children */
+  const { data: children, error: childErr } = await sb.from('children')
+    .select('id, full_name, year_group, created_at')
+    .eq('parent_id', user.id)
+    .order('created_at', { ascending: true });
+  if (childErr) console.error('[lesson-report] children query failed:', childErr);
+
+  $('#gate').hidden = true;
+  if (!children || children.length === 0) { $('#emptystate').hidden = false; return; }
+
+  const params = new URLSearchParams(location.search);
+  let active = (params.get('child_id') && children.find(c => c.id === params.get('child_id'))) || children[0];
+
+  /* child switcher (only if >1) */
+  if (children.length > 1) {
+    const sw = $('#child-switch'); sw.hidden = false;
+    sw.innerHTML = '<span class="lr-picker-lbl">孩子 · Child</span>' + children.map(c =>
+      `<button class="lr-chip${c.id===active.id?' active':''}" data-cid="${esc(c.id)}">`+
+      `${esc(c.full_name||'—')} <span class="yr">${esc(c.year_group||'')}</span></button>`).join('');
+    sw.querySelectorAll('.lr-chip').forEach(btn => btn.addEventListener('click', () => {
+      const c = children.find(x => x.id === btn.dataset.cid); if (!c) return;
+      active = c;
+      const u = new URL(location); u.searchParams.set('child_id', c.id); u.searchParams.delete('lesson_id'); history.replaceState(null,'',u);
+      sw.querySelectorAll('.lr-chip').forEach(b => b.classList.toggle('active', b===btn));
+      loadChild(active);
+    }));
+  }
+
+  loadChild(active);
+
+  /* ── load one child's lesson report ── */
+  async function loadChild(child) {
+    $('#app').hidden = false;
+    $('#emptystate').hidden = true;
+    $('#sheet').innerHTML = '';
+    $('#lesson-switch').hidden = true;
+
+    /* completed lessons for this child */
+    const { data: progress, error: pErr } = await sb.from('lesson_progress')
+      .select('lesson_id, status, started_at, completed_at, updated_at')
+      .eq('child_id', child.id)
+      .eq('status', 'completed');
+    if (pErr) console.error('[lesson-report] lesson_progress failed:', pErr);
+
+    const done = (progress || []).filter(p => p.lesson_id);
+    if (!done.length) {
+      $('#app').hidden = true; $('#emptystate').hidden = false; return;
+    }
+
+    /* lessons metadata (titles, ordering) — all published, for next-lesson logic */
+    const { data: lessons } = await sb.from('lessons')
+      .select('id, year_group, unit_number, lesson_number, slug, lesson_title_en, lesson_title_zh, is_published');
+    const lessonById = {}; (lessons || []).forEach(l => lessonById[l.id] = l);
+
+    /* sort completed by recency; default = most recent (or ?lesson_id=) */
+    done.sort((a,b) => new Date(b.completed_at || b.updated_at || 0) - new Date(a.completed_at || a.updated_at || 0));
+    let activeProg = (params.get('lesson_id') && done.find(p => p.lesson_id === params.get('lesson_id'))) || done[0];
+
+    /* lesson switcher (only if >1 completed lesson) */
+    if (done.length > 1) {
+      const ls = $('#lesson-switch'); ls.hidden = false;
+      ls.innerHTML = '<span class="lr-picker-lbl">课程 · Lesson</span>' + done.map(p => {
+        const l = lessonById[p.lesson_id];
+        const label = l ? (l.lesson_title_en || ('U'+l.unit_number+' L'+l.lesson_number)) : '课程';
+        return `<button class="lr-chip${p.lesson_id===activeProg.lesson_id?' active':''}" data-lid="${esc(p.lesson_id)}">${esc(label)}</button>`;
+      }).join('');
+      ls.querySelectorAll('.lr-chip').forEach(btn => btn.addEventListener('click', () => {
+        activeProg = done.find(p => p.lesson_id === btn.dataset.lid); if (!activeProg) return;
+        const u = new URL(location); u.searchParams.set('lesson_id', activeProg.lesson_id); history.replaceState(null,'',u);
+        ls.querySelectorAll('.lr-chip').forEach(b => b.classList.toggle('active', b===btn));
+        renderOne(activeProg);
+      }));
+    }
+
+    renderOne(activeProg);
+
+    /* ── build + render report for one completed lesson ── */
+    async function renderOne(prog) {
+      const lesson = lessonById[prog.lesson_id] || null;
+
+      /* next published lesson the child hasn't completed (real ordering) */
+      const completedIds = {}; done.forEach(p => completedIds[p.lesson_id] = 1);
+      const ordered = (lessons || []).filter(l => l.is_published).sort((a,b) => orderKey(a) - orderKey(b));
+      let nextLesson = null;
+      if (lesson) {
+        for (const l of ordered) {
+          if (orderKey(l) > orderKey(lesson) && !completedIds[l.id]) { nextLesson = l; break; }
+        }
+      }
+      const allPublishedDone = !nextLesson && ordered.length > 0 && ordered.every(l => completedIds[l.id]);
+
+      /* per-question data — table exists but may be empty / schema unknown.
+         Fetch defensively; only treat as "captured" if rows have a usable score shape.
+         Today this is empty → report honestly shows 「暂无」 for ②③. */
+      let questionsCaptured = false, questions = [], thisPct = null, priorPct = null;
+      try {
+        const { data: qa } = await sb.from('lesson_question_attempts')
+          .select('*').eq('child_id', child.id).eq('lesson_id', prog.lesson_id);
+        if (qa && qa.length) {
+          questionsCaptured = true;
+          questions = qa.map(r => ({
+            concept_en: r.concept_en || r.concept || r.question_label || '',
+            concept_zh: r.concept_zh || '',
+            correct: (r.correct != null) ? !!r.correct
+                   : (r.is_correct != null) ? !!r.is_correct
+                   : (r.score != null && r.max_score != null) ? (Number(r.score) >= Number(r.max_score)) : false
+          }));
+          const scored = qa.filter(r => r.score != null && r.max_score != null);
+          if (scored.length) {
+            const s = scored.reduce((x,r) => x + Number(r.score), 0);
+            const m = scored.reduce((x,r) => x + Number(r.max_score), 0);
+            thisPct = m > 0 ? Math.round(s / m * 100) : null;
+          }
+        }
+      } catch (e) { console.warn('[lesson-report] lesson_question_attempts skipped:', e.message); }
+
+      const model = window.LessonReportCore.computeLessonReport({
+        child: { full_name: child.full_name, year_group: child.year_group },
+        lesson: lesson,
+        attempt: { status: prog.status, started_at: prog.started_at, completed_at: prog.completed_at || prog.updated_at },
+        questionsCaptured, questions, thisPct, priorPct,
+        chineseUsage: [],                 // 中文使用尚未采集 → 诚实「暂无」
+        nextLesson, allPublishedDone
+      });
+      $('#sheet').innerHTML = window.LessonReportCore.renderLessonReport(model);
+    }
+  }
+})();
+</script>
+</body>
+</html>
