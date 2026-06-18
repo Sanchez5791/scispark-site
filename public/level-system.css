@@ -1,0 +1,66 @@
+/* ============================================================================
+ * SciSpark · 学生分等级 Level 系统 — 共用样式
+ * 颜色/字体继承自 /public/design-tokens.css; 这里只加 Level 专属组件.
+ * 给 课堂页 / 入学定级 / 家长台 / level-demo 共用.
+ * ==========================================================================*/
+
+/* ── 等级徽章 ─────────────────────────────────────────────────────────── */
+.lvl-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 7px 14px 7px 12px; border-radius: 100px;
+  background: var(--lvl-p, #FFF6EE); border: 1px solid color-mix(in srgb, var(--lvl-c,#EA580C) 28%, transparent);
+  color: var(--lvl-i, #9A3412); line-height: 1.1; vertical-align: middle;
+}
+.lvl-badge-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--lvl-c,#EA580C); flex-shrink: 0; }
+.lvl-badge-main { font-size: 13.5px; font-weight: 600; letter-spacing: .01em; }
+.lvl-badge-main b { font-family: var(--font-mono,'Geist Mono',monospace); font-weight: 700; }
+.lvl-badge-sub { font-size: 11.5px; opacity: .82; font-weight: 500; }
+.lvl-badge.lvl-lg { padding: 12px 20px; }
+.lvl-badge.lvl-lg .lvl-badge-main { font-size: 17px; }
+.lvl-badge.lvl-lg .lvl-badge-sub { font-size: 12.5px; }
+
+/* ── 难度小标签 (课堂题目) ─────────────────────────────────────────────── */
+.lvl-difftag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 100px;
+  background: var(--lvl-p,#FFF6EE); color: var(--lvl-c,#EA580C);
+}
+.lvl-difftag .zh { text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+/* ── 提示框 (按等级显示某一档) ─────────────────────────────────────────── */
+.lvl-hint {
+  margin-top: 10px; padding: 12px 14px; border-radius: 10px;
+  background: #FFFDF7; border: 1px dashed #E6DFD3; font-size: 13.5px; color: #5b524a; line-height: 1.55;
+}
+.lvl-hint .lvl-hint-tag {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: #b08a4f; margin-bottom: 5px;
+}
+.lvl-hint[hidden] { display: none !important; }
+
+/* ── 等级切换器 (demo / 课堂预览; 真课用真实等级, 不给学生切) ──────────── */
+.lvl-switch { display: inline-flex; gap: 0; border: 1px solid var(--line,#E6DFD3); border-radius: 100px; overflow: hidden; background: #fff; }
+.lvl-switch button {
+  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 8px 16px; border: none; background: transparent; color: var(--ink,#171413); transition: .15s;
+}
+.lvl-switch button + button { border-left: 1px solid var(--line,#E6DFD3); }
+.lvl-switch button[aria-pressed="true"] { background: var(--orange,#EA580C); color: #fff; }
+
+/* ── 趋势图容器 ───────────────────────────────────────────────────────── */
+.lvl-trend-box { --lvl-trend: var(--orange,#EA580C); margin-top: 4px; }
+.lvl-trend-cap { font-size: 11.5px; color: #8b8178; margin-top: 4px; }
+.lvl-trend-cap .zh { display: block; margin-top: 1px; }
+
+/* ── 「只升不降」说明小条 ─────────────────────────────────────────────── */
+.lvl-onlyup-note {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 12px; color: #8b8178; margin-top: 12px;
+  padding: 10px 12px; background: #F4EFE7; border-radius: 8px;
+}
+.lvl-onlyup-note svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--green,#2E7D5B); margin-top: 1px; }
+.lvl-onlyup-note .zh { display: block; margin-top: 1px; }
+
+/* ── 暂无 (真账号没数据时) ─────────────────────────────────────────────── */
+.lvl-empty { font-style: italic; color: #8b8178; }

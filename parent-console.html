@@ -18,6 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <!-- 共用设计盒子(颜色 / 字体 / 背景的单一来源,与首页 + 课堂页 + 其它 dashboard 同一档) -->
 <link rel="stylesheet" href="/public/design-tokens.css">
+<!-- 学生分等级 (方案 B) 共用样式 -->
+<link rel="stylesheet" href="/public/level-system.css">
 <style>
 /* ============================================================
    SciSpark · 家长控制台 (Parent Console) — Wave 1
@@ -345,6 +347,16 @@ html, body {
     </div>
   </section>
 
+  <!-- ★ LEARNING LEVEL (方案 B) — 显示等级(只升不降) + 趋势; 无真数据→暂无 -->
+  <section class="detail" id="sec-level" style="margin-top:22px">
+    <div class="card">
+      <div class="card-head"><span class="n">★</span><h3>Learning level<span class="zh">学习等级</span></h3></div>
+      <p class="card-desc">Your child's current level and how it has climbed. This view only ever goes up.
+        <span class="zh">孩子当前的学习等级,以及一路的变化。给您看的等级只升不降,反映孩子到过的最好水平。</span></p>
+      <div id="level-body"><div class="empty-state"><div class="small">Loading… · 加载中…</div></div></div>
+    </div>
+  </section>
+
   <!-- ENTRY CARDS -->
   <div class="section-label">Open a section <span class="zh">· 点击进入查看细节</span></div>
   <nav class="entries" aria-label="Sections · 区块入口">
@@ -429,6 +441,7 @@ html, body {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/public/level-system.js"></script>
 <script>
 /* ── SciSpark · 家长控制台 (Parent Console) — Wave 1 live data ──────────
    纯展示 4 区块。数据全部来自真表;无真数据一律「暂无」,绝不编造。
@@ -599,6 +612,62 @@ html, body {
     renderReports();           // no reports table → honest empty state
     renderProfile(c);
     renderSummary(lessons, progress, attempts);
+    renderLevel(c);            // 学生分等级 (方案 B) — 真数据才显示, 否则「暂无」
+  }
+
+  /* ── ★ LEARNING LEVEL (方案 B) ──
+     显示 display_level (只升不降) + 只升不降趋势; 无真数据 → 暂无.
+     ?demo=level 显示样例 (清楚标注), 真账号绝不用假数据. */
+  function levelEmpty() {
+    return `<div class="empty-state">
+      <div class="big">No level yet · 暂无等级</div>
+      <div class="small">Once your child takes the placement check or completes lessons, their level appears here and updates automatically.
+      <span class="zh">孩子做完入学定级或上过课后,这里会显示等级,并自动更新。</span></div></div>`;
+  }
+  function levelCardHTML(SL, displayLevel, events, isDemo) {
+    const trend = (events && events.length)
+      ? `<div class="lvl-trend-box">${SL.trendSVG(events, { width: 340, height: 104 })}</div>
+         <div class="lvl-trend-cap">Climbs or holds — never shown going down.
+           <span class="zh">只会往上走或持平,绝不显示下降。</span></div>`
+      : '';
+    const demoTag = isDemo
+      ? `<div class="lvl-onlyup-note" style="background:#FEF3C7;color:#92400E">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+           <div>Sample data (?demo=level) — not a real student. <span class="zh">这是样例数据,不是真实学生。</span></div></div>`
+      : '';
+    return `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        ${SL.badgeHTML(displayLevel, {})}
+      </div>
+      <div style="margin-top:16px">${trend}</div>
+      <div class="lvl-onlyup-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div>This level reflects the best your child has reached — it never goes down here.
+          <span class="zh">这个等级反映孩子到过的最好水平,在这里只升不降。</span></div></div>
+      ${demoTag}`;
+  }
+  async function renderLevel(c) {
+    const host = $('#level-body');
+    const SL = window.SciSparkLevel;
+    if (!SL) { host.innerHTML = levelEmpty(); return; }
+
+    // demo preview (explicitly marked) — never used for real accounts
+    if ((new URLSearchParams(location.search)).get('demo') === 'level') {
+      host.innerHTML = levelCardHTML(SL, 3, SL.DEMO.trend, true);
+      return;
+    }
+
+    try {
+      const [lvlRes, evRes] = await Promise.all([
+        sb.from('student_levels').select('display_level, backend_level, updated_at').eq('child_id', c.id).maybeSingle(),
+        sb.from('level_events').select('display_level, created_at').eq('child_id', c.id).order('created_at', { ascending: true })
+      ]);
+      const lvl = lvlRes.data;
+      if (!lvl) { host.innerHTML = levelEmpty(); return; }
+      host.innerHTML = levelCardHTML(SL, lvl.display_level, (evRes.data || []), false);
+    } catch (e) {
+      console.warn('[console] level fetch failed:', e);
+      host.innerHTML = levelEmpty();
+    }
   }
 
   /* ── ① PROGRESS ── */
