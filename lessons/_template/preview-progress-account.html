@@ -3149,7 +3149,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // module flag is the only reliable way to silence boot's first paint until
     // restoreFromAccount() has read the stored resume point.
     if (!_skipScreenSave) {
-      saveProgressToAccount({ status: 'in_progress', lastScreen: name });
+      // Persist the current score alongside the screen. Navigation is frequent and
+      // reliable, so this makes the score durable WITHOUT depending on the 800ms
+      // debounce surviving (a score earned right before a fast logout / tab-close
+      // could otherwise be lost). Monotonic max in saveProgressToAccount keeps it safe.
+      saveProgressToAccount({ status: 'in_progress', lastScreen: name, score: 100 + xpEarned.mcq + xpEarned.aha });
     }
 
     // Local mirror kept only as an offline fallback cache (account is source of truth).
@@ -3529,8 +3533,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function flushScoreSave() {
     if (_scoreSaveTimer) { clearTimeout(_scoreSaveTimer); _scoreSaveTimer = null; }
     if ((xpEarned.mcq + xpEarned.aha) > 0) {
-      saveProgressToAccount({ score: 100 + xpEarned.mcq + xpEarned.aha });
+      return saveProgressToAccount({ score: 100 + xpEarned.mcq + xpEarned.aha });
     }
+    return Promise.resolve();
   }
 
   // Boot restore — pull resume screen + score from the account (cross-device).
@@ -4669,6 +4674,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   if (typeof updateXPDisplay === 'function')       window.updateXPDisplay = updateXPDisplay;
   if (typeof showToast === 'function')             window.showToast = showToast;
   if (typeof completeLesson === 'function')        window.completeLesson = completeLesson;
+  if (typeof flushScoreSave === 'function')        window.flushScoreSave = flushScoreSave;
   if (typeof closeSurprise === 'function')         window.closeSurprise = closeSurprise;
   if (typeof toggleBubble === 'function')          window.toggleBubble = toggleBubble;
   if (typeof closeBubble === 'function')           window.closeBubble = closeBubble;
@@ -5710,7 +5716,12 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     if (r.error) { $('tl-msg').textContent = '登录失败: ' + r.error.message; return; }
     location.reload();   // reload so the engine boots WITH the session and restores progress
   });
-  $('tl-logout').addEventListener('click', async function () { var c = client(); if (c) await c.auth.signOut(); location.reload(); });
+  $('tl-logout').addEventListener('click', async function () {
+    // Flush any score still in the debounce window BEFORE signing out — signOut clears
+    // the session, so a save attempted after it would have no auth and silently drop.
+    try { if (window.flushScoreSave) await window.flushScoreSave(); } catch (e) {}
+    var c = client(); if (c) await c.auth.signOut(); location.reload();
+  });
   Array.prototype.forEach.call(document.querySelectorAll('.tl-go'), function (b) {
     b.addEventListener('click', function () { if (window.showScreen) window.showScreen(b.getAttribute('data-s')); setTimeout(showSaved, 1600); });
   });
