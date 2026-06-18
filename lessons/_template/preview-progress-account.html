@@ -2412,7 +2412,11 @@ input, textarea, .ai-input {
 
 
 <!-- FILL: data-lesson = 本课课号(用于「Lesson N」与进度);data-user-level 保持 2 -->
-<body data-user-level="2" data-lesson="1">
+<!-- ⛔ DO NOT MERGE — preview only. This copy of the FUNCTIONAL template carries a
+     real published lesson UUID (Y7 U1 L1) so progress + score actually persist to the
+     account for the phone test. The shipped template keeps the placeholder, not this id.
+     It also adds the test-login + test-drive panel below (NOT in the shipped template). -->
+<body data-user-level="2" data-lesson="1" data-lesson-id="99fbc889-0417-4b76-b66d-e0392634d843">
 
 <div class="print-notice">&#169; SciSpark &#8212; Printing not permitted. &#35831;&#21247;&#25171;&#21360; &#183; &#21463;&#29256;&#26435;&#20445;&#25252;&#20869;&#23481;&#12290;</div>
 
@@ -5583,5 +5587,150 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
   <button id="l01-mute" onclick="l01ToggleMute()" aria-label="Mute or unmute sound">🔊 Sound on<span class="zh"> · 有声</span></button>
 </div>
 <div id="l01-caption" aria-live="polite"></div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     ⛔ TEST PANEL — PREVIEW ONLY (never ships in the template).
+     Test login on THIS origin + buttons to drive the lesson, because the
+     un-filled template has no questions/nav to click. Lets the boss verify
+     the account-side progress/score end to end.
+     ════════════════════════════════════════════════════════════════ -->
+<div id="test-login-panel" style="position:fixed;top:8px;right:8px;z-index:100000;width:210px;
+     background:#fff;border:2px solid #EA580C;border-radius:12px;
+     font-family:'Inter',system-ui,sans-serif;font-size:12px;color:#171413;
+     box-shadow:0 8px 28px rgba(0,0,0,.18);overflow:hidden;">
+  <!-- header (tap to collapse so it never covers the lesson) -->
+  <div id="tl-head" style="display:flex;align-items:center;justify-content:space-between;
+       padding:7px 10px;background:#EA580C;color:#fff;cursor:pointer;font-weight:800;font-size:11px;letter-spacing:.03em;">
+    <span>🔑 TEST 测试面板</span><span id="tl-caret">▾</span>
+  </div>
+  <!-- BIG readout — ALWAYS visible, even when the body is collapsed -->
+  <div id="tl-readout" style="padding:10px;background:#FFF8F2;border-bottom:1px solid #FFD9B8;transition:background .2s;">
+    <div style="font-size:9px;color:#9B8E7E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">📌 账号里已存 · saved in account</div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;">
+      <span style="font-size:11px;color:#6D4C41;">停在屏 screen</span>
+      <span id="tl-r-screen" style="font-size:18px;font-weight:800;color:#171413;">—</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span style="font-size:11px;color:#6D4C41;">分数 score</span>
+      <span id="tl-r-score" style="font-size:30px;font-weight:800;color:#EA580C;line-height:1;">—</span>
+    </div>
+    <div id="tl-r-status" style="font-size:10px;color:#9B8E7E;margin-top:3px;">—</div>
+  </div>
+  <!-- collapsible body: login + drive controls -->
+  <div id="tl-body" style="padding:9px 10px;">
+    <div id="tl-status" style="margin-bottom:8px;line-height:1.4;color:#6D4C41;font-size:11px;">检查登录状态…</div>
+    <div id="tl-form">
+      <input id="tl-email" type="email" value="test-progress@scisparklab.com"
+         style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:7px 8px;border:1px solid #E8E2D8;border-radius:7px;font-size:12px;">
+      <input id="tl-pass" type="password" value="SciSpark-Test-2026"
+         style="width:100%;box-sizing:border-box;margin-bottom:8px;padding:7px 8px;border:1px solid #E8E2D8;border-radius:7px;font-size:12px;">
+      <button id="tl-login" style="width:100%;padding:9px;border:0;border-radius:8px;background:#EA580C;color:#fff;font-weight:700;cursor:pointer;">登录 Log in</button>
+    </div>
+    <div id="tl-drive" style="display:none;">
+      <div style="font-size:10px;color:#9B8E7E;margin:0 0 5px;">驱动课程 drive:</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px;">
+        <button class="tl-go" data-s="learn" style="flex:1;min-width:54px;padding:7px 4px;border:1px solid #E8E2D8;border-radius:7px;background:#F5F0E4;cursor:pointer;">→Learn</button>
+        <button class="tl-go" data-s="test" style="flex:1;min-width:54px;padding:7px 4px;border:1px solid #E8E2D8;border-radius:7px;background:#F5F0E4;cursor:pointer;">→Test</button>
+        <button id="tl-xp" style="flex:1;min-width:54px;padding:7px 4px;border:1px solid #E8E2D8;border-radius:7px;background:#F5F0E4;cursor:pointer;">答对+10</button>
+        <button id="tl-complete" style="flex:1;min-width:64px;padding:7px 4px;border:0;border-radius:7px;background:#1F9D55;color:#fff;font-weight:700;cursor:pointer;">完成</button>
+      </div>
+      <button id="tl-refresh" style="width:100%;padding:8px;border:1px solid #EA580C;border-radius:8px;background:#fff;color:#EA580C;font-weight:700;cursor:pointer;margin-bottom:6px;">↻ 刷新读数 refresh</button>
+      <button id="tl-logout" style="width:100%;padding:7px;border:1px solid #E8E2D8;border-radius:8px;background:#F5F0E4;color:#6D4C41;font-weight:700;cursor:pointer;">退出 Log out</button>
+    </div>
+    <div id="tl-msg" style="margin-top:8px;color:#B91C1C;line-height:1.4;"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  var SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  var SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  var LESSON = '99fbc889-0417-4b76-b66d-e0392634d843';
+  function client() {
+    if (window.sb && window.sb.auth) return window.sb;            // reuse engine client (shared session)
+    if (window.supabase && window.supabase.createClient) { window.sb = window.supabase.createClient(SB_URL, SB_KEY); return window.sb; }
+    return null;
+  }
+  var $ = function (id) { return document.getElementById(id); };
+
+  // Collapse / expand — readout stays visible, only the controls hide.
+  var collapsed = false;
+  $('tl-head').addEventListener('click', function () {
+    collapsed = !collapsed;
+    $('tl-body').style.display = collapsed ? 'none' : '';
+    $('tl-caret').textContent = collapsed ? '▸' : '▾';
+  });
+
+  function flashReadout() {
+    var el = $('tl-readout');
+    el.style.background = '#FFE08A';
+    setTimeout(function () { el.style.background = '#FFF8F2'; }, 650);
+  }
+
+  async function childRow(c, uid) {
+    return (await c.from('children').select('id, full_name, year_group').eq('parent_id', uid).limit(1).maybeSingle()).data;
+  }
+  var _lastScore = null, _lastScreen = null;
+  async function showSaved(quiet) {
+    var c = client(); if (!c) return;
+    var u = (await c.auth.getUser()).data.user; if (!u) return;
+    var ch = await childRow(c, u.id);
+    if (!ch) { $('tl-r-status').textContent = '⚠ 此账号无孩子记录'; return; }
+    var row = (await c.from('lesson_progress').select('status,last_screen,score')
+       .eq('child_id', ch.id).eq('lesson_id', LESSON).maybeSingle()).data;
+    var scr = row && row.last_screen ? row.last_screen : '—';
+    var sc  = row && row.score != null ? row.score : '—';
+    $('tl-r-screen').textContent = scr;
+    $('tl-r-score').textContent  = sc;
+    $('tl-r-status').textContent = row ? ('状态 ' + row.status) : '账号里这一课还没记录';
+    // Flash when a value actually changed (so refresh is visibly obvious).
+    if (!quiet && (sc !== _lastScore || scr !== _lastScreen)) flashReadout();
+    _lastScore = sc; _lastScreen = scr;
+  }
+  async function refresh() {
+    var c = client();
+    if (!c) { $('tl-status').textContent = '正在加载 Supabase…'; setTimeout(refresh, 400); return; }
+    try {
+      var u = (await c.auth.getUser()).data.user;
+      if (u) {
+        var ch = await childRow(c, u.id);
+        $('tl-status').innerHTML = '✅ 已登录 <b>' + u.email + '</b><br>孩子: ' + (ch ? (ch.full_name + ' (' + (ch.year_group||'?') + ')') : '⚠ 无孩子记录');
+        $('tl-form').style.display = 'none';
+        $('tl-drive').style.display = '';
+        showSaved(true);   // quiet: initial paint, no flash
+      } else {
+        $('tl-status').innerHTML = '⚠ 未登录 — 先在这里登录,进度才会存到账号。';
+        $('tl-form').style.display = '';
+        $('tl-drive').style.display = 'none';
+        $('tl-r-status').textContent = '未登录';
+      }
+    } catch (e) { $('tl-status').textContent = '状态读取失败: ' + (e && e.message); }
+  }
+
+  $('tl-login').addEventListener('click', async function () {
+    $('tl-msg').textContent = ''; var c = client();
+    if (!c) { $('tl-msg').textContent = 'Supabase 还没加载好,稍等再试。'; return; }
+    this.textContent = '登录中…'; this.disabled = true;
+    var r = await c.auth.signInWithPassword({ email: $('tl-email').value.trim(), password: $('tl-pass').value });
+    this.textContent = '登录 Log in'; this.disabled = false;
+    if (r.error) { $('tl-msg').textContent = '登录失败: ' + r.error.message; return; }
+    location.reload();   // reload so the engine boots WITH the session and restores progress
+  });
+  $('tl-logout').addEventListener('click', async function () {
+    // Flush any score still in the debounce window BEFORE signing out — signOut clears
+    // the session, so a save attempted after it would have no auth and silently drop.
+    try { if (window.flushScoreSave) await window.flushScoreSave(); } catch (e) {}
+    var c = client(); if (c) await c.auth.signOut(); location.reload();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.tl-go'), function (b) {
+    b.addEventListener('click', function () { if (window.showScreen) window.showScreen(b.getAttribute('data-s')); setTimeout(showSaved, 1600); });
+  });
+  $('tl-xp').addEventListener('click', function () { if (window.awardXP) window.awardXP(10, 'mcq'); setTimeout(showSaved, 1600); });
+  $('tl-complete').addEventListener('click', function () { if (window.completeLesson) window.completeLesson(); setTimeout(showSaved, 2200); });
+  $('tl-refresh').addEventListener('click', function () { showSaved(); });
+
+  refresh();
+})();
+</script>
 </body>
 </html>
