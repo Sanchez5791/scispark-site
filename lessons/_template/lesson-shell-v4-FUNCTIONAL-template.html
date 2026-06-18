@@ -3445,8 +3445,18 @@ Globals exposed (lesson HTML can call directly via onclick=):
     let client = getSupabaseClient();
     if (!client) client = await ensureSupabase();
     if (!client) return null;
-    const { data: { user } = {}, error: authErr } = await client.auth.getUser();
-    if (authErr || !user) { showLoginCue(); return null; }
+    // Read the session from local storage (instant) — NOT getUser(), which does a
+    // ~300ms network round-trip that can still be pending when the one-shot debounced
+    // score-save fires right after a fresh login + reload. That race made the score
+    // save no-op silently (account kept score:null while screen-saves landed). The
+    // client hydrates the stored session asynchronously, so poll briefly for it.
+    let user = null;
+    for (let i = 0; i < 6; i++) {
+      const { data: { session } = {} } = await client.auth.getSession();
+      if (session && session.user) { user = session.user; break; }
+      await new Promise(function (r) { setTimeout(r, 120); });
+    }
+    if (!user) { showLoginCue(); return null; }
     const { data: child } = await client
       .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
     if (!child) return null;
@@ -3509,14 +3519,31 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }, 800);
   }
 
+  // Immediate score write. Used (a) when auth becomes ready, to re-send a score that
+  // was earned before the session existed (the debounced write would have no-opped),
+  // and (b) on tab close, so a score earned inside the 800ms debounce window isn't lost.
+  function flushScoreSave() {
+    if (_scoreSaveTimer) { clearTimeout(_scoreSaveTimer); _scoreSaveTimer = null; }
+    if ((xpEarned.mcq + xpEarned.aha) > 0) {
+      saveProgressToAccount({ score: 100 + xpEarned.mcq + xpEarned.aha });
+    }
+  }
+
   // Boot restore — pull resume screen + score from the account (cross-device).
   // Runs async so first paint isn't blocked; silent when logged out.
+  // Re-entrant: boot calls it once, and onAuthStateChange calls it again once the
+  // session is actually ready (the boot call returns early when logged out / not yet
+  // hydrated). _accountRestored makes the screen-jump happen ONCE so a later auth
+  // event (token refresh) can't yank a mid-lesson student back to their resume screen.
+  let _accountRestored = false;
   async function restoreFromAccount() {
     try {
       const lessonId = getLessonUuid();
       if (!lessonId) return;
       const ctx = await resolveAccountChild();
-      if (!ctx) return;
+      if (!ctx) return;                 // logged out / not ready → leave flag false to retry
+      if (_accountRestored) return;     // already restored this page-load
+      _accountRestored = true;
       const { data: row } = await ctx.client
         .from('lesson_progress')
         .select('status, last_screen, score')
@@ -4255,6 +4282,28 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // restoreFromAccount() clears _skipScreenSave in its finally; this is a safety net.
     restoreFromAccount();
     setTimeout(function () { _skipScreenSave = false; }, 6000);
+
+    // Re-restore once the session is ACTUALLY ready. The boot restore above can run
+    // before the client has hydrated the stored session (fresh login + reload), in
+    // which case it returns early. onAuthStateChange fires INITIAL_SESSION / SIGNED_IN
+    // with the ready session — that's the reliable "now you can read the account"
+    // signal. It also flushes any score earned before the session existed, which is
+    // exactly the bug where the panel showed a score the account never received.
+    ensureSupabase().then(function (client) {
+      if (!client || !client.auth || !client.auth.onAuthStateChange) return;
+      client.auth.onAuthStateChange(function (event, session) {
+        if (session && session.user) {
+          restoreFromAccount();
+          flushScoreSave();
+        }
+      });
+    }).catch(function () {});
+
+    // Don't lose a score earned inside the 800ms debounce window when the tab closes.
+    window.addEventListener('pagehide', flushScoreSave);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') flushScoreSave();
+    });
 
     // Render constellation when entering Wrap
     document.querySelectorAll('.sidebar__btn[data-screen="wrap"], [data-go="wrap"]').forEach(b => {
