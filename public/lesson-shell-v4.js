@@ -239,7 +239,167 @@ Globals exposed (lesson HTML can call directly via onclick=):
       wrapper.appendChild(p);
     });
   }
-  
+
+  // ═════════════════════════════════════════════════════════════
+  // SECTION 2b: VOICE INPUT 语音输入 (Web Speech API → answer boxes)
+  // Adds a 🎤 button beside every answer field (textarea / text input).
+  // Press → speak → transcript fills the field (still fully editable;
+  // typing still works). Recognition language follows the page language
+  // (中文页面 zh-CN / English en-US). If the browser has no Speech-
+  // Recognition support, NO button is injected (never an empty shell).
+  // Engine-level: change THIS one file → every lesson, both languages,
+  // automatically gets voice input. Never copied per lesson.
+  // ═════════════════════════════════════════════════════════════
+  var VoiceRec = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  var voiceSupported = !!VoiceRec;
+  var voiceActive = null;          // in-flight session { rec, field, btn } or null
+  var voiceStylesInjected = false;
+
+  function voiceLangCode() {
+    // Follow current page language (kept in sync by setLang via body classes)
+    var zh = document.body.classList.contains('lang-zh') ||
+             document.body.classList.contains('zh-mode') ||
+             document.documentElement.lang === 'zh';
+    return zh ? 'zh-CN' : 'en-US';
+  }
+
+  function voiceInjectStyles() {
+    if (voiceStylesInjected) return;
+    voiceStylesInjected = true;
+    var css =
+      '.voice-field-wrap{display:block;}' +
+      '.voice-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;' +
+        'padding:6px 12px;border:1.5px solid #E8E2D8;border-radius:999px;background:#fff;' +
+        'color:#5b5247;font-family:inherit;font-size:13px;line-height:1;cursor:pointer;' +
+        '-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s,color .15s;}' +
+      '.voice-btn:hover{border-color:#d9c9a8;background:#fbf7ef;}' +
+      '.voice-btn:active{transform:translateY(1px);}' +
+      '.voice-btn .voice-ic{font-size:15px;line-height:1;}' +
+      '.voice-btn.listening{background:#fff4f2;border-color:#e8857a;color:#c0392b;' +
+        'animation:voicePulse 1.1s ease-in-out infinite;}' +
+      '.voice-btn[disabled]{opacity:.5;cursor:default;}' +
+      '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.35);}' +
+        '50%{box-shadow:0 0 0 6px rgba(192,57,43,0);}}' +
+      '@media (prefers-reduced-motion: reduce){.voice-btn.listening{animation:none;}}';
+    var style = document.createElement('style');
+    style.id = 'voice-input-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function voiceSetListening(btn, on) {
+    if (!btn) return;
+    btn.classList.toggle('listening', on);
+    var lbl = btn.querySelector('.voice-lbl');
+    if (lbl) {
+      // keep data-en/data-zh in sync so a mid-listen lang toggle stays correct
+      if (on) { lbl.setAttribute('data-en', 'Listening…'); lbl.setAttribute('data-zh', '聆听中…'); }
+      else    { lbl.setAttribute('data-en', 'Speak');      lbl.setAttribute('data-zh', '说出答案'); }
+      lbl.textContent = lbl.getAttribute(voiceLangCode() === 'zh-CN' ? 'data-zh' : 'data-en');
+    }
+    var zh = voiceLangCode() === 'zh-CN';
+    btn.setAttribute('aria-label', on ? (zh ? '停止聆听' : 'Stop listening')
+                                      : (zh ? '语音输入答案' : 'Voice input'));
+  }
+
+  function voiceStop() {
+    if (voiceActive && voiceActive.rec) {
+      try { voiceActive.rec.stop(); } catch (e) {}
+    }
+  }
+
+  function voiceStartFor(field, btn) {
+    if (!voiceSupported) return;
+    // Toggle: tapping the active mic again stops it
+    if (voiceActive && voiceActive.btn === btn) { voiceStop(); return; }
+    // A different mic is active → stop it first (only one session at a time)
+    if (voiceActive) voiceStop();
+
+    var rec;
+    try { rec = new VoiceRec(); } catch (e) { return; }
+    rec.lang = voiceLangCode();
+    rec.interimResults = true;
+    rec.continuous = false;
+    rec.maxAlternatives = 1;
+
+    var baseValue = field.value || '';
+    var sep = (baseValue && !/\s$/.test(baseValue)) ? ' ' : '';
+    voiceActive = { rec: rec, field: field, btn: btn };
+
+    rec.onstart = function () { voiceSetListening(btn, true); };
+
+    rec.onresult = function (ev) {
+      var finalTxt = '', interimTxt = '';
+      for (var i = ev.resultIndex; i < ev.results.length; i++) {
+        var r = ev.results[i];
+        if (r.isFinal) finalTxt += r[0].transcript;
+        else interimTxt += r[0].transcript;
+      }
+      // Rebuild from the original value each time so interim text replaces
+      // cleanly; final text appends. Student can still edit afterwards.
+      field.value = baseValue + sep + finalTxt + interimTxt;
+      // Notify existing listeners (auto-save / XP) exactly like typing does
+      try { field.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
+    };
+
+    rec.onerror = function () {
+      // 'not-allowed' / 'service-not-allowed' = mic permission denied.
+      // 'no-speech' / 'aborted' / network = nothing heard. In ALL cases just
+      // reset the button — never block the page, never lose the student's text.
+      voiceSetListening(btn, false);
+      if (voiceActive && voiceActive.btn === btn) voiceActive = null;
+    };
+
+    rec.onend = function () {
+      voiceSetListening(btn, false);
+      if (voiceActive && voiceActive.btn === btn) voiceActive = null;
+      try { field.focus(); } catch (e) {}
+    };
+
+    try {
+      // First use triggers the browser's mic-permission prompt.
+      // Allow → onstart/onresult fire. Deny → onerror fires. Neither freezes.
+      rec.start();
+    } catch (e) {
+      voiceSetListening(btn, false);
+      voiceActive = null;
+    }
+  }
+
+  function voiceInjectButtons() {
+    if (!voiceSupported) return;   // ★ unsupported browser → inject NOTHING (no dead button)
+    voiceInjectStyles();
+    var fields = document.querySelectorAll(
+      'textarea:not([data-no-voice]), input[type="text"]:not([data-no-voice])'
+    );
+    Array.prototype.forEach.call(fields, function (field) {
+      if (field._voiceWired) return;
+      if (field.disabled || field.readOnly) return;
+      field._voiceWired = true;
+
+      // Wrap the field so the mic button sits directly beneath it
+      var wrap = document.createElement('span');
+      wrap.className = 'voice-field-wrap';
+      field.parentNode.insertBefore(wrap, field);
+      wrap.appendChild(field);
+
+      var zh = voiceLangCode() === 'zh-CN';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'voice-btn';
+      btn.innerHTML =
+        '<span class="voice-ic" aria-hidden="true">🎤</span>' +
+        '<span class="voice-lbl" data-en="Speak" data-zh="说出答案">' +
+        (zh ? '说出答案' : 'Speak') + '</span>';
+      btn.setAttribute('aria-label', zh ? '语音输入答案' : 'Voice input');
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        voiceStartFor(field, btn);
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
   // ═════════════════════════════════════════════════════════════
   // SCREEN NAVIGATION
   // ═════════════════════════════════════════════════════════════
@@ -309,6 +469,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Save local progress (v1 pattern)
     if (lessonId) {
       try { localStorage.setItem(LS_PROGRESS_PREFIX + lessonId, name); } catch (e) {}
+    }
+
+    // Cover answer boxes mounted on screen entry (idempotent — skips wired fields)
+    if (typeof voiceInjectButtons === 'function') {
+      try { voiceInjectButtons(); } catch (e) {}
     }
   }
 
@@ -991,6 +1156,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
   
     ttsInjectButtons();
+
+    // Inject 🎤 voice-input buttons on every answer box (auto-hidden if unsupported)
+    voiceInjectButtons();
   });
   
   // ═════════════════════════════════════════════════════════════
@@ -1278,6 +1446,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Inject TTS buttons (v1)
     if (typeof ttsInjectButtons === 'function') {
       try { ttsInjectButtons(); } catch (e) {}
+    }
+
+    // Inject 🎤 voice-input buttons (engine-level; auto-hidden if unsupported)
+    if (typeof voiceInjectButtons === 'function') {
+      try { voiceInjectButtons(); } catch (e) {}
     }
 
     // Start on Hook (or screen from URL param ?s=, or saved progress)
@@ -1667,6 +1840,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   if (typeof setupContentProtection === 'function') window.setupContentProtection = setupContentProtection;
   if (typeof setupAutoSave === 'function')         window.setupAutoSave = setupAutoSave;
   if (typeof applyLevelFromURL === 'function')     window.applyLevelFromURL = applyLevelFromURL;
+  if (typeof voiceInjectButtons === 'function')    window.voiceInjectButtons = voiceInjectButtons;
 
   // Boot when ready
   if (document.readyState === 'loading') {
