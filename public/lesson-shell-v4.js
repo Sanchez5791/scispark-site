@@ -619,9 +619,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
       setLang(mode);
     }
 
-    // 5 · Spark Jar — correct: +20, effort (wrong): +5
-    if (window.SparkJar) {
-      window.SparkJar.add(isCorrect ? 20 : 5, isCorrect ? 'correct' : 'effort');
+    // 5 · Spark Jar — reward (mastery) ONLY on correct; no effort/mastery for wrong/junk (order 2026-06-19 round 3)
+    if (window.SparkJar && isCorrect) {
+      window.SparkJar.add(20, 'correct');
     }
 
     // 6 · Spark Streak (paused-not-reset)
