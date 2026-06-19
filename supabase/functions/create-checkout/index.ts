@@ -122,7 +122,7 @@ Deno.serve(async (req) => {
       "line_items[0][quantity]": "1",
       "customer_email": user.email!,
       "client_reference_id": child_id,
-      "success_url": `${SITE_URL}/payment-success.html?session_id={CHECKOUT_SESSION_ID}`,
+      "success_url": `${SITE_URL}/payment-success.html?session_id={CHECKOUT_SESSION_ID}&plan=${purchase_type}`,
       "cancel_url":  `${SITE_URL}/dashboard-parent.html`,
       "automatic_tax[enabled]": "false",
       "allow_promotion_codes": "false",
