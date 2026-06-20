@@ -83,9 +83,23 @@
     }
   } catch (e) {}
 
+  // Read-aloud SPEED — 5 selectable steps (slow→fast), centralized here so the
+  // full-screen reading bar AND the ▶ buttons share ONE speed scale (插不抄).
+  // 2026-06-20: slowed down + 3→5 steps per order. Voice/pitch are UNCHANGED.
+  // Slowest 0.30 = ~2× slower than the old slowest (0.6). Default = 0.45 (Slow).
+  var RATES = [0.30, 0.45, 0.60, 0.80, 1.00];
+  var RATE_DEFAULT_INDEX = 1;                 // 0.45
+  var _rate = RATES[RATE_DEFAULT_INDEX];
+  function getRate() { return _rate; }
+  function setRate(r) { r = parseFloat(r); if (!isNaN(r) && r > 0) _rate = r; return _rate; }
+
   window.SciSparkVoice = {
     pick: pick,
     speak: speak,
+    RATES: RATES,
+    RATE_DEFAULT_INDEX: RATE_DEFAULT_INDEX,
+    getRate: getRate,
+    setRate: setRate,
     // 豆豆 pitch. Short companion bubbles use PITCH; long ▶ passages use PITCH_LONG.
     // If long passages sound cartoonish, lower PITCH_LONG to ~1.1–1.15 (boss to confirm on phone).
     PITCH: 1.22,

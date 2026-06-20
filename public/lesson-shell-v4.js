@@ -120,7 +120,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function ttsPlay(text, langCode, buttonEl) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = langCode;
-    u.rate = 0.9;
+    // Shared read-aloud speed (single source = voice-profile.js, 5 steps).
+    u.rate = (window.SciSparkVoice && window.SciSparkVoice.getRate) ? window.SciSparkVoice.getRate() : 0.9;
     // 豆豆 voice alignment 2026-06-20: long ▶ passages use the shared PITCH_LONG.
     u.pitch = (window.SciSparkVoice && window.SciSparkVoice.PITCH_LONG) || 1.22;
     u.volume = 1.0;
