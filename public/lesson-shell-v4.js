@@ -1503,21 +1503,29 @@ Globals exposed (lesson HTML can call directly via onclick=):
       if (!container) return '';
       var sel = container.querySelector('.question-text,[data-question-stem],.q-stem,.question__stem');
       if (sel) return textOf(sel).slice(0, 600);
-      // No clean selector: pick the longest DIRECT-child text block that is the real
-      // question sentence — skipping the badge header row (Q04 · STATE · 1 mark),
-      // the .zh translation, and inputs/feedback/buttons. This avoids the textContent
-      // mash where badges glue onto the stem ("Q04STATE1 markA torch shines...").
-      var skipSel = 'input,textarea,button,.zh,.review-bar,.review-explain-again,' +
-        '.ai-feedback,[id$="-feedback"],[id$="-attempts"],[id$="-show-ans-btn"]';
+      // No clean selector: the question sentence sits BEFORE the answer input; the
+      // model-answer reveal comes AFTER it. So scan only the direct children before
+      // the input holder, skipping the badge header (Q04 · STATE · 1 mark) and the
+      // .zh translation. Avoids the textContent mash ("Q04STATE1 markA torch...")
+      // AND avoids picking up the show-answer block.
+      var kids = Array.prototype.slice.call(container.children);
+      var input = container.querySelector('input, textarea');
+      var stop = kids.length;
+      if (input) {
+        for (var i = 0; i < kids.length; i++) {
+          if (kids[i] === input || kids[i].contains(input)) { stop = i; break; }
+        }
+      }
       var best = '';
-      Array.prototype.forEach.call(container.children, function (ch) {
-        if (ch.matches && ch.matches(skipSel)) return;
+      for (var j = 0; j < stop; j++) {
+        var ch = kids[j];
+        if (ch.matches && ch.matches('.zh, button, [id$="-feedback"]')) continue;
         var t = textOf(ch);
-        if (!t) return;
-        if (/^Q\s*\d+/i.test(t)) return;             // badge header row
-        if (t.length < 25 && /mark/i.test(t)) return; // stray mark badge
+        if (!t) continue;
+        if (/^Q\s*\d+/i.test(t)) continue;            // badge header row
+        if (t.length < 25 && /mark/i.test(t)) continue; // stray mark badge
         if (t.length > best.length) best = t;
-      });
+      }
       return best.slice(0, 600);
     }
 
