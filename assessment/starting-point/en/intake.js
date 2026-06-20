@@ -1,20 +1,21 @@
 'use strict';
-/* SciSpark — Learning Starting Point Check (intake, EN V2)
-   - Routes the student to ONE year-level set (Y7 / Y8 / Y9) of 15 questions.
-   - Q1–Q13 MCQ auto-graded client-side (max 13). Q14–Q15 short answer, manual.
-   - Stores selected answers + short text + time spent + auto score into the
-     existing assessment_attempts / assessment_answers tables.
+/* SciSpark — Learning Starting Point Check (intake, EN)
+   - Routes the student to ONE year-level set (Y7 / Y8 / Y9) of 4 long-answer,
+     structured questions. Each sub-part is its own labelled text box.
+   - NO auto-grading, NO answer key, NO score shown to the student.
+     A teacher marks every answer by hand in the back-end.
+   - Stores answer text + time spent into the existing assessment_attempts /
+     assessment_answers tables (one answer row per sub-part box).
    - Self-contained: no shared engine/template dependency. Uses ONLY the
-     Supabase publishable (anon) key; row access enforced by RLS, exactly as
+     Supabase publishable (anon) key; row access is enforced by RLS, exactly as
      the live Y7/Y8/Y9 assessment pages do. No service key in the frontend. */
 
 /* ── Constants ─────────────────────────────────────────────────── */
 const SUPABASE_URL      = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
-const ASSESSMENT_CODE   = 'INTAKE_SPC_EN_V2';
-const TOTAL_QUESTIONS   = 15;
-const MCQ_COUNT         = 13;   // Q1–Q13 auto-graded
-const MAX_SCORE         = 13;
+const ASSESSMENT_CODE   = 'INTAKE_SPC_EN';
+const QUESTIONS_PER_SET = 4;     // 4 questions per year (per-student)
+const MARKS_PER_SET     = 20;    // 4 × 5 marks, teacher-marked
 const AUTOSAVE_INTERVAL = 15000;
 
 /* ── Supabase client ────────────────────────────────────────────── */
@@ -22,102 +23,99 @@ let sb = null;
 if (window.supabase) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* ── State ──────────────────────────────────────────────────────── */
-let startedAtMs   = Date.now();
-let isSubmitting  = false;
-let currentYear   = null;        // 'Y7' | 'Y8' | 'Y9'
-let questions     = [];          // the routed set
-let autosaveKey   = 'scispark_intake_spc_v2_draft';
+let startedAtMs  = Date.now();
+let isSubmitting = false;
+let currentYear  = null;          // 'Y7' | 'Y8' | 'Y9'
+let questions    = [];            // the routed set (array of question objects)
+let fields       = [];            // flat [{ id, bank }] for every answer box
+let autosaveKey  = 'scispark_intake_spc_draft';
 
 /* ── Helpers ────────────────────────────────────────────────────── */
-function qid(i) { return 'SPC_Q' + String(i + 1).padStart(2, '0'); }
-function esc(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-/* selected MCQ index for a question (or -1), or short-answer text */
-function mcqSelected(i) {
-  const el = document.querySelector('input[name="' + qid(i) + '"]:checked');
-  return el ? parseInt(el.value, 10) : -1;
-}
-function shortText(i) {
-  const el = document.querySelector('textarea[data-qindex="' + i + '"]');
-  return el ? el.value.trim() : '';
-}
-function isAnswered(i) {
-  return questions[i].type === 'mcq' ? mcqSelected(i) >= 0 : shortText(i).length > 0;
+function boxEl(id) { return document.querySelector('textarea[data-field="' + id + '"]'); }
+function readValue(id) {
+  const el = boxEl(id);
+  if (!el) return null;
+  const v = el.value.trim();
+  return v.length ? v : null;
 }
 function countAnswered() {
   let n = 0;
-  for (let i = 0; i < questions.length; i++) if (isAnswered(i)) n++;
+  fields.forEach(function (f) { if (readValue(f.id) !== null) n++; });
   return n;
 }
 
 /* ── Render the routed set ──────────────────────────────────────── */
+function figHtml(fig) {
+  if (!fig) return '';
+  if (fig.type === 'table') return '<div class="spc-tablewrap">' + fig.html + '</div>';
+  if (fig.type === 'img')
+    return '<img class="spc-fig" src="' + fig.src + '" alt="' + (fig.alt || '') + '" loading="lazy">';
+  return '';
+}
+function figsHtml(figs) {
+  return (figs || []).map(figHtml).join('');
+}
+
 function renderSet() {
   const main = document.getElementById('spc-main');
   main.innerHTML = '';
-  questions.forEach(function (item, i) {
+  fields = [];
+
+  questions.forEach(function (q, qi) {
     const art = document.createElement('article');
     art.className = 'spc-q';
-    art.id = 'qcard-' + qid(i);
+    art.id = 'qcard-' + q.bank;
 
-    let body;
-    if (item.type === 'mcq') {
-      const opts = item.options.map(function (opt, oi) {
-        return '<label class="mcq-option">' +
-          '<input type="radio" name="' + qid(i) + '" value="' + oi + '">' +
-          '<span class="opt-badge">' + LETTERS[oi] + '</span>' +
-          '<span class="opt-text">' + esc(opt) + '</span></label>';
-      }).join('');
-      body = '<div class="mcq-options" role="radiogroup" aria-label="Question ' + (i + 1) + '">' + opts + '</div>';
-    } else {
-      body = '<textarea class="spc-answer" data-qindex="' + i + '" rows="3" ' +
-        'placeholder="Write one sentence…" aria-label="Answer for step ' + (i + 1) + '"></textarea>';
-    }
-
-    art.innerHTML =
+    let html =
       '<div class="spc-q-head">' +
-        '<span class="spc-q-num">Step ' + (i + 1) + ' <span class="spc-q-of">of 15</span></span>' +
-        '<span class="spc-q-tag">' + (item.type === 'mcq' ? 'Pick one' : 'Your words') + '</span>' +
+        '<span class="spc-q-num">Question ' + (qi + 1) + ' <span class="spc-q-of">of ' + QUESTIONS_PER_SET + '</span></span>' +
+        '<span class="spc-q-tag">' + q.subject + ' &middot; Part ' + q.part + '</span>' +
       '</div>' +
-      '<p class="spc-q-text">' + esc(item.q) + '</p>' +
-      body;
+      (q.stem || '') +
+      figsHtml(q.figs);
+
+    q.parts.forEach(function (p) {
+      fields.push({ id: p.id, bank: q.bank });
+      if (p.lead) html += p.lead;
+      if (p.prompt) {
+        html += '<div class="spc-sub">';
+        if (p.letter) html += '<span class="spc-sub-letter">' + p.letter + '</span>';
+        html += '<p class="spc-sub-text">' + p.prompt + '</p></div>';
+      }
+      html += figsHtml(p.figs);
+      if (p.sub) html += '<label class="spc-box-label" for="box_' + p.id + '">' + p.sub + '</label>';
+      html += '<textarea class="spc-answer" id="box_' + p.id + '" data-field="' + p.id + '" rows="' +
+        (p.rows || 2) + '" placeholder="' + (p.ph || 'Type your answer…') +
+        '" aria-label="Answer for question ' + (qi + 1) + (p.letter ? ' part ' + p.letter : '') + '"></textarea>';
+    });
+
+    art.innerHTML = html;
     main.appendChild(art);
   });
 
-  // wire inputs
-  main.querySelectorAll('input[type="radio"]').forEach(function (el) {
-    el.addEventListener('change', function () {
-      el.closest('.mcq-options').querySelectorAll('.mcq-option').forEach(function (l) { l.classList.remove('picked'); });
-      el.closest('.mcq-option').classList.add('picked');
-      updateProgress();
-    });
-  });
-  main.querySelectorAll('textarea[data-qindex]').forEach(function (el) {
+  main.querySelectorAll('textarea[data-field]').forEach(function (el) {
     el.addEventListener('input', updateProgress);
   });
 }
 
 /* ── Progress ───────────────────────────────────────────────────── */
 function updateProgress() {
+  const total = fields.length || 1;
   const count = countAnswered();
   const el  = document.getElementById('spc-progress-count');
+  const tot = document.getElementById('spc-progress-total');
   const bar = document.getElementById('spc-progress-fill');
   if (el)  el.textContent = count;
-  if (bar) bar.style.width = Math.round((count / TOTAL_QUESTIONS) * 100) + '%';
+  if (tot) tot.textContent = fields.length;
+  if (bar) bar.style.width = Math.round((count / total) * 100) + '%';
   return count;
 }
 
-/* ── Autosave (draft only) ──────────────────────────────────────── */
+/* ── Autosave (draft only, localStorage) ────────────────────────── */
 function saveDraft() {
   try {
-    const d = { year: currentYear, mcq: {}, short: {} };
-    questions.forEach(function (item, i) {
-      if (item.type === 'mcq') { const s = mcqSelected(i); if (s >= 0) d.mcq[i] = s; }
-      else { const t = shortText(i); if (t) d.short[i] = t; }
-    });
+    const d = { year: currentYear, ans: {} };
+    fields.forEach(function (f) { const v = readValue(f.id); if (v) d.ans[f.id] = v; });
     localStorage.setItem(autosaveKey, JSON.stringify(d));
   } catch (e) {}
 }
@@ -127,48 +125,23 @@ function restoreDraft() {
     if (!raw) return;
     const d = JSON.parse(raw);
     if (d.year !== currentYear) return;
-    Object.keys(d.mcq || {}).forEach(function (i) {
-      const el = document.querySelector('input[name="' + qid(i) + '"][value="' + d.mcq[i] + '"]');
-      if (el) { el.checked = true; el.closest('.mcq-option').classList.add('picked'); }
-    });
-    Object.keys(d.short || {}).forEach(function (i) {
-      const el = document.querySelector('textarea[data-qindex="' + i + '"]');
-      if (el) el.value = d.short[i];
+    Object.keys(d.ans || {}).forEach(function (id) {
+      const el = boxEl(id);
+      if (el) el.value = d.ans[id];
     });
   } catch (e) {}
 }
 function clearDraft() { try { localStorage.removeItem(autosaveKey); } catch (e) {} }
 
-/* ── Grade (Q1–Q13 only) ────────────────────────────────────────── */
-function gradeMcq() {
-  let score = 0;
-  const per = [];
-  for (let i = 0; i < MCQ_COUNT; i++) {
-    const sel = mcqSelected(i);
-    const correct = questions[i].correct;
-    const ok = sel === correct;
-    if (ok) score++;
-    per.push({ q: qid(i), selected: sel, selected_text: sel >= 0 ? questions[i].options[sel] : null, is_correct: ok });
-  }
-  return { score: score, per: per };
-}
-function placement(score) {
-  if (score <= 5)  return { band: 'lower',  text: 'a lower unit' };
-  if (score <= 11) return { band: 'middle', text: 'a middle unit' };
-  return { band: 'higher', text: 'a higher unit' };
-}
-
-/* ── Build answer rows ──────────────────────────────────────────── */
+/* ── Build answer rows (one per sub-part box) ───────────────────── */
 function collectAnswerRows(attemptId) {
-  return questions.map(function (item, i) {
-    let val = null;
-    if (item.type === 'mcq') {
-      const s = mcqSelected(i);
-      val = s >= 0 ? item.options[s] : null;        // store readable choice text
-    } else {
-      val = shortText(i) || null;
-    }
-    return { attempt_id: attemptId, question_number: qid(i), field_name: qid(i), answer_value: val };
+  return fields.map(function (f) {
+    return {
+      attempt_id:      attemptId,
+      question_number: f.bank,      // bank question id (e.g. Y7_QC1)
+      field_name:      f.id,        // sub-part box id (e.g. Y7_QC1_a_answer)
+      answer_value:    readValue(f.id)   // text or null
+    };
   });
 }
 
@@ -179,7 +152,7 @@ function showError(msg) { alert('We could not save your answers:\n\n' + msg); }
 async function resolveChild(userId) {
   const params = new URLSearchParams(location.search);
   const wantChild = params.get('child');
-  const wantYear  = params.get('year');
+  const wantYear  = (params.get('year') || '').toUpperCase();
   const { data: kids } = await sb.from('children')
     .select('id, full_name, year_group')
     .eq('parent_id', userId).order('created_at', { ascending: true });
@@ -189,7 +162,7 @@ async function resolveChild(userId) {
   return kids[0];
 }
 
-/* ── Submit ─────────────────────────────────────────────────────── */
+/* ── Submit (no score — manual marking only) ────────────────────── */
 async function submitToSupabase() {
   if (!sb) { showError('The page did not load fully. Please refresh and try again.'); return null; }
 
@@ -200,14 +173,12 @@ async function submitToSupabase() {
   }
   const child = await resolveChild(user.id);
   if (!child) {
-    showError('We could not find your child’s record on this account.\nPlease contact SciSpark support and do not close this page.');
+    showError('We could not find your child’s record on this account.\n' +
+              'Please contact SciSpark support and do not close this page.');
     return null;
   }
 
-  const graded    = gradeMcq();
-  const place     = placement(graded.score);
   const timeSpent = Math.max(0, Math.round((Date.now() - startedAtMs) / 1000));
-
   const { data: attempt, error: attemptErr } = await sb.from('assessment_attempts').insert({
     student_id:            user.id,
     children_id:           child.id,
@@ -215,12 +186,8 @@ async function submitToSupabase() {
     year_group:            currentYear,
     language:              'EN',
     status:                'submitted',
-    total_questions:       TOTAL_QUESTIONS,
-    total_marks:           MAX_SCORE,
-    mcq_score:             graded.score,
-    total_score:           graded.score,
-    ai_marking_status:     'auto_mcq',
-    marking_detail:        { mcq_score: graded.score, max: MAX_SCORE, placement: place.band, per_question: graded.per },
+    total_questions:       QUESTIONS_PER_SET,
+    total_marks:           MARKS_PER_SET,
     started_at:            new Date(startedAtMs).toISOString(),
     submitted_at:          new Date().toISOString(),
     time_spent_seconds:    timeSpent,
@@ -242,7 +209,7 @@ async function submitToSupabase() {
               'Please contact SciSpark and quote this ID.');
     return null;
   }
-  return { id: attempt.id, place: place };
+  return attempt.id;
 }
 
 /* ── Modal ──────────────────────────────────────────────────────── */
@@ -251,23 +218,24 @@ function openModal() {
   const a = document.getElementById('modal-answered');
   const u = document.getElementById('modal-unanswered');
   if (a) a.textContent = count;
-  if (u) u.textContent = TOTAL_QUESTIONS - count;
+  if (u) u.textContent = fields.length - count;
   document.getElementById('modal-overlay')?.classList.add('open');
 }
 function closeModal() { document.getElementById('modal-overlay')?.classList.remove('open'); }
 
-/* ── Success ────────────────────────────────────────────────────── */
-function showSuccess(result) {
+/* ── Success (no level / no score shown) ────────────────────────── */
+function showSuccess(attemptId) {
   clearDraft();
   document.getElementById('spc-main').style.display = 'none';
   document.getElementById('spc-submitbar').style.display = 'none';
-  document.querySelector('.spc-progress').style.display = 'none';
+  const prog = document.querySelector('.spc-progress');
+  if (prog) prog.style.display = 'none';
+  const intro = document.querySelector('.spc-intro');
+  if (intro) intro.style.display = 'none';
   const screen = document.getElementById('spc-success');
   screen.style.display = 'flex';
-  const dir = document.getElementById('spc-success-dir');
-  if (dir && result.place) dir.textContent = 'Suggested starting point: ' + result.place.text + ' — not too easy, not too hard. Your teacher will confirm.';
   const idEl = document.getElementById('spc-success-id');
-  if (idEl) idEl.textContent = result.id;
+  if (idEl) idEl.textContent = attemptId;
   window.scrollTo(0, 0);
 }
 
@@ -278,12 +246,12 @@ async function confirmSubmit() {
   const btn = document.getElementById('modal-confirm');
   if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
 
-  let result = null;
-  try { result = await submitToSupabase(); }
+  let attemptId = null;
+  try { attemptId = await submitToSupabase(); }
   catch (e) { console.error(e); showError('Something went wrong. Please try again.'); }
 
-  if (result) { closeModal(); showSuccess(result); }
-  else { isSubmitting = false; if (btn) { btn.disabled = false; btn.textContent = 'Yes, I’m done'; } }
+  if (attemptId) { closeModal(); showSuccess(attemptId); }
+  else { isSubmitting = false; if (btn) { btn.disabled = false; btn.textContent = 'Yes, submit my answers'; } }
 }
 
 /* ── Year routing ───────────────────────────────────────────────── */
@@ -291,7 +259,7 @@ function startSet(year) {
   if (!INTAKE_SETS[year]) return;
   currentYear = year;
   questions   = INTAKE_SETS[year];
-  autosaveKey = 'scispark_intake_spc_v2_' + year + '_draft';
+  autosaveKey = 'scispark_intake_spc_' + year + '_draft';
   startedAtMs = Date.now();
 
   document.getElementById('spc-year-pick').style.display = 'none';
@@ -304,7 +272,8 @@ function startSet(year) {
   updateProgress();
   setInterval(saveDraft, AUTOSAVE_INTERVAL);
   window.addEventListener('beforeunload', saveDraft);
-  console.log('[SciSpark Intake] ' + year + ' set ready — ' + questions.length + ' questions.');
+  console.log('[SciSpark Intake] ' + year + ' set ready — ' + questions.length +
+              ' questions, ' + fields.length + ' boxes.');
 }
 
 /* Decide the year: ?year= → logged-in child → else show picker. */
