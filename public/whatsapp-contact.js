@@ -20,7 +20,7 @@
 (function () {
   'use strict';
 
-  var WA_NUMBER     = '';     // ← 老板WhatsApp号码(带国码,纯数字)。空 = 按钮不显示。
+  var WA_NUMBER     = '60177815791';   // ← 老板WhatsApp号码(马来西亚,带国码,纯数字)。空 = 按钮不显示。
   var CONTACT_EMAIL = '';     // ← 可选联系邮箱;空 = 不显示 email。
   var WA_TEXT       = '你好!我想了解 SciSpark 课程。 / Hi! I would like to know more about SciSpark.';
 
