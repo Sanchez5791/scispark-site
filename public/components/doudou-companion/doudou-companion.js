@@ -28,6 +28,7 @@
   var L = window.DOUDOU_LESSON;
   if (!L || !Array.isArray(L.tryQuestions) || !L.tryQuestions.length) return;
   var LID = L.lessonId || 'lesson';
+  var initializing = true;   // suppress auto read-aloud during restore-on-load
 
   /* ---------- tiny helpers ---------- */
   function $(id){ return document.getElementById(id); }
@@ -53,6 +54,73 @@
   function setMode(m){ if(MODES.indexOf(m)<0) m='normal'; lsSet('dd_mode_'+LID, m); applyMode(); syncDock(); }
   function applyMode(){ document.body.setAttribute('data-dd-mode', getMode()); }
   function stuckDelay(){ return getMode()==='support' ? 20000 : 30000; }
+
+  /* ============================================================
+   * Read-aloud (Web Speech API · FREE · L01 pilot only · no engine touch)
+   * Free browser voices only — no paid AI TTS. Silently no-ops if unsupported.
+   * ============================================================ */
+  var TTS = (function(){
+    var supported = (typeof window.speechSynthesis !== 'undefined') &&
+                    (typeof window.SpeechSynthesisUtterance !== 'undefined');
+    var enVoice=null, zhVoice=null;
+    function best(langPrefix, names){
+      var list = (window.speechSynthesis.getVoices()||[]).filter(function(v){
+        return (v.lang||'').toLowerCase().indexOf(langPrefix)===0; });
+      for(var i=0;i<names.length;i++){
+        for(var j=0;j<list.length;j++){ if(new RegExp(names[i],'i').test(list[j].name)) return list[j]; }
+      }
+      return list[0]||null;
+    }
+    function pick(){
+      // prefer a softer / higher (younger-sounding) voice for 豆豆
+      enVoice = best('en', ['female','samantha','karen','tessa','fiona','moira','zira','aria','jenny','susan','google uk english female','google us english']);
+      zhVoice = best('zh', ['ting','mei-?jia','huihui','xiaoxiao','yaoyao','google','普通话','chinese']);
+    }
+    if(supported){
+      pick();
+      try{ if('onvoiceschanged' in window.speechSynthesis) window.speechSynthesis.onvoiceschanged = pick; }catch(e){}
+    }
+    function rateVal(){ var r=lsGet('dd_tts_rate_'+LID,'normal'); return r==='slow'?0.72:(r==='fast'?1.18:0.95); }
+    function enabled(){ return supported && lsGet('dd_tts_on_'+LID,true); }
+    function stop(){ try{ window.speechSynthesis.cancel(); }catch(e){} }
+    function speak(text, useZh){
+      if(!enabled() || !text) return;
+      try{
+        window.speechSynthesis.cancel();                 // no overlap — newest card wins
+        var u=new window.SpeechSynthesisUtterance(text);
+        var v = useZh ? zhVoice : enVoice;
+        if(v){ u.voice=v; u.lang=v.lang; } else { u.lang = useZh ? 'zh-CN' : 'en-US'; }
+        u.rate = rateVal();
+        u.pitch = 1.22;                                  // a touch higher = friendlier
+        window.speechSynthesis.speak(u);
+      }catch(e){}
+    }
+    return { supported:supported, enabled:enabled, speak:speak, stop:stop,
+             voiceNames:function(){ return { en:enVoice&&enVoice.name, zh:zhVoice&&zhVoice.name }; } };
+  })();
+
+  function addStopBtn(el){
+    if(!TTS.supported || el.querySelector('.dd-stop')) return;
+    var btn=document.createElement('button');
+    btn.className='dd-stop'; btn.type='button';
+    btn.setAttribute('aria-label','Stop reading'); btn.title='Stop · 停';
+    btn.innerHTML='🔇';
+    btn.onclick=function(ev){ ev.stopPropagation(); ev.preventDefault(); TTS.stop(); el.setAttribute('data-dd-stopped','1'); };
+    el.appendChild(btn);
+  }
+  // auto-read a card ONCE; reads visible language (zh-mode → 中文 voice, else 英文)
+  function announce(el, en, zh){
+    if(initializing || !TTS.supported || !TTS.enabled() || !el) return;
+    if(getMode()==='quiet') return;
+    if(el.getAttribute('data-dd-spoke')) return;          // never re-read the same card
+    el.setAttribute('data-dd-spoke','1');
+    var isZh = document.body.classList.contains('zh-mode');
+    var useZh = isZh && !!zh;
+    var text = useZh ? zh : (en||zh);
+    if(!text) return;
+    addStopBtn(el);
+    TTS.speak(text, useZh);
+  }
 
   /* ---------- progress (reuses lesson's localStorage — no new DB) ---------- */
   function attemptInfo(qid){
@@ -95,6 +163,7 @@
           bi('dd-line-en', pr.en, 'dd-line-zh', pr.zh) +
           '<div class="dd-sub">'+bi('','🔧 Repair List +1 · 修好一个零件','dd-zh','')+'</div>'+
         '</div>';
+      card.setAttribute('data-dd-en', pr.en); card.setAttribute('data-dd-zh', pr.zh||'');
     } else {
       card = el('div','dd dd-card dd-wrong');
       var w = (L.wrong && L.wrong[qid]) || {};
@@ -107,6 +176,8 @@
             bi('dd-line-en', "Not yet — totally normal. Read it once more, then try again.",
                'dd-line-zh', '还没对 — 很正常。再看一眼,然后再试一次。')+
           '</div>';
+        card.setAttribute('data-dd-en', "Not yet — totally normal. Read it once more, then try again.");
+        card.setAttribute('data-dd-zh', '还没对 — 很正常。再看一眼,然后再试一次。');
       } else {
         // 2nd+ wrong: the formula — not yet · what you got right · what to check next
         card.innerHTML =
@@ -120,6 +191,8 @@
             (w.nextStep? '<div class="dd-sub dd-sub-amber">'+bi('','→ Check: '+w.nextStep.en,'dd-zh','')+
                           (w.nextStep.zh?'<span class="zh"> → 下一步查:'+esc(w.nextStep.zh)+'</span>':'')+'</div>':'')+
           '</div>';
+        card.setAttribute('data-dd-en', "Still not there, but you're not lost." + (w.nextStep? " Check: "+w.nextStep.en : ""));
+        card.setAttribute('data-dd-zh', '还没到,但你没跑偏。' + (w.nextStep&&w.nextStep.zh? ' 下一步查:'+w.nextStep.zh : ''));
       }
     }
     return card;
@@ -240,6 +313,7 @@
     h.appendChild(rowc);
     wrap.appendChild(h);
     host.appendChild(wrap);
+    announce(h, rung.en, rung.zh);   // read the new push level aloud (one card, no overlap)
   }
 
   /* ---------- stuck-30s nudge (feature 4) ---------- */
@@ -274,6 +348,7 @@
         lsSet('dd_mutenudge_'+LID+'_'+qid, now()+60000);  // quiet 60s for this Q
         bumpQuietSignal();
       };
+      announce(n, "Want a hand with this one?", "要不要我推一下?");
     }, stuckDelay());
   }
   function disarmStuck(qid){ clearTimeout(timers[qid]); }
@@ -294,6 +369,8 @@
         bi('dd-line-en',"This set is brutal — not on you. Breathe for two minutes, then we go again.",
            'dd-line-zh','这套题出得有点狠 — 不怪你。休息两分钟,我们再来。')+'</div>';
       strip.appendChild(m);
+      announce(m, "This set is brutal — not on you. Breathe for two minutes, then we go again.",
+                  '这套题出得有点狠,不怪你。休息两分钟,我们再来。');
     }
   }
 
@@ -340,7 +417,7 @@
       // refresh reaction card (quiet mode: no card)
       var old = strip.querySelector('.dd-card'); if(old && !old.classList.contains('dd-calm')) old.remove();
       var rc = getMode()==='quiet' ? null : reactionCard(qid);
-      if(rc) strip.insertBefore(rc, strip.firstChild);
+      if(rc){ strip.insertBefore(rc, strip.firstChild); announce(rc, rc.getAttribute('data-dd-en'), rc.getAttribute('data-dd-zh')); }
       // support mode: auto-open the push entry after a wrong 2nd try
       var info=attemptInfo(qid);
       if(getMode()==='support' && !info.anyCorrect && info.count>=2){
@@ -420,6 +497,21 @@
   function buildDock(){
     if($('dd-dock')) return;
     var d=el('div','dd dd-dock'); d.id='dd-dock';
+    // voice section — only when the browser actually supports speech (red-line 4: silent hide)
+    var voiceHtml = TTS.supported ? (
+        '<div class="dd-dock-lab" style="margin-top:12px;">'+bi('','🔊 Read-aloud','dd-zh','')+'<span class="zh"> 朗读</span></div>'+
+        '<div class="dd-seg" id="dd-tts-on">'+
+          '<button data-tts="on">On<small>开</small></button>'+
+          '<button data-tts="off">Off<small>关</small></button>'+
+        '</div>'+
+        '<div class="dd-dock-lab" style="margin-top:9px;">'+bi('','Speed','dd-zh','')+'<span class="zh"> 语速</span></div>'+
+        '<div class="dd-seg" id="dd-tts-rate">'+
+          '<button data-rate="slow">Slow<small>慢</small></button>'+
+          '<button data-rate="normal">Normal<small>正常</small></button>'+
+          '<button data-rate="fast">Fast<small>快</small></button>'+
+        '</div>'+
+        '<div class="dd-dock-hint" id="dd-voice-name"></div>'
+      ) : '';
     d.innerHTML=
       '<button class="dd-dock-toggle" id="dd-dock-toggle">'+pose('idle')+'<span>豆豆</span></button>'+
       '<div class="dd-dock-panel">'+
@@ -429,6 +521,7 @@
           '<button data-m="normal">Normal<small>普通</small></button>'+
           '<button data-m="support">Support<small>支援</small></button>'+
         '</div>'+
+        voiceHtml +
         '<div class="dd-hide-row"><button class="dd-hide-btn" id="dd-hide">🙈 Hide DouDou · 让豆豆消失</button></div>'+
         '<div class="dd-dock-hint">'+bi('','Hiding never affects your marks or hints.','dd-zh','')+
           '<span class="zh"> 隐藏不影响给分,小推随时还在。</span></div>'+
@@ -439,6 +532,15 @@
       b.onclick=function(){ setMode(b.getAttribute('data-m')); };
     });
     $('dd-hide').onclick=function(){ setMode('quiet'); bumpQuietSignal(); d.classList.remove('dd-open'); };
+    // voice controls
+    if(TTS.supported){
+      d.querySelectorAll('#dd-tts-on button').forEach(function(b){
+        b.onclick=function(){ var on=b.getAttribute('data-tts')==='on'; lsSet('dd_tts_on_'+LID,on); if(!on) TTS.stop(); syncDock(); };
+      });
+      d.querySelectorAll('#dd-tts-rate button').forEach(function(b){
+        b.onclick=function(){ lsSet('dd_tts_rate_'+LID,b.getAttribute('data-rate')); syncDock(); };
+      });
+    }
     // never cover the input in use (red-line 6): hide the dock while typing an answer
     document.addEventListener('focusin', function(e){
       var t=e.target; if(t && (t.tagName==='TEXTAREA'||t.tagName==='INPUT')){ d.classList.add('dd-shy'); d.classList.remove('dd-open'); }
@@ -450,6 +552,12 @@
     var seg=$('dd-seg'); if(!seg) return;
     var m=getMode();
     seg.querySelectorAll('button').forEach(function(b){ b.classList.toggle('dd-active', b.getAttribute('data-m')===m); });
+    if(TTS.supported){
+      var on=lsGet('dd_tts_on_'+LID,true), rate=lsGet('dd_tts_rate_'+LID,'normal');
+      var onSeg=$('dd-tts-on'); if(onSeg) onSeg.querySelectorAll('button').forEach(function(b){ b.classList.toggle('dd-active',(b.getAttribute('data-tts')==='on')===on); });
+      var rSeg=$('dd-tts-rate'); if(rSeg) rSeg.querySelectorAll('button').forEach(function(b){ b.classList.toggle('dd-active',b.getAttribute('data-rate')===rate); });
+      var vn=$('dd-voice-name'); if(vn){ var n=TTS.voiceNames(); vn.textContent='Voice · 声音: '+(n.en||'—')+' / '+(n.zh||'—'); }
+    }
   }
 
   /* ---------- decorator wiring (no engine edit) ---------- */
@@ -483,6 +591,7 @@
     wrapGlobals();
     checkLosingStreak();
     if(document.querySelector('.screen.active#screen-wrap')) renderWrap();
+    initializing = false;   // restore done — live interactions may now read aloud
   }
   if(document.readyState==='loading') window.addEventListener('DOMContentLoaded', init);
   else init();
