@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U1 L08 · Particle Arrangement in Three States</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U1 L08 · Particle Arrangement in Three States",
+  "navMeta": "Y7 · U1 · L08",
+  "subjectEn": "Chemistry",
+  "subjectZh": "化学",
+  "unitLabel": "Y7 Unit 1",
+  "unitTitleEn": "Matter and Particle Model",
+  "unitTitleZh": "物质与粒子模型",
+  "userLevel": "1",
+  "lessonData": "8"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="8">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U1 · L08</div>
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 1</div>
+      <div class="sidebar-unit-title" data-en="Matter and Particle Model" data-zh="物质与粒子模型">Matter and Particle Model</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 反应机理</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Trace &amp; predict<span class="zh"> · 追踪与预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Connect &amp; summarise<span class="zh"> · 联系与总结</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B1b Y7U1 — text poured verbatim. Image/widget placeholders kept. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Real-world spark</div>
+      <div class="screen-title" data-en="Same water, three forms" data-zh="同一个东西,三种样子">Same water, three forms</div>
+      <div class="screen-title-zh">同一个东西,三种样子</div>
+    </div>
+
+    <!-- DouDou hook video placeholder -->
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Same water, three forms</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div style="font-family:var(--ff-display,'Instrument Serif',serif);font-size:30px;line-height:1.1;color:var(--ink);">Same particles — what changed?</div>
+      <div style="font-family:var(--ff-zh);font-size:16px;color:var(--ink-3);margin-top:2px;">粒子一样——变的是什么?</div>
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.6;margin-top:10px;">Ice, liquid water and steam are all water, yet they behave differently. What changed is how the particles are arranged. <span class="zh">冰、水、水蒸气都是水,却表现不同。变的是粒子怎么「排」。</span></p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">State changes are not about particles becoming bigger — they are about spacing and arrangement. (Same water, three personalities: ice is strict, liquid is relaxed, steam wants space.) <span class="zh">三态变化不是粒子变大,真正变的是粒子间距和排列。 (同样是水,三种性格:冰守规矩、水随和、水蒸气天天要空间。)</span></p>
+      
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Mechanism</div>
+      <div class="screen-title" data-en="Three arrangements" data-zh="三种排列">Three arrangements</div>
+      <div class="screen-title-zh">三种排列</div>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Solid 固体 — particles close, regular, fixed pattern. <span class="zh">粒子紧挨,排列规则、固定。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Liquid 液体 — particles close but irregular, not fixed. <span class="zh">粒子也挨近,但排列不规则、不固定。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Gas 气体 — particles far apart, spread out, no pattern. <span class="zh">粒子相距远、散开、没有排列。</span></div>
+          
+        </div></div>
+      
+      
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_SCREEN_IMG01" alt="三态粒子图并排:固(规则密排)/液(近但乱)/气(稀疏远)。"
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_SCREEN_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">三态粒子图并排:固(规则密排)/液(近但乱)/气(稀疏远)。</figcaption>
+        </figure>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Solid 固体 — fixed shape (locked in place); hard to compress (tiny gaps). <span class="zh">固体 — 形状固定(粒子被锁住);难压缩(间隙几乎没有)。</span></div>
+          
+        </div>
+        <div class="card" style="flex:1 1 220px;min-width:200px;margin:0;">
+          <div class="card-title" style="font-size:15px;">Gas 气体 — fills its container; easy to compress (large gaps). <span class="zh">气体 — 填满容器;易压缩(间隙大)。</span></div>
+          
+        </div></div>
+      
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn, #a32d2d);background:var(--warn-bg, #fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn, #a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <p style="font-size:14px;color:var(--warn, #a32d2d);line-height:1.6;"><strong>✗ Wrong:</strong> "Gas particles are bigger or lighter than solid particles." <span class="zh">「气体粒子比固体粒子大/轻。」</span></p>
+      <p style="font-size:14px;color:var(--ok-text, #2a6a2a);line-height:1.6;margin-top:8px;"><strong>✓ Right:</strong> The particles are the same; only the SPACING and arrangement differ between states. <span class="zh">粒子是同一种,变的只是「间距和排列」。</span></p>
+      
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Matter is usually taught as three states, but there is a fourth — plasma (lightning, the sun, neon lights). (Mention only — not assessed at Y7.) <span class="zh">常说三态,其实还有第四态 plasma(闪电/太阳/霓虹灯)。(只提一句,Y7 不考。)</span></p>
+      
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>In the exam:</strong> Draw solid particles touching in a regular pattern. <span class="zh">考试画固体粒子紧挨、排列规则。</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:8px;"><strong>Real science:</strong> Real particles have tiny gaps held by attraction forces; the touching picture is a simplification. <span class="zh">真实粒子间有很小缝隙,靠吸引力拉住;紧贴图是简化。 框B(REF #2)</span></p>
+      <hr class="divider" style="margin:10px 0;border-color:#bae6fd;">
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>In the exam:</strong> Learn three states: solid, liquid and gas. <span class="zh">考试先学三态:固体、液体、气体。</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:8px;"><strong>Real science:</strong> Real matter also includes plasma, such as lightning, the sun and neon signs. <span class="zh">真实还有 plasma,例如闪电、太阳、霓虹灯。</span></p>
+      
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Solid = Set; Liquid = Loose; Gas = Gone everywhere. Compress means "push particles closer": gas compresses (big gaps), solid hardly does (tiny gaps). (Solid = students in fixed seats; liquid = moving in a small room; gas = spread across the playground. But particles move from energy &amp; forces, not choice.) <span class="zh">固挨齐,液挨乱,气分散。压缩=「把粒子推更近」:气体能压(空隙大),固体难压(空隙小)。 (固体像坐固定座位;液体像在小房间走动;气体像散到操场。但粒子靠能量和力,不是自己选。)</span></p>
+
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+      <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+    </div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Tick · Real past-paper style source; student-facing paper brand hid <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Which of the statements about particles in a solid are correct? Tick the three correct statements. The particles in a solid are: [2] <span class="zh">关于固体里的粒子,哪些说法对?勾出三个正确的。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A solid's particles vibrate in place and sit in a fixed pattern. </div>
+
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Solid particles do not move freely — they vibrate about a fixed point. <span class="zh">固体粒子不自由移动,只在固定点振动。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>tick the 3 correct: able to vibrate about a fixed point; arranged in a more fixed pattern than particles in a liquid; able to vibrate more as they gain energy. Marking: 3 correct = 2; 2 correct = 1; 1 correct = 0; 4 boxes ticked and 3 correct = 1; 5/6 ticked = 0. Accept tick/circle/underline.</strong> <span class="zh">正确答案按本题答案骨架给分: tick the 3 correct: able to vibrate about a fixed point; arranged in a more fixed pattern than particles in a liquid; able to vibrate more as they gain energy. Marking: 3 correct = 2; 2 correct = 1; 1 correct = 0; 4 boxes ticked and 3 correct = 1; 5/6 ticked = 0. Accept tick/circle/underline.</span><br><br>✓ Accept: tick the 3 correct: able to vibrate about a fixed point; arranged in a more fixed pattern than particles in a liquid; able to vibrate more as they gain energy. Marking: 3 correct = 2; 2 correct = 1; 1 correct = 0; 4 boxes ticked and 3 correct = 1; 5/6 ticked = 0. Accept tick/circle/underline. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: tick the 3 correct: able to vibrate about a fixed point; arranged in a more fixed pattern than particles in a liquid; able to vibrate more as they gain energy. Marking: 3 correct = 2; 2 correct = 1; 1 correct = 0; 4 boxes ticked and 3 correct = 1; 5/6 ticked = 0. Accept tick/circle/underline.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: further apart than liquid/gas; not able to vibrate at 0°C. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: further apart than liquid/gas; not able to vibrate at 0°C.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: tick the 3 correct: able to vibrate about a fixed point; arranged in a more fixed pattern than particles in a liquid; ab</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br><span style="color:#B45309;">⚑ Needs teacher review: yes — diagram-dependent / source-key issue / unclear student line or placement must be checked by a human.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">Complete / Draw / Explain · L08_Q02_IMG01 <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">10 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">(a) The three states of matter are solid, liquid and gas. Complete the table to show their properties. [3] (b) The particle theory of matter can be used to explain these properties. Circles have been used to represent the particles of a liquid. (i) Draw circles to represent the particles of a solid and of a gas. [2] (ii) Liquids can only be compressed a little bit. Explain why. [1] (c) Gases exert a pressure on the walls of a container. What causes this pressure? [1] <span class="zh">(a) 完成表格写三态性质。(b)(i) 画固体和气体的粒子图。 (b)(ii) 解释为什么液体只能压缩一点点。(c) 气体对容器壁的压力从何而来?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ For (b)(ii) think about how much space is between liquid particles. </div>
+
+        <div class="widget-mount" data-mount="q02-widget" data-widget="draw-particles-b-i"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · draw-particles (b)(i) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q02_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Compressing means pushing particles closer — is there much space between liquid particles? <span class="zh">压缩就是把粒子推得更近——液体粒子间有多少空隙?</span>
+          
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) solid volume fixed; solid compressed no; liquid flow yes; gas shape same as container; gas flow yes; gas compressed yes. Marking: 6 correct = 3; 4/5 = 2; 2/3 = 1. (b)(i) solid = close + regular; gas = far apart, 2–5 particles. [1] (b)(ii) very few spaces between liquid particles. [1] (c) gas particles hit the container sides. [1]</strong> <span class="zh">正确答案按本题答案骨架给分: (a) solid volume fixed; solid compressed no; liquid flow yes; gas shape same as container; gas flow yes; gas compressed yes. Marking: 6 correct = 3; 4/5 = 2; 2/3 = 1. (b)(i) solid = close + regular; gas = far apart, 2–5 particles. [1] (b)(ii) very few spaces between liquid particles. [1] (c) gas particles hit the container sides. [1]</span><br><br>✓ Accept: (a) solid volume fixed; solid compressed no; liquid flow yes; gas shape same as container; gas flow yes; gas compressed yes. Marking: 6 correct = 3; 4/5 = 2; 2/3 = 1. (b)(i) solid = close + regular; gas = far apart, 2–5 particles. [1] (b)(ii) very few spaces between liquid particles. [1] (c) gas particles hit the container sides. [1] Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) solid volume fixed; solid compressed no; liquid flow yes; gas shape same as container; gas flow yes; gas compressed yes. Marking: 6 correct = 3; 4/5 = 2; 2/3 = 1. (b)(i) solid = close + regular; gas = far apart, 2–5 particles. [1] (b)(ii) very few spaces between liquid particles. [1] (c) gas particles hit the container sides. [1]。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) solid volume fixed; solid compressed no; liquid flow yes; gas shape same as container; gas flow yes; gas compressed</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Explain · L08_Q03_IMG01 <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">8 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Look at the diagrams showing the particles in a solid and a gas. (a) Gases are easily compressed (squashed) but solids are not easily compressed. Explain why. [2] (b) Solids keep their own shape but gases fill the container they are put in. Explain why. [2] <span class="zh">看固体和气体的粒子图。(a) 为什么气体易压缩、固体难压缩? (b) 为什么固体保持形状、气体填满容器?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Both answers come back to spacing and freedom of the particles. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q03_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          How much space is between the particles in each state? <span class="zh">每态粒子间有多少空隙?</span>
+          
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) gases have large spaces so can be squeezed; solids tightly packed so no space. [2] (b) solid particles only vibrate / not free; gas particles move freely / quickly / randomly and fill the container. [2]</strong> <span class="zh">正确答案按本题答案骨架给分: (a) gases have large spaces so can be squeezed; solids tightly packed so no space. [2] (b) solid particles only vibrate / not free; gas particles move freely / quickly / randomly and fill the container. [2]</span><br><br>✓ Accept: (a) gases have large spaces so can be squeezed; solids tightly packed so no space. [2] (b) solid particles only vibrate / not free; gas particles move freely / quickly / randomly and fill the container. [2] Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) gases have large spaces so can be squeezed; solids tightly packed so no space. [2] (b) solid particles only vibrate / not free; gas particles move freely / quickly / randomly and fill the container. [2]。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) gases have large spaces so can be squeezed; solids tightly packed so no space. [2] (b) solid particles only vibrate</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Describe / State · Real past-paper style source; student-facing paper brand hid <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Solids, liquids and gases are described using a particle model. (a) Describe the differences between a solid and a gas. Use ideas about the arrangement, separation and motion of particles. arrangement ... separation ... motion ... [3] (b) State one similarity between the particle models of a solid and of a liquid. [1] <span class="zh">(a) 用排列、间距、运动来描述固体和气体的不同。 (b) 说出固体和液体粒子模型的一个相同点。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Give one clear difference for each of the three labelled lines. </div>
+
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          For each line, say what the solid does and what the gas does. <span class="zh">每行写固体怎样、气体怎样。</span>
+          
+        </div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) arrangement: solid pattern / gas random; separation: solid close-touching / gas far apart; motion: solid vibrate / gas move fast, random, all directions. [arrangement 1 / separation 1 / motion 1] (b) solid and liquid particles close / touching. [1]</strong> <span class="zh">正确答案按本题答案骨架给分: (a) arrangement: solid pattern / gas random; separation: solid close-touching / gas far apart; motion: solid vibrate / gas move fast, random, all directions. [arrangement 1 / separation 1 / motion 1] (b) solid and liquid particles close / touching. [1]</span><br><br>✓ Accept: (a) arrangement: solid pattern / gas random; separation: solid close-touching / gas far apart; motion: solid vibrate / gas move fast, random, all directions. [arrangement 1 / separation 1 / motion 1] (b) solid and liquid particles close / touching. [1] Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) arrangement: solid pattern / gas random; separation: solid close-touching / gas far apart; motion: solid vibrate / gas move fast, random, all directions. [arrangement 1 / separation 1 / motion 1] (b) solid and liquid particles close / touching. [1]。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) arrangement: solid pattern / gas random; separation: solid close-touching / gas far apart; motion: solid vibrate / g</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Draw a line / Explain · L08_Q05_IMG01 <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">10 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">There are three states of matter. (a) Draw a straight line from the state of matter to the picture that shows how the particles are arranged. [1] (b) A beaker can be completely filled with water. Use the particle theory to explain why. [2] (c) The liquid level in a thermometer rises when the temperature rises. Use the particle theory to explain why. [2] <span class="zh">(a) 把"状态"和"对应粒子图"用直线连起来。 (b) 用粒子理论解释为什么烧杯能被水装满。 (c) 用粒子理论解释为什么温度升高时温度计液面上升。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ For (c), think about what gaining energy does to the particles. </div>
+
+        <div class="widget-mount" data-mount="q05-widget" data-widget="match-line-a"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · match-line (a) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q05_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q05_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q05-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Heating gives particles more energy — what happens to their movement and spacing? <span class="zh">加热让粒子能量变大——它们的运动和间距会怎样?</span>
+          
+        </div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) solid → middle; liquid → bottom; gas → top. [1] (b) liquid particles close together; can move / slide / flow; fixed volume. [2] (c) particles gain energy; move faster; move further apart; liquid expands and rises. [2]</strong> <span class="zh">正确答案按本题答案骨架给分: (a) solid → middle; liquid → bottom; gas → top. [1] (b) liquid particles close together; can move / slide / flow; fixed volume. [2] (c) particles gain energy; move faster; move further apart; liquid expands and rises. [2]</span><br><br>✓ Accept: (a) solid → middle; liquid → bottom; gas → top. [1] (b) liquid particles close together; can move / slide / flow; fixed volume. [2] (c) particles gain energy; move faster; move further apart; liquid expands and rises. [2] Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) solid → middle; liquid → bottom; gas → top. [1] (b) liquid particles close together; can move / slide / flow; fixed volume. [2] (c) particles gain energy; move faster; move further apart; liquid expands and rises. [2]。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: gas-like water particles; particles get bigger / multiply; heat makes it go up with no particle idea. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: gas-like water particles; particles get bigger / multiply; heat makes it go up with no particle idea.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) solid → middle; liquid → bottom; gas → top. [1] (b) liquid particles close together; can move / slide / flow; fixed</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q05-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <!-- ===== SciSpark 游戏:Y7 U1 物质三态(PhET 中文版)===== -->
+    <div class="game-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:6px;">
+        <span data-en="PLAY · States of Matter: Basics" data-zh="动手玩 · 物质三态">动手玩 · 物质三态</span>
+      </div>
+      <div style="position:relative;width:100%;padding-top:62.5%;border-radius:10px;overflow:hidden;border:1px solid #e6e0d3;">
+        <iframe
+          src="https://phet.colorado.edu/sims/html/states-of-matter-basics/latest/states-of-matter-basics_zh_CN.html"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+          allowfullscreen
+          loading="lazy"
+          title="States of Matter: Basics"></iframe>
+      </div>
+    </div>
+    <!-- ===== 游戏结束 ===== -->
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+      <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">Write / Underline · L08_Q06_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">6 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The boxes A, B and C show particles of substances in one of three different physical states: solid, liquid and gas. (a)(i) Write the letter of the box which contains a liquid. [1] (a)(ii) Write the letter of the box which contains particles vibrating about fixed positions. [1] (b) How could the particles in the box you gave in (a)(ii) be made to vibrate more quickly? [1] (c)(i) Write the letter of the box in which the particles would quickly escape if the top of the box was removed. [1] (c)(ii) What is the name of the process by which the particles escape? Underline: evaporation / diffusion / vaporisation [1] (c)(iii) Why do the particles escape? [1] <span class="zh">A/B/C 三盒分别是固/液/气的粒子。(a)(i) 哪盒是液体?(a)(ii) 哪盒粒子 在固定位置振动?(b) 怎样让它振动更快?(c)(i) 拿掉盖子后哪盒粒子很快跑掉? (c)(ii) 这个过程叫什么?(c)(iii) 为什么会跑掉?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The box where particles spread out and escape is the gas. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q06_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q06_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a)(i) A. (a)(ii) B. (b) heat / warm [accept: increase temperature]. (c)(i) C. (c)(ii) diffusion. (c)(iii) they are moving / in motion [accept: move freely / randomly / spread out].</strong> <span class="zh">正确答案按本题答案骨架给分: (a)(i) A. (a)(ii) B. (b) heat / warm [accept: increase temperature]. (c)(i) C. (c)(ii) diffusion. (c)(iii) they are moving / in motion [accept: move freely / randomly / spread out].</span><br><br>✓ Accept: (a)(i) A. (a)(ii) B. (b) heat / warm [accept: increase temperature]. (c)(i) C. (c)(ii) diffusion. (c)(iii) they are moving / in motion [accept: move freely / randomly / spread out]. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a)(i) A. (a)(ii) B. (b) heat / warm [accept: increase temperature]. (c)(i) C. (c)(ii) diffusion. (c)(iii) they are moving / in motion [accept: move freely / randomly / spread out].。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a)(i) A. (a)(ii) B. (b) heat / warm [accept: increase temperature]. (c)(i) C. (c)(ii) diffusion. (c)(iii) they are movi</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Draw · L08_Q07_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The diagram shows the particle arrangement in a liquid. (a) Draw the particle arrangement in a solid. [1] <span class="zh">图为液体的粒子排列。(a) 画出固体的粒子排列。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A solid is regular and close-packed; it need not fill the whole box. </div>
+
+        <div class="widget-mount" data-mount="q07-widget" data-widget="draw-particles-a"
+             style="margin:10px 0;padding:16px;border:1px dashed var(--line-2,#D9D0BF);border-radius:12px;background:var(--bg-2,#F4EFE7);">
+          <div style="font-family:var(--ff-mono);font-size:11px;color:var(--ink-3);">Interactive · draw-particles (a) <span class="zh">互动题</span></div>
+          <noscript>Interactive activity needs JavaScript. Type your answer in the box below.</noscript>
+        </div>
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q07_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q07_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>solid diagram = regular arrangement of close-packed particles; does not need to fill box. Accept touching / nearly touching circles in rows / lattice.</strong> <span class="zh">正确答案按本题答案骨架给分: solid diagram = regular arrangement of close-packed particles; does not need to fill box. Accept touching / nearly touching circles in rows / lattice.</span><br><br>✓ Accept: solid diagram = regular arrangement of close-packed particles; does not need to fill box. Accept touching / nearly touching circles in rows / lattice. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: solid diagram = regular arrangement of close-packed particles; does not need to fill box. Accept touching / nearly touching circles in rows / lattice.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: solid diagram = regular arrangement of close-packed particles; does not need to fill box. Accept touching / nearly touch</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Choose / Explain · L08_Q08_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">8 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Aiko and Carlos investigate states of matter. They do three tests on five different substances. Test 1: fill a syringe and try to squash it. Test 2: put it into a beaker. Test 3: heat it in an evaporating dish. Use their results to answer. (a) Which substance is a gas? Choose from A–E. Explain your answer. [2] (b) Which two substances are solids? Choose from A–E. Explain your answer. [2] <span class="zh">两人对五种物质做三个测试(注射器压缩/放烧杯/加热)。用结果回答: (a) 哪个是气体?为什么?(b) 哪两个是固体?为什么?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Only a gas can be squashed in the syringe. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q08_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q08_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) D; because it can be squashed / only gases can be compressed. [2] (b) A and C; fixed shape / did not fill syringe / did not take beaker shape. [2] DEPENDENCY: explanation marks depend on correct letters.</strong> <span class="zh">正确答案按本题答案骨架给分: (a) D; because it can be squashed / only gases can be compressed. [2] (b) A and C; fixed shape / did not fill syringe / did not take beaker shape. [2] DEPENDENCY: explanation marks depend on correct letters.</span><br><br>✓ Accept: (a) D; because it can be squashed / only gases can be compressed. [2] (b) A and C; fixed shape / did not fill syringe / did not take beaker shape. [2] DEPENDENCY: explanation marks depend on correct letters. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) D; because it can be squashed / only gases can be compressed. [2] (b) A and C; fixed shape / did not fill syringe / did not take beaker shape. [2] DEPENDENCY: explanation marks depend on correct letters.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) D; because it can be squashed / only gases can be compressed. [2] (b) A and C; fixed shape / did not fill syringe /</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State / Tick / Explain · L08_Q09_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">6 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The picture shows three different elements and their state at room temperature. (a) Which two of these elements flow easily at room temperature? [1] (b) What is the chemical symbol for chlorine? [1] (c) Chlorine gas fills the jar. Explain why a gas fills a jar. Tick the box next to the correct explanation. [1] (d) Liquid bromine easily evaporates. Explain what happens to the particles (molecules) when a liquid evaporates. <span class="zh">图为三种元素及其室温状态。(a) 哪两种室温下易流动?(b) 氯的化学符号? (c) 勾出"气体为何填满罐子"的正确解释。(d) 液体蒸发时粒子发生什么?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Flow easily = liquid or gas, not solid. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q09_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q09_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) chlorine and bromine. [1] (b) Cl / Cl2. [1] (c) tick "particles free to move". [1] (d) any two: gain energy / move faster; forces overcome; spread further apart; change to gas/vapour; particles escape/diffuse.</strong> <span class="zh">正确答案按本题答案骨架给分: (a) chlorine and bromine. [1] (b) Cl / Cl2. [1] (c) tick "particles free to move". [1] (d) any two: gain energy / move faster; forces overcome; spread further apart; change to gas/vapour; particles escape/diffuse.</span><br><br>✓ Accept: (a) chlorine and bromine. [1] (b) Cl / Cl2. [1] (c) tick "particles free to move". [1] (d) any two: gain energy / move faster; forces overcome; spread further apart; change to gas/vapour; particles escape/diffuse. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) chlorine and bromine. [1] (b) Cl / Cl2. [1] (c) tick "particles free to move". [1] (d) any two: gain energy / move faster; forces overcome; spread further apart; change to gas/vapour; particles escape/diffuse.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) chlorine and bromine. [1] (b) Cl / Cl2. [1] (c) tick "particles free to move". [1] (d) any two: gain energy / move f</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Complete / Explain · L08_Q10_IMG01 <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">6 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The diagrams show the arrangement of particles in solids, liquids and gases. Statements: A are usually hard; B take the shape of the container; C can be compressed; D completely fill any container; E have a fixed shape. (a) Complete the table by putting the letter for each statement into the correct column. One letter has been done for you. [3] (b) Liquids can evaporate. Explain what happens to the particles in a liquid during evaporation. <span class="zh">图为三态粒子排列。把每个说法(A–E,另含F)填进正确的列。 (b) 液体蒸发时粒子发生什么?</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A fixed shape and hardness point to a solid. </div>
+
+        <figure class="img-slot" style="margin:12px 0;">
+          <img data-image-prompt="L08_Q10_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'180'%20font-family%3D'monospace'%20font-size%3D'18'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%20dominant-baseline%3D'middle'%3EIMAGE%20PENDING%20%C2%B7%20L08_Q10_IMG01%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">Image pending</figcaption>
+        </figure>
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) solids A, E; liquids B; gases C, D, F. [3] (b) any two: particles move further apart; move faster / gain energy; escape the liquid; forces reduced / overcome. If no particle detail: "liquid changes to gas" = max 1.</strong> <span class="zh">正确答案按本题答案骨架给分: (a) solids A, E; liquids B; gases C, D, F. [3] (b) any two: particles move further apart; move faster / gain energy; escape the liquid; forces reduced / overcome. If no particle detail: "liquid changes to gas" = max 1.</span><br><br>✓ Accept: (a) solids A, E; liquids B; gases C, D, F. [3] (b) any two: particles move further apart; move faster / gain energy; escape the liquid; forces reduced / overcome. If no particle detail: "liquid changes to gas" = max 1. Accept clear equivalent wording, correct symbols, and correct letter choices if they match the supplied diagram. Spelling errors are accepted only if the scientific meaning is unchanged. <span class="zh">接受: (a) solids A, E; liquids B; gases C, D, F. [3] (b) any two: particles move further apart; move faster / gain energy; escape the liquid; forces reduced / overcome. If no particle detail: "liquid changes to gas" = max 1.。也接受意思相同的清楚写法、正确符号、以及与图中位置一致的字母答案。拼错但意思没变可给分。</span><br>✗ Reject: Wrong category, wrong letter, wrong method, or answer contradicts the particle model. Reject because it either gives the wrong category/method, ignores joined vs unjoined particles, uses the wrong symbol/letter, or gives a statement that contradicts the diagram. <span class="zh">拒绝: Wrong category, wrong letter, wrong method, or answer contradicts the particle model.。原因: 这些答案不是类别/方法错,就是没分清粒子有没有连接、符号/字母错,或跟图的证据相反。</span><br><span style="color:var(--ink-3);">If right: Correct — you used the key test for particle arrangement: (a) solids A, E; liquids B; gases C, D, F. [3] (b) any two: particles move further apart; move faster / gain energy; esc</span><br><span style="color:var(--ink-3);">If wrong: Not yet — go back to the key clue in the question and compare it with the particle arrangement rule.</span><br>
+          </div>
+          <div class="source-note">Source: REAL (PYQ)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Connect & summarise</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+
+
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+      <div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Solid = regular, close-packed, fixed.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">固体=规则、紧密、固定。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Liquid = close but irregular.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">液体=挨近但不规则。</span></div></div><div class="wrap-point"><div class="wrap-dot"></div><div><strong style="color:var(--accent);">Gas = far apart, spread out. Arrangement explains shape &amp; compressibility.</strong> <span style="font-family:var(--ff-zh);font-size:12px;color:rgba(255,255,255,0.5);">气体=松散分开。排列解释形状和能否压缩。</span></div></div>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--line-2, #D9D0BF);background:var(--bg-2, #F4EFE7);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">💡 Aside · 补充</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Solid: close + regular. Liquid: close + irregular. Gas: far apart + random. <span class="zh">固体:近+整齐。液体:近+乱。气体:远+乱。</span></p>
+      
+    </div>
+
+    <div class="callout" style="margin-bottom:18px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px;">🟡 Note · 注意</div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.6;">Next — how the particles MOVE. <span class="zh">下一课——粒子怎么「动」。</span></p>
+      
+    </div>
+
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>
