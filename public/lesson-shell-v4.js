@@ -125,20 +125,26 @@ Globals exposed (lesson HTML can call directly via onclick=):
     u.pitch = (window.SciSparkVoice && window.SciSparkVoice.PITCH_LONG) || 1.22;
     u.volume = 1.0;
   
-    const voice = pickBestVoice(langCode);
-    if (voice) u.voice = voice;
-  
     u.onend = () => ttsStop();
     u.onerror = () => ttsStop();
-  
+
     ttsCurrentUtterance = u;
     ttsCurrentButton = buttonEl;
     buttonEl.classList.add('tts-playing');
     buttonEl.textContent = '⏸';
     buttonEl.setAttribute('aria-label',
       langCode === 'zh-CN' ? '停止朗读' : 'Stop reading');
-  
-    window.speechSynthesis.speak(u);
+
+    // Robust soft-voice speak via the shared profile: waits out the mobile
+    // getVoices() race so the soft 豆豆 voice actually plays (never male default).
+    // Falls back to inline pickBestVoice + speak if voice-profile.js is absent.
+    if (window.SciSparkVoice && window.SciSparkVoice.speak) {
+      window.SciSparkVoice.speak(u, langCode);
+    } else {
+      const voice = pickBestVoice(langCode);
+      if (voice) u.voice = voice;
+      window.speechSynthesis.speak(u);
+    }
   }
   
   function ttsStop() {
