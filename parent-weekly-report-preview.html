@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — 家长周报 样本预览 · Weekly Report (SAMPLE)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/design-tokens.css">
+<link rel="stylesheet" href="/public/weekly-report.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg, #FBF8F4); color: var(--ink, #171413);
+  font-family: var(--font-sans, 'Geist', system-ui, sans-serif); font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; }
+/* unmistakable SAMPLE banner — this page is NOT a real student */
+.sample-banner {
+  background: repeating-linear-gradient(45deg, #1a1917, #1a1917 14px, #211f1c 14px, #211f1c 28px);
+  color: #fff; text-align: center; padding: 12px 16px; font-size: 13px; line-height: 1.5;
+}
+.sample-banner b { color: var(--orange, #EA580C); }
+.sample-banner .zh { font-family: var(--font-zh, 'Noto Sans SC', sans-serif); }
+.sample-tag { display: inline-block; background: var(--orange, #EA580C); color: #fff; font-weight: 700;
+  font-size: 11px; letter-spacing: .1em; padding: 3px 10px; border-radius: 100px; margin-right: 8px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="sample-banner">
+  <span class="sample-tag">SAMPLE · 样本</span>
+  <span class="zh">以下为<b>示例数据</b>,非真实学生 —— 仅供老板预览设计。真实页接真表,没数据显示「暂无」。</span>
+  <br>This is <b>sample data</b>, not a real student — design preview only. The live page uses real tables and shows “none” when empty.
+</div>
+
+<main class="wr-sheet" id="sheet"></main>
+
+<script src="/public/weekly-report-core.js"></script>
+<script>
+/* Sample data is built RELATIVE to the current week so it always lands in
+   "本周". Three completed lessons (two chemistry, one physics) + per-lesson
+   scores → demonstrates all 5 blocks incl. strengths/focus and next lesson.
+   NOT real. The live page (parent-weekly-report.html) fetches real tables. */
+(function () {
+  const Core = window.WeeklyReportCore;
+  const b = Core.weekBounds(new Date());
+  // helper: a timestamp `daysFromMonday` into this week, at a given hour
+  function at(dayIdx, hour, min) {
+    const d = new Date(b.start); d.setDate(b.start.getDate() + dayIdx); d.setHours(hour, min || 0, 0, 0);
+    return d.toISOString();
+  }
+  function minsAfter(iso, mins) { return new Date(new Date(iso).getTime() + mins * 60000).toISOString(); }
+
+  const L = {
+    u1l1: { id: 'l-u1l1', year_group: 'Y7', unit_number: 1, lesson_number: 1, lesson_title_en: 'What is Matter?', lesson_title_zh: '什么是物质', is_published: true },
+    u1l2: { id: 'l-u1l2', year_group: 'Y7', unit_number: 1, lesson_number: 2, lesson_title_en: 'The Particle Model', lesson_title_zh: '粒子模型', is_published: true },
+    u1l3: { id: 'l-u1l3', year_group: 'Y7', unit_number: 1, lesson_number: 3, lesson_title_en: 'Solids, Liquids & Gases', lesson_title_zh: '固体、液体与气体', is_published: true },
+    u7l1: { id: 'l-u7l1', year_group: 'Y7', unit_number: 7, lesson_number: 1, lesson_title_en: 'Speed and Motion', lesson_title_zh: '速度与运动', is_published: true }
+  };
+  const lessons = [L.u1l1, L.u1l2, L.u1l3, L.u7l1];
+
+  const s1 = at(0, 16, 10), s2 = at(2, 17, 0), s3 = at(4, 16, 30);
+  const progress = [
+    { lesson_id: 'l-u1l1', status: 'completed', started_at: s1, completed_at: minsAfter(s1, 28), updated_at: minsAfter(s1, 28) },
+    { lesson_id: 'l-u1l2', status: 'completed', started_at: s2, completed_at: minsAfter(s2, 35), updated_at: minsAfter(s2, 35) },
+    { lesson_id: 'l-u7l1', status: 'completed', started_at: s3, completed_at: minsAfter(s3, 22), updated_at: minsAfter(s3, 22) }
+  ];
+  // per-lesson scores (lesson_question_attempts) marked the same week
+  const questionAttempts = [
+    { lesson_id: 'l-u1l1', score: 11, max_score: 12, marked_at: minsAfter(s1, 28) },   // 92%
+    { lesson_id: 'l-u1l2', score: 17, max_score: 20, marked_at: minsAfter(s2, 35) },   // 85%
+    { lesson_id: 'l-u7l1', score: 7,  max_score: 12, marked_at: minsAfter(s3, 22) }    // 58%
+  ];
+
+  const model = Core.computeReport({
+    child: { full_name: '示例学生 Sample', year_group: 'Y7' },
+    weekDate: new Date(),
+    lessons: lessons,
+    progress: progress,
+    questionAttempts: questionAttempts,
+    attempts: []
+  });
+  document.getElementById('sheet').innerHTML = Core.renderReport(model);
+})();
+</script>
+</body>
+</html>

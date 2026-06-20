@@ -261,6 +261,21 @@ html, body {
 .foot svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--pc-green); margin-top: 1px; }
 .foot .zh { display: block; margin-top: 2px; }
 
+/* weekly-report CTA (Reports section) */
+.report-cta { display: flex; align-items: center; gap: 16px; padding: 18px 20px; text-decoration: none;
+  background: var(--pc-orange-pale); border: 1px solid var(--pc-orange-soft); border-radius: var(--radius, 10px);
+  color: var(--pc-text); transition: .15s; }
+.report-cta:hover { border-color: var(--pc-orange); box-shadow: 0 6px 20px rgba(234,88,12,.08); transform: translateY(-2px); }
+.report-cta-ico { width: 40px; height: 40px; flex-shrink: 0; border-radius: 9px; background: var(--pc-orange); color: #fff;
+  display: flex; align-items: center; justify-content: center; }
+.report-cta-ico svg { width: 20px; height: 20px; }
+.report-cta-body { flex: 1; min-width: 0; }
+.report-cta-h { font-family: var(--font-serif, serif); font-size: 16px; font-weight: 600; }
+.report-cta-h .zh { font-size: 13px; color: var(--pc-muted); font-weight: 400; margin-left: 6px; }
+.report-cta-p { font-size: 12.5px; color: var(--pc-muted); line-height: 1.5; margin-top: 3px; }
+.report-cta-p .zh { display: block; margin-top: 2px; }
+.report-cta-go { font-size: 22px; color: var(--pc-orange); flex-shrink: 0; }
+
 /* loading / gate */
 .gate { min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--pc-muted); }
 .spin { width: 26px; height: 26px; border: 3px solid var(--pc-line); border-top-color: var(--pc-orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -609,7 +624,7 @@ html, body {
 
     renderProgress(lessons, progress);
     renderRecords(lessons, progress, attempts);
-    renderReports();           // no reports table → honest empty state
+    renderReports(c);          // live on-demand weekly report (real data)
     renderProfile(c);
     renderSummary(lessons, progress, attempts);
     renderLevel(c);            // 学生分等级 (方案 B) — 真数据才显示, 否则「暂无」
@@ -802,13 +817,24 @@ html, body {
     $('#badge-records').textContent = items.length + ' record' + (items.length>1?'s':'');
   }
 
-  /* ── ③ REPORTS (no source table yet → honest empty) ── */
-  function renderReports() {
-    $('#reports-list').innerHTML = `<div class="empty-state">
-      <div class="big">No reports yet · 暂无报告</div>
-      <div class="small">Weekly and monthly reports will appear and archive here automatically once they are generated.
-      <span class="zh">每周 / 每月报告生成后会自动出现并归档,届时可下载。</span></div></div>`;
-    $('#badge-reports').textContent = '';
+  /* ── ③ REPORTS — weekly report is generated on demand from real data ── */
+  function renderReports(c) {
+    const href = '/parent-weekly-report?child_id=' + encodeURIComponent(c.id);
+    $('#reports-list').innerHTML = `
+      <a class="report-cta" href="${esc(href)}">
+        <div class="report-cta-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <div class="report-cta-body">
+          <div class="report-cta-h">View this week's report<span class="zh">· 查看本周周报</span></div>
+          <div class="report-cta-p">A 5-part summary built live from ${esc(c.full_name || 'your child')}'s real lessons and scores. Empty weeks honestly show “none”.
+            <span class="zh">按真实课程与分数即时生成的 5 块周报;没学习的一周如实显示「暂无」。</span></div>
+        </div>
+        <div class="report-cta-go">&rarr;</div>
+      </a>
+      <p class="note" style="margin-top:14px">Monthly reports and auto-archive are coming next.
+        <span class="zh">每月报告与自动归档将在下一波加入。</span></p>`;
+    $('#badge-reports').textContent = 'Weekly · 每周';
   }
 
   /* ── ④ PROFILE ── */

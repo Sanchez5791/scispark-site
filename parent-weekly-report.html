@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- ============ SCISPARK LOGO + SOCIAL ============ -->
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+<link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — 家长周报 · Weekly Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<!-- 共用设计盒子 + 周报样式(全站单一来源) -->
+<link rel="stylesheet" href="/public/design-tokens.css">
+<link rel="stylesheet" href="/public/weekly-report.css">
+<style>
+:root { --pc-nav: #1a1917; --pc-muted: #8b8178; --pc-light: #c5bbb4; --pc-orange: var(--orange, #EA580C); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg, #FBF8F4); color: var(--ink, #171413);
+  font-family: var(--font-sans, 'Geist', system-ui, sans-serif); font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+/* nav (matches parent-console) */
+.nav { position: sticky; top: 0; z-index: 100; background: var(--pc-nav); height: 60px;
+  display: flex; align-items: center; padding: 0 24px; color: #fff; }
+.nav-inner { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-brand .logo-bolt { width: 34px; height: 34px; background: var(--pc-orange); border-radius: 7px;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+.nav-brand .logo-bolt svg { width: 18px; height: 18px; }
+.nav-brand .logo-text { display: flex; flex-direction: column; line-height: 1; }
+.nav-brand .brand-text { font-family: var(--font-serif, 'Fraunces', serif); font-weight: 600; font-size: 22px; letter-spacing: -.3px; color: #fff; }
+.nav-brand .brand-text .spark { color: var(--pc-orange); }
+.nav-brand .brand-sub { font-family: var(--font-mono, 'Geist Mono', monospace); font-size: 11px; font-weight: 500; letter-spacing: 1.4px; color: var(--pc-light); margin-top: 4px; }
+.nav-back { font-size: 13px; color: var(--pc-light); text-decoration: none; border: 1px solid #3a3733; padding: 6px 14px; border-radius: 100px; }
+.nav-back:hover { color: #fff; border-color: #555; }
+/* controls bar */
+.wr-controls { max-width: 680px; margin: 0 auto; padding: 18px 16px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.wr-childsw { display: flex; flex-wrap: wrap; gap: 8px; }
+.wr-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border: 1px solid var(--line, #E6DFD3);
+  background: #fff; border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--ink, #171413); cursor: pointer; font-family: inherit; }
+.wr-chip:hover { border-color: var(--pc-orange); }
+.wr-chip.active { background: var(--pc-orange); border-color: var(--pc-orange); color: #fff; }
+.wr-tools { display: flex; gap: 8px; align-items: center; }
+.wr-btn { font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 100px; border: 1px solid var(--line, #E6DFD3);
+  background: #fff; color: var(--ink, #171413); cursor: pointer; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.wr-btn:hover { border-color: var(--pc-orange); color: var(--pc-orange); }
+.wr-btn.primary { background: var(--pc-orange); border-color: var(--pc-orange); color: #fff; }
+.wr-weeknav { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--pc-muted); }
+.wr-weeknav button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line, #E6DFD3); background: #fff; cursor: pointer; color: var(--ink, #171413); font-size: 15px; }
+.wr-weeknav button:disabled { opacity: .35; cursor: default; }
+/* gate */
+.gate { min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--pc-muted); }
+.spin { width: 26px; height: 26px; border: 3px solid var(--line, #E6DFD3); border-top-color: var(--pc-orange); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+[hidden] { display: none !important; }
+/* privacy footer */
+.wr-foot { max-width: 680px; margin: 30px auto 0; padding: 16px 18px; background: var(--paper-soft, #F4EFE7);
+  border: 1px solid var(--line, #E6DFD3); border-radius: var(--radius, 10px); font-size: 12px; color: var(--pc-muted);
+  display: flex; gap: 10px; align-items: flex-start; }
+.wr-foot svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--green, #2E7D5B); margin-top: 1px; }
+.wr-foot .zh { display: block; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav wr-no-print">
+  <div class="nav-inner">
+    <a href="/parent-console" class="nav-brand">
+      <span class="logo-bolt"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/></svg></span>
+      <span class="logo-text"><span class="brand-text">Sci<span class="spark">Spark</span></span><span class="brand-sub">An IG Spark Centre Product</span></span>
+    </a>
+    <a href="/parent-console" class="nav-back">&larr; 控制台 · Console</a>
+  </div>
+</nav>
+
+<!-- LOADING GATE -->
+<div id="gate" class="gate"><div class="spin"></div><div>正在生成本周周报… · Building this week's report…</div></div>
+
+<!-- APP -->
+<div id="app" hidden>
+  <div class="wr-controls wr-no-print">
+    <div class="wr-childsw" id="child-switch"></div>
+    <div class="wr-tools">
+      <div class="wr-weeknav">
+        <button id="wk-prev" title="上一周 · Previous week">&lsaquo;</button>
+        <span id="wk-label">本周</span>
+        <button id="wk-next" title="下一周 · Next week">&rsaquo;</button>
+      </div>
+      <button class="wr-btn primary" id="btn-print">🖨 下载 / 打印</button>
+    </div>
+  </div>
+
+  <main class="wr-sheet" id="sheet"><!-- report injected here --></main>
+
+  <div class="wr-foot wr-no-print">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    <div>本周报只显示您绑定孩子的真实学习数据;没有学习记录的一周会如实显示「暂无」,我们不编造数字。
+      <span class="zh">You only ever see your own child's real data. Empty weeks honestly show “none” — we never invent numbers.</span></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/public/weekly-report-core.js"></script>
+<script>
+/* ── SciSpark · 家长周报 (live) ──────────────────────────────────────────
+   真数据周报。auth gate → 按孩子取真表 → WeeklyReportCore 算 + 画。
+   隐私:children 按 parent_id;其余按本家长的 child id 过滤(配合 RLS)。
+   没数据 → 诚实「本周暂无学习记录」,绝不编造。
+──────────────────────────────────────────────────────────────────────── */
+(async function weeklyReportInit() {
+  const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+  const Core = window.WeeklyReportCore;
+  const $ = s => document.querySelector(s);
+  const esc = s => Core._esc(s);
+
+  /* week offset: 0 = current week, -1 = last week, … (no future) */
+  const params = new URLSearchParams(location.search);
+  let weekOffset = parseInt(params.get('wk') || '0', 10) || 0;
+  if (weekOffset > 0) weekOffset = 0;
+
+  function weekDateFor(offset) {
+    const d = new Date(); d.setDate(d.getDate() + offset * 7); return d;
+  }
+
+  /* 1. Auth gate */
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('/signin.html'); return; }
+  const user = session.user;
+  if (user.email === 'info@scisparklab.com') { window.location.replace('/teacher-review-list'); return; }
+
+  /* 2. Children — PRIVACY: only this parent's own */
+  const { data: children, error: childErr } = await sb.from('children')
+    .select('id, full_name, year_group')
+    .eq('parent_id', user.id)
+    .order('created_at', { ascending: true });
+  if (childErr) console.error('[weekly] children query failed:', childErr);
+
+  $('#gate').hidden = true;
+  $('#app').hidden = false;
+
+  if (!children || children.length === 0) {
+    $('#sheet').innerHTML = '<section class="wr-card wr-empty-week"><div class="wr-empty-big">尚未添加孩子</div>' +
+      '<div class="wr-empty-sub">No child added yet.</div>' +
+      '<p class="wr-empty-note">注册孩子后,这里会按真实学习数据生成每周周报。<span class="zh-en">Add a child and weekly reports will generate from real data.</span></p></section>';
+    $('.wr-controls').hidden = true;
+    return;
+  }
+
+  const wanted = params.get('child_id');
+  let active = (wanted && children.find(c => c.id === wanted)) || children[0];
+
+  /* child switcher (only if >1) */
+  const sw = $('#child-switch');
+  if (children.length > 1) {
+    sw.innerHTML = children.map(c =>
+      `<button class="wr-chip${c.id === active.id ? ' active' : ''}" data-cid="${esc(c.id)}">` +
+      `${esc(c.full_name || '—')} <span style="opacity:.7;font-size:11px">${esc(c.year_group || '')}</span></button>`).join('');
+    sw.querySelectorAll('.wr-chip').forEach(btn => btn.addEventListener('click', () => {
+      const c = children.find(x => x.id === btn.dataset.cid); if (!c) return;
+      active = c;
+      sw.querySelectorAll('.wr-chip').forEach(b => b.classList.toggle('active', b === btn));
+      syncUrl(); load();
+    }));
+  } else {
+    sw.innerHTML = `<span style="font-size:13px;color:var(--pc-muted)">${esc(active.full_name || '')} <b>${esc(active.year_group || '')}</b></span>`;
+  }
+
+  /* week nav */
+  $('#wk-prev').addEventListener('click', () => { weekOffset -= 1; syncUrl(); load(); });
+  $('#wk-next').addEventListener('click', () => { if (weekOffset < 0) { weekOffset += 1; syncUrl(); load(); } });
+  $('#btn-print').addEventListener('click', () => window.print());
+
+  function syncUrl() {
+    const u = new URL(location);
+    u.searchParams.set('child_id', active.id);
+    u.searchParams.set('wk', String(weekOffset));
+    history.replaceState(null, '', u);
+  }
+  function updateWeekUI() {
+    $('#wk-next').disabled = weekOffset >= 0;
+    $('#wk-label').textContent = weekOffset === 0 ? '本周' : (weekOffset === -1 ? '上一周' : Math.abs(weekOffset) + ' 周前');
+  }
+
+  load();
+
+  async function load() {
+    updateWeekUI();
+    $('#sheet').innerHTML = '<div class="gate"><div class="spin"></div></div>';
+    const c = active;
+
+    /* fetch in parallel — every query scoped to this child only */
+    const [lessonsRes, progRes, qaRes, attemptsRes] = await Promise.all([
+      sb.from('lessons')
+        .select('id, year_group, unit_number, lesson_number, lesson_title_en, lesson_title_zh, is_published')
+        .eq('is_published', true),
+      sb.from('lesson_progress')
+        .select('lesson_id, status, started_at, completed_at, updated_at')
+        .eq('child_id', c.id),
+      sb.from('lesson_question_attempts')
+        .select('lesson_id, score, max_score, marked_at')
+        .eq('child_id', c.id),
+      sb.from('assessment_attempts')
+        .select('assessment_code, total_score, total_marks, time_spent_seconds, submitted_at')
+        .eq('student_id', c.id)
+    ]);
+
+    if (qaRes.error) console.warn('[weekly] question attempts:', qaRes.error);
+
+    const model = Core.computeReport({
+      child: c,
+      weekDate: weekDateFor(weekOffset),
+      lessons: lessonsRes.data || [],
+      progress: progRes.data || [],
+      questionAttempts: qaRes.data || [],
+      attempts: attemptsRes.data || []
+    });
+
+    $('#sheet').innerHTML = Core.renderReport(model);
+  }
+})();
+</script>
+</body>
+</html>
