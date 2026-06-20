@@ -1,21 +1,24 @@
 /*
   SciSpark · drag-interactions.js
-  Component: INPUT_TYPE=drag_sequence | drag_match
+  Component: INPUT_TYPE=drag_sequence | drag_match | drag_categorize
   Three lesson mechanics, one component:
-    • sequence  → 排顺序 / 拖步骤  (drag cards into the correct order)
-    • match     → 连连看           (drag a connector from a left node to a right node)
+    • sequence   → 排顺序 / 拖步骤  (drag cards into the correct order)
+    • match      → 连连看           (drag a connector from a left node to a right node)
+    • categorize → 分类             (drag cards into N drop-boxes, many cards per box)
   Prefix: .dg-*  (matches family .rd-* / .tb-* / .gw-* convention)
   Exposes: window.DragInteraction.{ init, serializeHost }
   Touch + mouse via Pointer Events. Keyboard-accessible. No external deps.
 
   Submission shape (read by serializeHost, sent to the server marker):
-    sequence : { mode:'sequence', ordered_ids:[ 'c','a','b', ... ] }
-    match    : { mode:'match',    pairs:[ ['l1','r2'], ['l2','r1'], ... ] }
+    sequence   : { mode:'sequence',   ordered_ids:[ 'c','a','b', ... ] }
+    match      : { mode:'match',       pairs:[ ['l1','r2'], ['l2','r1'], ... ] }
+    categorize : { mode:'categorize',  placements:{ item1:'bucketA', item2:'bucketB', ... } }
 
   The CORRECT answer is NOT required for the component to run — grading is the
   server marker's job (api/mark-lesson.js, same contract as ray_diagram). For
-  standalone demos a `self_check:true` config with `correct_order`/`correct_pairs`
-  lets the widget grade itself locally so the mechanic can be eyeballed.
+  standalone demos a `self_check:true` config with `correct_order`/`correct_pairs`/
+  `correct` (+ optional `marks` bands for partial credit) lets the widget grade
+  itself locally so the mechanic can be eyeballed.
 */
 (function (root) {
   'use strict';
@@ -95,6 +98,7 @@
     if (cfg.prompt) host.appendChild(el('p', { class: 'dg-prompt', text: label(cfg.prompt) }));
 
     if (mode === 'match') buildMatch(state);
+    else if (mode === 'categorize') buildCategorize(state);
     else buildSequence(state);
 
     host.appendChild(buildFooter(state));
@@ -360,6 +364,151 @@
   }
 
   // ════════════════════════════════════════════════════════
+  //  MODE: categorize  (分类 — drag cards into N drop-boxes, many-to-one)
+  // ════════════════════════════════════════════════════════
+  function buildCategorize(state) {
+    var cfg = state.cfg;
+    state.placement = {};                         // itemId -> bucketId | null(=tray)
+    (cfg.items || []).forEach(function (it) { state.placement[it.id] = null; });
+
+    var wrap = el('div', { class: 'dg-cat' });
+
+    // tray of unplaced cards (a drop target too, so cards can come back)
+    var tray = el('div', { class: 'dg-cat__tray', 'data-bucket': '__tray',
+      'aria-label': lang() === 'zh' ? '待分类' : 'Unsorted' });
+    state.trayEl = tray;
+
+    var buckets = el('div', { class: 'dg-cat__buckets' });
+    state.zoneEls = {};                           // bucketId -> dropzone element
+    (cfg.buckets || []).forEach(function (b) {
+      var zone = el('div', { class: 'dg-cat__dropzone', 'data-bucket': b.id });
+      var box = el('div', { class: 'dg-cat__bucket' }, [
+        el('div', { class: 'dg-cat__bucket-label', html: label(b.label != null ? b.label : { en: b.label_en, zh: b.label_zh }) }),
+        zone
+      ]);
+      state.zoneEls[b.id] = zone;
+      buckets.appendChild(box);
+    });
+
+    wrap.appendChild(tray);
+    wrap.appendChild(buckets);
+    state.catWrap = wrap;
+    state.host.appendChild(wrap);
+
+    // shuffle so the tray isn't pre-grouped, then render each card into the tray
+    shuffled((cfg.items || []).map(function (it) { return it.id; })).forEach(function (id) {
+      tray.appendChild(makeCatCard(state, id));
+    });
+    refreshCatPlaceholders(state);
+  }
+
+  function makeCatCard(state, id) {
+    var byId = {};
+    (state.cfg.items || []).forEach(function (it) { byId[it.id] = it; });
+    var it = byId[id] || { id: id };
+    var card = el('div', {
+      class: 'dg-card dg-cat__card',
+      'data-id': id,
+      tabindex: '0',
+      role: 'button',
+      'aria-label': label(it.label != null ? it.label : { en: it.label_en, zh: it.label_zh })
+    }, [
+      el('span', { class: 'dg-card__handle', 'aria-hidden': 'true', text: '⠿' }),
+      el('span', { class: 'dg-card__label', html: label(it.label != null ? it.label : { en: it.label_en, zh: it.label_zh }) })
+    ]);
+    wireCatCard(state, card);
+    return card;
+  }
+
+  // ordered list of drop targets a card can travel through: tray, then each bucket
+  function catZones(state) {
+    var zones = [state.trayEl];
+    (state.cfg.buckets || []).forEach(function (b) { zones.push(state.zoneEls[b.id]); });
+    return zones;
+  }
+
+  function placeCard(state, card, zoneEl) {
+    var id = card.getAttribute('data-id');
+    var bucket = zoneEl.getAttribute('data-bucket');
+    zoneEl.appendChild(card);
+    state.placement[id] = bucket === '__tray' ? null : bucket;
+    refreshCatPlaceholders(state);
+    clearVerdict(state);
+  }
+
+  function wireCatCard(state, card) {
+    // ---- pointer drag: lift the card and follow the pointer (touch + mouse) ----
+    card.addEventListener('pointerdown', function (e) {
+      if (state.locked || e.button > 0) return;
+      e.preventDefault();
+      startCatDrag(state, card, e);
+    });
+    // ---- keyboard: ←/→ move the focused card through tray → buckets ----
+    card.addEventListener('keydown', function (e) {
+      if (state.locked) return;
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      var zones = catZones(state);
+      var here = zones.indexOf(card.parentNode);
+      if (here < 0) here = 0;
+      var next = here + (e.key === 'ArrowRight' ? 1 : -1);
+      if (next < 0 || next >= zones.length) return;
+      placeCard(state, card, zones[next]);
+      card.focus();
+    });
+  }
+
+  function startCatDrag(state, card, downEvt) {
+    var rect = card.getBoundingClientRect();
+    var home = card.parentNode;
+    card.setPointerCapture && card.setPointerCapture(downEvt.pointerId);
+    card.classList.add('dg-card--dragging', 'dg-card--lifted');
+    card.style.width = rect.width + 'px';
+    var dx = downEvt.clientX - rect.left, dy = downEvt.clientY - rect.top;
+    var moved = false, hot = null;
+
+    function moveTo(x, y) { card.style.left = (x - dx) + 'px'; card.style.top = (y - dy) + 'px'; }
+    moveTo(downEvt.clientX, downEvt.clientY);
+
+    function onMove(e) {
+      moved = true;
+      moveTo(e.clientX, e.clientY);
+      card.style.pointerEvents = 'none';                 // see through to the zone below
+      var under = document.elementFromPoint(e.clientX, e.clientY);
+      card.style.pointerEvents = '';
+      var zone = under && under.closest ? under.closest('.dg-cat__dropzone, .dg-cat__tray') : null;
+      if (hot !== zone) {
+        if (hot) hot.classList.remove('dg-cat__dropzone--hot');
+        hot = zone;
+        if (hot) hot.classList.add('dg-cat__dropzone--hot');
+      }
+    }
+    function onUp() {
+      card.removeEventListener('pointermove', onMove);
+      card.removeEventListener('pointerup', onUp);
+      card.removeEventListener('pointercancel', onUp);
+      card.classList.remove('dg-card--dragging', 'dg-card--lifted');
+      card.style.width = card.style.left = card.style.top = '';
+      if (hot) hot.classList.remove('dg-cat__dropzone--hot');
+      placeCard(state, card, (moved && hot) ? hot : home);
+    }
+    card.addEventListener('pointermove', onMove);
+    card.addEventListener('pointerup', onUp);
+    card.addEventListener('pointercancel', onUp);
+  }
+
+  // show a faint "drop here" hint in any empty zone
+  function refreshCatPlaceholders(state) {
+    var zh = lang() === 'zh';
+    catZones(state).forEach(function (zone) {
+      var has = $('.dg-cat__card', zone);
+      zone.classList.toggle('dg-cat__dropzone--empty', !has);
+      if (zone === state.trayEl) return;             // tray has its own visuals
+      zone.setAttribute('data-empty-hint', zh ? '拖到这里' : 'drop here');
+    });
+  }
+
+  // ════════════════════════════════════════════════════════
   //  FOOTER: submit + verdict
   // ════════════════════════════════════════════════════════
   function buildFooter(state) {
@@ -402,6 +551,13 @@
       var pairs = Object.keys(state.pairs).map(function (l) { return [l, state.pairs[l]]; });
       return { mode: 'match', question_id: state.qid, pairs: pairs };
     }
+    if (state.mode === 'categorize') {
+      var placements = {};
+      Object.keys(state.placement).forEach(function (id) {
+        if (state.placement[id]) placements[id] = state.placement[id];   // omit still-in-tray
+      });
+      return { mode: 'categorize', question_id: state.qid, placements: placements };
+    }
     return { mode: 'sequence', question_id: state.qid, ordered_ids: state.order.slice() };
   }
 
@@ -411,6 +567,28 @@
       var ok = arrEq(sub.ordered_ids, cfg.correct_order || []);
       return { correct: ok, message: ok ? (zh ? '顺序正确！' : 'Correct order!')
                                          : (zh ? '顺序还不对，再试试。' : 'Not the right order yet.') };
+    }
+    if (state.mode === 'categorize') {
+      var correct = cfg.correct || {};
+      var ids = Object.keys(correct);
+      var ctotal = ids.length, cgot = 0;
+      ids.forEach(function (id) { if (state.placement[id] === correct[id]) cgot++; });
+      var cAllOk = cgot === ctotal;
+      var msg;
+      if (Array.isArray(cfg.marks) && cfg.marks.length) {
+        var mark = catMark(cfg.marks, cgot);
+        var mk = mark + (mark === 1 ? ' mark' : ' marks');
+        msg = cAllOk
+          ? (zh ? ('全对！得 ' + mark + ' 分。') : ('All correct! ' + mk + '.'))
+          : (zh ? ('放对 ' + cgot + '/' + ctotal + '，得 ' + mark + ' 分，可再试。')
+                : ('Placed ' + cgot + '/' + ctotal + ' right — ' + mk + '. Try again.'));
+      } else {
+        msg = cAllOk ? (zh ? '全部分类正确！' : 'All sorted correctly!')
+                     : (zh ? ('放对 ' + cgot + '/' + ctotal + '，再检查一下。')
+                           : ('Sorted ' + cgot + '/' + ctotal + ' — keep going.'));
+      }
+      return { correct: cAllOk, message: msg, got: cgot, total: ctotal,
+               mark: Array.isArray(cfg.marks) ? catMark(cfg.marks, cgot) : undefined };
     }
     // match
     var want = {};
@@ -422,6 +600,15 @@
       message: allOk ? (zh ? '全部配对正确！' : 'All matched!')
                      : (zh ? ('配对 ' + got + '/' + total + ' 正确，再检查一下。')
                            : ('Matched ' + got + '/' + total + ' — keep going.')) };
+  }
+
+  // highest band whose min_correct ≤ got (bands need not be pre-sorted)
+  function catMark(bands, got) {
+    var best = 0, bestMin = -1;
+    bands.forEach(function (b) {
+      if (got >= b.min_correct && b.min_correct > bestMin) { bestMin = b.min_correct; best = b.mark; }
+    });
+    return best;
   }
 
   function showVerdict(state, correct, message) {

@@ -6,7 +6,7 @@
 两个组件：
 | 组件 | 干什么 | 上线状态 |
 |---|---|---|
-| **拖拽** `drag` | 排顺序 / 连连看 / 拖步骤 | ✅ 已在 main（PR #24） |
+| **拖拽** `drag` | 排顺序 / 连连看 / 拖步骤 / **分类** | ✅ 已在 main（PR #24）；**分类**新增待合 |
 | **粒子画板** `particle` | 画三态粒子 + 画箭头 | ⏳ PR #25 合并后上线 |
 
 判分有两种模式，**先看哪种**：
@@ -62,6 +62,41 @@
 </div>
 ```
 > 右列自动打乱。`correct_pairs` 写 `[左id, 右id]` 的数组，几对写几条。
+
+**④ 分类**（`mode: "categorize"`）——把多张卡片拖进几个盒子，**一个盒子能装多张**（连线题做不到的「多对一」就用这个）：
+```html
+<div data-component="drag" data-question-id="Y7_U1_L02_T1">
+  <script type="application/json">
+  {
+    "mode": "categorize",
+    "self_check": true,
+    "prompt": { "en": "Drag each thing into the right box.", "zh": "把每样东西拖进对的盒子。" },
+    "items": [
+      { "id": "mountain", "label": { "en": "Mountain", "zh": "山" } },
+      { "id": "cell",     "label": { "en": "Cell",     "zh": "细胞" } }
+    ],
+    "buckets": [
+      { "id": "visible", "label": { "en": "Can see with eyes", "zh": "肉眼看得到" } },
+      { "id": "hidden",  "label": { "en": "Can't see",         "zh": "看不到" } }
+    ],
+    "correct": { "mountain": "visible", "cell": "hidden" }
+  }
+  </script>
+</div>
+```
+> 卡片一开始全在上方「待分类」托盘里、自动打乱。`correct` 写 `{卡片id: 盒子id}`。学生操作：**拖卡片进盒子**，键盘 **←/→** 也能在托盘↔各盒子间移动。
+
+**部分给分**（考段计分题，如 O3）——给 `categorize` 加一段 `marks` 分数带，按「放对几个」给分：
+```json
+"marks": [
+  { "min_correct": 4, "mark": 2 },
+  { "min_correct": 2, "mark": 1 },
+  { "min_correct": 0, "mark": 0 }
+]
+```
+> 取「放对个数 ≥ min_correct」里最高的一档当分数。全对才锁定，否则留着重试。
+
+⚠️ **防偷看提醒**：`self_check` 会把答案写进页面，计分题（TEST 段）理想是走后端判分。但**拖拽的后端判分还没接**（见文末）。所以现在 O3 先用 `self_check + marks`，分数前端算，够工厂渲染/试题；等接了后端再把答案藏起来。
 
 ---
 
