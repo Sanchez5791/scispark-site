@@ -1494,7 +1494,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     function parseMarks(container) {
       if (!container) return null;
       var t = container.textContent || '';
-      var m = t.match(/(\d+)\s*marks?\b/i);
+      // no \b after marks?: textContent runs the "1 mark" badge straight into the
+      // next word ("1 markMaya"), so a trailing word boundary never matches.
+      var m = t.match(/(\d+)\s*marks?/i);
       return m ? parseInt(m[1], 10) : null;
     }
     function stemOf(container, qid) {
