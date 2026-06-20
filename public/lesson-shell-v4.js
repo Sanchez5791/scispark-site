@@ -115,7 +115,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
     const u = new SpeechSynthesisUtterance(text);
     u.lang = langCode;
     u.rate = 0.9;
-    u.pitch = 1.0;
+    // 豆豆 voice alignment 2026-06-20: long ▶ passages use the shared PITCH_LONG.
+    u.pitch = (window.SciSparkVoice && window.SciSparkVoice.PITCH_LONG) || 1.22;
     u.volume = 1.0;
   
     const voice = pickBestVoice(langCode);
@@ -154,31 +155,38 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
   
   function pickBestVoice(langCode) {
+    // Single source of truth = /voice-profile.js (window.SciSparkVoice).
+    // Voice alignment 2026-06-20: the whole course uses the soft/high 豆豆 voice.
+    if (window.SciSparkVoice && typeof window.SciSparkVoice.pick === 'function') {
+      return window.SciSparkVoice.pick(langCode);
+    }
+    // Inline fallback (mirrors voice-profile.js) so lessons that have not yet
+    // loaded voice-profile.js still get the soft/high voice — never the old male one.
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return null;
-  
-    const maleEN = ['Male','Daniel','Alex','David','Mark','George','Guy','Ryan','Brian','Tony','James'];
-    const maleZH = ['Kangkang','Yunyang','Yunxi','Yunjian'];
-    const maleNames = langCode.startsWith('zh') ? maleZH : maleEN;
-    const isMale = x => maleNames.some(n => x.name.includes(n));
+
+    const softEN = ['Female','Samantha','Karen','Tessa','Fiona','Moira','Zira','Aria','Jenny','Susan','Google UK English Female','Google US English'];
+    const softZH = ['Ting','Mei-Jia','Huihui','Xiaoxiao','Yaoyao','Google','普通话','Chinese'];
+    const softNames = langCode.startsWith('zh') ? softZH : softEN;
+    const isSoft = x => softNames.some(n => x.name.includes(n));
     const isNeural = x => x.name.includes('Google') || x.name.includes('Microsoft');
-  
-    // 1. Male + Google/Microsoft + exact lang
-    let v = voices.find(x => x.lang.startsWith(langCode) && isMale(x) && isNeural(x));
+
+    // 1. Soft/high + Google/Microsoft + exact lang
+    let v = voices.find(x => x.lang.startsWith(langCode) && isSoft(x) && isNeural(x));
     if (v) return v;
-  
-    // 2. Male + exact lang (any provider)
-    v = voices.find(x => x.lang.startsWith(langCode) && isMale(x));
+
+    // 2. Soft/high + exact lang (any provider)
+    v = voices.find(x => x.lang.startsWith(langCode) && isSoft(x));
     if (v) return v;
-  
-    // 3. Fallback: Google/Microsoft + exact lang (non-male)
+
+    // 3. Fallback: Google/Microsoft + exact lang
     v = voices.find(x => x.lang.startsWith(langCode) && isNeural(x));
     if (v) return v;
-  
+
     // 4. Fallback: any voice matching lang
     v = voices.find(x => x.lang.startsWith(langCode));
     if (v) return v;
-  
+
     // 5. Fallback: main language code only
     const mainLang = langCode.split('-')[0];
     v = voices.find(x => x.lang.startsWith(mainLang));

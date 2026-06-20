@@ -72,7 +72,13 @@
       return list[0]||null;
     }
     function pick(){
-      // prefer a softer / higher (younger-sounding) voice for 豆豆
+      // Shared single source = /voice-profile.js → same voice as the engine ▶ buttons.
+      if(window.SciSparkVoice && typeof window.SciSparkVoice.pick==='function'){
+        enVoice = window.SciSparkVoice.pick('en-US');
+        zhVoice = window.SciSparkVoice.pick('zh-CN');
+        return;
+      }
+      // fallback if voice-profile.js absent — prefer a softer / higher voice for 豆豆
       enVoice = best('en', ['female','samantha','karen','tessa','fiona','moira','zira','aria','jenny','susan','google uk english female','google us english']);
       zhVoice = best('zh', ['ting','mei-?jia','huihui','xiaoxiao','yaoyao','google','普通话','chinese']);
     }
@@ -91,7 +97,7 @@
         var v = useZh ? zhVoice : enVoice;
         if(v){ u.voice=v; u.lang=v.lang; } else { u.lang = useZh ? 'zh-CN' : 'en-US'; }
         u.rate = rateVal();
-        u.pitch = 1.22;                                  // a touch higher = friendlier
+        u.pitch = (window.SciSparkVoice && window.SciSparkVoice.PITCH) || 1.22;  // shared 豆豆 pitch
         window.speechSynthesis.speak(u);
       }catch(e){}
     }
