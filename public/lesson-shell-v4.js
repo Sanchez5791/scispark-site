@@ -795,6 +795,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
         marker:           (p.score == null ? 'self_reported' : 'engine_v4'),
         marked_at:        new Date().toISOString()
       };
+      // is_correct (Order 2026-06-20 关键词闸): ONLY attach when a verdict exists.
+      // Ungated self-reported reveals omit it entirely, so those inserts keep
+      // working even if the migration hasn't run yet — zero regression to PR#65.
+      if (p.isCorrect != null) row.is_correct = !!p.isCorrect;
       const { error } = await client.from('lesson_question_attempts').insert(row);
       if (error) console.warn('[SciSpark] question capture failed:', error.message);
       else console.log('%c[SciSpark] question captured — ' + row.lesson_code + ' ' + qid,
@@ -812,6 +816,121 @@ Globals exposed (lesson HTML can call directly via onclick=):
     return null;
   }
 
+  // ═════════════════════════════════════════════════════════════
+  // KEYWORD GATE — typed-answer auto-grading (Order 2026-06-20 军师房)
+  // Grades free-text (fill-in / short-answer) questions so the student
+  // data dashboard can light up per-question right/wrong. PLUG-ONLY:
+  // grading lives here in the shared engine; the per-question rule ("料")
+  // stays in each lesson HTML as data-gate JSON (see _pqReadGate).
+  // Does NOT touch MCQ submitAnswer; does NOT touch ungated captures.
+  // ═════════════════════════════════════════════════════════════
+
+  // Normalize a string for comparison: trim, full-width→half-width,
+  // full-width space→space, lowercase, collapse runs of whitespace.
+  function _normText(s) {
+    s = (s == null) ? '' : String(s);
+    // full-width ASCII (！-～ U+FF01–FF5E) → ASCII (!-~ U+0021–007E)
+    s = s.replace(/[！-～]/g, function (ch) {
+      return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0);
+    });
+    s = s.replace(/　/g, ' ');          // ideographic (full-width) space
+    s = s.trim().toLowerCase();
+    s = s.replace(/\s+/g, ' ');
+    return s;
+  }
+
+  // gradeTextAnswer(userText, gate) → { isCorrect, matched, missed, forbiddenHit? }
+  //   gate = { required: [ ["质量","mass"], ["空气","air"] ], forbidden: ["不变","no mass"] }
+  //   - required: array of synonym GROUPS; any synonym in a group satisfies that group;
+  //               ALL groups must be satisfied to pass.
+  //   - forbidden: any hit → wrong (highest priority).
+  //   - empty answer / pure-symbol gibberish → wrong.
+  //   matched/missed are returned for future hint/dashboard use (not required now).
+  function gradeTextAnswer(userText, gate) {
+    gate = gate || {};
+    const norm = _normText(userText);
+    const required = Array.isArray(gate.required) ? gate.required : [];
+    const result = { isCorrect: false, matched: [], missed: [] };
+
+    // Empty OR no letter/number/CJK at all (pure symbols/punctuation) → wrong.
+    const hasContent = /[\p{L}\p{N}]/u.test(norm);
+    if (!norm || !hasContent) { result.missed = required.slice(); return result; }
+
+    // Forbidden first (highest priority).
+    const forbidden = (Array.isArray(gate.forbidden) ? gate.forbidden : [])
+      .map(_normText).filter(Boolean);
+    for (let i = 0; i < forbidden.length; i++) {
+      if (norm.indexOf(forbidden[i]) !== -1) {
+        result.forbiddenHit = forbidden[i];
+        result.missed = required.slice();
+        return result;                       // isCorrect stays false
+      }
+    }
+
+    // Required synonym groups: every group must have one synonym present.
+    let allPass = true;
+    for (let g = 0; g < required.length; g++) {
+      const group = Array.isArray(required[g]) ? required[g] : [required[g]];
+      const syns = group.map(_normText).filter(Boolean);
+      let hit = null;
+      for (let s = 0; s < syns.length; s++) {
+        if (norm.indexOf(syns[s]) !== -1) { hit = syns[s]; break; }
+      }
+      if (hit) result.matched.push(hit);
+      else { allPass = false; result.missed.push(group); }
+    }
+
+    // Correct only when there is at least one required group AND all groups passed.
+    // (A gate with no required groups can never confirm "correct" — fail safe.)
+    result.isCorrect = (required.length > 0) && allPass;
+    return result;
+  }
+
+  // Read a question's grading rule ("料") from the lesson HTML.
+  // Looked for (first hit wins): block[data-gate], the answer-input element
+  // [data-gate], or window.QGATES[questionId]. Returns the parsed gate or null.
+  function _pqReadGate(block, qid, inputEl) {
+    function parse(raw) {
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch (e) {
+        console.warn('[SciSpark] bad data-gate JSON, ignoring:', e.message);
+        return null;
+      }
+    }
+    let g = null;
+    if (block && block.getAttribute) g = parse(block.getAttribute('data-gate'));
+    if (!g && inputEl && inputEl.getAttribute) g = parse(inputEl.getAttribute('data-gate'));
+    if (!g && qid && window.QGATES && window.QGATES[qid]) {
+      g = window.QGATES[qid];                // already an object
+    }
+    return g;
+  }
+
+  // Reward-once tracker for graded free-text (per question id, this page load).
+  const _ftGraded = {};
+
+  // Apply the reward path for a graded free-text answer. Mirrors submitAnswer
+  // steps 5–9 EXACTLY (no MCQ code is touched). Strict 2026-06-19 round-3 rule:
+  // wrong / junk NEVER raises marks / mastery / effort / XP / streak.
+  function _applyFreeTextReward(block, isCorrect) {
+    // 5 · Spark Jar — mastery ONLY on correct
+    if (window.SparkJar && isCorrect) window.SparkJar.add(20, 'correct');
+    // 6 · Spark Streak (paused-not-reset; miss() is a pause, not a reward)
+    try { if (isCorrect) SparkStreak.add(); else SparkStreak.miss(); } catch (e) {}
+    // 7 · v1 XP — ONLY on correct
+    if (isCorrect && typeof awardXP === 'function') { try { awardXP(10, 'text'); } catch (e) {} }
+    // 8 · Doudou react
+    if (typeof doudouReact === 'function') { try { doudouReact(isCorrect); } catch (e) {} }
+    // 9 · Reward audio
+    try { playSound(isCorrect ? 'correct' : 'wrong'); } catch (e) {}
+    // 10 · Mark answered for test progress
+    if (block && block.dataset && block.dataset.question) {
+      block.setAttribute('data-answered', 'true');
+      block.setAttribute('data-result', isCorrect ? 'correct' : 'wrong');
+    }
+    try { updateTestProgress(); } catch (e) {}
+  }
+
   // Called from toggleAns: a "Check answer" reveal on a free-text question.
   function _pqCaptureReveal(id) {
     const box = document.getElementById(id);
@@ -825,6 +944,34 @@ Globals exposed (lesson HTML can call directly via onclick=):
     let maxScore = null;
     const qm = block.querySelector('.q-marks');
     if (qm) { const m = qm.textContent.match(/\d+/); if (m) maxScore = parseInt(m[0], 10); }
+
+    // Keyword gate? If this question carries grading rules, auto-grade it.
+    const gate = _pqReadGate(block, qid, ta);
+    if (gate) {
+      let verdict = null;
+      try { verdict = gradeTextAnswer(text, gate); } catch (e) { verdict = null; }
+      if (verdict) {
+        const isCorrect = !!verdict.isCorrect;
+        // visual state for the lesson (CSS can style data-result)
+        block.setAttribute('data-result', isCorrect ? 'correct' : 'wrong');
+        // reward exactly once per question (re-reveals don't re-reward)
+        if (!_ftGraded[qid]) {
+          _ftGraded[qid] = true;
+          _applyFreeTextReward(block, isCorrect);
+        }
+        recordQuestionAttempt({
+          questionId: qid,
+          inputType:  'free_text_graded',
+          submission: { text: text, matched: verdict.matched, missed: verdict.missed },
+          score:      isCorrect ? 1 : 0,
+          maxScore:   maxScore,
+          isCorrect:  isCorrect          // → writes is_correct column
+        });
+        return;
+      }
+    }
+
+    // No gate (or grade failed) → unchanged self-reported capture (score=null).
     recordQuestionAttempt({
       questionId: qid,
       inputType:  'free_text',
@@ -2418,6 +2565,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   window.selectOpt = selectOpt;
   window.toggleHint = toggleHint;
   window.toggleAns = toggleAns;
+  window.gradeTextAnswer = gradeTextAnswer;   // keyword-gate typed-answer grader (Order 2026-06-20)
   window.toggleMute = toggleMute;
   window.playSound = playSound;
   window.trackProgress = trackProgress;
