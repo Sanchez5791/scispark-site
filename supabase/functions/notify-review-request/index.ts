@@ -16,6 +16,10 @@
 //   returns immediately. The trigger fires exactly once per INSERT, and this
 //   guard covers any retry / replay on top of that.
 //
+// 每日封顶 / daily cap (军师 2026-06-20): at most NOTIFY_DAILY_CAP pings/day (default 30,
+//   env-tunable). Past the cap the row is still stamped + lands in the console, but the
+//   owner isn't pinged for the overflow — stops a student spamming the boss's phone.
+//
 // Auth: called server-to-server by the DB trigger, NOT by a browser. There is no
 //   user JWT. Instead the trigger sends a shared secret header (x-notify-secret)
 //   that must equal NOTIFY_TRIGGER_SECRET. Deploy with --no-verify-jwt.
@@ -35,6 +39,11 @@ const NOTIFY_EMAIL_FROM     = Deno.env.get("NOTIFY_EMAIL_FROM") ?? "SciSpark Ale
 // WhatsApp (CallMeBot) — leave either unset to skip the WhatsApp channel
 const CALLMEBOT_PHONE       = Deno.env.get("CALLMEBOT_PHONE") ?? "";   // intl digits, e.g. 60123456789
 const CALLMEBOT_APIKEY      = Deno.env.get("CALLMEBOT_APIKEY") ?? "";
+
+// Daily cap (军师 派工 2026-06-20): at most N pings/day so a student can't spam the boss.
+// Past the Nth of the (UTC) day we stop pinging but still mark the row handled — it still
+// lands in the teacher console, the owner just isn't pinged for the overflow. Env-tunable.
+const NOTIFY_DAILY_CAP      = Math.max(1, parseInt(Deno.env.get("NOTIFY_DAILY_CAP") ?? "30", 10) || 30);
 
 const CONSOLE_URL           = (Deno.env.get("SITE_URL") ?? "https://scisparklab.com") + "/review-console";
 
@@ -136,6 +145,25 @@ Deno.serve(async (req) => {
   // 别重复发: already notified → stop
   if (row.notified_at) return json({ ok: true, skipped: "already notified" });
 
+  // ── Daily cap ── count rows already stamped notified_at today (UTC day boundary; v1 keeps
+  // it simple per 军师 note). The count includes both real sends and prior cap-skips, so once
+  // we hit N the rest of the day stays capped. Fail-OPEN: if the count query errors we still
+  // send — a counting glitch must never silence a genuine help request.
+  const now = new Date();
+  const startOfUtcDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString();
+  const { count: sentToday, error: capErr } = await sb
+    .from("review_requests")
+    .select("id", { count: "exact", head: true })
+    .gte("notified_at", startOfUtcDay);
+  if (capErr) {
+    console.warn(`[notify] daily-cap count failed, failing open: ${capErr.message}`);
+  } else if ((sentToday ?? 0) >= NOTIFY_DAILY_CAP) {
+    // over cap → don't ping, but stamp notified_at so the row is marked handled (no re-fire storm).
+    await sb.from("review_requests").update({ notified_at: new Date().toISOString() }).eq("id", id);
+    console.log(`[notify] daily cap reached (${sentToday}/${NOTIFY_DAILY_CAP}) — row ${id} logged in console, owner not pinged`);
+    return json({ ok: true, capped: true, sent_today: sentToday, cap: NOTIFY_DAILY_CAP });
+  }
+
   const [email, whatsapp] = await Promise.all([sendEmail(row), sendWhatsApp(row)]);
 
   // stamp notified_at so a retry/replay never double-sends (even if one channel failed —
@@ -144,5 +172,5 @@ Deno.serve(async (req) => {
     .update({ notified_at: new Date().toISOString() })
     .eq("id", id);
 
-  return json({ ok: true, email, whatsapp });
+  return json({ ok: true, email, whatsapp, sent_today: (sentToday ?? 0) + 1, cap: NOTIFY_DAILY_CAP });
 });
