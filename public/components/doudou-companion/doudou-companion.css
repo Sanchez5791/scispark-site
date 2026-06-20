@@ -1,0 +1,245 @@
+/* ============================================================
+ * /components/doudou-companion/doudou-companion.css
+ * 豆豆陪伴系统 · pilot skin (Y7 U1 L01)
+ * Design line (red-line 4 — 不幼稚): white base, small DouDou,
+ * orange accent #EA580C (matches DouDou eye), Geist/Noto SC type.
+ * All companion UI renders INLINE in flow — never overlays the
+ * question or input (red-line 6 — 小屏不遮题).
+ * ============================================================ */
+
+.dd {
+  --dd-orange: #EA580C;
+  --dd-ink: #171413;
+  --dd-line: #E8E2D8;
+  --dd-soft: #FFF7F0;
+  --dd-green: #2E7D32;
+  --dd-green-bg: #E8FFE8;
+  --dd-amber: #C9A227;
+  font-family: 'Geist', 'Inter', system-ui, sans-serif;
+}
+
+/* ---- per-question companion strip (injected after submit row) ---- */
+.dd-strip {
+  margin-top: 12px;
+  border-top: 1px dashed var(--dd-line);
+  padding-top: 12px;
+}
+/* quiet mode: silence DouDou's unsolicited voice (cards + nudges) but keep
+   the student-initiated Small Push button and the dock control working. */
+body[data-dd-mode="quiet"] .dd-card,
+body[data-dd-mode="quiet"] .dd-nudge { display: none !important; }
+
+/* ---- DouDou avatar (small, clear) ---- */
+.dd-avatar {
+  width: 44px; height: 44px;
+  flex: 0 0 44px;
+  line-height: 0;
+}
+.dd-avatar svg { width: 100%; height: auto; display: block; }
+
+/* ---- companion card (reaction / nudge) ---- */
+.dd-card {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #fff;
+  border: 1.5px solid var(--dd-line);
+  border-radius: 12px;
+  padding: 11px 13px;
+  animation: dd-fade .26s ease both;
+}
+.dd-card.dd-correct { background: var(--dd-green-bg); border-color: #BFE6BF; }
+.dd-card.dd-wrong   { background: var(--dd-soft);    border-color: #FBD9BF; }
+.dd-card.dd-calm    { background: #F7FAFF;           border-color: #CFE0F5; }
+.dd-bubble { flex: 1 1 auto; min-width: 0; }
+.dd-name {
+  font-weight: 800; font-size: 12px; letter-spacing: .3px;
+  color: var(--dd-orange); margin-bottom: 2px;
+}
+.dd-line-en { font-weight: 700; font-size: 14px; color: var(--dd-ink); line-height: 1.5; }
+.dd-line-zh { font-weight: 700; font-size: 13px; color: #C2410C; line-height: 1.55; margin-top: 3px; }
+.dd-sub {
+  font-weight: 700; font-size: 12px; color: var(--dd-green);
+  margin-top: 6px;
+}
+.dd-sub.dd-sub-amber { color: var(--dd-amber); }
+
+/* bilingual-by-level: lead language follows body[data-user-level] */
+body[data-user-level="1"] .dd-line-en { font-size: 13px; opacity: .82; order: 2; }
+body[data-user-level="1"] .dd-line-zh { font-size: 14px; order: 1; }
+body[data-user-level="3"] .dd-line-zh { opacity: .72; }
+.dd-bubble { display: flex; flex-direction: column; }
+
+/* ---- Small Push button + hint ladder ---- */
+.dd-push-btn {
+  margin-top: 10px;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #fff; color: var(--dd-orange);
+  border: 1.5px solid var(--dd-orange); border-radius: 9px;
+  padding: 7px 14px; cursor: pointer;
+  font-family: inherit; font-weight: 800; font-size: 13px;
+  transition: background .15s, color .15s;
+}
+.dd-push-btn:hover { background: var(--dd-orange); color: #fff; }
+.dd-push-btn:disabled { opacity: .45; cursor: default; }
+.dd-push-btn .dd-zh { font-weight: 700; opacity: .9; }
+
+/* reason picker (4选1) */
+.dd-reason {
+  margin-top: 10px;
+  background: #fff; border: 1.5px solid var(--dd-line);
+  border-radius: 12px; padding: 12px 13px;
+  animation: dd-fade .22s ease both;
+}
+.dd-reason-q { font-weight: 800; font-size: 13px; color: var(--dd-ink); margin-bottom: 9px; }
+.dd-reason-q .dd-zh { display: block; font-weight: 700; font-size: 12px; color: #C2410C; margin-top: 2px; }
+.dd-reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 380px){ .dd-reason-grid { grid-template-columns: 1fr; } }
+.dd-reason-opt {
+  text-align: left; cursor: pointer;
+  background: var(--dd-soft); border: 1.5px solid #FBD9BF; border-radius: 9px;
+  padding: 9px 11px; font-family: inherit;
+  font-weight: 700; font-size: 12.5px; color: var(--dd-ink); line-height: 1.35;
+  transition: border-color .15s, background .15s;
+}
+.dd-reason-opt:hover { border-color: var(--dd-orange); background: #fff; }
+.dd-reason-opt .dd-zh { display: block; font-weight: 700; font-size: 11.5px; color: #C2410C; margin-top: 2px; }
+
+/* hint ladder */
+.dd-ladder { margin-top: 10px; }
+.dd-hint {
+  background: #FFFBF6; border: 1.5px solid #FBD9BF; border-radius: 11px;
+  padding: 11px 13px; margin-top: 9px;
+  animation: dd-fade .26s ease both;
+}
+.dd-hint-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 5px;
+}
+.dd-hint-step {
+  font-weight: 800; font-size: 11px; letter-spacing: .5px;
+  color: var(--dd-orange);
+  background: #FFF0DB; border-radius: 999px; padding: 2px 9px;
+}
+.dd-hint-last { font-weight: 700; font-size: 11px; color: var(--dd-amber); }
+.dd-hint-en { font-weight: 700; font-size: 13.5px; color: var(--dd-ink); line-height: 1.5; }
+.dd-hint-zh { font-weight: 700; font-size: 12.5px; color: #C2410C; line-height: 1.5; margin-top: 3px; }
+.dd-hint-row { margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.dd-tried, .dd-next {
+  cursor: pointer; font-family: inherit; font-weight: 800; font-size: 12.5px;
+  border-radius: 8px; padding: 6px 12px; border: 1.5px solid;
+}
+.dd-tried { background: #fff; color: var(--dd-ink); border-color: var(--dd-line); }
+.dd-tried.dd-done { background: var(--dd-green-bg); color: var(--dd-green); border-color: #BFE6BF; }
+.dd-next { background: var(--dd-orange); color: #fff; border-color: var(--dd-orange); }
+.dd-next:disabled { background: #F3EDE6; color: #B9AE9F; border-color: var(--dd-line); cursor: default; }
+.dd-gatemsg { font-weight: 700; font-size: 11.5px; color: #9A8C7B; }
+.dd-final {
+  margin-top: 9px; font-weight: 800; font-size: 12.5px; color: var(--dd-orange);
+  background: #FFF0DB; border-radius: 9px; padding: 8px 11px;
+}
+.dd-final .dd-zh { display:block; font-weight:700; color:#C2410C; margin-top:2px; }
+
+/* ---- stuck nudge (inline, dismissible, never over input) ---- */
+.dd-nudge {
+  margin-top: 12px;
+  display: flex; gap: 10px; align-items: center;
+  background: #F7FAFF; border: 1.5px solid #CFE0F5; border-radius: 12px;
+  padding: 10px 13px;
+  animation: dd-fade .26s ease both;
+}
+.dd-nudge .dd-bubble { flex: 1 1 auto; }
+.dd-nudge-btns { display: flex; gap: 7px; flex-shrink: 0; }
+.dd-nudge-yes, .dd-nudge-no {
+  cursor: pointer; font-family: inherit; font-weight: 800; font-size: 12px;
+  border-radius: 8px; padding: 6px 11px; border: 1.5px solid;
+}
+.dd-nudge-yes { background: var(--dd-orange); color: #fff; border-color: var(--dd-orange); }
+.dd-nudge-no  { background: #fff; color: #6B7C93; border-color: #CFE0F5; }
+
+/* ---- WRAP: repair list + parent card ---- */
+.dd-wrap-block { margin: 16px 0; }
+.dd-panel {
+  background: #fff; border: 1.5px solid var(--dd-line); border-radius: 16px;
+  padding: 16px 18px; margin: 14px 0;
+}
+.dd-panel-title { font-weight: 900; font-size: 17px; color: var(--dd-ink); }
+.dd-panel-title .dd-zh { font-weight: 800; font-size: 14px; color: #C2410C; margin-left: 6px; }
+.dd-repair-item {
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 9px 0; border-bottom: 1px solid #F0EAE1;
+}
+.dd-repair-item:last-child { border-bottom: 0; }
+.dd-repair-check { color: var(--dd-green); font-weight: 900; flex: 0 0 auto; }
+.dd-repair-txt { font-weight: 700; font-size: 13.5px; color: var(--dd-ink); line-height: 1.5; }
+.dd-repair-txt .dd-zh { display:block; font-weight:700; font-size:12.5px; color:#C2410C; margin-top:2px; }
+.dd-empty { font-weight: 700; font-size: 13px; color: #9A8C7B; }
+
+.dd-parent { background: #FBFAF8; }
+.dd-parent .dd-panel-title { font-size: 15px; }
+.dd-metric-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
+.dd-metric {
+  flex: 1 1 120px; background: #fff; border: 1.5px solid var(--dd-line);
+  border-radius: 11px; padding: 11px 13px;
+}
+.dd-metric-num { font-weight: 900; font-size: 22px; color: var(--dd-orange); }
+.dd-metric-lab { font-weight: 700; font-size: 11.5px; color: #6B6256; margin-top: 2px; line-height: 1.35; }
+.dd-parent-note { font-weight: 700; font-size: 12.5px; color: #4A4036; line-height: 1.6; margin-top: 10px; }
+.dd-parent-note b { color: var(--dd-ink); }
+.dd-strict {
+  margin-top: 12px; display: flex; gap: 9px; align-items: center;
+  font-weight: 800; font-size: 12.5px; color: var(--dd-ink);
+}
+.dd-strict input { width: 18px; height: 18px; accent-color: var(--dd-orange); }
+
+/* ---- intensity control (small floating, dismissible) ---- */
+.dd-dock {
+  position: fixed; right: 12px; bottom: 12px; z-index: 60;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 7px;
+  font-family: 'Geist','Inter',system-ui,sans-serif;
+}
+.dd-dock-toggle {
+  cursor: pointer; border: 1.5px solid var(--dd-line); background: #fff;
+  border-radius: 999px; padding: 6px 12px 6px 8px;
+  display: flex; gap: 7px; align-items: center;
+  box-shadow: 0 2px 10px rgba(23,20,19,.10);
+  font-weight: 800; font-size: 12px; color: var(--dd-ink);
+}
+.dd-dock-toggle .dd-avatar { width: 26px; height: 26px; flex-basis: 26px; }
+.dd-dock-panel {
+  display: none; background: #fff; border: 1.5px solid var(--dd-line);
+  border-radius: 13px; padding: 11px; width: 212px;
+  box-shadow: 0 6px 22px rgba(23,20,19,.14);
+}
+.dd-dock.dd-open .dd-dock-panel { display: block; }
+.dd-dock-lab { font-weight: 800; font-size: 11px; color: #6B6256; margin-bottom: 7px; }
+.dd-seg { display: flex; gap: 5px; }
+.dd-seg button {
+  flex: 1; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 11.5px;
+  border: 1.5px solid var(--dd-line); background: #fff; color: var(--dd-ink);
+  border-radius: 8px; padding: 7px 4px; line-height: 1.2;
+}
+.dd-seg button.dd-active { background: var(--dd-orange); color: #fff; border-color: var(--dd-orange); }
+.dd-seg button small { display: block; font-weight: 700; font-size: 10px; opacity: .85; }
+.dd-hide-row { margin-top: 9px; }
+.dd-hide-btn {
+  width: 100%; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 12px;
+  border: 1.5px dashed var(--dd-line); background: #FBFAF8; color: #6B6256;
+  border-radius: 8px; padding: 7px;
+}
+.dd-dock-hint { font-weight: 700; font-size: 10.5px; color: #9A8C7B; margin-top: 7px; line-height: 1.4; }
+/* red-line 6: dock must never sit over the input the student is using —
+   fade it out while any answer field is focused. */
+.dd-dock { transition: opacity .18s ease, transform .18s ease; }
+.dd-dock.dd-shy { opacity: 0; pointer-events: none; transform: translateY(28px); }
+
+@keyframes dd-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* respect language switch: companion .dd-zh hidden in EN mode via existing engine rule.
+   The engine hides .zh in English mode; our bilingual blocks use .dd-zh which we
+   mirror to .zh visibility through JS-set class, so reuse .zh semantics: */
+body:not(.zh-mode) .dd-line-zh,
+body:not(.zh-mode) .dd-hint-zh,
+body:not(.zh-mode) .dd-reason-opt .dd-zh,
+body:not(.zh-mode) .dd-reason-q .dd-zh,
+body:not(.zh-mode) .dd-repair-txt .dd-zh,
+body:not(.zh-mode) .dd-final .dd-zh,
+body:not(.zh-mode) .dd-push-btn .dd-zh { /* keep zh visible by default; EN-only handled per element */ }
