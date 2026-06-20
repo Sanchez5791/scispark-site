@@ -222,12 +222,15 @@ module.exports = async function handler(req, res) {
           headers: { ...serviceHeaders, 'Prefer': 'return=minimal' },
           body: JSON.stringify({
             child_id,
-            lesson_id:        null,
+            lesson_id:        null,                       // FK→lesson_content; no row for HTML lessons
+            lesson_code:      body.lesson_code || null,    // which lesson (text) — bug② fix
             question_id,
             input_type:       'particle_diagram',
             submission:       student_submission,
             score:            pScore,
             max_score:        pMax,
+            attempt_no:       body.attempt_no || null,
+            time_ms:          body.time_ms || null,
             feedback_variant: pVariant.variant,
             marker:           'particle_v1',
             marked_at:        new Date().toISOString()
@@ -305,12 +308,15 @@ module.exports = async function handler(req, res) {
         headers: { ...serviceHeaders, 'Prefer': 'return=minimal' },
         body: JSON.stringify({
           child_id,
-          lesson_id:        null,
+          lesson_id:        null,                       // FK→lesson_content; no row for HTML lessons
+          lesson_code:      body.lesson_code || null,    // which lesson (text) — bug② fix
           question_id,
           input_type:       'ray_diagram',
           submission:       student_submission,
           score,
           max_score:        maxScore,
+          attempt_no:       body.attempt_no || null,
+          time_ms:          body.time_ms || null,
           feedback_variant: variant.variant,
           marker:           'deterministic_v1',
           marked_at:        new Date().toISOString()

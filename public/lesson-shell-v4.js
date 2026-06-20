@@ -724,6 +724,116 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if (el) el.classList.add('selected');
   }
 
+  // ═════════════════════════════════════════════════════════════
+  // PER-QUESTION CAPTURE → lesson_question_attempts
+  // Order 2026-06-20 (军师房): record every attempted question to the account
+  // so the student data dashboard can show per-question detail.
+  // REALITY (verified): live lessons are self-graded reveals — the student
+  // writes a free-text answer, taps "Check answer", and the lesson does NOT
+  // compute right/wrong. So we STORE THE SUBMITTED TEXT now (score=null,
+  // marker 'self_reported'); correctness can be marked later (boss decision).
+  // Real MCQ (submitAnswer) records an actual 1/0 score where it exists.
+  // lesson_id stays null on purpose: it is a FK→lesson_content, which has no
+  // rows for these HTML lessons, so a real UUID cannot be set. Which-lesson is
+  // captured via lesson_code (from the URL path) instead.
+  // Writes client-side under RLS policy lqa_insert_own (parent's own child).
+  // Best-effort + try/catch everywhere: capture must NEVER break the lesson.
+  // ═════════════════════════════════════════════════════════════
+  let _pqChildId = null;          // cached account child id (POSITIVE cache only — see _pqResolveChild)
+  const _pqTimers = {};           // questionId -> first-touch timestamp (ms)
+  const _pqAttempts = {};         // questionId -> attempts so far (this page load)
+
+  function _pqLessonCode() {
+    // "/lessons/y7/u8/l01.html" -> "y7/u8/l01"
+    try {
+      const m = location.pathname.match(/lessons\/(.+?)(?:\.html)?\/?$/i);
+      return m ? m[1] : (location.pathname || null);
+    } catch (e) { return null; }
+  }
+
+  async function _pqResolveChild() {
+    if (_pqChildId) return _pqChildId;   // cache ONLY a real child → keep retrying until logged in
+    try {
+      const client = await waitForSupabaseClient(3000);
+      if (!client) return null;
+      // getSession() is LOCAL (no network) → avoids the boot-time session-readiness race that
+      // getUser() hit (cf. PR#53). If the session isn't hydrated yet, the next capture retries.
+      const { data: { session } } = await client.auth.getSession();
+      const user = session && session.user;
+      if (!user) return null;            // not logged in (yet) → skip; retry on next capture
+      const { data: child } = await client
+        .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
+      if (child) _pqChildId = child.id;
+    } catch (e) {}
+    return _pqChildId;
+  }
+
+  // p = { questionId, inputType, submission(obj), score|null, maxScore|null }
+  async function recordQuestionAttempt(p) {
+    try {
+      if (!p || !p.questionId) return;
+      const client = await waitForSupabaseClient(3000);
+      if (!client) return;
+      const childId = await _pqResolveChild();
+      if (!childId) return; // not logged in / no child → nothing to attribute (honest skip)
+      const qid = String(p.questionId);
+      _pqAttempts[qid] = (_pqAttempts[qid] || 0) + 1;
+      const startTs = _pqTimers[qid];
+      const timeMs = (typeof startTs === 'number') ? Math.max(0, Date.now() - startTs) : null;
+      const row = {
+        child_id:         childId,
+        lesson_id:        null,                 // FK→lesson_content (no row for HTML lessons)
+        lesson_code:      _pqLessonCode(),      // which lesson (text, from URL)
+        question_id:      qid,
+        input_type:       p.inputType || 'free_text',
+        submission:       p.submission || {},
+        score:            (p.score == null ? null : p.score),
+        max_score:        (p.maxScore == null ? null : p.maxScore),
+        attempt_no:       _pqAttempts[qid],
+        time_ms:          timeMs,
+        feedback_variant: null,
+        marker:           (p.score == null ? 'self_reported' : 'engine_v4'),
+        marked_at:        new Date().toISOString()
+      };
+      const { error } = await client.from('lesson_question_attempts').insert(row);
+      if (error) console.warn('[SciSpark] question capture failed:', error.message);
+      else console.log('%c[SciSpark] question captured — ' + row.lesson_code + ' ' + qid,
+                       'color:#2E7D5B;font-weight:bold');
+    } catch (e) { console.warn('[SciSpark] question capture error:', e.message); }
+  }
+
+  // Derive a question id from a .question-block element (prefer .q-number text)
+  function _pqQid(block) {
+    if (!block) return null;
+    const qn = block.querySelector('.q-number');
+    if (qn && qn.textContent.trim()) return qn.textContent.trim();
+    const ans = block.querySelector('[id$="-ans"]');
+    if (ans) return ans.id.replace(/-ans$/i, '');
+    return null;
+  }
+
+  // Called from toggleAns: a "Check answer" reveal on a free-text question.
+  function _pqCaptureReveal(id) {
+    const box = document.getElementById(id);
+    if (!box) return;
+    if (!box.classList.contains('show')) return;   // only on OPEN (became visible), not on hide
+    const block = box.closest('.question-block');
+    if (!block) return;                            // generic toggles (non-question) → ignore
+    const qid = _pqQid(block) || String(id).replace(/-ans$/i, '');
+    const ta = block.querySelector('textarea, input.short-input, .short-input');
+    const text = ta ? (ta.value || '').trim() : '';
+    let maxScore = null;
+    const qm = block.querySelector('.q-marks');
+    if (qm) { const m = qm.textContent.match(/\d+/); if (m) maxScore = parseInt(m[0], 10); }
+    recordQuestionAttempt({
+      questionId: qid,
+      inputType:  'free_text',
+      submission: { text: text },
+      score:      null,            // self-graded reveal → correctness unknown, mark later
+      maxScore:   maxScore
+    });
+  }
+
   // toggleHint: verbatim from v1.js line 481-484
   function toggleHint(id) {
     const box = document.getElementById(id);
@@ -736,6 +846,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function toggleAns(id) {
     const box = document.getElementById(id);
     if (box) box.classList.toggle('show');
+    // PER-QUESTION CAPTURE — record the submitted answer when a question's
+    // "Check answer" reveal is opened (best-effort; never blocks the toggle).
+    try { _pqCaptureReveal(id); } catch (e) {}
   }
 
   // submitAnswer: v2's richer flow + v1 integrations (audio, awardXP, doudouReact)
@@ -823,6 +936,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if (lessonId && opts.questionId) {
       trackProgress(lessonId, opts.screen || 'test', isCorrect ? 'answered_correct' : 'answered_wrong');
     }
+
+    // 12 · PER-QUESTION CAPTURE — real graded MCQ (records actual 1/0 score)
+    try {
+      if (opts.questionId) {
+        recordQuestionAttempt({
+          questionId: opts.questionId,
+          inputType:  'mcq',
+          submission: { selected: (optionEl.textContent || '').trim(), correct: !!isCorrect },
+          score:      isCorrect ? 1 : 0,
+          maxScore:   1
+        });
+      }
+    } catch (e) {}
   }
 
   // ═════════════════════════════════════════════════════════════
@@ -1442,6 +1568,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if (typeof setupAutoSave === 'function') {
       try { setupAutoSave(); } catch (e) {}
     }
+
+    // PER-QUESTION CAPTURE — stamp first-touch time per question (for time_ms),
+    // and warm the account-child cache so the first write is fast.
+    try {
+      document.addEventListener('focusin', function (e) {
+        const block = (e.target && e.target.closest)
+          ? e.target.closest('.question-block, .q-block') : null;
+        if (!block) return;
+        const qid = _pqQid(block);
+        if (qid && !(qid in _pqTimers)) _pqTimers[qid] = Date.now();
+      }, true);
+      _pqResolveChild();
+    } catch (e) {}
 
     // Inject TTS buttons (v1)
     if (typeof ttsInjectButtons === 'function') {
