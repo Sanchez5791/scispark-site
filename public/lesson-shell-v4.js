@@ -85,8 +85,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   // ═════════════════════════════════════════════════════════════
-  // SECTION 2: TTS 13-CLASS 男声朗读 (verbatim from v1.js line 103-258)
+  // SECTION 2: TTS 13-CLASS 豆豆柔声朗读 (verbatim from v1.js line 103-258)
   // ═════════════════════════════════════════════════════════════
+
+  // TTS state — declared once (were previously used but never declared →
+  // strict-mode ReferenceError on ▶ read-aloud). Fix 2026-06-20.
+  var ttsSupported = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  var ttsCurrentUtterance = null;
+  var ttsCurrentButton = null;
 
   function ttsToggle(buttonEl, paragraphEl) {
     if (!ttsSupported) return;
