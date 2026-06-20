@@ -739,8 +739,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // Writes client-side under RLS policy lqa_insert_own (parent's own child).
   // Best-effort + try/catch everywhere: capture must NEVER break the lesson.
   // ═════════════════════════════════════════════════════════════
-  let _pqChildId = null;          // cached account child id
-  let _pqChildResolved = false;
+  let _pqChildId = null;          // cached account child id (POSITIVE cache only — see _pqResolveChild)
   const _pqTimers = {};           // questionId -> first-touch timestamp (ms)
   const _pqAttempts = {};         // questionId -> attempts so far (this page load)
 
@@ -753,17 +752,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   async function _pqResolveChild() {
-    if (_pqChildResolved) return _pqChildId;
+    if (_pqChildId) return _pqChildId;   // cache ONLY a real child → keep retrying until logged in
     try {
       const client = await waitForSupabaseClient(3000);
-      if (!client) { _pqChildResolved = true; return null; }
-      const { data: { user } } = await client.auth.getUser();
-      if (!user) { _pqChildResolved = true; return null; } // logged out → can't attribute, skip
+      if (!client) return null;
+      // getSession() is LOCAL (no network) → avoids the boot-time session-readiness race that
+      // getUser() hit (cf. PR#53). If the session isn't hydrated yet, the next capture retries.
+      const { data: { session } } = await client.auth.getSession();
+      const user = session && session.user;
+      if (!user) return null;            // not logged in (yet) → skip; retry on next capture
       const { data: child } = await client
         .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
-      _pqChildId = child ? child.id : null;
-    } catch (e) { _pqChildId = null; }
-    _pqChildResolved = true;
+      if (child) _pqChildId = child.id;
+    } catch (e) {}
     return _pqChildId;
   }
 
