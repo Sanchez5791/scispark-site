@@ -1503,13 +1503,22 @@ Globals exposed (lesson HTML can call directly via onclick=):
       if (!container) return '';
       var sel = container.querySelector('.question-text,[data-question-stem],.q-stem,.question__stem');
       if (sel) return textOf(sel).slice(0, 600);
-      // fallback: longest text node-ish child that isn't the answer/feedback/buttons
-      var clone = container.cloneNode(true);
-      ['input', 'textarea', 'button', '.review-bar', '.feedback-right', '.feedback-wrong',
-       '.ai-feedback', '[id$="-feedback"]'].forEach(function (s) {
-        clone.querySelectorAll(s).forEach(function (n) { n.remove(); });
+      // No clean selector: pick the longest DIRECT-child text block that is the real
+      // question sentence — skipping the badge header row (Q04 · STATE · 1 mark),
+      // the .zh translation, and inputs/feedback/buttons. This avoids the textContent
+      // mash where badges glue onto the stem ("Q04STATE1 markA torch shines...").
+      var skipSel = 'input,textarea,button,.zh,.review-bar,.review-explain-again,' +
+        '.ai-feedback,[id$="-feedback"],[id$="-attempts"],[id$="-show-ans-btn"]';
+      var best = '';
+      Array.prototype.forEach.call(container.children, function (ch) {
+        if (ch.matches && ch.matches(skipSel)) return;
+        var t = textOf(ch);
+        if (!t) return;
+        if (/^Q\s*\d+/i.test(t)) return;             // badge header row
+        if (t.length < 25 && /mark/i.test(t)) return; // stray mark badge
+        if (t.length > best.length) best = t;
       });
-      return textOf(clone).slice(0, 600);
+      return best.slice(0, 600);
     }
 
     function collectGraded() {
