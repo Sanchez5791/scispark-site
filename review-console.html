@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>复核清单 · Review Console — SciSpark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FBF8F4; --bg-card:#FFFCF7; --ink:#0F172A; --ink-2:#3a342f; --ink-3:#6b6358;
+    --line:#E8E2D8; --line-2:#D9D0BF; --accent:#EA580C; --accent-soft:#FFF1E7;
+    --ok:#15803D; --ok-bg:#DCFCE7; --warn:#B45309; --warn-bg:#FEF3C7; --bad:#B91C1C;
+    --blue:#1D4ED8; --blue-bg:#DBEAFE;
+    --ff:'Geist','Noto Sans SC',system-ui,sans-serif;
+    --radius:14px; --shadow:0 6px 18px rgba(15,23,42,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--ff);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:780px;margin:0 auto;padding:18px 16px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 18px}
+  .brand{font-weight:800;font-size:19px;letter-spacing:-.01em}
+  .brand small{display:block;font-weight:500;font-size:12px;color:var(--ink-3)}
+  .who{font-size:12px;color:var(--ink-3);text-align:right}
+  .btn{font-family:var(--ff);font-weight:700;font-size:13px;cursor:pointer;border-radius:999px;padding:8px 14px;border:1.5px solid var(--line-2);background:var(--bg-card);color:var(--ink-2);transition:.15s}
+  .btn:hover{background:#FBF6EE}
+  .btn--primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn--ghost{background:none}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+
+  /* digest banner */
+  .digest{display:flex;align-items:center;gap:10px;background:var(--accent-soft);border:1px solid #FBD9C4;border-radius:var(--radius);padding:12px 15px;margin-bottom:16px;font-weight:600}
+  .digest .num{font-size:22px;font-weight:800;color:var(--accent)}
+  .digest small{font-weight:500;color:var(--ink-3)}
+
+  .filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .chip{font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:999px;border:1.5px solid var(--line-2);background:var(--bg-card);color:var(--ink-2);cursor:pointer}
+  .chip.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+  .card__head{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer}
+  .card__head:hover{background:#FCF8F1}
+  .tag{font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px;white-space:nowrap}
+  .tag--q{background:var(--ink);color:#fff}
+  .tag--status{margin-left:auto}
+  .tag--submitted{background:var(--warn-bg);color:var(--warn)}
+  .tag--in_review{background:var(--blue-bg);color:var(--blue)}
+  .tag--resolved{background:var(--ok-bg);color:var(--ok)}
+  .card__sum{flex:1;min-width:0}
+  .card__lesson{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card__meta{font-size:12px;color:var(--ink-3)}
+  .card__body{display:none;border-top:1px solid var(--line);padding:15px}
+  .card.is-open .card__body{display:block}
+
+  .row{margin-bottom:11px}
+  .row .lab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-3);margin-bottom:3px}
+  .row .val{font-size:14px;white-space:pre-wrap;word-break:break-word}
+  .grade{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .verdict{font-weight:800;padding:2px 10px;border-radius:7px;font-size:12.5px}
+  .verdict--correct{background:var(--ok-bg);color:var(--ok)}
+  .verdict--wrong{background:#FEE2E2;color:var(--bad)}
+  .snap{background:#FBF6EE;border:1px dashed var(--line-2);border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--ink-3);margin:8px 0 12px}
+  .snap b{color:var(--ink-2)}
+
+  .actions{border-top:1px dashed var(--line-2);padding-top:13px;margin-top:6px}
+  .actions h4{margin:0 0 9px;font-size:13px}
+  .act-grid{display:flex;gap:8px;flex-wrap:wrap}
+  .act{font-family:var(--ff);font-weight:700;font-size:12.5px;cursor:pointer;border-radius:10px;padding:9px 12px;border:1.5px solid var(--line-2);background:#fff;color:var(--ink-2);transition:.15s}
+  .act:hover{border-color:var(--accent);color:var(--accent)}
+  .act--full{border-color:var(--ok);color:var(--ok)} .act--full:hover{background:var(--ok-bg)}
+  .act--bad{border-color:var(--bad);color:var(--bad)} .act--bad:hover{background:#FEE2E2}
+  .extra{margin-top:10px;display:none}
+  .extra.is-on{display:block}
+  .extra input{font:inherit;font-size:14px;border:1.5px solid var(--line-2);border-radius:9px;padding:8px 10px;width:120px}
+  .extra textarea{font:inherit;font-size:13px;border:1.5px solid var(--line-2);border-radius:9px;padding:8px 10px;width:100%;min-height:48px;resize:vertical;margin-top:6px}
+  .resolved-line{margin-top:10px;font-size:13px;color:var(--ok);font-weight:600}
+
+  /* gate / login */
+  .gate{max-width:380px;margin:60px auto;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;text-align:center}
+  .gate h2{margin:0 0 6px;font-size:19px}
+  .gate p{margin:0 0 18px;font-size:13.5px;color:var(--ink-3)}
+  .gate input{font:inherit;font-size:14px;width:100%;border:1.5px solid var(--line-2);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+  .gate .btn{width:100%}
+  .gate .err{color:var(--bad);font-size:12.5px;font-weight:600;margin-top:10px;min-height:16px}
+  .empty{text-align:center;color:var(--ink-3);padding:40px 0;font-size:14px}
+  .loading{text-align:center;color:var(--ink-3);padding:40px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- LOGIN GATE -->
+  <div id="gate" class="gate" style="display:none">
+    <h2>复核清单 · Review Console</h2>
+    <p>仅老师账号可进入 · Teacher accounts only</p>
+    <input id="g-email" type="email" placeholder="Email" autocomplete="username" />
+    <input id="g-pw" type="password" placeholder="Password" autocomplete="current-password" />
+    <button id="g-login" class="btn btn--primary">登录 · Log in</button>
+    <div id="g-err" class="err"></div>
+  </div>
+
+  <!-- CONSOLE -->
+  <div id="app" style="display:none">
+    <header class="top">
+      <div class="brand">复核清单<small>SciSpark · Review Console</small></div>
+      <div>
+        <div class="who" id="who"></div>
+        <button id="logout" class="btn btn--ghost" style="margin-top:6px">退出 · Log out</button>
+      </div>
+    </header>
+
+    <div class="digest">
+      <span class="num" id="pendingNum">0</span>
+      <span>条待看复核 · pending reviews<br><small>这是 MVP 的「每日摘要」:打开这页就看到全部待看(暂不发邮件)。</small></span>
+    </div>
+
+    <div class="filters">
+      <span class="chip is-active" data-filter="pending">待看 Pending</span>
+      <span class="chip" data-filter="resolved">已处理 Resolved</span>
+      <span class="chip" data-filter="all">全部 All</span>
+    </div>
+
+    <div id="list"><div class="loading">载入中…</div></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SUPABASE_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  var $ = function(s){ return document.querySelector(s); };
+  var gate = $('#gate'), app = $('#app');
+  var currentFilter = 'pending';
+  var me = null;
+
+  var REASON_LABELS = {
+    think_correct:        '我觉得我的答案是对的',
+    ai_marked_wrong_spot: 'AI 改错了地方',
+    question_problem:     '题目本身有问题',
+    system_broken:        '系统好像坏了'
+  };
+
+  // bilingual templated replies (stored verbatim into resolved_message)
+  function replyFor(action, newScore, maxScore, note){
+    switch(action){
+      case 'keep':
+        return '老师已复核,原分维持。' + (note ? '原因:' + note + '。' : '') +
+               '如仍有疑问,可在本周剩余次数内再复核。 · Teacher reviewed: original mark kept.';
+      case 'raise':
+      case 'full':
+        return '老师已复核,你的答案可接受,分数已调整' +
+               (newScore != null ? ('为 ' + newScore + (maxScore != null ? '/' + maxScore : '')) : '') +
+               '。 · Teacher reviewed: your answer is accepted, mark adjusted.';
+      case 'redo':
+        return '这题需要你重做一次。 · Please redo this question.';
+      case 'bad_question':
+        return '这题设置需修正,本题不影响你成绩。 · This question needs fixing; it will not count against you.';
+    }
+    return '';
+  }
+
+  function esc(s){ return (s==null?'':String(s)).replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function fmtTime(t){ try{ return new Date(t).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}); }catch(e){ return t; } }
+
+  // ── auth ──
+  async function whoAmI(){
+    var s = await sb.auth.getSession();
+    var u = s && s.data && s.data.session && s.data.session.user;
+    if(!u) return null;
+    var p = await sb.from('profiles').select('email,role,full_name').eq('id', u.id).maybeSingle();
+    return { id:u.id, email:u.email, role:(p.data&&p.data.role)||null, name:(p.data&&p.data.full_name)||'' };
+  }
+
+  function showGate(msg){
+    gate.style.display='block'; app.style.display='none';
+    if(msg) $('#g-err').textContent = msg;
+  }
+
+  async function boot(){
+    var who = await whoAmI();
+    if(!who){ showGate(''); return; }
+    if(who.role !== 'teacher' && who.role !== 'admin'){
+      await sb.auth.signOut();
+      showGate('此账号不是老师账号,无法进入复核清单。');
+      return;
+    }
+    me = who;
+    gate.style.display='none'; app.style.display='block';
+    $('#who').textContent = (who.name||who.email) + ' · ' + who.role;
+    load();
+  }
+
+  $('#g-login').addEventListener('click', async function(){
+    $('#g-err').textContent='';
+    var email = $('#g-email').value.trim(), pw = $('#g-pw').value;
+    if(!email || !pw){ $('#g-err').textContent='请输入邮箱和密码。'; return; }
+    this.disabled = true;
+    var r = await sb.auth.signInWithPassword({ email:email, password:pw });
+    this.disabled = false;
+    if(r.error){ $('#g-err').textContent = '登录失败:' + r.error.message; return; }
+    boot();
+  });
+  $('#logout').addEventListener('click', async function(){ await sb.auth.signOut(); location.reload(); });
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('is-active'); });
+      c.classList.add('is-active');
+      currentFilter = c.getAttribute('data-filter');
+      load();
+    });
+  });
+
+  // ── list ──
+  async function load(){
+    var list = $('#list');
+    list.innerHTML = '<div class="loading">载入中…</div>';
+    var q = sb.from('review_requests').select('*').order('created_at',{ascending:false}).limit(200);
+    if(currentFilter==='pending') q = q.in('status',['submitted','in_review']);
+    else if(currentFilter==='resolved') q = q.eq('status','resolved');
+    var r = await q;
+    if(r.error){ list.innerHTML = '<div class="empty">读取失败:'+esc(r.error.message)+'</div>'; return; }
+    var rows = r.data||[];
+
+    // pending count for the digest
+    var pc = await sb.from('review_requests').select('id',{count:'exact',head:true}).in('status',['submitted','in_review']);
+    $('#pendingNum').textContent = (pc && typeof pc.count==='number') ? pc.count : rows.length;
+
+    if(!rows.length){ list.innerHTML = '<div class="empty">这里目前没有待看的复核。 · Nothing here.</div>'; return; }
+    list.innerHTML = '';
+    rows.forEach(function(row){ list.appendChild(renderCard(row)); });
+  }
+
+  function renderCard(row){
+    var card = document.createElement('div');
+    card.className = 'card';
+    var verdict = row.ai_verdict==='correct' ? 'correct' : (row.ai_verdict==='wrong'?'wrong':'');
+    var scoreTxt = (row.ai_score!=null ? row.ai_score : '?') + (row.ai_max!=null ? '/'+row.ai_max : '');
+
+    card.innerHTML =
+      '<div class="card__head">' +
+        '<span class="tag tag--q">'+esc(row.question_id)+'</span>' +
+        '<div class="card__sum">' +
+          '<div class="card__lesson">'+esc(row.lesson_label || row.lesson_path)+'</div>' +
+          '<div class="card__meta">'+fmtTime(row.created_at)+' · '+esc(REASON_LABELS[row.student_reason_code]||row.student_reason_code)+'</div>' +
+        '</div>' +
+        '<span class="tag tag--status tag--'+row.status+'">'+statusZh(row.status)+'</span>' +
+      '</div>' +
+      '<div class="card__body"></div>';
+
+    card.querySelector('.card__head').addEventListener('click', function(){ card.classList.toggle('is-open'); });
+
+    var body = card.querySelector('.card__body');
+    body.innerHTML =
+      '<div class="row"><div class="lab">学生答案 · Student answer</div><div class="val">'+esc(row.student_answer||'(空)')+'</div></div>' +
+      '<div class="row"><div class="lab">AI 原判 · AI verdict (frozen)</div><div class="val grade">' +
+        (verdict?'<span class="verdict verdict--'+verdict+'">'+(verdict==='correct'?'✓ 判对':'✗ 判错')+'</span>':'') +
+        '<span>'+esc(scoreTxt)+' 分</span></div></div>' +
+      '<div class="row"><div class="lab">标准答案 · Model answer</div><div class="val">'+esc(row.model_answer||'(无)')+'</div></div>' +
+      '<div class="row"><div class="lab">学生理由 · Student reason</div><div class="val">'+esc(row.student_reason)+'</div></div>' +
+      '<div class="snap"><b>快照 Snapshot</b> · 题目:'+esc(row.question_stem||'(无)')+'<br>AI 反馈:'+esc(row.ai_reason||'(无)')+'<br>课:<a href="'+esc(row.lesson_path)+'" target="_blank" rel="noopener">'+esc(row.lesson_path)+'</a></div>';
+
+    if(row.status==='resolved'){
+      body.insertAdjacentHTML('beforeend',
+        '<div class="resolved-line">已处理:'+esc(actionZh(row.resolution_action))+
+        (row.resolved_score!=null?(' → '+row.resolved_score+' 分'):'')+'<br>'+esc(row.resolved_message||'')+'</div>');
+    } else {
+      body.appendChild(buildActions(row, card));
+    }
+    return card;
+  }
+
+  function statusZh(s){ return s==='resolved'?'已处理':(s==='in_review'?'复核中':'待看'); }
+  function actionZh(a){ return ({keep:'维持原分',raise:'加分',full:'满分',redo:'不计分·重做',bad_question:'题目错·已修正'})[a]||a; }
+
+  function buildActions(row, card){
+    var wrap = document.createElement('div');
+    wrap.className = 'actions';
+    wrap.innerHTML =
+      '<h4>处理这条复核 · Resolve</h4>' +
+      '<div class="act-grid">' +
+        '<button class="act" data-a="keep">A · 维持原分</button>' +
+        '<button class="act" data-a="raise">B · 加分</button>' +
+        '<button class="act act--full" data-a="full">C · 满分</button>' +
+        '<button class="act" data-a="redo">D · 重做</button>' +
+        '<button class="act act--bad" data-a="bad_question">E · 题目错</button>' +
+      '</div>' +
+      '<div class="extra" data-extra="raise"><input type="number" min="0" placeholder="新分数" /> <span style="font-size:12px;color:var(--ink-3)">/ '+(row.ai_max!=null?row.ai_max:'?')+'</span><button class="btn btn--primary" data-confirm="raise" style="margin-left:8px">确认加分</button></div>' +
+      '<div class="extra" data-extra="keep"><textarea placeholder="(可选)维持原分的原因,会发给学生"></textarea><button class="btn btn--primary" data-confirm="keep" style="margin-top:6px">确认维持</button></div>';
+
+    wrap.querySelectorAll('.act').forEach(function(b){
+      b.addEventListener('click', function(){
+        var a = b.getAttribute('data-a');
+        if(a==='raise' || a==='keep'){
+          wrap.querySelectorAll('.extra').forEach(function(e){ e.classList.remove('is-on'); });
+          wrap.querySelector('.extra[data-extra="'+a+'"]').classList.add('is-on');
+          return;
+        }
+        // full / redo / bad_question → immediate
+        resolve(row, card, a, null, null);
+      });
+    });
+    wrap.querySelector('[data-confirm="raise"]').addEventListener('click', function(){
+      var inp = wrap.querySelector('.extra[data-extra="raise"] input');
+      var v = parseInt(inp.value,10);
+      if(isNaN(v) || v<0){ inp.focus(); return; }
+      resolve(row, card, 'raise', v, null);
+    });
+    wrap.querySelector('[data-confirm="keep"]').addEventListener('click', function(){
+      var note = wrap.querySelector('.extra[data-extra="keep"] textarea').value.trim();
+      resolve(row, card, 'keep', null, note);
+    });
+    return wrap;
+  }
+
+  async function resolve(row, card, action, newScore, note){
+    var resolvedScore = null;
+    if(action==='full') resolvedScore = (row.ai_max!=null ? row.ai_max : null);
+    else if(action==='raise') resolvedScore = newScore;
+    var msg = replyFor(action, resolvedScore, row.ai_max, note);
+
+    card.style.opacity = '.5';
+    var upd = {
+      status:'resolved', resolution_action:action, resolved_score:resolvedScore,
+      resolved_message:msg, resolved_by:me.id, resolved_at:new Date().toISOString()
+    };
+    var r = await sb.from('review_requests').update(upd).eq('id', row.id).select().single();
+    card.style.opacity = '1';
+    if(r.error){ alert('处理失败:'+r.error.message); return; }
+    // refresh this card in place
+    var fresh = renderCard(r.data);
+    fresh.classList.add('is-open');
+    card.parentNode.replaceChild(fresh, card);
+    // update pending count
+    var pc = await sb.from('review_requests').select('id',{count:'exact',head:true}).in('status',['submitted','in_review']);
+    $('#pendingNum').textContent = (pc && typeof pc.count==='number') ? pc.count : '';
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>
