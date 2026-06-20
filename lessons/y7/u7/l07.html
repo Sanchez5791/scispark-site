@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U7 L07 · Unit Review and Integration</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U7 L07 · Unit Review and Integration",
+  "navMeta": "Y7 · U7 · L07",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 7",
+  "unitTitleEn": "Forces and Motion",
+  "unitTitleZh": "力与运动",
+  "userLevel": "1",
+  "lessonData": "7"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="7">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U7 · L07</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U7 parsed.json — text poured verbatim. Image placeholders kept. [Qnn] tag normalised out of feedback. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Unit Review and Integration" data-zh="单元复习与整合">Unit Review and Integration</div>
+      <div class="screen-title-zh">单元复习与整合</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Unit Review and Integration</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">HOOK-S1</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">You have now finished 6 lessons on forces. Every time you open a door, drop a coin, or feel heavier in a fast lift, you are using what you learned. Today you join all 6 ideas into one story. <span class="zh">你已经上完 6 节关于力的课。每次你开门、掉硬币、在快速电梯里 觉得变重,你都在用学过的东西。今天把这 6 个想法连成一个故事。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Unit Review and Integration" data-zh="单元复习与整合">Unit Review and Integration</div>
+      <div class="screen-title-zh">单元复习与整合</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN-S1 — Concept chain recap</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Six lessons, one chain: everything attracts everything -&gt; bigger mass means bigger gravity -&gt; air resistance exists -&gt; a vacuum has no air resistance -&gt; in a vacuum all objects fall together. <span class="zh">六节课,一条链:万物互相吸引 -&gt; 质量越大引力越大 -&gt; 空气阻力 存在 -&gt; 真空里没有空气阻力 -&gt; 真空里所有物体一起落下。</span></p>
+      
+        <figure class="img-slot" data-ref="L07_Q00_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q00_IMG01" data-recraft-prompt="Horizontal chain of 5 linked boxes, each box one link of the concept chain, arrows pointing right between them. Static diagram. Label each box in EN + ZH." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN-S2 — 7-lesson force-diagram collage + Y8/Y9 cliffhanger</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Here are the force pictures from all 7 lessons in one place. Next year you will put numbers on them: F = ma, and speed-time graphs. <span class="zh">这里把 7 节课的力图放在一起。明年你会给它们加上数字:F = ma, 还有速度-时间图。</span></p>
+      
+        <figure class="img-slot" data-ref="L07_Q00_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q00_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L07_Q00_IMG03" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q00_IMG03" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      <div style="font-weight:700;color:#991B1B;margin-bottom:8px;">"Common mistake — don't fall for this!" <span class="zh">"常见错误 — 别上当!"</span></div>
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "Heavier objects always fall first; mass equals weight; a vacuum still has thin air." <span class="zh">"重的东西先落地;mass 等于 weight;真空里 还有一点点空气。"</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> In a vacuum all objects fall together (no air resistance). Mass (kg) never changes; weight (N) changes with location. A vacuum has no air particles. <span class="zh">真空里所有物体一起落下(没有空气阻力)。mass(kg)永远不变; weight(N)随地点改变。真空里没有空气粒子。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict · 预测</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">Label · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The picture shows a ball resting on the ground. Label<br>the two forces acting on the ball and write whether each is a<br>push or a pull.<br><span class="zh">图中是一个静止在地面上的球。标出作用在球上的两个力,<br>并写出每个是 push 还是 pull。</span></p>
+        
+        <figure class="img-slot" data-ref="L07_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q01_IMG01" data-recraft-prompt="A ball on flat ground. Two unlabelled arrows: one pointing down (gravity / weight), one pointing up (support from ground). Student labels both. Static diagram." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          One arrow points down, one points up. Which one is the pull from the Earth? <span class="zh">一个箭头朝下,一个朝上。哪个是地球的拉力?</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>weight / gravity = downward pull; support / contact force = upward push..</strong> <span class="zh">正确答案要包含：重量/重力 / 重力 = 向下 拉; 支持力 / 接触 力 = 向上 推.。</span><br><br>✓ Accept: - Accept the exact answer meaning: weight / gravity = downward pull; support / contact force = upward push.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：重量/重力 / 重力 = 向下 拉; 支持力 / 接触 力 = 向上 推.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: weight / gravity = downward pull; support / contact force = upward push.. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The picture shows a ball resting on the ground. Label the two forces acting on the ball and write whether each. Your answer must lead to: weight / gravity = downward pull; support / contact force = upward push... <span class="zh">复习题先看方向：重量 或 重力 是向下拉，支持力/接触力 是桌面向上推。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">State · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A person stands on the Earth, then on the Moon.<br>(a) State what happens to the person's mass on the Moon.<br>(b) State what happens to the person's weight on the Moon.<br><span class="zh">一个人先站在地球上,再站在月球上。<br>(a) 说出这个人在月球上的 mass 会怎样。<br>(b) 说出这个人在月球上的 weight 会怎样。</span></p>
+        
+        <figure class="img-slot" data-ref="L07_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q02_IMG01" data-recraft-prompt="Same person drawn twice — once on Earth, once on the Moon — with empty boxes for mass (kg) and weight (N) under each. Static comparison. Label EN + ZH." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          One of these never changes wherever you go. Which one? <span class="zh">这两个里有一个不管你去哪都不变。是哪一个?</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) mass stays the same / unchanged. (b) weight gets smaller / less..</strong> <span class="zh">正确答案要包含：(a) 质量 stays the 相同 / 不变. (b) 重量/重力 gets 较小 / 较少.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) mass stays the same / unchanged. (b) weight gets smaller / less.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 质量 stays the 相同 / 不变. (b) 重量/重力 gets 较小 / 较少.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) mass stays the same / unchanged. (b) weight gets smaller / less.. <span class="zh">对。 你抓到本题关键：质量不变，重量因月球重力较弱而变小。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A person stands on the Earth, then on the Moon. (a) State what happens to the person's mass on the Moon. (b) S. Your answer must lead to: (a) mass stays the same / unchanged. (b) weight gets smaller / less... <span class="zh">到月球后质量不变、重量变小；不要把“感觉更轻”写成物质变少。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">Identify · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Both air resistance and friction slow a moving object<br>down. Identify the statement that is TRUE.<br>A. Air resistance comes from air particles hitting the object.<br>B. Friction only happens in a vacuum.<br>C. Air resistance only happens on the Moon.<br>D. Friction needs no surfaces touching.<br><span class="zh">空气阻力和摩擦力都让运动的物体慢下来。选出正确的说法。<br>A. 空气阻力来自空气粒子撞物体。<br>B. 摩擦力只发生在真空里。<br>C. 空气阻力只发生在月球上。<br>D. 摩擦力不需要表面接触。</span></p>
+        
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Friction needs two surfaces touching; air resistance needs air. <span class="zh">摩擦需要两个表面接触;空气阻力需要空气。</span>
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>A..</strong> <span class="zh">正确答案要包含：A.。</span><br><br>✓ Accept: - Accept the exact answer meaning: A.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：A.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: A.. <span class="zh">对。 你抓到本题关键：让车减速的是空气阻力和摩擦力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Both air resistance and friction slow a moving object down. Identify the statement that is TRUE. A. Air resist. Your answer must lead to: A... <span class="zh">本题只要选 A；若选别的选项，说明你把力图或情境的关键方向看错了。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A coin and a feather are dropped at the same time<br>inside a tube with no air (a vacuum). Explain why they hit the<br>bottom at the same time.<br><span class="zh">在一个没有空气的管子(真空)里,同时放下一枚硬币和一片<br>羽毛。解释为什么它们同时到达底部。</span></p>
+        
+        <figure class="img-slot" data-ref="L07_Q04_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q04_IMG01" data-recraft-prompt="A tall sealed tube with the air removed (vacuum). A coin and a feather inside, both at the same height, falling. Show both level with each other. Static diagram. Label EN + ZH." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          What normally slows the feather down in normal air? <span class="zh">在普通空气里,平常是什么让羽毛掉得慢?</span>
+        </div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>there is no air / no air resistance in a vacuum, so both fall at the same rate..</strong> <span class="zh">正确答案要包含：there is no air / no 空气阻力 in a 真空, so both fall at the 相同速率.。</span><br><br>✓ Accept: - Accept the exact answer meaning: there is no air / no air resistance in a vacuum, so both fall at the same rate.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：there is no air / no 空气阻力 in a 真空, so both fall at the 相同速率.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: there is no air / no air resistance in a vacuum, so both fall at the same rate.. <span class="zh">对。 你抓到本题关键：真空没有空气阻力，物体会同时落地。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A coin and a feather are dropped at the same time inside a tube with no air (a vacuum). Explain why they hit t. Your answer must lead to: there is no air / no air resistance in a vacuum, so both fall at the same rate... <span class="zh">真空里没有空气阻力，所以两个物体同速下落；不能只写“因为月球”。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The graph shows how an object falls through air over<br>time. Describe how its speed changes from the start to the end,<br>and name the steady speed it reaches.<br><span class="zh">这张图显示一个物体在空气中随时间下落的情况。描述它的<br>速度从开始到结束怎么变化,并说出它最后达到的稳定速度叫什么。</span></p>
+        
+        <figure class="img-slot" data-ref="L07_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L07_Q05_IMG01" data-recraft-prompt="A qualitative distance-time graph (no numbers): curve starts steepening (speeding up), then becomes a straight slope (steady speed = terminal velocity). Static sketch. Label axes EN + ZH (distance / time)." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q05-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          A steeper distance-time line means faster; a steady slope means constant speed. <span class="zh">距离-时间线越陡表示越快;斜率不变表示速度不变。</span>
+        </div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>speeds up at first, then reaches a steady (constant) speed; the steady speed = terminal velocity..</strong> <span class="zh">正确答案要包含：speeds 向上 at first, then reaches a steady (constant) speed; the steady speed = 终端速度.。</span><br><br>✓ Accept: - Accept the exact answer meaning: speeds up at first, then reaches a steady (constant) speed; the steady speed = terminal velocity.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：speeds 向上 at first, then reaches a steady (constant) speed; the steady speed = 终端速度.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: speeds up at first, then reaches a steady (constant) speed; the steady speed = terminal velocity.. <span class="zh">对。 你抓到本题关键：空气阻力增大到等于重力后，速度保持稳定。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The graph shows how an object falls through air over time. Describe how its speed changes from the start to th. Your answer must lead to: speeds up at first, then reaches a steady (constant) speed; the steady speed = terminal velocity... <span class="zh">下落速度不是一直增加：先加速，后来达到稳定速度；这个稳定速度叫终端速度。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q05-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A force is a push or a pull. State the unit that force is measured in, and state one example of a pushing force.<br><span class="zh">力是推或拉。说出力的测量单位, 并举一个推力的例子。</span></p>
+        
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>unit = newton (N); example of a push e.g. pushing a trolley / pushing a door (any valid push)..</strong> <span class="zh">正确答案要包含：unit = 牛顿 (N); example of a 推 e.g. pushing a trolley / pushing a door (any valid 推).。</span><br><br>✓ Accept: - Accept the exact answer meaning: unit = newton (N); example of a push e.g. pushing a trolley / pushing a door (any valid push).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：unit = 牛顿 (N); example of a 推 e.g. pushing a trolley / pushing a door (any valid 推).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: unit = newton (N); example of a push e.g. pushing a trolley / pushing a door (any valid push).. <span class="zh">对。 你抓到本题关键：力的单位是牛顿，推或拉才是力的例子。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A force is a push or a pull. State the unit that force is measured in, and state one example of a pushing forc. Your answer must lead to: unit = newton (N); example of a push e.g. pushing a trolley / pushing a door (any valid push)... <span class="zh">力的单位是牛顿；例子要是真正的推，例如推门或推车，不是“走路”这种模糊动作。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A 1 kg bag has a weight on Earth. The same bag is taken to the Moon. Explain what happens to its mass and to its weight.<br><span class="zh">一个 1 kg 的袋子在地球上有重量。同一个袋子被带到月球。解释它的质量和重量会怎样。</span></p>
+        
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>mass stays the same (matter unchanged); weight is less on the Moon because the Moon's gravity is weaker..</strong> <span class="zh">正确答案要包含：质量 stays the 相同 (matter 不变); 重量/重力 is 较少 on the Moon 因为 the Moon's 重力 is weaker.。</span><br><br>✓ Accept: - Accept the exact answer meaning: mass stays the same (matter unchanged); weight is less on the Moon because the Moon's gravity is weaker.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：质量 stays the 相同 (matter 不变); 重量/重力 is 较少 on the Moon 因为 the Moon's 重力 is weaker.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: mass stays the same (matter unchanged); weight is less on the Moon because the Moon's gravity is weaker.. <span class="zh">对。 你抓到本题关键：质量不变，重量因月球重力较弱而变小。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A 1 kg bag has a weight on Earth. The same bag is taken to the Moon. Explain what happens to its mass and to i. Your answer must lead to: mass stays the same (matter unchanged); weight is less on the Moon because the Moon's gravity is weaker... <span class="zh">质量不变，因为物质多少不变；月球重力较弱，所以重量变小。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A flat sheet of paper falls more slowly than a crushed ball made from the same paper. Explain why, using air resistance.<br><span class="zh">一张平铺的纸比用同样的纸揉成的球落得慢。用空气阻力解释为什么。</span></p>
+        
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the flat sheet has a larger area, so it has more air resistance, which slows it down more than the small crushed ball..</strong> <span class="zh">正确答案要包含：the flat sheet has a 较大 面积, so it has 较多 空气阻力, which slows it 向下 较多 than the small crushed ball.。</span><br><br>✓ Accept: - Accept the exact answer meaning: the flat sheet has a larger area, so it has more air resistance, which slows it down more than the small crushed ball.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：the flat sheet has a 较大 面积, so it has 较多 空气阻力, which slows it 向下 较多 than the small crushed ball.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: the flat sheet has a larger area, so it has more air resistance, which slows it down more than the small crushed ball.. <span class="zh">对。 你抓到本题关键：揉成球的纸先落地，平纸空气阻力更大。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A flat sheet of paper falls more slowly than a crushed ball made from the same paper. Explain why, using air r. Your answer must lead to: the flat sheet has a larger area, so it has more air resistance, which slows it down more than the small crushed ball... <span class="zh">平纸面积大，空气阻力大，所以比纸团更慢；不要说只是因为纸团更重。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Walking is easier on a dry path than on smooth ice. Explain the part friction plays, and why ice makes walking hard.<br><span class="zh">在干燥的小路上比在光滑的冰上更容易走路。解释摩擦力起的作用, 以及为什么冰让走路变难。</span></p>
+        
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>friction between shoe and ground gives grip so the foot does not slip; ice has very little friction, so the foot slips and walking is hard..</strong> <span class="zh">正确答案要包含：摩擦力 between shoe and ground gives grip so the foot does not slip; ice has very little 摩擦力, so the foot slips and walking is hard.。</span><br><br>✓ Accept: - Accept the exact answer meaning: friction between shoe and ground gives grip so the foot does not slip; ice has very little friction, so the foot slips and walking is hard.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：摩擦力 between shoe and ground gives grip so the foot does not slip; ice has very little 摩擦力, so the foot slips and walking is hard.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: friction between shoe and ground gives grip so the foot does not slip; ice has very little friction, so the foot slips and walking is hard.. <span class="zh">对。 你抓到本题关键：鞋底靠摩擦抓地，油会让接触面更滑。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Walking is easier on a dry path than on smooth ice. Explain the part friction plays, and why ice makes walking. Your answer must lead to: friction between shoe and ground gives grip so the foot does not slip; ice has very little friction, so the foot slips a. <span class="zh">走路靠鞋和地面摩擦抓地；冰面摩擦很小，所以脚容易滑。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">In a vacuum tube a coin and a feather are dropped together and land at the same time. Explain why, and explain why this does not happen in air.<br><span class="zh">在真空管里硬币和羽毛一起放下, 同时落地。解释为什么, 并解释为什么在空气中不会这样。</span></p>
+        
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>in a vacuum there is no air resistance, so gravity makes both fall at the same rate and they land together; in air, the feather has much more air resistance for its weight, so it falls more slowly..</strong> <span class="zh">正确答案要包含：in a 真空 there is no 空气阻力, so 重力 makes both fall at the 相同速率 and they land together; in air, the feather has much 较多 空气阻力 for its 重量/重力, so it falls 较多 slowly.。</span><br><br>✓ Accept: - Accept the exact answer meaning: in a vacuum there is no air resistance, so gravity makes both fall at the same rate and they land together; in air, the feather has much more air resistance for its weight, so it falls more slowly.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：in a 真空 there is no 空气阻力, so 重力 makes both fall at the 相同速率 and they land together; in air, the feather has much 较多 空气阻力 for its 重量/重力, so it falls 较多 slowly.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: in a vacuum there is no air resistance, so gravity makes both fall at the same rate and they land together; in air, the feather has much more air resistance for its weight, so it f. <span class="zh">对。 你抓到本题关键：真空没有空气阻力，物体会同时落地。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: In a vacuum tube a coin and a feather are dropped together and land at the same time. Explain why, and explain. Your answer must lead to: in a vacuum there is no air resistance, so gravity makes both fall at the same rate and they land together; in air, the. <span class="zh">完整比较要说两边：真空中一起落地；空气中羽毛因空气阻力大而慢。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">WRAP-S1</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Say the chain out loud: everything attracts everything -&gt; bigger mass, bigger gravity -&gt; air resistance exists -&gt; a vacuum has no air resistance -&gt; in a vacuum objects fall together. <span class="zh">大声说出这条链:万物互相吸引 -&gt; 质量越大引力越大 -&gt; 空气阻力 存在 -&gt; 真空里没有空气阻力 -&gt; 真空里物体一起落下。 CLIFFHANGER (required, control §2.8):</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

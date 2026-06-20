@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U0 L05 · Errors in Measurement</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body class="bilingual" data-user-level="2" data-lesson="5">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U0 · L05</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Science Skills" data-zh="科学方法">Science Skills</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 0</div>
+      <div class="sidebar-unit-title" data-en="Thinking &amp; Working Scientifically" data-zh="科学探究方法">Thinking &amp; Working Scientifically</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 真实情境</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Practise<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Every measurement has some error — good scientists know which kind</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">每个测量都有误差 —— 好的科学家知道是哪一种</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">HOOK · 引入</div>
+      <h2 class="screen-title">Every measurement has some error — good scientists know which kind</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">每个测量都有误差 —— 好的科学家知道是哪一种</div></div><div style="background:#EAFBFF;border:2px solid #3AAEC8;border-radius:16px;padding:16px 18px;margin:0 0 16px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3AAEC8">🌍 Real-world · 真实情境</div>
+          <div style="margin-top:8px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A pharmacist measuring a dose of medicine must know where errors come from.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A scale that always reads high (systematic error) is dangerous in a different way from a hand that shakes (random error).</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Knowing the type of error tells a scientist how to fix it.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Getting this wrong, in medicine or engineering, can cost lives.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 量药剂量的药剂师必须知道误差从哪里来。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 一台总是读高的秤(系统误差),跟一只发抖的手(随机误差), 危险的方式不一样。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 知道误差的种类,科学家才知道怎么修正它。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 在医药或工程里搞错这个,可能要人命。</div></div></div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📘</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">What this lesson is about</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">这一课讲什么</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• No measurement is perfect; the question is what kind of error it has.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 没有完美的测量;问题是它有哪一种误差。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• This lesson: systematic, random and gross errors, plus zero error and parallax error.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这一课:系统误差、随机误差、粗心误差,加上零误差和视差误差。</div></div>
+    </div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4">⏰ Warm-up · 热身回顾</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Before you start: think of one experiment you&#x27;ve seen.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• What was being changed, and what was measured?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 开始前:想一个你看过的实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它在改变什么?又在测量什么?</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Error does not mean stupid mistake.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• In science, error means the reading may differ from the true value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 误差不是说你笨。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学里的误差是读数可能和真值不一样。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Measurements are honest, but measuring tools can have bad moods.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">测量很诚实,但工具有时候心情不好。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L05_Q00_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Error in measurement branch into systematic / gross / random error with their key features.</div>
+      </div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Learn: Errors in Measurement</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">学习</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">LEARN · 学习</div>
+      <h2 class="screen-title">Errors in Measurement</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">学习重点</div></div><div style="background:#BFE6BF;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #2E7D32">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🔎</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#2E7D32">Systematic error</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">系统误差</div>
+        </div>
+      </div>
+      <div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Affects all measurements in the same direction (always too high, or always too low).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 影响所有测量,且方向相同(总是偏高,或总是偏低)。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It is identifiable and fixable (e.g. re-zero or calibrate the instrument).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它是可识别、可修正的(例如重新归零或校准仪器)。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It makes measurements less accurate.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它让测量变得不那么准确。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Systematic error is like a weighing scale that lies by the same amount every day.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">系统误差像每天都多报同样重量的体重秤。</div></div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Systematic = same direction, same problem.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:系统误差=同方向,同毛病。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L05_Q00_IMG02]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Systematic error features (same direction / identifiable &amp; fixable / less accurate).</div>
+      </div>
+    </div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">⚖️</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">Random error and gross error</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">随机误差和粗心误差</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Random error: caused by fluctuations in variables; uncontrollable; affects the spread or causes anomalous results.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Reduced by repeating and averaging.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 随机误差:由变量的波动造成;不可控;影响数据的分散或造成异常结果。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 用重复测量并取平均来减小。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Gross error: caused by carelessness and accidents (e.g. misreading a scale, recording the wrong number).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 粗心误差:由粗心和意外造成(例如读错刻度、记错数字)。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Random error jumps around.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Repeats and averages help smooth it out.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 随机误差会跳来跳去。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 重复和平均可以把它压平一点。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">It is like throwing crumbs: each piece lands a bit differently.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">像撒面包屑:每一粒落点都差一点。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L05_Q00_IMG03]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Random error features (fluctuations / uncontrollable / affects spread or anomalies) alongside gross error (carelessness &amp; accidents).</div>
+      </div>
+    </div><div style="background:#C2ECF5;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #3AAEC8">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧪</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#3AAEC8">Zero error</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">零误差</div>
+        </div>
+      </div>
+      <div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Zero error happens when an instrument does not read zero when it should.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 零误差发生在仪器本该读 0 时却没有读 0。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• No zero error: reads 0 correctly at the start.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 无零误差:开始时正确读 0。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Positive zero error: reads above 0 when it should read 0.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 正零误差:本该读 0 时读到大于 0。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Negative zero error: reads below 0 when it should read 0.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 负零误差:本该读 0 时读到小于 0。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Zero error is a type of systematic error.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 零误差是一种系统误差。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Zero error starts wrong before the measurement even begins.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">零点误差是在还没量之前就已经歪了。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L05_Q00_IMG04]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Three scale close-ups: no zero error / positive zero error / negative zero error.</div>
+      </div>
+    </div><div style="background:#E2C4EE;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #9B3FC9">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧩</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#9B3FC9">Parallax error</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">视差误差</div>
+        </div>
+      </div>
+      <div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Parallax error happens when you read a scale from the wrong angle.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 视差误差发生在你从错误的角度读刻度时。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Correct: eye level with the scale, looking straight on.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 正确:眼睛与刻度齐平,正对着看。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Wrong: looking from above or below gives a reading that is too high or too low.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 错误:从上方或下方看,会读到偏高或偏低的值。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Read liquid levels at the bottom of the meniscus, at eye level.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 读液面时,要在视线齐平处读弯月面的底部。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Parallax is the &quot;wrong seat&quot; problem: look from the side, and the reading shifts.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">视差就是「坐错位」问题:从旁边看,读数会跑位。</div></div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Eye level, not sky level.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:眼平看,别天上看。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L05_Q00_IMG05]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Measuring cylinder with meniscus; correct eye-level reading (green tick) vs angled reading (red cross).</div>
+      </div>
+    </div><div style="margin:16px 0 6px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#171413">Repeating does not remove a systematic error</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">重复测量去不掉系统误差</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Repeating can reduce random error, but it cannot cure a broken zero.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">重复能减少随机误差,但治不好坏掉的零点。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">If your ruler starts at 2 mm, repeating five times only gives you five confident wrong answers.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">尺从 2 mm 开始,量五次只会得到五个很自信的错答案。</div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:16px;padding:16px 18px;margin:18px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#C00000;letter-spacing:.5px">🚩 COMMON MISTAKE · 常见错误</div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#C00000">✘ Students often think · 学生常以为</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Students think repeating a measurement and averaging removes all errors.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">学生以为重复测量并取平均能去掉所有误差。</div>
+      </div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #2E7D32">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#2E7D32">✔ Correct · 正确</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Repeating and averaging reduces RANDOM error, because random errors scatter both ways.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• But a SYSTEMATIC error pushes every reading the same way, so averaging does not remove it — you must fix the cause (e.g. re-zero or calibrate).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 重复并取平均能减小&quot;随机&quot;误差,因为随机误差向两边散开。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 但&quot;系统&quot;误差把每个读数推向同一个方向,所以取平均去不掉它</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 你必须修正起因(例如重新归零或校准)。</div>
+      </div>
+    </div><div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:16px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#D98A2B">🎯 What the examiner wants · 考官要什么</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">State = short answer · Describe = say what &amp; how · Explain = give the reason (fact + because) · Define = use the exact term.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">State=短答 · Describe=说什么、怎样 · Explain=讲原因(事实+because) · Define=用准确术语。</div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Practise now · 开始练习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Try it — with hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">练习(有提示)</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">TRY · 练习</div>
+      <h2 class="screen-title">Practice with hints</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">带提示练习</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q01</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A balance always reads 3 g too high. This is an example of:</div><div style="margin-left:8px;margin-top:3px">A) random error  B) systematic error  C) no error  D) anomaly</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一台天平总是多读 3 克。这是哪种误差的例子:</div><div style="margin-left:8px;margin-top:3px">A) 随机误差  B) 系统误差  C) 没有误差  D) 异常</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Systematic = same direction every time. <span style="color:#D98A2B">系统误差 = 每次同一个方向。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">&quot;Always too high&quot; means the same direction every time.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">「总是偏高」意味着每次同一个方向。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about A balance always reads 3 g too high. This is an example of, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「A balance always reads 3 g too hig」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q02</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Reading a measuring cylinder from above, not at eye level,</div><div style="margin-left:8px;margin-top:3px">causes:</div><div style="margin-left:8px;margin-top:3px">A) zero error  B) parallax error  C) systematic-only error  D) no error</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">不在视线齐平处、从上方读量筒,会造成:</div><div style="margin-left:8px;margin-top:3px">A) 零误差  B) 视差误差  C) 只有系统误差  D) 没有误差</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Parallax is about viewing angle. <span style="color:#D98A2B">视差跟视线角度有关。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Which error is caused by the angle of your eye?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">哪种误差是由你眼睛的角度造成的?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Reading a measuring cylinder from above, not at eye level,, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「Reading a measuring cylinder from 」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q03</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Match · 3 marks · matching</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Match the error type to its cause.</div><div style="margin-left:8px;margin-top:3px">Types: (1) Systematic  (2) Random  (3) Gross</div><div style="margin-left:8px;margin-top:3px">Causes:</div><div style="margin-left:8px;margin-top:3px">a. Carelessness or an accident (e.g. misreading once)</div><div style="margin-left:8px;margin-top:3px">b. Fluctuations in variables; uncontrollable</div><div style="margin-left:8px;margin-top:3px">c. The instrument is off in the same direction every time</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">把误差种类配到它的起因。</div><div style="margin-left:8px;margin-top:3px">种类:(1) 系统  (2) 随机  (3) 粗心</div><div style="margin-left:8px;margin-top:3px">起因:</div><div style="margin-left:8px;margin-top:3px">a. 粗心或意外(例如读错一次)</div><div style="margin-left:8px;margin-top:3px">b. 变量的波动;不可控</div><div style="margin-left:8px;margin-top:3px">c. 仪器每次都向同一个方向偏</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Match each error to its cause. <span style="color:#D98A2B">把每种误差配到它的起因。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">&quot;Same direction every time&quot; is the systematic one.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">「每次同一个方向」是系统误差。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">1-c, 2-b, 3-a</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">1-c、2-b、3-a</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> exact mapping 1-c / 2-b / 3-a; accept equivalent exact ordering/mapping; give one mark for each correct pair/position; do not require extra explanation.<br><span style="color:#D98A2B">完全对应 1-c / 2-b / 3-a；接受等价的正确顺序/配对；每个正确配对/位置给 1 分；不要求额外解释。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Some items are misplaced — for this task (Match the error type to its cause. Types: (1) Systematic (), check which label or step belongs where. <span style="color:#D98A2B">有项目放错——这题是「Match the error type to its cause.」,先核每个标签/步骤该放哪里。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q04</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State one way a scientist can reduce random error in their</div><div style="margin-left:8px;margin-top:3px">measurements.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出科学家可以减小测量中随机误差的一个方法。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Repeating and averaging targets random error. <span style="color:#D98A2B">重复并取平均针对的是随机误差。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Random errors scatter both ways — what cancels that out?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">随机误差向两边散开 —— 什么能把它抵消掉?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Take repeat readings and calculate an average (mean).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">多次重复读数并计算平均值。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> repeating and averaging / taking more readings; accept: Take repeat readings and calculate an average (mean).; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">重复并取平均 / 多读几次；接受：多次重复读数并计算平均值。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Random error jumps around. The fix is to repeat readings and average them, not to recalibrate the instrument once. <span style="color:#D98A2B">随机误差会来回跳。修法是重复读数并取平均,不是只校准一次仪器。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q05</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A ruler is worn down so its scale starts at 2 mm instead of 0.</div><div style="margin-left:8px;margin-top:3px">Explain what type of error this causes and why repeating the measurement</div><div style="margin-left:8px;margin-top:3px">will not fix it.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一把尺子磨损了,刻度从 2 毫米开始而不是 0。</div><div style="margin-left:8px;margin-top:3px">解释这会造成什么类型的误差,以及为什么重复测量无法修正它。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Zero error is systematic; averaging will not remove it. <span style="color:#D98A2B">零误差是系统性的;取平均去不掉它。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Is the 2 mm offset the same every time, or does it scatter?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">这 2 毫米的偏移每次都一样,还是会散开?</div></div></details><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint 2 · 第二提示</summary>
+            <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Averaging only helps when errors go both ways.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">取平均只在误差向两边散开时才有用。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A zero error, which is a systematic error: every reading is off by the same 2 mm in the same direction. Repeating gives the same offset each time, so averaging does not remove it — you must correct for the zero (e.g. start measuring from the true zero or subtract 2 mm).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">一个零误差,属于系统误差:每个读数都向同一个方向 偏移相同的 2 毫米。重复测量每次得到同样的偏移,所以取平均去不掉它 —— 你必须修正这个零点(例如从真正的零开始测量,或减去 2 毫米)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> identifies zero/systematic error AND explains repeats keep the same offset; accept: A zero error, which is a systematic error: every reading is off by the same 2 mm in the same direction. Repeating gives ; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">指出零/系统误差,并解释重复测量保持同样偏移；接受：一个零误差,属于系统误差:每个读数都向同一个方向 偏移相同的 2 毫米。重复测量每次得到同样的偏移,所以取平均去不掉它 —— 你必须修正这个零点(例如从真正的零开始测量,或减去 2 毫米)。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The ruler’s zero is shifted before measuring begins. That makes every reading wrong by the same amount, so it is zero error and systematic error. <span style="color:#D98A2B">尺的零点在量之前已经偏了。每次读数都会偏同样的量,所以是零点误差,也是系统误差。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Go to test · 进入测试 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Test — no hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">测试(无提示)</div>
+</div><div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter';font-weight:700;font-size:11px;padding:4px 12px;border-radius:999px;margin-bottom:10px">EXAM MODE · NO HINTS · 考试模式 · 无提示</div><div class="screen-header">
+      <div class="screen-eyebrow">TEST · 测试</div>
+      <h2 class="screen-title">Apply on your own</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">独立应用</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q06</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Which error is caused by carelessness or an accident?</div><div style="margin-left:8px;margin-top:3px">A) Systematic error  B) Random error  C) Gross error  D) Zero error</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">哪种误差是由粗心或意外造成的?</div><div style="margin-left:8px;margin-top:3px">A) 系统误差  B) 随机误差  C) 粗心误差  D) 零误差</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">C</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">C</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> C (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">C(只接受 C)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Which error is caused by carelessness or an accident? A) S, the trap is: A, B, D. <span style="color:#D98A2B">选项错——这题主题是「Which error is caused by carelessn」,陷阱是：A、B、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q07</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">An instrument reads above 0 when nothing is being measured.</div><div style="margin-left:8px;margin-top:3px">This is a:</div><div style="margin-left:8px;margin-top:3px">A) negative zero error  B) positive zero error  C) parallax error  D) random error</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">仪器在没有测量任何东西时读到大于 0。这是:</div><div style="margin-left:8px;margin-top:3px">A) 负零误差  B) 正零误差  C) 视差误差  D) 随机误差</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about An instrument reads above 0 when nothing is being measured, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「An instrument reads above 0 when n」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q08</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Describe · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Describe how to avoid parallax error when reading the volume</div><div style="margin-left:8px;margin-top:3px">of liquid in a measuring cylinder.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">描述读量筒里液体体积时如何避免视差误差。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Read the scale at eye level, looking straight on, at the bottom of the meniscus.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">在视线齐平处、正对着看,读弯月面的底部。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> eye level / straight on / bottom of meniscus (any that conveys correct viewing); accept: Read the scale at eye level, looking straight on, at the bottom of the meniscus.; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">视线齐平 / 正对 / 弯月面底部(任何传达正确读法的)；接受：在视线齐平处、正对着看,读弯月面的底部。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Parallax is a viewing-angle mistake. Put your eye level with the meniscus and read the bottom of it, not from above or below. <span style="color:#D98A2B">视差是视线角度造成的错。眼睛要和液面同高,读弯月面底部,不要从上或下斜看。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q09</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State one feature of a systematic error that is different from</div><div style="margin-left:8px;margin-top:3px">a random error.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出系统误差有别于随机误差的一个特征。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A systematic error affects all readings in the same direction (random error scatters both ways).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">系统误差影响所有读数且方向相同(随机误差向两边散开)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> Accept a clear difference: systematic error affects readings in the same direction or by the same bias; random error scatters readings unpredictably in both directions.<br><span style="color:#D98A2B">接受清楚差别:系统误差让读数朝同一方向偏或有同一偏差；随机误差让读数不可预测地两边散开。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Systematic error pushes readings in one direction. Random error scatters readings both ways. Do not answer only “they are errors”. <span style="color:#D98A2B">系统误差会把读数往同一个方向推。随机误差会让读数两边乱散。不要只写「它们都是误差」。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q10</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A student times how long a ball takes to fall, using a stopwatch</div><div style="margin-left:8px;margin-top:3px">started and stopped by hand. The times vary: 1.2 s, 1.4 s, 1.1 s, 1.3 s.</div><div style="margin-left:8px;margin-top:3px">Explain what type of error causes this variation, and one way to reduce it.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位学生用手动开关的秒表,计时球下落多久。</div><div style="margin-left:8px;margin-top:3px">时间不一:1.2 秒、1.4 秒、1.1 秒、1.3 秒。</div><div style="margin-left:8px;margin-top:3px">解释什么类型的误差造成这种变化,以及减小它的一个方法。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Random error, caused by varying human reaction time when starting and stopping by hand. Reduce it by taking repeat readings and averaging (or using a light gate / automatic timer).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">随机误差,由手动开关时人的反应时间变化造成。 通过多次重复读数并取平均(或使用光门 / 自动计时器)来减小它。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> identifies random error + valid reduction (repeat &amp; average, or automatic timing); accept: Random error, caused by varying human reaction time when starting and stopping by hand. Reduce it by taking repeat readi; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">指出随机误差 + 有效的减小方法(重复取平均,或自动计时)；接受：随机误差,由手动开关时人的反应时间变化造成。 通过多次重复读数并取平均(或使用光门 / 自动计时器)来减小它。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Human reaction time changes a little each trial, so the stopwatch readings scatter. Repeating and averaging reduces this random error. <span style="color:#D98A2B">人的反应时间每次会有一点不同,所以秒表读数会散开。重复并取平均可以减少这种随机误差。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 完成 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Know your error, then you can fix it</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">认得误差,才能修正它</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">WRAP · 总结</div>
+      <h2 class="screen-title">Know your error, then you can fix it</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">认得误差,才能修正它</div></div><div style="background:#DDD3A0;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #8A7B4A">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📌</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#8A7B4A">Key points to keep</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">记住这几点</div>
+        </div>
+      </div>
+      <div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Systematic: same direction every time; fix the cause (re-zero/calibrate).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 系统:每次同一个方向;修正起因(重新归零/校准)。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Random: scatters both ways; reduce by repeating and averaging.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 随机:向两边散开;用重复取平均减小。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Gross: carelessness/accident; avoid by careful work.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 粗心:粗心/意外;靠仔细做避免。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Zero error: instrument not reading 0 (a systematic error).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 零误差:仪器没读 0(一种系统误差)。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Parallax error: wrong viewing angle; read at eye level.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 视差误差:视线角度错;在视线齐平处读。</div></div>
+    </div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3B6FD4">🔁 Cover & recall · 盖住回想</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Cover the summary.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Say each key point out loud from memory, then check.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 盖住总结。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 凭记忆把每个要点说出来,再对照检查。</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• First name the error.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Then choose the fix.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Wrong diagnosis wastes time.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 先叫出误差名字,再选修法。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 诊断错,时间就烧掉。</div></div><div style="background:#F6EAFA;border:2px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin:14px 0">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#9B3FC9">➡️ Next lesson · 下一课</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• L06 — Lab apparatus, hazard symbols and units.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 第6课</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 实验室仪器、危险符号和单位。</div></div><div class="btn-row">
+      <button class="btn" onclick="showScreen('test')">← Test · 测试</button>
+      <button class="btn btn-primary" onclick="completeLesson()">Complete lesson · 完成本课 ✓</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Every experiment starts with the right question.", zh: "每个实验都从一个对的问题开始。" },
+  learn: { en: "Take it slowly — one idea at a time.", zh: "慢慢来,一次一个概念。" },
+  try:   { en: "Use the hints if you get stuck.", zh: "卡住了就看提示。" },
+  test:  { en: "No hints now — show what you know!", zh: "现在没提示啦,秀出你会的!" },
+  wrap:  { en: "Great work. Recall it before you go.", zh: "做得好。走之前先回想一遍。" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U7 L01 · Push and Pull Forces</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U7 L01 · Push and Pull Forces",
+  "navMeta": "Y7 · U7 · L01",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 7",
+  "unitTitleEn": "Forces and Motion",
+  "unitTitleZh": "力与运动",
+  "userLevel": "1",
+  "lessonData": "1"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="1">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U7 · L01</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U7 parsed.json — text poured verbatim. Image placeholders kept. [Qnn] tag normalised out of feedback. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Push and Pull Forces" data-zh="推力和拉力">Push and Pull Forces</div>
+      <div class="screen-title-zh">推力和拉力</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Push and Pull Forces</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Every time you open a door, push a shopping trolley, or pull a drawer, you are using a force. A force is a push or a pull. <span class="zh">你每次开门、推购物车、拉抽屉，都在用力。力就是推或拉。</span></p>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Look around you <span class="zh">看看你身边</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Look at any door you have pushed today. <span class="zh">看看你今天推过的任何一扇门。</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Around the world <span class="zh">世界上的科学家</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Isaac Newton (UK, 1687, Principia) described how forces make objects speed up, slow down, or change direction. <span class="zh">牛顿（英国，1687，《自然哲学的数学原理》）说明了 力如何让物体加速、减速或改变方向。</span></p>
+      </div>
+      
+        <figure class="img-slot" data-ref="L01_HOOK_IMG" style="margin:12px 0;">
+          <img data-image-prompt="L01_HOOK_IMG" data-recraft-prompt="a person pushing a door open and a person pulling a drawer; clean flat illustration, arrow length proportional to force magnitude, arrow head shows direction." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Push and Pull Forces" data-zh="推力和拉力">Push and Pull Forces</div>
+      <div class="screen-title-zh">推力和拉力</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">A force is a push or a pull</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A force is a push or a pull. Forces can start movement, stop movement, speed things up, slow things down, or change direction. <span class="zh">力是推或拉。力可以让物体开始动、停下、加速、减速，或改变方向。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Drawing forces as arrows</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">We draw a force as an arrow. The arrow points in the direction of the force. A longer arrow means a bigger force. <span class="zh">我们用箭头画力。箭头指向力的方向。箭头越长，力越大。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Named forces acting on a moving object</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Several forces can act at once: a driving force pushes a vehicle forward, friction and air resistance slow it down, weight pulls it down, and a reaction force pushes up from the ground. <span class="zh">多个力可以同时作用：驱动力把车往前推，摩擦力和空气阻力让它减速， 重力把它往下拉，地面给出的反作用力把它往上推。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "A moving object only has a forward force on it." <span class="zh">「运动的物体只受到一个向前的力。」</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> Several forces usually act at the same time. A moving car still has friction, air resistance, weight, and a reaction force acting on it, not just the driving force. <span class="zh">通常有好几个力同时作用。行驶中的车除了驱动力， 还受到摩擦力、空气阻力、重力和反作用力。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict · 预测</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">state / identify (tick the correct box) · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 mark</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Blessy investigates floating objects. She uses a small plastic box<br>in a bowl of water. She puts weights into the box. She measures the<br>depth of the box below the water.<br>(a) Blessy needs to measure the weights in the box. What piece of<br>equipment should she use? Tick (check) the correct box.<br><span class="zh">Blessy 研究漂浮的物体。她用一个小塑料盒放在一碗水里。她把砝码放进盒子里。她测量盒子在水面以下的深度。(a) Blessy 要测量盒子里砝码的重量。她应该用哪一件仪器？在正确的方框里打勾(✓)。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Choose the equipment that measures the quantity asked for. <span class="zh">选出能测量题目所问那个量的器材。</span></div>
+        <figure class="img-slot" data-ref="L01_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          A force is measured with a spring balance; a length is measured with a ruler. <span class="zh">力用弹簧秤测量；长度用尺测量。</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) spring balance. (b) ruler..</strong> <span class="zh">正确答案要包含：(a) 弹簧秤. (b) 尺.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) spring balance. (b) ruler.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 弹簧秤. (b) 尺.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) spring balance. (b) ruler.. <span class="zh">对。 你抓到本题关键：弹簧秤量力，尺量长度。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Blessy investigates floating objects. She uses a small plastic box in a bowl of water. She puts weights into t. Your answer must lead to: (a) spring balance. (b) ruler... <span class="zh">再看测量工具：盒里的重量要用弹簧秤，水下深度要用尺；选电流表、时钟或量筒都不是在量这两样。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">state / draw · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Angelique jumps up and down on a trampoline.<br>(a)(i) Write down the name of the force that pulls Angelique<br>towards the trampoline. ................ [1]<br>(a)(ii) Draw a line with an arrow to show the direction of this<br>force. Start the line on the large dot on Angelique. [1]<br>(b) Angelique lands on the trampoline. She bends her knees and<br>pushes hard against the trampoline. Complete the sentence.<br>Choose the best word from the list.<br>Angelique exerts more ................ so she jumps higher. [1]<br><span class="zh">Angelique 在蹦床上上下跳。(a)(i) 写出把 Angelique 拉向蹦床的力的名称。[1] (a)(ii) 画一条带箭头的线，表示这个力的方向。线从 Angelique 身上的大圆点开始。[1] (b) Angelique 落到蹦床上。她弯曲膝盖，用力压向蹦床。完成句子，从词表里选词。Angelique 施加更多 ⋯⋯ 所以她跳得更高。[1]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Gravity always pulls straight down towards the ground. <span class="zh">重力总是竖直向下拉，指向地面。</span></div>
+        <figure class="img-slot" data-ref="L01_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          The pull towards the ground is gravity; the arrow for it points straight down. <span class="zh">朝地面的拉力是重力；它的箭头竖直向下。</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a)(i) gravity / gravitational force; accept weight. (a)(ii) vertical downward arrow. (b) force..</strong> <span class="zh">正确答案要包含：(a)(i) 重力 / 引力; 可接受 重量/重力. (a)(ii) vertical 向下 arrow. (b) 力.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a)(i) gravity / gravitational force; accept weight. (a)(ii) vertical downward arrow. (b) force.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a)(i) 重力 / 引力; 可接受 重量/重力. (a)(ii) vertical 向下 arrow. (b) 力.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a)(i) gravity / gravitational force; accept weight. (a)(ii) vertical downward arrow. (b) force.. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Angelique jumps up and down on a trampoline. (a)(i) Write down the name of the force that pulls Angelique towa. Your answer must lead to: (a)(i) gravity / gravitational force; accept weight. (a)(ii) vertical downward arrow. (b) force... <span class="zh">这题错在力名或箭头方向：把人拉向蹦床的是重力，箭头必须从点竖直向下；最后一空要写“力”。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">match (draw a line from each force to its name) · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">The diagram shows a moving truck. Forces A, B, C and D are acting<br>on the truck.<br>(a) Draw a line from each force to its name. The first one has been<br>done for you. [2]<br><span class="zh">图中显示一辆行驶的卡车。力 A、B、C 和 D 作用在卡车上。(a) 从每一个力连一条线到它的名称。第一条已经帮你连好。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Match the arrow direction to the force: down = weight, backward = friction, up = reaction, forward = driving force. <span class="zh">把箭头方向跟力对上：向下＝重力，向后＝摩擦力， 向上＝反作用力，向前＝驱动力。</span></div>
+        <figure class="img-slot" data-ref="L01_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L01_Q03_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q03_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Look at which way each labelled arrow points, then pick the force that acts in that direction. <span class="zh">看每个标号箭头指哪个方向，再选出在那个方向作用的力。</span>
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>A driving force; B reaction; C friction; D weight. (mass is not used)..</strong> <span class="zh">正确答案要包含：A 驱动力; B 反作用力/支持力; C 摩擦力; D 重量/重力. (质量 is not used).。</span><br><br>✓ Accept: - Accept the exact answer meaning: A driving force; B reaction; C friction; D weight. (mass is not used).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：A 驱动力; B 反作用力/支持力; C 摩擦力; D 重量/重力. (质量 is not used).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: A driving force; B reaction; C friction; D weight. (mass is not used).. <span class="zh">对。 你抓到本题关键：四个力要按箭头方向配对。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The diagram shows a moving truck. Forces A, B, C and D are acting on the truck. (a) Draw a line from each forc. Your answer must lead to: A driving force; B reaction; C friction; D weight. (mass is not used)... <span class="zh">卡在货车力图：向前的是驱动力，向上的是反作用力，向后的是摩擦力，向下的是重力；质量 不是这里的力名。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="game-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:6px;">
+        <span data-en="PLAY · Push and pull, see the force" data-zh="动手玩 · 推一推、拉一拉，看力怎么动">动手玩 · 推一推、拉一拉，看力怎么动</span>
+      </div>
+      <div style="position:relative;width:100%;padding-top:62.5%;border-radius:10px;overflow:hidden;border:1px solid #e6e0d3;">
+        <iframe
+          src="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_zh_CN.html"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+          allowfullscreen
+          loading="lazy"
+          title="PhET Forces and Motion Basics (Chinese)"></iframe>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">complete / state · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A car is driving along a road. Complete the sentences about the<br>car. Use words from the list. The car is slowing down.<br>The forces that slow the car down are ................ and<br>................ . [2]<br><span class="zh">一辆汽车在路上行驶。完成关于这辆车的句子，从词表里选词。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Two forces slow a moving car — both act against its motion. <span class="zh">有两个力让行驶的车减速——它们都跟车的运动方向相反。</span></div>
+        <figure class="img-slot" data-ref="L01_Q04_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q04_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>air resistance and friction (any order)..</strong> <span class="zh">正确答案要包含：空气阻力 and 摩擦力 (any order).。</span><br><br>✓ Accept: - Accept the exact answer meaning: air resistance and friction (any order).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：空气阻力 and 摩擦力 (any order).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: air resistance and friction (any order).. <span class="zh">对。 你抓到本题关键：让车减速的是空气阻力和摩擦力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A car is driving along a road. Complete the sentences about the car. Use words from the list. The car is slowi. Your answer must lead to: air resistance and friction (any order)... <span class="zh">车在减速时，要找阻碍运动的两个力：空气阻力和摩擦力；不要写重力或反作用力，因为它们不是让车向后慢下来的力。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">draw / state · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Forces are useful when playing different sports.<br>(a) Draw an arrow from the tennis ball to show the direction of<br>gravity. [1]<br>(b) There is a force between the rugby ball and the boy's hand.<br>Write down the name of this force. [1]<br>(c) When the golf ball moves through the air a force slows it down.<br>Write down the name of this force. [1]<br><span class="zh">在玩不同的运动时力很有用。(a) 从网球画一个箭头，表示球拍施加在球上的力。</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Gravity points down; a force you feel when something is held or thrown is a contact force; a force that slows a moving object through air is air resistance. <span class="zh">重力向下；握住或投掷物体时感到的力是接触力； 让物体在空气中减速的力是空气阻力。</span></div>
+        <figure class="img-slot" data-ref="L01_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q05_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L01_Q05_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q05_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L01_Q05_IMG03" style="margin:12px 0;">
+          <img data-image-prompt="L01_Q05_IMG03" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) vertical downward arrow from tennis ball. (b) contact force / push (accept normal contact force). (c) air resistance..</strong> <span class="zh">正确答案要包含：(a) vertical 向下 arrow from tennis ball. (b) 接触 力 / 推 (可接受 normal 接触 力). (c) 空气阻力.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) vertical downward arrow from tennis ball. (b) contact force / push (accept normal contact force). (c) air resistance.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) vertical 向下 arrow from tennis ball. (b) 接触 力 / 推 (可接受 normal 接触 力). (c) 空气阻力.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) vertical downward arrow from tennis ball. (b) contact force / push (accept normal contact force). (c) air resistance.. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Forces are useful when playing different sports. (a) Draw an arrow from the tennis ball to show the direction. Your answer must lead to: (a) vertical downward arrow from tennis ball. (b) contact force / push (accept normal contact force). (c) air resistance. <span class="zh">这题要分三处：网球重力向下，橄榄球和靴子之间是接触推力，羽毛球在空气中主要受空气阻力。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">state · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A child pushes a toy car forward. State whether the push is a force,<br>and state the unit used to measure force. [2]<br><span class="zh">一个小孩把玩具车向前推。说出这个推是不是一个力,并说出测量力所用的<br>单位。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A push or a pull is a force; forces are measured in newtons. <span class="zh">推或拉就是力;力的单位是牛顿。</span></div>
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>yes it is a force (a push); unit = newton (N)..</strong> <span class="zh">正确答案要包含：yes it is a 力 (a 推); unit = 牛顿 (N).。</span><br><br>✓ Accept: - Accept the exact answer meaning: yes it is a force (a push); unit = newton (N).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：yes it is a 力 (a 推); unit = 牛顿 (N).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: yes it is a force (a push); unit = newton (N).. <span class="zh">对。 你抓到本题关键：力的单位是牛顿，推或拉才是力的例子。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A child pushes a toy car forward. State whether the push is a force, and state the unit used to measure force.. Your answer must lead to: yes it is a force (a push); unit = newton (N)... <span class="zh">推玩具车本身就是一个推力；测力单位是牛顿。若只写“会动”或写 kg，就没有答到力和单位。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">identify · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A magnet pulls a steel pin without touching it. A hand pushes a<br>door to open it. Identify which of these two is a contact force<br>and which is a non-contact force. [2]<br><span class="zh">磁铁不接触就能吸引钢针。手推门把门打开。识别这两者中哪个是接触力,<br>哪个是非接触力。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Some forces need contact; gravity acts without touching. <span class="zh">有些力需要接触;引力不接触也能作用。</span></div>
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>hand pushing door = contact force; magnet pulling pin = non-contact force..</strong> <span class="zh">正确答案要包含：hand pushing door = 接触 力; magnet pulling pin = non-接触 力.。</span><br><br>✓ Accept: - Accept the exact answer meaning: hand pushing door = contact force; magnet pulling pin = non-contact force.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：hand pushing door = 接触 力; magnet pulling pin = non-接触 力.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: hand pushing door = contact force; magnet pulling pin = non-contact force.. <span class="zh">对。 你抓到本题关键：手推门是接触力，磁铁吸针是非接触力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A magnet pulls a steel pin without touching it. A hand pushes a door to open it. Identify which of these two i. Your answer must lead to: hand pushing door = contact force; magnet pulling pin = non-contact force... <span class="zh">用有没有接触来分：手推门要接触，是接触力；磁铁隔空拉钢针，是非接触力。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">describe · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A book rests on a table and does not move. Two forces act on it:<br>its weight pulling down and the table pushing up. Describe what<br>this tells you about the sizes of the two forces. [2]<br><span class="zh">一本书静止放在桌上不动。它受两个力:向下的重量和桌子向上的支持力。<br>描述这说明这两个力的大小有什么关系。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Equal forces in opposite directions are balanced. <span class="zh">大小相等、方向相反的力是平衡的。</span></div>
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the two forces are equal in size (and opposite in direction) / they are balanced, so the book stays still..</strong> <span class="zh">正确答案要包含：the two forces are equal in size (and opposite in direction) / they are 平衡, so the book stays still.。</span><br><br>✓ Accept: - Accept the exact answer meaning: the two forces are equal in size (and opposite in direction) / they are balanced, so the book stays still.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：the two forces are equal in size (and opposite in direction) / they are 平衡, so the book stays still.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: the two forces are equal in size (and opposite in direction) / they are balanced, so the book stays still.. <span class="zh">对。 你抓到本题关键：静止物体上下两个力大小相等。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A book rests on a table and does not move. Two forces act on it: its weight pulling down and the table pushing. Your answer must lead to: the two forces are equal in size (and opposite in direction) / they are balanced, so the book stays still... <span class="zh">书不动说明上下两个力大小相等、方向相反；只写“有重力”没有解释为什么静止。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">state · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">Forces are drawn as arrows. State what the LENGTH of a force arrow<br>represents, and what the DIRECTION of the arrow represents. [2]<br><span class="zh">力用箭头表示。说出力箭头的长度代表什么,箭头的方向代表什么。[2]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ An arrow's length shows the size of a force; its direction shows the way the force acts. <span class="zh">箭头的长度表示力的大小;方向表示力作用的方向。</span></div>
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>length = the size (magnitude) of the force; direction = the direction the force acts in..</strong> <span class="zh">正确答案要包含：length = the size (magnitude) of the 力; direction = the direction the 力 acts in.。</span><br><br>✓ Accept: - Accept the exact answer meaning: length = the size (magnitude) of the force; direction = the direction the force acts in.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：length = the size (magnitude) of the 力; direction = the direction the 力 acts in.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: length = the size (magnitude) of the force; direction = the direction the force acts in.. <span class="zh">对。 你抓到本题关键：箭头长度表示力大小，方向表示力作用方向。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Forces are drawn as arrows. State what the LENGTH of a force arrow represents, and what the DIRECTION of the a. Your answer must lead to: length = the size (magnitude) of the force; direction = the direction the force acts in... <span class="zh">力箭头不是随便画：长度表示力的大小，箭头方向表示力作用方向；把两者对调会错。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text">A sledge is pushed across snow with a force of 50 N forward, while<br>friction pushes back with 20 N. Explain whether the forces are<br>balanced or unbalanced, and describe how the sledge's motion<br>changes. [3]<br><span class="zh">一个雪橇被以 50 N 向前推,而摩擦力以 20 N 向后推。解释这些力是平衡<br>还是不平衡,并描述雪橇的运动如何变化。[3]</span></p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ When forces are unbalanced, the object speeds up, slows down or changes direction. <span class="zh">当力不平衡时,物体会加速、减速或改变方向。</span></div>
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the forces are unbalanced (50 N forward is bigger than 20 N back); there is an overall force of 30 N forward, so the sledge speeds up / accelerates forward..</strong> <span class="zh">正确答案要包含：the forces are 不平衡 (50 N forward is bigger than 20 N back); there is an overall 力 of 30 N forward, so the sledge speeds 向上 / accelerates forward.。</span><br><br>✓ Accept: - Accept the exact answer meaning: the forces are unbalanced (50 N forward is bigger than 20 N back); there is an overall force of 30 N forward, so the sledge speeds up / accelerates forward.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：the forces are 不平衡 (50 N forward is bigger than 20 N back); there is an overall 力 of 30 N forward, so the sledge speeds 向上 / accelerates forward.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: the forces are unbalanced (50 N forward is bigger than 20 N back); there is an overall force of 30 N forward, so the sledge speeds up / accelerates forward.. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A sledge is pushed across snow with a force of 50 N forward, while friction pushes back with 20 N. Explain whe. Your answer must lead to: the forces are unbalanced (50 N forward is bigger than 20 N back); there is an overall force of 30 N forward, so the sle. <span class="zh">先比较 50 N 和 20 N：前方力更大，所以合力是 30 N 向前，雪橇会向前加速；不能说平衡。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans'); if(window.SparkJar)SparkJar.add(20,'correct'); playSound('correct'); awardXP(30)">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Summary</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A force is a push or a pull. We draw forces as arrows; a longer arrow means a bigger force. Several forces can act on one object at the same time. <span class="zh">力是推或拉。我们用箭头画力；箭头越长，力越大。 一个物体可以同时受到好几个力。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Bridge to next lesson</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Next lesson: one force always pulls you down — gravity. We will see why your mass and your weight are not the same thing. <span class="zh">下一课：有一种力永远把你往下拉——重力。我们会看到 为什么质量和重量不是同一件事。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

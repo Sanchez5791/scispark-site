@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U0 L02 · The Scientific Method (the whole process)</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body class="bilingual" data-user-level="2" data-lesson="2">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U0 · L02</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Science Skills" data-zh="科学方法">Science Skills</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 0</div>
+      <div class="sidebar-unit-title" data-en="Thinking &amp; Working Scientifically" data-zh="科学探究方法">Thinking &amp; Working Scientifically</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 真实情境</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Practise<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Good science follows the same steps, every time</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">好的科学,每一次都照同样的步骤走</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">HOOK · 引入</div>
+      <h2 class="screen-title">Good science follows the same steps, every time</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">好的科学,每一次都照同样的步骤走</div></div><div style="background:#EAFBFF;border:2px solid #3AAEC8;border-radius:16px;padding:16px 18px;margin:0 0 16px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3AAEC8">🌍 Real-world · 真实情境</div>
+          <div style="margin-top:8px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A medical researcher testing a new medicine cannot just try it and hope.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They follow a fixed set of steps — observe, ask, predict, test, analyse, conclude, then share the results so others can check them.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Skipping a step can put lives at risk.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• The same process is used in every science job, from drug testing to building bridges.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 测试新药的医学研究员,不能只是试一试、碰运气。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 他们照一套固定步骤走</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 观察、提问、预测、测试、分析、得出结论, 然后把结果分享出去让别人检查。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 漏掉一步可能危及生命。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 从测药到建桥,每一份科学工作都用同一套流程。</div></div></div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📘</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">What this lesson is about</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">这一课讲什么</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• The scientific method is a step-by-step way to answer questions.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学方法是一套一步一步回答问题的方式。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• This lesson walks through every step, in order.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这一课按顺序走过每一个步骤。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It also covers what happens after an experiment: peer review and publishing.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 也讲实验之后会发生什么:同行评审和发表。</div></div>
+    </div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4">⏰ Warm-up · 热身回顾</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Before you start: think of one experiment you&#x27;ve seen.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• What was being changed, and what was measured?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 开始前:想一个你看过的实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它在改变什么?又在测量什么?</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Good science is not random trying.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It is a repeatable route.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 好科学不是乱试。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它是一条别人也能走的路线。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">The method is like a recipe: miss a step, and the cake may lie to you.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">科学方法像食谱:漏一步,蛋糕可能骗你。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L02_Q00_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Full scientific method cycle (observe -&gt; ask question -&gt; do research -&gt; form hypothesis -&gt; make prediction -&gt; perform experiment -&gt; organise &amp; analyse data -&gt; draw conclusion -&gt; communicate results, with a &quot;results support hypothesis? yes/no&quot; decision loop back to hypothesis).</div>
+      </div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Learn: The Scientific Method (the whole process)</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">学习</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">LEARN · 学习</div>
+      <h2 class="screen-title">The Scientific Method (the whole process)</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">学习重点</div></div><div style="background:#BFE6BF;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #2E7D32">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🔎</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#2E7D32">The steps of the scientific method</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">科学方法的步骤</div>
+        </div>
+      </div>
+      <div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 1. Make an observation.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 2. Ask a question.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 3. Do research.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 4. Form a hypothesis (a possible explanation).</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 5. Make a prediction (what you expect if the hypothesis is true).</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 6. Perform experiments.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 7. Organise and analyse the data.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 8. Draw a conclusion.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• 9. Communicate the results.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 1. 做观察。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 2. 提出问题。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 3. 做研究。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 4. 形成假设(一个可能的解释)。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 5. 做预测(如果假设成立,你预计会发生什么)。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 6. 进行实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 7. 整理和分析数据。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 8. 得出结论。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 9. 发表结果。</div></div>
+    </div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">O-Q-H-P-E-C-C: Observe, Question, Hypothesis, Predict, Experiment, Conclude, Communicate.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:看→问→猜→预→做→结→讲。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L02_Q00_IMG02]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">reuse of method flow (see B01) — numbered step view</div>
+      </div>
+    </div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">⚖️</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">What if the results do not support the hypothesis?</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">如果结果不支持假设,怎么办?</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• After drawing a conclusion, scientists ask: do the results support the hypothesis?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 得出结论后,科学家会问:结果支持假设吗?</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• YES -&gt; the hypothesis is supported (it is never &quot;proven&quot; forever).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 是 -&gt; 假设得到支持(但永远不算&quot;永远证明&quot;)。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• NO -&gt; go back, change the hypothesis, and test again.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 否 -&gt; 回头,修改假设,再测一次。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Science is a loop, not a straight line.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学是一个循环,不是一条直线。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Wrong prediction does not mean failed science.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• It means the method gave you an honest answer.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 预测错不等于实验失败。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它代表实验给了你真实答案。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Science is allowed to say, &quot;Oops, back to the drawing board.&quot; That is the job.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学可以说「哎呀,重来画板」。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这本来就是工作。</div></div><div style="background:#C2ECF5;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #3AAEC8">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧪</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#3AAEC8">Peer review — other scientists check the work</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">同行评审 —— 其他科学家检查这份工作</div>
+        </div>
+      </div>
+      <div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Research carried out -&gt; results written as a paper -&gt; checked by other scientists -&gt; published in a journal.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 研究做出来 -&gt; 结果写成论文 -&gt; 由其他科学家检查 -&gt; 在期刊上发表。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Peer review means other experts read the work and check it for mistakes before it is published.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 同行评审的意思是:其他专家在发表前阅读这份工作,检查有没有错误。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Other experts check whether the work has mistakes, weak evidence, or unfair claims.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">其他专家检查有没有错、证据弱不弱、结论有没有吹太大。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Peer review is like another chef tasting the soup before it leaves the kitchen.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">同行评审像另一位厨师在出菜前先尝汤。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L02_Q00_IMG03]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Peer review flow (research carried out -&gt; results written as paper -&gt; checked by other scientists -&gt; published in journal).</div>
+      </div>
+    </div><div style="background:#E2C4EE;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #9B3FC9">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧩</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#9B3FC9">Why is it important that scientists publish their results?</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">为什么科学家发表结果很重要?</div>
+        </div>
+      </div>
+      <div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Others can check the work -&gt; results become more accurate and trustworthy.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 别人可以检查这份工作 -&gt; 结果变得更准确、更可信。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Knowledge can grow -&gt; others build on the findings -&gt; new discoveries.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 知识可以增长 -&gt; 别人在这些发现上继续建设 -&gt; 新发现。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Science becomes reliable -&gt; peer review increases trust.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学变得可靠 -&gt; 同行评审增加信任。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Shared with the world -&gt; helps improve medicine, technology, daily life.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 与全世界分享 -&gt; 帮助改进医学、科技、日常生活。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Publishing lets other scientists repeat, check, and build on the work.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">发表让别人能重复、检查、继续往上盖。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Science is like a shared tower.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If nobody publishes the bricks, nobody can build higher.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学像大家一起盖塔。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 不把砖拿出来,别人就盖不上去。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L02_Q00_IMG04]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Table of 4 reasons (others can check / knowledge can grow / science becomes reliable / share with the world) with &quot;what it means&quot; and &quot;why it matters&quot; columns.</div>
+      </div>
+    </div><div style="margin:16px 0 6px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#171413">A conclusion does not &quot;prove&quot; a hypothesis forever</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">结论不会&quot;永远证明&quot;一个假设</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A conclusion is the best answer from this evidence, not a magic final truth stamp.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">结论只是根据这份证据的最好答案,不是永久真理盖章。</div></div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Results support, not prove forever.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:结果能支持,不能永远证明。</div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:16px;padding:16px 18px;margin:18px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#C00000;letter-spacing:.5px">🚩 COMMON MISTAKE · 常见错误</div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#C00000">✘ Students often think · 学生常以为</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Students think one experiment that supports a hypothesis &quot;proves it true&quot; and the work is finished.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">学生以为一个支持假设的实验就&quot;证明它是对的&quot;, 工作就结束了。</div>
+      </div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #2E7D32">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#2E7D32">✔ Correct · 正确</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A supported hypothesis is only supported so far.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Other scientists must be able to repeat and check it.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• New evidence can change the conclusion later.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• That is why publishing and peer review matter.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 一个被支持的假设,只是到目前为止被支持。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 其他科学家必须能够重复并检查它。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 新的证据以后可能改变结论。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这就是为什么发表和同行评审很重要。</div>
+      </div>
+    </div><div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:16px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#D98A2B">🎯 What the examiner wants · 考官要什么</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">State = short answer · Describe = say what &amp; how · Explain = give the reason (fact + because) · Define = use the exact term.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">State=短答 · Describe=说什么、怎样 · Explain=讲原因(事实+because) · Define=用准确术语。</div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Practise now · 开始练习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Try it — with hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">练习(有提示)</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">TRY · 练习</div>
+      <h2 class="screen-title">Practice with hints</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">带提示练习</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q01</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Order · 5 marks · reorder</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Put these scientific method steps in the correct order:</div><div style="margin-left:8px;margin-top:3px">- Perform experiments</div><div style="margin-left:8px;margin-top:3px">- Make an observation</div><div style="margin-left:8px;margin-top:3px">- Draw a conclusion</div><div style="margin-left:8px;margin-top:3px">- Ask a question</div><div style="margin-left:8px;margin-top:3px">- Form a hypothesis</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">把这些科学方法步骤排成正确顺序:</div><div style="margin-left:8px;margin-top:3px">- 进行实验</div><div style="margin-left:8px;margin-top:3px">- 做观察</div><div style="margin-left:8px;margin-top:3px">- 得出结论</div><div style="margin-left:8px;margin-top:3px">- 提出问题</div><div style="margin-left:8px;margin-top:3px">- 形成假设</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Start with observing; end with communicating. <span style="color:#D98A2B">从观察开始;以发表结束。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">You cannot test a hypothesis before you have made one.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">你不能在还没做出假设之前就测试它。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Observation -&gt; Question -&gt; Hypothesis -&gt; Experiments -&gt; Conclusion</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">观察 -&gt; 提问 -&gt; 假设 -&gt; 实验 -&gt; 结论</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> exact order above; accept equivalent exact ordering/mapping; give one mark for each correct pair/position; do not require extra explanation.<br><span style="color:#D98A2B">上面的确切顺序；接受等价的正确顺序/配对；每个正确配对/位置给 1 分；不要求额外解释。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Some items are misplaced — for this task (Put these scientific method steps in the correct order: - ), check which label or step belongs where. <span style="color:#D98A2B">有项目放错——这题是「Put these scientific method steps 」,先核每个标签/步骤该放哪里。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q02</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">What is peer review?</div><div style="margin-left:8px;margin-top:3px">A) A scientist repeating their own experiment</div><div style="margin-left:8px;margin-top:3px">B) Other scientists checking the work for mistakes before publishing</div><div style="margin-left:8px;margin-top:3px">C) Writing the results in a notebook</div><div style="margin-left:8px;margin-top:3px">D) Choosing the most interesting question</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">什么是同行评审?</div><div style="margin-left:8px;margin-top:3px">A) 科学家重复自己的实验</div><div style="margin-left:8px;margin-top:3px">B) 其他科学家在发表前检查这份工作有没有错误</div><div style="margin-left:8px;margin-top:3px">C) 把结果写在笔记本上</div><div style="margin-left:8px;margin-top:3px">D) 选出最有趣的问题</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Peer review happens before publishing. <span style="color:#D98A2B">同行评审发生在发表之前。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">&quot;Peer&quot; means another expert, not the same scientist.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">「同行」指另一位专家,不是同一位科学家。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about What is peer review? A) A scientist repeating their own ex, the trap is: A, C, D — not peer review. <span style="color:#D98A2B">选项错——这题主题是「What is peer review? A) A scientis」,陷阱是：A、C、D —— 不是同行评审。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q03</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State one reason why it is important for scientists to</div><div style="margin-left:8px;margin-top:3px">publish their results.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出一个原因,说明为什么科学家发表结果很重要。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Think about what other scientists can do with published results. <span style="color:#D98A2B">想想其他科学家能拿已发表的结果做什么。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Think about checking, building on, or sharing results.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">想想检查、继续建设、或分享结果。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Any one: others can check the work / knowledge can grow / it makes science reliable / it can be shared to help society.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">任一:别人可以检查 / 知识可以增长 / 让科学变可靠 / 可以分享来帮助社会。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any one valid reason from the four; accept: Any one: others can check the work / knowledge can grow / it makes science reliable / it can be shared to help society.; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">四个里任一个有效原因；接受：任一:别人可以检查 / 知识可以增长 / 让科学变可靠 / 可以分享来帮助社会。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Publishing is not about fame. It lets other scientists check, repeat, and use the results. Give one of those science reasons. <span style="color:#D98A2B">发表不是为了出名。它让其他科学家检查、重复、使用结果。要写其中一个科学原因。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q04</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A scientist&#x27;s results do NOT support their hypothesis.</div><div style="margin-left:8px;margin-top:3px">Explain what they should do next.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位科学家的结果不支持他的假设。</div><div style="margin-left:8px;margin-top:3px">解释他接下来应该做什么。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> A loop means you can go back and try again. <span style="color:#D98A2B">循环的意思是你可以回头再试一次。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">You never change the data; you change the idea you are testing.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">你绝不改数据;你改的是你正在测试的想法。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Go back and change the hypothesis, then test again (the method is a loop).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">回头修改假设,然后再测一次(方法是一个循环)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any answer that returns to revise hypothesis and re-test; accept: Go back and change the hypothesis, then test again (the method is a loop).; accept also: gives the same scientific reason in different words; a clear statement linking cause and effect.<br><span style="color:#D98A2B">任何&quot;回去改假设并重新测试&quot;的答案；接受：回头修改假设,然后再测一次(方法是一个循环)。；也接受：用不同说法讲出同一个科学原因；清楚把原因和结果连起来的陈述句。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Results that disagree with the hypothesis do not get hidden. Scientists revise the idea or hypothesis and test again. <span style="color:#D98A2B">结果不支持假设时,不能藏起来。科学家要修改想法或假设,然后再测试。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q05</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Explain how peer review helps make published science more</div><div style="margin-left:8px;margin-top:3px">trustworthy.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">解释同行评审如何让发表的科学更值得信任。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Link peer review to trust in results. <span style="color:#D98A2B">把同行评审和对结果的信任连起来。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Who checks the work, and what are they checking for?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">谁来检查这份工作,他们在检查什么?</div></div></details><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint 2 · 第二提示</summary>
+            <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Mention that mistakes are found before publishing.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">提到错误在发表前被找出来。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Other expert scientists read and check the work for mistakes before it is published, so errors are caught and only checked work is published, which increases trust.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">其他专家科学家在发表前阅读并检查这份工作有没有错误, 所以错误会被抓出来,只有检查过的工作才被发表,这增加了信任。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any answer linking expert checking -&gt; catching mistakes -&gt; more trust; accept: Other expert scientists read and check the work for mistakes before it is published, so errors are caught and only check; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">任何把&quot;专家检查 -&gt; 抓错 -&gt; 更可信&quot;连起来的答案；接受：其他专家科学家在发表前阅读并检查这份工作有没有错误, 所以错误会被抓出来,只有检查过的工作才被发表,这增加了信任。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Peer review means experts check the work before publication. The trust comes from catching mistakes and weak claims, not from making the paper look formal. <span style="color:#D98A2B">同行评审是专家在发表前检查。可信度来自抓错误和弱结论,不是因为文章看起来正式。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Go to test · 进入测试 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Test — no hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">测试(无提示)</div>
+</div><div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter';font-weight:700;font-size:11px;padding:4px 12px;border-radius:999px;margin-bottom:10px">EXAM MODE · NO HINTS · 考试模式 · 无提示</div><div class="screen-header">
+      <div class="screen-eyebrow">TEST · 测试</div>
+      <h2 class="screen-title">Apply on your own</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">独立应用</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q06</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Which step comes immediately AFTER &quot;form a hypothesis&quot;?</div><div style="margin-left:8px;margin-top:3px">A) Make an observation</div><div style="margin-left:8px;margin-top:3px">B) Make a prediction</div><div style="margin-left:8px;margin-top:3px">C) Draw a conclusion</div><div style="margin-left:8px;margin-top:3px">D) Communicate results</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">哪一步紧接在「形成假设」之后?</div><div style="margin-left:8px;margin-top:3px">A) 做观察</div><div style="margin-left:8px;margin-top:3px">B) 做预测</div><div style="margin-left:8px;margin-top:3px">C) 得出结论</div><div style="margin-left:8px;margin-top:3px">D) 发表结果</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Which step comes immediately AFTER &quot;form a hypothesis&quot;? A), the trap is: A, C, D — wrong position in the sequence. <span style="color:#D98A2B">选项错——这题主题是「Which step comes immediately AFTER」,陷阱是：A、C、D —— 顺序位置错误。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q07</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">In peer review, who checks the work before it is published?</div><div style="margin-left:8px;margin-top:3px">A) The same scientist who did it</div><div style="margin-left:8px;margin-top:3px">B) Students in a class</div><div style="margin-left:8px;margin-top:3px">C) Other expert scientists</div><div style="margin-left:8px;margin-top:3px">D) The general public</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">在同行评审中,谁在发表前检查这份工作?</div><div style="margin-left:8px;margin-top:3px">A) 做这件事的同一位科学家</div><div style="margin-left:8px;margin-top:3px">B) 班上的学生</div><div style="margin-left:8px;margin-top:3px">C) 其他专家科学家</div><div style="margin-left:8px;margin-top:3px">D) 一般大众</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">C</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">C</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> C (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">C(只接受 C)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about In peer review, who checks the work before it is published, the trap is: A, B, D — not the peer reviewers. <span style="color:#D98A2B">选项错——这题主题是「In peer review, who checks the wor」,陷阱是：A、B、D —— 不是同行评审者。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q08</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Describe · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Describe, in order, the four stages a piece of research goes</div><div style="margin-left:8px;margin-top:3px">through from being done to being published.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">按顺序描述一项研究从完成到发表所经过的四个阶段。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Research carried out -&gt; results written as a paper -&gt; checked by other scientists (peer review) -&gt; published in a journal.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">研究做出来 -&gt; 结果写成论文 -&gt; 由其他科学家检查(同行评审) -&gt; 在期刊上发表。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> all four stages in correct order; accept: Research carried out -&gt; results written as a paper -&gt; checked by other scientists (peer review) -&gt; published in a journa; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">四个阶段顺序正确；接受：研究做出来 -&gt; 结果写成论文 -&gt; 由其他科学家检查(同行评审) -&gt; 在期刊上发表。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> This is an order question. Do not jump straight from research to publication. The paper must be written first, then checked by other scientists, then published. <span style="color:#D98A2B">这是顺序题。不要从研究直接跳到发表。必须先写成论文,再由其他科学家检查,最后发表。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q09</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Explain why the scientific method is often drawn as a loop</div><div style="margin-left:8px;margin-top:3px">rather than a straight line.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">解释为什么科学方法常被画成一个循环,而不是一条直线。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Because if results do not support the hypothesis, scientists go back, revise the hypothesis and test again, so the steps can repeat.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">因为如果结果不支持假设,科学家会回头修改假设并再次测试, 所以步骤可以重复。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> Accept explanations that the method loops because unsupported results make scientists revise the hypothesis, change the method, or test again. Must mention going back or improving based on evidence.<br><span style="color:#D98A2B">接受说明科学方法是循环,因为结果不支持假设时,科学家要修改假设、改方法或重新测试。必须提到根据证据回去改进。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The loop shows what happens when evidence disagrees with the hypothesis. Scientists go back, adjust the idea, and test again. <span style="color:#D98A2B">循环图是在说明证据和假设不合时怎么办。科学家会回去修改想法,再测试。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q10</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 4 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A newspaper claims a new health drink &quot;cures tiredness,&quot;</div><div style="margin-left:8px;margin-top:3px">based on one untested social media post. Explain two reasons why a</div><div style="margin-left:8px;margin-top:3px">scientist would not trust this claim yet.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一份报纸根据一个未经测试的社交媒体帖子,声称一种新保健饮料</div><div style="margin-left:8px;margin-top:3px">「能治疲劳」。解释两个原因,说明为什么科学家暂时不会相信这个说法。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">(1) It has not been tested by a proper experiment / has no data. (2) It has not been peer reviewed or published, so no other scientists have checked it for mistakes.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">(1) 它没有经过正规实验测试 / 没有数据。 (2) 它没有经过同行评审或发表,所以没有其他科学家检查过它有没有错误。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any two distinct valid reasons (no test/no data; no peer review; not repeatable; not published); accept: (1) It has not been tested by a proper experiment / has no data. (2) It has not been peer reviewed or published, so no o; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">任何两个不同的有效原因(没测试/没数据; 没同行评审;不可重复;没发表)；接受：(1) 它没有经过正规实验测试 / 没有数据。 (2) 它没有经过同行评审或发表,所以没有其他科学家检查过它有没有错误。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> A health claim needs evidence and checking. One social media post is not a controlled test and has not been reviewed by experts. <span style="color:#D98A2B">健康声明要有证据和检查。一个社交媒体贴文不是受控测试,也没有专家评审。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 完成 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">The whole journey of an experiment</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">一个实验的完整旅程</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">WRAP · 总结</div>
+      <h2 class="screen-title">The whole journey of an experiment</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">一个实验的完整旅程</div></div><div style="background:#DDD3A0;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #8A7B4A">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📌</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#8A7B4A">Key points to keep</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">记住这几点</div>
+        </div>
+      </div>
+      <div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• The scientific method runs from observation to communicating results.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 科学方法从观察一路走到发表结果。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If results do not support the hypothesis, go back and try again (loop).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 如果结果不支持假设,回头再试一次(循环)。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Peer review: other experts check the work before publishing.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 同行评审:其他专家在发表前检查这份工作。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Publishing lets others check, build on, and trust the science.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 发表让别人能够检查、继续建设、并信任这门科学。</div></div>
+    </div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3B6FD4">🔁 Cover & recall · 盖住回想</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Cover the summary.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Say each key point out loud from memory, then check.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 盖住总结。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 凭记忆把每个要点说出来,再对照检查。</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">The loop is the point: new evidence can send scientists back to improve the idea.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">重点就是循环:新证据会把科学家送回去改想法。</div></div><div style="background:#F6EAFA;border:2px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin:14px 0">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#9B3FC9">➡️ Next lesson · 下一课</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• L03 — Fair testing and variables: what you change, control, and measure.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 第3课</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 公平测试和变量:你改变什么、控制什么、测量什么。</div></div><div class="btn-row">
+      <button class="btn" onclick="showScreen('test')">← Test · 测试</button>
+      <button class="btn btn-primary" onclick="completeLesson()">Complete lesson · 完成本课 ✓</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Every experiment starts with the right question.", zh: "每个实验都从一个对的问题开始。" },
+  learn: { en: "Take it slowly — one idea at a time.", zh: "慢慢来,一次一个概念。" },
+  try:   { en: "Use the hints if you get stuck.", zh: "卡住了就看提示。" },
+  test:  { en: "No hints now — show what you know!", zh: "现在没提示啦,秀出你会的!" },
+  wrap:  { en: "Great work. Recall it before you go.", zh: "做得好。走之前先回想一遍。" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

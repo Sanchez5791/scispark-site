@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U0 L04 · Accuracy, Precision, Reliability and Validity</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body class="bilingual" data-user-level="2" data-lesson="4">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U0 · L04</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Science Skills" data-zh="科学方法">Science Skills</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 0</div>
+      <div class="sidebar-unit-title" data-en="Thinking &amp; Working Scientifically" data-zh="科学探究方法">Thinking &amp; Working Scientifically</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 真实情境</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Practise<span class="zh"> · 练习</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <!-- ▼▼▼ INSERT: HOOK screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Four words that decide if you can trust a measurement</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">四个词,决定你能不能相信一个测量</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">HOOK · 引入</div>
+      <h2 class="screen-title">Four words that decide if you can trust a measurement</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">四个词,决定你能不能相信一个测量</div></div><div style="background:#EAFBFF;border:2px solid #3AAEC8;border-radius:16px;padding:16px 18px;margin:0 0 16px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3AAEC8">🌍 Real-world · 真实情境</div>
+          <div style="margin-top:8px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• An engineer checking the steel for a bridge takes many measurements.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They must be accurate (close to the true value), precise (close to each other), and reliable (repeatable, with enough data and no odd results).</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• If even one is wrong, the bridge could be unsafe.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• These four words are how scientists judge whether data can be trusted.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 检查桥梁钢材的工程师会做很多次测量。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这些测量必须准确(接近真值)、精密(彼此接近)、 可靠(可重复、数据够、没有怪结果)。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 只要有一样出错,桥就可能不安全。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 这四个词,就是科学家判断数据能不能相信的方法。</div></div></div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📘</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">What this lesson is about</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">这一课讲什么</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accuracy, precision, reliability, validity — four different ideas.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确度、精密度、可靠度、有效度</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 四个不同的概念。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They are easy to mix up, so this lesson defines each clearly.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它们很容易混淆,所以这一课把每一个都讲清楚。</div></div>
+    </div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#7C5CD4">⏰ Warm-up · 热身回顾</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Before you start: think of one experiment you&#x27;ve seen.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• What was being changed, and what was measured?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 开始前:想一个你看过的实验。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它在改变什么?又在测量什么?</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">These four words decide whether a number is trustworthy or just wearing a lab coat.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">这四个词决定一个数字可信,还是只是穿了实验袍装可信。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A dartboard makes it easy: centre = accurate; tight group = precise.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">飞镖靶最好懂:中靶心=准确;聚在一起=精密。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L04_Q00_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Accuracy vs precision target/bull&#x27;s-eye diagram (dots near centre = accurate; dots clustered together = precise).</div>
+      </div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Start learning · 开始学习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <!-- ▼▼▼ INSERT: LEARN screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Learn: Accuracy, Precision, Reliability and Validity</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">学习</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">LEARN · 学习</div>
+      <h2 class="screen-title">Accuracy, Precision, Reliability and Validity</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">学习重点</div></div><div style="background:#BFE6BF;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #2E7D32">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🔎</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#2E7D32">Reliable and precise</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">可靠和精密</div>
+        </div>
+      </div>
+      <div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Reliable: no anomalies, enough data, and measurements are close to each other (or close to an average).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 可靠:没有异常、数据足够、测量值彼此接近(或接近平均值)。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise: measurements are close to each other, with more decimal places.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密:测量值彼此接近,而且有更多小数位。</div></div><div style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They overlap (both like measurements close together) but are not the same.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它们有重叠(都喜欢测量值彼此接近)但不是同一个。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Reliable results repeat well.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise readings sit close together.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 可靠是重复后差不多。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密是读数彼此很靠近。</div></div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Reliable repeats. Precise packs together.</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">记法:可靠会重复,精密会挤在一起。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L04_Q00_IMG02]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Venn diagram of Reliable (no anomaly, enough data) and Precise (more decimal places) overlapping at &quot;measurements close to each other / an average&quot;.</div>
+      </div>
+    </div><div style="background:#FAD9A8;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #D98A2B">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">⚖️</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#D98A2B">Valid and accurate</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">有效和准确</div>
+        </div>
+      </div>
+      <div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Valid: the measurement is relevant (it measures what it should) AND close to the true value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有效:测量是相关的(测到了它该测的)而且接近真值。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate: measurements are close to the true value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确:测量值接近真值。</div></div><div style="background:#FFF0DB;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They overlap at &quot;close to the true value&quot;; validity also needs the data to be relevant to the question.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 它们在&quot;接近真值&quot;上重叠;有效度还要求数据与问题相关。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Valid means the test really tests the question.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate means close to the true value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有效是实验真的在测那个问题。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确是靠近真值。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L04_Q00_IMG03]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Venn diagram of Valid (relevant) and Accurate (irrelevant shown on accurate-only side) overlapping at &quot;measurements close to the true value&quot;.</div>
+      </div>
+    </div><div style="background:#C2ECF5;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #3AAEC8">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧪</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#3AAEC8">Accuracy vs precision on a target</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">用靶心图看准确 vs 精密</div>
+        </div>
+      </div>
+      <div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate + precise: shots tight AND near the centre.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确又精密:弹孔密集&quot;而且&quot;靠近中心。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise but not accurate: shots tight but off to one side.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密但不准确:弹孔密集但偏向一边。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate but not precise: shots spread out but centred on average.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确但不精密:弹孔分散但平均落在中心。</div></div><div style="background:#EAFBFF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Neither: shots spread out and off-centre.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 两者都不是:弹孔分散又偏离中心。</div></div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate but not precise: shots around the centre.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise but not accurate: one neat group in the wrong corner.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确不精密:围着靶心散开。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密不准确:整群打在错角落。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L04_Q00_IMG04]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">Four bull&#x27;s-eye targets showing the four cases (accurate+ precise / precise-not-accurate / accurate-not-precise / neither).</div>
+      </div>
+    </div><div style="background:#E2C4EE;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #9B3FC9">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">🧩</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#9B3FC9">Quick test for each word</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">每个词的快速判断</div>
+        </div>
+      </div>
+      <div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate?</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Compare to the TRUE value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确吗?跟&quot;真值&quot;比。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise?</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Compare the repeats to EACH OTHER.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密吗?把重复测量&quot;彼此&quot;比。</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Reliable?</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Are there enough repeats with no anomalies?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 可靠吗?重复够多、没有异常吗?</div></div><div style="background:#F6EAFA;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Valid?</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Does the test measure the RIGHT thing fairly?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有效吗?这个测试公平地测到了&quot;对的&quot;东西吗?</div></div>
+    </div><div style="background:#171413;border-radius:12px;padding:12px 16px;margin:8px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#FFFF00">🧠 Mnemonic · 口诀</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:16px;color:#FFFF00;margin-top:4px">Accurate asks: close to true? Precise asks: close to each other? Reliable asks: repeat works? Valid asks: right test?</div>
+                <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#FFD54A;margin-top:3px">口诀:准问真值,精问彼此,靠问重复,效问测对没。</div></div><div style="margin:16px 0 6px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#171413">Precise does not mean accurate</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">精密不等于准确</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Precise readings can still be wrong if the instrument is biased.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">如果仪器有偏差,精密读数也可能全都错。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">😄 Humour · 幽默</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• A broken clock can be very precise if it is wrong the same way every time.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Still not useful.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 坏钟如果每次都错得一样,也很「精密」。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 但还是没用。</div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:16px;padding:16px 18px;margin:18px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#C00000;letter-spacing:.5px">🚩 COMMON MISTAKE · 常见错误</div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#C00000">✘ Students often think · 学生常以为</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Students think that if measurements are very close to each other (precise), they must also be correct (accurate).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">学生以为如果测量值彼此非常接近(精密), 它们一定也是对的(准确)。</div>
+      </div>
+      <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #2E7D32">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:13px;color:#2E7D32">✔ Correct · 正确</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Measurements can be precise (tightly grouped) but all wrong in the same way — far from the true value.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise = close to each other; accurate = close to the true value.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• They are different.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 测量值可以很精密(紧紧聚在一起)却以同样的方式全错</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 都离真值很远。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密=彼此接近;准确=接近真值。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 两者不同。</div>
+      </div>
+    </div><div style="background:#F5F0E4;border:2px solid #6D4C41;border-radius:16px;padding:16px 18px;margin:18px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#6D4C41">⚖️ Exam vs Reality · 考试 vs 真实</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+        <div style="background:#fff;border-radius:10px;padding:10px 12px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#6D4C41;margin-bottom:4px">📝 In exams · 考试里</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Exams often want the textbook split: accurate = near true value, precise = repeats agree.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">考试通常要课本式区分:准确=接近真值,精密=重复一致。</div>
+        </div>
+        <div style="background:#fff;border-radius:10px;padding:10px 12px">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#6D4C41;margin-bottom:4px">🔬 Real science · 真实科学</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a;margin:3px 0">• In real labs a faulty instrument (e.g. a wrongly zeroed balance) gives precise but inaccurate readings — consistently wrong.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin:3px 0">• 在真实实验室,坏掉的仪器(例如零点没调好的天平) 会给出精密但不准确的读数</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin:3px 0">• 一致地错。</div>
+        </div>
+      </div>
+    </div><div style="background:#fff;border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:16px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#D98A2B">🎯 What the examiner wants · 考官要什么</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">State = short answer · Describe = say what &amp; how · Explain = give the reason (fact + because) · Define = use the exact term.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">State=短答 · Describe=说什么、怎样 · Explain=讲原因(事实+because) · Define=用准确术语。</div>
+    </div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Practise now · 开始练习 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <!-- ▼▼▼ INSERT: TRY screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Try it — with hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">练习(有提示)</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">TRY · 练习</div>
+      <h2 class="screen-title">Practice with hints</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">带提示练习</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q01</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Define · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A measurement is &quot;accurate&quot; when it is:</div><div style="margin-left:8px;margin-top:3px">A) close to other repeats</div><div style="margin-left:8px;margin-top:3px">B) close to the true value</div><div style="margin-left:8px;margin-top:3px">C) written with many decimal places</div><div style="margin-left:8px;margin-top:3px">D) taken very quickly</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一个测量&quot;准确&quot;是指它:</div><div style="margin-left:8px;margin-top:3px">A) 接近其他重复值  B) 接近真值</div><div style="margin-left:8px;margin-top:3px">C) 写了很多小数位  D) 测得很快</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Accurate compares to the true value. <span style="color:#D98A2B">准确是跟真值比。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Which option mentions the TRUE value?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">哪个选项提到了&quot;真值&quot;?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about A measurement is &quot;accurate&quot; when it is: A) close to other , the trap is: A is precision; C is resolution; D is irrelevant. <span style="color:#D98A2B">选项错——这题主题是「A measurement is &quot;accurate&quot; when i」,陷阱是：A 是精密;C 是分辨率;D 不相关。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q02</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Define · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Measurements that are &quot;precise&quot; are:</div><div style="margin-left:8px;margin-top:3px">A) close to the true value</div><div style="margin-left:8px;margin-top:3px">B) close to each other</div><div style="margin-left:8px;margin-top:3px">C) always correct</div><div style="margin-left:8px;margin-top:3px">D) measured only once</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">&quot;精密&quot;的测量是:</div><div style="margin-left:8px;margin-top:3px">A) 接近真值  B) 彼此接近  C) 总是正确  D) 只测一次</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Precise compares repeats to each other. <span style="color:#D98A2B">精密是把重复值彼此比。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Precise is about agreement between repeats.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">精密讲的是重复值之间的一致。</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Measurements that are &quot;precise&quot; are: A) close to the true , the trap is: A is accuracy; C false; D contradicts precision. <span style="color:#D98A2B">选项错——这题主题是「Measurements that are &quot;precise&quot; ar」,陷阱是：A 是准确;C 错;D 与精密矛盾。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q03</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 2 marks · hotspot</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Look at the target. The shots are clustered tightly together</div><div style="margin-left:8px;margin-top:3px">but all in the top-left corner, far from the centre. Identify whether</div><div style="margin-left:8px;margin-top:3px">this is (a) accurate and (b) precise.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">看靶心图。弹孔紧紧聚在一起,但全在左上角,离中心很远。</div><div style="margin-left:8px;margin-top:3px">判断这是否 (a) 准确 和 (b) 精密。</div></div><div style="background:#FAFAF7;border:2px dashed #C9A227;border-radius:12px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:center">
+      <span style="font-size:34px">🖼️</span>
+      <div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:12px;color:#8A7B4A">IMAGE PENDING · 配图待出 &nbsp;[L04_Q03_IMG01]</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:500;font-size:12px;color:#666;margin-top:3px">question image</div>
+      </div>
+    </div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Tight cluster = precise; near centre = accurate. <span style="color:#D98A2B">密集 = 精密;靠近中心 = 准确。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Are the shots near the centre? Are they near each other?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">弹孔靠近中心吗?它们彼此靠近吗?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">(a) not accurate; (b) precise</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">(a) 不准确;(b) 精密</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> not accurate AND precise; accept the correct hotspot/label choice within the intended target area; if the target has two labels, mark each label independently.<br><span style="color:#D98A2B">不准确 而且 精密；接受点在正确目标区域/选出正确标签；若有两个判断,逐项独立给分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The cluster is tight, so it is precise. But it is far from the centre, so it is not accurate. Do not treat “close together” and “close to true value” as the same thing. <span style="color:#D98A2B">点很集中,所以精密；但离中心远,所以不准确。不要把「彼此靠近」和「靠近真值」当成同一个。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q04</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A student measures the boiling point of water once and gets</div><div style="margin-left:8px;margin-top:3px">98 C. Explain why this single result is not reliable.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一位学生只测一次水的沸点,得到 98 度。</div><div style="margin-left:8px;margin-top:3px">解释为什么这个单一结果不可靠。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Reliable needs repeats and no anomalies. <span style="color:#D98A2B">可靠需要重复测量且没有异常。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">How many times was the measurement taken?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">这个测量做了几次?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">It was measured only once, so there are not enough repeats to check for anomalies or to see if results are consistent.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">它只测了一次,所以没有足够的重复来检查异常, 也看不出结果是否一致。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> any answer noting only one reading / no repeats; accept: It was measured only once, so there are not enough repeats to check for anomalies or to see if results are consistent.; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">任何指出&quot;只测一次/没有重复&quot;的答案；接受：它只测了一次,所以没有足够的重复来检查异常, 也看不出结果是否一致。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> One reading cannot show reliability. Reliability needs repeats so you can see whether the results agree and spot anomalies. <span style="color:#D98A2B">一次读数不能证明可靠。可靠性需要重复,才能看结果是否一致并找异常值。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q05</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A balance always reads 5 g too high. A student weighs the same</div><div style="margin-left:8px;margin-top:3px">object three times and gets 25 g, 25 g, 25 g. Explain whether these</div><div style="margin-left:8px;margin-top:3px">results are precise and whether they are accurate.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一台天平总是多读 5 克。学生把同一个物体称三次,</div><div style="margin-left:8px;margin-top:3px">得到 25 克、25 克、25 克。解释这些结果是否精密,以及是否准确。</div></div><div style="background:#FFFBE6;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px">
+        <span style="font-weight:700;color:#C9A227">💬 Tip · 提示:</span> Precise but consistently wrong = inaccurate. <span style="color:#D98A2B">精密却一致地错 = 不准确。</span></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint · 提示</summary>
+        <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">Do the three readings agree with each other?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">这三个读数彼此一致吗?</div></div></details><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:#3B6FD4">🔑 Hint 2 · 第二提示</summary>
+            <div style="background:#EEF4FF;border-radius:8px;padding:8px 12px;margin-top:4px"><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:13px;line-height:1.5;color:#1a1a1a">The balance is always 5 g too high — what does that do to accuracy?</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;line-height:1.5;color:#D98A2B;margin-top:4px">天平总是多 5 克 —— 这对准确度有什么影响?</div></div></details><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">They are precise (the three readings are very close to each other), but not accurate (the balance is wrong by 5 g, so they are far from the true value of 20 g).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">它们精密(三个读数彼此很接近),但不准确 (天平偏差 5 克,所以离真值 20 克很远)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> precise = yes (close together); accurate = no (systematic 5 g error, far from true value); accept: They are precise (the three readings are very close to each other), but not accurate (the balance is wrong by 5 g, so th; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">精密=是(彼此接近);准确=否 (系统性 5 克误差,离真值远)；接受：它们精密(三个读数彼此很接近),但不准确 (天平偏差 5 克,所以离真值 20 克很远)。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The readings agree with each other, so they are precise. But the balance has a 5 g systematic error, so all readings are too high and not accurate. <span style="color:#D98A2B">三次读数彼此一致,所以精密。但天平有 5 g 系统误差,所以全都偏高,不准确。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Go to test · 进入测试 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <!-- ▼▼▼ INSERT: TEST screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Test — no hints</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">测试(无提示)</div>
+</div><div class="exam-mode-chip" style="display:inline-block;background:#171413;color:#fff;font-family:'Inter';font-weight:700;font-size:11px;padding:4px 12px;border-radius:999px;margin-bottom:10px">EXAM MODE · NO HINTS · 考试模式 · 无提示</div><div class="screen-header">
+      <div class="screen-eyebrow">TEST · 测试</div>
+      <h2 class="screen-title">Apply on your own</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">独立应用</div></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q06</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Which word means &quot;the measurement is close to the true value&quot;?</div><div style="margin-left:8px;margin-top:3px">A) Precise  B) Reliable  C) Accurate  D) Repeatable</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">哪个词的意思是&quot;测量接近真值&quot;?</div><div style="margin-left:8px;margin-top:3px">A) 精密  B) 可靠  C) 准确  D) 可重复</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">C</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">C</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> C (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">C(只接受 C)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about Which word means &quot;the measurement is close to the true val, the trap is: A, B, D. <span style="color:#D98A2B">选项错——这题主题是「Which word means &quot;the measurement 」,陷阱是：A、B、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q07</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 1 marks · mcq</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A reliable set of results has:</div><div style="margin-left:8px;margin-top:3px">A) only one reading</div><div style="margin-left:8px;margin-top:3px">B) enough repeats and no anomalies</div><div style="margin-left:8px;margin-top:3px">C) the highest possible value</div><div style="margin-left:8px;margin-top:3px">D) the fewest decimal places</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一组可靠的结果有:</div><div style="margin-left:8px;margin-top:3px">A) 只有一个读数  B) 足够的重复且没有异常</div><div style="margin-left:8px;margin-top:3px">C) 尽可能最高的数值  D) 最少的小数位</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">B</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">B</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> B (only); also accept the correct option text if selected clearly; letter case ignored; award 1/1 only for the correct option.<br><span style="color:#D98A2B">B(只接受 B)；也接受清楚选择正确选项文字；大小写不计；只选正确项才给 1/1 分。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Wrong option — for this question about A reliable set of results has: A) only one reading B) enou, the trap is: A, C, D. <span style="color:#D98A2B">选项错——这题主题是「A reliable set of results has: A) 」,陷阱是：A、C、D。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q08</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">State · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">State the difference between precise results and accurate</div><div style="margin-left:8px;margin-top:3px">results.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">说出精密结果和准确结果的区别。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Precise = measurements are close to each other; accurate = measurements are close to the true value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">精密=测量值彼此接近;准确=测量值接近真值。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> Accept both meanings clearly: precise means repeat readings are close to each other; accurate means readings are close to the true value.<br><span style="color:#D98A2B">接受两个意思都清楚:精密=重复读数彼此接近；准确=读数接近真值。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Precise is about readings close to each other. Accurate is about readings close to the true value. You likely treated the two words as one idea. <span style="color:#D98A2B">精密是读数彼此靠近。准确是读数靠近真值。你可能把两个词当成同一个意思了。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q09</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Identify · 2 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">Three students measure a 100 cm rod and get 100.1, 99.9 and</div><div style="margin-left:8px;margin-top:3px">100.0 cm. Are these results accurate, precise, both, or neither? Give a</div><div style="margin-left:8px;margin-top:3px">reason.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">三位学生测量一根 100 厘米的杆,得到 100.1、99.9、100.0 厘米。</div><div style="margin-left:8px;margin-top:3px">这些结果是准确、精密、两者都是,还是都不是?给出理由。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Both — they are close to each other (precise) and close to the true value of 100 cm (accurate).</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">两者都是 —— 它们彼此接近(精密) 而且接近真值 100 厘米(准确)。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> &quot;both&quot; with reason covering close-together AND near-true; accept: Both — they are close to each other (precise) and close to the true value of 100 cm (accurate).; accept also: same meaning as the expected answer, with minor wording differences.<br><span style="color:#D98A2B">「两者都是」并说明&quot;彼此接近&quot;且&quot;接近真值&quot;；接受：两者都是 —— 它们彼此接近(精密) 而且接近真值 100 厘米(准确)。；也接受：意思与标准答案相同,小改写也接受。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> The readings are close to 100 cm and also close to each other. That means both accurate and precise, not only one of them. <span style="color:#D98A2B">读数既接近 100 cm,也彼此接近。所以是准确又精密,不是只占一个。</span></div></div></details></div><div class="question-block" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:15px;color:#171413">Q10</span>
+        <span style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:11px;color:#888">Explain · 3 marks · short_answer</span>
+      </div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;color:#1a1a1a;line-height:1.5"><div style="font-weight:700">A thermometer has not been calibrated and always reads 2 C</div><div style="margin-left:8px;margin-top:3px">too low. A student takes five readings that are all very close together.</div><div style="margin-left:8px;margin-top:3px">Explain why the results are precise but not accurate, and say how</div><div style="margin-left:8px;margin-top:3px">reliability is affected.</div></div>
+      <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#D98A2B;margin-top:6px;line-height:1.5"><div style="font-weight:700">一支温度计没有校准,总是低读 2 度。学生取五个读数,</div><div style="margin-left:8px;margin-top:3px">全都彼此很接近。解释为什么结果精密但不准确,并说明可靠度受到什么影响。</div></div><details style="margin-top:8px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:#2E7D32">✅ Show answer · 看答案</summary>
+      <div class="answer-reveal" style="background:#E8FFE8;border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E7D32">Answer · 答案</div>
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">Precise because the five readings agree closely; not accurate because the thermometer is systematically 2 C low, so all readings are far from the true value. Reliability (repeatability) can still look fine because the readings are consistent — but a systematic error is not revealed by repeats.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">精密,因为五个读数彼此高度一致;不准确, 因为温度计系统性地低 2 度,所以所有读数都离真值很远。 可靠度(可重复性)看起来仍然没问题,因为读数一致 —— 但系统性误差无法靠重复测量发现。</div><div style="margin-top:8px;font-size:12px;color:#444"><b>Mark scheme · 评分:</b> precise (readings agree) + not accurate (systematic offset from true value) + note that repeats do not catch systematic error; accept: Precise because the five readings agree closely; not accurate because the thermometer is systematically 2 C low, so all ; accept also: gives the same scientific reason in different words.<br><span style="color:#D98A2B">精密(读数一致)+ 不准确(对真值的系统性偏移) + 指出重复测量抓不到系统性误差；接受：精密,因为五个读数彼此高度一致;不准确, 因为温度计系统性地低 2 度,所以所有读数都离真值很远。 可靠度(可重复性)看起来仍然没问题,因为读数一致 —— 但系统性误差无法靠重复测量发现。；也接受：用不同说法讲出同一个科学原因。</span></div><div style="margin-top:8px;font-size:12px;color:#666"><b>If wrong · 答错:</b> Close repeated readings show precision. But a thermometer that always reads 2 C too low gives a systematic error, so the readings are not accurate. <span style="color:#D98A2B">重复读数很接近说明精密。但温度计总是低 2 C,这是系统误差,所以不准确。</span></div></div></details></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Finish · 完成 →</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <!-- ▼▼▼ INSERT: WRAP screen content ▼▼▼ -->
+<div style="background:#C00000;border-radius:16px;padding:18px 22px;margin:0 0 20px;box-shadow:0 4px 14px rgba(192,0,0,.18)">
+  <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:900;font-size:24px;line-height:1.2;color:#fff">Four words, four quick tests</div>
+  <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;margin-top:6px;color:#FFE08A">四个词,四个快速判断</div>
+</div><div class="screen-header">
+      <div class="screen-eyebrow">WRAP · 总结</div>
+      <h2 class="screen-title">Four words, four quick tests</h2>
+      <div class="screen-title-zh" style="color:#D98A2B;font-family:'Noto Sans SC',sans-serif;font-weight:700">四个词,四个快速判断</div></div><div style="background:#DDD3A0;border-radius:16px;padding:16px 18px;margin:0 0 18px;border:2px solid #8A7B4A">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:26px">📌</span>
+        <div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:19px;color:#8A7B4A">Key points to keep</div>
+          <div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#D98A2B">记住这几点</div>
+        </div>
+      </div>
+      <div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Accurate: close to the TRUE value.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 准确:接近&quot;真值&quot;。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise: repeats close to EACH OTHER.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密:重复值&quot;彼此&quot;接近。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Reliable: enough repeats, no anomalies.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 可靠:重复够多、没有异常。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Valid: measures the RIGHT thing, fairly.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 有效:公平地测到&quot;对的&quot;东西。</div></div><div style="background:#F0EBCF;border-radius:10px;padding:10px 14px;margin:8px 0">
+        <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:15px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Precise does NOT mean accurate.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;line-height:1.5;color:#D98A2B;margin:3px 0">• 精密&quot;不&quot;等于准确。</div></div>
+    </div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:14px 0">
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#3B6FD4">🔁 Cover & recall · 盖住回想</div>
+      <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Cover the summary.</div><div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• Say each key point out loud from memory, then check.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 盖住总结。</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 凭记忆把每个要点说出来,再对照检查。</div>
+    </div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🔎 Plain · 白话</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">These four words decide whether a number is trustworthy or just wearing a lab coat.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">这四个词决定一个数字可信,还是只是穿了实验袍装可信。</div></div><div style="background:#F7F5F1;border-left:4px solid #C9A227;border-radius:0 8px 8px 0;padding:8px 14px;margin:6px 0">
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:700;font-size:11px;color:#8A7B4A">🧩 Analogy · 比喻</div>
+                <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a">A dartboard makes it easy: centre = accurate; tight group = precise.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin-top:4px">飞镖靶最好懂:中靶心=准确;聚在一起=精密。</div></div><div style="background:#F6EAFA;border:2px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin:14px 0">
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:800;font-size:14px;color:#9B3FC9">➡️ Next lesson · 下一课</div>
+          <div style="font-family:'Inter','Baloo 2','Nunito',sans-serif;font-weight:600;font-size:14px;line-height:1.5;color:#1a1a1a;margin:3px 0">• L05 — Errors: systematic, random, zero and parallax errors.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 第5课</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;line-height:1.5;color:#D98A2B;margin:3px 0">• 误差:系统误差、随机误差、零误差、视差误差。</div></div><div class="btn-row">
+      <button class="btn" onclick="showScreen('test')">← Test · 测试</button>
+      <button class="btn btn-primary" onclick="completeLesson()">Complete lesson · 完成本课 ✓</button></div>
+<!-- ▲▲▲ INSERT ▲▲▲ -->
+
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Every experiment starts with the right question.", zh: "每个实验都从一个对的问题开始。" },
+  learn: { en: "Take it slowly — one idea at a time.", zh: "慢慢来,一次一个概念。" },
+  try:   { en: "Use the hints if you get stuck.", zh: "卡住了就看提示。" },
+  test:  { en: "No hints now — show what you know!", zh: "现在没提示啦,秀出你会的!" },
+  wrap:  { en: "Great work. Recall it before you go.", zh: "做得好。走之前先回想一遍。" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U2 L05 · Classifying Substances (Acid / Alkali / Neutral)</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="5">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U2 · L05</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 2</div>
+      <div class="sidebar-unit-title" data-en="Properties of Materials" data-zh="材料的性质">Properties of Materials</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 机制</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Trace & predict<span class="zh"> · 推演与预测</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Connect & summarise<span class="zh"> · 连接与总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">HOOK · 钩子</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Classifying Substances (Acid / Alkali / Neutral)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Classifying Substances (Acid / Alkali / Neutral)</div></div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:12px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#7C5CD4;font-size:13px;">⏰ 热身 / Warm-up</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Pick one common object near you and ask: which property is useful here?</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">看身边一个普通物品，问自己：这里真正有用的是哪个性质？</li></ul></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin-bottom:16px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Sorting the kitchen.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Around the world, kitchens are full of acids and alkalis.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In the UK there is vinegar.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In India there is lime juice.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In Spain there is olive oil.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Soap and baking soda are everywhere.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Some are acidic.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Some are alkaline.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Some are neutral.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">How can we sort any substance into acid, alkali, or neutral?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">LOOK AROUND YOU: pick any liquid in your kitchen.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Acid or alkali?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">ZH: 给厨房里的东西分类。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">全世界的厨房都有酸和碱。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">英国有醋。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">印度有青柠汁。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">西班牙有橄榄油。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">肥皂和小苏打到处都有。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">有的是酸性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">有的是碱性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">有的是中性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">我们怎么把任何一样东西分成酸、碱、还是中性?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">看看你身边: 挑一样厨房里的液体。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">它是酸还是碱?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">A neutral worldwide kitchen shelf showing generic items: a bottle of vinegar, a lime, a bottle of oil, a bar of soap, a box of baking soda.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">No brand names, no place names, no text labels on products.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">给厨房里的东西分类。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">全世界的厨房都有酸和碱。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">英国有醋。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">印度有青柠汁。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">西班牙有橄榄油。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">肥皂和小苏打到处都有。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">有的是酸性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">有的是碱性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">有的是中性。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">我们怎么把任何一样东西分成酸、碱、还是中性?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">看看你身边: 挑一样厨房里的液体。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">它是酸还是碱?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">A neutral worldwide kitchen shelf showing generic items: a bottle of vinegar, a lime, a bottle of oil, a bar of soap, a box of baking soda.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">No brand names, no place names, no text labels on products.</li></ul></div></div><div style="font-family:Inter;font-style:italic;color:#666;margin:4px 0 16px;">😄 Do not taste unknown liquids. Your tongue is not a scientific instrument. <span style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;font-style:normal;">不要尝未知液体。你的舌头不是科学仪器。</span></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Learn →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">LEARN · 学</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Classifying Substances (Acid / Alkali / Neutral)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Classifying Substances (Acid / Alkali / Neutral)</div></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Three groups.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Every solution can be put into one of three groups: acidic (pH below 7) neutral (pH equal to 7) alkaline (pH above 7) We use indicators to find out which group a substance is in.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">三个组。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">每一种溶液都可以放进三个组里的一个: 酸性 (pH 小于 7) 中性 (pH 等于 7) 碱性 (pH 大于 7) 我们用指示剂来看一样东西属于哪一组。</li></ul></div></div><div style="background:#FFF0DB;border:2px solid #FAD9A8;border-left:8px solid #D98A2B;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Reading the indicators.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Litmus: red in acid, blue in alkali.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Universal Indicator: gives a colour for each pH value.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Methyl orange and thymolphthalein each change at set pH points.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Match the colour to a chart to classify the substance.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">读指示剂。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">石蕊: 遇酸变红, 遇碱变蓝。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">万能指示剂: 每个 pH 值对应一个颜色。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">甲基橙和百里酚酞各自在固定 pH 点变色。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">把颜色对到色卡上, 就能给这样东西分类。</li></ul></div></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#C00000;font-size:16px;margin-bottom:8px;">🟥 红牌 · 常见错误 / Red Card</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div style="flex:1;min-width:180px;background:#fff;border:2px solid #C00000;border-radius:10px;padding:10px;"><div style="color:#C00000;font-weight:800;font-family:Inter;font-size:13px;">✘ WRONG 错</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">Corrosive means the substance is an acid.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">腐蚀性 = 这东西是酸。</div></div><div style="flex:1;min-width:180px;background:#F0FFF0;border:2px solid #2E7D32;border-radius:10px;padding:10px;"><div style="color:#2E7D32;font-weight:800;font-family:Inter;font-size:13px;">✔ RIGHT 对</div><div style="font-family:Inter;font-weight:600;color:#222;margin-top:4px;">Both strong acids AND strong alkalis can be corrosive.
+    The corrosive hazard symbol does not tell you acid or alkali.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;">强酸和强碱都可能有腐蚀性。
+    腐蚀危险标志不能告诉你它是酸还是碱。</div></div></div></div><div style="background:#EAFBFF;border:2px solid #C2ECF5;border-left:8px solid #3AAEC8;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#C2ECF5;color:#3AAEC8;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">[SAFETY — Unit 2 required for L05]</div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Safety first.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">WARNING: Always wear eye protection.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Never taste acids or alkalis.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">安全第一。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">警告: 一定要戴护目镜。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">绝不能尝酸或碱。</li></ul></div></div><div style="background:#F5F0E4;border:2px solid #8A7B4A;border-left:8px solid #6D4C41;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#6D4C41;font-size:16px;margin-bottom:8px;">⚖️ 考试 vs 真实 / Exam vs Reality</div><div style="font-family:Inter;color:#3b2f25;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Exam vs Real Science.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In the exam, write pH from 1 to 14.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In real life, very strong acids can have pH below 0, and very strong bases above 14.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The 1-14 scale is a simplified range for everyday substances.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">考试 vs 真实。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">考试时写: pH 是 1 到 14。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">真实浓强酸可到 0 以下, 浓强碱可到 14 以上。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">1-14 是简化范围。</li></ul></div></div></div><div style="background:#F6EAFA;border:2px solid #E2C4EE;border-left:8px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:800;color:#9B3FC9;font-size:14px;margin-bottom:6px;">🔗 比喻 / Analogy</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Sorting acids, alkalis and neutral substances is like sorting laundry: each item must go in the right basket.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">分酸、碱、中性像分衣服篮：每样东西要进对的篮。</li></ul></div><div style="border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;background:#FFF8EE;"><div style="font-family:Inter;font-weight:900;color:#D98A2B;font-size:14px;margin-bottom:8px;">🎯 考官要什么 / What the examiner wants</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">State = short answer.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Describe = say what and how.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Explain = say why (fact + reason).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Define = exact syllabus wording.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">State = 简短作答。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Describe = 说出是什么、怎样。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Explain = 说出为什么(事实+原因)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Define = 用大纲原话精确定义。</li></ul></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Try →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">TRY · 练</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Classifying Substances (Acid / Alkali / Neutral)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Classifying Substances (Acid / Alkali / Neutral)</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q01</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / vinegar / lemon juice)
+  EXPECTED_ANSWER_ZH: (a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / vinegar / lemon juice)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / ....
+  - [Q01] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q01] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q01] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)。
+  - [Q01] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q01] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q01] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid....
+  FEEDBACK_WRONG_ZH: [Q01] 重看 pH 或指示剂证据；这一分要写：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / vinegar / lemon juice)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / ....
+  - [Q01] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q01] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q01] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)。
+  - [Q01] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q01] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q01] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid....
+  FEEDBACK_WRONG_ZH: [Q01] 重看 pH 或指示剂证据；这一分要写：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / vinegar / lemon juice)
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid C is an acid (e.g. hydrochloric acid / ....
+  - [Q01] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q01] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q01] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋 / 柠檬汁)。
+  - [Q01] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q01] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q01] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a)(i) liquid A is neutral (a)(ii) liquid B is alkaline (b) pH = 7 (c) liquid....
+  FEEDBACK_WRONG_ZH: [Q01] 重看 pH 或指示剂证据；这一分要写：(a)(i) 液体 A is 中性 (a)(ii) 液体 B is 碱性 (b) pH = 7 (c) 液体 C is an 酸 (e.g. 盐酸 / 醋...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q02</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ acidic: B, E neutral: D alkaline: A, C
+  EXPECTED_ANSWER_ZH: 酸性: B, E 中性: D 碱性: A, C
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: acidic: B, E neutral: D alkaline: A, C
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：酸性: B, E 中性: D 碱性: A, C
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: acidic: B, E neutral: D alkaline: A, C.
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：酸性: B, E 中性: D 碱性: A, C。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 2 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: acidic: B, E neutral: D alkaline: A, C.
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：酸性: B, E 中性: D 碱性: A, C。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">酸性: B, E 中性: D 碱性: A, C
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: acidic: B, E neutral: D alkaline: A, C
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：酸性: B, E 中性: D 碱性: A, C
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: acidic: B, E neutral: D alkaline: A, C.
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：酸性: B, E 中性: D 碱性: A, C。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 2 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: acidic: B, E neutral: D alkaline: A, C.
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：酸性: B, E 中性: D 碱性: A, C。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: acidic: B, E neutral: D alkaline: A, C
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：酸性: B, E 中性: D 碱性: A, C
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Classifying the substance against the pH/indicator evidence — reject because the required answer is: acidic: B, E neutral: D alkaline: A, C.
+  - [Q02] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q02] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q02] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：酸性: B, E 中性: D 碱性: A, C。
+  - [Q02] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q02] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q02] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 2 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Re-read the pH/indicator evidence; the mark is for this exact classification/result: acidic: B, E neutral: D alkaline: A, C.
+  FEEDBACK_WRONG_ZH: [Q02] 重看 pH 或指示剂证据；这一分要写：酸性: B, E 中性: D 碱性: A, C。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q03</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic
+  EXPECTED_ANSWER_ZH: 醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Classifying the substance against the pH/indicator evidence — reject because the required answer is: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic.
+  - [Q03] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q03] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q03] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性。
+  - [Q03] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q03] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q03] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Re-read the pH/indicator evidence; the mark is for this exact classification/result: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon ju....
+  FEEDBACK_WRONG_ZH: [Q03] 重看 pH 或指示剂证据；这一分要写：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Classifying the substance against the pH/indicator evidence — reject because the required answer is: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic.
+  - [Q03] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q03] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q03] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性。
+  - [Q03] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q03] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q03] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Re-read the pH/indicator evidence; the mark is for this exact classification/result: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon ju....
+  FEEDBACK_WRONG_ZH: [Q03] 重看 pH 或指示剂证据；这一分要写：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Classifying the substance against the pH/indicator evidence — reject because the required answer is: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon juice -&gt; acidic.
+  - [Q03] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q03] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q03] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性。
+  - [Q03] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q03] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q03] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Re-read the pH/indicator evidence; the mark is for this exact classification/result: vinegar -&gt; acidic; pure water -&gt; neutral; soap solution -&gt; alkaline; lemon ju....
+  FEEDBACK_WRONG_ZH: [Q03] 重看 pH 或指示剂证据；这一分要写：醋 -&gt; 酸性; pure 水 -&gt; 中性; 肥皂 solution -&gt; 碱性; 柠檬汁 -&gt; 酸性。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q04</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7
+  EXPECTED_ANSWER_ZH: (a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7.
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7.
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - acidic = pH less than 7
+  - neutral = pH 7
+  - alkaline/alkali = pH greater than 7
+  - Universal Indicator / pH paper / pH meter
+  - blue litmus turns red in acid
+  - red litmus turns blue in alkali
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 酸性 = pH less than 7
+  - 中性 = pH 7
+  - 碱性/碱 = pH greater than 7
+  - 万能指示剂 / pH paper / pH meter
+  - 蓝色 石蕊 turns 红色 in 酸
+  - 红色 石蕊 turns 蓝色 in 碱
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Classifying the substance against the pH/indicator evidence — reject because the required answer is: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7.
+  - [Q04] Calling pH 7 acidic or alkaline — reject because pH 7 is neutral unless the question data says otherwise.
+  - [Q04] Giving an indicator colour that does not match the named indicator — reject because colour rules must match that indicator.
+  - [Q04] Guessing from the substance name without using the table/colour result — reject because the mark depends on evidence.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 分类跟 pH 或颜色证据相反 —— 不收；本题要点是：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7。
+  - [Q04] 把 pH 7 写成酸性或碱性 —— 不收；pH 7 是中性，除非题目数据另有说明。
+  - [Q04] 指示剂颜色跟该指示剂规则不配 —— 不收；颜色必须对回指定指示剂。
+  - [Q04] 不看表格/颜色结果，只靠物质名字猜 —— 不收；这题按证据给分。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 3 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Classifying Substances idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“酸碱分类”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Re-read the pH/indicator evidence; the mark is for this exact classification/result: (a) green (b) 7 (c) it is neither acidic nor alkaline / pH is exactly 7.
+  FEEDBACK_WRONG_ZH: [Q04] 重看 pH 或指示剂证据；这一分要写：(a) 绿色 (b) 7 (c) it is neither 酸性 nor 碱性 / pH is exactly 7。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Test →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="screen-header"><div class="screen-eyebrow">TEST · 测</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Classifying Substances (Acid / Alkali / Neutral)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Classifying Substances (Acid / Alkali / Neutral)</div></div><div class="exam-mode-chip" style="margin-bottom:10px;"><span data-en="EXAM MODE · NO HINTS" data-zh="考试模式 · 无提示">EXAM MODE · NO HINTS · 考试模式</span></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q05</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q06</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q07</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q08</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q09</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q10</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Wrap →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">WRAP · 总结</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Classifying Substances (Acid / Alkali / Neutral)</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Classifying Substances (Acid / Alkali / Neutral)</div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#3B6FD4;font-size:14px;margin-bottom:8px;">🔁 盖住回想 / Cover &amp; recall</div><div style="font-family:Inter;font-weight:700;color:#222;margin-bottom:8px;">What we sorted today.</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;">想好了，看答案 →</button><div style="display:none;margin-top:8px;background:#fff;border-radius:8px;padding:10px;font-family:Inter;color:#222;">Acids have pH below 7. Alkalis have pH above 7.</div></div><div class="wrap-summary" style="background:#171413;border-radius:14px;padding:18px 20px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:15px;margin-bottom:10px;">📌 今天学了什么 / What we learned</div><ul style="list-style:none;padding:0;margin:0;"><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">What we sorted today.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Acids have pH below 7.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Alkalis have pH above 7.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Neutral is exactly 7.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Indicators give a colour we match to a chart to classify a substance.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Corrosive can mean a strong acid OR a strong alkali.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">🔗 Acid + alkali reaction equations come later (Y9 Unit 3).</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Stay curious.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">You can now tell an acid from an alkali.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">But what happens if you mix them together?</li></ul><ul style="list-style:none;padding:10px 0 0;margin:0;border-top:1px solid #444;"><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">今天我们分了什么类。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">酸的 pH 小于 7。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">碱的 pH 大于 7。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">中性正好是 7。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">指示剂给出一个颜色, 对到色卡上就能给物质分类。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">腐蚀性可能是强酸, 也可能是强碱。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">🔗 酸碱反应方程式以后学 (Y9 Unit 3)。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">保持好奇。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">现在你能分辨酸和碱了。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">但如果把它们混在一起, 会发生什么?</li></ul></div><div style="background:#171413;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:13px;margin-bottom:6px;">🧠 口诀金句 / Memory hook</div><div style="font-family:Inter;font-weight:800;color:#fff;font-size:17px;">Classify by pH: &lt;7 acid, 7 neutral, &gt;7 alkali.</div><div style="font-family:'Noto Sans SC';font-weight:700;color:#FFD84D;margin-top:4px;">分类口诀：小七酸，等七中，大七碱。</div></div><div class="btn-row"><button class="btn btn-primary" onclick="completeLesson()">Complete Lesson 5 ✓</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>

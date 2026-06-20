@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<!-- ▼▼▼ REPLACE: lesson title ▼▼▼ -->
+<title>SciSpark · Y7 U2 L08 · Metals: Physical Properties</title>
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SCISPARK_LESSON_SHELL_v4 (B-mode: shared CSS/JS + widget runtime)
+═══════════════════════════════════════════════════════════════
+Source:  Copied from SCISPARK_LESSON_SHELL_v3.html, then repointed to the v4 shell.
+Date:    2026-05-28
+Status:  TEMPLATE for NEW interactive lessons (Y7 U1 L02+).
+         References /lesson-shell-v4.css + /lesson-shell-v4.js.
+         The v3 template + v3 shell stay FROZEN for Y7 U1 L01 — do NOT edit them.
+         Change a lesson's content, not this file. CSS/JS/widget behaviour lives
+         in /lesson-shell-v4.* — change those once, all v4 lessons auto-update.
+
+NEW in v4 (vs v3 template):
+  - References /lesson-shell-v4.css + /lesson-shell-v4.js (not v3)
+  - Interactive widget runtime available: window.LessonShell
+        mount / unmount / getState / setReducedMotion
+  - Drag/drop bundled (interact.js, works offline). reduced-motion auto-handled.
+  - Widgets are declared in the HTML on a slot with data-mount + data-widget;
+    lesson-shell auto-mounts them on screen-enter, unmounts on screen-exit.
+    (How to declare a slot: see step 4 of "How to use" below.)
+  - Everything from v3 still works unchanged (5 screens, lang toggle, audio,
+    Professor Spark bubbles, Spark Jar, streak, content protection, etc.)
+
+★ graph / sketch_graph widgets are NOT available yet (separate graph build).
+  Do not add a graph widget to a lesson until the graph engine ships.
+
+How to use this SHELL:
+  1. Copy this file → rename Y[N]_U[N]_L[NN]_[Name].html
+  2. Replace all ▼▼▼ REPLACE ▼▼▼ blocks with lesson-specific values
+  3. Insert lesson content into the 5 INSERT blocks below
+  4. To add an interactive widget, drop a slot like:
+        <div data-mount="q1" data-widget="canvas"
+             data-assets='["/assets/yourfile.json"]'></div>
+     data-widget is one of: lottie | canvas | svg | framer | interact | css
+     (exact field rules / INPUT_TYPE mapping come from the lesson spec — Spec 3.)
+  5. Update bubbleScripts{} in inline <script> at bottom for this
+     lesson's Professor Spark dialogue (lesson-specific, not shared)
+  6. Run the lesson checklist before handing to the push window
+  7. Push path: /lessons/y[N]/u[N]/l[NN].html  (push window only — NO_PUSH here)
+
+SEARCH FOR:
+  ▼▼▼ REPLACE  — lesson metadata (title, unit, subject, screens)
+  ▼▼▼ INSERT   — lesson content (5 screen bodies)
+
+B-MODE: WHY THIS IS POWERFUL
+  - All design (colors, fonts, layout) lives in /lesson-shell-v4.css
+  - All behavior (nav, toggle, animations, widgets) lives in /lesson-shell-v4.js
+  - Change either file once → all v4 lessons auto-update
+  - This file (SHELL_v4) is structure only ~20-30KB per lesson
+
+Phase 2 activation: search "PHASE 2 ACTIVATE" — is one-line uncomment.
+
+Spec sources:
+  - SCISPARK_LESSON_PRODUCTION_PLAYBOOK_v8.0
+  - INTERACTION_ENGINE (Spec 2) — widget runtime / interact.js / reduced-motion
+  - SCISPARK_DESIGN_SYSTEM_AND_BRAND_v3.1
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+
+<!-- ★ Unified nav logo — matches the LIVE homepage lockup (orange tile + white bolt
+     + Fraunces "SciSpark" + Geist Mono subtitle). Dark-nav adaptation vs the homepage's
+     light nav: name #fff, subtitle muted-white. Appearance-only; scoped to .top-nav. -->
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly — the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+<!-- ▼▼▼ REPLACE: data-lesson 数字 (1, 2, 3...) ▼▼▼ -->
+<body data-user-level="2" data-lesson="8">
+<!-- ▲▲▲ REPLACE ▲▲▲ -->
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- ★★★ v3: 5 OGG reward audio (mute toggle in nav) ★★★ -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <!-- ▼▼▼ REPLACE: e.g. "Y7 · U1 · L02" ▼▼▼ -->
+  <div class="nav-meta">Y7 · U2 · L08</div>
+  <!-- ▼▼▼ REPLACE: Chemistry / Physics / Biology ▼▼▼ -->
+  <div class="nav-badge" data-en="Chemistry" data-zh="化学">Chemistry</div>
+  <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <!-- ▼▼▼ REPLACE: unit label and title ▼▼▼ -->
+      <div class="sidebar-unit-label">Y7 Unit 2</div>
+      <div class="sidebar-unit-title" data-en="Properties of Materials" data-zh="材料的性质">Properties of Materials</div>
+      <!-- ▲▲▲ REPLACE ▲▲▲ -->
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <!-- ▼▼▼ REPLACE: Route C sub-label for this subject ▼▼▼ -->
+        <!-- Chemistry: "Real-world spark · 生活中的化学" -->
+        <!-- Physics:   "Recap & motivate · 回顾与激发"   -->
+        <!-- Biology:   "Observe · 观察"                  -->
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> · 生活中的化学</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Mechanism, Physics=Concept, Biology=Define ▼▼▼ -->
+        <div class="screen-nav-sub">Mechanism<span class="zh"> · 机制</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Trace & predict, Physics=Predict, Biology=Define & diagnose ▼▼▼ -->
+        <div class="screen-nav-sub">Trace & predict<span class="zh"> · 推演与预测</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <!-- Apply solo · 独立应用 — same for all subjects -->
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <!-- ▼▼▼ REPLACE: Chemistry=Connect & summarise, Physics=Reflect & self-check, Biology=Reflect ▼▼▼ -->
+        <div class="screen-nav-sub">Connect & summarise<span class="zh"> · 连接与总结</span></div>
+        <!-- ▲▲▲ REPLACE ▲▲▲ -->
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+<div class="screen-header"><div class="screen-eyebrow">HOOK · 钩子</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Metals: Physical Properties</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Metals: Physical Properties</div></div><div style="background:#F4F0FF;border:2px solid #7C5CD4;border-radius:14px;padding:12px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#7C5CD4;font-size:13px;">⏰ 热身 / Warm-up</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Pick one common object near you and ask: which property is useful here?</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">看身边一个普通物品，问自己：这里真正有用的是哪个性质？</li></ul></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin-bottom:16px;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:Inter;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Why does a designer pick metal for one part and plastic
+                 for another? · 设计师为什么这个零件用金属、那个零件用塑料?</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Why does a designer pick metal for one part and plastic
+                 for another?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">An engineer designing a bicycle, a kettle or an aeroplane has to choose the right material for every part.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Copper for the wires because it carries electricity.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">A light metal for the frame so it is strong but not heavy.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">The choice depends on the physical properties of metals.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">👀 Look around you: pick up any coin. It is shiny, it is cold
+                 to touch (it carries heat away from your hand), and it does
+                 not snap when you press it. Those are metal properties.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">设计师为什么这个零件用金属、那个零件用塑料?</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">工程师在设计自行车、水壶或飞机时,每个零件都要选对材料。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">电线 用铜,因为铜导电。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">车架用轻金属,这样又结实又不重。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">怎么选,取决 于金属的物理性质。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">👀 看看你身边:拿起任何一枚硬币。它有光泽,摸上去是凉的(它把
+                 你手上的热带走),你压它也不会断。这些都是金属的性质。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">[B1a reserved image note] Design/engineering context: material</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Property test-station cards (conduct / malleable / shiny / sonorous) test-&gt;evidence; property-to-use table.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Confusing a property with a use; &#x27;all metals&#x27; vs &#x27;most metals&#x27;.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="font-family:Inter;font-style:italic;color:#666;margin:4px 0 16px;">😄 Metal has a résumé: conducts electricity, shiny, bendable, wire-able. Do not just write “strong” and hope. <span style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;font-style:normal;">金属有简历：导电、有光泽、可锻、能拉丝。别只写“很强”就祈祷。</span></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('learn')">Learn →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+<div class="screen-header"><div class="screen-eyebrow">LEARN · 学</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Metals: Physical Properties</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Metals: Physical Properties</div></div><div style="background:#E8FFE8;border:2px solid #BFE6BF;border-left:8px solid #2E7D32;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#BFE6BF;color:#2E7D32;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">The physical properties of most metals · <span style="font-family:'Noto Sans SC';">大多数金属的物理性质</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Most metals: conduct electricity;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">conduct heat;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">are shiny (lustrous);</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">are malleable (can be hammered into shape);</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">are ductile (can be drawn into wires);</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">have high melting and boiling points;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">are hard;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">are dense;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">are sonorous (ring when struck).</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">大多数金属:导电;导热;有光泽;可锻(能被锤打成形);有延展性 (能拉成细丝);熔点和沸点高;硬;密度大;响(敲击时会发出声音)。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">[B1a reserved image note] Typical metal samples + property labels.</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Property test-station cards (conduct / malleable / shiny / sonorous) test-&gt;evidence; property-to-use table.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Confusing a property with a use; &#x27;all metals&#x27; vs &#x27;most metals&#x27;.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="background:#FFF0DB;border:2px solid #FAD9A8;border-left:8px solid #D98A2B;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#FAD9A8;color:#D98A2B;font-family:Inter,sans-serif;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Two ways to test a metal · <span style="font-family:'Noto Sans SC';">测金属的两种方法</span></div><div style="margin-bottom:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Electrical conduction: place the material in an electric circuit;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">if the lamp lights, it conducts electricity.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Heat conduction: attach wax (or a pin held by wax) along a rod, heat one end;</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">the better the conductor, the faster the wax melts.</li></ul></div><div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">测导电:把材料接进电路;如果灯亮了,它就导电。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">测导热:沿金属棒粘上蜡(或用蜡粘住针),加热一端;导热越好, 蜡熔化得越快。</li></ul></div><div style="margin-top:10px;border:2px dashed #C9A227;border-radius:10px;background:#FFFBE6;padding:10px 12px;font-family:Inter,sans-serif;font-size:12px;color:#8A6D00;">🖼️ 配图待出 / image pending<br><span style="color:#9a8;font-size:11px;">[B1a reserved image note] Circuit test + wax-on-rod heat test.</span><div style="margin-top:8px;border-top:1px dashed #D9C879;padding-top:6px;"><div style="font-weight:800;color:#8A6D00;">📖 画图大字典 / Visual Dictionary brief</div><div><b>Best visual:</b> Property test-station cards (conduct / malleable / shiny / sonorous) test-&gt;evidence; property-to-use table.</div><div><b>Animate?:</b> STATIC (D1).</div><div><b>Trap to flag:</b> Confusing a property with a use; &#x27;all metals&#x27; vs &#x27;most metals&#x27;.</div><div style="color:#9a8;margin-top:3px;"><b>House rules:</b> D1 static-first: animate only if rotation/flow/change is the whole point; end on a frozen labelled frame.</div></div></div></div><div style="background:#EAFBFF;border:2px solid #C2ECF5;border-left:8px solid #3AAEC8;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="display:inline-block;background:#C2ECF5;color:#3AAEC8;font-family:Inter;font-weight:800;font-size:18px;padding:6px 14px;border-radius:10px;margin-bottom:10px;">Matching property to use · 性质对应用途</div><table style="width:100%;border-collapse:collapse;margin-bottom:8px;"><thead><tr><th style="padding:6px 10px;background:#C2ECF5;color:#1c6378;font-family:Inter;font-size:13px;text-align:left;">Property</th><th style="padding:6px 10px;background:#C2ECF5;color:#1c6378;font-family:Inter;font-size:13px;text-align:left;">Use</th></tr></thead><tbody><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">conducts electricity</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">electrical wires</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">ductile</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">drawn into wires</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">strong</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">bridge / car body</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">hard</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">drill bit</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">sonorous</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">bell</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">lustrous (shiny)</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">jewellery</td></tr></tbody></table><table style="width:100%;border-collapse:collapse;margin-bottom:8px;"><thead><tr><th style="padding:6px 10px;background:#C2ECF5;color:#1c6378;font-family:Inter;font-size:13px;text-align:left;">性质</th><th style="padding:6px 10px;background:#C2ECF5;color:#1c6378;font-family:Inter;font-size:13px;text-align:left;">用途</th></tr></thead><tbody><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">导电</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">电线</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">延展(可拉丝)</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">拉成电线</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">结实</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">桥 / 车身</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">硬</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">钻头</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">响(声音)</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">铃</td></tr><tr><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">有光泽</td><td style="padding:6px 10px;border-top:1px solid #d4eef5;font-family:Inter;font-size:13px;color:#222;">首饰</td></tr></tbody></table></div><div style="background:#FFF0F0;border:2px solid #C00000;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#C00000;font-size:16px;margin-bottom:8px;">🟥 红牌 · 常见错误 / Red Card</div><div style="font-family:Inter;font-weight:700;color:#C00000;margin-bottom:4px;">⚠️ Metal properties describe MOST metals, not ALL.
+                 &quot;All metals are solid at room temperature&quot; is WRONG -
+                 mercury is a liquid metal. &quot;All metals are hard&quot; is WRONG -
+                 sodium is soft enough to cut. Say &quot;most metals&quot;, not &quot;all&quot;.</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">⚠️ 金属的性质说的是&quot;大多数&quot;金属,不是&quot;全部&quot;。&quot;所有金属常温
+                 都是固体&quot;是错的 — 汞是液态金属。&quot;所有金属都硬&quot;是错的 — 钠软
+                 到能用刀切。要说&quot;大多数金属&quot;,不要说&quot;所有&quot;。</div></div><div style="background:#F5F0E4;border:2px solid #8A7B4A;border-left:8px solid #6D4C41;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#6D4C41;font-size:16px;margin-bottom:8px;">⚖️ 考试 vs 真实 / Exam vs Reality</div><div style="font-family:Inter;color:#3b2f25;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">EXAM vs REAL SCIENCE: In the exam, &quot;metal properties&quot; is a fixed checklist to memorise (conducts, malleable, shiny, high melting point...).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">In real science, these are TRENDS for most metals, with real exceptions: mercury is a liquid at room temperature, sodium is soft, and a freshly cut metal can dull as it oxidises.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Properties sit on a spectrum, not an on/off switch.</li></ul><div style="margin-top:6px;"><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">考试 vs 真科学: 考试里,&quot;金属性质&quot;是一张要背的固定清单(导电、可锻、有光泽、 熔点高……)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">真科学里,这些是大多数金属的&quot;趋势&quot;,有真实例外: 汞常温是液体、钠很软、刚切开的金属会因氧化而变暗。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">性质是连续 光谱,不是开关。</li></ul></div></div></div><div style="background:#F6EAFA;border:2px solid #E2C4EE;border-left:8px solid #9B3FC9;border-radius:14px;padding:14px 16px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:800;color:#9B3FC9;font-size:14px;margin-bottom:6px;">🔗 比喻 / Analogy</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Metal atoms are like a crowd that shares moving electrons, so electricity can pass through.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">金属像一群人共享会跑的电子，所以电能通过。</li></ul></div><div style="border:2px dashed #D98A2B;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;background:#FFF8EE;"><div style="font-family:Inter;font-weight:900;color:#D98A2B;font-size:14px;margin-bottom:8px;">🎯 考官要什么 / What the examiner wants</div><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">State = short answer.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Describe = say what and how.</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Explain = say why (fact + reason).</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Inter',sans-serif;font-weight:600;color:#222;">Define = exact syllabus wording.</li></ul><ul style="list-style:none;padding:0;margin:0;"><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">State = 简短作答。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Describe = 说出是什么、怎样。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Explain = 说出为什么(事实+原因)。</li><li style="margin:0 0 8px 0;line-height:1.5;font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">Define = 用大纲原话精确定义。</li></ul></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('try')">Try →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+<div class="screen-header"><div class="screen-eyebrow">TRY · 练</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Metals: Physical Properties</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Metals: Physical Properties</div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q01</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good electrical conductor; malleable; sonorous; ductile; hard; high density; lustrous/shiny
+  EXPECTED_ANSWER_ZH: (b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; 有延展性/可拉丝; 硬; high 密度; 有光泽/有光泽
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good electrical conductor; malleable; sonorous; ductile; hard; high density; lustrous/shiny
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; 有延展性/可拉丝; 硬; high 密度; 有光泽/有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Giving a property that does not match the named material — reject because the accepted point is: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good ele....
+  - [Q01] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q01] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q01] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 性质跟材料不配 —— 不收；本题要点是：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; ...。
+  - [Q01] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q01] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q01] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 5. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Check whether the question asks for a property, material, or use; this item needs: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boil....
+  FEEDBACK_WRONG_ZH: [Q01] 先分清题目问性质、材料还是用途；这题要点是：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; ...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; 有延展性/可拉丝; 硬; high 密度; 有光泽/有光泽
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good electrical conductor; malleable; sonorous; ductile; hard; high density; lustrous/shiny
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; 有延展性/可拉丝; 硬; high 密度; 有光泽/有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Giving a property that does not match the named material — reject because the accepted point is: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good ele....
+  - [Q01] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q01] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q01] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 性质跟材料不配 —— 不收；本题要点是：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; ...。
+  - [Q01] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q01] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q01] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 5. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Check whether the question asks for a property, material, or use; this item needs: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boil....
+  FEEDBACK_WRONG_ZH: [Q01] 先分清题目问性质、材料还是用途；这题要点是：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; ...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good electrical conductor; malleable; sonorous; ductile; hard; high density; lustrous/shiny
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; 有延展性/可拉丝; 硬; high 密度; 有光泽/有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q01] Giving a property that does not match the named material — reject because the accepted point is: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boiling point; good heat conductor; good ele....
+  - [Q01] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q01] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q01] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q01] 性质跟材料不配 —— 不收；本题要点是：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; sonorous; ...。
+  - [Q01] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q01] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q01] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 5. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q01] Check whether the question asks for a property, material, or use; this item needs: (b) [2] aluminium; sodium (c) [3] any three of: high melting point; high boil....
+  FEEDBACK_WRONG_ZH: [Q01] 先分清题目问性质、材料还是用途；这题要点是：(b) [2] 铝; 钠 (c) [3] any three of: high 熔点; high 沸点; good 导热体; good 导电体; 可锻; ...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q02</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ Sodium conducts electricity; Sodium is ductile
+  EXPECTED_ANSWER_ZH: [2] 钠 导电; 钠 is 有延展性/可拉丝
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: [2] Sodium conducts electricity; Sodium is ductile
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[2] 钠 导电; 钠 is 有延展性/可拉丝
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Giving a property that does not match the named material — reject because the accepted point is: [2] Sodium conducts electricity; Sodium is ductile.
+  - [Q02] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q02] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q02] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 性质跟材料不配 —— 不收；本题要点是：[2] 钠 导电; 钠 is 有延展性/可拉丝。
+  - [Q02] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q02] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q02] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 2. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Check whether the question asks for a property, material, or use; this item needs: [2] Sodium conducts electricity; Sodium is ductile.
+  FEEDBACK_WRONG_ZH: [Q02] 先分清题目问性质、材料还是用途；这题要点是：[2] 钠 导电; 钠 is 有延展性/可拉丝。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">钠 导电; 钠 is 有延展性/可拉丝
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: [2] Sodium conducts electricity; Sodium is ductile
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[2] 钠 导电; 钠 is 有延展性/可拉丝
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Giving a property that does not match the named material — reject because the accepted point is: [2] Sodium conducts electricity; Sodium is ductile.
+  - [Q02] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q02] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q02] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 性质跟材料不配 —— 不收；本题要点是：[2] 钠 导电; 钠 is 有延展性/可拉丝。
+  - [Q02] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q02] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q02] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 2. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Check whether the question asks for a property, material, or use; this item needs: [2] Sodium conducts electricity; Sodium is ductile.
+  FEEDBACK_WRONG_ZH: [Q02] 先分清题目问性质、材料还是用途；这题要点是：[2] 钠 导电; 钠 is 有延展性/可拉丝。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: [2] Sodium conducts electricity; Sodium is ductile
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[2] 钠 导电; 钠 is 有延展性/可拉丝
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q02] Giving a property that does not match the named material — reject because the accepted point is: [2] Sodium conducts electricity; Sodium is ductile.
+  - [Q02] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q02] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q02] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q02] 性质跟材料不配 —— 不收；本题要点是：[2] 钠 导电; 钠 is 有延展性/可拉丝。
+  - [Q02] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q02] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q02] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award 1 mark for each correct selected option, up to 2. If the question asks for exactly two/three choices, extra wrong choices cancel the corresponding mark and may need teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q02] Check whether the question asks for a property, material, or use; this item needs: [2] Sodium conducts electricity; Sodium is ductile.
+  FEEDBACK_WRONG_ZH: [Q02] 先分清题目问性质、材料还是用途；这题要点是：[2] 钠 导电; 钠 is 有延展性/可拉丝。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q03</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleable; rigid; shiny
+  EXPECTED_ANSWER_ZH: (a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; rigid; 有光泽
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleable; rigid; shiny
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; rigid; 有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Giving a property that does not match the named material — reject because the accepted point is: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleab....
+  - [Q03] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q03] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q03] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 性质跟材料不配 —— 不收；本题要点是：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; r...。
+  - [Q03] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q03] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q03] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check whether the question asks for a property, material, or use; this item needs: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweigh....
+  FEEDBACK_WRONG_ZH: [Q03] 先分清题目问性质、材料还是用途；这题要点是：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corr...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; rigid; 有光泽
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleable; rigid; shiny
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; rigid; 有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Giving a property that does not match the named material — reject because the accepted point is: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleab....
+  - [Q03] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q03] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q03] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 性质跟材料不配 —— 不收；本题要点是：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; r...。
+  - [Q03] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q03] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q03] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check whether the question asks for a property, material, or use; this item needs: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweigh....
+  FEEDBACK_WRONG_ZH: [Q03] 先分清题目问性质、材料还是用途；这题要点是：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corr...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleable; rigid; shiny
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; rigid; 有光泽
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q03] Giving a property that does not match the named material — reject because the accepted point is: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweight/low density; does not corrode; malleab....
+  - [Q03] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q03] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q03] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q03] 性质跟材料不配 —— 不收；本题要点是：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corrode; 可锻; r...。
+  - [Q03] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q03] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q03] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 4 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q03] Check whether the question asks for a property, material, or use; this item needs: (a) [2] frame -&gt; steel; tyre -&gt; rubber (b) [2] any two of: strong; lightweigh....
+  FEEDBACK_WRONG_ZH: [Q03] 先分清题目问性质、材料还是用途；这题要点是：(a) [2] frame -&gt; 钢; tyre -&gt; 橡胶 (b) [2] any two of: 结实/强; 轻/低密度; does not corr...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q04</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any two reasons (e.g. plastic is an electrical insulator; plastic protects/insulates the wire) (c) [1] All metals conduct heat.
+  EXPECTED_ANSWER_ZH: (a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; 硬 -&gt; drill bit (b) [2] any two reasons (e.g. 塑料 is an electrical 绝缘体; 塑料 protects/insulates the wire) (c) [1] All metals conduct heat.
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any two reasons (e.g. plastic is an electrical insulator; plastic protects/insulates the wire) (c) [1] All metals conduct heat.
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; 硬 -&gt; drill bit (b) [2] any two reasons (e.g. 塑料 is an electrical 绝缘体; 塑料 protects/insulates the wire) (c) [1] All metals conduct heat.
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Giving a property that does not match the named material — reject because the accepted point is: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any....
+  - [Q04] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q04] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q04] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 性质跟材料不配 —— 不收；本题要点是：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; ...。
+  - [Q04] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q04] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q04] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 5 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Check whether the question asks for a property, material, or use; this item needs: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electri....
+  FEEDBACK_WRONG_ZH: [Q04] 先分清题目问性质、材料还是用途；这题要点是：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electric...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; 硬 -&gt; drill bit (b) [2] any two reasons (e.g. 塑料 is an electrical 绝缘体; 塑料 protects/insulates the wire) (c) [1] All metals conduct heat.
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any two reasons (e.g. plastic is an electrical insulator; plastic protects/insulates the wire) (c) [1] All metals conduct heat.
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; 硬 -&gt; drill bit (b) [2] any two reasons (e.g. 塑料 is an electrical 绝缘体; 塑料 protects/insulates the wire) (c) [1] All metals conduct heat.
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Giving a property that does not match the named material — reject because the accepted point is: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any....
+  - [Q04] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q04] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q04] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 性质跟材料不配 —— 不收；本题要点是：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; ...。
+  - [Q04] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q04] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q04] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 5 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Check whether the question asks for a property, material, or use; this item needs: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electri....
+  FEEDBACK_WRONG_ZH: [Q04] 先分清题目问性质、材料还是用途；这题要点是：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electric...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any two reasons (e.g. plastic is an electrical insulator; plastic protects/insulates the wire) (c) [1] All metals conduct heat.
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; 硬 -&gt; drill bit (b) [2] any two reasons (e.g. 塑料 is an electrical 绝缘体; 塑料 protects/insulates the wire) (c) [1] All metals conduct heat.
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q04] Giving a property that does not match the named material — reject because the accepted point is: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electrical wires; hard -&gt; drill bit (b) [2] any....
+  - [Q04] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q04] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q04] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q04] 性质跟材料不配 —— 不收；本题要点是：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electrical wires; ...。
+  - [Q04] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q04] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q04] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Each correct match/link earns its own mark. Award up to 5 mark(s). Extra contradictory links do not earn credit; if one item is linked to two answers, flag for teacher review.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q04] Check whether the question asks for a property, material, or use; this item needs: (a) [2] sonorous -&gt; bell; strong -&gt; bridge across a river; ductile -&gt; electri....
+  FEEDBACK_WRONG_ZH: [Q04] 先分清题目问性质、材料还是用途；这题要点是：(a) [2] sonorous -&gt; bell; 结实/强 -&gt; bridge across a river; 有延展性/可拉丝 -&gt; electric...。
+HINT_INTERACTIVE:
+  start_EN: Read the labels first. Move or choose only after you know what each item means.
+  start_ZH: 先读标签。知道每个项目意思后才拖动或选择。
+  wrong_EN: Check the evidence again; one item is matched to the wrong property or result.
+  wrong_ZH: 再看证据；有一个项目配错了性质或结果。
+  correct_EN: Good — the match follows the science evidence, not guessing.
+  correct_ZH: 对——这是根据科学证据配出来的，不是乱猜。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q05</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density
+  EXPECTED_ANSWER_ZH: [3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Giving a property that does not match the named material — reject because the accepted point is: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density.
+  - [Q05] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q05] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q05] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 性质跟材料不配 —— 不收；本题要点是：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度。
+  - [Q05] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q05] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q05] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Check whether the question asks for a property, material, or use; this item needs: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; so....
+  FEEDBACK_WRONG_ZH: [Q05] 先分清题目问性质、材料还是用途；这题要点是：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Giving a property that does not match the named material — reject because the accepted point is: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density.
+  - [Q05] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q05] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q05] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 性质跟材料不配 —— 不收；本题要点是：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度。
+  - [Q05] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q05] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q05] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Check whether the question asks for a property, material, or use; this item needs: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; so....
+  FEEDBACK_WRONG_ZH: [Q05] 先分清题目问性质、材料还是用途；这题要点是：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q05] Giving a property that does not match the named material — reject because the accepted point is: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; sonorous; strong; hard; high density.
+  - [Q05] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q05] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q05] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q05] 性质跟材料不配 —— 不收；本题要点是：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度。
+  - [Q05] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q05] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q05] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q05] Check whether the question asks for a property, material, or use; this item needs: [3] any three of: good heat conductor; malleable; ductile; shiny/lustrous; so....
+  FEEDBACK_WRONG_ZH: [Q05] 先分清题目问性质、材料还是用途；这题要点是：[3] any three of: good 导热体; 可锻; 有延展性/可拉丝; 有光泽/有光泽; sonorous; 结实/强; 硬; high 密度。
+END_B1B_THICK_MARKING</div></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q06</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;margin-top:6px;">看答案 / Reveal</button><div style="display:none;margin-top:8px;background:#F0FFF0;border:1px solid #BFE6BF;border-radius:8px;padding:10px;"><div style="font-family:Inter;font-weight:700;color:#2E7D32;">✔ any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high density; sonorous
+  EXPECTED_ANSWER_ZH: [3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high density; sonorous
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q06] Giving a property that does not match the named material — reject because the accepted point is: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high de....
+  - [Q06] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q06] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q06] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q06] 性质跟材料不配 —— 不收；本题要点是：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous。
+  - [Q06] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q06] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q06] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q06] Check whether the question asks for a property, material, or use; this item needs: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conduct....
+  FEEDBACK_WRONG_ZH: [Q06] 先分清题目问性质、材料还是用途；这题要点是：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; s...。
+END_B1B_THICK_MARKING</div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;">any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous
+  MARKING_POINTS:
+    - Award marks only for the scoring ideas listed in the accepted answer.
+    - If there are subparts, mark each subpart independently.
+    - If the student gives both a correct and contradictory answer for the same point, flag NEEDS_TEACHER_REVIEW.
+  MARK_SCHEME_ACCEPT_EN:
+  - Official/locked accepted answer: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high density; sonorous
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q06] Giving a property that does not match the named material — reject because the accepted point is: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high de....
+  - [Q06] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q06] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q06] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q06] 性质跟材料不配 —— 不收；本题要点是：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous。
+  - [Q06] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q06] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q06] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q06] Check whether the question asks for a property, material, or use; this item needs: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conduct....
+  FEEDBACK_WRONG_ZH: [Q06] 先分清题目问性质、材料还是用途；这题要点是：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; s...。
+END_B1B_THICK_MARKING</div><div style="font-family:Inter;font-size:12px;color:#666;margin-top:6px;">Accept: - Official/locked accepted answer: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high density; sonorous
+  - Same scientific meaning in clear words
+  - Correct subpart labels may be omitted if the answer order is clear
+  - conducts electricity
+  - conducts heat
+  - malleable
+  - ductile
+  - lustrous/shiny
+  - sonorous
+  - high melting point
+  - high density
+  - strong/lightweight when tied to the use
+  MARK_SCHEME_ACCEPT_ZH:
+  - 锁定可接受答案：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous
+  - 意思相同、科学意思清楚的中文或英文表达也收
+  - 答案顺序清楚时，可以不写 (a)(b) 标签
+  - 导电
+  - conducts heat
+  - 可锻
+  - 有延展性/可拉丝
+  - 有光泽/有光泽
+  - sonorous
+  - high 熔点
+  - high 密度
+  - 结实/强/轻 when tied to the use
+  MARK_SCHEME_REJECT_EN:
+  - [Q06] Giving a property that does not match the named material — reject because the accepted point is: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conductor; good heat conductor; strong; high de....
+  - [Q06] Giving a use when the question asks for a property — reject because a use is not the marked property.
+  - [Q06] Swapping metal and non-metal properties — reject because the comparison side is wrong.
+  - [Q06] Writing “strong/good/useful” alone — reject because it is too vague unless tied to the required property.
+  MARK_SCHEME_REJECT_ZH:
+  - [Q06] 性质跟材料不配 —— 不收；本题要点是：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; sonorous。
+  - [Q06] 题目问性质却只写用途 —— 不收；用途不是这一分要改的性质。
+  - [Q06] 把金属和非金属性质写反 —— 不收；比较方向错。
+  - [Q06] 只写“强/好/有用” —— 不收；除非连到题目要的具体性质。
+  MARK_SCHEME_IGNORE_EN:
+    - Ignore harmless wording such as “I think”, “maybe”, or extra explanation that does not change the science.
+    - Ignore grammar mistakes if the science meaning is clear.
+  MARK_SCHEME_IGNORE_ZH:
+    - 忽略“我觉得”“可能”等口水话，只看科学意思。
+    - 语法或句子不漂亮不扣分，科学意思清楚就可以。
+  MARK_SCHEME_PARTIAL: Award one mark for each correct subpart or scoring idea, up to 3. Each mark is independent; do not bundle marks together.
+  SPELLING_RULE_EN: Accept minor spelling mistakes if the intended science word is clear and not confused with another science term.
+  SPELLING_RULE_ZH: 拼错但看得出科学词、意思没变就收；如果变成另一个科学词就不收。
+  NEEDS_TEACHER_REVIEW_RULE: Blank answer, unclear mixed answer, missing captured data, or answer outside the written rules = send to teacher review, not auto-zero.
+  FEEDBACK_RIGHT_EN: Correct — your answer matches the evidence and the Metals — Properties idea in this question.
+  FEEDBACK_RIGHT_ZH: 答对了——你的答案符合题目证据，也贴合本课“金属的性质”的概念。
+  FEEDBACK_WRONG_EN: [Q06] Check whether the question asks for a property, material, or use; this item needs: [3] any three of: malleable; ductile; shiny/lustrous; good electrical conduct....
+  FEEDBACK_WRONG_ZH: [Q06] 先分清题目问性质、材料还是用途；这题要点是：[3] any three of: 可锻; 有延展性/可拉丝; 有光泽/有光泽; good 导电体; good 导热体; 结实/强; high 密度; s...。
+END_B1B_THICK_MARKING</div></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('test')">Test →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+<div class="screen-header"><div class="screen-eyebrow">TEST · 测</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Metals: Physical Properties</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Metals: Physical Properties</div></div><div class="exam-mode-chip" style="margin-bottom:10px;"><span data-en="EXAM MODE · NO HINTS" data-zh="考试模式 · 无提示">EXAM MODE · NO HINTS · 考试模式</span></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q07</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q08</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q09</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q10</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q11</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q12</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="question-block" style="background:#fff;border:1px solid #e6e0d3;border-radius:12px;padding:14px 16px;margin-bottom:14px;"><div style="font-family:Inter;font-weight:800;color:#D98A2B;font-size:13px;margin-bottom:4px;">Q13</div><div style="font-family:Inter;font-weight:600;color:#222;"></div><div style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#D98A2B;margin-top:2px;"></div></div><div class="btn-row"><button class="btn btn-primary" onclick="showScreen('wrap')">Wrap →</button></div>
+</section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+<div class="screen-header"><div class="screen-eyebrow">WRAP · 总结</div><h1 class="screen-title" style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;color:#C00000;">Metals: Physical Properties</h1><div class="screen-title-zh" style="color:#D98A2B;font-weight:700;">Metals: Physical Properties</div></div><div style="background:#EEF4FF;border:2px solid #3B6FD4;border-radius:14px;padding:14px 16px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#3B6FD4;font-size:14px;margin-bottom:8px;">🔁 盖住回想 / Cover &amp; recall</div><div style="font-family:Inter;font-weight:700;color:#222;margin-bottom:8px;">You can state the physical properties of most metals, explain how to test for electrical and heat conduction, and match a property to the use it makes possible.</div><button onclick="this.nextElementSibling.style.display='block';this.style.display='none';" style="background:#3B6FD4;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-family:Inter;font-weight:700;cursor:pointer;">想好了，看答案 →</button><div style="display:none;margin-top:8px;background:#fff;border-radius:8px;padding:10px;font-family:Inter;color:#222;">Next lesson: if these are the properties of metals, what about everything else? We meet the non-metals and they break almost every rule you just learned.</div></div><div class="wrap-summary" style="background:#171413;border-radius:14px;padding:18px 20px;margin-bottom:16px;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:15px;margin-bottom:10px;">📌 今天学了什么 / What we learned</div><ul style="list-style:none;padding:0;margin:0;"><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">You can state the physical properties of most metals, explain how to test for electrical and heat conduction, and match a property to the use it makes possible.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Next lesson: if these are the properties of metals, what about everything else?</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">We meet the non-metals and they break almost every rule you just learned.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">Stay curious: the same copper that carries electricity in a wire also rings as a bell and shines as a coin.</li><li style="font-family:Inter;font-weight:600;color:#fff;margin:0 0 8px 0;line-height:1.5;">One metal, many properties.</li></ul><ul style="list-style:none;padding:10px 0 0;margin:0;border-top:1px solid #444;"><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">你能说出大多数金属的物理性质,会解释怎么测导电和导热,还能把 一个性质对应到它能实现的用途。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">下一课:如果这些是金属的性质,那其他东西呢?我们要认识非金属 — 它们几乎打破你刚学的每一条规则。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">保持好奇:电线里导电的铜,也能做成会响的铃,还能做成发亮的 硬币。</li><li style="font-family:'Noto Sans SC',sans-serif;font-weight:700;color:#FFD84D;margin:0 0 8px 0;line-height:1.5;">同一种金属,许多种性质。</li></ul></div><div style="background:#171413;border-radius:14px;padding:16px 18px;margin:0 0 16px 0;"><div style="font-family:Inter;font-weight:900;color:#FFFF00;font-size:13px;margin-bottom:6px;">🧠 口诀金句 / Memory hook</div><div style="font-family:Inter;font-weight:800;color:#fff;font-size:17px;">Metal checklist: conduct, shine, bend, wire, high melting point.</div><div style="font-family:'Noto Sans SC';font-weight:700;color:#FFD84D;margin-top:4px;">金属清单：导电、发亮、可锻、拉丝、熔点高。</div></div><div class="btn-row"><button class="btn btn-primary" onclick="completeLesson()">Complete Lesson 8 ✓</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<!--
+  MASCOT ROLE RULE (locked memory #16):
+  DouDou 豆豆 = co-learner agent → ONLY in in-app lesson speech bubbles + interactive prompts
+  Professor Spark   = tutor agent    → landing, app icon, marketing, lesson video, AI Tutor panel
+
+  This floating speech bubble is an in-app lesson speech bubble → DouDou, NOT Professor Spark.
+
+  PHASE 2 ACTIVATE: replace static SVG with DouDou animated image from /mascots/doudou_*.png
+-->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- ▼▼▼ REPLACE with /mascots/doudou_bubble.png when /mascots/ folder is live ▼▼▼ -->
+    <!-- <img src="/mascots/doudou_bubble.png" width="36" height="36" alt="DouDou"> -->
+    <!-- DouDou design: round small white robot, SINGLE round orange screen-eye,
+         NO antenna, NO ear grilles, 豆 mark on chest, short arms, black feet -->
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      <!-- 豆 mark on chest -->
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">豆</text>
+    </svg>
+    <!-- ▲▲▲ REPLACE ▲▲▲ -->
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <!-- ▼▼▼ INSERT: 3 starter questions for this lesson ▼▼▼ -->
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <!-- ▼▼▼ INSERT: lesson-specific AI prompt buttons ▼▼▼ -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 1 for this lesson]
+        <span class="ai-prompt-btn-zh">[第一个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 2 for this lesson]
+        <span class="ai-prompt-btn-zh">[第二个问题中文]</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        [Question 3 for this lesson]
+        <span class="ai-prompt-btn-zh">[第三个问题中文]</span>
+      </button>
+      <!-- ▲▲▲ INSERT ▲▲▲ -->
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+
+<!-- ▼▼▼ LESSON-SPECIFIC SCRIPT: Professor Spark bubble dialogues ▼▼▼ -->
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "[Professor Spark intro line for HOOK]",   zh: "[钩子介绍]" },
+  learn: { en: "[Professor Spark intro line for LEARN]",  zh: "[学习介绍]" },
+  try:   { en: "[Professor Spark intro line for TRY]",    zh: "[练习介绍]" },
+  test:  { en: "[Professor Spark intro line for TEST]",   zh: "[测试介绍]" },
+  wrap:  { en: "[Professor Spark intro line for WRAP]",   zh: "[总结介绍]" }
+};
+</script>
+<!-- ▲▲▲ LESSON-SPECIFIC SCRIPT ▲▲▲ -->
+
+</body>
+</html>
