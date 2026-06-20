@@ -69,7 +69,6 @@ function renderSet() {
     let html =
       '<div class="spc-q-head">' +
         '<span class="spc-q-num">Question ' + (qi + 1) + ' <span class="spc-q-of">of ' + QUESTIONS_PER_SET + '</span></span>' +
-        '<span class="spc-q-tag">' + q.subject + ' &middot; Part ' + q.part + '</span>' +
       '</div>' +
       (q.stem || '') +
       figsHtml(q.figs);
@@ -92,23 +91,6 @@ function renderSet() {
     art.innerHTML = html;
     main.appendChild(art);
   });
-
-  main.querySelectorAll('textarea[data-field]').forEach(function (el) {
-    el.addEventListener('input', updateProgress);
-  });
-}
-
-/* ── Progress ───────────────────────────────────────────────────── */
-function updateProgress() {
-  const total = fields.length || 1;
-  const count = countAnswered();
-  const el  = document.getElementById('spc-progress-count');
-  const tot = document.getElementById('spc-progress-total');
-  const bar = document.getElementById('spc-progress-fill');
-  if (el)  el.textContent = count;
-  if (tot) tot.textContent = fields.length;
-  if (bar) bar.style.width = Math.round((count / total) * 100) + '%';
-  return count;
 }
 
 /* ── Autosave (draft only, localStorage) ────────────────────────── */
@@ -214,7 +196,7 @@ async function submitToSupabase() {
 
 /* ── Modal ──────────────────────────────────────────────────────── */
 function openModal() {
-  const count = updateProgress();
+  const count = countAnswered();
   const a = document.getElementById('modal-answered');
   const u = document.getElementById('modal-unanswered');
   if (a) a.textContent = count;
@@ -228,8 +210,6 @@ function showSuccess(attemptId) {
   clearDraft();
   document.getElementById('spc-main').style.display = 'none';
   document.getElementById('spc-submitbar').style.display = 'none';
-  const prog = document.querySelector('.spc-progress');
-  if (prog) prog.style.display = 'none';
   const intro = document.querySelector('.spc-intro');
   if (intro) intro.style.display = 'none';
   const screen = document.getElementById('spc-success');
@@ -269,7 +249,6 @@ function startSet(year) {
 
   renderSet();
   restoreDraft();
-  updateProgress();
   setInterval(saveDraft, AUTOSAVE_INTERVAL);
   window.addEventListener('beforeunload', saveDraft);
   console.log('[SciSpark Intake] ' + year + ' set ready — ' + questions.length +
