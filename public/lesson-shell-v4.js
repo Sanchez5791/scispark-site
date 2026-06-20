@@ -1792,7 +1792,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     function queueScan() {
       if (scanQueued) return;
       scanQueued = true;
-      (window.requestAnimationFrame || window.setTimeout)(scan, 60);
+      // setTimeout (not requestAnimationFrame): rAF is fully PAUSED in background
+      // tabs, so the deferred scan would never run; setTimeout still fires.
+      setTimeout(scan, 80);
     }
 
     async function preloadAppeals() {
@@ -1817,6 +1819,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
         subtree: true, childList: true,
         attributes: true, attributeFilter: ['style', 'class', 'data-answered', 'data-result']
       });
+      // belt-and-suspenders: re-scan when the tab regains focus (covers any
+      // mutation that landed while the tab was backgrounded / scan throttled)
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) queueScan(); });
+      window.addEventListener('focus', queueScan);
     }
 
     return { init: init };
