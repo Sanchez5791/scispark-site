@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U7 L04 · Friction</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U7 L04 · Friction",
+  "navMeta": "Y7 · U7 · L04",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 7",
+  "unitTitleEn": "Forces and Motion",
+  "unitTitleZh": "力与运动",
+  "userLevel": "1",
+  "lessonData": "4"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="4">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U7 · L04</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U7 parsed.json — text poured verbatim. Image placeholders kept. [Qnn] tag normalised out of feedback. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Friction" data-zh="摩擦力">Friction</div>
+      <div class="screen-title-zh">摩擦力</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Friction</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">HOOK — Look Around You + everyday anchor</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">When a car brakes on a wet road, it slides further than on a dry road. The same brakes — so what changed? The friction between tyre and road. <span class="zh">一辆车在湿路上刹车，会比干路上滑得更远。同样的刹车——那是什么变了？是轮胎和路面之间的摩擦力。</span></p>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Look around you <span class="zh">看看你身边</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Rub your hands together — feel friction warm them. <span class="zh">把双手搓一搓——感受摩擦让它们变暖。</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Think <span class="zh">想一想</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Why is it harder to slide a box on rough ground than on smooth ice? <span class="zh">为什么在粗糙地面上推箱子，比在光滑的冰上更难？</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Real-world <span class="zh">真实情境</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">When a car brakes on a wet road, it slides further than on a dry road. The same brakes — so what changed? The friction between tyre and road. <span class="zh">一辆车在湿路上刹车，会比干路上滑得更远。同样的刹车——那是什么变了？是轮胎和路面之间的摩擦力。</span></p>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Friction" data-zh="摩擦力">Friction</div>
+      <div class="screen-title-zh">摩擦力</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN — Friction opposes motion</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Friction is a force between two surfaces that are touching. Friction always acts in the OPPOSITE direction to motion, so it slows moving objects down. <span class="zh">摩擦力是两个接触表面之间的力。摩擦力的方向总是和运动方向相反，所以它会让移动的物体慢下来。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN — Microscopic rough surfaces + MISCONCEPTION RED CARD</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Under a magnifier, even "smooth" surfaces are bumpy. The bumps of two surfaces catch on each other — that is friction. Rougher surfaces have bigger bumps, so more friction. Smoother surfaces, or oil, reduce friction. <span class="zh">在放大镜下，即使“光滑”的表面也是凹凸不平的。两个表面的凸起互相卡住——这就是摩擦力。表面越粗糙，凸起越大，摩擦力越大。更光滑的表面或加油，可以减少摩擦力。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "Smooth surfaces have no friction at all." <span class="zh">“光滑表面完全没有摩擦力。”</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> Smooth surfaces still have friction — just less. Only the amount changes, friction does not vanish. <span class="zh">光滑表面仍然有摩擦力——只是更小。改变的只是大小，摩擦力不会消失。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN — Useful and unwanted friction</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Friction is useful: tyre grip, brakes stopping a car, shoes not slipping. Friction is unwanted: it slows machines and makes heat. We reduce unwanted friction with oil or smoother surfaces. <span class="zh">摩擦力有用处：轮胎抓地、刹车让车停下、鞋子不打滑。摩擦力也有坏处：它让机器变慢、产生热。我们用油或更光滑的表面来减少不需要的摩擦力。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>📝 Exam<span class="zh"> 考试</span>:</strong> "Use one friction formula (F = uN)." <span class="zh">“用一条摩擦力公式（F = uN）。”</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:6px;"><strong>🌍 Reality<span class="zh"> 真实</span>:</strong> In real life there are TWO types: it is hardest to START pushing something (static friction), and easier once it is moving (kinetic friction). That is why heavy boxes are hard to start but easier to slide. <span class="zh">真实里摩擦力有 2 种：推不动时大（静摩擦），推动后小（动摩擦）。所以重箱子一开始难推，一旦推动就轻多了。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict · 预测</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">(a) State (complete sentences) ; (b) Identify (tick two) · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Car tyres lose tread as they get older. (a) Complete the sentences about two cars travelling at the same speed. The drivers brake suddenly. The force of friction between the __________ and the __________ makes the cars stop. The car with old worn tyres takes 20 metres to stop. The other car has new tyres. This car only takes 18 metres to stop. This is because the force of friction has __________ . [2] (b) The condition of the road surface changes the force of friction. Tick the two correct statements." data-zh="汽车轮胎随着变旧会失去花纹。 (a) 完成关于两辆以相同速度行驶的车的句子。司机突然刹车。__________ 和 __________ 之间的摩擦力让车停下来。旧的磨损轮胎的车要 20 米才停。另一辆是新轮胎，只要 18 米就停。这是因为摩擦力 __________ 。[2] (b) 路面的状况会改变摩擦力。勾出两个正确的句子。">Car tyres lose tread as they get older. (a) Complete the sentences about two cars travelling at the same speed. The drivers brake suddenly. The force of friction between the __________ and the __________ makes the cars stop. The car with old worn tyres takes 20 metres to stop. The other car has new tyres. This car only takes 18 metres to stop. This is because the force of friction has __________ . [2] (b) The condition of the road surface changes the force of friction. Tick the two correct statements.</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ For the tick question, exactly two boxes are correct. <span class="zh">勾选题里，正好有两个正确。</span></div>
+        <figure class="img-slot" data-ref="L04_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Friction happens where two surfaces touch — here, where the tyre meets the road. <span class="zh">摩擦力发生在两个表面接触的地方——这里是轮胎碰到路面的地方。</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) tyre(s) AND road / tarmac / surface ; friction has increased [accept: road and tyres reversed; gone up / become more] (b) tick "Oil on the road surface decreases friction" AND tick "Rougher road surface increases friction".</strong> <span class="zh">正确答案要包含：(a) tyre(s) AND road / tarmac / surface ; 摩擦力 has 增加 [可接受: road and tyres reversed; gone 向上 / become 较多] (b) tick "Oil on the road surface 减少 摩擦力" AND tick "Rougher road surface 增加 摩擦力"。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) tyre(s) AND road / tarmac / surface ; friction has increased [accept: road and tyres reversed; gone up / become more] (b) tick "Oil on the road surface decreases friction" AND tick "Rougher road surface increases friction". - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) tyre(s) AND road / tarmac / surface ; 摩擦力 has 增加 [可接受: road and tyres reversed; gone 向上 / become 较多] (b) tick "Oil on the road surface 减少 摩擦力" AND tick "Rougher road surface 增加 摩擦力"。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) tyre(s) AND road / tarmac / surface; friction has increased [accept: road and tyres reversed; gone up / become more] (b) tick "Oil on the road surface decreases friction" AND. <span class="zh">对。 你抓到本题关键：轮胎和路面之间的摩擦力影响抓地。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Car tyres lose tread as they get older. (a) Complete the sentences about two cars travelling at the same speed. Your answer must lead to: (a) tyre(s) AND road / tarmac / surface; friction has increased [accept: road and tyres reversed; gone up / become more. <span class="zh">这题看轮胎和路面：粗糙会增加摩擦，油会降低摩擦；不能把油写成增加抓地。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">(a) Identify (draw arrow) ; (b) State (two factors) ; (c) Suggest ; (d) Suggest · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Simran has been measuring the time taken for different objects to slide down a ramp. The picture shows the ramp with one of the objects, a pencil case, on it. (a) On the picture, draw an arrow to show the direction of the force of friction on the pencil case. [1] (b) When timing the objects, the test should be fair. One factor to keep constant is the distance the object slides. State two other factors which need to be kept the same for each test. [2] (c) Why might she think this? [1] (d) How could she check if the second time was wrong? [1]" data-zh="Simran 一直在测量不同物体滑下斜坡所需的时间。图中显示斜坡上放着其中一个物体——一个铅笔盒。 (a) 在图上画一个箭头，表示铅笔盒上摩擦力的方向。[1] (b) 计时不同物体时，测试要公平。一个要保持不变的因素是物体滑动的距离。说出另外两个每次测试要保持相同的因素。[2] (c) 她为什么会这样想？[1] (d) 她可以怎样检查第二次的时间是否出错？[1] MARK_SCHEME_ACCEPT (hard bone only): (a) arrow pointing UP the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / number of books ; same ramp surface / material ; same weight / mass / size of object (c) (anomaly reasoning) too large / does not fit the pattern (d) repeat this test">Simran has been measuring the time taken for different objects to slide down a ramp. The picture shows the ramp with one of the objects, a pencil case, on it. (a) On the picture, draw an arrow to show the direction of the force of friction on the pencil case. [1] (b) When timing the objects, the test should be fair. One factor to keep constant is the distance the object slides. State two other factors which need to be kept the same for each test. [2] (c) Why might she think this? [1] (d) How could she check if the second time was wrong? [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State" needs the factor names only, no explanation. <span class="zh">“State”只要因素名称，不用解释。</span></div>
+        <figure class="img-slot" data-ref="L04_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Friction acts opposite to the way the object slides. <span class="zh">摩擦力的方向和物体滑动的方向相反。</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) arrow pointing UP the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / number of books ; same ramp surface / material ; same weight / mass / size of object (c) (anomaly reasoning) too large / does not fit the pattern (d) repeat this test.</strong> <span class="zh">正确答案要包含：(a) arrow pointing 向上 the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / number of books ; 相同 ramp surface / material ; 相同 重量/重力 / 质量 / size of object (c) (anomaly reasoning) too large / does not fit the pattern (d) repeat this test。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) arrow pointing UP the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / number of books ; same ramp surface / material ; same weight / mass / size of object (c) (anomaly reasoning) too large / does not fit the pattern (d) repeat this test. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) arrow pointing 向上 the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / number of books ; 相同 ramp surface / material ; 相同 重量/重力 / 质量 / size of object (c) (anomaly reasoning) too large / does not fit the pattern (d) repeat this test。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) arrow pointing UP the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / number of books; same ramp surface / material; same weight /. <span class="zh">对。 你抓到本题关键：摩擦力沿斜面向上，公平测试要控制变量。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Simran has been measuring the time taken for different objects to slide down a ramp. The picture shows the ram. Your answer must lead to: (a) arrow pointing UP the ramp, parallel to the ramp surface (opposite to sliding) (b) any two from: height of ramp / nu. <span class="zh">摩擦力方向要沿斜面向上，和下滑相反；公平实验要控制高度、表面或物体重量，异常值要重测。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">(a) Identify (circle number) ; (b) Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Friction is a type of force. (a) Here are some sentences about friction: Friction acts in the opposite direction to motion. Friction can be reduced by using oil. Friction can be useful. Friction is a force that slows down moving objects. How many of these sentences are true? Circle the correct answer: 0 1 2 3 4 [1] (b) Ice skates have thin blades. There is a layer of water between the thin blade and the ice. Explain how this layer of water helps the skater. [2]" data-zh="摩擦力是一种力。 (a) 这里有几句关于摩擦力的话：摩擦力的方向和运动相反。摩擦力可以用油减少。摩擦力可以有用。摩擦力是让移动物体慢下来的力。这几句里有几句是对的？圈出正确答案：0 1 2 3 4 [1] (b) 冰刀有薄薄的刀片。薄刀片和冰之间有一层水。解释这层水如何帮助滑冰者。[2] MARK_SCHEME_ACCEPT (hard bone only): (a) 4 (b) reduces friction ; so the skater can go faster / glide more easily">Friction is a type of force. (a) Here are some sentences about friction: Friction acts in the opposite direction to motion. Friction can be reduced by using oil. Friction can be useful. Friction is a force that slows down moving objects. How many of these sentences are true? Circle the correct answer: 0 1 2 3 4 [1] (b) Ice skates have thin blades. There is a layer of water between the thin blade and the ice. Explain how this layer of water helps the skater. [2]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Explain" needs "because" — say why the water helps. <span class="zh">“Explain”要用“because”——说出水为什么有帮助。</span></div>
+        <figure class="img-slot" data-ref="L04_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          A layer of water lets the surfaces slide more easily. <span class="zh">一层水让表面更容易滑动。</span>
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) 4 (b) reduces friction ; so the skater can go faster / glide more easily.</strong> <span class="zh">正确答案要包含：(a) 4 (b) reduces 摩擦力 ; so the skater can go faster / glide 较多 easily。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) 4 (b) reduces friction ; so the skater can go faster / glide more easily. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 4 (b) reduces 摩擦力 ; so the skater can go faster / glide 较多 easily。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) 4 (b) reduces friction; so the skater can go faster / glide more easily. <span class="zh">对。 你抓到本题关键：冰刀减少摩擦，让滑行更容易。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Friction is a type of force. (a) Here are some sentences about friction: Friction acts in the opposite directi. Your answer must lead to: (a) 4 (b) reduces friction; so the skater can go faster / glide more easily.. <span class="zh">冰刀答案要抓两个点：数值是 4，打磨减少摩擦，所以滑得更快或更顺。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">(a) Name ; (b) Explain (why repeat) ; (c) Calculate ; (d) Identify · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Cadi does an experiment to find the maximum friction force between a wooden block and different surfaces. Here are his results (friction force in N). (a) Name the apparatus Cadi uses to measure the friction force. [1] (b) Cadi repeated the measurements three times. [explain why he repeats] [1] (c) Calculate the average (mean) friction force for the glass experiment. average (mean) friction force = __________ N [2] (d) Put a ring around the one anomalous reading in the table. [1]" data-zh="Cadi 做实验，测量木块和不同表面之间的最大摩擦力。这是他的结果（摩擦力，单位 N）。 (a) 说出 Cadi 用来测量摩擦力的仪器名称。[1] (b) Cadi 把测量重复了三次。[解释他为什么重复] [1] (c) 计算玻璃实验的平均（mean）摩擦力。平均（mean）摩擦力 = __________ N [2] (d) 圈出表中那一个异常读数。[1] MARK_SCHEME_ACCEPT (hard bone only): (a) newton meter / force meter (b) repeat to check reliability / spot anomalous results / calculate a mean (c) 9.7 N (d) 32.6 MARK_SCHEME_REJECT (hard bone only): teacher said so ; finish table ; vague &quot;accurate&quot; only">Cadi does an experiment to find the maximum friction force between a wooden block and different surfaces. Here are his results (friction force in N). (a) Name the apparatus Cadi uses to measure the friction force. [1] (b) Cadi repeated the measurements three times. [explain why he repeats] [1] (c) Calculate the average (mean) friction force for the glass experiment. average (mean) friction force = __________ N [2] (d) Put a ring around the one anomalous reading in the table. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Calculate" needs working + answer + unit (N). <span class="zh">“Calculate”要算式＋答案＋单位（N）。</span></div>
+        <figure class="img-slot" data-ref="L04_Q04_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q04_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          The force to measure a pulling force is read in newtons (N). <span class="zh">测量拉力的仪器读数单位是牛顿（N）。</span>
+        </div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) newton meter / force meter (b) repeat to check reliability / spot anomalous results / calculate a mean (c) 9.7 N (d) 32.6.</strong> <span class="zh">正确答案要包含：(a) 测力计 / 测力计 (b) repeat to check reliability / spot 异常 results / calculate a 平均值 (c) 9.7 N (d) 32.6。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) newton meter / force meter (b) repeat to check reliability / spot anomalous results / calculate a mean (c) 9.7 N (d) 32.6. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 测力计 / 测力计 (b) repeat to check reliability / spot 异常 results / calculate a 平均值 (c) 9.7 N (d) 32.6。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) newton meter / force meter (b) repeat to check reliability / spot anomalous results / calculate a mean (c) 9.7 N (d) 32.6. <span class="zh">对。 你抓到本题关键：摩擦力要用测力计量，重复测量提高可靠性。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Cadi does an experiment to find the maximum friction force between a wooden block and different surfaces. Here. Your answer must lead to: (a) newton meter / force meter (b) repeat to check reliability / spot anomalous results / calculate a mean (c) 9.7 N (d). <span class="zh">测拉力用测力计；重复实验是为了可靠性；读数要是 9.7 N 和 32.6，不能随便四舍五入。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">(a) Name ; (b) Explain (why repeat) ; (c) Calculate ; (d) Identify · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Hassan does an experiment to find the maximum friction force between a wooden block and different surfaces. Here are his results (friction force in N). (a) Name the apparatus Hassan uses to measure the friction force. [1] (b) Hassan repeated the measurements for each surface three times. [explain why] [1] (c) Calculate the average (mean) friction force for the glass experiment. average (mean) friction force = __________ N [1] (d) Circle the one anomalous reading in the table. [1]" data-zh="Hassan 做实验，测量木块和不同表面之间的最大摩擦力。这是他的结果（摩擦力，单位 N）。 (a) 说出 Hassan 用来测量摩擦力的仪器名称。[1] (b) Hassan 对每个表面重复测量三次。[解释为什么] [1] (c) 计算玻璃实验的平均（mean）摩擦力。平均（mean）摩擦力 = __________ N [1] (d) 圈出表中那一个异常读数。[1] MARK_SCHEME_ACCEPT (hard bone only): (a) newton meter / force meter (b) checking reliability / identify anomalous (odd, unusual) results (c) 9.7 (d) 32.6 (first row, second number) MARK_SCHEME_REJECT (hard bone only): 24.5 ; 26.4 ; other rows">Hassan does an experiment to find the maximum friction force between a wooden block and different surfaces. Here are his results (friction force in N). (a) Name the apparatus Hassan uses to measure the friction force. [1] (b) Hassan repeated the measurements for each surface three times. [explain why] [1] (c) Calculate the average (mean) friction force for the glass experiment. average (mean) friction force = __________ N [1] (d) Circle the one anomalous reading in the table. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Name" needs one apparatus name only. <span class="zh">“Name”只要一个仪器名称。</span></div>
+        <figure class="img-slot" data-ref="L04_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q05_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q05-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          A friction force is a pulling force, measured with the same meter as any force. <span class="zh">摩擦力是一种拉力，用测量力的仪器来测。</span>
+        </div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) newton meter / force meter (b) checking reliability / identify anomalous (odd, unusual) results (c) 9.7 (d) 32.6 (first row, second number).</strong> <span class="zh">正确答案要包含：(a) 测力计 / 测力计 (b) checking reliability / identify 异常 (odd, unusual) results (c) 9.7 (d) 32.6 (first row, second number)。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) newton meter / force meter (b) checking reliability / identify anomalous (odd, unusual) results (c) 9.7 (d) 32.6 (first row, second number). - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 测力计 / 测力计 (b) checking reliability / identify 异常 (odd, unusual) results (c) 9.7 (d) 32.6 (first row, second number)。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) newton meter / force meter (b) checking reliability / identify anomalous (odd, unusual) results (c) 9.7 (d) 32.6 (first row, second number). <span class="zh">对。 你抓到本题关键：摩擦力要用测力计量，重复测量提高可靠性。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Hassan does an experiment to find the maximum friction force between a wooden block and different surfaces. He. Your answer must lead to: (a) newton meter / force meter (b) checking reliability / identify anomalous (odd, unusual) results (c) 9.7 (d) 32.6 (fi. <span class="zh">本题仍是测力计和重复测量；9.7 与 32.6 要从表格对应位置读，不能拿别行数字。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q05-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">(a) Describe (two safety actions) ; (b) Calculate/complete table ; (c) Describe (reliability) · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Priya and Lily investigate friction. Here is the equipment they use. They pull the wooden block with a forcemeter. They repeat the investigation using different materials. (a) Priya says &quot;We must be careful because we are using heavy masses.&quot; Lily says &quot;We must make this investigation safe.&quot; Describe two things they can do to reduce the risk of hurting themselves or others. [1] (b) Here are their results. Complete Priya and Lily's results table. [2] (c) Describe how they can make the results more reliable. [1]" data-zh="Priya 和 Lily 研究摩擦力。这是他们用的器材。他们用测力计拉木块，并用不同材料重复研究。 (a) Priya 说“我们要小心，因为用了重物。” Lily 说“我们要让研究安全。”描述两件他们可以做的事，来减少伤到自己或别人的风险。[1] (b) 这是他们的结果。完成 Priya 和 Lily 的结果表。[2] (c) 描述他们可以怎样让结果更可靠。[1] MARK_SCHEME_ACCEPT (hard bone only): (a) any two safety actions (e.g. keep feet clear of falling masses / clear the work area / handle masses carefully) (b) A = 2.4 ; B = 1.7 ; C = 3.2 ; D = 0.7 (c) repeat the measurements / take more measurements">Priya and Lily investigate friction. Here is the equipment they use. They pull the wooden block with a forcemeter. They repeat the investigation using different materials. (a) Priya says "We must be careful because we are using heavy masses." Lily says "We must make this investigation safe." Describe two things they can do to reduce the risk of hurting themselves or others. [1] (b) Here are their results. Complete Priya and Lily's results table. [2] (c) Describe how they can make the results more reliable. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Describe" needs what to do, not why. <span class="zh">“Describe”要说做什么，不用说为什么。</span></div>
+        <figure class="img-slot" data-ref="L04_Q06_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q06_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L04_Q06_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q06_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) any two safety actions (e.g. keep feet clear of falling masses / clear the work area / handle masses carefully) (b) A = 2.4 ; B = 1.7 ; C = 3.2 ; D = 0.7 (c) repeat the measurements / take more measurements.</strong> <span class="zh">正确答案要包含：(a) any two safety actions (e.g. keep feet clear of falling masses / clear the work 面积 / handle masses carefully) (b) A = 2.4 ; B = 1.7 ; C = 3.2 ; D = 0.7 (c) repeat the measurements / take 较多 measurements。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) any two safety actions (e.g. keep feet clear of falling masses / clear the work area / handle masses carefully) (b) A = 2.4 ; B = 1.7 ; C = 3.2 ; D = 0.7 (c) repeat the measurements / take more measurements. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) any two safety actions (e.g. keep feet clear of falling masses / clear the work 面积 / handle masses carefully) (b) A = 2.4 ; B = 1.7 ; C = 3.2 ; D = 0.7 (c) repeat the measurements / take 较多 measurements。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) any two safety actions (e.g. keep feet clear of falling masses / clear the work area / handle masses carefully) (b) A = 2.4; B = 1.7; C = 3.2; D = 0.7 (c) repeat the measure. <span class="zh">对。 你抓到本题关键：安全措施、表格数据和重复测量都要对应题目。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Priya and Lily investigate friction. Here is the equipment they use. They pull the wooden block with a forceme. Your answer must lead to: (a) any two safety actions (e.g. keep feet clear of falling masses / clear the work area / handle masses carefully) (b). <span class="zh">先写安全动作，再读 A、B、C、D 四个数；最后改进方法是重复测量，不是换成新题目。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">(a) State (two measurements) ; (b)(i) Predict ; (b)(ii) Explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Safia and Priya investigate friction. Here is the equipment they use. They pull the wooden block with a forcemeter. They repeat the investigation using different materials. (a) What two measurements should they make? [2] (b) The materials they use have different surfaces. Some are smoother, some are rougher. (i) Predict what will happen when the smoother materials are used. [1] (ii) Explain your prediction. [1]" data-zh="Safia 和 Priya 研究摩擦力。这是他们用的器材。他们用测力计拉木块，并用不同材料重复研究。 (a) 他们应该做哪两个测量？[2] (b) 他们用的材料表面不同，有的更光滑，有的更粗糙。 (i) 预测使用更光滑的材料时会发生什么。[1] (ii) 解释你的预测。[1] MARK_SCHEME_ACCEPT (hard bone only): (a) force / newtons AND mass (b)(i) friction force will be smaller / less force needed to pull (b)(ii) smoother surfaces have smaller bumps, so less friction">Safia and Priya investigate friction. Here is the equipment they use. They pull the wooden block with a forcemeter. They repeat the investigation using different materials. (a) What two measurements should they make? [2] (b) The materials they use have different surfaces. Some are smoother, some are rougher. (i) Predict what will happen when the smoother materials are used. [1] (ii) Explain your prediction. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Predict" states what happens; "Explain" says why with "because". <span class="zh">“Predict”说会发生什么；“Explain”用“because”说为什么。</span></div>
+        <figure class="img-slot" data-ref="L04_Q07_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q07_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) force / newtons AND mass (b)(i) friction force will be smaller / less force needed to pull (b)(ii) smoother surfaces have smaller bumps, so less friction.</strong> <span class="zh">正确答案要包含：(a) 力 / newtons AND 质量 (b)(i) 摩擦力 力 will be 较小 / 较少 力 needed to 拉 (b)(ii) smoother surfaces have 较小 bumps, so 较少 摩擦力。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) force / newtons AND mass (b)(i) friction force will be smaller / less force needed to pull (b)(ii) smoother surfaces have smaller bumps, so less friction. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 力 / newtons AND 质量 (b)(i) 摩擦力 力 will be 较小 / 较少 力 needed to 拉 (b)(ii) smoother surfaces have 较小 bumps, so 较少 摩擦力。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) force / newtons AND mass (b)(i) friction force will be smaller / less force needed to pull (b)(ii) smoother surfaces have smaller bumps, so less friction. <span class="zh">对。 你抓到本题关键：本题自己的对象、方向、数值和原因。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Safia and Priya investigate friction. Here is the equipment they use. They pull the wooden block with a forcem. Your answer must lead to: (a) force / newtons AND mass (b)(i) friction force will be smaller / less force needed to pull (b)(ii) smoother surfaces. <span class="zh">变量包括力和质量；表面更光滑时需要的拉力更小，因为表面小凸起少，摩擦小。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">(a) Identify (circle) + Explain ; (b) Describe · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Youssef investigates friction. He drops marbles into different liquids. (a) Youssef makes a prediction. Here are his results. Is Youssef's prediction correct? Circle the correct answer: yes / no. Explain your answer using the results. [2] (b) Youssef wants to increase the time it takes for the marble to fall. Describe how he could increase the time it takes for the marble to fall. [1]" data-zh="Youssef 研究摩擦力。他把弹珠丢进不同的液体里。 (a) Youssef 做了一个预测。这是他的结果。Youssef 的预测对吗？圈出正确答案：对 / 错。用结果解释你的答案。[2] (b) Youssef 想增加弹珠下落所需的时间。描述他可以怎样增加弹珠下落的时间。[1] MARK_SCHEME_ACCEPT (hard bone only): (a) yes/no consistent with the data + reason quoting the results (thicker liquid = more resistance = slower fall) (b) use a thicker / more viscous liquid (more resistance to the marble)">Youssef investigates friction. He drops marbles into different liquids. (a) Youssef makes a prediction. Here are his results. Is Youssef's prediction correct? Circle the correct answer: yes / no. Explain your answer using the results. [2] (b) Youssef wants to increase the time it takes for the marble to fall. Describe how he could increase the time it takes for the marble to fall. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ For (a) you must use the numbers in the results to justify yes/no. <span class="zh">(a) 必须用结果里的数字来支持“对/错”。</span></div>
+        <figure class="img-slot" data-ref="L04_Q08_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q08_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L04_Q08_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L04_Q08_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) yes/no consistent with the data + reason quoting the results (thicker liquid = more resistance = slower fall) (b) use a thicker / more viscous liquid (more resistance to the marble).</strong> <span class="zh">正确答案要包含：(a) yes/no consistent with the data + reason quoting the results (thicker liquid = 较多 resistance = slower fall) (b) use a thicker / 较多 viscous liquid (较多 resistance to the marble)。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) yes/no consistent with the data + reason quoting the results (thicker liquid = more resistance = slower fall) (b) use a thicker / more viscous liquid (more resistance to the marble). - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) yes/no consistent with the data + reason quoting the results (thicker liquid = 较多 resistance = slower fall) (b) use a thicker / 较多 viscous liquid (较多 resistance to the marble)。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) yes/no consistent with the data + reason quoting the results (thicker liquid = more resistance = slower fall) (b) use a thicker / more viscous liquid (more resistance to the ma. <span class="zh">对。 你抓到本题关键：液体越黏，阻力越大，弹珠下落越慢。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Youssef investigates friction. He drops marbles into different liquids. (a) Youssef makes a prediction. Here a. Your answer must lead to: (a) yes/no consistent with the data + reason quoting the results (thicker liquid = more resistance = slower fall) (b) us. <span class="zh">液体越稠，阻力越大，弹珠越慢；若答案没引用数据，只说“我觉得”，就不够。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">State / Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A box is pushed along a rough floor and a smooth floor with the same push. (a) State on which floor friction is larger. [1] (b) Explain which floor lets the box slide more easily, and why. [2]" data-zh="用同样的推力把一个箱子分别在粗糙地面和光滑地面上推。 (a) 说出在哪种地面上摩擦力更大。[1] (b) 解释哪种地面让箱子更容易滑动, 以及原因。[2]">A box is pushed along a rough floor and a smooth floor with the same push. (a) State on which floor friction is larger. [1] (b) Explain which floor lets the box slide more easily, and why. [2]</p>
+        
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) the rough floor (b) the smooth floor lets the box slide more easily; it has less friction, so less force opposes the motion.</strong> <span class="zh">正确答案要包含：(a) the rough floor (b) the smooth floor lets the box slide 较多 easily; it has 较少 摩擦力, so 较少 力 opposes the motion。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) the rough floor (b) the smooth floor lets the box slide more easily; it has less friction, so less force opposes the motion. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) the rough floor (b) the smooth floor lets the box slide 较多 easily; it has 较少 摩擦力, so 较少 力 opposes the motion。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) the rough floor (b) the smooth floor lets the box slide more easily; it has less friction, so less force opposes the motion. <span class="zh">对。 你抓到本题关键：粗糙地面摩擦大，光滑地面摩擦小。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A box is pushed along a rough floor and a smooth floor with the same push. (a) State on which floor friction i. Your answer must lead to: (a) the rough floor (b) the smooth floor lets the box slide more easily; it has less friction, so less force opposes the. <span class="zh">粗糙地板摩擦较大；光滑地板更容易滑动，因为反向摩擦力较小。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Friction can be useful or a nuisance. (a) Explain one way friction is useful when a person walks. [2] (b) Explain one way oil reduces friction in a bicycle chain. [1]" data-zh="摩擦力可以有用, 也可以是麻烦。 (a) 解释一个人走路时摩擦力有用的一种方式。[2] (b) 解释机油如何减少自行车链条里的摩擦。[1]">Friction can be useful or a nuisance. (a) Explain one way friction is useful when a person walks. [2] (b) Explain one way oil reduces friction in a bicycle chain. [1]</p>
+        
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) friction between the shoe and the ground gives grip; it stops the foot slipping so the person can push off and move forward; (b) oil forms a slippery layer between the moving parts, so they rub less / friction is reduced.</strong> <span class="zh">正确答案要包含：(a) 摩擦力 between the shoe and the ground gives grip; it stops the foot slipping so the person can 推 off and move forward; (b) oil forms a slippery layer between the moving parts, so they rub 较少 / 摩擦力 is 减少。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) friction between the shoe and the ground gives grip; it stops the foot slipping so the person can push off and move forward; (b) oil forms a slippery layer between the moving parts, so they rub less / friction is reduced. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 摩擦力 between the shoe and the ground gives grip; it stops the foot slipping so the person can 推 off and move forward; (b) oil forms a slippery layer between the moving parts, so they rub 较少 / 摩擦力 is 减少。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) friction between the shoe and the ground gives grip; it stops the foot slipping so the person can push off and move forward; (b) oil forms a slippery layer between the moving p. <span class="zh">对。 你抓到本题关键：鞋底靠摩擦抓地，油会让接触面更滑。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Friction can be useful or a nuisance. (a) Explain one way friction is useful when a person walks. [2] (b) Expl. Your answer must lead to: (a) friction between the shoe and the ground gives grip; it stops the foot slipping so the person can push off and move. <span class="zh">鞋底靠摩擦抓地；油在零件间形成滑层，减少摩擦。不要写成油增加摩擦。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">WRAP — Summary + Y8/Y9 cliffhanger + Stay Curious</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Friction is a force between touching surfaces. It acts opposite to motion and slows things down. Rougher surfaces = more friction. Friction can be useful (grip, brakes) or unwanted (slows, heats); reduce it with oil or smoother surfaces. <span class="zh">摩擦力是接触表面之间的力。它的方向和运动相反，会让物体慢下来。表面越粗糙，摩擦力越大。摩擦力可以有用（抓地、刹车），也可以是不需要的（变慢、发热）；用油或更光滑的表面来减少它。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>

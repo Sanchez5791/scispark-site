@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U7 L02 · Mass vs Weight</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U7 L02 · Mass vs Weight",
+  "navMeta": "Y7 · U7 · L02",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 7",
+  "unitTitleEn": "Forces and Motion",
+  "unitTitleZh": "力与运动",
+  "userLevel": "1",
+  "lessonData": "2"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="2">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U7 · L02</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U7 parsed.json — text poured verbatim. Image placeholders kept. [Qnn] tag normalised out of feedback. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Mass vs Weight" data-zh="质量与重量">Mass vs Weight</div>
+      <div class="screen-title-zh">质量与重量</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Mass vs Weight</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Imagine you weigh yourself on Earth, then on the Moon. The number on the scale changes — but the amount of "stuff" in you does not. Why? Because mass and weight are not the same thing. <span class="zh">想象你在地球上量体重，然后到月球上再量。秤上的数字变了—— 但你身体里"东西"的多少没变。为什么？因为质量和重量不是同一件事。</span></p>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Look around you <span class="zh">看看你身边</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Imagine you weigh yourself on Earth vs the Moon. <span class="zh">想象你在地球上和月球上分别量体重。</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Around the world <span class="zh">世界上的科学家</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Galileo Galilei (Italy, around 1589) studied how objects are pulled down by gravity. <span class="zh">伽利略（意大利，约1589年）研究了 物体如何被重力往下拉。</span></p>
+      </div>
+      
+        <figure class="img-slot" data-ref="L02_HOOK_IMG" style="margin:12px 0;">
+          <img data-image-prompt="L02_HOOK_IMG" data-recraft-prompt="same person standing on a bathroom scale on Earth and on the Moon, scale shows a smaller number on the Moon; clean flat illustration, no text labels baked in." alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Mass vs Weight" data-zh="质量与重量">Mass vs Weight</div>
+      <div class="screen-title-zh">质量与重量</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">What gravity is</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Gravity is a force that pulls objects towards each other. On a planet, gravity pulls objects towards the centre of the planet. A planet with more mass has stronger gravity. <span class="zh">重力是把物体互相吸引的力。在行星上，重力把物体往行星中心拉。 质量越大的行星，重力越强。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">DUAL GRAVITY ARROWS</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Gravity always works both ways. The Earth pulls an object down, and at the same time the object pulls the Earth up. They are a force pair: equal in size, opposite in direction. <span class="zh">重力总是双向的。地球把物体往下拉，同时物体也把地球往上拉。 它们是一对力：大小相等，方向相反。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "Only the Earth pulls the object; the object does not pull back." <span class="zh">「只有地球拉物体；物体不会反过来拉地球。」</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> Gravity is a force pair. The object pulls the Earth up with a force equal and opposite to the Earth pulling it down. <span class="zh">重力是一对力。物体也以大小相等、方向相反的力把地球往上拉。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">MASS vs WEIGHT, units kg vs N</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Mass is how much matter is in an object. It is measured in kilograms (kg) and never changes. Weight is how hard gravity pulls on the object. It is measured in newtons (N) and changes if gravity is different. Weight depends on mass and on the strength of gravity (g). (We learn the formula in a later year.) <span class="zh">质量是物体里有多少物质，单位是千克（kg），永远不变。 重量是重力把物体拉得多用力，单位是牛顿（N），重力不同时它会变。 重量取决于质量和重力强度（g）。（计算公式以后年级再学。）</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "Mass and weight are the same thing; weight is measured in kg." <span class="zh">「质量和重量是一样的；重量用千克量。」</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> They are different. Mass is in kg and never changes; weight is in N and changes with gravity. Writing "weight = 60 kg" is wrong. <span class="zh">它们不同。质量用千克且永不变；重量用牛顿且随重力改变。 写"重量＝60千克"是错的。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+      <p style="font-size:13px;color:#075985;line-height:1.7;">In the exam: write 'mass = the amount of matter, in kg'. In real life: mass and weight are different. Mass is how much stuff is inside (never changes); weight is how hard gravity pulls (changes — on the Moon you weigh less, but your mass is the same). <span class="zh">考试 时: 写 'mass = matter 的 量, 单位 kg'。 真实 情况: mass 和 weight 不 一样。 mass 是 里面 东西 多少 (不 变); weight 是 地球 拉 它 的 力 (会 变 — 月球 上 比较 轻, 但 mass 一样)。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict · 预测</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">complete / state · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="The diagram shows six planets. Different planets have different gravitational forces. The diameter of the circles represents the size of the gravitational forces. (a) In the diagram, the diameter of Earth is 2 cm. The gravitational force on Earth is 10 units. Use this information to complete these sentences. In the diagram, the diameter of Jupiter is ........ cm. The gravitational force on Jupiter is ........ units. [2] (b) Write the names of the three planets where you would weigh less than you do on Earth. 1 ........ 2 ........ 3 ........ [1]" data-zh="图中显示六颗行星。不同的行星有不同的引力。(a) 用尺测量图中行星的直径，并算出引力的大小。">The diagram shows six planets. Different planets have different gravitational forces. The diameter of the circles represents the size of the gravitational forces. (a) In the diagram, the diameter of Earth is 2 cm. The gravitational force on Earth is 10 units. Use this information to complete these sentences. In the diagram, the diameter of Jupiter is ........ cm. The gravitational force on Jupiter is ........ units. [2] (b) Write the names of the three planets where you would weigh less than you do on Earth. 1 ........ 2 ........ 3 ........ [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The bigger the circle, the stronger the gravity. You weigh less where gravity is weaker than on Earth. <span class="zh">圆圈越大，重力越强。重力比地球弱的地方，你的重量更小。</span></div>
+        <figure class="img-slot" data-ref="L02_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Gravitational force = diameter x 5. Smaller circle than Earth means you weigh less there. <span class="zh">重力＝直径×5。圆圈比地球小，表示你在那里重量更小。</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) 4.5 cm (accept 4.4-4.6); 22.5 units (gravitational force = diameter x 5). (b) Mercury; Saturn; Venus..</strong> <span class="zh">正确答案要包含：(a) 4.5 cm (可接受 4.4-4.6); 22.5 units (引力 = diameter x 5). (b) Mercury; Saturn; Venus.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) 4.5 cm (accept 4.4-4.6); 22.5 units (gravitational force = diameter x 5). (b) Mercury; Saturn; Venus.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 4.5 cm (可接受 4.4-4.6); 22.5 units (引力 = diameter x 5). (b) Mercury; Saturn; Venus.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) 4.5 cm (accept 4.4-4.6); 22.5 units (gravitational force = diameter x 5). (b) Mercury; Saturn; Venus.. <span class="zh">对。 你抓到本题关键：按圆圈直径换算重力单位，并找比地球弱的行星。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The diagram shows six planets. Different planets have different gravitational forces. The diameter of the circ. Your answer must lead to: (a) 4.5 cm (accept 4.4-4.6); 22.5 units (gravitational force = diameter x 5). (b) Mercury; Saturn; Venus... <span class="zh">这题在读图和比例：直径约 4.5 cm，要乘以 5 得 22.5；行星顺序也要照图，不可凭记忆猜。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">draw / state · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Look at the diagram showing the Sun, the Earth and the orbit of the Moon. Sometimes a lunar eclipse happens. (a) Draw a circle on the diagram to represent the position of the Moon during a lunar eclipse. [1] (b) Write down the name of the force which keeps the Moon in orbit around the Earth. ........ [1]" data-zh="看这张显示太阳、地球和月球轨道的图。有时会发生月食。">Look at the diagram showing the Sun, the Earth and the orbit of the Moon. Sometimes a lunar eclipse happens. (a) Draw a circle on the diagram to represent the position of the Moon during a lunar eclipse. [1] (b) Write down the name of the force which keeps the Moon in orbit around the Earth. ........ [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The force that keeps one space object circling another is gravity. <span class="zh">让一个天体绕着另一个天体转的力是重力。</span></div>
+        <figure class="img-slot" data-ref="L02_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          In a lunar eclipse the Earth is between the Sun and the Moon. The orbit-keeping force is gravity. <span class="zh">月食时地球在太阳和月球之间。维持轨道的力是重力。</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) Moon marked on the orbit on the far side of Earth from the Sun (Earth between Sun and Moon). (b) gravity; accept gravitational attraction..</strong> <span class="zh">正确答案要包含：(a) Moon marked on the orbit on the far side of Earth from the Sun (Earth between Sun and Moon). (b) 重力; 可接受 引力.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) Moon marked on the orbit on the far side of Earth from the Sun (Earth between Sun and Moon). (b) gravity; accept gravitational attraction.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) Moon marked on the orbit on the far side of Earth from the Sun (Earth between Sun and Moon). (b) 重力; 可接受 引力.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) Moon marked on the orbit on the far side of Earth from the Sun (Earth between Sun and Moon). (b) gravity; accept gravitational attraction.. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Look at the diagram showing the Sun, the Earth and the orbit of the Moon. Sometimes a lunar eclipse happens. (. Your answer must lead to: (a) Moon marked on the orbit on the far side of Earth from the Sun (Earth between Sun and Moon). (b) gravity; accept gra. <span class="zh">月食位置必须让地球在太阳和月球中间；把月球画到同侧就不是月食，力名要写重力。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">name / state · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">1 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Look at the diagram of the Earth, Sun and Moon. (a) The Earth orbits the Sun. Name the force that keeps the Earth in its orbit. [1]" data-zh="看地球、太阳和月球的图。(a) 地球绕着太阳转。说出使地球保持在轨道上的力的名称。">Look at the diagram of the Earth, Sun and Moon. (a) The Earth orbits the Sun. Name the force that keeps the Earth in its orbit. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The same force keeps planets and moons in their orbits. <span class="zh">让行星和卫星保持在轨道上的是同一种力。</span></div>
+        <figure class="img-slot" data-ref="L02_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q03-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          It is the same force that pulls everything towards a planet or star. <span class="zh">就是把所有东西拉向行星或恒星的那种力。</span>
+        </div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>gravity (accept gravitational attraction / gravitational force)..</strong> <span class="zh">正确答案要包含：重力 (可接受 引力 / 引力).。</span><br><br>✓ Accept: - Accept the exact answer meaning: gravity (accept gravitational attraction / gravitational force).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：重力 (可接受 引力 / 引力).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: gravity (accept gravitational attraction / gravitational force).. <span class="zh">对。 你抓到本题关键：让地球绕太阳运行的是重力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Look at the diagram of the Earth, Sun and Moon. (a) The Earth orbits the Sun. Name the force that keeps the Ea. Your answer must lead to: gravity (accept gravitational attraction / gravitational force)... <span class="zh">地球绕太阳不是被绳子拉住，而是受太阳的重力吸引；写空气阻力或磁力都不对。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q03-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">state / conclude (use data) · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Blessy collects some information about gravity on different planets in the Solar System. (a) What is gravity? [2] (b) Look at the information Blessy collects. (i) Write down the name of the planet that has the greatest gravity. [1] (ii) Write down a conclusion about the relationship between mass of planet and gravity. Include information from the table in your answer. [2]" data-zh="Blessy 收集了太阳系里不同行星上引力的一些资料。">Blessy collects some information about gravity on different planets in the Solar System. (a) What is gravity? [2] (b) Look at the information Blessy collects. (i) Write down the name of the planet that has the greatest gravity. [1] (ii) Write down a conclusion about the relationship between mass of planet and gravity. Include information from the table in your answer. [2]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Gravity is a force; bigger planet mass means stronger gravity. Use the table values to support your conclusion. <span class="zh">重力是一种力；行星质量越大，重力越强。用表里的数据支持结论。</span></div>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q04-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Gravity is a force that pulls objects together / towards the planet's centre. Compare the planet masses with their gravity. <span class="zh">重力是把物体互相吸引／拉向行星中心的力。把行星质量跟重力对比。</span>
+        </div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) a force; pulls objects towards each other / towards the centre of the planet. (b)(i) Jupiter. (b)(ii) as mass increases, gravity increases; supported by data (e.g. Jupiter has the biggest mass and the most gravity)..</strong> <span class="zh">正确答案要包含：(a) a 力; pulls objects towards each other / towards the centre of the planet. (b)(i) Jupiter. (b)(ii) as 质量 增加, 重力 增加; supported by data (e.g. Jupiter has the biggest 质量 and the most 重力).。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) a force; pulls objects towards each other / towards the centre of the planet. (b)(i) Jupiter. (b)(ii) as mass increases, gravity increases; supported by data (e.g. Jupiter has the biggest mass and the most gravity).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) a 力; pulls objects towards each other / towards the centre of the planet. (b)(i) Jupiter. (b)(ii) as 质量 增加, 重力 增加; supported by data (e.g. Jupiter has the biggest 质量 and the most 重力).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) a force; pulls objects towards each other / towards the centre of the planet. (b)(i) Jupiter. (b)(ii) as mass increases, gravity increases; supported by data (e.g. Jupiter has. <span class="zh">对。 你抓到本题关键：质量越大，引力越强，结论要用数据支持。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Blessy collects some information about gravity on different planets in the Solar System. (a) What is gravity?. Your answer must lead to: (a) a force; pulls objects towards each other / towards the centre of the planet. (b)(i) Jupiter. (b)(ii) as mass increa. <span class="zh">重力是物体互相吸引的力；比较行星时要用质量越大、重力越大这个关系，并用数据支持。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q04-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">draw / complete · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="The diagram shows four large objects, A to D, at different places on the Earth's surface. (a) Draw arrows from the objects to show the force of gravity on them. The first one has been done for you. [2] (b) The Moon has a smaller force of gravity than the Earth. Use this information to complete the sentences. Use the words from the list below: greater / the same / less. The mass of object A will be ........ when placed on the Moon. The weight of object A will be ........ when placed on the Moon. [2]" data-zh="图中显示四个大物体 A 到 D，位于地球表面的不同位置。">The diagram shows four large objects, A to D, at different places on the Earth's surface. (a) Draw arrows from the objects to show the force of gravity on them. The first one has been done for you. [2] (b) The Moon has a smaller force of gravity than the Earth. Use this information to complete the sentences. Use the words from the list below: greater / the same / less. The mass of object A will be ........ when placed on the Moon. The weight of object A will be ........ when placed on the Moon. [2]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ All gravity arrows point to the centre of the Earth. On the Moon, mass stays the same but weight is less. <span class="zh">所有重力箭头都指向地球中心。在月球上，质量不变，但重量更小。</span></div>
+        <figure class="img-slot" data-ref="L02_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q05_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) arrows from B and D pointing towards the centre of the Earth; arrow from C pointing towards the centre. (b) mass of A: the same on the Moon; weight of A: less on the Moon..</strong> <span class="zh">正确答案要包含：(a) arrows from B and D pointing towards the centre of the Earth; arrow from C pointing towards the centre. (b) 质量 of A: the 相同 on the Moon; 重量/重力 of A: 较少 on the Moon.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) arrows from B and D pointing towards the centre of the Earth; arrow from C pointing towards the centre. (b) mass of A: the same on the Moon; weight of A: less on the Moon.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) arrows from B and D pointing towards the centre of the Earth; arrow from C pointing towards the centre. (b) 质量 of A: the 相同 on the Moon; 重量/重力 of A: 较少 on the Moon.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) arrows from B and D pointing towards the centre of the Earth; arrow from C pointing towards the centre. (b) mass of A: the same on the Moon; weight of A: less on the Moon.. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The diagram shows four large objects, A to D, at different places on the Earth's surface. (a) Draw arrows from. Your answer must lead to: (a) arrows from B and D pointing towards the centre of the Earth; arrow from C pointing towards the centre. (b) mass of. <span class="zh">重力箭头都要指向地球中心；到月球后 质量 不变，重量 变小，不能把两个词混成同一件事。</span></span><br>
+          </div>
+          <div class="source-note">Source: control 2.3</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">estimate / state · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="(c) Chen finds this information using the internet. It shows how much two people weigh on different planets. (i) Chen has a weight of 600 N on Earth. Estimate Chen's weight on Mercury. Circle the correct answer. 130 N 190 N 230 N 285 N [1] (ii) Chen's friend has a mass of 50 kg on Earth. What is his mass on Venus? ........ kg [1]" data-zh="(c) Chen 用互联网找到这个资料。它显示两个人在不同行星上各重多少。">(c) Chen finds this information using the internet. It shows how much two people weigh on different planets. (i) Chen has a weight of 600 N on Earth. Estimate Chen's weight on Mercury. Circle the correct answer. 130 N 190 N 230 N 285 N [1] (ii) Chen's friend has a mass of 50 kg on Earth. What is his mass on Venus? ........ kg [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Weight changes between planets; mass does not change at all. <span class="zh">重量在不同行星之间会变；质量完全不变。</span></div>
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(i) 230 N. (ii) 50 kg..</strong> <span class="zh">正确答案要包含：(i) 230 N. (ii) 50 kg.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (i) 230 N. (ii) 50 kg.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(i) 230 N. (ii) 50 kg.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (i) 230 N. (ii) 50 kg.. <span class="zh">对。 你抓到本题关键：按题目表格读出重量和质量，单位别混。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: (c) Chen finds this information using the internet. It shows how much two people weigh on different planets. (. Your answer must lead to: (i) 230 N. (ii) 50 kg... <span class="zh">这题是估算表格：Chen 在水星约 230 N，质量 仍是 50 kg；把 N 和 kg 对换就错。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">explain / identify (fair test) · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Gravity is a force. (a) Mike wants to find out if the total mass of two objects affects the force between the objects. Mike collects information about the mass of two objects A and B, the distance between them, and the force between them. He puts it in a table. (i) Mike says, &quot;This is a fair test.&quot; Explain why this is a fair test. Use information from the table. [1] (ii) Mike notices a mistake with one of the values for the force between objects in N. This measurement should be 4 N. Identify the incorrect value. Explain your answer. incorrect force between objects in N ........ N explanation ........ [2] (b) Complete the sentence to describe gravity. Choose from the list: attraction / mass / repulsion / weight. Gravity is the force of ........ between two objects. [1]" data-zh="引力是一种力。(a) Mike 想找出两个物体的总质量是否会影响它们之间的引力。">Gravity is a force. (a) Mike wants to find out if the total mass of two objects affects the force between the objects. Mike collects information about the mass of two objects A and B, the distance between them, and the force between them. He puts it in a table. (i) Mike says, "This is a fair test." Explain why this is a fair test. Use information from the table. [1] (ii) Mike notices a mistake with one of the values for the force between objects in N. This measurement should be 4 N. Identify the incorrect value. Explain your answer. incorrect force between objects in N ........ N explanation ........ [2] (b) Complete the sentence to describe gravity. Choose from the list: attraction / mass / repulsion / weight. Gravity is the force of ........ between two objects. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A fair test keeps everything the same except the one thing being changed. Gravity is the force of attraction between masses. <span class="zh">公平测试要让所有条件都一样，只改变要研究的那一个。 重力是质量之间的吸引力。</span></div>
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a)(i) the distance between object A and object B is the same. (a)(ii) incorrect force = 3 N; the gravitational force is the product of the masses (so the value does not fit the pattern). (b) attraction..</strong> <span class="zh">正确答案要包含：(a)(i) the distance between object A and object B is the 相同. (a)(ii) incorrect 力 = 3 N; the 引力 is the product of the masses (so the value does not fit the pattern). (b) attraction.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a)(i) the distance between object A and object B is the same. (a)(ii) incorrect force = 3 N; the gravitational force is the product of the masses (so the value does not fit the pattern). (b) attraction.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a)(i) the distance between object A and object B is the 相同. (a)(ii) incorrect 力 = 3 N; the 引力 is the product of the masses (so the value does not fit the pattern). (b) attraction.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a)(i) the distance between object A and object B is the same. (a)(ii) incorrect force = 3 N; the gravitational force is the product of the masses (so the value does not fit the pa. <span class="zh">对。 你抓到本题关键：本题自己的对象、方向、数值和原因。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Gravity is a force. (a) Mike wants to find out if the total mass of two objects affects the force between the. Your answer must lead to: (a)(i) the distance between object A and object B is the same. (a)(ii) incorrect force = 3 N; the gravitational force is. <span class="zh">实验比较总质量时，距离必须保持一样；3 N 那格不合规律，两个物体之间的力是吸引。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">state / explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="The diagrams show the weight of four identical masses on different planets. (a) Write down the name of the force that gives objects weight. [1] (b) Which planet has the greatest mass? Choose from W, X, Y or Z. Explain your answer. planet ........ explanation ........ [2]" data-zh="图中显示四个相同的质量在不同行星上的重量。(a) 写出每个质量的重量。">The diagrams show the weight of four identical masses on different planets. (a) Write down the name of the force that gives objects weight. [1] (b) Which planet has the greatest mass? Choose from W, X, Y or Z. Explain your answer. planet ........ explanation ........ [2]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ The force that gives weight is gravity. For identical masses, more weight means stronger gravity, which means more planet mass. <span class="zh">给物体重量的力是重力。质量相同的物体，重量越大表示重力越强， 也就是行星质量越大。</span></div>
+        <figure class="img-slot" data-ref="L02_Q08_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L02_Q08_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) gravity. (b) planet Z; the same mass has more weight there / that planet has the greatest gravity..</strong> <span class="zh">正确答案要包含：(a) 重力. (b) planet Z; the 相同 质量 has 较多 重量/重力 there / that planet has the greatest 重力.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) gravity. (b) planet Z; the same mass has more weight there / that planet has the greatest gravity.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 重力. (b) planet Z; the 相同 质量 has 较多 重量/重力 there / that planet has the greatest 重力.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) gravity. (b) planet Z; the same mass has more weight there / that planet has the greatest gravity.. <span class="zh">对。 你抓到本题关键：本题自己的对象、方向、数值和原因。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The diagrams show the weight of four identical masses on different planets. (a) Write down the name of the for. Your answer must lead to: (a) gravity. (b) planet Z; the same mass has more weight there / that planet has the greatest gravity... <span class="zh">重量来自重力；同样质量在 Z 星球重量最大，说明那里的重力最大。</span></span><br>
+          </div>
+          <div class="source-note">Source: OFFICIAL (B2)</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">state · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A bag of sugar has a mass of 1 kg on Earth. (a) State what happens to the MASS of the bag if it is taken to the Moon. [1] (b) State the unit of mass and the unit of weight. [1]" data-zh="一袋糖在地球上的质量是 1 kg。 (a) 说出这袋糖被带到月球后,质量会怎样。[1] (b) 说出质量的单位和重量的单位。[1]">A bag of sugar has a mass of 1 kg on Earth. (a) State what happens to the MASS of the bag if it is taken to the Moon. [1] (b) State the unit of mass and the unit of weight. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Mass is the amount of matter (kg); weight is the pull of gravity (N). <span class="zh">质量是物质的多少(kg);重量是引力的拉力(N)。</span></div>
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) the mass stays the same (1 kg); (b) mass in kilograms (kg), weight in newtons (N)..</strong> <span class="zh">正确答案要包含：(a) the 质量 stays the 相同 (1 kg); (b) 质量 in kilograms (kg), 重量/重力 in newtons (N).。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) the mass stays the same (1 kg); (b) mass in kilograms (kg), weight in newtons (N).. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) the 质量 stays the 相同 (1 kg); (b) 质量 in kilograms (kg), 重量/重力 in newtons (N).。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) the mass stays the same (1 kg); (b) mass in kilograms (kg), weight in newtons (N).. <span class="zh">对。 你抓到本题关键：质量不变，重量因月球重力较弱而变小。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A bag of sugar has a mass of 1 kg on Earth. (a) State what happens to the MASS of the bag if it is taken to th. Your answer must lead to: (a) the mass stays the same (1 kg); (b) mass in kilograms (kg), weight in newtons (N)... <span class="zh">糖到月球 质量 仍是 1 kg；质量 用 kg，重量 用 N。写“月球上 质量 变轻”就是混淆。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="The gravity on the Moon is weaker than on Earth. An astronaut takes the same toolbox to the Moon. (a) Explain what happens to the WEIGHT of the toolbox on the Moon. [2] (b) Explain why the MASS does not change. [1]" data-zh="月球上的引力比地球上弱。一名宇航员把同一个工具箱带到月球。 (a) 解释工具箱在月球上的重量会怎样。[2] (b) 解释为什么质量不变。[1]">The gravity on the Moon is weaker than on Earth. An astronaut takes the same toolbox to the Moon. (a) Explain what happens to the WEIGHT of the toolbox on the Moon. [2] (b) Explain why the MASS does not change. [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ Weight changes with gravity; mass does not. <span class="zh">重量随引力改变;质量不变。</span></div>
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) the weight is less / smaller on the Moon because gravity is weaker there; (b) mass is the amount of matter in the toolbox, which is the same wherever it is, so it does not change..</strong> <span class="zh">正确答案要包含：(a) the 重量/重力 is 较少 / 较小 on the Moon 因为 重力 is weaker there; (b) 质量 is the amount of matter in the toolbox, which is the 相同 wherever it is, so it does not change.。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) the weight is less / smaller on the Moon because gravity is weaker there; (b) mass is the amount of matter in the toolbox, which is the same wherever it is, so it does not change.. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) the 重量/重力 is 较少 / 较小 on the Moon 因为 重力 is weaker there; (b) 质量 is the amount of matter in the toolbox, which is the 相同 wherever it is, so it does not change.。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) the weight is less / smaller on the Moon because gravity is weaker there; (b) mass is the amount of matter in the toolbox, which is the same wherever it is, so it does not chan. <span class="zh">对。 你抓到本题关键：重力名称正确，箭头必须竖直向下。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: The gravity on the Moon is weaker than on Earth. An astronaut takes the same toolbox to the Moon. (a) Explain. Your answer must lead to: (a) the weight is less / smaller on the Moon because gravity is weaker there; (b) mass is the amount of matter in the to. <span class="zh">月球重力较弱，所以工具箱 重量 变小；质量 是里面物质多少，带到哪里都不变。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Summary</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Gravity is a force that pulls objects together — and it works both ways (a force pair). Mass (kg) is how much matter you have and never changes. Weight (N) is how hard gravity pulls and changes if gravity is different. <span class="zh">重力是把物体互相吸引的力——而且是双向的（一对力）。 质量（千克）是你有多少物质，永不变。重量（牛顿）是重力拉得多用力， 重力不同它就会变。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #3AAEC8;background:#EAF6FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2A7CA8;margin-bottom:8px;">💼 Who does this for a living?<span class="zh"> · 谁靠这个吃饭？</span></div>
+      <p style="font-size:14px;color:var(--ink-2);line-height:1.7;">Aerospace engineers work out a spacecraft's weight on different planets, where the strength of gravity (g) is different. They must know that mass stays the same while weight changes. <span class="zh">航天工程师要算出航天器在不同行星上的重量，因为各处重力强度 （g）不同。他们必须知道质量不变、而重量会变。</span></p>
+      <hr class="divider" style="margin:10px 0;">
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.7;">🌍 Astronaut training happens worldwide — NASA (USA), Roscosmos (Russia), CNSA (China), and ESA (Europe). <span class="zh">航天员训练遍布全球——美国NASA、俄罗斯Roscosmos、 中国CNSA、欧洲ESA。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Bridge to next lesson</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Next lesson: when something falls, the air pushes back on it — air resistance. We will use the particle model again. <span class="zh">下一课：物体下落时，空气会反推它——空气阻力。 我们会再次用到粒子模型。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>
