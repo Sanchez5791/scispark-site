@@ -87,6 +87,34 @@
   .gate .err{color:var(--bad);font-size:12.5px;font-weight:600;margin-top:10px;min-height:16px}
   .empty{text-align:center;color:var(--ink-3);padding:40px 0;font-size:14px}
   .loading{text-align:center;color:var(--ink-3);padding:40px 0}
+
+  /* ── PART C: class-health panel (per-student red/yellow/green) ── */
+  .health{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+  .health__head{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer}
+  .health__head:hover{background:#FCF8F1}
+  .health__title{font-weight:800;font-size:15px}
+  .health__sub{font-size:12px;color:var(--ink-3)}
+  .health__counts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .hcount{font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px}
+  .hcount--red{background:#FEE2E2;color:var(--bad)}
+  .hcount--yellow{background:var(--warn-bg);color:var(--warn)}
+  .hcount--green{background:var(--ok-bg);color:var(--ok)}
+  .hcount--grey{background:#EEF2F7;color:var(--ink-3)}
+  .health__body{display:none;border-top:1px solid var(--line);padding:8px 0}
+  .health.is-open .health__body{display:block}
+  .hrow{display:flex;align-items:center;gap:11px;padding:11px 15px;border-bottom:1px solid var(--line)}
+  .hrow:last-child{border-bottom:none}
+  .flag{width:13px;height:13px;border-radius:50%;flex:0 0 auto}
+  .flag--red{background:#DC2626} .flag--yellow{background:#D97706} .flag--green{background:#16A34A} .flag--grey{background:#94A3B8}
+  .hrow__who{min-width:0}
+  .hrow__name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hrow__year{font-size:11.5px;color:var(--ink-3)}
+  .hrow__sig{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .sig{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:8px;background:#FBF6EE;color:var(--ink-2);border:1px solid var(--line-2);white-space:nowrap}
+  .sig--bad{background:#FEE2E2;color:var(--bad);border-color:#FBC4C4}
+  .sig--up{background:var(--ok-bg);color:var(--ok);border-color:#BBE9CB}
+  .sig--down{background:var(--warn-bg);color:var(--warn);border-color:#F3D98C}
+  .health__note{padding:10px 15px;font-size:11.5px;color:var(--ink-3);border-top:1px dashed var(--line-2)}
 </style>
 </head>
 <body>
@@ -115,6 +143,21 @@
     <div class="digest">
       <span class="num" id="pendingNum">0</span>
       <span>条待看复核 · pending reviews<br><small>这是 MVP 的「每日摘要」:打开这页就看到全部待看(暂不发邮件)。</small></span>
+    </div>
+
+    <!-- PART C: 班级健康 · Class Health (per-student red/yellow/green). Order 2026-06-21.
+         Computed from existing lesson_question_attempts + lesson_progress + review_requests. -->
+    <div class="health" id="health">
+      <div class="health__head" id="healthHead">
+        <div>
+          <div class="health__title">班级健康 · Class Health</div>
+          <div class="health__sub">谁需要关注 · who needs attention (点击展开 / click to expand)</div>
+        </div>
+        <div class="health__counts" id="healthCounts"></div>
+      </div>
+      <div class="health__body" id="healthBody">
+        <div class="loading">载入中…</div>
+      </div>
     </div>
 
     <div class="filters">
@@ -196,6 +239,7 @@
     gate.style.display='none'; app.style.display='block';
     $('#who').textContent = (who.name||who.email) + ' · ' + who.role;
     load();
+    loadHealth();
   }
 
   $('#g-login').addEventListener('click', async function(){
@@ -342,7 +386,140 @@
     // update pending count
     var pc = await sb.from('review_requests').select('id',{count:'exact',head:true}).in('status',['submitted','in_review']);
     $('#pendingNum').textContent = (pc && typeof pc.count==='number') ? pc.count : '';
+    loadHealth(); // a resolution may change a student's signals
   }
+
+  // ════════════════════════════════════════════════════════════════
+  // PART C · 班级健康 Class Health — per-student red/yellow/green flags.
+  // Reuse-first: built ONLY from data already captured —
+  //   lesson_question_attempts (wrong count / re-takes / trend),
+  //   lesson_progress (lessons completed), review_requests (appeal count).
+  // Needs the 2026-06-22 staff-read RLS migration to read other students' rows.
+  // No fake data: thin data → a grey "数据不足 · low data" flag, never a false red.
+  // ════════════════════════════════════════════════════════════════
+  function isGraded(a){ return (a.is_correct === true || a.is_correct === false) || (a.score != null); }
+  function isWrong(a){
+    if (a.is_correct === false) return true;
+    if (a.is_correct === true)  return false;
+    if (a.score != null) return Number(a.score) <= 0;   // MCQ 0/1 → 0 is wrong
+    return false;
+  }
+
+  function computeFlag(s){
+    // s: { graded, wrong, retried, trend, completed, appeals }
+    if (s.graded < 3) return { key:'grey', zh:'数据不足', en:'Low data' };
+    var rate = s.wrong / s.graded;
+    if (rate >= 0.5 && s.trend !== 'up') return { key:'red',    zh:'需重点关注', en:'Needs help' };
+    if (rate >= 0.3 || s.retried >= 2 || s.trend === 'down') return { key:'yellow', zh:'留意', en:'Watch' };
+    return { key:'green', zh:'状态良好', en:'On track' };
+  }
+
+  function trendOf(gradedAttempts){
+    // earlier half vs later half wrong-rate, by marked_at
+    if (gradedAttempts.length < 6) return 'flat';
+    var sorted = gradedAttempts.slice().sort(function(a,b){
+      return new Date(a.marked_at||a.created_at||0) - new Date(b.marked_at||b.created_at||0);
+    });
+    var mid = Math.floor(sorted.length/2);
+    function wr(arr){ var w=0; arr.forEach(function(a){ if(isWrong(a)) w++; }); return arr.length?w/arr.length:0; }
+    var early = wr(sorted.slice(0,mid)), late = wr(sorted.slice(mid));
+    if (late <= early - 0.15) return 'up';     // improving
+    if (late >= early + 0.15) return 'down';   // slipping
+    return 'flat';
+  }
+
+  async function loadHealth(){
+    var body = $('#healthBody'), counts = $('#healthCounts');
+    if(!body) return;
+    body.innerHTML = '<div class="loading">载入中…</div>';
+    counts.innerHTML = '';
+
+    // pull the three reused sources (staff RLS lets us read all rows)
+    var chRes  = await sb.from('children').select('id,full_name,year_group,parent_id').limit(2000);
+    if(chRes.error){
+      body.innerHTML = '<div class="health__note">读不到学生数据(可能 staff 读取设定未部署):'+esc(chRes.error.message)+'</div>';
+      return;
+    }
+    var children = chRes.data || [];
+    var lqaRes = await sb.from('lesson_question_attempts')
+      .select('child_id,question_id,attempt_no,score,is_correct,marked_at,lesson_code').limit(20000);
+    var lpRes  = await sb.from('lesson_progress')
+      .select('child_id,status').limit(20000);
+    var rrRes  = await sb.from('review_requests').select('student_id').limit(5000);
+
+    var lqa = (lqaRes.data)||[], lp = (lpRes.data)||[], rr = (rrRes.data)||[];
+
+    // index by child
+    var byChild = {};
+    children.forEach(function(c){ byChild[c.id] = { c:c, attempts:[], completed:0 }; });
+    lqa.forEach(function(a){ if(byChild[a.child_id]) byChild[a.child_id].attempts.push(a); });
+    lp.forEach(function(p){ if(byChild[p.child_id] && p.status==='completed') byChild[p.child_id].completed++; });
+    // appeals are per ACCOUNT (review_requests has no child_id) → count by parent_id
+    var appealsByParent = {};
+    rr.forEach(function(x){ appealsByParent[x.student_id] = (appealsByParent[x.student_id]||0)+1; });
+
+    var rows = children.map(function(c){
+      var rec = byChild[c.id];
+      var atts = rec.attempts;
+      var graded = atts.filter(isGraded);
+      var wrong  = graded.filter(isWrong).length;
+      // re-tried questions = distinct question_id that has any attempt_no >= 2
+      var retried = {};
+      atts.forEach(function(a){ if((a.attempt_no||1) >= 2) retried[a.question_id]=1; });
+      var s = {
+        graded: graded.length, wrong: wrong,
+        retried: Object.keys(retried).length,
+        trend: trendOf(graded),
+        completed: rec.completed,
+        appeals: appealsByParent[c.parent_id] || 0
+      };
+      return { c:c, s:s, flag:computeFlag(s) };
+    });
+
+    // sort: red, yellow, green, grey; within a flag, more wrong first
+    var order = { red:0, yellow:1, green:2, grey:3 };
+    rows.sort(function(a,b){
+      if(order[a.flag.key]!==order[b.flag.key]) return order[a.flag.key]-order[b.flag.key];
+      return b.s.wrong - a.s.wrong;
+    });
+
+    // header count chips
+    var tally = { red:0, yellow:0, green:0, grey:0 };
+    rows.forEach(function(r){ tally[r.flag.key]++; });
+    counts.innerHTML =
+      '<span class="hcount hcount--red">🔴 '+tally.red+'</span>' +
+      '<span class="hcount hcount--yellow">🟡 '+tally.yellow+'</span>' +
+      '<span class="hcount hcount--green">🟢 '+tally.green+'</span>' +
+      (tally.grey?'<span class="hcount hcount--grey">⚪ '+tally.grey+'</span>':'');
+
+    if(!rows.length){ body.innerHTML = '<div class="health__note">暂无学生记录。 · No student records yet.</div>'; return; }
+
+    var html = rows.map(function(r){
+      var s = r.s, sigs = [];
+      sigs.push('<span class="sig'+(s.graded&&(s.wrong/s.graded)>=0.4?' sig--bad':'')+'">错 '+s.wrong+'/'+s.graded+' · wrong</span>');
+      if(s.retried) sigs.push('<span class="sig'+(s.retried>=2?' sig--down':'')+'">重做 '+s.retried+' · re-tries</span>');
+      sigs.push('<span class="sig">完成 '+s.completed+' · done</span>');
+      if(s.appeals) sigs.push('<span class="sig">复核 '+s.appeals+' · appeals</span>');
+      if(s.trend==='up')   sigs.push('<span class="sig sig--up">↗ 进步 · improving</span>');
+      if(s.trend==='down') sigs.push('<span class="sig sig--down">↘ 下滑 · slipping</span>');
+      sigs.push('<span class="sig">'+r.flag.zh+' · '+r.flag.en+'</span>');
+      return '<div class="hrow">' +
+        '<span class="flag flag--'+r.flag.key+'"></span>' +
+        '<div class="hrow__who"><div class="hrow__name">'+esc(r.c.full_name||'(unnamed)')+'</div>' +
+        '<div class="hrow__year">'+esc(r.c.year_group||'—')+'</div></div>' +
+        '<div class="hrow__sig">'+sigs.join('')+'</div>' +
+      '</div>';
+    }).join('');
+
+    body.innerHTML = html +
+      '<div class="health__note">🔴 错得多/没进步 · 🟡 需留意 · 🟢 状态良好 · ⚪ 数据不足。' +
+      '信号来自现有的每题记录与进度;复核数按账号统计(同账号多个孩子会合计)。' +
+      ' Signals from existing per-question + progress data; appeal counts are per account.</div>';
+  }
+
+  // expand/collapse the health panel
+  (function(){ var h=$('#health'), hd=$('#healthHead');
+    if(hd) hd.addEventListener('click', function(){ h.classList.toggle('is-open'); }); })();
 
   boot();
 })();

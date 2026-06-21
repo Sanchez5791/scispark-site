@@ -1867,6 +1867,31 @@ Globals exposed (lesson HTML can call directly via onclick=):
       return bar;
     }
 
+    // Compact, NON-BLOCKING pointer shown under a question that already has an appeal
+    // on reopen. It deliberately carries NO reply text — the full teacher reply lives on
+    // the student dashboard ("我的求救记录"), so the question area stays clean & re-takeable.
+    // Inline-styled to avoid touching the shared CSS file (collision surface).
+    function dashPointer(row) {
+      var resolved = row && row.status === 'resolved';
+      var a = document.createElement('a');
+      a.className = 'review-dash-pointer';
+      a.href = '/dashboard-student.html#my-review-replies';
+      a.style.cssText =
+        'display:inline-flex;align-items:center;gap:6px;margin:8px 0 2px;padding:6px 12px;' +
+        'border:1px solid #E8E2D8;border-radius:999px;background:#FFFCF7;color:#6b6358;' +
+        'font-size:12.5px;font-weight:600;text-decoration:none;line-height:1.3;';
+      var s = document.createElement('span');
+      if (resolved) {
+        s.setAttribute('data-en', '👩‍🏫 Teacher replied — read it in your dashboard →');
+        s.setAttribute('data-zh', '👩‍🏫 老师已回复 — 在看板「我的求救记录」查看 →');
+      } else {
+        s.setAttribute('data-en', '👩‍🏫 Teacher review pending — track it in your dashboard →');
+        s.setAttribute('data-zh', '👩‍🏫 老师复核中 — 在看板「我的求救记录」查看 →');
+      }
+      a.appendChild(s);
+      return a;
+    }
+
     function btn(cls, en, zh) {
       var b = document.createElement('button');
       b.type = 'button';
@@ -1883,10 +1908,13 @@ Globals exposed (lesson HTML can call directly via onclick=):
       info.anchor.setAttribute(MOUNT_FLAG, '1');
       if (info.container) info.container.setAttribute(MOUNT_FLAG, '1');
 
-      // already has an appeal? show its status instead of the file button
+      // Already has an appeal? (Order 2026-06-21, 双手房) Do NOT render the teacher's
+      // reply under the question — that old reply blocked a clean re-take. The reply now
+      // lives on the student dashboard ("我的求救记录"). Here we leave only a tiny,
+      // non-blocking pointer; the question stays fully re-takeable.
       var existing = appealsByQ[info.qid];
       if (existing) {
-        info.anchor.insertAdjacentElement('afterend', pillHTML(existing));
+        info.anchor.insertAdjacentElement('afterend', dashPointer(existing));
         relangNewNodes();
         return;
       }
