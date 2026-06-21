@@ -1438,7 +1438,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     setupContentProtection();
   
     // Load streak
-    loadStreak();
+    SparkStreak.render();
   
     // Show first Professor P bubble after 1 second
     setTimeout(() => showBubbleForScreen('hook'), 1500);
