@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="© 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark · IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · Y7 U7 L03 · Air Resistance</title>
+
+<!-- SCISPARK:MANIFEST
+{
+  "title": "SciSpark · Y7 U7 L03 · Air Resistance",
+  "navMeta": "Y7 · U7 · L03",
+  "subjectEn": "Physics",
+  "subjectZh": "物理",
+  "unitLabel": "Y7 Unit 7",
+  "unitTitleEn": "Forces and Motion",
+  "unitTitleZh": "力与运动",
+  "userLevel": "1",
+  "lessonData": "3"
+}
+SCISPARK:MANIFEST-END -->
+
+<!--
+═══════════════════════════════════════════════════════════════
+SciSpark lesson — built on the SHARED shell (B-mode).
+The FACADE (head / nav / sidebar / footer / scripts) of this file is GENERATED
+from lessons/_template/lesson-frame.html by scripts/build-lessons.mjs.
+DO NOT hand-edit anything outside the three author regions:
+  • SCISPARK:MANIFEST  — this lesson's identity (title / unit / subject)
+  • SCISPARK:CONTENT   — the lesson body (the 5 screens)
+  • SCISPARK:BUBBLE    — the DouDou dialogue script
+Colours & fonts are NOT decided here — they live in the shared stylesheet
+linked below. Re-skin everything by editing this frame + the CSS, then run:
+  node scripts/build-lessons.mjs sync
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ★★★ B-MODE: shared CSS — change once, all lessons update ★★★ -->
+<link rel="stylesheet" href="/lesson-shell-v4.css">
+<!-- Spark Jar component (mastery jar — bumps on each answer check) -->
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+
+</head>
+
+<body data-user-level="1" data-lesson="3">
+<div class="print-notice">© SciSpark — Printing not permitted. 请勿打印 · 受版权保护内容。</div>
+
+<!-- 5 OGG reward audio (mute toggle in nav) -->
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="SciSpark logo">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.42" transform="rotate(-22 50 50)"/>
+        <ellipse cx="50" cy="50" rx="31" ry="11" stroke="#EA580C" stroke-width="2" opacity="0.22" transform="rotate(22 50 50)"/>
+        <path d="M58 14 L42 47 H57 L39 86" stroke="#EA580C" stroke-width="7" fill="none"/>
+        <circle cx="58" cy="14" r="4" fill="#EA580C" opacity="0.62"/>
+        <circle cx="39" cy="86" r="5" fill="#EA580C" opacity="0.78"/>
+        <circle cx="50" cy="50" r="3.5" fill="#EA580C"/>
+      </g>
+    </svg>
+  </div>
+  <div class="nav-brand"><b>Sci</b><span class="spark">Spark</span></div>
+  <div class="nav-meta">Y7 · U7 · L03</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">🔥</span>
+    <span id="streak-count">1</span>
+  </div>
+  <a href="/dashboard-student.html" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute · 静音" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <div class="sidebar-unit-title" data-en="Forces and Motion" data-zh="力与运动">Forces and Motion</div>
+    </div>
+
+    <!-- Spark Jar (mastery) — auto-mounted by lesson-shell boot -->
+    <div class="sidebar-jar" data-mount="spark-jar" style="margin:14px 0 6px;"></div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        <div class="screen-nav-sub">Recap &amp; motivate<span class="zh"> · 回顾与激发</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        <div class="screen-nav-sub">Concept<span class="zh"> · 概念</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        <div class="screen-nav-sub">Predict<span class="zh"> · 预测</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        <div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        <div class="screen-nav-sub">Reflect &amp; self-check<span class="zh"> · 反思与自查</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+  <!-- SCISPARK:CONTENT:START — 课程内容写在这里 · everything in this block is yours -->
+  <!-- Source: B2 Y7U7 parsed.json — text poured verbatim. Image placeholders kept. [Qnn] tag normalised out of feedback. -->
+
+  <!-- ═════════════ SCREEN 1: HOOK ═════════════ -->
+  <section class="screen active" id="screen-hook">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Hook · Recap &amp; motivate · 回顾与激发</div>
+      <div class="screen-title" data-en="Air Resistance" data-zh="空气阻力">Air Resistance</div>
+      <div class="screen-title-zh">空气阻力</div>
+    </div>
+    <div class="prof-p-video" id="hook-video" onclick="alert('Hook video coming soon. 即将上线。')">
+      <div class="prof-p-video-play"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-label="Play video"><path d="M9 6.8V17.2L17.2 12L9 6.8Z" fill="white"/></svg></div>
+      <div class="prof-p-video-title">DouDou · Air Resistance</div>
+      <div class="prof-p-video-meta">Hook video · 60-90 sec · Coming soon</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">HOOK — Look Around You + scientist anchor</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A falling leaf drifts down slowly, but a small stone drops fast. Both are pulled by the same gravity — so why is the leaf slow? <span class="zh">一片叶子慢慢飘下来，一颗小石头却很快落地。两个都被同样的重力往下拉——那为什么叶子慢？</span></p>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Look around you <span class="zh">看看你身边</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Watch a leaf falling slowly through the air. <span class="zh">看一片叶子慢慢穿过空气落下。</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Around the world <span class="zh">世界上的科学家</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Galileo Galilei (Italy, 1589) studied how objects fall. <span class="zh">伽利略（意大利，1589）研究物体如何下落。</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Think <span class="zh">想一想</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">What pushes back on the leaf as it falls? <span class="zh">叶子下落时，是什么在推回它？</span></p>
+      </div>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Real-world <span class="zh">真实情境</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A falling leaf drifts down slowly, but a small stone drops fast. Both are pulled by the same gravity — so why is the leaf slow? <span class="zh">一片叶子慢慢飘下来，一颗小石头却很快落地。两个都被同样的重力往下拉——那为什么叶子慢？</span></p>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="showScreen('learn')">Start Learning<span class="zh"> · 开始学习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 2: LEARN ═════════════ -->
+  <section class="screen" id="screen-learn">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Learn · Concept · 概念</div>
+      <div class="screen-title" data-en="Air Resistance" data-zh="空气阻力">Air Resistance</div>
+      <div class="screen-title-zh">空气阻力</div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN — Air is matter</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Air is made of tiny particles. Air is matter, even though we cannot see it. (Recall Y7 Unit 1 particle model.) <span class="zh">空气由很小的粒子组成。空气也是物质，即使我们看不见它。（回顾 Y7 Unit 1 粒子模型。）</span></p>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Links to <span class="zh">知识连结</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Reference Y7 Unit 1 — air is particles. <span class="zh">参考 Y7 Unit 1——空气是粒子。</span></p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN — Falling object: weight down + air resistance up + MISCONCEPTION RED CARD</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A falling object has two forces: weight pulling it DOWN, and air resistance pushing it UP. Air resistance comes from air particles hitting the object. <span class="zh">下落的物体受两种力：重力把它往下拉，空气阻力把它往上推。空气阻力来自空气粒子撞击物体。</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid var(--warn,#a32d2d);background:var(--warn-bg,#fce8e6);">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--warn,#a32d2d);margin-bottom:8px;">🟥 Red Card · Common Mistake<span class="zh"> · 误区红牌</span></div>
+      
+      <p style="font-size:14px;color:#991B1B;line-height:1.7;"><strong>✘ Wrong<span class="zh"> 错</span>:</strong> "Heavy things always fall faster than light things." <span class="zh">“重的东西总是比轻的东西落得快。”</span></p>
+      <p style="font-size:14px;color:#166534;line-height:1.7;margin-top:8px;"><strong>✔ Right<span class="zh"> 对</span>:</strong> In air, shape and surface area change the air resistance, not just weight. (M3 misconception.) <span class="zh">在空气里，形状和表面积会改变空气阻力，不是只看重量。（M3 误解。）</span></p>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">LEARN — Shape / area affects air resistance</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">A larger surface area meets more air particles, so air resistance is larger. A feather has large area for its weight, so it falls slowly. A streamlined shape meets fewer particles, so less air resistance. <span class="zh">表面积越大，撞到的空气粒子越多，空气阻力越大。羽毛相对重量来说面积大，所以落得慢。流线型形状撞到的粒子少，空气阻力小。</span></p>
+      <div style="margin-top:12px;padding:11px 13px;border-radius:10px;background:var(--bg-2,#F4EFE7);">
+        <div style="font-weight:700;font-size:13px;color:var(--ink-2);margin-bottom:4px;">Examples <span class="zh">例子</span></div>
+        <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">parachute (large area = high air resistance), kite, streamlined truck. <span class="zh">降落伞（面积大＝空气阻力大）、风筝、流线型卡车。</span></p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;border:2px solid #0EA5E9;background:#F0F9FF;">
+      <div style="font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0369A1;margin-bottom:8px;">✦ Exam vs Reality<span class="zh"> · 考试 vs 真实</span></div>
+      
+      <p style="font-size:13px;color:#075985;line-height:1.7;"><strong>📝 Exam<span class="zh"> 考试</span>:</strong> "Ignoring air resistance, all objects fall at the same rate." <span class="zh">“忽略空气阻力，所有物体以相同速率下落。”</span></p>
+      <p style="font-size:13px;color:#075985;line-height:1.7;margin-top:6px;"><strong>🌍 Reality<span class="zh"> 真实</span>:</strong> In real life, air resistance always exists. After falling a long time, an object reaches "terminal velocity" and stops speeding up. That's why skydivers don't keep accelerating forever. <span class="zh">真实里空气阻力一直在。掉久了速度会停（terminal velocity）。跳伞的人不会永远越掉越快。</span></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('hook')">← Hook</button>
+      <button class="btn btn-primary" onclick="showScreen('try')">Let's practise<span class="zh"> · 开始练习</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 3: TRY ═════════════ -->
+  <section class="screen" id="screen-try">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Try · Predict · 预测</div>
+      <div class="screen-title" data-en="Guided practice" data-zh="带提示练习">Guided practice</div>
+      <div class="screen-title-zh">带提示练习</div>
+    </div>
+    <div class="screen-desc" data-en="Hints are available here. Read the command word, then write one short, clear answer." data-zh="这里可以看提示。先看命令词，再写一句简短清楚的答案。">Hints are available here. Read the command word, then write one short, clear answer. <span class="zh">这里可以看提示。先看命令词，再写一句简短清楚的答案。</span></div>
+
+    <!-- Q01 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q01</div>
+        <div class="q-topic">(a) Name ; (b) Describe ; (c) Describe · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="This picture shows the shape of an old truck. This picture shows the shape of a new truck. The lines on the new truck show the air movement as the truck travels along a road. (a) The new truck reduces forces acting on it. Write the name of one force that has been reduced. [1] (b) Describe what effect this will have on the motion of the truck. [1] (c) How does this new shape affect the fuel consumption of the truck? [1]" data-zh="这张图显示一辆旧卡车的形状。这张图显示一辆新卡车的形状。新卡车上的线条显示卡车沿路行驶时的空气流动。 (a) 新卡车减少了作用在它身上的力。写出一个被减少的力的名称。[1] (b) 描述这会对卡车的运动产生什么影响。[1] (c) 这个新形状如何影响卡车的燃料消耗？[1] MARK_SCHEME_ACCEPT (hard bone only): (a) air resistance [also: friction / drag] (b) greater forward force for same push [also: it moves faster] (c) improves / better [also: less fuel used]">This picture shows the shape of an old truck. This picture shows the shape of a new truck. The lines on the new truck show the air movement as the truck travels along a road. (a) The new truck reduces forces acting on it. Write the name of one force that has been reduced. [1] (b) Describe what effect this will have on the motion of the truck. [1] (c) How does this new shape affect the fuel consumption of the truck? [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Name" needs one word only; do not explain. <span class="zh">“Name”只要一个词，不用解释。</span></div>
+        <figure class="img-slot" data-ref="L03_Q01_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q01_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+
+        <figure class="img-slot" data-ref="L03_Q01_IMG02" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q01_IMG02" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q01-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q01-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q01-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          Think about the force from air when the truck moves fast. <span class="zh">想想卡车快速移动时来自空气的力。</span>
+        </div>
+        <div class="answer-reveal" id="q01-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) air resistance [also: friction / drag] (b) greater forward force for same push [also: it moves faster] (c) improves / better [also: less fuel used].</strong> <span class="zh">正确答案要包含：(a) 空气阻力 [也可: 摩擦力 / 阻力] (b) greater forward 力 for 相同 推 [也可: it moves faster] (c) improves / better [也可: 较少 fuel used]。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) air resistance [also: friction / drag] (b) greater forward force for same push [also: it moves faster] (c) improves / better [also: less fuel used]. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 空气阻力 [也可: 摩擦力 / 阻力] (b) greater forward 力 for 相同 推 [也可: it moves faster] (c) improves / better [也可: 较少 fuel used]。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) air resistance [also: friction / drag] (b) greater forward force for same push [also: it moves faster] (c) improves / better [also: less fuel used]. <span class="zh">对。 你抓到本题关键：流线型减少空气阻力，使车辆更省力或更省燃料。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: This picture shows the shape of an old truck. This picture shows the shape of a new truck. The lines on the ne. Your answer must lead to: (a) air resistance [also: friction / drag] (b) greater forward force for same push [also: it moves faster] (c) improves. <span class="zh">流线型车身要联系空气阻力：阻力变小，同样推力下更容易前进，也可能更省燃料。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q01-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q01-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="question-block" data-level="1,2,3">
+      <div class="question-header">
+        <div class="q-number">Q02</div>
+        <div class="q-topic">(a) Identify ; (b) Calculate ; (c) Describe + Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Pierre investigates the time it takes for parachutes of different sizes to fall to the ground. He records his results in a table. (a) There is one anomalous result in the table. Circle the anomalous result. [1] (b) Calculate the missing average (mean) time in the table. average (mean) time = __________ seconds [1] (c) Describe the pattern in Pierre's results. Use your scientific knowledge to explain the pattern. [3]" data-zh="Pierre 研究不同大小的降落伞落到地面所需的时间。他把结果记录在表里。 (a) 表中有一个异常结果。圈出异常结果。[1] (b) 计算表中缺失的平均（mean）时间。平均（mean）时间 = __________ 秒 [1] (c) 描述 Pierre 结果中的规律。用你的科学知识解释这个规律。[3] MARK_SCHEME_ACCEPT (hard bone only): (a) the anomalous value (off-pattern reading) (b) 2.8 [also acceptable per key: 1.6] (c) as area increases, time increases; air resistance increases with increasing area">Pierre investigates the time it takes for parachutes of different sizes to fall to the ground. He records his results in a table. (a) There is one anomalous result in the table. Circle the anomalous result. [1] (b) Calculate the missing average (mean) time in the table. average (mean) time = __________ seconds [1] (c) Describe the pattern in Pierre's results. Use your scientific knowledge to explain the pattern. [3]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "Calculate" needs working + answer + unit (seconds). <span class="zh">“Calculate”要算式＋答案＋单位（秒）。</span></div>
+        <figure class="img-slot" data-ref="L03_Q02_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q02_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q02-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q02-save">Saved ✓ 已保存</div>
+        <div class="hint-box" id="q02-hint">
+          <div class="hint-label">💡 Hint<span class="zh"> 提示</span></div>
+          An anomalous result does not fit the pattern of the others. <span class="zh">异常结果是不符合其他数据规律的那一个。</span>
+        </div>
+        <div class="answer-reveal" id="q02-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) the anomalous value (off-pattern reading) (b) 2.8 [also acceptable per key: 1.6] (c) as area increases, time increases; air resistance increases with increasing area.</strong> <span class="zh">正确答案要包含：(a) the 异常 value (off-pattern reading) (b) 2.8 [也可 可接受able per key: 1.6] (c) as 面积 增加, time 增加; 空气阻力 增加 with increasing 面积。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) the anomalous value (off-pattern reading) (b) 2.8 [also acceptable per key: 1.6] (c) as area increases, time increases; air resistance increases with increasing area. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) the 异常 value (off-pattern reading) (b) 2.8 [也可 可接受able per key: 1.6] (c) as 面积 增加, time 增加; 空气阻力 增加 with increasing 面积。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) the anomalous value (off-pattern reading) (b) 2.8 [also acceptable per key: 1.6] (c) as area increases, time increases; air resistance increases with increasing area. <span class="zh">对。 你抓到本题关键：异常值要找不符合趋势的读数，平均值要按合理数据算。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Pierre investigates the time it takes for parachutes of different sizes to fall to the ground. He records his. Your answer must lead to: (a) the anomalous value (off-pattern reading) (b) 2.8 [also acceptable per key: 1.6] (c) as area increases, time increas. <span class="zh">先找离整体规律最远的异常值，再读平均值；面积越大，下落时间越长，是因为空气阻力增大。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          <button class="btn btn-secondary btn-sm hint-trigger" onclick="toggleHint('q02-hint')">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q02-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('learn')">← Learn</button>
+      <button class="btn btn-primary" onclick="showScreen('test')">Ready to test?<span class="zh"> · 准备好了吗？</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 4: TEST ═════════════ -->
+  <section class="screen" id="screen-test">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Test · Apply solo · No hints · 独立应用</div>
+      <div class="screen-title" data-en="Apply solo" data-zh="自己做">Apply solo</div>
+      <div class="screen-title-zh">自己做</div>
+    </div>
+    <div class="screen-desc" data-en="No hints on this screen. Answer by yourself, then check the marking scheme." data-zh="这里没有提示。自己作答，然后核对评分标准。">No hints on this screen. Answer by yourself, then check the marking scheme. <span class="zh">这里没有提示。自己作答，然后核对评分标准。</span></div>
+
+    <!-- Q03 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q03</div>
+        <div class="q-topic">(a) Calculate ; (b) Identify ; (c) Describe ; (d) State · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">5 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Sharif investigates the time it takes for different sized parachutes to fall to the ground. He records his results in a table. (time for parachute to fall to the floor, in seconds) (a) Calculate the average (mean) time for the parachute with the largest area. average (mean) time = __________ seconds [1] (b) There is one anomalous result in the table. Put a ring around the anomalous result. [1] (c) Describe the pattern in Sharif's results. [2] (d) What does the data tell Sharif about the relationship between the area of the parachute and air resistance? [1]" data-zh="Sharif 研究不同大小的降落伞落到地面所需的时间。他把结果记录在表里。（降落伞落到地面的时间，单位秒） (a) 计算面积最大的降落伞的平均（mean）时间。平均（mean）时间 = __________ 秒 [1] (b) 表中有一个异常结果。圈出异常结果。[1] (c) 描述 Sharif 结果中的规律。[2] (d) 这些数据告诉 Sharif，降落伞面积与空气阻力之间是什么关系？[1] MARK_SCHEME_ACCEPT (hard bone only): (a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute area increases, falling time increases (d) larger parachute area gives greater air resistance">Sharif investigates the time it takes for different sized parachutes to fall to the ground. He records his results in a table. (time for parachute to fall to the floor, in seconds) (a) Calculate the average (mean) time for the parachute with the largest area. average (mean) time = __________ seconds [1] (b) There is one anomalous result in the table. Put a ring around the anomalous result. [1] (c) Describe the pattern in Sharif's results. [2] (d) What does the data tell Sharif about the relationship between the area of the parachute and air resistance? [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State" needs one short sentence linking area and air resistance. <span class="zh">“State”要一句话，把面积和空气阻力联系起来。</span></div>
+        <figure class="img-slot" data-ref="L03_Q03_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q03_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q03-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q03-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q03-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute area increases, falling time increases (d) larger parachute area gives greater air resistance.</strong> <span class="zh">正确答案要包含：(a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute 面积 增加, falling time 增加 (d) 较大 parachute 面积 gives greater 空气阻力。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute area increases, falling time increases (d) larger parachute area gives greater air resistance. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute 面积 增加, falling time 增加 (d) 较大 parachute 面积 gives greater 空气阻力。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute area increases, falling time increases (d) larger parachute area gives greater air resistance. <span class="zh">对。 你抓到本题关键：异常值要找不符合趋势的读数，平均值要按合理数据算。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Sharif investigates the time it takes for different sized parachutes to fall to the ground. He records his res. Your answer must lead to: (a) 9.8 s (b) 2.8 (the off-pattern reading) (c) as parachute area increases, falling time increases (d) larger parachute. <span class="zh">这题考降落伞面积：异常值要挑出来，面积越大，空气阻力越大，所以落下时间越长。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q03-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q04</div>
+        <div class="q-topic">(a) Calculate ; (b) Identify ; (c) State · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Yuri investigates the time it takes for different sized parachutes to fall to the ground. He records his results in a table. (a) Calculate the average (mean) time for the parachute with the largest area. average (mean) time = __________ seconds [1] (b) There is one anomalous result in the table. Circle the anomalous result. [1] (c) What do the data tell Yuri about the relationship between the area of the parachute and the air resistance? [1]" data-zh="Yuri 研究不同大小的降落伞落到地面所需的时间。他把结果记录在表里。 (a) 计算面积最大的降落伞的平均（mean）时间。平均（mean）时间 = __________ 秒 [1] (b) 表中有一个异常结果。圈出异常结果。[1] (c) 这些数据告诉 Yuri，降落伞面积与空气阻力之间是什么关系？[1] MARK_SCHEME_ACCEPT (hard bone only): (a) mean time of largest-area parachute (sensible repeats averaged) (b) the off-pattern reading (c) larger parachute area gives greater air resistance">Yuri investigates the time it takes for different sized parachutes to fall to the ground. He records his results in a table. (a) Calculate the average (mean) time for the parachute with the largest area. average (mean) time = __________ seconds [1] (b) There is one anomalous result in the table. Circle the anomalous result. [1] (c) What do the data tell Yuri about the relationship between the area of the parachute and the air resistance? [1]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ "State" needs a short relationship statement, not a calculation. <span class="zh">“State”要一句关系陈述，不是计算。</span></div>
+        <textarea class="short-input" id="q04-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q04-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q04-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) mean time of largest-area parachute (sensible repeats averaged) (b) the off-pattern reading (c) larger parachute area gives greater air resistance.</strong> <span class="zh">正确答案要包含：(a) 平均值 time of largest-面积 parachute (sensible repeats averaged) (b) the off-pattern reading (c) 较大 parachute 面积 gives greater 空气阻力。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) mean time of largest-area parachute (sensible repeats averaged) (b) the off-pattern reading (c) larger parachute area gives greater air resistance. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 平均值 time of largest-面积 parachute (sensible repeats averaged) (b) the off-pattern reading (c) 较大 parachute 面积 gives greater 空气阻力。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) mean time of largest-area parachute (sensible repeats averaged) (b) the off-pattern reading (c) larger parachute area gives greater air resistance. <span class="zh">对。 你抓到本题关键：异常值要找不符合趋势的读数，平均值要按合理数据算。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Yuri investigates the time it takes for different sized parachutes to fall to the ground. He records his resul. Your answer must lead to: (a) mean time of largest-area parachute (sensible repeats averaged) (b) the off-pattern reading (c) larger parachute are. <span class="zh">不要只看一组数据；要用重复数据算平均、找异常，并说明大面积带来更大空气阻力。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q04-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q05</div>
+        <div class="q-topic">(a)(i) Identify/record ; (a)(ii) Calculate ; (b) State (conclusion) · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="Class 7 investigate air resistance. They run from one end of the playground to the other end. They measure the time to complete the run. They repeat the run with umbrellas. (a) Class 7 write down their results. no umbrella = 10 s ; with umbrella = 14 s ; no umbrella = 8 s ; with umbrella = 9 s ; no umbrella = 7 s ; with umbrella = 13 s ; no umbrella = 11 s ; with umbrella = 15 s (i) Write their results in the table. [1] (ii) Calculate the mean (average) times. mean time with no umbrella = ____ s ; mean time with umbrella = ____ s [1] (b) Write down a conclusion for this investigation about air resistance. [2]" data-zh="七年级研究空气阻力。他们从操场一端跑到另一端，测量跑完的时间。然后撑着伞重复。 (a) 七年级写下他们的结果。 没伞 = 10 秒；有伞 = 14 秒；没伞 = 8 秒；有伞 = 9 秒；没伞 = 7 秒；有伞 = 13 秒；没伞 = 11 秒；有伞 = 15 秒 (i) 把结果填进表里。[1] (ii) 计算平均（mean）时间。没伞的平均时间 = ____ 秒；有伞的平均时间 = ____ 秒 [1] (b) 写出这个研究关于空气阻力的结论。[2] MARK_SCHEME_ACCEPT (hard bone only): no umbrella: 10, 8, 7, 11 ; with umbrella: 14, 9, 13, 15 mean no umbrella = 9 s ; mean with umbrella = 12.75 s [accept 12.7 / 12.8 / 13] (b) comparative statement linking air resistance with speed or time">Class 7 investigate air resistance. They run from one end of the playground to the other end. They measure the time to complete the run. They repeat the run with umbrellas. (a) Class 7 write down their results. no umbrella = 10 s ; with umbrella = 14 s ; no umbrella = 8 s ; with umbrella = 9 s ; no umbrella = 7 s ; with umbrella = 13 s ; no umbrella = 11 s ; with umbrella = 15 s (i) Write their results in the table. [1] (ii) Calculate the mean (average) times. mean time with no umbrella = ____ s ; mean time with umbrella = ____ s [1] (b) Write down a conclusion for this investigation about air resistance. [2]</p>
+        <div class="command-tip" style="font-size:12px;color:var(--ink-3);margin:4px 0 8px;">🗣️ A conclusion must compare the two means and link to air resistance. <span class="zh">结论要比较两个平均值，并联系到空气阻力。</span></div>
+        <figure class="img-slot" data-ref="L03_Q05_IMG01" style="margin:12px 0;">
+          <img data-image-prompt="L03_Q05_IMG01" alt=""
+               width="640" height="360" loading="lazy"
+               style="display:block;width:100%;max-width:520px;height:auto;aspect-ratio:16/9;border:2px dashed var(--accent);border-radius:12px;background:var(--accent-soft);object-fit:contain;"
+               src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20640%20360'%3E%3Crect%20width%3D'640'%20height%3D'360'%20fill%3D'%23FFE9D6'%2F%3E%3Ctext%20x%3D'320'%20y%3D'188'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%23EA580C'%20text-anchor%3D'middle'%3EIMAGE%20PENDING%3C%2Ftext%3E%3C%2Fsvg%3E">
+          <figcaption style="font-size:12px;color:var(--ink-3);margin-top:6px;">IMAGE PENDING<span class="zh"> · 配图待出</span></figcaption>
+        </figure>
+        <textarea class="short-input" id="q05-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q05-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q05-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>no umbrella: 10, 8, 7, 11 ; with umbrella: 14, 9, 13, 15 mean no umbrella = 9 s ; mean with umbrella = 12.75 s [accept 12.7 / 12.8 / 13] (b) comparative statement linking air resistance with speed or time.</strong> <span class="zh">正确答案要包含：no umbrella: 10, 8, 7, 11 ; with umbrella: 14, 9, 13, 15 平均值 no umbrella = 9 s ; 平均值 with umbrella = 12.75 s [可接受 12.7 / 12.8 / 13] (b) comparative statement linking 空气阻力 with speed or time。</span><br><br>✓ Accept: - Accept the exact answer meaning: no umbrella: 10, 8, 7, 11 ; with umbrella: 14, 9, 13, 15 mean no umbrella = 9 s ; mean with umbrella = 12.75 s [accept 12.7 / 12.8 / 13] (b) comparative statement linking air resistance with speed or time. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：no umbrella: 10, 8, 7, 11 ; with umbrella: 14, 9, 13, 15 平均值 no umbrella = 9 s ; 平均值 with umbrella = 12.75 s [可接受 12.7 / 12.8 / 13] (b) comparative statement linking 空气阻力 with speed or time。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: no umbrella: 10, 8, 7, 11; with umbrella: 14, 9, 13, 15 mean no umbrella = 9 s; mean with umbrella = 12.75 s [accept 12.7 / 12.8 / 13] (b) comparative statement linking air resis. <span class="zh">对。 你抓到本题关键：撑伞增加表面积，空气阻力更大，平均时间更长。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: Class 7 investigate air resistance. They run from one end of the playground to the other end. They measure the. Your answer must lead to: no umbrella: 10, 8, 7, 11; with umbrella: 14, 9, 13, 15 mean no umbrella = 9 s; mean with umbrella = 12.75 s [accept 1. <span class="zh">比较有伞和无伞要先算平均时间；有伞时间更长，说明空气阻力让物体下落更慢。</span></span><br>
+          </div>
+          <div class="source-note">Source: B2</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q05-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q06</div>
+        <div class="q-topic">State · apply <span class="level-badge level-1">L1</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A skydiver falls through the air. (a) State the name of the upward force from the air on the skydiver. [1] (b) State the direction in which gravity acts on the skydiver. [1]" data-zh="一名跳伞者在空气中下落。 (a) 说出空气对跳伞者向上的力叫什么名字。[1] (b) 说出引力对跳伞者作用的方向。[1]">A skydiver falls through the air. (a) State the name of the upward force from the air on the skydiver. [1] (b) State the direction in which gravity acts on the skydiver. [1]</p>
+        
+        <textarea class="short-input" id="q06-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q06-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q06-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>(a) air resistance (b) downwards (towards the ground / centre of Earth).</strong> <span class="zh">正确答案要包含：(a) 空气阻力 (b) 向下 (towards the ground / centre of Earth)。</span><br><br>✓ Accept: - Accept the exact answer meaning: (a) air resistance (b) downwards (towards the ground / centre of Earth). - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：(a) 空气阻力 (b) 向下 (towards the ground / centre of Earth)。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: (a) air resistance (b) downwards (towards the ground / centre of Earth). <span class="zh">对。 你抓到本题关键：跳伞者受向下重力和向上空气阻力。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A skydiver falls through the air. (a) State the name of the upward force from the air on the skydiver. [1] (b). Your answer must lead to: (a) air resistance (b) downwards (towards the ground / centre of Earth).. <span class="zh">下落物体受空气阻力向上，同时重力向下；若把空气阻力方向写成向下，就把两个力混了。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q06-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q07</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A cyclist rides faster and faster along a flat road. Explain what happens to the air resistance on the cyclist as the cyclist speeds up. [2]" data-zh="一名骑车人在平路上越骑越快。 解释当骑车人加速时,作用在他身上的空气阻力会怎样。[2]">A cyclist rides faster and faster along a flat road. Explain what happens to the air resistance on the cyclist as the cyclist speeds up. [2]</p>
+        
+        <textarea class="short-input" id="q07-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q07-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q07-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>air resistance increases as speed increases; because the cyclist pushes through more air each second.</strong> <span class="zh">正确答案要包含：空气阻力 增加 as speed 增加; 因为 the cyclist pushes through 较多 air each second。</span><br><br>✓ Accept: - Accept the exact answer meaning: air resistance increases as speed increases; because the cyclist pushes through more air each second. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：空气阻力 增加 as speed 增加; 因为 the cyclist pushes through 较多 air each second。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: air resistance increases as speed increases; because the cyclist pushes through more air each second. <span class="zh">对。 你抓到本题关键：速度越快，每秒撞到更多空气，空气阻力变大。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A cyclist rides faster and faster along a flat road. Explain what happens to the air resistance on the cyclist. Your answer must lead to: air resistance increases as speed increases; because the cyclist pushes through more air each second.. <span class="zh">骑车越快，每秒撞到越多空气，所以空气阻力变大；只写“风更大”不够科学。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q07-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q08</div>
+        <div class="q-topic">Describe · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A flat sheet of paper and a tightly crushed ball of the same paper are dropped from the same height at the same time. Describe which one lands first, and use air resistance to give a reason. [2]" data-zh="一张平铺的纸和一个用同样的纸紧紧揉成的球, 从同一高度同时放下。 描述哪一个先落地, 并用空气阻力给出理由。[2]">A flat sheet of paper and a tightly crushed ball of the same paper are dropped from the same height at the same time. Describe which one lands first, and use air resistance to give a reason. [2]</p>
+        
+        <textarea class="short-input" id="q08-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q08-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q08-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>the crushed ball lands first; the flat sheet has a larger surface pushing against the air, so it has more air resistance and falls more slowly.</strong> <span class="zh">正确答案要包含：the crushed ball lands first; the flat sheet has a 较大 surface pushing against the air, so it has 较多 空气阻力 and falls 较多 slowly。</span><br><br>✓ Accept: - Accept the exact answer meaning: the crushed ball lands first; the flat sheet has a larger surface pushing against the air, so it has more air resistance and falls more slowly. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：the crushed ball lands first; the flat sheet has a 较大 surface pushing against the air, so it has 较多 空气阻力 and falls 较多 slowly。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: the crushed ball lands first; the flat sheet has a larger surface pushing against the air, so it has more air resistance and falls more slowly. <span class="zh">对。 你抓到本题关键：揉成球的纸先落地，平纸空气阻力更大。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A flat sheet of paper and a tightly crushed ball of the same paper are dropped from the same height at the sam. Your answer must lead to: the crushed ball lands first; the flat sheet has a larger surface pushing against the air, so it has more air resistance. <span class="zh">纸团先落地；平纸面积大，受空气阻力更大，所以慢。答案不能只说“纸团比较重”。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q08-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q09 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q09</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-2">L2</span></div>
+        <div class="q-marks">2 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A parachute is designed with a large area. Explain how having a large area helps a parachutist land safely. [2]" data-zh="降落伞设计成很大的面积。 解释大面积如何帮助跳伞者安全着陆。[2]">A parachute is designed with a large area. Explain how having a large area helps a parachutist land safely. [2]</p>
+        
+        <textarea class="short-input" id="q09-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q09-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q09-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>a large area gives more air resistance; this slows the fall, so the parachutist lands more gently / at a lower speed.</strong> <span class="zh">正确答案要包含：a large 面积 gives 较多 空气阻力; this slows the fall, so the parachutist lands 较多 gently / at a lower speed。</span><br><br>✓ Accept: - Accept the exact answer meaning: a large area gives more air resistance; this slows the fall, so the parachutist lands more gently / at a lower speed. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：a large 面积 gives 较多 空气阻力; this slows the fall, so the parachutist lands 较多 gently / at a lower speed。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: a large area gives more air resistance; this slows the fall, so the parachutist lands more gently / at a lower speed. <span class="zh">对。 你抓到本题关键：大面积让降落伞空气阻力更大，使人慢慢落地。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A parachute is designed with a large area. Explain how having a large area helps a parachutist land safely. [2. Your answer must lead to: a large area gives more air resistance; this slows the fall, so the parachutist lands more gently / at a lower speed.. <span class="zh">降落伞靠大面积增加空气阻力，减慢下落，让人更轻地着地；不是因为降落伞让重力消失。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q09-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">Q10</div>
+        <div class="q-topic">Explain · apply <span class="level-badge level-3">L3</span></div>
+        <div class="q-marks">3 marks</div>
+      </div>
+      <div class="question-body">
+        <p class="question-text" data-en="A ball is dropped and falls through the air. At first it speeds up, but after a while it falls at a steady speed. Explain why the ball stops speeding up, using the forces of gravity and air resistance. [3]" data-zh="一个球被放下, 在空气中下落。一开始它加速, 过一会儿以稳定速度下落。 用引力和空气阻力, 解释为什么球不再加速。[3]">A ball is dropped and falls through the air. At first it speeds up, but after a while it falls at a steady speed. Explain why the ball stops speeding up, using the forces of gravity and air resistance. [3]</p>
+        
+        <textarea class="short-input" id="q10-input" placeholder="Your answer... / 你的答案..."></textarea>
+        <div class="save-indicator" id="q10-save">Saved ✓ 已保存</div>
+        <div class="answer-reveal" id="q10-ans">
+          <div class="answer-reveal-label">✓ Marking Scheme</div>
+          <div class="answer-reveal-text">
+            <strong>as the ball speeds up, air resistance increases; eventually air resistance becomes equal to gravity; the forces are then balanced, so there is no overall force and the ball falls at a steady (terminal) speed.</strong> <span class="zh">正确答案要包含：as the ball speeds 向上, 空气阻力 增加; eventually 空气阻力 becomes equal to 重力; the forces are then 平衡, so there is no overall 力 and the ball falls at a steady (terminal) speed。</span><br><br>✓ Accept: - Accept the exact answer meaning: as the ball speeds up, air resistance increases; eventually air resistance becomes equal to gravity; the forces are then balanced, so there is no overall force and the ball falls at a steady (terminal) speed. - Accept clear equivalent wording with the same science meaning. - Accept minor spelling or grammar errors if the science meaning is still clear. <span class="zh">- 接受这个正确意思：as the ball speeds 向上, 空气阻力 增加; eventually 空气阻力 becomes equal to 重力; the forces are then 平衡, so there is no overall 力 and the ball falls at a steady (terminal) speed。 - 接受同义中文、英文术语或中英混写，只要科学意思相同。 - 拼写小错但意思清楚，照给分。</span><br><span style="color:var(--ink-3);">If right: Correct — this answer hits the key idea for: as the ball speeds up, air resistance increases; eventually air resistance becomes equal to gravity; the forces are then balanced, so there is no overall force and the ball falls a. <span class="zh">对。 你抓到本题关键：流线型减少空气阻力，使车辆更省力或更省燃料。</span></span><br><span style="color:var(--ink-3);">If wrong: Not yet. For this question, check the exact object and task in the question: A ball is dropped and falls through the air. At first it speeds up, but after a while it falls at a steady spe. Your answer must lead to: as the ball speeds up, air resistance increases; eventually air resistance becomes equal to gravity; the forces are then. <span class="zh">速度增大时空气阻力也增大；当它等于重力时合力为零，物体用终端速度匀速下落。</span></span><br>
+          </div>
+          <div class="source-note">Source: source: original</div>
+        </div>
+        <div class="btn-row" style="gap:8px;">
+          
+          <button class="btn btn-secondary btn-sm" onclick="toggleAns('q10-ans')">Check answer</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('try')">← Try</button>
+      <button class="btn btn-primary" onclick="showScreen('wrap')">Finish lesson<span class="zh"> · 完成课程</span> →</button>
+    </div>
+  </section>
+
+
+  <!-- ═════════════ SCREEN 5: WRAP ═════════════ -->
+  <section class="screen" id="screen-wrap">
+
+    <div class="screen-header">
+      <div class="screen-eyebrow">Wrap · Reflect &amp; self-check · 反思与自查</div>
+      <div class="screen-title" data-en="Lesson complete." data-zh="课程完成">Lesson complete.</div>
+      <div class="screen-title-zh">课程完成</div>
+    </div>
+    <div class="wrap-summary">
+      <h3>What you learned today <span style="font-family:var(--ff-zh);font-size:16px;color:rgba(255,255,255,0.6);">今天学到了什么</span></h3>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">WRAP — Summary + Y8/Y9 cliffhanger + Stay Curious</div>
+      <hr class="divider" style="margin:12px 0;">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;">Air is matter. A falling object has weight DOWN and air resistance UP. Larger surface area = more air resistance. Examples: parachute, kite, streamlined truck. <span class="zh">空气是物质。下落物体受重力向下、空气阻力向上。表面积越大空气阻力越大。例子：降落伞、风筝、流线型卡车。</span></p>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-lesson">+100</div><div class="xp-stat-label">Lesson XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-mcq">+0</div><div class="xp-stat-label">Practice XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-aha">+0</div><div class="xp-stat-label">Aha XP</div></div>
+      <div class="xp-stat"><div class="xp-stat-value" id="xp-total">+100</div><div class="xp-stat-label">Total</div></div>
+    </div>
+    <div class="knowt-placeholder">
+      <div class="knowt-label">📚 Word Power · 词汇训练</div>
+      <div class="knowt-title">Vocabulary review deck — key words from today</div>
+      <div class="knowt-desc">Spaced repetition deck (Knowt) · Review tomorrow · 即将上线 · Coming soon</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('test')">← Test</button>
+      <button class="btn btn-primary" onclick="completeLesson()">✓ Complete Lesson<span class="zh"> · 完成本课</span></button>
+    </div>
+  </section>
+
+  <!-- SCISPARK:CONTENT:END -->
+  </main>
+</div><!-- .body-wrap -->
+
+<!-- ─── DOUDOU AVATAR (fixed bottom-right) ─── -->
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">✕</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">嗨!准备好了吗?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou 豆豆">
+    <!-- SHARED DouDou — one file for every lesson. Swap the real artwork by
+         replacing /components/doudou/doudou.svg only (no per-lesson edits). -->
+    <img src="/components/doudou/doudou.svg" width="36" height="36"
+         alt="DouDou 豆豆 co-learner avatar" draggable="false">
+  </div>
+</div>
+
+<!-- ─── AI TUTOR PANEL ─── -->
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">✕</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> · AI 老师即将上线<br>
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        What does this concept actually mean?
+        <span class="ai-prompt-btn-zh">这个概念到底是什么意思?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        Can you give me a real-life example?
+        <span class="ai-prompt-btn-zh">可以给我一个生活中的例子吗?</span>
+      </button>
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon · 即将上线')">
+        How is this tested in the exam?
+        <span class="ai-prompt-btn-zh">这个在考试里怎么考?</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── XP TOAST ─── -->
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+<!-- ─── SURPRISE DROP MODAL ─── -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">🎉</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">惊喜掉落!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">你解锁了下节课的额外 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! 太棒了!</button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="lesson-footer">
+  © 2026 SciSpark · scisparklab.com · An IG SPARK CENTRE product · igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">版权所有 © 2026 SciSpark · IG SPARK CENTRE 旗下产品。未经授权,禁止复制或转载。</div>
+</footer>
+
+</div><!-- .app -->
+
+
+<!-- Spark Jar component JS (loads window.SparkJar before shell boot mounts it) -->
+<script src="/components/spark-jar/spark-jar.js"></script>
+
+<!-- ★★★ B-MODE: shared JS — change once, all lessons update ★★★ -->
+<script src="/lesson-shell-v4.js"></script>
+
+<!-- SCISPARK:BUBBLE:START — DouDou 对白 (这一段是你写的) -->
+<script>
+window.bubbleScripts = {
+  hook:  { en: "Let's get into it — ready?", zh: "我们开始吧 — 准备好了吗？" },
+  learn: { en: "Here's the key idea. Watch closely!", zh: "这是关键概念，看仔细！" },
+  try:   { en: "Try these with me — hints are here if you need them.", zh: "跟我一起做 — 需要时可以看提示。" },
+  test:  { en: "Your turn solo. You've got this!", zh: "换你自己来。你可以的！" },
+  wrap:  { en: "Great work today. See you next lesson!", zh: "今天做得很好。下一课见！" }
+};
+</script>
+<!-- SCISPARK:BUBBLE:END -->
+
+</body>
+</html>
