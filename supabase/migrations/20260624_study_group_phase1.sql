@@ -262,13 +262,11 @@ CREATE POLICY sg_reactions_delete ON study_group_reactions
 -- ---- audit log: NO client policies => RLS denies all anon/auth access.
 --      Only the service_role (server side) can read/write it. ----
 
-COMMIT;
-
 -- ============================================================
 -- SEED: starter preset sentence library (matches the preview page)
--- Safe to re-run (ON CONFLICT DO NOTHING).
+-- Safe to re-run (ON CONFLICT DO NOTHING). Same transaction as above
+-- so the WHOLE file is all-or-nothing: any failure rolls everything back.
 -- ============================================================
-BEGIN;
 
 INSERT INTO study_group_message_templates (template_id, text_zh, text_en, has_blanks, sort_order) VALUES
   ('answer',  '我觉得答案是 {1}，因为 {2}。', 'I think the answer is {1} because {2}.', true,  1),
