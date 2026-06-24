@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#EA580C">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciSpark — Upgrade to Annual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5efe5; --bg-card: #fff; --orange: #e8521a; --dark: #1a1917; --text: #2d2926; --muted: #9a8e84; --border: #e2d9ce; --green: #2E7D5B; --r-md: 10px; --r-xl: 20px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  nav { background: var(--dark); height: 60px; display: flex; align-items: center; padding: 0 24px; }
+  .nav-logo { color: #fff; font-family: 'EB Garamond', serif; font-size: 1.3rem; font-weight: 500; text-decoration: none; }
+  .page { max-width: 520px; margin: 0 auto; padding: 40px 20px 80px; }
+  .breadcrumb { font-size: 0.82rem; color: var(--muted); margin-bottom: 28px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  h1 { font-family: 'EB Garamond', serif; font-size: 2rem; font-weight: 500; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 32px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 28px; margin-bottom: 20px; }
+  .card-label { font-size: .82rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 12px; }
+  .sub-info-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .sub-info-row:last-child { border-bottom: none; }
+  .sub-info-row span:first-child { color: var(--muted); }
+  .sub-info-row span:last-child { font-weight: 500; }
+  .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 0.95rem; border-bottom: 1px solid var(--border); }
+  .calc-row:last-child { border-bottom: none; }
+  .calc-row .label { color: var(--muted); }
+  .calc-row .value { font-weight: 600; }
+  .calc-row.credit .value { color: var(--green); }
+  .calc-row.total { font-size: 1.1rem; }
+  .calc-row.total .label { color: var(--text); font-weight: 600; }
+  .calc-row.total .value { color: var(--orange); font-size: 1.4rem; font-weight: 700; }
+  .window-bar { background: #f0fdf4; border: 1px solid #86efac; border-radius: var(--r-md); padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #166534; }
+  .window-expired { background: #fdf2ed; border: 1px solid #f9d9cc; border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #9a3412; }
+  .window-expired strong { display: block; margin-bottom: 4px; font-weight: 600; }
+  .confirm-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px; padding: 14px 16px; background: #fff8f5; border: 1px solid var(--border); border-radius: var(--r-md); font-size: 0.88rem; cursor: pointer; }
+  .confirm-checkbox input { margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+  .btn-upgrade { width: 100%; padding: 16px; background: var(--orange); color: #fff; border: none; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-upgrade:hover:not(:disabled) { background: #d44717; }
+  .btn-upgrade:disabled { background: #ccc; cursor: not-allowed; }
+  #error-msg { background: #fdf2ed; border: 1px solid #f9d9cc; color: #c0392b; padding: 12px 16px; border-radius: var(--r-md); font-size: 0.88rem; margin-bottom: 16px; display: none; }
+  #error-msg.show { display: block; }
+  .security-note { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 14px; }
+  .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading { text-align: center; color: var(--muted); padding: 40px 0; }
+  #main-content { display: none; }
+</style>
+</head>
+<body>
+
+<nav><a href="/" class="nav-logo">SciSpark</a></nav>
+
+<div class="page">
+  <div class="breadcrumb"><a href="/dashboard-parent.html">Dashboard</a> › Upgrade to Annual</div>
+  <h1>Upgrade to Annual</h1>
+  <p class="subtitle">Switch to an annual plan and save on what you've already paid.</p>
+
+  <div id="loading">Loading your subscription details…</div>
+
+  <div id="main-content">
+    <!-- Current subscription info -->
+    <div class="card">
+      <div class="card-label">Current Subscription</div>
+      <div class="sub-info-row"><span>Student</span><span id="student-name">—</span></div>
+      <div class="sub-info-row"><span>Plan</span><span>SciSpark Monthly — $37/month</span></div>
+      <div class="sub-info-row"><span>Started</span><span id="started-date">—</span></div>
+      <div class="sub-info-row"><span>Upgrade window expires</span><span id="window-expires">—</span></div>
+    </div>
+
+    <!-- Upgrade window status -->
+    <div id="window-ok" class="window-bar" style="display:none">
+      ✓ You're within your 90-day upgrade window. Your upgrade credit applies.
+    </div>
+    <div id="window-expired" class="window-expired" style="display:none">
+      <strong>Upgrade window has expired</strong>
+      Your 90-day upgrade window closed on <span id="window-expired-date"></span>.
+      You can still upgrade, but no credit will apply — you pay the full $355.
+    </div>
+
+    <!-- Price calculator -->
+    <div class="card">
+      <div class="card-label">Upgrade Calculator</div>
+      <div class="calc-row">
+        <span class="label">Annual plan</span>
+        <span class="value">$355.00</span>
+      </div>
+      <div class="calc-row credit" id="credit-row">
+        <span class="label">Your credit (<span id="credit-months">0</span> month(s) × $37)</span>
+        <span class="value" id="credit-amount">−$0</span>
+      </div>
+      <div class="calc-row total">
+        <span class="label">Total to pay today</span>
+        <span class="value" id="total-due">$355</span>
+      </div>
+      <div style="margin-top:14px;font-size:0.82rem;color:var(--muted);line-height:1.5">
+        Your annual access runs from <strong id="annual-start-label">—</strong> for 365 days.
+      </div>
+    </div>
+
+    <!-- Expired window acknowledgment -->
+    <label id="expired-ack" class="confirm-checkbox" style="display:none">
+      <input type="checkbox" id="ack-checkbox" onchange="toggleUpgradeBtn()">
+      <span>I understand that my upgrade window has expired and no credit will apply. I agree to pay the full $355 for annual access.</span>
+    </label>
+
+    <div id="error-msg"></div>
+
+    <button class="btn-upgrade" id="upgrade-btn" onclick="executeUpgrade()" disabled>
+      <span id="btn-text">Upgrade to Annual</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+    <div class="security-note">🔒 Secured by Stripe · You'll be redirected to complete payment</div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://fiffuaoibxeggwxcfvfh.supabase.co";
+const SUPABASE_KEY = "sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ";
+
+let childId    = null;
+let isEligible = false;
+
+function getToken() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.includes("auth-token")) {
+      try { return JSON.parse(localStorage.getItem(key)).access_token; } catch (_) {}
+    }
+  }
+  return "";
+}
+
+async function init() {
+  const token = getToken();
+  if (!token) { window.location.href = "/signin.html"; return; }
+
+  // Verify auth
+  const r = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${token}` }
+  });
+  if (!r.ok) { window.location.href = "/signin.html"; return; }
+  const u = await r.json();
+
+  // Get children
+  const cr = await fetch(
+    `${SUPABASE_URL}/rest/v1/children?parent_id=eq.${u.id}&select=id,full_name&order=created_at.asc`,
+    { headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${token}` } }
+  );
+  const children = await cr.json();
+  if (!children || !children.length) { window.location.href = "/dashboard-parent.html"; return; }
+
+  const params = new URLSearchParams(window.location.search);
+  const childIdParam = params.get("child_id");
+  const child = childIdParam
+    ? (children.find(c => c.id === childIdParam) || children[0])
+    : children[0];
+  childId = child.id;
+
+  document.getElementById("student-name").textContent = child.full_name;
+
+  // Call upgrade preview
+  const previewRes = await fetch(`${SUPABASE_URL}/functions/v1/upgrade-to-annual`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+    body: JSON.stringify({ child_id: childId, preview: true })
+  });
+  const data = await previewRes.json();
+
+  if (!previewRes.ok) {
+    document.getElementById("loading").textContent = data.error || "Unable to load upgrade details.";
+    return;
+  }
+
+  renderPreview(data);
+}
+
+function renderPreview(data) {
+  isEligible = data.eligible;
+
+  // Dates
+  const started = new Date(data.first_purchase_at).toLocaleDateString("en-MY", { year:"numeric", month:"short", day:"numeric" });
+  const windowExpires = new Date(data.window_expires_at).toLocaleDateString("en-MY", { year:"numeric", month:"short", day:"numeric" });
+  const annualStart = new Date(data.annual_start).toLocaleDateString("en-MY", { year:"numeric", month:"short", day:"numeric" });
+
+  document.getElementById("started-date").textContent    = started;
+  document.getElementById("window-expires").textContent  = windowExpires;
+  document.getElementById("annual-start-label").textContent = annualStart;
+
+  // Credit
+  const creditMonths = data.paid_months || 0;
+  const creditUsd    = data.credit_usd  || 0;
+  document.getElementById("credit-months").textContent = creditMonths;
+  document.getElementById("credit-amount").textContent = creditUsd > 0 ? `−$${creditUsd}` : "−$0";
+  document.getElementById("total-due").textContent     = `$${data.amount_due_usd}`;
+
+  if (creditUsd === 0) {
+    document.getElementById("credit-row").style.opacity = "0.4";
+  }
+
+  // Window status
+  if (isEligible) {
+    document.getElementById("window-ok").style.display = "block";
+  } else {
+    document.getElementById("window-expired").style.display      = "block";
+    document.getElementById("window-expired-date").textContent   = windowExpires;
+    document.getElementById("expired-ack").style.display         = "flex";
+  }
+
+  // Enable button only if eligible; if expired, wait for checkbox
+  document.getElementById("upgrade-btn").disabled = !isEligible;
+
+  document.getElementById("loading").style.display      = "none";
+  document.getElementById("main-content").style.display = "block";
+}
+
+function toggleUpgradeBtn() {
+  const checked = document.getElementById("ack-checkbox").checked;
+  document.getElementById("upgrade-btn").disabled = !checked;
+}
+
+async function executeUpgrade() {
+  const btn  = document.getElementById("upgrade-btn");
+  const bTxt = document.getElementById("btn-text");
+  const sp   = document.getElementById("spinner");
+  const eMsg = document.getElementById("error-msg");
+
+  btn.disabled     = true;
+  bTxt.textContent = "Processing…";
+  sp.style.display = "block";
+  eMsg.classList.remove("show");
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/upgrade-to-annual`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` },
+      body: JSON.stringify({ child_id: childId })
+    });
+    const d = await res.json();
+
+    if (!res.ok) {
+      throw new Error(d.error || "Upgrade failed. Please try again.");
+    }
+
+    if (d.checkout_url) {
+      window.location.href = d.checkout_url;
+    } else {
+      window.location.href = "/payment-success.html?upgraded=true";
+    }
+  } catch (err) {
+    eMsg.textContent = `Error: ${err.message}`;
+    eMsg.classList.add("show");
+    btn.disabled     = false;
+    sp.style.display = "none";
+    bTxt.textContent = "Upgrade to Annual";
+  }
+}
+
+init();
+</script>
+</body>
+</html>
