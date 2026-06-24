@@ -21,12 +21,12 @@
 --   · A child only sees the group when their OWN parent consent = true
 --     (Option A, per founder decision 2026-06-24).
 --
--- ⚠ ONE THING TO CONFIRM BEFORE REAL APPLY
---   How a logged-in STUDENT maps to their `children` row.
---   This file assumes `children.user_id = auth.uid()`.
---   If the real column differs, fix ONLY the body of
---   app_current_child_id() below. Wrong guess = helper returns NULL
---   = access denied (fail-closed, safe). No data exposed either way.
+-- ✓ AUTH MAPPING — CONFIRMED FROM REAL SCHEMA (2026-06-24)
+--   STUDENT: a logged-in student = student_accounts.student_user_id
+--            = auth.uid(); that row's child_id IS their children row.
+--   PARENT:  a logged-in parent  = parents.auth_user_id = auth.uid();
+--            their children = children.parent_id = that parents.id.
+--   (`children` has NO user_id column; parent_id references parents.id.)
 -- ============================================================
 
 BEGIN;
@@ -42,9 +42,14 @@ STABLE
 SECURITY DEFINER
 SET search_path = public
 AS $$
-  -- TODO confirm before prod: column that links a student login
-  -- (auth.uid()) to their children row. Assumed children.user_id.
-  SELECT id FROM children WHERE user_id = auth.uid() LIMIT 1;
+  -- Confirmed schema (2026-06-24): the current student is the child_id in
+  -- student_accounts whose student_user_id = auth.uid(). We also require the
+  -- account to be activated (activated_at IS NOT NULL) so a not-yet-activated
+  -- login cannot act. Returns NULL if no match => fail-closed (access denied).
+  SELECT child_id FROM student_accounts
+  WHERE student_user_id = auth.uid()
+    AND activated_at IS NOT NULL
+  LIMIT 1;
 $$;
 
 -- ------------------------------------------------------------
@@ -97,7 +102,7 @@ CREATE TRIGGER trg_sg_members_max5
 CREATE TABLE IF NOT EXISTS study_group_consent (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   child_id      uuid NOT NULL UNIQUE REFERENCES children(id) ON DELETE CASCADE,
-  parent_id     uuid NOT NULL,            -- = children.parent_id (auth uid)
+  parent_id     uuid NOT NULL,            -- = children.parent_id (= parents.id)
   consented     boolean NOT NULL DEFAULT false,
   consented_at  timestamptz,
   updated_at    timestamptz NOT NULL DEFAULT now()
@@ -202,7 +207,7 @@ CREATE POLICY sg_groups_read ON study_groups
     OR id IN (
       SELECT m.group_id FROM study_group_members m
       JOIN children c ON c.id = m.child_id
-      WHERE c.parent_id = auth.uid()
+      WHERE c.parent_id IN (SELECT id FROM parents WHERE auth_user_id = auth.uid())
     )
   );
 
@@ -210,14 +215,14 @@ CREATE POLICY sg_groups_read ON study_groups
 CREATE POLICY sg_members_read ON study_group_members
   FOR SELECT USING (
     group_id IN (SELECT group_id FROM study_group_members WHERE child_id = app_current_child_id())
-    OR child_id IN (SELECT id FROM children WHERE parent_id = auth.uid())
+    OR child_id IN (SELECT id FROM children WHERE parent_id IN (SELECT id FROM parents WHERE auth_user_id = auth.uid()))
   );
 
 -- ---- consent: parent manages own child's row; child may read own ----
 CREATE POLICY sg_consent_parent_all ON study_group_consent
   FOR ALL
-  USING (child_id IN (SELECT id FROM children WHERE parent_id = auth.uid()))
-  WITH CHECK (child_id IN (SELECT id FROM children WHERE parent_id = auth.uid()));
+  USING (child_id IN (SELECT id FROM children WHERE parent_id IN (SELECT id FROM parents WHERE auth_user_id = auth.uid())))
+  WITH CHECK (child_id IN (SELECT id FROM children WHERE parent_id IN (SELECT id FROM parents WHERE auth_user_id = auth.uid())));
 
 CREATE POLICY sg_consent_child_read ON study_group_consent
   FOR SELECT USING (child_id = app_current_child_id());
@@ -232,7 +237,7 @@ CREATE POLICY sg_options_read ON study_group_message_options
 CREATE POLICY sg_messages_read ON study_group_messages
   FOR SELECT USING (
     group_id IN (SELECT group_id FROM study_group_members WHERE child_id = app_current_child_id())
-    OR child_id IN (SELECT id FROM children WHERE parent_id = auth.uid())
+    OR child_id IN (SELECT id FROM children WHERE parent_id IN (SELECT id FROM parents WHERE auth_user_id = auth.uid()))
   );
 
 CREATE POLICY sg_messages_insert ON study_group_messages
@@ -246,7 +251,7 @@ CREATE POLICY sg_messages_insert ON study_group_messages
 CREATE POLICY sg_reactions_read ON study_group_reactions
   FOR SELECT USING (
     group_id IN (SELECT group_id FROM study_group_members WHERE child_id = app_current_child_id())
-    OR child_id IN (SELECT id FROM children WHERE parent_id = auth.uid())
+    OR child_id IN (SELECT id FROM children WHERE parent_id IN (SELECT id FROM parents WHERE auth_user_id = auth.uid()))
   );
 
 CREATE POLICY sg_reactions_insert ON study_group_reactions
