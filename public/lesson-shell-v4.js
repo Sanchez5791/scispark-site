@@ -287,20 +287,28 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function voiceInjectStyles() {
     if (voiceStylesInjected) return;
     voiceStylesInjected = true;
+    // FIX (2026-06-23, PR#73): professional brand styling (orange #EA580C on warm-white)
+    // + EN/中文 speaking-language switch beside the Speak button.
     var css =
       '.voice-field-wrap{display:block;}' +
-      '.voice-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;' +
-        'padding:6px 12px;border:1.5px solid #E8E2D8;border-radius:999px;background:#fff;' +
-        'color:#5b5247;font-family:inherit;font-size:13px;line-height:1;cursor:pointer;' +
-        '-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s,color .15s;}' +
-      '.voice-btn:hover{border-color:#d9c9a8;background:#fbf7ef;}' +
+      '.voice-row{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap;}' +
+      '.voice-btn{display:inline-flex;align-items:center;gap:7px;' +
+        'padding:8px 14px;border:1.5px solid #F2D2BE;border-radius:999px;background:#FFFCF7;' +
+        'color:#EA580C;font-family:inherit;font-weight:600;font-size:13px;line-height:1;cursor:pointer;' +
+        '-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s,color .15s,box-shadow .15s;}' +
+      '.voice-btn:hover{border-color:#EA580C;background:#FEF4EE;box-shadow:0 1px 6px rgba(234,88,12,.12);}' +
       '.voice-btn:active{transform:translateY(1px);}' +
-      '.voice-btn .voice-ic{font-size:15px;line-height:1;}' +
-      '.voice-btn.listening{background:#fff4f2;border-color:#e8857a;color:#c0392b;' +
+      '.voice-btn .voice-ic{width:15px;height:15px;flex:none;display:block;}' +
+      '.voice-btn.listening{background:#FEF2F2;border-color:#EF4444;color:#DC2626;' +
         'animation:voicePulse 1.1s ease-in-out infinite;}' +
       '.voice-btn[disabled]{opacity:.5;cursor:default;}' +
-      '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.35);}' +
-        '50%{box-shadow:0 0 0 6px rgba(192,57,43,0);}}' +
+      '.voice-lang{display:inline-flex;border:1px solid #E8E2D8;border-radius:999px;overflow:hidden;background:#fff;}' +
+      '.voice-lang__opt{padding:6px 11px;font-family:inherit;font-size:12px;font-weight:700;line-height:1;' +
+        'color:#9a8e84;background:transparent;border:0;cursor:pointer;transition:background .15s,color .15s;}' +
+      '.voice-lang__opt.is-on{background:#EA580C;color:#fff;}' +
+      '.voice-lang__opt:not(.is-on):hover{background:#FEF4EE;color:#EA580C;}' +
+      '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.35);}' +
+        '50%{box-shadow:0 0 0 6px rgba(220,38,38,0);}}' +
       '@media (prefers-reduced-motion: reduce){.voice-btn.listening{animation:none;}}';
     var style = document.createElement('style');
     style.id = 'voice-input-styles';
@@ -338,7 +346,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
 
     var rec;
     try { rec = new VoiceRec(); } catch (e) { return; }
-    rec.lang = voiceLangCode();
+    // FIX (2026-06-23, PR#73): use the student's chosen speaking language
+    // (EN/中文 switch beside the button), defaulting to the page language.
+    rec.lang = (btn && btn.dataset && btn.dataset.voiceLang) || voiceLangCode();
     rec.interimResults = true;
     rec.continuous = false;
     rec.maxAlternatives = 1;
@@ -398,18 +408,29 @@ Globals exposed (lesson HTML can call directly via onclick=):
       if (field.disabled || field.readOnly) return;
       field._voiceWired = true;
 
-      // Wrap the field so the mic button sits directly beneath it
+      // Wrap the field so the mic controls sit directly beneath it
       var wrap = document.createElement('span');
       wrap.className = 'voice-field-wrap';
       field.parentNode.insertBefore(wrap, field);
       wrap.appendChild(field);
 
+      // Controls row: [Speak button] [EN | 中 language switch]
+      var row = document.createElement('span');
+      row.className = 'voice-row';
+
       var zh = voiceLangCode() === 'zh-CN';
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'voice-btn';
+      // FIX 3 (PR#73): chosen speaking language lives on the button (default = page lang)
+      btn.dataset.voiceLang = voiceLangCode();
+      // FIX 4 (PR#73): professional SVG microphone icon (replaces the 🎤 emoji)
       btn.innerHTML =
-        '<span class="voice-ic" aria-hidden="true">🎤</span>' +
+        '<svg class="voice-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M12 1.8a2.7 2.7 0 0 0-2.7 2.7v7a2.7 2.7 0 0 0 5.4 0v-7A2.7 2.7 0 0 0 12 1.8z"/>' +
+          '<path d="M5 11v.5a7 7 0 0 0 14 0V11"/>' +
+          '<line x1="12" y1="18.5" x2="12" y2="22"/><line x1="8.5" y1="22" x2="15.5" y2="22"/>' +
+        '</svg>' +
         '<span class="voice-lbl" data-en="Speak" data-zh="说出答案">' +
         (zh ? '说出答案' : 'Speak') + '</span>';
       btn.setAttribute('aria-label', zh ? '语音输入答案' : 'Voice input');
@@ -417,7 +438,30 @@ Globals exposed (lesson HTML can call directly via onclick=):
         e.preventDefault();
         voiceStartFor(field, btn);
       });
-      wrap.appendChild(btn);
+
+      // FIX 3 (PR#73): EN / 中文 speaking-language switch — student picks BEFORE recording
+      var langWrap = document.createElement('span');
+      langWrap.className = 'voice-lang';
+      langWrap.setAttribute('role', 'group');
+      langWrap.setAttribute('aria-label', zh ? '说话语言' : 'Speaking language');
+      [['en-US', 'EN'], ['zh-CN', '中']].forEach(function (pair) {
+        var opt = document.createElement('button');
+        opt.type = 'button';
+        opt.className = 'voice-lang__opt' + (btn.dataset.voiceLang === pair[0] ? ' is-on' : '');
+        opt.setAttribute('data-lang', pair[0]);
+        opt.textContent = pair[1];
+        opt.addEventListener('click', function (e) {
+          e.preventDefault();
+          btn.dataset.voiceLang = pair[0];
+          var opts = langWrap.querySelectorAll('.voice-lang__opt');
+          Array.prototype.forEach.call(opts, function (o) { o.classList.toggle('is-on', o === opt); });
+        });
+        langWrap.appendChild(opt);
+      });
+
+      row.appendChild(btn);
+      row.appendChild(langWrap);
+      wrap.appendChild(row);
     });
   }
 
@@ -1937,7 +1981,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // ── 再解释一次: re-surface the lesson's OWN explanation. No DB, no notify. ──
     // Purpose per order: reduce false review requests. (Not an LLM call in MVP.)
     function reExplain(info, sourceBtn) {
-      try { if (info.showAnsBtn) { info.showAnsBtn.style.display = 'inline-block'; info.showAnsBtn.click(); } } catch (e) {}
+      // FIX (2026-06-23, PR#73): "Explain again" must NEVER reveal the answer.
+      // It used to click the lesson's show-answer button here — removed. Only the
+      // green "Answer" button may reveal the correct answer / accept-list.
       var panel = info.container && info.container.querySelector('.review-explain-again');
       if (!panel) {
         panel = document.createElement('div');
@@ -1949,10 +1995,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
         var body = document.createElement('div');
         body.className = 'review-explain-again__body';
         var reason = (info.aiReason || '').trim();
-        var model = (info.modelAnswer || '').trim();
         var enParts = [], zhParts = [];
         if (reason) { enParts.push(reason); zhParts.push(reason); }
-        if (model)  { enParts.push('Model answer: ' + model); zhParts.push('参考答案:' + model); }
+        // FIX (2026-06-23, PR#73): model answer intentionally NOT shown here —
+        // "Explain again" is hint / re-teach only, never the answer.
         enParts.push('Re-read it slowly. Still think the mark is wrong? Then ask the teacher to review.');
         zhParts.push('慢慢再读一遍。还是觉得分数不对?那就请老师复核。');
         body.setAttribute('data-en', enParts.join('  '));
@@ -2066,6 +2112,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
             note.setAttribute('data-en', '✓ Got it — you’re in the queue. Keep learning; the teacher will look soon.');
             note.setAttribute('data-zh', '✓ 已收到,排队中。你可以继续学习,老师会尽快看。');
             pill.insertAdjacentElement('afterend', note);
+            // FIX (2026-06-23, PR#73): consistency — same dashboard pointer as the reopen
+            // state, so the student knows where the teacher's reply will appear later.
+            note.insertAdjacentElement('afterend', dashPointer(row));
             relangNewNodes();
           }
         });
