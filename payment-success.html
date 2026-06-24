@@ -19,11 +19,11 @@
 <meta property="og:image" content="https://scisparklab.com/assets/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="SciSpark — Your first lesson is unlocked. Start in 15 minutes.">
+<meta property="og:image:alt" content="SciSpark — Start with the right assessment. Continue on the right path.">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://scisparklab.com/assets/twitter-card.png?v=2">
-<meta name="twitter:image:alt" content="SciSpark — Your first lesson is unlocked. Start in 15 minutes.">
+<meta name="twitter:image:alt" content="SciSpark — Start with the right assessment. Continue on the right path.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SciSpark — Payment Successful</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,21 +45,14 @@
   .info-row span:last-child { font-weight:600; }
   .btn { display:inline-block; padding:14px 32px; background:var(--orange); color:#fff; border-radius:100px; font-weight:600; text-decoration:none; font-size:0.95rem; }
   .btn:hover { background:#d44717; }
-  h1 .zh { display:block; font-size:1.45rem; margin-top:6px; color:var(--dark); }
-  .subtitle .zh { display:block; margin-top:4px; }
-  .btn-start { width:100%; padding:18px; font-size:1.05rem; }
-  .fine-print { color:var(--muted); font-size:0.85rem; line-height:1.6; margin-top:22px; }
-  .fine-print .zh { display:block; margin-top:2px; }
-  .secondary-link { display:inline-block; margin-top:18px; color:var(--muted); font-size:0.85rem; text-decoration:underline; }
-  .secondary-link:hover { color:var(--text); }
 </style>
 </head>
 <body>
 <nav><a href="/" class="nav-logo">SciSpark</a></nav>
 <div class="page">
   <div class="check">✓</div>
-  <h1>Your first lesson is unlocked.<span class="zh">你的第一节推荐课已解锁。</span></h1>
-  <p class="subtitle">Just 15 minutes today.<span class="zh">今天先完成 15 分钟。</span></p>
+  <h1>Payment successful!</h1>
+  <p class="subtitle">Your SciSpark access is now active. Your child can start learning today.</p>
 
   <div class="card">
     <div class="info-row"><span>Status</span><span style="color:var(--green)">Active</span></div>
@@ -67,27 +60,27 @@
     <div class="info-row"><span>Valid until</span><span id="expiry-display">—</span></div>
   </div>
 
-  <a href="/lessons/y7/u1/l01.html" class="btn btn-start">Start your first lesson → 开始第一节课</a>
-
-  <p class="fine-print">
-    Once your child finishes this lesson, we'll take 10–12 minutes to confirm their learning starting point.
-    <span class="zh">完成第一节课后,我们会用 10 到 12 分钟帮孩子确认学习起点。</span>
-  </p>
-
-  <a href="/dashboard-parent.html" class="secondary-link">Go to parent dashboard / 前往家长面板</a>
+  <a href="/dashboard-parent.html" class="btn">Go to Dashboard →</a>
 </div>
 
 <script>
+  function fmtDate(d) {
+    return d.toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" });
+  }
+
+  // Plan comes through the success URL (?plan=monthly|annual), set by create-checkout.
   const params = new URLSearchParams(window.location.search);
+  const isAnnual = (params.get("plan") || "monthly").toLowerCase() === "annual";
 
-  // Show expiry 1 year from now
+  // Plan label — real type, bilingual (English-primary). No more generic "SciSpark Plan".
+  document.getElementById("plan-display").textContent = isAnnual ? "Annual / 年付" : "Monthly / 月付";
+
+  // Valid until — derive from the real plan: monthly = +1 month, annual = +1 year.
+  // No more hardcoded +1 year.
   const expiry = new Date();
-  expiry.setFullYear(expiry.getFullYear() + 1);
-  document.getElementById("expiry-display").textContent = expiry.toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" });
-
-  // Get plan from localStorage if available
-  const plan = localStorage.getItem("scispark_pending_plan") || "SciSpark Plan";
-  document.getElementById("plan-display").textContent = plan;
+  if (isAnnual) expiry.setFullYear(expiry.getFullYear() + 1);
+  else          expiry.setMonth(expiry.getMonth() + 1);
+  document.getElementById("expiry-display").textContent = fmtDate(expiry);
 </script>
 </body>
 </html>
