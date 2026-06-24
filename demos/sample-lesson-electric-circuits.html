@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SciSpark · SAMPLE · Electric Circuits (v8 interactive engine)</title>
+
+<!-- shared shell look (direct /public paths so it works on static server AND Vercel) -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/public/lesson-shell-v8.css">
+<link rel="stylesheet" href="/public/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/public/lesson-b2-cards.css">
+<style>
+  /* tiny banner so it is obvious this is a sample, not a live lesson */
+  .sample-flag { background:#fde68a; color:#7c2d12; text-align:center; padding:6px 10px; font:600 13px/1.4 Inter,system-ui; }
+  .main-content { padding-bottom: 60px; }
+  .teach { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:16px 18px; margin:14px 0; }
+  .teach h3 { margin:0 0 8px; font:600 16px Inter,system-ui; }
+  .teach .zh { color:#475569; }
+  .qwrap { margin:18px 0; }
+  .qwrap > .qh { font:600 15px Inter,system-ui; margin-bottom:6px; }
+  .qwrap > .qh .zh { color:#475569; font-weight:500; }
+  body:not(.zh-mode) .zh { display:none; }
+  body.zh-mode .zh { display:revert; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="sample-flag">SAMPLE · 样板课 · Y7 Electric Circuits · powered by lesson-shell-v8 (8 interactive types in context) · not a live lesson</div>
+
+<!-- ─── TOP NAV ─── -->
+<nav class="top-nav">
+  <div class="nav-logo"><span class="logo-bolt" style="display:inline-flex;width:34px;height:34px;background:#ea580c;border-radius:9px;align-items:center;justify-content:center">
+    <svg viewBox="0 0 24 24" width="20" fill="white"><path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/></svg></span></div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre 出品">An IG Spark Centre Product</span>
+  </div>
+  <div class="nav-meta">Y7 · Electric Circuits</div>
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak"><span class="nav-streak-flame">🔥</span><span id="streak-count">1</span></div>
+  <a href="#" class="nav-back">← Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute" aria-label="Toggle sound">🔊</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">中文</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      <div class="sidebar-unit-label">Y7 Physics</div>
+      <div class="sidebar-unit-title" data-en="Electric Circuits" data-zh="电路">Electric Circuits</div>
+    </div>
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div><div class="screen-nav-labels"><div class="screen-nav-main">Hook</div><div class="screen-nav-sub">Observe<span class="zh"> · 观察</span></div></div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div><div class="screen-nav-labels"><div class="screen-nav-main">Learn</div><div class="screen-nav-sub">Define<span class="zh"> · 定义</span></div></div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div><div class="screen-nav-labels"><div class="screen-nav-main">Try</div><div class="screen-nav-sub">Practise<span class="zh"> · 练习</span></div></div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div><div class="screen-nav-labels"><div class="screen-nav-main">Test</div><div class="screen-nav-sub">Apply solo<span class="zh"> · 独立应用</span></div></div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div><div class="screen-nav-labels"><div class="screen-nav-main">Wrap</div><div class="screen-nav-sub">Reflect<span class="zh"> · 反思</span></div></div>
+    </div>
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> 进度</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="main-content">
+
+  <!-- ════ SCREEN 1: HOOK ════ -->
+  <section class="screen active" id="screen-hook">
+    <div class="screen-header">
+      <div class="eyebrow">Hook · Observe</div>
+      <h2 class="banner"><span class="en">What makes a bulb light up?</span></h2>
+      <div class="banner-zh zh">灯泡为什么会亮？</div>
+    </div>
+    <div class="teach">
+      <h3><span class="en">A hidden river of charge</span><span class="zh">看不见的电荷之河</span></h3>
+      <p class="en">Flip a switch and the light comes on at once. Nothing seems to move — yet something invisible is racing around the wire. That something is electric current: a flow of tiny charges.</p>
+      <p class="zh">一按开关，灯马上就亮。看起来什么都没动——但有看不见的东西正在导线里奔跑。那就是电流：微小电荷的流动。</p>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">▶ Watch: charge flowing around a circuit</span><span class="zh">▶ 观看：电荷在电路中流动</span></div>
+      <div data-mount="q_hook" data-widget="animation_view" data-options='{
+        "duration":4, "autoplay":false, "loop":true,
+        "caption":{"en":"Charge drifts around the loop when the path is complete","zh":"当回路接通，电荷沿着回路流动"},
+        "hints":{"start_en":"Press play to watch the charge move.","start_zh":"按播放，看电荷怎么动。","correct_en":"It only flows when the loop is unbroken.","correct_zh":"只有回路不断开时它才会流动。"}
+      }'></div>
+    </div>
+  </section>
+
+  <!-- ════ SCREEN 2: LEARN ════ -->
+  <section class="screen" id="screen-learn">
+    <div class="screen-header">
+      <div class="eyebrow">Learn · Define</div>
+      <h2 class="banner"><span class="en">The parts of a circuit</span></h2>
+      <div class="banner-zh zh">电路的组成</div>
+    </div>
+    <div class="teach">
+      <h3><span class="en">Four jobs in every simple circuit</span><span class="zh">每个简单电路里的四个角色</span></h3>
+      <p class="en">A cell pushes the charge. Wires carry it. A component (like a bulb) uses the energy. A switch opens or closes the path. Break any part of the loop and the current stops.</p>
+      <p class="zh">电池推动电荷，导线运送电荷，元件（如灯泡）使用能量，开关让回路通或断。回路中任何一处断开，电流就会停止。</p>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Match each part to its job</span><span class="zh">把每个元件配到它的作用</span></div>
+      <div data-mount="q_match" data-widget="matching" data-options='{
+        "marks":4,
+        "pairs":[
+          {"left":{"en":"Cell","zh":"电池"},"right":{"en":"Pushes the charge along","zh":"推动电荷流动"}},
+          {"left":{"en":"Wire","zh":"导线"},"right":{"en":"Carries the charge","zh":"运送电荷"}},
+          {"left":{"en":"Bulb","zh":"灯泡"},"right":{"en":"Uses energy to give light","zh":"用能量发光"}},
+          {"left":{"en":"Switch","zh":"开关"},"right":{"en":"Opens or closes the path","zh":"让回路通或断"}}
+        ],
+        "hints":{"start_en":"Drag each part onto its job.","start_zh":"把每个元件拖到它的作用上。","wrong_en":"Which part gives out light?","wrong_zh":"哪个元件会发光？","correct_en":"Exactly right!","correct_zh":"完全正确！"}
+      }'></div>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Label the circuit diagram</span><span class="zh">给电路图贴标签</span></div>
+      <div data-mount="q_label" data-widget="label_diagram" data-options='{
+        "marks":3, "image":"/demos/assets/circuit.svg", "alt":"Simple circuit",
+        "slots":[{"id":"s_cell","x":50,"y":15},{"id":"s_bulb","x":85,"y":50},{"id":"s_switch","x":50,"y":85}],
+        "labels":[{"id":"cell","en":"Cell","zh":"电池"},{"id":"bulb","en":"Bulb","zh":"灯泡"},{"id":"switch","en":"Switch","zh":"开关"}],
+        "correctMap":{"s_cell":"cell","s_bulb":"bulb","s_switch":"switch"},
+        "hints":{"start_en":"Drag each label to the matching part.","start_zh":"把每个标签拖到对应的元件上。","wrong_en":"The two short lines are the cell.","wrong_zh":"两条短线是电池。","correct_en":"All parts labelled!","correct_zh":"全部标对了！"}
+      }'></div>
+    </div>
+  </section>
+
+  <!-- ════ SCREEN 3: TRY ════ -->
+  <section class="screen" id="screen-try">
+    <div class="screen-header">
+      <div class="eyebrow">Try · Practise</div>
+      <h2 class="banner"><span class="en">Practise with hints</span></h2>
+      <div class="banner-zh zh">带提示练习</div>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Click the switch in the circuit</span><span class="zh">点出电路里的开关</span></div>
+      <div data-mount="q_hot" data-widget="hotspot" data-options='{
+        "marks":1, "image":"/demos/assets/circuit.svg", "alt":"Circuit", "tolerance_px":48,
+        "hotspots":[{"x":50,"y":85,"r":14,"label":"switch"}],
+        "hints":{"start_en":"Find the part that opens and closes the path.","start_zh":"找到让回路通断的那个元件。","wrong_en":"Not there — look along the bottom wire.","wrong_zh":"不在那里——看底部那条线。","correct_en":"Yes, that is the switch!","correct_zh":"对，那就是开关！"}
+      }'></div>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Connect each part to its circuit symbol</span><span class="zh">把每个元件连到它的电路符号</span></div>
+      <div data-mount="q_conn" data-widget="connect" data-options='{
+        "marks":3,
+        "nodes":[
+          {"id":"cell","side":"L","label":{"en":"Cell","zh":"电池"}},
+          {"id":"bulb","side":"L","label":{"en":"Bulb","zh":"灯泡"}},
+          {"id":"switch","side":"L","label":{"en":"Switch","zh":"开关"}},
+          {"id":"sym_cell","side":"R","label":{"en":"long + short line","zh":"一长一短线"}},
+          {"id":"sym_bulb","side":"R","label":{"en":"circle with a cross","zh":"带叉的圆"}},
+          {"id":"sym_switch","side":"R","label":{"en":"gap with a lever","zh":"带杆的缺口"}}
+        ],
+        "edgesExpected":[["cell","sym_cell"],["bulb","sym_bulb"],["switch","sym_switch"]],
+        "hints":{"start_en":"Click a part, then click its symbol.","start_zh":"先点元件，再点它的符号。","wrong_en":"One link is off — check the bulb.","wrong_zh":"有一条连错了——看看灯泡。","correct_en":"All symbols matched!","correct_zh":"符号全连对了！"}
+      }'></div>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Put the steps in order to light the bulb</span><span class="zh">把点亮灯泡的步骤排好顺序</span></div>
+      <div data-mount="q_reorder" data-widget="reorder" data-options='{
+        "marks":3,
+        "items":[
+          {"id":"1","en":"Connect the cell","zh":"接上电池"},
+          {"id":"2","en":"Join the wires into a loop","zh":"把导线连成回路"},
+          {"id":"3","en":"Add the bulb to the loop","zh":"把灯泡接入回路"},
+          {"id":"4","en":"Close the switch","zh":"合上开关"}
+        ],
+        "correctOrder":["1","2","3","4"],
+        "hints":{"start_en":"What has to happen first?","start_zh":"最先要做什么？","wrong_en":"The switch closes last.","wrong_zh":"开关是最后才合上的。","correct_en":"Perfect order!","correct_zh":"顺序完美！"}
+      }'></div>
+    </div>
+  </section>
+
+  <!-- ════ SCREEN 4: TEST ════ -->
+  <section class="screen" id="screen-test">
+    <div class="screen-header">
+      <div class="eyebrow">Test · Apply solo</div>
+      <h2 class="banner"><span class="en">Your turn — no hints</span></h2>
+      <div class="banner-zh zh">换你自己来——没有提示</div>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Build a working circuit: place a cell and a bulb, then wire them together</span><span class="zh">搭一个能用的电路：放一个电池和一个灯泡，再把它们连起来</span></div>
+      <div data-mount="q_circuit" data-widget="draw_circuit" data-options='{
+        "marks":2, "gridCells":4,
+        "components":[{"id":"cell","label":{"en":"Cell","zh":"电池"}},{"id":"bulb","label":{"en":"Bulb","zh":"灯泡"}}],
+        "targetTopology":{"components":["cell","bulb"],"wires":[[0,1]]},
+        "hints":{"start_en":"Tap a part, tap a cell to place it, then tap two parts to wire them.","start_zh":"点一个元件，点格子放下，再点两个元件把它们连起来。","wrong_en":"Did you add both parts and a wire?","wrong_zh":"两个元件和一条导线都加了吗？","correct_en":"Circuit complete — the bulb would light!","correct_zh":"电路完成——灯泡会亮！"}
+      }'></div>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">Explore: how does adding cells change the bulb?</span><span class="zh">探索：多加电池，灯泡会怎样？</span></div>
+      <div data-mount="q_explore" data-widget="interactive_explore" data-options='{
+        "parameters":[
+          {"id":"cells","label":{"en":"Number of cells","zh":"电池数量"},"min":1,"max":4,"default":1,"unit":""},
+          {"id":"brightness","label":{"en":"Bulb brightness","zh":"灯泡亮度"},"min":0,"max":100,"default":25,"unit":"%"}
+        ],
+        "hints":{"start_en":"Slide the cells up and watch — more cells push harder.","start_zh":"把电池数量拉高，观察——电池越多，推力越大。"}
+      }'></div>
+    </div>
+  </section>
+
+  <!-- ════ SCREEN 5: WRAP ════ -->
+  <section class="screen" id="screen-wrap">
+    <div class="screen-header">
+      <div class="eyebrow">Wrap · Reflect</div>
+      <h2 class="banner"><span class="en">What you learned today</span></h2>
+      <div class="banner-zh zh">今天学到了什么</div>
+    </div>
+    <div class="teach">
+      <h3><span class="en">Three things to keep</span><span class="zh">记住三件事</span></h3>
+      <p class="en">1) Current is a flow of charge, pushed by the cell. 2) Current only flows in a complete, unbroken loop. 3) A switch makes or breaks that loop.</p>
+      <p class="zh">1）电流是电荷的流动，由电池推动。2）只有在完整、不断开的回路里电流才会流动。3）开关让回路通或断。</p>
+    </div>
+    <div class="qwrap">
+      <div class="qh"><span class="en">▶ Recap: the complete loop</span><span class="zh">▶ 回顾：完整的回路</span></div>
+      <div data-mount="q_wrap" data-widget="animation_view" data-options='{
+        "duration":5, "autoplay":false, "loop":false,
+        "caption":{"en":"One complete loop = the bulb stays lit","zh":"一个完整回路 = 灯泡持续亮着"},
+        "hints":{"start_en":"Press play once more to fix the idea.","start_zh":"再播一次，巩固这个概念。","correct_en":"Break the loop anywhere and it goes dark.","correct_zh":"回路任何一处断开，灯就灭了。"}
+      }'></div>
+    </div>
+  </section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+<footer class="lesson-footer">
+  © 2026 SciSpark · SAMPLE lesson for engine review · not a live lesson
+  <div class="lesson-footer-zh">这是给引擎审阅用的样板课，不是正式上线的课。</div>
+</footer>
+
+</div><!-- .app -->
+
+<!-- shared shell JS (v8 engine) + skin -->
+<script src="/public/lesson-shell-v8.js"></script>
+<script src="/public/components/doudou/poses.js"></script>
+<script src="/public/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/public/lesson-shell-v4-skin.js"></script>
+<script>
+  window.bubbleScripts = {
+    hook:  { en: "Flip the switch — what happens?",            zh: "按下开关——会怎样？" },
+    learn: { en: "Every circuit has these four jobs.",         zh: "每个电路都有这四个角色。" },
+    try:   { en: "Try these with me — hints are here.",        zh: "跟我一起做——这里有提示。" },
+    test:  { en: "Your turn solo. You can do it!",             zh: "换你自己来。你可以的！" },
+    wrap:  { en: "Nice work. One loop, and the light stays on.",zh: "做得好。一个回路，灯就一直亮。" }
+  };
+</script>
+</body>
+</html>
