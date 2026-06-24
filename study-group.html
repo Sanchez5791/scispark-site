@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<!--
+  SciSpark · 安全学习小组 (Safe Study Group) · Phase 1 预览版
+  ========================================================
+  这是「假数据预览版」。给老板真手机眼睛看用的。
+  - 全部假数据。不接数据库、不接真账号、不接真积分。
+  - 红线全部钉死在设计里:
+      · 没有任何打字框 (free text 不可能)
+      · 不能发图/文件/链接/电话 (没有入口)
+      · 没有私聊 (只有全组可见的固定句子)
+      · 默认「家长未同意 = 关」
+      · 学生之间只看代号 学生A~E (不露真名)
+  - 不碰共用引擎 lesson-shell-v4.js,不碰课本模板。
+  顶部有个「预览开关」可切「家长未同意 / 已同意」两种样子。
+  正式版要把这开关拿掉,改成真家长同意。
+-->
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安全学习小组 · 预览 · SciSpark</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF8F4; --orange:#EA580C; --orange-deep:#7a2e08; --ink:#171413; --ink-soft:#3a342f;
+    --line:#E6DFD3; --paper:#FFFFFF; --paper-soft:#F4EFE7; --paper-warm:#FFF4EA;
+    --ink-faint:#6b6358; --line-soft:#F0EBE2; --orange-soft:#FFE9D6; --orange-pale:#FFF6EE;
+    --green:#2E7D5B; --green-soft:#DCFCE7; --red:#B91C1C; --red-soft:#FEE2E2; --amber:#B45309;
+    --dark:#1a1917;
+    --font-serif:'Fraunces','Noto Serif SC',Georgia,serif;
+    --font-sans:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-zh:'Noto Sans SC','PingFang SC',sans-serif;
+    --radius:10px; --radius-lg:16px; --radius-sm:8px; --radius-pill:999px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);
+    font-family:var(--font-sans),var(--font-zh);
+    -webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:60px;}
+  .zh{font-family:var(--font-zh);}
+
+  /* ===== 预览横幅 (正式版会删掉) ===== */
+  .preview-banner{background:#2d2926;color:#fff;font-size:13px;
+    padding:8px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;text-align:center;}
+  .preview-banner b{color:#FFD9B0;}
+  .toggle-btns{display:inline-flex;gap:6px;}
+  .toggle-btns button{font:inherit;font-size:12px;cursor:pointer;border:1px solid #555;
+    background:#3a342f;color:#fff;padding:4px 10px;border-radius:var(--radius-pill);}
+  .toggle-btns button.on{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:600;}
+
+  /* ===== 导航 ===== */
+  .nav{position:sticky;top:0;z-index:50;background:var(--dark);color:#fff;}
+  .nav-inner{height:58px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 16px;max-width:760px;margin:0 auto;}
+  .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;}
+  .logo-bolt{width:32px;height:32px;background:var(--orange);border-radius:7px;
+    display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .logo-bolt svg{width:17px;height:17px;}
+  .brand-text{font-family:var(--font-serif);font-weight:600;font-size:20px;}
+  .brand-text .spark{color:var(--orange);}
+  .nav-right{font-size:13px;color:#c5bbb4;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:18px 16px 40px;}
+  .page-title{font-family:var(--font-serif);font-weight:600;font-size:26px;margin:6px 0 2px;}
+  .page-sub{color:var(--ink-faint);font-size:14px;margin-bottom:18px;}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:18px;margin-bottom:16px;}
+  .card-head{display:flex;align-items:center;gap:9px;margin-bottom:4px;}
+  .card-icon{width:30px;height:30px;border-radius:9px;background:var(--orange-soft);
+    display:inline-flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .card-title{font-family:var(--font-serif);font-weight:600;font-size:18px;}
+  .card-note{color:var(--ink-faint);font-size:12.5px;margin:2px 0 14px;}
+
+  /* ===== 上锁屏 (家长未同意) ===== */
+  .lock{background:var(--paper-warm);border:1px dashed var(--orange);border-radius:var(--radius-lg);
+    padding:34px 22px;text-align:center;margin-top:8px;}
+  .lock .big{font-size:40px;margin-bottom:10px;}
+  .lock h2{font-family:var(--font-serif);font-weight:600;font-size:20px;margin-bottom:8px;}
+  .lock p{color:var(--ink-soft);font-size:14px;max-width:420px;margin:0 auto 8px;}
+  .lock .who{color:var(--ink-faint);font-size:12.5px;margin-top:14px;}
+
+  /* ===== ① 进度条 ===== */
+  .goal-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .goal-label{font-size:14px;color:var(--ink-soft);}
+  .goal-count{font-family:var(--font-serif);font-weight:600;font-size:22px;}
+  .goal-count .small{font-size:14px;color:var(--ink-faint);font-weight:400;}
+  .bar{height:18px;background:var(--paper-soft);border-radius:var(--radius-pill);overflow:hidden;border:1px solid var(--line-soft);}
+  .bar > i{display:block;height:100%;width:60%;border-radius:var(--radius-pill);
+    background:linear-gradient(90deg,#F59E0B,var(--orange));}
+  .grp-only{margin-top:10px;font-size:12.5px;color:var(--green);background:var(--green-soft);
+    display:inline-block;padding:4px 10px;border-radius:var(--radius-pill);}
+
+  /* ===== ② 积分榜 + 徽章 ===== */
+  .pts-team{display:flex;justify-content:space-between;align-items:center;
+    background:var(--orange-pale);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px;}
+  .pts-team .num{font-family:var(--font-serif);font-weight:700;font-size:26px;color:var(--orange-deep);}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+  .badge{display:flex;flex-direction:column;align-items:center;gap:4px;width:78px;text-align:center;}
+  .badge .b-emoji{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:24px;background:var(--orange-soft);}
+  .badge.locked .b-emoji{background:var(--paper-soft);filter:grayscale(1);opacity:.5;}
+  .badge small{font-size:11px;color:var(--ink-faint);line-height:1.25;}
+  .member-list{margin-top:14px;border-top:1px solid var(--line-soft);padding-top:12px;}
+  .member{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px;}
+  .ava{width:30px;height:30px;border-radius:50%;background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;}
+  .member .nm{flex:1;}
+  .member .pp{font-family:var(--font-mono);color:var(--ink-soft);font-size:13px;}
+  .no-rank{font-size:12px;color:var(--ink-faint);margin-top:10px;}
+
+  /* ===== ③ 固定句子 ===== */
+  .q-tag{display:inline-block;font-size:12px;background:var(--paper-soft);color:var(--ink-soft);
+    padding:3px 9px;border-radius:var(--radius-pill);margin-bottom:12px;}
+  .feed{display:flex;flex-direction:column;gap:9px;margin-bottom:16px;}
+  .msg{display:flex;gap:9px;align-items:flex-start;}
+  .msg .ava{margin-top:1px;}
+  .bubble{background:var(--paper-soft);border-radius:var(--radius);padding:9px 12px;font-size:14px;flex:1;}
+  .bubble .who{font-size:12px;color:var(--ink-faint);margin-bottom:2px;}
+  .bubble.mine{background:var(--orange-pale);}
+  .composer{border-top:1px solid var(--line-soft);padding-top:14px;}
+  .composer-label{font-size:12.5px;color:var(--ink-faint);margin-bottom:8px;}
+  .sentence-pick{display:flex;flex-direction:column;gap:8px;}
+  .preset-line{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;
+    background:var(--paper-soft);border-radius:var(--radius);padding:10px 12px;}
+  select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:var(--radius-sm);
+    background:#fff;color:var(--ink);font-family:var(--font-sans),var(--font-zh);}
+  .send-btn{margin-top:10px;background:var(--orange);color:#fff;border:none;font:inherit;font-weight:600;
+    font-size:14px;padding:10px 18px;border-radius:var(--radius-pill);cursor:pointer;}
+  .send-btn:disabled{opacity:.45;cursor:not-allowed;}
+  .no-type{margin-top:10px;font-size:12px;color:var(--green);background:var(--green-soft);
+    display:inline-block;padding:4px 10px;border-radius:var(--radius-pill);}
+
+  /* ===== ④ 表情 ===== */
+  .emoji-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .emoji-btn{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;
+    border-radius:var(--radius-pill);padding:8px 14px;font:inherit;font-size:15px;cursor:pointer;transition:.12s;}
+  .emoji-btn:hover{background:var(--orange-pale);}
+  .emoji-btn.picked{background:var(--orange-soft);border-color:var(--orange);}
+  .emoji-btn .cnt{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);}
+  .emoji-btn .lbl{font-size:12px;color:var(--ink-faint);}
+
+  .safe-foot{margin-top:8px;font-size:12px;color:var(--ink-faint);text-align:center;line-height:1.7;}
+  .safe-foot b{color:var(--ink-soft);}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<!-- 预览开关 (正式版删掉) -->
+<div class="preview-banner zh">
+  <span>👀 <b>预览版</b> · 假数据 · 不接真账号</span>
+  <span class="toggle-btns">
+    <button id="tg-off" class="on" onclick="setConsent(false)">家长未同意（关）</button>
+    <button id="tg-on" onclick="setConsent(true)">家长已同意（开）</button>
+  </span>
+</div>
+
+<!-- 导航 -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <span class="logo-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/></svg></span>
+      <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    </a>
+    <span class="nav-right zh">学生A · 你</span>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="page-title zh">安全学习小组</div>
+  <div class="page-sub zh">5人一组 · 一起学 · 只看代号 · 不能打字聊天</div>
+
+  <!-- ========== 上锁屏 (家长未同意时显示) ========== -->
+  <div id="locked-view">
+    <div class="lock zh">
+      <div class="big">🔒</div>
+      <h2>等家长同意才打开</h2>
+      <p>「安全学习小组」默认是<b>关</b>的。</p>
+      <p>要先由你的家长在家长端点「同意」，这个小组才会打开。</p>
+      <p class="who">这是为了保护小孩的安全规矩 · 家长不同意 = 永远关着</p>
+    </div>
+  </div>
+
+  <!-- ========== 小组内容 (家长同意后显示) ========== -->
+  <div id="group-view" class="hidden">
+
+    <!-- ① 小组共享进度条 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📊</span>
+        <span class="card-title zh">本周小组目标</span>
+      </div>
+      <div class="card-note zh">5个人合起来一条进度条 · 只看小组总数 · 不点名谁快谁慢</div>
+      <div class="goal-row">
+        <span class="goal-label zh">这周一起做完 30 题</span>
+        <span class="goal-count">18<span class="small"> / 30</span></span>
+      </div>
+      <div class="bar"><i></i></div>
+      <span class="grp-only zh">✓ 只显示小组合计 · 不会羞辱任何人</span>
+    </div>
+
+    <!-- ② 积分榜 + 徽章 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🏅</span>
+        <span class="card-title zh">小组积分 & 徽章</span>
+      </div>
+      <div class="card-note zh">做完课和小测拿分 · 只鼓励 · 没有「最后一名」</div>
+
+      <div class="pts-team">
+        <span class="zh">本组本周积分</span>
+        <span class="num">1,240</span>
+      </div>
+
+      <div class="badges">
+        <div class="badge">
+          <span class="b-emoji">🏆</span>
+          <small class="zh">全组完成<br>第1单元</small>
+        </div>
+        <div class="badge">
+          <span class="b-emoji">🔥</span>
+          <small class="zh">连续3天<br>都有人学</small>
+        </div>
+        <div class="badge locked">
+          <span class="b-emoji">🎯</span>
+          <small class="zh">本周30题<br>(还差12题)</small>
+        </div>
+        <div class="badge locked">
+          <span class="b-emoji">🌟</span>
+          <small class="zh">全组完成<br>第2单元</small>
+        </div>
+      </div>
+
+      <div class="member-list">
+        <div class="member"><span class="ava">A</span><span class="nm zh">学生A（你）</span><span class="pp">280 分</span></div>
+        <div class="member"><span class="ava">B</span><span class="nm zh">学生B</span><span class="pp">310 分</span></div>
+        <div class="member"><span class="ava">C</span><span class="nm zh">学生C</span><span class="pp">250 分</span></div>
+        <div class="member"><span class="ava">D</span><span class="nm zh">学生D</span><span class="pp">200 分</span></div>
+        <div class="member"><span class="ava">E</span><span class="nm zh">学生E</span><span class="pp">200 分</span></div>
+      </div>
+      <div class="no-rank zh">↑ 按代号显示 · 不排「第几名」· 不露真名</div>
+    </div>
+
+    <!-- ③ 固定句子 (不能打字) -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">💬</span>
+        <span class="card-title zh">互相帮一把</span>
+      </div>
+      <div class="card-note zh">不能打字 · 只能从固定句子里选 · 每句都绑着某一题</div>
+      <span class="q-tag zh">📌 绑定题目：第1单元 · 第3题「水的三态」</span>
+
+      <div class="feed" id="feed">
+        <div class="msg"><span class="ava">B</span><div class="bubble"><div class="who zh">学生B</div><span class="zh">我卡在这一步了。</span></div></div>
+        <div class="msg"><span class="ava">C</span><div class="bubble"><div class="who zh">学生C</div><span class="zh">我觉得答案是 <b>固态</b>，因为 <b>粒子排得很紧</b>。</span></div></div>
+        <div class="msg"><span class="ava">D</span><div class="bubble"><div class="who zh">学生D</div><span class="zh">谁能再讲一次这题？</span></div></div>
+      </div>
+
+      <div class="composer">
+        <div class="composer-label zh">你想说什么？（只能选，不能打字）</div>
+        <div class="sentence-pick">
+          <select id="tpl" onchange="onTpl()">
+            <option value="">— 选一句话 —</option>
+            <option value="answer">我觉得答案是 ___，因为 ___</option>
+            <option value="stuck">我卡在这一步了。</option>
+            <option value="explain">谁能再讲一次这题？</option>
+            <option value="agree">我也是这样想的！</option>
+            <option value="gotit">我懂了，谢谢！</option>
+          </select>
+
+          <div id="blanks" class="preset-line hidden">
+            <span class="zh">我觉得答案是</span>
+            <select id="b1">
+              <option value="">选…</option>
+              <option>固态</option><option>液态</option><option>气态</option>
+            </select>
+            <span class="zh">，因为</span>
+            <select id="b2">
+              <option value="">选…</option>
+              <option>粒子排得很紧</option>
+              <option>粒子能自由移动</option>
+              <option>粒子分得很开</option>
+            </select>
+          </div>
+        </div>
+        <button class="send-btn" id="sendBtn" onclick="sendMsg()" disabled>送出</button>
+        <div><span class="no-type zh">✓ 整个页面没有打字框 · 打不了字 · 发不了图/链接/电话</span></div>
+      </div>
+    </div>
+
+    <!-- ④ 固定表情 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">😊</span>
+        <span class="card-title zh">点个表情</span>
+      </div>
+      <div class="card-note zh">只有这4个固定表情 · 不能自定义 · 不能打字</div>
+      <div class="emoji-row">
+        <button class="emoji-btn" onclick="react(this)"><span>👍</span><span class="lbl zh">懂了</span><span class="cnt">3</span></button>
+        <button class="emoji-btn" onclick="react(this)"><span>❓</span><span class="lbl zh">不懂</span><span class="cnt">1</span></button>
+        <button class="emoji-btn" onclick="react(this)"><span>😅</span><span class="lbl zh">我也错了</span><span class="cnt">2</span></button>
+        <button class="emoji-btn" onclick="react(this)"><span>🔁</span><span class="lbl zh">再讲一次</span><span class="cnt">1</span></button>
+      </div>
+    </div>
+
+    <div class="safe-foot zh">
+      <b>这一组是封闭的</b> · 只有这5个人 · 外人进不来<br>
+      没有私聊 · 没有自由打字 · 没有发图/文件/链接<br>
+      家长随时可以关掉 · 出事时管理员才能看
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== 预览开关:切「家长未同意 / 已同意」 =====
+  function setConsent(on){
+    document.getElementById('locked-view').classList.toggle('hidden', on);
+    document.getElementById('group-view').classList.toggle('hidden', !on);
+    document.getElementById('tg-on').classList.toggle('on', on);
+    document.getElementById('tg-off').classList.toggle('on', !on);
+    window.scrollTo(0,0);
+  }
+
+  // ===== ③ 固定句子:选模板 =====
+  var TPL = {
+    answer:  '我觉得答案是 <b>{b1}</b>，因为 <b>{b2}</b>。',
+    stuck:   '我卡在这一步了。',
+    explain: '谁能再讲一次这题？',
+    agree:   '我也是这样想的！',
+    gotit:   '我懂了，谢谢！'
+  };
+  function onTpl(){
+    var v = document.getElementById('tpl').value;
+    var needBlank = (v === 'answer');
+    document.getElementById('blanks').classList.toggle('hidden', !needBlank);
+    refreshSend();
+  }
+  function refreshSend(){
+    var v = document.getElementById('tpl').value;
+    var ok = !!v;
+    if(v === 'answer'){
+      ok = !!document.getElementById('b1').value && !!document.getElementById('b2').value;
+    }
+    document.getElementById('sendBtn').disabled = !ok;
+  }
+  document.getElementById('b1').addEventListener('change', refreshSend);
+  document.getElementById('b2').addEventListener('change', refreshSend);
+
+  function sendMsg(){
+    var v = document.getElementById('tpl').value;
+    if(!v) return;
+    var html = TPL[v];
+    if(v === 'answer'){
+      html = html.replace('{b1}', document.getElementById('b1').value)
+                 .replace('{b2}', document.getElementById('b2').value);
+    }
+    var feed = document.getElementById('feed');
+    var row = document.createElement('div');
+    row.className = 'msg';
+    row.innerHTML = '<span class="ava">A</span><div class="bubble mine"><div class="who zh">学生A（你）</div><span class="zh">'+html+'</span></div>';
+    feed.appendChild(row);
+    // reset
+    document.getElementById('tpl').value = '';
+    document.getElementById('b1').value = '';
+    document.getElementById('b2').value = '';
+    document.getElementById('blanks').classList.add('hidden');
+    document.getElementById('sendBtn').disabled = true;
+    row.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  // ===== ④ 表情:点一下 +1 =====
+  function react(btn){
+    var c = btn.querySelector('.cnt');
+    var picked = btn.classList.toggle('picked');
+    c.textContent = parseInt(c.textContent,10) + (picked ? 1 : -1);
+  }
+</script>
+</body>
+</html>
