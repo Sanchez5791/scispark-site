@@ -64,16 +64,23 @@
 </div>
 
 <script>
+  function fmtDate(d) {
+    return d.toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" });
+  }
+
+  // Plan comes through the success URL (?plan=monthly|annual), set by create-checkout.
   const params = new URLSearchParams(window.location.search);
+  const isAnnual = (params.get("plan") || "monthly").toLowerCase() === "annual";
 
-  // Show expiry 1 year from now
+  // Plan label — real type, bilingual (English-primary). No more generic "SciSpark Plan".
+  document.getElementById("plan-display").textContent = isAnnual ? "Annual / 年付" : "Monthly / 月付";
+
+  // Valid until — derive from the real plan: monthly = +1 month, annual = +1 year.
+  // No more hardcoded +1 year.
   const expiry = new Date();
-  expiry.setFullYear(expiry.getFullYear() + 1);
-  document.getElementById("expiry-display").textContent = expiry.toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" });
-
-  // Get plan from localStorage if available
-  const plan = localStorage.getItem("scispark_pending_plan") || "SciSpark Plan";
-  document.getElementById("plan-display").textContent = plan;
+  if (isAnnual) expiry.setFullYear(expiry.getFullYear() + 1);
+  else          expiry.setMonth(expiry.getMonth() + 1);
+  document.getElementById("expiry-display").textContent = fmtDate(expiry);
 </script>
 </body>
 </html>

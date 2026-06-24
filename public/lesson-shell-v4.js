@@ -85,8 +85,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   // ═════════════════════════════════════════════════════════════
-  // SECTION 2: TTS 13-CLASS 男声朗读 (verbatim from v1.js line 103-258)
+  // SECTION 2: TTS 13-CLASS 豆豆柔声朗读 (verbatim from v1.js line 103-258)
   // ═════════════════════════════════════════════════════════════
+
+  // TTS state — declared once (were previously used but never declared →
+  // strict-mode ReferenceError on ▶ read-aloud). Fix 2026-06-20.
+  var ttsSupported = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  var ttsCurrentUtterance = null;
+  var ttsCurrentButton = null;
 
   function ttsToggle(buttonEl, paragraphEl) {
     if (!ttsSupported) return;
@@ -114,24 +120,32 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function ttsPlay(text, langCode, buttonEl) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = langCode;
-    u.rate = 0.9;
-    u.pitch = 1.0;
+    // Shared read-aloud speed (single source = voice-profile.js, 5 steps).
+    u.rate = (window.SciSparkVoice && window.SciSparkVoice.getRate) ? window.SciSparkVoice.getRate() : 0.9;
+    // 豆豆 voice alignment 2026-06-20: long ▶ passages use the shared PITCH_LONG.
+    u.pitch = (window.SciSparkVoice && window.SciSparkVoice.PITCH_LONG) || 1.22;
     u.volume = 1.0;
-  
-    const voice = pickBestVoice(langCode);
-    if (voice) u.voice = voice;
   
     u.onend = () => ttsStop();
     u.onerror = () => ttsStop();
-  
+
     ttsCurrentUtterance = u;
     ttsCurrentButton = buttonEl;
     buttonEl.classList.add('tts-playing');
     buttonEl.textContent = '⏸';
     buttonEl.setAttribute('aria-label',
       langCode === 'zh-CN' ? '停止朗读' : 'Stop reading');
-  
-    window.speechSynthesis.speak(u);
+
+    // Robust soft-voice speak via the shared profile: waits out the mobile
+    // getVoices() race so the soft 豆豆 voice actually plays (never male default).
+    // Falls back to inline pickBestVoice + speak if voice-profile.js is absent.
+    if (window.SciSparkVoice && window.SciSparkVoice.speak) {
+      window.SciSparkVoice.speak(u, langCode);
+    } else {
+      const voice = pickBestVoice(langCode);
+      if (voice) u.voice = voice;
+      window.speechSynthesis.speak(u);
+    }
   }
   
   function ttsStop() {
@@ -154,24 +168,31 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
   
   function pickBestVoice(langCode) {
+    // Single source of truth = /voice-profile.js (window.SciSparkVoice).
+    // Voice alignment 2026-06-20: the whole course uses the soft/high 豆豆 voice.
+    if (window.SciSparkVoice && typeof window.SciSparkVoice.pick === 'function') {
+      return window.SciSparkVoice.pick(langCode);
+    }
+    // Inline fallback (mirrors voice-profile.js) so lessons that have not yet
+    // loaded voice-profile.js still get the soft/high voice — never the old male one.
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return null;
-  
-    const maleEN = ['Male','Daniel','Alex','David','Mark','George','Guy','Ryan','Brian','Tony','James'];
-    const maleZH = ['Kangkang','Yunyang','Yunxi','Yunjian'];
-    const maleNames = langCode.startsWith('zh') ? maleZH : maleEN;
-    const isMale = x => maleNames.some(n => x.name.includes(n));
+
+    const softEN = ['Female','Samantha','Karen','Tessa','Fiona','Moira','Zira','Aria','Jenny','Susan','Google UK English Female','Google US English'];
+    const softZH = ['Ting','Mei-Jia','Huihui','Xiaoxiao','Yaoyao','Google','普通话','Chinese'];
+    const softNames = langCode.startsWith('zh') ? softZH : softEN;
+    const isSoft = x => softNames.some(n => x.name.includes(n));
     const isNeural = x => x.name.includes('Google') || x.name.includes('Microsoft');
-  
-    // 1. Male + Google/Microsoft + exact lang
-    let v = voices.find(x => x.lang.startsWith(langCode) && isMale(x) && isNeural(x));
+
+    // 1. Soft/high + Google/Microsoft + exact lang
+    let v = voices.find(x => x.lang.startsWith(langCode) && isSoft(x) && isNeural(x));
     if (v) return v;
-  
-    // 2. Male + exact lang (any provider)
-    v = voices.find(x => x.lang.startsWith(langCode) && isMale(x));
+
+    // 2. Soft/high + exact lang (any provider)
+    v = voices.find(x => x.lang.startsWith(langCode) && isSoft(x));
     if (v) return v;
-  
-    // 3. Fallback: Google/Microsoft + exact lang (non-male)
+
+    // 3. Fallback: Google/Microsoft + exact lang
     v = voices.find(x => x.lang.startsWith(langCode) && isNeural(x));
     if (v) return v;
   
@@ -239,7 +260,167 @@ Globals exposed (lesson HTML can call directly via onclick=):
       wrapper.appendChild(p);
     });
   }
-  
+
+  // ═════════════════════════════════════════════════════════════
+  // SECTION 2b: VOICE INPUT 语音输入 (Web Speech API → answer boxes)
+  // Adds a 🎤 button beside every answer field (textarea / text input).
+  // Press → speak → transcript fills the field (still fully editable;
+  // typing still works). Recognition language follows the page language
+  // (中文页面 zh-CN / English en-US). If the browser has no Speech-
+  // Recognition support, NO button is injected (never an empty shell).
+  // Engine-level: change THIS one file → every lesson, both languages,
+  // automatically gets voice input. Never copied per lesson.
+  // ═════════════════════════════════════════════════════════════
+  var VoiceRec = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  var voiceSupported = !!VoiceRec;
+  var voiceActive = null;          // in-flight session { rec, field, btn } or null
+  var voiceStylesInjected = false;
+
+  function voiceLangCode() {
+    // Follow current page language (kept in sync by setLang via body classes)
+    var zh = document.body.classList.contains('lang-zh') ||
+             document.body.classList.contains('zh-mode') ||
+             document.documentElement.lang === 'zh';
+    return zh ? 'zh-CN' : 'en-US';
+  }
+
+  function voiceInjectStyles() {
+    if (voiceStylesInjected) return;
+    voiceStylesInjected = true;
+    var css =
+      '.voice-field-wrap{display:block;}' +
+      '.voice-btn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;' +
+        'padding:6px 12px;border:1.5px solid #E8E2D8;border-radius:999px;background:#fff;' +
+        'color:#5b5247;font-family:inherit;font-size:13px;line-height:1;cursor:pointer;' +
+        '-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s,color .15s;}' +
+      '.voice-btn:hover{border-color:#d9c9a8;background:#fbf7ef;}' +
+      '.voice-btn:active{transform:translateY(1px);}' +
+      '.voice-btn .voice-ic{font-size:15px;line-height:1;}' +
+      '.voice-btn.listening{background:#fff4f2;border-color:#e8857a;color:#c0392b;' +
+        'animation:voicePulse 1.1s ease-in-out infinite;}' +
+      '.voice-btn[disabled]{opacity:.5;cursor:default;}' +
+      '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.35);}' +
+        '50%{box-shadow:0 0 0 6px rgba(192,57,43,0);}}' +
+      '@media (prefers-reduced-motion: reduce){.voice-btn.listening{animation:none;}}';
+    var style = document.createElement('style');
+    style.id = 'voice-input-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function voiceSetListening(btn, on) {
+    if (!btn) return;
+    btn.classList.toggle('listening', on);
+    var lbl = btn.querySelector('.voice-lbl');
+    if (lbl) {
+      // keep data-en/data-zh in sync so a mid-listen lang toggle stays correct
+      if (on) { lbl.setAttribute('data-en', 'Listening…'); lbl.setAttribute('data-zh', '聆听中…'); }
+      else    { lbl.setAttribute('data-en', 'Speak');      lbl.setAttribute('data-zh', '说出答案'); }
+      lbl.textContent = lbl.getAttribute(voiceLangCode() === 'zh-CN' ? 'data-zh' : 'data-en');
+    }
+    var zh = voiceLangCode() === 'zh-CN';
+    btn.setAttribute('aria-label', on ? (zh ? '停止聆听' : 'Stop listening')
+                                      : (zh ? '语音输入答案' : 'Voice input'));
+  }
+
+  function voiceStop() {
+    if (voiceActive && voiceActive.rec) {
+      try { voiceActive.rec.stop(); } catch (e) {}
+    }
+  }
+
+  function voiceStartFor(field, btn) {
+    if (!voiceSupported) return;
+    // Toggle: tapping the active mic again stops it
+    if (voiceActive && voiceActive.btn === btn) { voiceStop(); return; }
+    // A different mic is active → stop it first (only one session at a time)
+    if (voiceActive) voiceStop();
+
+    var rec;
+    try { rec = new VoiceRec(); } catch (e) { return; }
+    rec.lang = voiceLangCode();
+    rec.interimResults = true;
+    rec.continuous = false;
+    rec.maxAlternatives = 1;
+
+    var baseValue = field.value || '';
+    var sep = (baseValue && !/\s$/.test(baseValue)) ? ' ' : '';
+    voiceActive = { rec: rec, field: field, btn: btn };
+
+    rec.onstart = function () { voiceSetListening(btn, true); };
+
+    rec.onresult = function (ev) {
+      var finalTxt = '', interimTxt = '';
+      for (var i = ev.resultIndex; i < ev.results.length; i++) {
+        var r = ev.results[i];
+        if (r.isFinal) finalTxt += r[0].transcript;
+        else interimTxt += r[0].transcript;
+      }
+      // Rebuild from the original value each time so interim text replaces
+      // cleanly; final text appends. Student can still edit afterwards.
+      field.value = baseValue + sep + finalTxt + interimTxt;
+      // Notify existing listeners (auto-save / XP) exactly like typing does
+      try { field.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
+    };
+
+    rec.onerror = function () {
+      // 'not-allowed' / 'service-not-allowed' = mic permission denied.
+      // 'no-speech' / 'aborted' / network = nothing heard. In ALL cases just
+      // reset the button — never block the page, never lose the student's text.
+      voiceSetListening(btn, false);
+      if (voiceActive && voiceActive.btn === btn) voiceActive = null;
+    };
+
+    rec.onend = function () {
+      voiceSetListening(btn, false);
+      if (voiceActive && voiceActive.btn === btn) voiceActive = null;
+      try { field.focus(); } catch (e) {}
+    };
+
+    try {
+      // First use triggers the browser's mic-permission prompt.
+      // Allow → onstart/onresult fire. Deny → onerror fires. Neither freezes.
+      rec.start();
+    } catch (e) {
+      voiceSetListening(btn, false);
+      voiceActive = null;
+    }
+  }
+
+  function voiceInjectButtons() {
+    if (!voiceSupported) return;   // ★ unsupported browser → inject NOTHING (no dead button)
+    voiceInjectStyles();
+    var fields = document.querySelectorAll(
+      'textarea:not([data-no-voice]), input[type="text"]:not([data-no-voice])'
+    );
+    Array.prototype.forEach.call(fields, function (field) {
+      if (field._voiceWired) return;
+      if (field.disabled || field.readOnly) return;
+      field._voiceWired = true;
+
+      // Wrap the field so the mic button sits directly beneath it
+      var wrap = document.createElement('span');
+      wrap.className = 'voice-field-wrap';
+      field.parentNode.insertBefore(wrap, field);
+      wrap.appendChild(field);
+
+      var zh = voiceLangCode() === 'zh-CN';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'voice-btn';
+      btn.innerHTML =
+        '<span class="voice-ic" aria-hidden="true">🎤</span>' +
+        '<span class="voice-lbl" data-en="Speak" data-zh="说出答案">' +
+        (zh ? '说出答案' : 'Speak') + '</span>';
+      btn.setAttribute('aria-label', zh ? '语音输入答案' : 'Voice input');
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        voiceStartFor(field, btn);
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
   // ═════════════════════════════════════════════════════════════
   // SCREEN NAVIGATION
   // ═════════════════════════════════════════════════════════════
@@ -309,6 +490,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Save local progress (v1 pattern)
     if (lessonId) {
       try { localStorage.setItem(LS_PROGRESS_PREFIX + lessonId, name); } catch (e) {}
+    }
+
+    // Cover answer boxes mounted on screen entry (idempotent — skips wired fields)
+    if (typeof voiceInjectButtons === 'function') {
+      try { voiceInjectButtons(); } catch (e) {}
     }
   }
 
@@ -559,6 +745,263 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if (el) el.classList.add('selected');
   }
 
+  // ═════════════════════════════════════════════════════════════
+  // PER-QUESTION CAPTURE → lesson_question_attempts
+  // Order 2026-06-20 (军师房): record every attempted question to the account
+  // so the student data dashboard can show per-question detail.
+  // REALITY (verified): live lessons are self-graded reveals — the student
+  // writes a free-text answer, taps "Check answer", and the lesson does NOT
+  // compute right/wrong. So we STORE THE SUBMITTED TEXT now (score=null,
+  // marker 'self_reported'); correctness can be marked later (boss decision).
+  // Real MCQ (submitAnswer) records an actual 1/0 score where it exists.
+  // lesson_id stays null on purpose: it is a FK→lesson_content, which has no
+  // rows for these HTML lessons, so a real UUID cannot be set. Which-lesson is
+  // captured via lesson_code (from the URL path) instead.
+  // Writes client-side under RLS policy lqa_insert_own (parent's own child).
+  // Best-effort + try/catch everywhere: capture must NEVER break the lesson.
+  // ═════════════════════════════════════════════════════════════
+  let _pqChildId = null;          // cached account child id (POSITIVE cache only — see _pqResolveChild)
+  const _pqTimers = {};           // questionId -> first-touch timestamp (ms)
+  const _pqAttempts = {};         // questionId -> attempts so far (this page load)
+
+  function _pqLessonCode() {
+    // "/lessons/y7/u8/l01.html" -> "y7/u8/l01"
+    try {
+      const m = location.pathname.match(/lessons\/(.+?)(?:\.html)?\/?$/i);
+      return m ? m[1] : (location.pathname || null);
+    } catch (e) { return null; }
+  }
+
+  async function _pqResolveChild() {
+    if (_pqChildId) return _pqChildId;   // cache ONLY a real child → keep retrying until logged in
+    try {
+      const client = await waitForSupabaseClient(3000);
+      if (!client) return null;
+      // getSession() is LOCAL (no network) → avoids the boot-time session-readiness race that
+      // getUser() hit (cf. PR#53). If the session isn't hydrated yet, the next capture retries.
+      const { data: { session } } = await client.auth.getSession();
+      const user = session && session.user;
+      if (!user) return null;            // not logged in (yet) → skip; retry on next capture
+      const { data: child } = await client
+        .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
+      if (child) _pqChildId = child.id;
+    } catch (e) {}
+    return _pqChildId;
+  }
+
+  // p = { questionId, inputType, submission(obj), score|null, maxScore|null }
+  async function recordQuestionAttempt(p) {
+    try {
+      if (!p || !p.questionId) return;
+      const client = await waitForSupabaseClient(3000);
+      if (!client) return;
+      const childId = await _pqResolveChild();
+      if (!childId) return; // not logged in / no child → nothing to attribute (honest skip)
+      const qid = String(p.questionId);
+      _pqAttempts[qid] = (_pqAttempts[qid] || 0) + 1;
+      const startTs = _pqTimers[qid];
+      const timeMs = (typeof startTs === 'number') ? Math.max(0, Date.now() - startTs) : null;
+      const row = {
+        child_id:         childId,
+        lesson_id:        null,                 // FK→lesson_content (no row for HTML lessons)
+        lesson_code:      _pqLessonCode(),      // which lesson (text, from URL)
+        question_id:      qid,
+        input_type:       p.inputType || 'free_text',
+        submission:       p.submission || {},
+        score:            (p.score == null ? null : p.score),
+        max_score:        (p.maxScore == null ? null : p.maxScore),
+        attempt_no:       _pqAttempts[qid],
+        time_ms:          timeMs,
+        feedback_variant: null,
+        marker:           (p.score == null ? 'self_reported' : 'engine_v4'),
+        marked_at:        new Date().toISOString()
+      };
+      // is_correct (Order 2026-06-20 关键词闸): ONLY attach when a verdict exists.
+      // Ungated self-reported reveals omit it entirely, so those inserts keep
+      // working even if the migration hasn't run yet — zero regression to PR#65.
+      if (p.isCorrect != null) row.is_correct = !!p.isCorrect;
+      const { error } = await client.from('lesson_question_attempts').insert(row);
+      if (error) console.warn('[SciSpark] question capture failed:', error.message);
+      else console.log('%c[SciSpark] question captured — ' + row.lesson_code + ' ' + qid,
+                       'color:#2E7D5B;font-weight:bold');
+    } catch (e) { console.warn('[SciSpark] question capture error:', e.message); }
+  }
+
+  // Derive a question id from a .question-block element (prefer .q-number text)
+  function _pqQid(block) {
+    if (!block) return null;
+    const qn = block.querySelector('.q-number');
+    if (qn && qn.textContent.trim()) return qn.textContent.trim();
+    const ans = block.querySelector('[id$="-ans"]');
+    if (ans) return ans.id.replace(/-ans$/i, '');
+    return null;
+  }
+
+  // ═════════════════════════════════════════════════════════════
+  // KEYWORD GATE — typed-answer auto-grading (Order 2026-06-20 军师房)
+  // Grades free-text (fill-in / short-answer) questions so the student
+  // data dashboard can light up per-question right/wrong. PLUG-ONLY:
+  // grading lives here in the shared engine; the per-question rule ("料")
+  // stays in each lesson HTML as data-gate JSON (see _pqReadGate).
+  // Does NOT touch MCQ submitAnswer; does NOT touch ungated captures.
+  // ═════════════════════════════════════════════════════════════
+
+  // Normalize a string for comparison: trim, full-width→half-width,
+  // full-width space→space, lowercase, collapse runs of whitespace.
+  function _normText(s) {
+    s = (s == null) ? '' : String(s);
+    // full-width ASCII (！-～ U+FF01–FF5E) → ASCII (!-~ U+0021–007E)
+    s = s.replace(/[！-～]/g, function (ch) {
+      return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0);
+    });
+    s = s.replace(/　/g, ' ');          // ideographic (full-width) space
+    s = s.trim().toLowerCase();
+    s = s.replace(/\s+/g, ' ');
+    return s;
+  }
+
+  // gradeTextAnswer(userText, gate) → { isCorrect, matched, missed, forbiddenHit? }
+  //   gate = { required: [ ["质量","mass"], ["空气","air"] ], forbidden: ["不变","no mass"] }
+  //   - required: array of synonym GROUPS; any synonym in a group satisfies that group;
+  //               ALL groups must be satisfied to pass.
+  //   - forbidden: any hit → wrong (highest priority).
+  //   - empty answer / pure-symbol gibberish → wrong.
+  //   matched/missed are returned for future hint/dashboard use (not required now).
+  function gradeTextAnswer(userText, gate) {
+    gate = gate || {};
+    const norm = _normText(userText);
+    const required = Array.isArray(gate.required) ? gate.required : [];
+    const result = { isCorrect: false, matched: [], missed: [] };
+
+    // Empty OR no letter/number/CJK at all (pure symbols/punctuation) → wrong.
+    const hasContent = /[\p{L}\p{N}]/u.test(norm);
+    if (!norm || !hasContent) { result.missed = required.slice(); return result; }
+
+    // Forbidden first (highest priority).
+    const forbidden = (Array.isArray(gate.forbidden) ? gate.forbidden : [])
+      .map(_normText).filter(Boolean);
+    for (let i = 0; i < forbidden.length; i++) {
+      if (norm.indexOf(forbidden[i]) !== -1) {
+        result.forbiddenHit = forbidden[i];
+        result.missed = required.slice();
+        return result;                       // isCorrect stays false
+      }
+    }
+
+    // Required synonym groups: every group must have one synonym present.
+    let allPass = true;
+    for (let g = 0; g < required.length; g++) {
+      const group = Array.isArray(required[g]) ? required[g] : [required[g]];
+      const syns = group.map(_normText).filter(Boolean);
+      let hit = null;
+      for (let s = 0; s < syns.length; s++) {
+        if (norm.indexOf(syns[s]) !== -1) { hit = syns[s]; break; }
+      }
+      if (hit) result.matched.push(hit);
+      else { allPass = false; result.missed.push(group); }
+    }
+
+    // Correct only when there is at least one required group AND all groups passed.
+    // (A gate with no required groups can never confirm "correct" — fail safe.)
+    result.isCorrect = (required.length > 0) && allPass;
+    return result;
+  }
+
+  // Read a question's grading rule ("料") from the lesson HTML.
+  // Looked for (first hit wins): block[data-gate], the answer-input element
+  // [data-gate], or window.QGATES[questionId]. Returns the parsed gate or null.
+  function _pqReadGate(block, qid, inputEl) {
+    function parse(raw) {
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch (e) {
+        console.warn('[SciSpark] bad data-gate JSON, ignoring:', e.message);
+        return null;
+      }
+    }
+    let g = null;
+    if (block && block.getAttribute) g = parse(block.getAttribute('data-gate'));
+    if (!g && inputEl && inputEl.getAttribute) g = parse(inputEl.getAttribute('data-gate'));
+    if (!g && qid && window.QGATES && window.QGATES[qid]) {
+      g = window.QGATES[qid];                // already an object
+    }
+    return g;
+  }
+
+  // Reward-once tracker for graded free-text (per question id, this page load).
+  const _ftGraded = {};
+
+  // Apply the reward path for a graded free-text answer. Mirrors submitAnswer
+  // steps 5–9 EXACTLY (no MCQ code is touched). Strict 2026-06-19 round-3 rule:
+  // wrong / junk NEVER raises marks / mastery / effort / XP / streak.
+  function _applyFreeTextReward(block, isCorrect) {
+    // 5 · Spark Jar — mastery ONLY on correct
+    if (window.SparkJar && isCorrect) window.SparkJar.add(20, 'correct');
+    // 6 · Spark Streak (paused-not-reset; miss() is a pause, not a reward)
+    try { if (isCorrect) SparkStreak.add(); else SparkStreak.miss(); } catch (e) {}
+    // 7 · v1 XP — ONLY on correct
+    if (isCorrect && typeof awardXP === 'function') { try { awardXP(10, 'text'); } catch (e) {} }
+    // 8 · Doudou react
+    if (typeof doudouReact === 'function') { try { doudouReact(isCorrect); } catch (e) {} }
+    // 9 · Reward audio
+    try { playSound(isCorrect ? 'correct' : 'wrong'); } catch (e) {}
+    // 10 · Mark answered for test progress
+    if (block && block.dataset && block.dataset.question) {
+      block.setAttribute('data-answered', 'true');
+      block.setAttribute('data-result', isCorrect ? 'correct' : 'wrong');
+    }
+    try { updateTestProgress(); } catch (e) {}
+  }
+
+  // Called from toggleAns: a "Check answer" reveal on a free-text question.
+  function _pqCaptureReveal(id) {
+    const box = document.getElementById(id);
+    if (!box) return;
+    if (!box.classList.contains('show')) return;   // only on OPEN (became visible), not on hide
+    const block = box.closest('.question-block');
+    if (!block) return;                            // generic toggles (non-question) → ignore
+    const qid = _pqQid(block) || String(id).replace(/-ans$/i, '');
+    const ta = block.querySelector('textarea, input.short-input, .short-input');
+    const text = ta ? (ta.value || '').trim() : '';
+    let maxScore = null;
+    const qm = block.querySelector('.q-marks');
+    if (qm) { const m = qm.textContent.match(/\d+/); if (m) maxScore = parseInt(m[0], 10); }
+
+    // Keyword gate? If this question carries grading rules, auto-grade it.
+    const gate = _pqReadGate(block, qid, ta);
+    if (gate) {
+      let verdict = null;
+      try { verdict = gradeTextAnswer(text, gate); } catch (e) { verdict = null; }
+      if (verdict) {
+        const isCorrect = !!verdict.isCorrect;
+        // visual state for the lesson (CSS can style data-result)
+        block.setAttribute('data-result', isCorrect ? 'correct' : 'wrong');
+        // reward exactly once per question (re-reveals don't re-reward)
+        if (!_ftGraded[qid]) {
+          _ftGraded[qid] = true;
+          _applyFreeTextReward(block, isCorrect);
+        }
+        recordQuestionAttempt({
+          questionId: qid,
+          inputType:  'free_text_graded',
+          submission: { text: text, matched: verdict.matched, missed: verdict.missed },
+          score:      isCorrect ? 1 : 0,
+          maxScore:   maxScore,
+          isCorrect:  isCorrect          // → writes is_correct column
+        });
+        return;
+      }
+    }
+
+    // No gate (or grade failed) → unchanged self-reported capture (score=null).
+    recordQuestionAttempt({
+      questionId: qid,
+      inputType:  'free_text',
+      submission: { text: text },
+      score:      null,            // self-graded reveal → correctness unknown, mark later
+      maxScore:   maxScore
+    });
+  }
+
   // toggleHint: verbatim from v1.js line 481-484
   function toggleHint(id) {
     const box = document.getElementById(id);
@@ -571,6 +1014,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function toggleAns(id) {
     const box = document.getElementById(id);
     if (box) box.classList.toggle('show');
+    // PER-QUESTION CAPTURE — record the submitted answer when a question's
+    // "Check answer" reveal is opened (best-effort; never blocks the toggle).
+    try { _pqCaptureReveal(id); } catch (e) {}
   }
 
   // submitAnswer: v2's richer flow + v1 integrations (audio, awardXP, doudouReact)
@@ -619,9 +1065,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
       setLang(mode);
     }
 
-    // 5 · Spark Jar — correct: +20, effort (wrong): +5
-    if (window.SparkJar) {
-      window.SparkJar.add(isCorrect ? 20 : 5, isCorrect ? 'correct' : 'effort');
+    // 5 · Spark Jar — reward (mastery) ONLY on correct; no effort/mastery for wrong/junk (order 2026-06-19 round 3)
+    if (window.SparkJar && isCorrect) {
+      window.SparkJar.add(20, 'correct');
     }
 
     // 6 · Spark Streak (paused-not-reset)
@@ -658,6 +1104,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if (lessonId && opts.questionId) {
       trackProgress(lessonId, opts.screen || 'test', isCorrect ? 'answered_correct' : 'answered_wrong');
     }
+
+    // 12 · PER-QUESTION CAPTURE — real graded MCQ (records actual 1/0 score)
+    try {
+      if (opts.questionId) {
+        recordQuestionAttempt({
+          questionId: opts.questionId,
+          inputType:  'mcq',
+          submission: { selected: (optionEl.textContent || '').trim(), correct: !!isCorrect },
+          score:      isCorrect ? 1 : 0,
+          maxScore:   1
+        });
+      }
+    } catch (e) {}
   }
 
   // ═════════════════════════════════════════════════════════════
@@ -979,7 +1438,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     setupContentProtection();
   
     // Load streak
-    loadStreak();
+    SparkStreak.render();
   
     // Show first Professor P bubble after 1 second
     setTimeout(() => showBubbleForScreen('hook'), 1500);
@@ -991,6 +1450,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
   
     ttsInjectButtons();
+
+    // Inject 🎤 voice-input buttons on every answer box (auto-hidden if unsupported)
+    voiceInjectButtons();
   });
   
   // ═════════════════════════════════════════════════════════════
@@ -1220,6 +1682,466 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   // ═════════════════════════════════════════════════════════════
+  // SECTION 14b: 求救按钮 — REVIEW / EXPLAIN-AGAIN (MVP, 2026-06-20)
+  // 派工卡 双手房. PLUG-ENGINE: lives here ONCE, auto-mounts on every lesson
+  // that loads this engine. NO per-lesson copy. NO auto-0 / NO auto-cheat.
+  // Chain: student answers → 2 buttons appear → 请老师复核 (3 gates) → review_requests
+  //        → Sanchez clears it in the console → student sees the resolution.
+  // ═════════════════════════════════════════════════════════════
+  var REVIEW = (function () {
+    var WEEKLY_CAP = 3;
+    var MOUNT_FLAG = 'data-review-mounted';
+    var appealsByQ = {};   // question_id -> existing review_requests row (this lesson, this student)
+    var loadedUser = null; // cached auth user (or null)
+    var scanQueued = false;
+
+    var REASONS = [
+      { code: 'think_correct',        en: 'I think my answer is correct',     zh: '我觉得我的答案是对的' },
+      { code: 'ai_marked_wrong_spot', en: 'The AI marked the wrong part',     zh: 'AI 改错了地方' },
+      { code: 'question_problem',     en: 'The question itself has a problem', zh: '题目本身有问题' },
+      { code: 'system_broken',        en: 'The system seems broken',          zh: '系统好像坏了' }
+    ];
+
+    function lang() {
+      try { return localStorage.getItem(LS_LANG) === 'zh' ? 'zh' : 'en'; } catch (e) { return 'en'; }
+    }
+    function relangNewNodes() { try { setLang(lang()); } catch (e) {} }
+
+    // lesson identity (variant-agnostic, no UUID needed)
+    function lessonPath() {
+      var p = (location.pathname || '').replace(/\.html$/i, '');
+      return p || '/';
+    }
+    function lessonLabel() {
+      var h = document.querySelector('h1, .lesson-title, .topbar__title');
+      var t = (h && h.textContent || document.title || '').trim();
+      return t.slice(0, 200);
+    }
+
+    // ── junk guard for the written reason (mirrors lesson strict-grading spirit) ──
+    function looksGibberish(s) {
+      s = (s || '').trim();
+      if (s.length < 10) return true;
+      if (/^(.)\1+$/.test(s.replace(/\s/g, ''))) return true;          // "aaaaaa"
+      var letters = (s.match(/[a-z一-龥]/gi) || []).length;
+      if (letters < 4) return true;                                    // mostly punctuation/numbers
+      var uniq = {}; (s.toLowerCase().match(/[a-z一-龥]/g) || []).forEach(function (c) { uniq[c] = 1; });
+      if (Object.keys(uniq).length < 3) return true;                   // "asasasas"
+      return false;
+    }
+
+    // ════════ snapshot extraction (best-effort across lesson variants) ════════
+    function textOf(el) { return el ? (el.textContent || '').replace(/\s+/g, ' ').trim() : ''; }
+
+    // L01-style: a "<qid>-feedback" element that became visible right/wrong
+    function fromL01Feedback(fb) {
+      var id = fb.id || '';
+      var m = id.match(/^(.+)-feedback$/);
+      if (!m) return null;
+      var qid = m[1];
+      var verdict = fb.classList.contains('feedback-right') ? 'correct'
+                  : fb.classList.contains('feedback-wrong') ? 'wrong' : null;
+      if (!verdict) return null;
+      var container = fb.closest('.question-block') || fb.parentElement;
+      var input = document.getElementById(qid + '-input');
+      var ansEl = document.getElementById(qid + '-answer') ||
+                  document.getElementById(qid + '-model') ||
+                  (container && container.querySelector('.answer-reveal-text, .model-answer, [data-model-answer]'));
+      var maxMarks = parseMarks(container);
+      return {
+        anchor: fb, container: container, qid: qid, verdict: verdict,
+        studentAnswer: input ? (input.value || '').trim() : '',
+        aiReason: textOf(fb).slice(0, 1000),
+        modelAnswer: textOf(ansEl).slice(0, 1000),
+        questionStem: stemOf(container, qid),
+        aiMax: maxMarks,
+        aiScore: (verdict === 'correct' ? (maxMarks != null ? maxMarks : null) : 0),
+        showAnsBtn: document.getElementById(qid + '-show-ans-btn')
+      };
+    }
+
+    // Engine MCQ-style: a ".q-block[data-answered=true]"
+    function fromMcqBlock(block) {
+      var qid = block.getAttribute('data-question');
+      if (!qid) return null;
+      var verdict = block.getAttribute('data-result') === 'correct' ? 'correct'
+                  : block.getAttribute('data-result') === 'wrong' ? 'wrong' : null;
+      if (!verdict) return null;
+      var picked = block.querySelector('.option[data-state="correct"],.option[data-state="wrong"],.mcq-option[data-state="correct"],.mcq-option[data-state="wrong"]');
+      var correctEl = block.querySelector('[data-state="reveal-correct"],.option[data-state="correct"],.mcq-option[data-state="correct"]');
+      var fb = block.querySelector('.ai-feedback');
+      var explain = fb && fb.querySelector('.ai-feedback__explain');
+      var maxMarks = parseMarks(block);
+      return {
+        anchor: fb && fb.classList.contains('is-open') ? fb : block,
+        container: block, qid: qid, verdict: verdict,
+        studentAnswer: textOf(picked),
+        aiReason: textOf(explain).slice(0, 1000),
+        modelAnswer: textOf(correctEl).slice(0, 1000),
+        questionStem: stemOf(block, qid),
+        aiMax: maxMarks,
+        aiScore: (verdict === 'correct' ? (maxMarks != null ? maxMarks : null) : 0),
+        showAnsBtn: block.querySelector('.show-answer-btn,[data-action="show-answer"]')
+      };
+    }
+
+    function parseMarks(container) {
+      if (!container) return null;
+      var t = container.textContent || '';
+      // no \b after marks?: textContent runs the "1 mark" badge straight into the
+      // next word ("1 markMaya"), so a trailing word boundary never matches.
+      var m = t.match(/(\d+)\s*marks?/i);
+      return m ? parseInt(m[1], 10) : null;
+    }
+    function stemOf(container, qid) {
+      if (!container) return '';
+      var sel = container.querySelector('.question-text,[data-question-stem],.q-stem,.question__stem');
+      if (sel) return textOf(sel).slice(0, 600);
+      // No clean selector: the question sentence sits BEFORE the answer input; the
+      // model-answer reveal comes AFTER it. So scan only the direct children before
+      // the input holder, skipping the badge header (Q04 · STATE · 1 mark) and the
+      // .zh translation. Avoids the textContent mash ("Q04STATE1 markA torch...")
+      // AND avoids picking up the show-answer block.
+      var kids = Array.prototype.slice.call(container.children);
+      var input = container.querySelector('input, textarea');
+      var stop = kids.length;
+      if (input) {
+        for (var i = 0; i < kids.length; i++) {
+          if (kids[i] === input || kids[i].contains(input)) { stop = i; break; }
+        }
+      }
+      var best = '';
+      for (var j = 0; j < stop; j++) {
+        var ch = kids[j];
+        if (ch.matches && ch.matches('.zh, button, [id$="-feedback"]')) continue;
+        var t = textOf(ch);
+        if (!t) continue;
+        if (/^Q\s*\d+/i.test(t)) continue;            // badge header row
+        if (t.length < 25 && /mark/i.test(t)) continue; // stray mark badge
+        if (t.length > best.length) best = t;
+      }
+      return best.slice(0, 600);
+    }
+
+    function collectGraded() {
+      var out = [];
+      document.querySelectorAll('[id$="-feedback"]').forEach(function (fb) {
+        if (fb.getAttribute(MOUNT_FLAG)) return;
+        var vis = fb.offsetParent !== null || (fb.style && fb.style.display === 'block');
+        if (!vis) return;
+        var info = fromL01Feedback(fb);
+        if (info) out.push(info);
+      });
+      document.querySelectorAll('.q-block[data-answered="true"]').forEach(function (block) {
+        if (block.getAttribute(MOUNT_FLAG)) return;
+        var info = fromMcqBlock(block);
+        if (info) out.push(info);
+      });
+      return out;
+    }
+
+    // ════════ UI: the per-question button bar + status pill ════════
+    function statusLabel(status) {
+      if (status === 'resolved')  return { en: 'Resolved',  zh: '已处理' };
+      if (status === 'in_review') return { en: 'In review', zh: '复核中' };
+      return { en: 'Submitted', zh: '已提交' };
+    }
+
+    function pillHTML(row) {
+      var s = statusLabel(row.status);
+      var bar = document.createElement('div');
+      bar.className = 'review-bar review-bar--status';
+      bar.setAttribute('data-status', row.status);
+      var pill = document.createElement('span');
+      pill.className = 'review-pill review-pill--' + row.status;
+      var dot = document.createElement('span'); dot.className = 'review-pill__dot';
+      var lbl = document.createElement('span'); lbl.setAttribute('data-en', '👩‍🏫 Teacher review: ' + s.en); lbl.setAttribute('data-zh', '👩‍🏫 老师复核:' + s.zh);
+      pill.appendChild(dot); pill.appendChild(lbl);
+      bar.appendChild(pill);
+      if (row.status === 'resolved' && row.resolved_message) {
+        var msg = document.createElement('div');
+        msg.className = 'review-resolved-msg';
+        msg.textContent = row.resolved_message;
+        bar.appendChild(msg);
+      }
+      return bar;
+    }
+
+    function btn(cls, en, zh) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'review-btn ' + cls;
+      var s = document.createElement('span');
+      s.setAttribute('data-en', en); s.setAttribute('data-zh', zh);
+      b.appendChild(s);
+      return b;
+    }
+
+    function mount(info) {
+      if (!info || !info.anchor) return;
+      // de-dupe: flag the feedback anchor AND container
+      info.anchor.setAttribute(MOUNT_FLAG, '1');
+      if (info.container) info.container.setAttribute(MOUNT_FLAG, '1');
+
+      // already has an appeal? show its status instead of the file button
+      var existing = appealsByQ[info.qid];
+      if (existing) {
+        info.anchor.insertAdjacentElement('afterend', pillHTML(existing));
+        relangNewNodes();
+        return;
+      }
+
+      var bar = document.createElement('div');
+      bar.className = 'review-bar';
+
+      var explainBtn = btn('review-btn--explain', '🔁 Explain again', '🔁 再解释一次');
+      explainBtn.addEventListener('click', function () { reExplain(info, explainBtn); });
+
+      var reviewBtn = btn('review-btn--review', '🙋 Ask teacher to review', '🙋 请老师复核');
+      reviewBtn.addEventListener('click', function () { openModal(info, bar); });
+
+      bar.appendChild(explainBtn);
+      bar.appendChild(reviewBtn);
+      info.anchor.insertAdjacentElement('afterend', bar);
+      relangNewNodes();
+    }
+
+    // ── 再解释一次: re-surface the lesson's OWN explanation. No DB, no notify. ──
+    // Purpose per order: reduce false review requests. (Not an LLM call in MVP.)
+    function reExplain(info, sourceBtn) {
+      try { if (info.showAnsBtn) { info.showAnsBtn.style.display = 'inline-block'; info.showAnsBtn.click(); } } catch (e) {}
+      var panel = info.container && info.container.querySelector('.review-explain-again');
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.className = 'review-explain-again';
+        var head = document.createElement('div');
+        head.className = 'review-explain-again__head';
+        head.setAttribute('data-en', '🔁 Let’s look at this again');
+        head.setAttribute('data-zh', '🔁 我们再看一次这题');
+        var body = document.createElement('div');
+        body.className = 'review-explain-again__body';
+        var reason = (info.aiReason || '').trim();
+        var model = (info.modelAnswer || '').trim();
+        var enParts = [], zhParts = [];
+        if (reason) { enParts.push(reason); zhParts.push(reason); }
+        if (model)  { enParts.push('Model answer: ' + model); zhParts.push('参考答案:' + model); }
+        enParts.push('Re-read it slowly. Still think the mark is wrong? Then ask the teacher to review.');
+        zhParts.push('慢慢再读一遍。还是觉得分数不对?那就请老师复核。');
+        body.setAttribute('data-en', enParts.join('  '));
+        body.setAttribute('data-zh', zhParts.join('  '));
+        panel.appendChild(head); panel.appendChild(body);
+        (sourceBtn.closest('.review-bar') || info.anchor).insertAdjacentElement('afterend', panel);
+      }
+      panel.classList.add('is-open');
+      relangNewNodes();
+      try { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+    }
+
+    // ════════ the 请老师复核 modal (3 gates) ════════
+    var modalEl = null;
+    function ensureModal() {
+      if (modalEl) return modalEl;
+      var ov = document.createElement('div');
+      ov.className = 'review-modal-ov';
+      ov.innerHTML =
+        '<div class="review-modal" role="dialog" aria-modal="true">' +
+          '<button type="button" class="review-modal__x" aria-label="Close">×</button>' +
+          '<h3 class="review-modal__title" data-en="Ask the teacher to review this question" data-zh="请老师复核这一题"></h3>' +
+          '<p class="review-modal__q"></p>' +
+          '<label class="review-modal__lab" data-en="1 · Why? (pick one)" data-zh="1 · 为什么?(选一个)"></label>' +
+          '<select class="review-modal__reason"><option value="" data-en="— choose a reason —" data-zh="— 选择原因 —"></option></select>' +
+          '<label class="review-modal__lab" data-en="2 · Tell us in one line (at least 10 characters)" data-zh="2 · 写一句理由(至少 10 个字)"></label>' +
+          '<textarea class="review-modal__reason-text" rows="3" maxlength="500"></textarea>' +
+          '<div class="review-modal__err" data-en="" data-zh=""></div>' +
+          '<div class="review-modal__cap"></div>' +
+          '<div class="review-modal__actions">' +
+            '<button type="button" class="review-modal__cancel" data-en="Cancel" data-zh="取消"></button>' +
+            '<button type="button" class="review-modal__submit" data-en="Submit" data-zh="提交"></button>' +
+          '</div>' +
+        '</div>';
+      var sel = ov.querySelector('.review-modal__reason');
+      REASONS.forEach(function (r) {
+        var o = document.createElement('option');
+        o.value = r.code; o.setAttribute('data-en', r.en); o.setAttribute('data-zh', r.zh);
+        sel.appendChild(o);
+      });
+      ov.querySelector('.review-modal__x').addEventListener('click', closeModal);
+      ov.querySelector('.review-modal__cancel').addEventListener('click', closeModal);
+      ov.addEventListener('click', function (e) { if (e.target === ov) closeModal(); });
+      document.body.appendChild(ov);
+      modalEl = ov;
+      return ov;
+    }
+    function closeModal() { if (modalEl) modalEl.classList.remove('is-open'); }
+
+    function setErr(ov, en, zh) {
+      var e = ov.querySelector('.review-modal__err');
+      e.setAttribute('data-en', en || ''); e.setAttribute('data-zh', zh || '');
+      e.classList.toggle('is-on', !!en);
+      relangNewNodes();
+    }
+
+    async function openModal(info, bar) {
+      var ov = ensureModal();
+      ov.querySelector('.review-modal__reason').value = '';
+      ov.querySelector('.review-modal__reason-text').value = '';
+      setErr(ov, '', '');
+      ov.querySelector('.review-modal__q').textContent =
+        (info.qid || '') + (info.questionStem ? ' · ' + info.questionStem.slice(0, 120) : '');
+      var capEl = ov.querySelector('.review-modal__cap');
+      var submit = ov.querySelector('.review-modal__submit');
+      ov.classList.add('is-open');
+      relangNewNodes();
+
+      // gate 3 (cap) — check before they type
+      var sb = await ensureSupabase();
+      var user = await currentUser(sb);
+      if (!user) {
+        capEl.textContent = '';
+        setErr(ov, 'Please log in first, then you can request a review.', '请先登录,再请老师复核。');
+        submit.disabled = true;
+        return;
+      }
+      var used = await weeklyCount(sb, user);
+      var left = Math.max(0, WEEKLY_CAP - used);
+      capEl.setAttribute('data-en', 'Reviews left this week: ' + left + ' / ' + WEEKLY_CAP);
+      capEl.setAttribute('data-zh', '本周复核次数:还剩 ' + left + ' / ' + WEEKLY_CAP);
+      relangNewNodes();
+      if (left <= 0) {
+        submit.disabled = true;
+        setErr(ov, 'You have used all your reviews this week. Please try again next week.',
+                   '本周复核次数已用完,下周再试。');
+        return;
+      }
+      submit.disabled = false;
+
+      var onSubmit = function () {
+        var code = ov.querySelector('.review-modal__reason').value;
+        var txt = (ov.querySelector('.review-modal__reason-text').value || '').trim();
+        if (!code) { setErr(ov, 'Please pick a reason first.', '请先选一个原因。'); return; }
+        if (looksGibberish(txt)) {
+          setErr(ov, 'Please write a real reason — at least 10 characters.',
+                     '请写一句真实的理由 — 至少 10 个字。'); return;
+        }
+        submit.disabled = true;
+        setErr(ov, '', '');
+        doInsert(info, code, txt, sb, user).then(function (row) {
+          if (!row) { submit.disabled = false; setErr(ov, 'Could not submit — please try again.', '提交失败 — 请再试一次。'); return; }
+          appealsByQ[info.qid] = row;
+          closeModal();
+          // swap the button bar for a status pill + reassurance
+          if (bar && bar.parentNode) {
+            var pill = pillHTML(row);
+            bar.parentNode.replaceChild(pill, bar);
+            var note = document.createElement('div');
+            note.className = 'review-submitted-note';
+            note.setAttribute('data-en', '✓ Got it — you’re in the queue. Keep learning; the teacher will look soon.');
+            note.setAttribute('data-zh', '✓ 已收到,排队中。你可以继续学习,老师会尽快看。');
+            pill.insertAdjacentElement('afterend', note);
+            relangNewNodes();
+          }
+        });
+      };
+      submit.onclick = onSubmit;
+    }
+
+    async function currentUser(sb) {
+      try {
+        if (!sb) return null;
+        var s = await sb.auth.getSession();
+        var u = s && s.data && s.data.session && s.data.session.user;
+        if (u) return u;
+        var g = await sb.auth.getUser();
+        return (g && g.data && g.data.user) || null;
+      } catch (e) { return null; }
+    }
+
+    function startOfWeekISO() {
+      var d = new Date();
+      var day = (d.getDay() + 6) % 7;            // Monday = 0
+      d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - day);
+      return d.toISOString();
+    }
+
+    async function weeklyCount(sb, user) {
+      try {
+        var res = await sb.from('review_requests')
+          .select('id', { count: 'exact', head: true })
+          .eq('student_id', user.id)
+          .gte('created_at', startOfWeekISO());
+        return res && typeof res.count === 'number' ? res.count : 0;
+      } catch (e) { return 0; }
+    }
+
+    async function doInsert(info, code, txt, sb, user) {
+      try {
+        var payload = {
+          student_id: user.id,
+          lesson_path: lessonPath(),
+          lesson_label: lessonLabel(),
+          question_id: info.qid,
+          question_stem: info.questionStem || null,
+          student_answer: info.studentAnswer || null,
+          ai_verdict: info.verdict || null,
+          ai_score: (typeof info.aiScore === 'number' ? info.aiScore : null),
+          ai_max: (typeof info.aiMax === 'number' ? info.aiMax : null),
+          ai_reason: info.aiReason || null,
+          model_answer: info.modelAnswer || null,
+          student_reason_code: code,
+          student_reason: txt,
+          status: 'submitted'
+        };
+        var res = await sb.from('review_requests').insert(payload).select().single();
+        if (res.error) { console.warn('[Review] insert failed:', res.error.message); return null; }
+        return res.data;
+      } catch (e) { console.warn('[Review] insert error:', e && e.message); return null; }
+    }
+
+    // ════════ boot / observe ════════
+    function scan() {
+      scanQueued = false;
+      try { collectGraded().forEach(mount); } catch (e) {}
+    }
+    function queueScan() {
+      if (scanQueued) return;
+      scanQueued = true;
+      // setTimeout (not requestAnimationFrame): rAF is fully PAUSED in background
+      // tabs, so the deferred scan would never run; setTimeout still fires.
+      setTimeout(scan, 80);
+    }
+
+    async function preloadAppeals() {
+      try {
+        var sb = await ensureSupabase();
+        var user = await currentUser(sb);
+        loadedUser = user;
+        if (!user) return;
+        var res = await sb.from('review_requests')
+          .select('id,question_id,status,resolved_message,resolved_score,resolution_action')
+          .eq('student_id', user.id)
+          .eq('lesson_path', lessonPath());
+        if (res && res.data) res.data.forEach(function (r) { appealsByQ[r.question_id] = r; });
+      } catch (e) {}
+    }
+
+    async function init() {
+      await preloadAppeals();
+      scan();
+      var obs = new MutationObserver(queueScan);
+      obs.observe(document.body, {
+        subtree: true, childList: true,
+        attributes: true, attributeFilter: ['style', 'class', 'data-answered', 'data-result']
+      });
+      // belt-and-suspenders: re-scan when the tab regains focus (covers any
+      // mutation that landed while the tab was backgrounded / scan throttled)
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) queueScan(); });
+      window.addEventListener('focus', queueScan);
+    }
+
+    return { init: init };
+  })();
+
+  // ═════════════════════════════════════════════════════════════
   // SECTION 15: BOOT
   // ═════════════════════════════════════════════════════════════
   function boot() {
@@ -1275,9 +2197,32 @@ Globals exposed (lesson HTML can call directly via onclick=):
       try { setupAutoSave(); } catch (e) {}
     }
 
+    // PER-QUESTION CAPTURE — stamp first-touch time per question (for time_ms),
+    // and warm the account-child cache so the first write is fast.
+    try {
+      document.addEventListener('focusin', function (e) {
+        const block = (e.target && e.target.closest)
+          ? e.target.closest('.question-block, .q-block') : null;
+        if (!block) return;
+        const qid = _pqQid(block);
+        if (qid && !(qid in _pqTimers)) _pqTimers[qid] = Date.now();
+      }, true);
+      _pqResolveChild();
+    } catch (e) {}
+
     // Inject TTS buttons (v1)
     if (typeof ttsInjectButtons === 'function') {
       try { ttsInjectButtons(); } catch (e) {}
+    }
+
+    // Inject 🎤 voice-input buttons (engine-level; auto-hidden if unsupported)
+    if (typeof voiceInjectButtons === 'function') {
+      try { voiceInjectButtons(); } catch (e) {}
+    }
+
+    // 求救按钮 — auto-mount 再解释一次 / 请老师复核 on graded questions (MVP 2026-06-20)
+    if (REVIEW && typeof REVIEW.init === 'function') {
+      try { REVIEW.init(); } catch (e) {}
     }
 
     // Start on Hook (or screen from URL param ?s=, or saved progress)
@@ -1641,6 +2586,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   window.selectOpt = selectOpt;
   window.toggleHint = toggleHint;
   window.toggleAns = toggleAns;
+  window.gradeTextAnswer = gradeTextAnswer;   // keyword-gate typed-answer grader (Order 2026-06-20)
   window.toggleMute = toggleMute;
   window.playSound = playSound;
   window.trackProgress = trackProgress;
@@ -1667,6 +2613,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   if (typeof setupContentProtection === 'function') window.setupContentProtection = setupContentProtection;
   if (typeof setupAutoSave === 'function')         window.setupAutoSave = setupAutoSave;
   if (typeof applyLevelFromURL === 'function')     window.applyLevelFromURL = applyLevelFromURL;
+  if (typeof voiceInjectButtons === 'function')    window.voiceInjectButtons = voiceInjectButtons;
 
   // Boot when ready
   if (document.readyState === 'loading') {

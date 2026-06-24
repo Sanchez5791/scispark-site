@@ -805,6 +805,7 @@
         trigger_source,
         submitted_at,
         created_at,
+        assessment_code,
         teacher_review_status
       `)
       .eq('id', attemptId)
@@ -846,6 +847,80 @@
 
   const attempt = attemptResult.data;
   const answers = answersResult.data || [];
+
+  /* ── Grading mode ──
+     The NEW intake check (assessment_code === 'INTAKE_SPC_EN') is graded as
+     4 questions × 5 = total / 20, with bands Low/Mid/High. Every OTHER
+     assessment_code keeps the original Part A–D = / 60 scheme untouched.
+     DB approach: REUSE existing assessment_reviews columns (no migration) —
+       part_a_score..part_d_score = Question 1..4 (each /5)
+       total_score              = /20 total
+       provisional_level        = band string (Low/Mid/High)
+       teacher_final_level      = intake_low / intake_mid / intake_high   */
+  const IS_INTAKE = (attempt.assessment_code === 'INTAKE_SPC_EN');
+  const SCORE_IDS = ['score-a', 'score-b', 'score-c', 'score-d'];
+  const SCORE_LIMITS = IS_INTAKE
+    ? { 'score-a': 5,  'score-b': 5,  'score-c': 5,  'score-d': 5  }
+    : { 'score-a': 10, 'score-b': 15, 'score-c': 15, 'score-d': 20 };
+  const SCORE_LABELS = IS_INTAKE
+    ? { 'score-a': 'Question 1', 'score-b': 'Question 2', 'score-c': 'Question 3', 'score-d': 'Question 4' }
+    : { 'score-a': 'Part A',     'score-b': 'Part B',     'score-c': 'Part C',     'score-d': 'Part D'     };
+  const SCORE_TOTAL_MAX = IS_INTAKE ? 20 : 60;
+
+  function intakeBand(total) {
+    if (total <= 8)  return 'Low';
+    if (total <= 14) return 'Mid';
+    return 'High';
+  }
+  function levelOrBand(total) {
+    return IS_INTAKE ? intakeBand(total) : provisionalLevel(total);
+  }
+
+  /* ── Re-skin the scoring + final-decision UI for intake attempts ── */
+  function applyIntakeMode() {
+    if (!IS_INTAKE) return;
+
+    /* 4 score inputs → /5, relabelled Question 1–4 */
+    SCORE_IDS.forEach(function (id) {
+      const input = document.getElementById(id);
+      if (input) input.max = '5';
+      const lbl = document.querySelector('label[for="' + id + '"]');
+      if (lbl) lbl.innerHTML = esc(SCORE_LABELS[id]) + ' <span class="score-max">/ 5</span>';
+    });
+
+    /* scoring card sub-header */
+    const scoreCard = document.getElementById('score-a') ? document.getElementById('score-a').closest('.card') : null;
+    const scoreSub  = scoreCard ? scoreCard.querySelector('.card-header-sub') : null;
+    if (scoreSub) scoreSub.textContent = 'Intake check · 4 questions × 5 = total / 20 · band shown below';
+
+    /* "Provisional level" readout → "Band" */
+    const provDisplay = document.getElementById('provisional-level-display');
+    const provLabel   = provDisplay ? provDisplay.parentElement.querySelector('.calc-label') : null;
+    if (provLabel) provLabel.textContent = 'Band';
+
+    /* final-decision select → band options */
+    const finalSel = document.getElementById('final-level');
+    if (finalSel) {
+      finalSel.innerHTML =
+        '<option value="">— select final band —</option>' +
+        '<option value="intake_low">Low (0–8)</option>' +
+        '<option value="intake_mid">Mid (9–14)</option>' +
+        '<option value="intake_high">High (15–20)</option>' +
+        '<option value="hold_manual_review">Hold — manual review required</option>' +
+        '<option value="invalid">Invalid attempt</option>';
+    }
+    const finalLbl = document.querySelector('label[for="final-level"]');
+    if (finalLbl) finalLbl.innerHTML = 'Teacher final band <span class="final-required">*</span>';
+
+    /* hide the old Year-9 enrolment-plan recommendation card (not for intake) */
+    const recEmpty = document.getElementById('rec-empty');
+    const recCard  = recEmpty ? recEmpty.closest('.card') : null;
+    if (recCard) {
+      recCard.style.display = 'none';
+      const prev = recCard.previousElementSibling;
+      if (prev && prev.classList && prev.classList.contains('section-title')) prev.style.display = 'none';
+    }
+  }
 
   /* ── Update page title ── */
   const studentName = attempt.student_id ? attempt.student_id.slice(0, 8) + '…' : '—';
@@ -948,6 +1023,9 @@
   showState('content');
   setStatus('live', 'Loaded · ' + answers.length + ' answer field' + (answers.length === 1 ? '' : 's'));
 
+  /* Re-skin grading UI for intake attempts (no-op for old /60 attempts) */
+  applyIntakeMode();
+
   /* ── Scoring draft ── */
   let existingReview = (reviewResult && !reviewResult.error) ? reviewResult.data : null;
 
@@ -967,23 +1045,20 @@
   }
 
   function updateTotals() {
-    const a = parseScore('score-a');
-    const b = parseScore('score-b');
-    const c = parseScore('score-c');
-    const d = parseScore('score-d');
+    const scores  = SCORE_IDS.map(parseScore);
     const totalEl = document.getElementById('total-score-display');
     const levelEl = document.getElementById('provisional-level-display');
-    if (a !== null && b !== null && c !== null && d !== null) {
-      const total = a + b + c + d;
-      totalEl.textContent = total + ' / 60';
-      levelEl.textContent = provisionalLevel(total);
+    if (scores.every(v => v !== null)) {
+      const total = scores.reduce((s, v) => s + v, 0);
+      totalEl.textContent = total + ' / ' + SCORE_TOTAL_MAX;
+      levelEl.textContent = levelOrBand(total);
     } else {
       totalEl.textContent = '—';
       levelEl.textContent = '—';
     }
   }
 
-  ['score-a', 'score-b', 'score-c', 'score-d'].forEach(id => {
+  SCORE_IDS.forEach(id => {
     document.getElementById(id)?.addEventListener('input', updateTotals);
   });
 
@@ -1007,8 +1082,8 @@
   document.getElementById('save-draft-btn')?.addEventListener('click', saveDraft);
 
   async function saveDraft() {
-    const LIMITS = { 'score-a': 10, 'score-b': 15, 'score-c': 15, 'score-d': 20 };
-    const LABELS = { 'score-a': 'Part A', 'score-b': 'Part B', 'score-c': 'Part C', 'score-d': 'Part D' };
+    const LIMITS = SCORE_LIMITS;
+    const LABELS = SCORE_LABELS;
     const vals = {};
 
     for (const [id, max] of Object.entries(LIMITS)) {
@@ -1022,7 +1097,7 @@
       vals[id] = v;
     }
 
-    const total = vals['score-a'] + vals['score-b'] + vals['score-c'] + vals['score-d'];
+    const total = SCORE_IDS.reduce((s, id) => s + vals[id], 0);
 
     const payload = {
       part_a_score:        vals['score-a'],
@@ -1030,7 +1105,7 @@
       part_c_score:        vals['score-c'],
       part_d_score:        vals['score-d'],
       total_score:         total,
-      provisional_level:   provisionalLevel(total),
+      provisional_level:   levelOrBand(total),
       reliability_status:  document.getElementById('reliability-status')?.value || null,
       language_status:     document.getElementById('language-status')?.value   || null,
       borderline_status:   document.getElementById('borderline-status')?.value || null,
@@ -1096,6 +1171,7 @@
 
   function reviewStatusFromFinalLevel(v) {
     if (v === 'level_1' || v === 'level_2' || v === 'level_3') return 'final';
+    if (v === 'intake_low' || v === 'intake_mid' || v === 'intake_high') return 'final';
     if (v === 'hold_second_round')  return 'needs_second_round';
     if (v === 'hold_manual_review') return 'manual_review_required';
     if (v === 'invalid')            return 'invalid';
@@ -1103,8 +1179,8 @@
   }
 
   async function saveFinal() {
-    const LIMITS = { 'score-a': 10, 'score-b': 15, 'score-c': 15, 'score-d': 20 };
-    const LABELS = { 'score-a': 'Part A', 'score-b': 'Part B', 'score-c': 'Part C', 'score-d': 'Part D' };
+    const LIMITS = SCORE_LIMITS;
+    const LABELS = SCORE_LABELS;
     const vals = {};
 
     for (const [id, max] of Object.entries(LIMITS)) {
@@ -1118,7 +1194,7 @@
       vals[id] = v;
     }
 
-    const total      = vals['score-a'] + vals['score-b'] + vals['score-c'] + vals['score-d'];
+    const total      = SCORE_IDS.reduce((s, id) => s + vals[id], 0);
     const finalLevel = document.getElementById('final-level')?.value;
 
     if (!finalLevel) {
@@ -1136,7 +1212,7 @@
       part_c_score:        vals['score-c'],
       part_d_score:        vals['score-d'],
       total_score:         total,
-      provisional_level:   provisionalLevel(total),
+      provisional_level:   levelOrBand(total),
       reliability_status:  document.getElementById('reliability-status')?.value || null,
       language_status:     document.getElementById('language-status')?.value    || null,
       borderline_status:   document.getElementById('borderline-status')?.value  || null,

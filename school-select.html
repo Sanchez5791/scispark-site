@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+  <link rel="shortcut icon" href="/assets/favicon.ico?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+  <link rel="manifest" href="/site.webmanifest?v=2">
+  <meta name="theme-color" content="#EA580C">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SciSpark — Set Up Your Child's Learning Path</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5efe5;
+      --bg-card: #fff;
+      --orange: #e8521a;
+      --orange-hover: #d44717;
+      --orange-light: #fdf2ed;
+      --orange-mid: #f9d9cc;
+      --dark: #1a1917;
+      --text: #2d2926;
+      --muted: #9a8e84;
+      --border: #e2d9ce;
+      --green: #2E7D5B;
+      --green-bg: #edf7f2;
+      --green-border: #b8e0c8;
+      --green-text: #1d6b3e;
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-xl: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* NAV */
+    nav { background: var(--dark); height: 60px; display: flex; align-items: center; padding: 0 24px; }
+    .nav-logo { color: #fff; font-family: 'EB Garamond', serif; font-size: 1.3rem; font-weight: 500; text-decoration: none; }
+
+    /* STEP INDICATOR */
+    .progress-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 14px 24px; }
+    .steps { display: flex; align-items: center; max-width: 540px; margin: 0 auto; }
+    .step-item { display: flex; align-items: center; gap: 7px; }
+    .step-dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid var(--border); background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      flex-shrink: 0; transition: all 0.25s;
+    }
+    .step-item.active .step-dot { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .step-item.done  .step-dot  { background: var(--green);  border-color: var(--green);  color: #fff; }
+    .step-label { font-size: 12px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+    .step-item.active .step-label { color: var(--text); font-weight: 600; }
+    .step-item.done  .step-label  { color: var(--green); }
+    .step-line { flex: 1; height: 2px; background: var(--border); margin: 0 6px; min-width: 20px; transition: background 0.25s; }
+    .step-line.done { background: var(--green); }
+
+    /* PAGE */
+    .page { max-width: 540px; margin: 0 auto; padding: 40px 20px 80px; }
+    .page-step { display: none; }
+    .page-step.active { display: block; }
+
+    h1 { font-family: 'EB Garamond', serif; font-size: 2rem; font-weight: 500; margin-bottom: 8px; line-height: 1.1; color: var(--dark); }
+    .subtitle { color: var(--muted); font-size: 0.93rem; margin-bottom: 28px; line-height: 1.55; }
+
+    /* CHILD BANNER */
+    .child-banner {
+      background: var(--orange-light); border: 1px solid var(--orange-mid);
+      border-radius: var(--r-md); padding: 12px 16px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .child-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--orange); display: flex; align-items: center;
+      justify-content: center; color: #fff; font-size: 1.05rem; font-weight: 700; flex-shrink: 0;
+    }
+    .child-name-text { font-weight: 600; font-size: 0.95rem; line-height: 1.2; }
+    .child-year-text { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    /* CARD */
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 24px; margin-bottom: 20px; }
+
+    /* CURRICULUM PILL */
+    .curriculum-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green-bg); border: 1px solid var(--green-border);
+      color: var(--green-text); font-size: 0.82rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 18px;
+    }
+
+    /* FORM FIELDS */
+    label.field-label { display: block; font-size: 0.84rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    input[type="text"] {
+      width: 100%; padding: 13px 14px;
+      border: 1.5px solid var(--border); border-radius: var(--r-md);
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+      color: var(--text); background: #fff; outline: none; transition: border-color 0.2s;
+    }
+    input[type="text"]:focus { border-color: var(--orange); }
+    input[type="text"]::placeholder { color: #c5bbb4; }
+
+    /* UNITS */
+    .units-section { margin-bottom: 18px; }
+    .units-section-title {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
+    }
+    .unit-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 14px; border-radius: var(--r-md);
+      border: 1px solid var(--border); margin-bottom: 7px; background: #fff;
+    }
+    .unit-badge {
+      width: 34px; height: 34px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 800; flex-shrink: 0; letter-spacing: 0.02em;
+    }
+    .unit-badge.live { background: var(--green-bg); color: var(--green); }
+    .unit-badge.soon { background: #f0ebe4; color: #b5a898; }
+    .unit-name { font-size: 0.9rem; font-weight: 500; flex: 1; }
+    .unit-status { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .unit-status.live { background: var(--green-bg); color: var(--green); }
+    .unit-status.soon { background: #f0ebe4; color: #b5a898; }
+
+    .all-access-callout {
+      background: var(--green-bg); border: 1px solid var(--green-border);
+      border-radius: var(--r-md); padding: 14px 16px;
+      font-size: 0.88rem; color: var(--green-text);
+      margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+    }
+    .all-access-callout .check { flex-shrink: 0; margin-top: 1px; }
+
+    /* BUTTONS */
+    .btn-primary {
+      width: 100%; padding: 16px; background: var(--orange); color: #fff; border: none;
+      border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 1rem;
+      font-weight: 600; cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--orange-hover); }
+    .btn-primary:disabled { background: #d5cec6; cursor: not-allowed; }
+    .btn-back {
+      background: none; border: none; color: var(--muted);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; cursor: pointer;
+      padding: 10px 0; text-decoration: underline; display: block; margin-bottom: 14px;
+    }
+    .btn-back:hover { color: var(--text); }
+
+    /* "I'M NOT SURE" TEXTBOOK ESCAPE HATCH */
+    .unsure-option {
+      width: 100%; display: flex; align-items: flex-start; gap: 12px;
+      background: #fff; border: 1.5px solid var(--border); border-radius: var(--r-md);
+      padding: 14px 16px; margin-bottom: 16px; cursor: pointer; text-align: left;
+      font-family: 'DM Sans', sans-serif; transition: border-color 0.2s, background 0.2s;
+    }
+    .unsure-option:hover { border-color: var(--orange-mid); }
+    .unsure-option.selected { border-color: var(--orange); background: var(--orange-light); }
+    .unsure-radio {
+      width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border);
+      flex-shrink: 0; margin-top: 1px; transition: all 0.2s; position: relative;
+    }
+    .unsure-option.selected .unsure-radio { border-color: var(--orange); }
+    .unsure-option.selected .unsure-radio::after {
+      content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--orange);
+    }
+    .unsure-option-text { font-size: 0.92rem; font-weight: 600; color: var(--text); line-height: 1.35; }
+    .unsure-option-text small { display: block; font-weight: 400; font-size: 0.8rem; color: var(--muted); margin-top: 3px; }
+    .unsure-panel {
+      background: var(--green-bg); border: 1px solid var(--green-border);
+      border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 20px;
+      font-size: 0.9rem; line-height: 1.6; color: var(--green-text);
+    }
+    .unsure-panel .en { display: block; margin-top: 8px; color: var(--text); opacity: 0.72; font-size: 0.84rem; }
+
+    /* LOADING */
+    .loading-state { text-align: center; padding: 80px 20px; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.7rem; }
+      .step-label { display: none; }
+      .step-line { min-width: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/dashboard-parent.html" class="nav-logo">SciSpark</a>
+</nav>
+
+<div class="progress-bar">
+  <div class="steps" id="steps-indicator">
+    <div class="step-item active" data-step="1">
+      <div class="step-dot">1</div>
+      <span class="step-label">School</span>
+    </div>
+    <div class="step-line" id="line-1-2"></div>
+    <div class="step-item" data-step="2">
+      <div class="step-dot">2</div>
+      <span class="step-label">Your units</span>
+    </div>
+    <div class="step-line" id="line-2-3"></div>
+    <div class="step-item" data-step="3">
+      <div class="step-dot">3</div>
+      <span class="step-label">Payment</span>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="loading-pane">
+  <div class="loading-state">Loading…</div>
+</div>
+
+<div class="page" id="main-pane" style="display:none">
+
+  <div class="child-banner" id="child-banner" style="display:none">
+    <div class="child-avatar" id="child-avatar">?</div>
+    <div>
+      <div class="child-name-text" id="child-name-display">—</div>
+      <div class="child-year-text" id="child-year-display">—</div>
+    </div>
+  </div>
+
+  <!-- STEP 1: School name -->
+  <div class="page-step active" id="step-1">
+    <h1>Your child's school</h1>
+    <p class="subtitle">We use this to personalise their learning path on SciSpark. It only takes a moment.</p>
+
+    <div class="card">
+      <div class="curriculum-tag">
+        <span>✓</span> Cambridge Lower Secondary Science (0893)
+      </div>
+      <label class="field-label" for="school-name-input">School name</label>
+      <input
+        type="text"
+        id="school-name-input"
+        placeholder="e.g. Kolej Yayasan UEM, Alice Smith School"
+        autocomplete="organization"
+        maxlength="120"
+      />
+    </div>
+
+    <button type="button" class="unsure-option" id="unsure-toggle">
+      <span class="unsure-radio"></span>
+      <span class="unsure-option-text">
+        I'm not sure / 我不确定
+        <small>which textbook my child's school uses · 不知道孩子学校用哪本课本</small>
+      </span>
+    </button>
+
+    <div class="unsure-panel" id="unsure-panel" style="display:none">
+      不确定也没关系。我们会先按 Cambridge Lower Secondary 0893 标准顺序安排。之后你可以上传课本封面,我们再帮你调整。
+      <span class="en">Not sure? That's completely fine. We'll start with the standard Cambridge Lower Secondary (0893) unit order. You can upload your child's textbook cover later and we'll adjust it for you.</span>
+    </div>
+
+    <button class="btn-primary" id="btn-next-1" disabled>Continue →</button>
+  </div>
+
+  <!-- STEP 2: Cambridge units by year group -->
+  <div class="page-step" id="step-2">
+    <h1>What's covered for <span id="year-label">Year —</span></h1>
+    <p class="subtitle">Your subscription unlocks every available unit — and any new units we add throughout the year.</p>
+
+    <div class="all-access-callout">
+      <span class="check">✓</span>
+      <span>Monthly and annual plans include <strong>all units</strong> — no per-unit purchases needed.</span>
+    </div>
+
+    <div id="units-container"></div>
+
+    <button class="btn-back" id="btn-back-1">← Back</button>
+    <button class="btn-primary" id="btn-go-payment">Choose a plan →</button>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(async function init() {
+  const SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  const SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  const params    = new URLSearchParams(window.location.search);
+  const isPreview = params.get('preview') === '1';
+  let   unsure    = false;   // "I'm not sure which textbook" escape hatch
+
+  let child, childId;
+
+  if (isPreview) {
+    // No-login preview for boss eyes-on (Vercel). Guarded by ?preview=1 — real funnel unaffected.
+    childId = params.get('child_id') || null;
+    child   = { id: childId, full_name: 'Preview Student', year_group: '7', school_name: '' };
+  } else {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.replace('/signin.html'); return; }
+
+    childId = params.get('child_id');
+    if (!childId) { window.location.replace('/dashboard-parent.html'); return; }
+
+    const { data: c, error: childErr } = await sb
+      .from('children')
+      .select('id, full_name, year_group, school_name')
+      .eq('id', childId)
+      .eq('parent_id', session.user.id)
+      .single();
+
+    if (childErr || !c) { window.location.replace('/dashboard-parent.html'); return; }
+    child = c;
+  }
+
+  document.getElementById('loading-pane').style.display = 'none';
+  document.getElementById('main-pane').style.display    = 'block';
+
+  const initial = (child.full_name || '?')[0].toUpperCase();
+  document.getElementById('child-avatar').textContent       = initial;
+  document.getElementById('child-name-display').textContent = child.full_name;
+  document.getElementById('child-year-display').textContent = `Year ${child.year_group} · Cambridge Science`;
+  document.getElementById('child-banner').style.display     = 'flex';
+
+  if (child.school_name) {
+    document.getElementById('school-name-input').value = child.school_name;
+    refreshStep1Btn();
+  }
+
+  /* ── Step 1 ─────────────────────────────────────────────────────── */
+
+  document.getElementById('school-name-input').addEventListener('input', refreshStep1Btn);
+
+  // "I'm not sure" → reassure + let them continue on the standard Cambridge 0893 order.
+  const unsureToggle = document.getElementById('unsure-toggle');
+  const unsurePanel  = document.getElementById('unsure-panel');
+  unsureToggle.addEventListener('click', () => {
+    unsure = !unsure;
+    unsureToggle.classList.toggle('selected', unsure);
+    unsurePanel.style.display = unsure ? 'block' : 'none';
+    document.getElementById('btn-next-1').textContent =
+      unsure ? '先用标准顺序继续 · Continue with the standard order' : 'Continue →';
+    refreshStep1Btn();
+  });
+
+  function refreshStep1Btn() {
+    const ok = unsure || document.getElementById('school-name-input').value.trim().length >= 2;
+    document.getElementById('btn-next-1').disabled = !ok;
+  }
+
+  document.getElementById('btn-next-1').addEventListener('click', () => {
+    renderUnits(child.year_group);
+    goToStep(2);
+  });
+
+  /* ── Step 2 ─────────────────────────────────────────────────────── */
+
+  document.getElementById('btn-back-1').addEventListener('click', () => goToStep(1));
+
+  document.getElementById('btn-go-payment').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-go-payment');
+    btn.disabled    = true;
+    btn.textContent = 'Saving…';
+
+    const schoolName = document.getElementById('school-name-input').value.trim();
+    const { error } = await sb.from('children').update({
+      school_name: schoolName,
+      curriculum:  'cambridge',
+    }).eq('id', childId);
+
+    if (error) console.warn('school save failed (non-fatal):', error);
+
+    window.location.href = `/payment.html?child_id=${encodeURIComponent(childId)}`;
+  });
+
+  /* ── Cambridge units data ───────────────────────────────────────── */
+
+  const CAMBRIDGE_UNITS = {
+    '7': [
+      { num: 1, name: 'Matter and Particle Model',  status: 'live' },
+      { num: 2, name: 'Forces and Motion',           status: 'soon' },
+      { num: 3, name: 'Cells and Living Things',     status: 'soon' },
+      { num: 4, name: 'Energy',                      status: 'soon' },
+      { num: 5, name: 'Ecosystems',                  status: 'soon' },
+      { num: 6, name: 'Earth and Space',             status: 'soon' },
+    ],
+    '8': [
+      { num: 1, name: 'Chemical Reactions',          status: 'soon' },
+      { num: 2, name: 'Electricity and Magnetism',   status: 'soon' },
+      { num: 3, name: 'Genetics and Reproduction',   status: 'soon' },
+      { num: 4, name: 'Waves and Sound',             status: 'soon' },
+      { num: 5, name: 'Forces in Action',            status: 'soon' },
+    ],
+    '9': [
+      { num: 1, name: 'Periodic Table and Reactions', status: 'soon' },
+      { num: 2, name: 'Electricity',                  status: 'soon' },
+      { num: 3, name: 'Inheritance and Selection',    status: 'soon' },
+      { num: 4, name: 'Waves and Space',              status: 'soon' },
+      { num: 5, name: 'Motion and Forces',            status: 'soon' },
+    ],
+  };
+
+  function renderUnits(yearGroup) {
+    document.getElementById('year-label').textContent = `Year ${yearGroup}`;
+    const units     = CAMBRIDGE_UNITS[String(yearGroup)] || [];
+    const liveUnits = units.filter(u => u.status === 'live');
+    const soonUnits = units.filter(u => u.status === 'soon');
+
+    let html = '';
+    if (liveUnits.length) {
+      html += `<div class="units-section"><div class="units-section-title">Available now</div>`;
+      liveUnits.forEach(u => {
+        html += `<div class="unit-item">
+          <div class="unit-badge live">${u.num}</div>
+          <div class="unit-name">Unit ${u.num} &nbsp;·&nbsp; ${esc(u.name)}</div>
+          <span class="unit-status live">Live ✓</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    if (soonUnits.length) {
+      html += `<div class="units-section"><div class="units-section-title">Coming soon — included with your subscription</div>`;
+      soonUnits.forEach(u => {
+        html += `<div class="unit-item">
+          <div class="unit-badge soon">${u.num}</div>
+          <div class="unit-name">Unit ${u.num} &nbsp;·&nbsp; ${esc(u.name)}</div>
+          <span class="unit-status soon">Coming soon</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    if (!units.length) {
+      html = `<p style="color:var(--muted);font-size:0.9rem;padding:12px 0">No units found for this year group. Please contact us.</p>`;
+    }
+    document.getElementById('units-container').innerHTML = html;
+  }
+
+  function esc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── Navigation ─────────────────────────────────────────────────── */
+
+  function goToStep(n) {
+    document.querySelectorAll('.page-step').forEach(s => s.classList.remove('active'));
+    document.getElementById(`step-${n}`).classList.add('active');
+
+    document.querySelectorAll('#steps-indicator .step-item').forEach(item => {
+      const sn = parseInt(item.dataset.step, 10);
+      item.classList.remove('active', 'done');
+      if (sn === n) item.classList.add('active');
+      if (sn < n)  item.classList.add('done');
+    });
+    document.getElementById('line-1-2').classList.toggle('done', n > 1);
+    document.getElementById('line-2-3').classList.toggle('done', n > 2);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+})();
+</script>
+</body>
+</html>
