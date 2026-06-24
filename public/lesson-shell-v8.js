@@ -1907,92 +1907,106 @@ Globals exposed (lesson HTML can call directly via onclick=):
     };
 
     // ───────────────────────────────────────────────────────────
-    // 6) DRAW_CIRCUIT — place components on a grid + wire them (Spec 3: canvas+interact · P2 · needsTeacher)
-    // options: { components:[{id,label:{en,zh}}], targetTopology:{components:[id...], wires:[[i,j]...]}, marks, gridCells, hints }
-    // Client builds topology; final P2 grade is server-side → getState().needsTeacher=true.
+    // 6) DRAW_CIRCUIT — HONEST guided loop puzzle (Year 7: a cell lighting a bulb)
+    // Fixed loop layout (NOT a free simulator). Student drags the right part into each
+    // loop slot. The bulb lights ONLY when every slot holds the correct part (a real,
+    // complete loop) — never a fake "always lights". Broken loop → bulb off + honest hint.
+    // options: {
+    //   marks, hints,
+    //   slots:[{id,accept:'cell'|'wire'|'bulb', label:{en,zh}}],   // the loop, in order
+    //   parts:[{id,type:'cell'|'wire'|'bulb', label:{en,zh}}]      // tray (drag these in)
+    // }  (sensible Y7 defaults if omitted)
     // ───────────────────────────────────────────────────────────
     handlers.draw_circuit = function (el, config, ctx) {
       var o = _q(config);
-      var palette = o.components || [];
-      var target = o.targetTopology || { components: [], wires: [] };
-      var marks = +o.marks || 2, cells = +o.gridCells || 6, attempts = 0;
-      var placedComps = [], wires = [], wireSel = null;
-      el.innerHTML = ''; el.classList.add('lsv8', 'lsv8-circuit');
-      var bar = _node('div', 'lsv8-circuit-palette');
-      var activeComp = null;
-      palette.forEach(function (c) {
-        var b = _node('button', 'lsv8-comp-btn', _bi(c.label && c.label.en, c.label && c.label.zh));
-        b.type = 'button';
-        b.addEventListener('click', function () {
-          activeComp = c.id;
-          bar.querySelectorAll('.lsv8-comp-btn').forEach(function (x) { x.classList.remove('lsv8-sel'); });
-          b.classList.add('lsv8-sel');
-        });
-        bar.appendChild(b);
+      var marks = +o.marks || 2, attempts = 0;
+      var slots = o.slots || [
+        { id: 'top',    accept: 'cell', label: { en: 'Cell',  zh: '电池' } },
+        { id: 'right',  accept: 'wire', label: { en: 'Wire',  zh: '导线' } },
+        { id: 'bottom', accept: 'bulb', label: { en: 'Bulb',  zh: '灯泡' } },
+        { id: 'left',   accept: 'wire', label: { en: 'Wire',  zh: '导线' } }
+      ];
+      var parts = o.parts || [
+        { id: 'p_cell',  type: 'cell', label: { en: 'Cell', zh: '电池' } },
+        { id: 'p_bulb',  type: 'bulb', label: { en: 'Bulb', zh: '灯泡' } },
+        { id: 'p_wire1', type: 'wire', label: { en: 'Wire', zh: '导线' } },
+        { id: 'p_wire2', type: 'wire', label: { en: 'Wire', zh: '导线' } }
+      ];
+      var POS = { top: { left: '50%', top: '8%' }, right: { left: '88%', top: '50%' },
+                  bottom: { left: '50%', top: '92%' }, left: { left: '12%', top: '50%' } };
+      function icon(t) { return '<span class="lsv8-pi">' + (t === 'cell' ? '🔋' : t === 'bulb' ? '💡' : '🔌') + '</span>'; }
+      el.innerHTML = ''; el.classList.add('lsv8', 'lsv8-loop-q');
+
+      var loop = _node('div', 'lsv8-loop');
+      loop.appendChild(_node('div', 'lsv8-loop-frame'));   // the wire track (energises when closed)
+      var lamp = _node('div', 'lsv8-loop-lamp', '<span class="lsv8-lamp-ico">💡</span>'); // honest output: lights only when closed
+      loop.appendChild(lamp);
+      var slotEls = {};
+      slots.forEach(function (s) {
+        var z = _node('div', 'lsv8-loop-slot'); z.setAttribute('data-zone', s.id); z.setAttribute('data-accept', s.accept);
+        var p = POS[s.id] || { left: '50%', top: '50%' }; z.style.left = p.left; z.style.top = p.top;
+        z.appendChild(_node('span', 'lsv8-slot-ph', _bi(s.label && s.label.en, s.label && s.label.zh)));
+        loop.appendChild(z); slotEls[s.id] = z;
       });
-      el.appendChild(bar);
-      var grid = _node('div', 'lsv8-circuit-grid');
-      grid.style.gridTemplateColumns = 'repeat(' + Math.ceil(Math.sqrt(cells)) + ', 1fr)';
-      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('class', 'lsv8-circuit-svg');
-      var cellEls = [];
-      for (var i = 0; i < cells; i++) {
-        (function (idx) {
-          var cell = _node('div', 'lsv8-cell'); cell.setAttribute('data-cell', idx);
-          cell.addEventListener('click', function () { onCell(idx, cell); });
-          grid.appendChild(cell); cellEls.push(cell);
-        })(i);
+      el.appendChild(loop);
+
+      var tray = _node('div', 'lsv8-loop-tray');
+      parts.forEach(function (p) {
+        var chip = _node('div', 'lsv8-part', icon(p.type) + _bi(p.label && p.label.en, p.label && p.label.zh));
+        chip.setAttribute('data-drag', p.id); chip.setAttribute('data-type', p.type); chip.tabIndex = 0;
+        tray.appendChild(chip);
+      });
+      el.appendChild(tray);
+
+      // read the loop straight from the DOM → robust to parts being moved between slots
+      function readPlaced() {
+        var p = {};
+        slots.forEach(function (s) { var chip = slotEls[s.id].querySelector('.lsv8-part'); p[s.id] = chip ? chip.getAttribute('data-type') : null; });
+        return p;
       }
-      var gridWrap = _node('div', 'lsv8-circuit-wrap'); gridWrap.appendChild(grid); gridWrap.appendChild(svg);
-      el.appendChild(gridWrap);
-      function compAt(idx) { for (var k = 0; k < placedComps.length; k++) if (placedComps[k].cell === idx) return placedComps[k]; return null; }
-      function onCell(idx, cell) {
-        var existing = compAt(idx);
-        if (activeComp && !existing) {
-          placedComps.push({ id: activeComp, cell: idx });
-          var c = palette.filter(function (p) { return p.id === activeComp; })[0];
-          cell.classList.add('lsv8-cell-filled');
-          cell.innerHTML = _bi(c.label && c.label.en, c.label && c.label.zh);
-          return;
-        }
-        if (existing) {
-          if (wireSel === null) { wireSel = idx; cell.classList.add('lsv8-cell-wire'); }
-          else if (wireSel === idx) { wireSel = null; cell.classList.remove('lsv8-cell-wire'); }
-          else {
-            wires.push([wireSel, idx]); cellEls[wireSel].classList.remove('lsv8-cell-wire'); wireSel = null; drawWires();
+      function isClosed(placed) { return slots.every(function (s) { return placed[s.id] === s.accept; }); }
+      function evaluate() {
+        slots.forEach(function (s) {                       // empty slots show their placeholder again
+          var z = slotEls[s.id], has = z.querySelector('.lsv8-part'), ph = z.querySelector('.lsv8-slot-ph');
+          if (ph) ph.style.display = has ? 'none' : '';
+        });
+        var closed = isClosed(readPlaced());
+        loop.classList.toggle('lsv8-loop-closed', closed); // CSS: energise wire + light the lamp — only when truly closed
+        return closed;
+      }
+
+      _wireDrag(el, function (dragId, zoneId, dragEl) {
+        var zone = slotEls[zoneId]; if (!zone) return;
+        zone.querySelectorAll('.lsv8-part').forEach(function (c) { if (c !== dragEl) { tray.appendChild(c); c.style.transform = ''; } });
+        evaluate();
+      });
+
+      var fb = _feedback(), hint = _hintBar(o);
+      function score() { var placed = readPlaced(), c = 0; slots.forEach(function (s) { if (placed[s.id] === s.accept) c++; }); return Math.round(c / slots.length * marks); }
+      function brokenMsg() {
+        var placed = readPlaced();
+        for (var i = 0; i < slots.length; i++) {
+          var s = slots[i];
+          if (placed[s.id] !== s.accept) {
+            var name = s.label ? (_lang() === 'zh' ? s.label.zh : s.label.en) : s.id;
+            return _lang() === 'zh'
+              ? ('回路没接通——这里还差一个：' + name + '。电流流不过去，灯泡不会亮。')
+              : ('The circuit is not complete — the loop is broken here: needs a ' + name + '. No current flows, so the bulb stays off.');
           }
         }
-      }
-      function ctr(idx) { var r = cellEls[idx].getBoundingClientRect(), pr = gridWrap.getBoundingClientRect(); return { x: r.left + r.width / 2 - pr.left, y: r.top + r.height / 2 - pr.top }; }
-      function drawWires() {
-        while (svg.firstChild) svg.removeChild(svg.firstChild);
-        wires.forEach(function (w) {
-          var a = ctr(w[0]), b = ctr(w[1]);
-          var ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          ln.setAttribute('x1', a.x); ln.setAttribute('y1', a.y); ln.setAttribute('x2', b.x); ln.setAttribute('y2', b.y);
-          ln.setAttribute('class', 'lsv8-wire'); svg.appendChild(ln);
-        });
-      }
-      var fb = _feedback(), hint = _hintBar(o);
-      function grade() {
-        var haveComps = placedComps.map(function (c) { return c.id; }).sort();
-        var wantComps = (target.components || []).slice().sort();
-        var compsOk = haveComps.length === wantComps.length && haveComps.every(function (id, i) { return id === wantComps[i]; });
-        var wantWires = (target.wires || []).length;
-        var wiresOk = wires.length >= wantWires && wantWires > 0;
-        var score = compsOk ? (wiresOk ? marks : Math.max(1, marks - 1)) : 0;
-        return { score: score, ok: compsOk && wiresOk };
+        return '';
       }
       var btn = _checkBtn(function () {
-        var g = grade(); if (!g.ok) attempts++;
-        fb.show({ score: g.score, maxScore: marks, correct: g.ok });
-        hint.show(g.ok ? 'correct' : 'wrong');
+        var ok = evaluate();
+        if (ok) { hint.show('correct'); }
+        else { attempts++; hint.el.className = 'lsv8-hint lsv8-hint-wrong'; hint.el.style.display = ''; hint.el.textContent = brokenMsg(); }
+        fb.show({ score: score(), maxScore: marks, correct: ok });
       });
       el.appendChild(btn); el.appendChild(fb.el); el.appendChild(hint.el); hint.show('start');
       return {
         el: el, type: 'draw_circuit',
         destroy: function () { el.innerHTML = ''; },
-        getState: function () { var g = grade(); return { value: { components: placedComps, wires: wires }, score: g.score, maxScore: marks, attempts: attempts, correct: g.ok, needsTeacher: true }; },
+        getState: function () { var ok = evaluate(); return { value: readPlaced(), score: score(), maxScore: marks, attempts: attempts, correct: ok, needsTeacher: false }; },
         setReducedMotion: function () {}
       };
     };
@@ -2034,16 +2048,36 @@ Globals exposed (lesson HTML can call directly via onclick=):
 
     // ───────────────────────────────────────────────────────────
     // 8) INTERACTIVE_EXPLORE — drag sliders, NOT graded (Spec 3: canvas+framer · 不打分 · still 3-句 hint)
-    // options: { parameters:[{id,label:{en,zh},min,max,default,step,unit}], readout:{en,zh}, hints }
+    // options: {
+    //   parameters:[{id,label:{en,zh},min,max,default,step,unit}],
+    //   derived: { from, scale, offset, max, unit, label:{en,zh}, bar }   // OPTIONAL honest output
+    //   hints
+    // }
+    // `derived` shows a value COMPUTED from a real slider (derived = from*scale + offset,
+    // clamped to [0,max]) + an optional fill bar. Use this so a readout (e.g. brightness)
+    // genuinely responds to the input instead of being a second, lying slider.
     // ───────────────────────────────────────────────────────────
     handlers.interactive_explore = function (el, config, ctx) {
       var o = _q(config);
-      var params = o.parameters || [], vals = {};
+      var params = o.parameters || [], vals = {}, d = o.derived || null;
       el.innerHTML = ''; el.classList.add('lsv8', 'lsv8-explore');
       var readout = _node('div', 'lsv8-explore-readout');
+      var dWrap, dFill, dVal;
+      function derivedValue() {
+        if (!d) return null;
+        var base = (vals[d.from] != null) ? vals[d.from] : 0;
+        var v = base * (d.scale != null ? d.scale : 1) + (d.offset || 0);
+        var max = (d.max != null) ? d.max : v;
+        return { v: Math.max(0, Math.min(max, v)), max: max };
+      }
       function refresh() {
         var parts = params.map(function (p) { return (p.label ? (_lang() === 'zh' ? p.label.zh : p.label.en) : p.id) + ': ' + vals[p.id] + (p.unit || ''); });
         readout.textContent = parts.join('  ·  ');
+        if (d) {
+          var dv = derivedValue();
+          if (dVal) dVal.textContent = Math.round(dv.v) + (d.unit || '');
+          if (dFill) dFill.style.width = (dv.max ? (dv.v / dv.max * 100) : 0) + '%';
+        }
       }
       params.forEach(function (p) {
         vals[p.id] = (p['default'] != null) ? p['default'] : p.min;
@@ -2054,12 +2088,20 @@ Globals exposed (lesson HTML can call directly via onclick=):
         s.addEventListener('input', function () { vals[p.id] = +s.value; refresh(); hint.show('start'); });
         row.appendChild(s); el.appendChild(row);
       });
-      el.appendChild(readout); refresh();
+      el.appendChild(readout);
+      if (d) {                                              // honest computed output (e.g. bulb brightness)
+        dWrap = _node('div', 'lsv8-derived');
+        dWrap.appendChild(_node('div', 'lsv8-derived-lbl', _bi(d.label && d.label.en, d.label && d.label.zh)));
+        if (d.bar) { var bar = _node('div', 'lsv8-derived-bar'); dFill = _node('div', 'lsv8-derived-fill'); bar.appendChild(dFill); dWrap.appendChild(bar); }
+        dVal = _node('span', 'lsv8-derived-val'); dWrap.appendChild(dVal);
+        el.appendChild(dWrap);
+      }
+      refresh();
       var hint = _hintBar(o); el.appendChild(hint.el); hint.show('start');
       return {
         el: el, type: 'interactive_explore',
         destroy: function () { el.innerHTML = ''; },
-        getState: function () { return { value: vals, score: 0, maxScore: 0, attempts: 0, correct: null, needsTeacher: false }; },
+        getState: function () { var dv = derivedValue(); return { value: { inputs: vals, derived: dv ? dv.v : null }, score: 0, maxScore: 0, attempts: 0, correct: null, needsTeacher: false }; },
         setReducedMotion: function () {}
       };
     };

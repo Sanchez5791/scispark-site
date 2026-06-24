@@ -1745,19 +1745,42 @@ body.lang-zh .lsv8 .lsv8-zh, body.zh-mode .lsv8 .lsv8-zh { display: inline; }
   background: #fff; border-radius: 8px; cursor: pointer; }
 .lsv8-arrow:disabled { opacity: .35; cursor: default; }
 
-/* draw_circuit */
-.lsv8-circuit-palette { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-.lsv8-comp-btn { min-height: 44px; padding: 8px 14px; border: 2px solid #b9c4d2; background: #fff;
-  border-radius: 10px; cursor: pointer; font-size: 14px; }
-.lsv8-comp-btn.lsv8-sel { border-color: var(--accent, #2563eb); background: #eef3fb; }
-.lsv8-circuit-wrap { position: relative; display: inline-block; }
-.lsv8-circuit-grid { display: grid; gap: 8px; }
-.lsv8-circuit-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.lsv8-cell { min-width: 76px; min-height: 76px; display: flex; align-items: center; justify-content: center;
-  border: 2px dashed #b9c4d2; border-radius: 10px; background: #fbfcfe; cursor: pointer; font-size: 13px; text-align: center; }
-.lsv8-cell-filled { border-style: solid; background: #fff; font-weight: 600; }
-.lsv8-cell-wire { outline: 2px solid #f5b301; }
-.lsv8-wire { stroke: #6a4a1a; stroke-width: 3; stroke-linecap: round; }
+/* draw_circuit — honest guided loop puzzle (bulb lights only on a real closed loop) */
+.lsv8-loop { position: relative; width: 300px; height: 240px; margin: 8px auto 4px; }
+.lsv8-loop-frame { position: absolute; left: 12%; top: 8%; right: 12%; bottom: 8%;
+  border: 6px solid #c2ccd8; border-radius: 16px; transition: border-color .25s, box-shadow .25s; }
+/* energise the wire ONLY when the loop is genuinely closed */
+.lsv8-loop-closed .lsv8-loop-frame { border-color: #f59e0b; box-shadow: 0 0 0 2px rgba(245,158,11,.25) inset;
+  animation: lsv8-flow 1s linear infinite; }
+@keyframes lsv8-flow { to { box-shadow: 0 0 14px rgba(245,158,11,.5) inset; } }
+.lsv8-loop-lamp { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 30px; filter: grayscale(1) brightness(.7); opacity: .55; transition: all .25s; }
+.lsv8-loop-lamp .lsv8-lamp-ico { display: block; }
+/* the bulb visibly lights — driven by the real closed-loop state, never "always on" */
+.lsv8-loop-closed .lsv8-loop-lamp { filter: none; opacity: 1;
+  text-shadow: 0 0 18px #ffd24d, 0 0 36px #ffb300; animation: lsv8-glow 1.1s ease-in-out infinite; }
+@keyframes lsv8-glow { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.12); } }
+.lsv8-loop-slot { position: absolute; transform: translate(-50%,-50%); min-width: 78px; min-height: 46px;
+  display: flex; align-items: center; justify-content: center; padding: 3px;
+  background: #fff; border: 2px dashed #b9c4d2; border-radius: 10px; }
+.lsv8-loop-slot.lsv8-zone-over { border-color: var(--accent, #2563eb); background: #eef3fb; }
+.lsv8-slot-ph { font-size: 12px; color: #94a3b8; }
+.lsv8-loop-tray { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 6px; }
+.lsv8-part { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  background: #fff; border: 2px solid var(--accent, #2563eb); border-radius: 10px; cursor: grab;
+  touch-action: none; user-select: none; font-size: 14px; }
+.lsv8-part:active { cursor: grabbing; }
+.lsv8-part.lsv8-sel { outline: 3px solid #f5b301; }
+.lsv8-clickmode .lsv8-part { cursor: pointer; }
+.lsv8-pi { font-size: 18px; }
+/* honest derived output (e.g. bulb brightness that truly follows a slider) */
+.lsv8-derived { margin-top: 10px; padding: 10px 14px; background: #f4f6f9; border-radius: 10px; }
+.lsv8-derived-lbl { font-size: 14px; margin-bottom: 6px; }
+.lsv8-derived-bar { height: 14px; background: #e2e8f0; border-radius: 7px; overflow: hidden; }
+.lsv8-derived-fill { height: 100%; width: 0; border-radius: 7px;
+  background: linear-gradient(90deg,#fde68a,#f59e0b); transition: width .15s; }
+.lsv8-derived-val { display: inline-block; margin-top: 4px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* animation_view */
 .lsv8-anim-stage { position: relative; height: 120px; background: linear-gradient(#f4f7fb,#e8eef6);
@@ -1778,8 +1801,11 @@ body.lang-zh .lsv8 .lsv8-zh, body.zh-mode .lsv8 .lsv8-zh { display: inline; }
 .lsv8-explore-readout { margin-top: 6px; padding: 10px 14px; background: #f4f6f9; border-radius: 10px;
   font-variant-numeric: tabular-nums; font-size: 15px; }
 
-/* reduced-motion (Spec 2 §8): slow not freeze */
+/* reduced-motion (Spec 2 §8): slow not freeze — bulb still clearly LIT, just no pulse */
 body.reduced-motion .lsv8-anim-run { animation-duration: 12s !important; animation-iteration-count: 1 !important; }
+body.reduced-motion .lsv8-loop-closed .lsv8-loop-lamp,
+body.reduced-motion .lsv8-loop-closed .lsv8-loop-frame { animation: none !important; }
+body.reduced-motion .lsv8-loop-closed .lsv8-loop-lamp { transform: translate(-50%,-50%); }
 
 @media (max-width: 768px) {
   .lsv8-connect-board { gap: 30px; }

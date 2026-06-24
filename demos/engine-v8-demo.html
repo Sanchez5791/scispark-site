@@ -94,12 +94,22 @@
 
 <!-- 6 draw_circuit -->
 <div class="demo-q">
-  <h2>6 · draw_circuit</h2><div class="tag">place components, click two to wire · teacher-checked (P2)</div>
+  <h2>6 · draw_circuit</h2><div class="tag">drag parts into the loop · bulb lights only when truly closed</div>
   <div data-mount="q6" data-widget="draw_circuit" data-options='{
-    "marks":2, "gridCells":4,
-    "components":[{"id":"battery","label":{"en":"Battery","zh":"电池"}},{"id":"bulb","label":{"en":"Bulb","zh":"灯泡"}}],
-    "targetTopology":{"components":["battery","bulb"],"wires":[[0,1]]},
-    "hints":{"start_en":"Place a battery and a bulb, then wire them.","start_zh":"放一个电池和一个灯泡，然后连起来。","wrong_en":"Did you add both parts and a wire?","wrong_zh":"两个零件和导线都加了吗？","correct_en":"Circuit built!","correct_zh":"电路搭好了！"}
+    "marks":2,
+    "slots":[
+      {"id":"top","accept":"cell","label":{"en":"Cell","zh":"电池"}},
+      {"id":"right","accept":"wire","label":{"en":"Wire","zh":"导线"}},
+      {"id":"bottom","accept":"bulb","label":{"en":"Bulb","zh":"灯泡"}},
+      {"id":"left","accept":"wire","label":{"en":"Wire","zh":"导线"}}
+    ],
+    "parts":[
+      {"id":"p_cell","type":"cell","label":{"en":"Cell","zh":"电池"}},
+      {"id":"p_bulb","type":"bulb","label":{"en":"Bulb","zh":"灯泡"}},
+      {"id":"p_wire1","type":"wire","label":{"en":"Wire","zh":"导线"}},
+      {"id":"p_wire2","type":"wire","label":{"en":"Wire","zh":"导线"}}
+    ],
+    "hints":{"start_en":"Each slot needs the right part. Drag them in, then Check.","start_zh":"每个空位要放对的元件，拖进去再检查。","correct_en":"The loop is closed — the bulb lights!","correct_zh":"回路接通——灯泡亮了！"}
   }'></div>
 </div>
 
@@ -118,10 +128,10 @@
   <h2>8 · interactive_explore</h2><div class="tag">drag sliders · not graded</div>
   <div data-mount="q8" data-widget="interactive_explore" data-options='{
     "parameters":[
-      {"id":"mass","label":{"en":"Mass","zh":"质量"},"min":1,"max":10,"default":5,"unit":" kg"},
-      {"id":"force","label":{"en":"Force","zh":"力"},"min":0,"max":50,"default":20,"unit":" N"}
+      {"id":"cells","label":{"en":"Number of cells","zh":"电池数量"},"min":1,"max":4,"default":1,"unit":""}
     ],
-    "hints":{"start_en":"Move the sliders and watch the values.","start_zh":"拖动滑块，观察数值变化。"}
+    "derived":{"from":"cells","scale":25,"max":100,"unit":"%","bar":true,"label":{"en":"Bulb brightness","zh":"灯泡亮度"}},
+    "hints":{"start_en":"Slide the cells up — the brightness bar follows.","start_zh":"把电池数量拉高——亮度条会跟着变。"}
   }'></div>
 </div>
 

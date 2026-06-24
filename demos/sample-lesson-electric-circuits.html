@@ -195,22 +195,32 @@
       <div class="banner-zh zh">换你自己来——没有提示</div>
     </div>
     <div class="qwrap">
-      <div class="qh"><span class="en">Build a working circuit: place a cell and a bulb, then wire them together</span><span class="zh">搭一个能用的电路：放一个电池和一个灯泡，再把它们连起来</span></div>
+      <div class="qh"><span class="en">Complete the loop: drag the right part into each slot. The bulb lights only when the loop is truly closed.</span><span class="zh">接通回路：把正确的元件拖进每个空位。只有回路真正接通，灯泡才会亮。</span></div>
       <div data-mount="q_circuit" data-widget="draw_circuit" data-options='{
-        "marks":2, "gridCells":4,
-        "components":[{"id":"cell","label":{"en":"Cell","zh":"电池"}},{"id":"bulb","label":{"en":"Bulb","zh":"灯泡"}}],
-        "targetTopology":{"components":["cell","bulb"],"wires":[[0,1]]},
-        "hints":{"start_en":"Tap a part, tap a cell to place it, then tap two parts to wire them.","start_zh":"点一个元件，点格子放下，再点两个元件把它们连起来。","wrong_en":"Did you add both parts and a wire?","wrong_zh":"两个元件和一条导线都加了吗？","correct_en":"Circuit complete — the bulb would light!","correct_zh":"电路完成——灯泡会亮！"}
+        "marks":2,
+        "slots":[
+          {"id":"top","accept":"cell","label":{"en":"Cell","zh":"电池"}},
+          {"id":"right","accept":"wire","label":{"en":"Wire","zh":"导线"}},
+          {"id":"bottom","accept":"bulb","label":{"en":"Bulb","zh":"灯泡"}},
+          {"id":"left","accept":"wire","label":{"en":"Wire","zh":"导线"}}
+        ],
+        "parts":[
+          {"id":"p_cell","type":"cell","label":{"en":"Cell","zh":"电池"}},
+          {"id":"p_bulb","type":"bulb","label":{"en":"Bulb","zh":"灯泡"}},
+          {"id":"p_wire1","type":"wire","label":{"en":"Wire","zh":"导线"}},
+          {"id":"p_wire2","type":"wire","label":{"en":"Wire","zh":"导线"}}
+        ],
+        "hints":{"start_en":"Each slot needs the right part. Drag them in, then press Check.","start_zh":"每个空位要放对的元件。拖进去，再按检查。","correct_en":"The loop is closed — the bulb lights up!","correct_zh":"回路接通了——灯泡亮了！"}
       }'></div>
     </div>
     <div class="qwrap">
-      <div class="qh"><span class="en">Explore: how does adding cells change the bulb?</span><span class="zh">探索：多加电池，灯泡会怎样？</span></div>
+      <div class="qh"><span class="en">Explore: how does adding cells change the brightness?</span><span class="zh">探索：多加电池，亮度会怎样？</span></div>
       <div data-mount="q_explore" data-widget="interactive_explore" data-options='{
         "parameters":[
-          {"id":"cells","label":{"en":"Number of cells","zh":"电池数量"},"min":1,"max":4,"default":1,"unit":""},
-          {"id":"brightness","label":{"en":"Bulb brightness","zh":"灯泡亮度"},"min":0,"max":100,"default":25,"unit":"%"}
+          {"id":"cells","label":{"en":"Number of cells","zh":"电池数量"},"min":1,"max":4,"default":1,"unit":""}
         ],
-        "hints":{"start_en":"Slide the cells up and watch — more cells push harder.","start_zh":"把电池数量拉高，观察——电池越多，推力越大。"}
+        "derived":{"from":"cells","scale":25,"max":100,"unit":"%","bar":true,"label":{"en":"Bulb brightness","zh":"灯泡亮度"}},
+        "hints":{"start_en":"Slide the cells up — the brightness bar follows.","start_zh":"把电池数量拉高——亮度条会跟着变。"}
       }'></div>
     </div>
   </section>
