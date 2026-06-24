@@ -928,6 +928,20 @@ body.lang-zh .nav-brand .brand-sub .zh { display: inline; }
 
     </div>
 
+    <!-- MY REVIEW REPLIES · 我的求救记录 — Order 2026-06-21 (军师→双手).
+         Teacher review replies were moved OUT of the lesson (clean re-takes) and live here,
+         always fully expanded. Populated by the self-contained loader script below.
+         Privacy: RLS (review_select_own_or_staff) returns only this account's own rows. -->
+    <div class="card" id="my-review-replies" style="display:none">
+      <div class="section-header" style="margin-top: 0;">
+        <div>
+          <div class="eyebrow"><span class="dot"></span>Teacher Reviews · 老师复核</div>
+          <div class="section-title">My Review Replies · 我的求救记录</div>
+        </div>
+      </div>
+      <div id="review-replies-list"></div>
+    </div>
+
     <!-- SCHOOL PROFILE -->
     <div class="card">
       <div class="section-header" style="margin-top: 0;">
@@ -1620,6 +1634,89 @@ function showToast(message, opts) {
 
   console.log('[SciSpark Dashboard] Loaded for', child.full_name,
               '— Score:', score + '/' + possible, '— Level:', level);
+})();
+</script>
+
+<!-- ===== MY REVIEW REPLIES · 我的求救记录 (Order 2026-06-21) =====
+     Self-contained loader (kept OUT of the main dashboardInit IIFE to minimise
+     collision with the other streams editing this file). Pulls this account's OWN
+     review_requests rows (RLS guarantees no other student's rows) and renders each
+     one fully expanded: lesson + question, the student's answer/reason, the teacher's
+     full reply, status, and timestamp. Honest "暂无" empty state. Best-effort: never
+     breaks the rest of the dashboard. -->
+<script>
+(async function loadMyReviewReplies(){
+  'use strict';
+  var card = document.getElementById('my-review-replies');
+  var list = document.getElementById('review-replies-list');
+  if (!card || !list || !window.supabase) return;
+  var SB_URL = 'https://fiffuaoibxeggwxcfvfh.supabase.co';
+  var SB_KEY = 'sb_publishable_OOrhuk8oqIbNLg3Wxo6fzQ_7z4sloBJ';
+  var sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  function esc(s){ return (s==null?'':String(s)).replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function fmt(t){ try{ return new Date(t).toLocaleString('zh-CN',{year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}); }catch(e){ return t||''; } }
+  var STATUS = {
+    submitted:  { zh:'已提交', en:'Submitted',  bg:'#FEF3C7', fg:'#B45309' },
+    in_review:  { zh:'复核中', en:'In review',  bg:'#DBEAFE', fg:'#1D4ED8' },
+    resolved:   { zh:'已处理', en:'Resolved',   bg:'#DCFCE7', fg:'#15803D' }
+  };
+  var REASONS = {
+    think_correct:        '我觉得我的答案是对的 · I think my answer is correct',
+    ai_marked_wrong_spot: 'AI 改错了地方 · The AI marked the wrong part',
+    question_problem:     '题目本身有问题 · The question has a problem',
+    system_broken:        '系统好像坏了 · The system seems broken'
+  };
+
+  function emptyState(){
+    list.innerHTML =
+      '<div style="text-align:center;color:var(--text-muted,#6b6358);padding:26px 8px;font-size:14px;line-height:1.6">' +
+        '暂无求救记录。<br><span style="font-size:12.5px">No review requests yet — when you ask a teacher to review a question, the reply will appear here.</span>' +
+      '</div>';
+  }
+
+  function row(r){
+    var st = STATUS[r.status] || STATUS.submitted;
+    var lesson = esc(r.lesson_label || r.lesson_path || '');
+    var reason = REASONS[r.student_reason_code] || esc(r.student_reason_code || '');
+    var reply = (r.status === 'resolved' && r.resolved_message)
+      ? esc(r.resolved_message)
+      : '<span style="color:var(--text-muted,#6b6358)">老师还在复核中,回复后会显示在这里。 · Awaiting the teacher’s reply.</span>';
+    var scoreLine = (r.status === 'resolved' && r.resolved_score != null)
+      ? '<div style="margin-top:6px;font-size:13px;color:#15803D;font-weight:700">老师调整后分数 · Adjusted mark: ' + esc(r.resolved_score) + (r.ai_max != null ? ' / ' + esc(r.ai_max) : '') + '</div>'
+      : '';
+    return '' +
+      '<div style="border:1px solid var(--line,#E8E2D8);border-radius:14px;padding:14px 16px;margin-bottom:12px;background:var(--bg-card,#FFFCF7)">' +
+        '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">' +
+          '<span style="background:#0F172A;color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px">' + esc(r.question_id || '') + '</span>' +
+          '<span style="font-weight:700;font-size:13.5px">' + lesson + '</span>' +
+          '<span style="margin-left:auto;background:' + st.bg + ';color:' + st.fg + ';font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px">' + st.zh + ' · ' + st.en + '</span>' +
+        '</div>' +
+        '<div style="font-size:12px;color:var(--text-muted,#6b6358);margin-bottom:10px">' + esc(fmt(r.created_at)) + '</div>' +
+        '<div style="margin-bottom:9px"><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--text-muted,#6b6358);margin-bottom:2px">你的答案 · Your answer</div><div style="font-size:14px;white-space:pre-wrap;word-break:break-word">' + esc(r.student_answer || '(空 · blank)') + '</div></div>' +
+        '<div style="margin-bottom:9px"><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--text-muted,#6b6358);margin-bottom:2px">你的理由 · Why you asked</div><div style="font-size:14px;white-space:pre-wrap;word-break:break-word">' + reason + (r.student_reason ? '<br><span style="color:var(--text-muted,#6b6358)">“' + esc(r.student_reason) + '”</span>' : '') + '</div></div>' +
+        '<div style="border-top:1px dashed var(--line-2,#D9D0BF);padding-top:10px;margin-top:4px"><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#EA580C;margin-bottom:3px">👩‍🏫 老师回复 · Teacher’s reply</div><div style="font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word">' + reply + '</div>' + scoreLine + '</div>' +
+      '</div>';
+  }
+
+  try {
+    var sess = await sb.auth.getSession();
+    var user = sess && sess.data && sess.data.session && sess.data.session.user;
+    if (!user) return; // not logged in → leave hidden (main dashboard handles the redirect)
+
+    var res = await sb.from('review_requests')
+      .select('id,lesson_path,lesson_label,question_id,student_answer,student_reason,student_reason_code,status,ai_max,resolved_score,resolved_message,created_at,resolved_at')
+      .eq('student_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (res.error) { console.warn('[SciSpark] review replies load failed:', res.error.message); return; }
+    var rows = res.data || [];
+    card.style.display = '';            // permanent place — show even when empty
+    if (!rows.length) { emptyState(); return; }
+    list.innerHTML = rows.map(row).join('');
+    console.log('%c[SciSpark] My Review Replies — ' + rows.length + ' row(s)', 'color:#EA580C;font-weight:bold');
+  } catch (e) { console.warn('[SciSpark] review replies error:', e && e.message); }
 })();
 </script>
 
