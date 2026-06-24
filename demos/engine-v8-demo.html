@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Engine v8 — 8 Question Types Demo</title>
+<!-- v8 engine + styles (direct /public path: works on static server AND Vercel;
+     live lessons will use the clean /lesson-shell-v8.js alias via vercel.json rewrite) -->
+<link rel="stylesheet" href="/public/lesson-shell-v8.css">
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 0 auto; padding: 24px; color: #1c2733; }
+  h1 { font-size: 22px; }
+  .demo-q { border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; margin: 18px 0; }
+  .demo-q > h2 { font-size: 16px; margin: 0 0 6px; }
+  .demo-q > .tag { font-size: 12px; color: #64748b; margin-bottom: 10px; }
+  .bar { position: sticky; top: 0; background: #fff; padding: 10px 0; border-bottom: 1px solid #e2e8f0; z-index: 10; display: flex; gap: 10px; flex-wrap: wrap; }
+  .bar button { min-height: 40px; padding: 8px 16px; border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; cursor: pointer; }
+  #dump { white-space: pre-wrap; background: #0f172a; color: #a7f3d0; padding: 14px; border-radius: 10px; font-size: 12px; display: none; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <strong style="align-self:center">Engine v8 demo:</strong>
+  <button onclick="setLang('en')">EN</button>
+  <button onclick="setLang('zh')">中文</button>
+  <button onclick="dumpStates()">Show all scores (getState)</button>
+  <span id="ver" style="align-self:center;color:#64748b;font-size:12px"></span>
+</div>
+<h1>8 Interactive Question Types · Path A engine</h1>
+<pre id="dump"></pre>
+
+<!-- 1 matching -->
+<div class="demo-q">
+  <h2>1 · matching</h2><div class="tag">drag right onto left · partial marks</div>
+  <div data-mount="q1" data-widget="matching" data-options='{
+    "marks":3,
+    "pairs":[
+      {"left":{"en":"Solid","zh":"固体"},"right":{"en":"Fixed shape & volume","zh":"形状和体积固定"}},
+      {"left":{"en":"Liquid","zh":"液体"},"right":{"en":"Fixed volume, takes shape","zh":"体积固定，随容器变形"}},
+      {"left":{"en":"Gas","zh":"气体"},"right":{"en":"Fills the container","zh":"充满整个容器"}}
+    ],
+    "hints":{"start_en":"Drag each state to its property.","start_zh":"把每种状态拖到对应性质。","wrong_en":"Think about particle spacing.","wrong_zh":"想想粒子间的距离。","correct_en":"Great matching!","correct_zh":"配对得很好！"}
+  }'></div>
+</div>
+
+<!-- 2 connect -->
+<div class="demo-q">
+  <h2>2 · connect</h2><div class="tag">click node then node to draw a line</div>
+  <div data-mount="q2" data-widget="connect" data-options='{
+    "marks":2,
+    "nodes":[
+      {"id":"a","side":"L","label":{"en":"Magnet","zh":"磁铁"}},
+      {"id":"b","side":"L","label":{"en":"Battery","zh":"电池"}},
+      {"id":"x","side":"R","label":{"en":"Magnetic field","zh":"磁场"}},
+      {"id":"y","side":"R","label":{"en":"Electric current","zh":"电流"}}
+    ],
+    "edgesExpected":[["a","x"],["b","y"]],
+    "hints":{"start_en":"Connect each source to what it makes.","start_zh":"把每个来源连到它产生的东西。","wrong_en":"One link is off.","wrong_zh":"有一条连错了。","correct_en":"Correct links!","correct_zh":"连对了！"}
+  }'></div>
+</div>
+
+<!-- 3 hotspot -->
+<div class="demo-q">
+  <h2>3 · hotspot</h2><div class="tag">click the spot · judged immediately</div>
+  <div data-mount="q3" data-widget="hotspot" data-options='{
+    "marks":1, "alt":"Diagram of a cell",
+    "hotspots":[{"x":50,"y":40,"r":12,"label":"nucleus"}],
+    "hints":{"start_en":"Click the nucleus (centre).","start_zh":"点击细胞核（中间）。","wrong_en":"Not there — try the centre.","wrong_zh":"不在那里——试试中间。","correct_en":"That is the nucleus!","correct_zh":"那就是细胞核！"}
+  }'></div>
+</div>
+
+<!-- 4 label_diagram -->
+<div class="demo-q">
+  <h2>4 · label_diagram</h2><div class="tag">drag labels onto the slots</div>
+  <div data-mount="q4" data-widget="label_diagram" data-options='{
+    "marks":2, "alt":"Plant diagram",
+    "slots":[{"id":"s1","x":30,"y":25},{"id":"s2","x":70,"y":75}],
+    "labels":[{"id":"leaf","en":"Leaf","zh":"叶"},{"id":"root","en":"Root","zh":"根"}],
+    "correctMap":{"s1":"leaf","s2":"root"},
+    "hints":{"start_en":"Drag each label to its part.","start_zh":"把每个标签拖到对应部位。","wrong_en":"Check top vs bottom.","wrong_zh":"看看是上面还是下面。","correct_en":"Labelled correctly!","correct_zh":"标对了！"}
+  }'></div>
+</div>
+
+<!-- 5 reorder -->
+<div class="demo-q">
+  <h2>5 · reorder</h2><div class="tag">▲▼ to order · 1 wrong = marks−1</div>
+  <div data-mount="q5" data-widget="reorder" data-options='{
+    "marks":3,
+    "items":[{"id":"3","en":"Water boils","zh":"水沸腾"},{"id":"1","en":"Heat the water","zh":"加热水"},{"id":"2","en":"Bubbles form","zh":"形成气泡"}],
+    "correctOrder":["1","2","3"],
+    "hints":{"start_en":"Put the steps in order.","start_zh":"把步骤排好顺序。","wrong_en":"What happens first?","wrong_zh":"先发生什么？","correct_en":"Right order!","correct_zh":"顺序正确！"}
+  }'></div>
+</div>
+
+<!-- 6 draw_circuit -->
+<div class="demo-q">
+  <h2>6 · draw_circuit</h2><div class="tag">drag parts into the loop · bulb lights only when truly closed</div>
+  <div data-mount="q6" data-widget="draw_circuit" data-options='{
+    "marks":2,
+    "slots":[
+      {"id":"top","accept":"cell","label":{"en":"Cell","zh":"电池"}},
+      {"id":"right","accept":"wire","label":{"en":"Wire","zh":"导线"}},
+      {"id":"bottom","accept":"bulb","label":{"en":"Bulb","zh":"灯泡"}},
+      {"id":"left","accept":"wire","label":{"en":"Wire","zh":"导线"}}
+    ],
+    "parts":[
+      {"id":"p_cell","type":"cell","label":{"en":"Cell","zh":"电池"}},
+      {"id":"p_bulb","type":"bulb","label":{"en":"Bulb","zh":"灯泡"}},
+      {"id":"p_wire1","type":"wire","label":{"en":"Wire","zh":"导线"}},
+      {"id":"p_wire2","type":"wire","label":{"en":"Wire","zh":"导线"}}
+    ],
+    "hints":{"start_en":"Each slot needs the right part. Drag them in, then Check.","start_zh":"每个空位要放对的元件，拖进去再检查。","correct_en":"The loop is closed — the bulb lights!","correct_zh":"回路接通——灯泡亮了！"}
+  }'></div>
+</div>
+
+<!-- 7 animation_view -->
+<div class="demo-q">
+  <h2>7 · animation_view</h2><div class="tag">watch · not graded</div>
+  <div data-mount="q7" data-widget="animation_view" data-options='{
+    "duration":4, "autoplay":false, "loop":false,
+    "caption":{"en":"A ball rolling at constant speed","zh":"小球匀速滚动"},
+    "hints":{"start_en":"Press play to watch.","start_zh":"按播放观看。","correct_en":"Notice the steady speed.","correct_zh":"注意速度是恒定的。"}
+  }'></div>
+</div>
+
+<!-- 8 interactive_explore -->
+<div class="demo-q">
+  <h2>8 · interactive_explore</h2><div class="tag">drag sliders · not graded</div>
+  <div data-mount="q8" data-widget="interactive_explore" data-options='{
+    "parameters":[
+      {"id":"cells","label":{"en":"Number of cells","zh":"电池数量"},"min":1,"max":4,"default":1,"unit":""}
+    ],
+    "derived":{"from":"cells","scale":25,"max":100,"unit":"%","bar":true,"label":{"en":"Bulb brightness","zh":"灯泡亮度"}},
+    "hints":{"start_en":"Slide the cells up — the brightness bar follows.","start_zh":"把电池数量拉高——亮度条会跟着变。"}
+  }'></div>
+</div>
+
+<script src="/public/voice-profile.js"></script>
+<script src="/public/components/spark-jar/spark-jar.js"></script>
+<script src="/public/lesson-shell-v8.js"></script>
+<script>
+  // demo page is not a 5-screen lesson, so mount the declared widgets manually
+  function mountAll() {
+    if (!window.LessonShell) { return setTimeout(mountAll, 50); }
+    document.getElementById('ver').textContent = 'LessonShell ' + window.LessonShell.version;
+    window.LessonShell._mountWithin(document.body);
+  }
+  function dumpStates() {
+    var out = {}, d = document.getElementById('dump');
+    ['q1','q2','q3','q4','q5','q6','q7','q8'].forEach(function (id) {
+      var el = document.querySelector('[data-mount="' + id + '"]');
+      out[id] = window.LessonShell.getState(el);
+    });
+    d.textContent = JSON.stringify(out, null, 2);
+    d.style.display = 'block';
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountAll);
+  else mountAll();
+</script>
+</body>
+</html>
