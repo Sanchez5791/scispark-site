@@ -790,7 +790,10 @@ window.bubbleScripts = {
 .level-switcher { display: inline-flex; gap: 2px; background: rgba(0,0,0,0.06); border-radius: 6px; padding: 2px; margin-left: 8px; }
 .level-switcher .level-btn { border: none; background: transparent; padding: 4px 10px; font: inherit; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer; color: var(--ink-3); }
 .level-switcher .level-btn.active { background: var(--accent); color: white; }
-.level-switcher .level-btn:hover:not(.active) { background: rgba(0,0,0,0.04); }
+.level-switcher .level-btn:hover:not(.active):not(:disabled) { background: rgba(0,0,0,0.04); }
+/* Rule B (2026-06-20): manual UP locked. Levels above the student's system level are greyed + un-clickable. */
+.level-switcher .level-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.level-switcher .level-btn.locked::after { content: '🔒'; font-size: 9px; margin-left: 3px; opacity: 0.8; }
 
 /* 3-Level hint visibility — overrides shell.css */
 .hint-level-1-extra { display: none; }
@@ -1006,13 +1009,40 @@ function _legacySubmitAnswer(qid) {
   }
 }
 
-// Level switcher
+// Level switcher — Rule B (老板 2026-06-20): manual DOWN allowed, manual UP blocked.
+//  systemLevel     = data-system-level = the displayed level (ONLY-UP-NEVER-DOWN, the "等级数字").
+//  activeDifficulty = data-user-level  = what difficulty they practise at (hints + attempt cap); may be <= systemLevel, never above.
+function getSystemLevelV2() {
+  var s = document.body.getAttribute('data-system-level');
+  return ['1','2','3'].includes(s) ? s : '2';
+}
+
+// Paint button lock/active states + keep the displayed level pinned to systemLevel.
+function applyLevelLocksV2() {
+  var sys = parseInt(getSystemLevelV2(), 10);
+  var active = document.body.getAttribute('data-user-level') || getSystemLevelV2();
+  document.querySelectorAll('.level-btn').forEach(function (b) {
+    var bl = parseInt(b.getAttribute('data-level'), 10);
+    var locked = bl > sys;                 // higher than your level → locked (no self-inflation upward)
+    b.disabled = locked;
+    b.classList.toggle('locked', locked);
+    b.classList.toggle('active', b.getAttribute('data-level') === active);
+    if (locked)      b.setAttribute('title', '已锁 · 不能往上调 · Locked — cannot raise above your level');
+    else if (bl < sys) b.setAttribute('title', '点这里把题目调简单一点 · Tap for easier questions + more hints');
+    else             b.setAttribute('title', '你的等级 · Your level');
+  });
+  // ★ Display level ALWAYS shows systemLevel (only-up-never-down). Manual down must NOT lower this number.
+  var plev = document.getElementById('prog-level'); if (plev) plev.textContent = getSystemLevelV2();
+}
+
 function setLevelV2(lv) {
+  if (!['1','2','3'].includes(lv)) return;
+  // Rule B: block manual UP — cannot select a level above your system level.
+  if (parseInt(lv, 10) > parseInt(getSystemLevelV2(), 10)) return;
+  // A manual change affects ONLY the practice difficulty (hints + attempt cap), never the displayed level.
   document.body.setAttribute('data-user-level', lv);
-  localStorage.setItem('scispark_level', lv);
-  document.querySelectorAll('.level-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-level') === lv));
-  // Update progress card level display
-  const plev = document.getElementById('prog-level'); if (plev) plev.textContent = lv;
+  localStorage.setItem('scispark_difficulty', lv);   // session difficulty — NOT the display level key
+  applyLevelLocksV2();
 }
 
 // Progress summary (call on WRAP)
@@ -1032,10 +1062,10 @@ function showProgressSummary() {
   document.getElementById('prog-attempted').textContent = attempted;
   document.getElementById('prog-correct').textContent = correctCount;
   document.getElementById('prog-avg-attempts').textContent = attempted > 0 ? (totalAttempts / attempted).toFixed(1) : '0';
-  document.getElementById('prog-level').textContent = document.body.getAttribute('data-user-level') || '2';
+  document.getElementById('prog-level').textContent = getSystemLevelV2();   // only-up display, not the lowered difficulty
 
   const rec = document.getElementById('prog-recommendation');
-  const lv = document.body.getAttribute('data-user-level') || '2';
+  const lv = getSystemLevelV2();   // recommendation references the displayed (system) level, keeps numbers only-up
   let msg_en = '', msg_zh = '';
   if (attempted === 0) {
     msg_en = 'Try the questions on the TRY and TEST screens to see your performance here.';
@@ -1072,13 +1102,18 @@ window.addEventListener('DOMContentLoaded', function() {
     }
   })();
 
-  // Initialize level from URL/localStorage
+  // Initialize level — Rule B. systemLevel = display baseline (only-up); activeDifficulty clamped <= systemLevel.
   const params = new URLSearchParams(window.location.search);
-  const lv = params.get('level') || localStorage.getItem('scispark_level') || '2';
-  if (['1','2','3'].includes(lv)) {
-    document.body.setAttribute('data-user-level', lv);
-    document.querySelectorAll('.level-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-level') === lv));
-  }
+  // systemLevel: ?level= (lets boss test each baseline) → saved scispark_level → default 2. Never lowered here.
+  let sysLevel = params.get('level') || localStorage.getItem('scispark_level') || '2';
+  if (!['1','2','3'].includes(sysLevel)) sysLevel = '2';
+  localStorage.setItem('scispark_level', sysLevel);
+  document.body.setAttribute('data-system-level', sysLevel);
+  // activeDifficulty: saved choice, but never above systemLevel (no upward leak across reloads).
+  let diff = localStorage.getItem('scispark_difficulty') || sysLevel;
+  if (!['1','2','3'].includes(diff) || parseInt(diff, 10) > parseInt(sysLevel, 10)) diff = sysLevel;
+  document.body.setAttribute('data-user-level', diff);
+  applyLevelLocksV2();
 
   // Patch showScreen
   const origShowScreen = window.showScreen;
