@@ -2230,9 +2230,19 @@ body.lang-zh .schools-h2 { font-family: var(--font-zh); }
 }
 .schools-strip .btn-line:hover { background: var(--orange); color: #FFF; }
 .schools-note { margin-top: .7rem; font-size: .82rem; color: var(--ink-faint); max-width: 560px; }
+.schools-form { max-width: 420px; margin-top: 1rem; }
+.schools-field { margin-bottom: .7rem; }
+.schools-field label { display: block; font-size: .82rem; color: var(--ink-soft); margin-bottom: .25rem; }
+.schools-field input {
+  width: 100%; padding: .55rem .7rem; font: inherit; color: var(--ink);
+  border: 1px solid rgba(0,0,0,.18); border-radius: 8px; background: var(--paper);
+}
+.schools-field input:focus { outline: none; border-color: var(--orange); }
+.schools-form .btn-line { margin-top: .4rem; }
 @media (max-width: 640px) {
   .schools-strip { padding: 2.25rem 1.1rem; }
   .schools-h2 { font-size: 1.2rem; }
+  .schools-form { max-width: 100%; }
 }
 
 </style>
@@ -2728,16 +2738,41 @@ body.lang-zh .schools-h2 { font-family: var(--font-zh); }
       <li><span class="en">Class or small-group deployment, and teacher-view / progress oversight, can be discussed with pilot partners</span><span class="zh">整班或小组部署、老师查看 / 进度跟进 &mdash; 可与试点伙伴洽谈</span></li>
     </ul>
 
-    <div class="schools-cta">
-      <a href="{{SCHOOL_FORM_URL}}" class="btn-line" target="_blank" rel="noopener">
-        <span class="en">Discuss a school pilot →</span>
-        <span class="zh">谈谈学校试点合作 →</span>
-      </a>
+    <form class="schools-form" id="schools-form" novalidate>
+      <div class="schools-field">
+        <label for="sf-name"><span class="en">Name &amp; role</span><span class="zh">姓名 / 职位</span></label>
+        <input id="sf-name" type="text" required>
+      </div>
+      <div class="schools-field">
+        <label for="sf-school"><span class="en">School / centre name</span><span class="zh">学校 / 中心名称</span></label>
+        <input id="sf-school" type="text" required>
+      </div>
+      <div class="schools-field">
+        <label for="sf-country"><span class="en">Country</span><span class="zh">国家</span></label>
+        <input id="sf-country" type="text" required>
+      </div>
+      <div class="schools-field">
+        <label for="sf-students"><span class="en">Approx. number of students</span><span class="zh">学生人数(大约)</span></label>
+        <input id="sf-students" type="text" required>
+      </div>
+      <div class="schools-field">
+        <label for="sf-contact"><span class="en">Email or WhatsApp</span><span class="zh">Email 或 WhatsApp</span></label>
+        <input id="sf-contact" type="text" required>
+      </div>
+      <div class="schools-field">
+        <label for="sf-explore"><span class="en">What are you exploring? (one line)</span><span class="zh">想谈什么?(一句)</span></label>
+        <input id="sf-explore" type="text" required>
+      </div>
+
+      <button type="button" id="sf-submit" class="btn-line">
+        <span class="en">Send enquiry →</span><span class="zh">送出洽谈 →</span>
+      </button>
+
       <p class="schools-note">
-        <span class="en">Enquiries are exploratory and non-binding. We reply personally &mdash; this is a conversation, not a purchase.</span>
-        <span class="zh">洽谈属探索性质 · 不具约束力。我们会亲自回复 &mdash; 这是谈谈,不是下单。</span>
+        <span class="en">Exploratory and non-binding. Opens your email so you can send &mdash; we reply personally.</span>
+        <span class="zh">属探索性质 · 不具约束力。会打开你的邮件让你寄出 &mdash; 我们会亲自回复。</span>
       </p>
-    </div>
+    </form>
 
   </div>
 </section>
@@ -3102,5 +3137,29 @@ function setLang(lang) {
 <!-- ② WhatsApp 联系浮动按钮 (free wa.me) · ① 老师后台入口 (staff-only) -->
 <script src="/public/whatsapp-contact.js" defer></script>
 <script src="/public/teacher-entry.js" defer></script>
+
+<!-- For Schools 表单 → 打包成 mailto info@ (无后台/无账号) -->
+<script>
+(function(){
+  var b = document.getElementById('sf-submit');
+  if(!b) return;
+  b.addEventListener('click', function(){
+    var ids = ['sf-name','sf-school','sf-country','sf-students','sf-contact','sf-explore'];
+    var labels = ['Name & role','School / centre','Country','Approx. students','Email or WhatsApp','Exploring'];
+    var vals = [], ok = true;
+    ids.forEach(function(id,i){
+      var el = document.getElementById(id);
+      var v = (el && el.value || '').trim();
+      if(!v){ ok = false; if(el){ el.style.borderColor = '#EA580C'; } }
+      else if(el){ el.style.borderColor = ''; }
+      vals.push(labels[i] + ': ' + v);
+    });
+    if(!ok) return;
+    var subject = encodeURIComponent('SciSpark — School pilot enquiry');
+    var body = encodeURIComponent(vals.join('\n'));
+    window.location.href = 'mailto:info@igsparkcentre.com?subject=' + subject + '&body=' + body;
+  });
+})();
+</script>
 </body>
 </html>
