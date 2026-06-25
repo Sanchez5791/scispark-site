@@ -2738,39 +2738,40 @@ body.lang-zh .schools-h2 { font-family: var(--font-zh); }
       <li><span class="en">Class or small-group deployment, and teacher-view / progress oversight, can be discussed with pilot partners</span><span class="zh">整班或小组部署、老师查看 / 进度跟进 &mdash; 可与试点伙伴洽谈</span></li>
     </ul>
 
-    <form class="schools-form" id="schools-form" novalidate>
+    <form class="schools-form" id="schools-form" action="https://formspree.io/f/mvzjkkkr" method="POST">
+      <input type="hidden" name="_subject" value="SciSpark — School pilot enquiry">
       <div class="schools-field">
         <label for="sf-name"><span class="en">Name &amp; role</span><span class="zh">姓名 / 职位</span></label>
-        <input id="sf-name" type="text" required>
+        <input id="sf-name" name="name_role" type="text" required>
       </div>
       <div class="schools-field">
         <label for="sf-school"><span class="en">School / centre name</span><span class="zh">学校 / 中心名称</span></label>
-        <input id="sf-school" type="text" required>
+        <input id="sf-school" name="school" type="text" required>
       </div>
       <div class="schools-field">
         <label for="sf-country"><span class="en">Country</span><span class="zh">国家</span></label>
-        <input id="sf-country" type="text" required>
+        <input id="sf-country" name="country" type="text" required>
       </div>
       <div class="schools-field">
         <label for="sf-students"><span class="en">Approx. number of students</span><span class="zh">学生人数(大约)</span></label>
-        <input id="sf-students" type="text" required>
+        <input id="sf-students" name="students" type="text" required>
       </div>
       <div class="schools-field">
         <label for="sf-contact"><span class="en">Email or WhatsApp</span><span class="zh">Email 或 WhatsApp</span></label>
-        <input id="sf-contact" type="text" required>
+        <input id="sf-contact" name="contact" type="text" required>
       </div>
       <div class="schools-field">
         <label for="sf-explore"><span class="en">What are you exploring? (one line)</span><span class="zh">想谈什么?(一句)</span></label>
-        <input id="sf-explore" type="text" required>
+        <input id="sf-explore" name="exploring" type="text" required>
       </div>
 
-      <button type="button" id="sf-submit" class="btn-line">
+      <button type="submit" id="sf-submit" class="btn-line">
         <span class="en">Send enquiry →</span><span class="zh">送出洽谈 →</span>
       </button>
 
       <p class="schools-note">
-        <span class="en">Exploratory and non-binding. Opens your email so you can send &mdash; we reply personally.</span>
-        <span class="zh">属探索性质 · 不具约束力。会打开你的邮件让你寄出 &mdash; 我们会亲自回复。</span>
+        <span class="en">Exploratory and non-binding. Press send once &mdash; we reply personally.</span>
+        <span class="zh">属探索性质 · 不具约束力。按一下送出即可 &mdash; 我们会亲自回复。</span>
       </p>
     </form>
 
@@ -3138,26 +3139,18 @@ function setLang(lang) {
 <script src="/public/whatsapp-contact.js" defer></script>
 <script src="/public/teacher-entry.js" defer></script>
 
-<!-- For Schools 表单 → 打包成 mailto info@ (无后台/无账号) -->
+<!-- For Schools 表单 → POST 到 Formspree → 转寄 info@ (无后台/无账号) -->
+<!-- 送出交给原生 form POST；这段只做「空格变橘色」的友善提醒 -->
 <script>
 (function(){
-  var b = document.getElementById('sf-submit');
-  if(!b) return;
-  b.addEventListener('click', function(){
-    var ids = ['sf-name','sf-school','sf-country','sf-students','sf-contact','sf-explore'];
-    var labels = ['Name & role','School / centre','Country','Approx. students','Email or WhatsApp','Exploring'];
-    var vals = [], ok = true;
-    ids.forEach(function(id,i){
-      var el = document.getElementById(id);
-      var v = (el && el.value || '').trim();
-      if(!v){ ok = false; if(el){ el.style.borderColor = '#EA580C'; } }
-      else if(el){ el.style.borderColor = ''; }
-      vals.push(labels[i] + ': ' + v);
-    });
-    if(!ok) return;
-    var subject = encodeURIComponent('SciSpark — School pilot enquiry');
-    var body = encodeURIComponent(vals.join('\n'));
-    window.location.href = 'mailto:info@igsparkcentre.com?subject=' + subject + '&body=' + body;
+  var form = document.getElementById('schools-form');
+  if(!form) return;
+  var ids = ['sf-name','sf-school','sf-country','sf-students','sf-contact','sf-explore'];
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('invalid', function(){ el.style.borderColor = '#EA580C'; });
+    el.addEventListener('input', function(){ if(el.value.trim()) el.style.borderColor = ''; });
   });
 })();
 </script>
