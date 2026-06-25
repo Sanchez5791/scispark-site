@@ -299,25 +299,27 @@ Globals exposed (lesson HTML can call directly via onclick=):
     voiceStylesInjected = true;
     var css =
       '.voice-field-wrap{display:block;}' +
-      // PR#73 brand redesign (2026-06-23): orange #EA580C Speak button on warm-white + EN/中 switch.
-      '.voice-row{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap;}' +
+      // Professional Speak control — visually matches the Submit button
+      // (solid #EA580C, radius 8px, weight 800, padding 8px 16px) + EN/中 segmented switch.
+      '.voice-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}' +
       '.voice-btn{display:inline-flex;align-items:center;gap:7px;' +
-        'padding:7px 14px;border:1.5px solid #EA580C;border-radius:999px;background:#EA580C;' +
-        'color:#fff;font-family:inherit;font-size:13px;font-weight:700;line-height:1;cursor:pointer;' +
-        '-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s,color .15s,box-shadow .15s;}' +
-      '.voice-btn:hover{background:#C2410C;border-color:#C2410C;box-shadow:0 2px 8px rgba(234,88,12,.28);}' +
+        'padding:8px 16px;border:0;border-radius:8px;background:#EA580C;' +
+        'color:#fff;font-family:inherit;font-size:13px;font-weight:800;line-height:1;cursor:pointer;' +
+        '-webkit-tap-highlight-color:transparent;box-shadow:0 1px 2px rgba(234,88,12,.25);' +
+        'transition:background .15s,box-shadow .15s,transform .05s;}' +
+      '.voice-btn:hover{background:#C2410C;box-shadow:0 3px 10px rgba(234,88,12,.32);}' +
       '.voice-btn:active{transform:translateY(1px);}' +
-      '.voice-btn .voice-ic{width:15px;height:15px;flex:none;display:block;}' +
-      '.voice-btn.listening{background:#FEF2F2;border-color:#EF4444;color:#DC2626;' +
-        'animation:voicePulse 1.1s ease-in-out infinite;}' +
+      '.voice-btn .voice-ic{width:16px;height:16px;flex:none;display:block;}' +
+      '.voice-btn.listening{background:#DC2626;box-shadow:0 0 0 0 rgba(220,38,38,.45);' +
+        'animation:voicePulse 1.15s ease-in-out infinite;}' +
       '.voice-btn[disabled]{opacity:.5;cursor:default;}' +
-      '.voice-lang{display:inline-flex;border:1px solid #E8E2D8;border-radius:999px;overflow:hidden;background:#fff;}' +
-      '.voice-lang__opt{padding:6px 11px;font-family:inherit;font-size:12px;font-weight:700;line-height:1;' +
-        'color:#9a8e84;background:transparent;border:0;cursor:pointer;transition:background .15s,color .15s;}' +
+      '.voice-lang{display:inline-flex;border:1.5px solid #F0D2BE;border-radius:8px;overflow:hidden;background:#fff;}' +
+      '.voice-lang__opt{padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;line-height:1;' +
+        'color:#B06A3A;background:transparent;border:0;cursor:pointer;transition:background .15s,color .15s;}' +
       '.voice-lang__opt.is-on{background:#EA580C;color:#fff;}' +
-      '.voice-lang__opt:not(.is-on):hover{background:#FEF4EE;color:#EA580C;}' +
-      '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.35);}' +
-        '50%{box-shadow:0 0 0 6px rgba(220,38,38,0);}}' +
+      '.voice-lang__opt:not(.is-on):hover{background:#FEF4EE;}' +
+      '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.45);}' +
+        '50%{box-shadow:0 0 0 7px rgba(220,38,38,0);}}' +
       '@media (prefers-reduced-motion: reduce){.voice-btn.listening{animation:none;}}';
     var style = document.createElement('style');
     style.id = 'voice-input-styles';
@@ -463,6 +465,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
         opt.addEventListener('click', function (e) {
           e.preventDefault();
           btn.dataset.voiceLang = pair[0];
+          btn.dataset.voiceManual = '1';   // student overrode → stop auto-following the UI language
           var opts = langWrap.querySelectorAll('.voice-lang__opt');
           Array.prototype.forEach.call(opts, function (o) { o.classList.toggle('is-on', o === opt); });
         });
@@ -472,6 +475,23 @@ Globals exposed (lesson HTML can call directly via onclick=):
       row.appendChild(btn);
       row.appendChild(langWrap);
       wrap.appendChild(row);
+    });
+  }
+
+  // The Speak button follows the current UI language: when the page toggles
+  // EN↔中文, every box that the student has NOT manually overridden re-syncs its
+  // speaking language (EN→en-GB, 中→zh-CN) and switch highlight. Called from setLang.
+  function voiceSyncLang() {
+    var live = voiceLangCode();
+    var rows = document.querySelectorAll('.voice-row');
+    Array.prototype.forEach.call(rows, function (row) {
+      var btn = row.querySelector('.voice-btn');
+      if (!btn || btn.dataset.voiceManual === '1') return;   // respect a manual choice
+      btn.dataset.voiceLang = live;
+      var opts = row.querySelectorAll('.voice-lang__opt');
+      Array.prototype.forEach.call(opts, function (o) {
+        o.classList.toggle('is-on', o.getAttribute('data-lang') === live);
+      });
     });
   }
 
@@ -606,6 +626,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     const zhBtn = document.getElementById('lang-zh');
     if (enBtn) enBtn.classList.toggle('active', mode === 'en');
     if (zhBtn) zhBtn.classList.toggle('active', mode === 'zh');
+
+    // Speak button follows the UI language (unless the student manually overrode it).
+    try { voiceSyncLang(); } catch (e) {}
 
     try { localStorage.setItem(LS_LANG, mode); } catch (e) {}
   }
