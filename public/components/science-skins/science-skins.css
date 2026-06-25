@@ -1,0 +1,81 @@
+/* ============================================================
+   SciSpark · Science Skins (shared, reusable) · 2026-06-25
+   ONE shared file for all Biology / Physics LEARN skins.
+   Lessons only write CONTENT markup with these classes — the
+   look + behaviour live here + in science-skins.js (never copied
+   per lesson). Chemistry ChemTripleStrip can also migrate here.
+   双语乙: small skin labels stay small; teaching lines use the
+   master's .zh/.en (Chinese primary). Scope = .main-content.
+   ============================================================ */
+
+/* ---------- shared skin card ---------- */
+.skin-card{background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:14px 16px;margin:0 0 12px;}
+.skin-cap{font-family:'Inter',sans-serif;font-weight:800;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#EA580C;margin-bottom:8px;}
+
+/* ============================================================
+   BIOLOGY · BioLabelDiagram
+   big diagram (left/centre) + 2-col look-up table (right) +
+   coloured leader lines; point at a part → same-colour row lights.
+   ============================================================ */
+.bio-diagram-wrap{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;}
+.bio-diagram{flex:1 1 230px;min-width:210px;position:relative;background:#F7FBF4;border:1.5px solid #D7EAC8;border-radius:12px;padding:8px;}
+.bio-diagram svg{display:block;width:100%;height:auto;}
+.bio-table{flex:1 1 230px;min-width:210px;display:flex;flex-direction:column;gap:6px;}
+.bio-row{display:flex;gap:9px;align-items:flex-start;border:1.5px solid #E8E2D8;border-left-width:6px;border-radius:10px;padding:8px 10px;background:#fff;cursor:pointer;transition:background .15s,box-shadow .15s,transform .05s;}
+.bio-row:hover{background:#FBFDF8;}
+.bio-row.lit{background:#FFFDEB;box-shadow:0 2px 10px rgba(234,88,12,.18);transform:translateX(2px);}
+.bio-row .bio-name{font-family:'Noto Sans SC',sans-serif;font-weight:800;font-size:14px;color:#171413;line-height:1.3;}
+.bio-row .bio-name small{display:block;font-family:'Inter',sans-serif;font-weight:400;font-size:11px;color:#8b929b;}
+.bio-row .bio-does{font-family:'Inter',sans-serif;font-size:12px;color:#6D4C41;line-height:1.4;flex:1;}
+/* a diagram part (SVG group/shape) lights up on point */
+[data-bio-part]{cursor:pointer;transition:opacity .15s,filter .15s;}
+[data-bio-part].lit{filter:drop-shadow(0 0 4px rgba(234,88,12,.9));}
+.bio-hint{font-family:'Inter',sans-serif;font-size:11px;color:#9B8E7E;margin-top:8px;text-align:center;}
+
+/* ============================================================
+   PHYSICS · PhysCompareForce
+   before/after pair + thick force arrows + balance + word→symbol
+   formula (formula only on quantity lessons).
+   ============================================================ */
+.phys-compare{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;}
+.phys-frame{flex:1 1 200px;min-width:180px;background:#F4F7FC;border:1.5px solid #CFE0F0;border-radius:12px;padding:10px;text-align:center;position:relative;}
+.phys-frame .phys-when{font-family:'Inter',sans-serif;font-weight:800;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#2563EB;margin-bottom:6px;}
+.phys-stage{position:relative;height:84px;background:#fff;border:1px dashed #CFE0F0;border-radius:8px;overflow:hidden;}
+.phys-object{position:absolute;bottom:14px;left:14px;width:34px;height:26px;background:#EA580C;border-radius:5px;transition:transform .15s;}
+.phys-ground{position:absolute;left:0;right:0;bottom:13px;height:2px;background:#9DB4D0;}
+/* thick force arrow: length encodes magnitude (set width inline / by JS) */
+.force-arrow{position:absolute;height:10px;background:#DC2626;border-radius:2px;}
+.force-arrow::after{content:'';position:absolute;right:-1px;top:-5px;border-left:11px solid #DC2626;border-top:10px solid transparent;border-bottom:10px solid transparent;}
+.force-arrow.left::after{right:auto;left:-1px;border-left:0;border-right:11px solid #DC2626;}
+.force-label{font-family:'Inter',sans-serif;font-weight:800;font-size:10px;color:#DC2626;}
+/* balance / scale */
+.phys-balance{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#2563EB;}
+.phys-balance .beam{width:90px;height:6px;border-radius:3px;background:#2563EB;transform-origin:center;}
+.phys-balance.tilt .beam{transform:rotate(-9deg);}
+/* word-first → symbol formula (quantity lessons only) */
+.phys-formula{background:#EEF4FF;border:1px solid #CFE0F0;border-radius:10px;padding:9px 12px;margin:10px 0 0;}
+.phys-formula .word{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#1E3A8A;}
+.phys-formula .sym{font-family:'Geist Mono','Inter',monospace;font-weight:800;font-size:15px;color:#171413;margin-top:3px;}
+.phys-formula .only{font-family:'Inter',sans-serif;font-size:10px;color:#9B8E7E;margin-top:4px;}
+
+/* ============================================================
+   PHYSICS · PhysSlider (TRY) — drag slider → force changes, object moves
+   ============================================================ */
+.phys-slider{background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:14px 16px;margin:0 0 12px;}
+.phys-slider .stage{position:relative;height:96px;background:#F4F7FC;border:1px solid #CFE0F0;border-radius:10px;overflow:hidden;margin:6px 0 10px;}
+.phys-slider .target{position:absolute;top:0;bottom:0;width:2px;background:#1F9D55;}
+.phys-slider .target span{position:absolute;top:4px;left:5px;font-family:'Inter',sans-serif;font-weight:800;font-size:10px;color:#1F9D55;white-space:nowrap;}
+.phys-slider input[type=range]{width:100%;accent-color:#EA580C;}
+.phys-slider .row{display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#171413;}
+.phys-slider .readout{font-family:'Geist Mono','Inter',monospace;font-weight:800;color:#EA580C;}
+.phys-fb{margin-top:8px;font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;min-height:1px;}
+.phys-fb.ok{background:#E8F8EF;border-left:3px solid #1F9D55;color:#155A38;border-radius:8px;padding:8px 11px;}
+
+/* keep small skin labels from being enlarged by 双语乙 (.zh auto-wrap) */
+.main-content .skin-cap .zh,.main-content .bio-hint .zh,
+.main-content .phys-when .zh,.main-content .force-label .zh,.main-content .phys-formula .only .zh{
+  font-size:11px !important;font-weight:700 !important;margin:0 !important;color:inherit !important;}
+/* bio look-up table: NAME prominent (Chinese bold), WHAT-IT-DOES small */
+.main-content .bio-name .zh{font-size:15px !important;font-weight:800 !important;color:#171413 !important;margin:0 !important;line-height:1.25 !important;}
+.main-content .bio-does .zh{font-size:12px !important;font-weight:600 !important;color:#6D4C41 !important;line-height:1.4 !important;margin:0 !important;}
+.main-content .bio-does .en{font-size:11px !important;color:#9B8E7E !important;}
