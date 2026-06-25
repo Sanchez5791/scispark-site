@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<!--
+======================================================================
+  SciSpark - FUNCTIONAL MASTER TEMPLATE (v8 引擎版) - 功能母版模板
+  基于 v4 功能母版 + 改挂 v8 互动引擎 (lesson-shell-v8) · 2026-06-24
+  引擎已上线 main @ 4edac81。功能母版的权威正本由【出货房 S7 (Shipping Room)】保管。
+----------------------------------------------------------------------
+  这是做新课的母版。用法:复制这个文件 -> 只填【FILL】的地方 -> 功能天生就在。
+
+  ★ 只填三类东西:
+    ① 课文文字(中英双语)-- 在 5 个屏(HOOK/LEARN/TRY/TEST/WRAP)里找
+       "FILL ..." 占位,照着填中英文。
+    ② 题目/标准答案/提示/纠错(中英)-- 两个地方要【对应】填,题号一致:
+       (a) 屏里的 question-block:题目文字 + 标准答案框
+       (b) 文件底部 <script> 里的 SCHEMES / FB_RIGHT / FB_WRONG / HINT1 / HINT2 / STEMS / QIDS
+       (HINT1=第一条提示;HINT2=更具体的第二条,只有 L3 难度会用到;两条都要填中英。)
+    ③ 图片 -- 找「IMAGE SLOT 图片位」,换成 <img src="...">,或整块删掉。
+    别忘了改课名信息:顶部 <title>、nav-meta、nav-badge、sidebar 单元名、
+       <body data-lesson="?">。
+
+  ★ v8 多出来的:8 种互动题(matching/connect/hotspot/label_diagram/
+     draw_circuit/reorder/animation_view/interactive_explore)。要加一题互动，
+     在屏里放一个槽位即可，引擎会自动挂载:
+        <div data-mount="qX" data-widget="matching"
+             data-options='{ "marks":3, "pairs":[...], "hints":{...} }'></div>
+     (各题型的 data-options 字段，见样板课 demos/sample-lesson-electric-circuits.html
+      和 demos/engine-v8-demo.html。画图题 sketch_graph/graph 仍封锁，等画图房。)
+
+  ★ 千万别动(功能区,改了会坏):
+    - <head> 里所有 <style>(整套外观皮肤)
+    - 所有 <script>(voice-profile / spark-jar / lesson-shell-v8 / doudou / skin / 引擎)
+    - 题 block 里的 id 接线:QNN-input / QNN-submit / QNN-feedback /
+      QNN-show-ans-btn / ans_QNN_0,和 onclick="submitAnswer('QNN')"
+    - 引擎里的函数(checkAnswer/submitAnswer/朗读/中英切换…)只改数据别改逻辑
+
+  ★ 自带功能(原样保留,无需设置):
+    打字作答+提交 · 严格给分(乱填/抄题=0) · 答错不奖励(只对了才给) ·
+    🎤 说出答案(语音输入) · 右上中英切换 · 左下朗读条(慢/正常/快·豆豆软声)+静音 ·
+    闯关提示系统(按等级:L1错2次/L2错3次/L3错4次 → 自动出答案+收起提交;紫色轻推+💡提示) ·
+    TEST 屏考试模式(不出提示,但到上限照样出答案) · 💡手动提示钮(点了不算一次) ·
+    XP / DouDou 豆豆 / 进度总结 · 5 屏结构(HOOK/LEARN/TRY/TEST/WRAP)
+
+  ★ 加题:复制一个 question-block,题号改成新号(Q03…),底部
+     SCHEMES/FB_RIGHT/FB_WRONG 各加一行、QIDS 补上 "Q03"。
+  ★ 减题:删掉那个 question-block,并从 SCHEMES/FB_RIGHT/FB_WRONG/QIDS 删掉它。
+
+  注:本模板内 Q01、Q02 是【可直接试玩的示范题】,做新课时换成真题。
+  红线:本文件独立新增;不动已上线 L01,不动任何线上课。
+======================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="&#169; 2026 IG SPARK CENTRE / SciSpark. All rights reserved.">
+<meta name="author" content="SciSpark &#183; IG SPARK CENTRE">
+<meta name="robots" content="noindex, nofollow">
+
+<title>SciSpark &middot; Y7 U7 L01 &middot; Force on a Trolley (SKIN DEMO)</title>
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/lesson-shell-v8.css">
+<!-- v4+skin premium skin layer (2026-06-12, REDESIGN_BRIEF_v1) — skin still shared from v4 -->
+<link rel="stylesheet" href="/lesson-shell-v4-skin.css">
+<link rel="stylesheet" href="/components/spark-jar/spark-jar.css">
+<link rel="stylesheet" href="/components/click-spark-fx/click-spark-fx.css">
+<!-- shared science-skins (Bio/Phys LEARN skins + behaviours) -->
+<link rel="stylesheet" href="/components/science-skins/science-skins.css">
+
+
+<style>
+  .top-nav .nav-logo { display: inline-flex; align-items: center; }
+  .top-nav .logo-bolt {
+    width: 34px; height: 34px;
+    background: var(--accent); border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; flex-shrink: 0;
+  }
+  .top-nav .logo-bolt svg { width: 18px; height: 18px; }
+  /* Font stacks pinned to the homepage's (Fraunces / Geist Mono) so the wordmark
+     matches index.html exactly &#8212; the shell body otherwise uses Instrument Serif /
+     JetBrains Mono. Scoped to .top-nav, so only the logo is affected. */
+  .top-nav .nav-brand {
+    display: flex; flex-direction: column; line-height: 1;
+    font-family: 'Fraunces', 'Noto Serif SC', Georgia, serif;
+    font-weight: 600; font-size: 21px;
+    letter-spacing: -0.3px; color: #fff;
+  }
+  .top-nav .nav-brand .brand-text { font-size: 21px; }
+  .top-nav .nav-brand .spark { color: var(--accent); }
+  .top-nav .nav-brand .brand-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; margin-top: 5px;
+  }
+</style>
+
+</head>
+
+
+<!-- FILL: data-lesson = 本课课号(用于「Lesson N」与进度);data-user-level 保持 2 -->
+<body data-user-level="2" data-lesson="1">
+
+<div class="print-notice">&#169; SciSpark &#8212; Printing not permitted. &#35831;&#21247;&#25171;&#21360; &#183; &#21463;&#29256;&#26435;&#20445;&#25252;&#20869;&#23481;&#12290;</div>
+
+
+<audio id="audio-correct"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/confirmation_001.ogg" preload="auto"></audio>
+<audio id="audio-wrong"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/error_002.ogg"        preload="auto"></audio>
+<audio id="audio-levelup"  src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/maximize_009.ogg"     preload="auto"></audio>
+<audio id="audio-popup"    src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/pluck_001.ogg"        preload="auto"></audio>
+<audio id="audio-complete" src="https://gamesounds.xyz/Kenney's%20Sound%20Pack/Interface%20Sounds/bong_001.ogg"         preload="auto"></audio>
+
+<div class="app">
+
+
+<nav class="top-nav">
+  <div class="nav-logo">
+    <span class="logo-bolt">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2 L4 14 L11 14 L9 22 L19 9 L12 9 L14 2 Z"/>
+      </svg>
+    </span>
+  </div>
+  <div class="nav-brand">
+    <span class="brand-text">Sci<span class="spark">Spark</span></span>
+    <span class="brand-sub" data-en="An IG Spark Centre Product" data-zh="IG Spark Centre &#20986;&#21697;">An IG Spark Centre Product</span>
+  </div>
+  
+  <!-- FILL: 年级 · 单元 · 课号,例 Y7 &middot; U1 &middot; L02 -->
+  <div class="nav-meta">Y7 &middot; U7 &middot; L01</div>
+  
+  <!-- FILL: 学科徽章(英文 + 中文) -->
+  <div class="nav-badge" data-en="Physics" data-zh="物理">Physics</div>
+  
+  <div class="nav-spacer"></div>
+  <div class="nav-streak" title="Daily streak">
+    <span class="nav-streak-flame">&#128293;</span>
+    <span id="streak-count">1</span>
+  </div>
+  <!-- Dashboard back link (locked convention 2026-05-10) -->
+  <div data-mount="spark-jar" style="display:flex;align-items:center;"></div>
+  <a href="/dashboard-student.html" class="nav-back">&#8592; Dashboard</a>
+  <button class="mute-toggle" id="mute-toggle" onclick="toggleMute()" title="Mute &#183; &#38745;&#38899;" aria-label="Toggle sound">&#128266;</button>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-zh" onclick="setLang('zh')">&#20013;&#25991;</button>
+  </div>
+</nav>
+
+<div class="body-wrap">
+
+  
+  <aside class="sidebar">
+    <div class="sidebar-unit">
+      
+      <!-- FILL: 例 Y7 Unit 1 -->
+      <div class="sidebar-unit-label">Y7 Unit 7</div>
+      <!-- 单元标题(英文 + 中文) -->
+      <div class="sidebar-unit-title" data-en="Forces (SKIN DEMO)" data-zh="力(皮肤示范)">Forces (SKIN DEMO)</div>
+      
+    </div>
+
+    <div class="screen-nav-item active" onclick="showScreen('hook')">
+      <div class="screen-num">1</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Hook</div>
+        
+        
+        
+        
+        <div class="screen-nav-sub">Real-world spark<span class="zh"> &middot; &#29983;&#27963;&#21270;&#23398;</span></div>
+        
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('learn')">
+      <div class="screen-num">2</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Learn</div>
+        
+        <div class="screen-nav-sub">Mechanism<span class="zh"> &middot; &#21407;&#29702;</span></div>
+        
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('try')">
+      <div class="screen-num">3</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Try</div>
+        
+        <div class="screen-nav-sub">Trace &amp; predict<span class="zh"> &middot; &#36861;&#36394;&#39044;&#27979;</span></div>
+        
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('test')">
+      <div class="screen-num">4</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Test</div>
+        
+        <div class="screen-nav-sub">Apply solo<span class="zh"> &#183; &#29420;&#31435;&#24212;&#29992;</span></div>
+      </div>
+    </div>
+    <div class="screen-nav-item" onclick="showScreen('wrap')">
+      <div class="screen-num">5</div>
+      <div class="screen-nav-labels">
+        <div class="screen-nav-main">Wrap</div>
+        
+        <div class="screen-nav-sub">Connect &amp; summarise<span class="zh"> &middot; &#36830;&#25509;&#24635;&#32467;</span></div>
+        
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label"><span>Progress<span class="zh"> &#36827;&#24230;</span></span><span id="prog-pct">20%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:20%"></div></div>
+    </div>
+  </aside>
+
+  
+  <main class="main-content">
+
+  
+  <section class="screen active" id="screen-hook">
+<div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">HOOK &middot; Force on a Trolley</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">推小车的力</div></div>
+<div style="display:inline-block;background:#7C3AED;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:11px;padding:4px 11px;border-radius:8px;margin-bottom:10px;">🧪 SKIN DEMO &middot; 占位内容,仅展示皮肤外形</div>
+<div class="screen-header" style="margin-bottom:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;color:#EA580C;">HOOK</div></div>
+<!-- FILL 课文 · 内容框(可复制多个;配色可换:绿/橙) -->
+<div style="background:#E8FFE8;border:1.5px solid #BFE6BF;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="display:flex;gap:10px;margin:0 0 12px;align-items:flex-start;"><span style="color:#2E7D32;font-weight:900;font-size:18px;line-height:1.3;flex:0 0 auto;">&bull;</span><div style="flex:1;"><div class="zh">轻轻推小车,它慢慢动;用力推,它跑得快。</div><div class="en">A gentle push moves the trolley slowly; a hard push moves it fast.</div></div></div><div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:#2E7D32;font-weight:900;font-size:18px;line-height:1.3;flex:0 0 auto;">&bull;</span><div style="flex:1;"><div class="zh">力有大小,也有方向。我们用「箭头」把它画出来。</div><div class="en">A force has size and direction — we draw it as an arrow.</div></div></div></div>
+<!-- FILL 图片位(可选):换成真图 <img src="data:image/png;base64,…"> 或 <img src="/images/…">;不要图就整块删掉。 -->
+<div style="border-radius:14px;margin:0 0 14px;overflow:hidden;background:#F5F0E4;border:2px dashed #D9CFC0;padding:46px 18px;text-align:center;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:14px;color:#9B8E7E;">🖼 IMAGE SLOT &middot; 图片位 (HOOK image)</div><div style="font-family:'Inter',sans-serif;font-size:12px;color:#B7AC9C;margin-top:4px;">FILL: &lt;img src="…" alt="…"&gt;</div></div>
+<!-- FILL 关键词 chips(本课重点词;加减 span 即可) -->
+<div style="margin:0 0 14px;"><span style="display:inline-block;background:#FFF0DB;border:1px solid #FAD9A8;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;padding:5px 12px;border-radius:20px;margin:0 6px 6px 0;">力 force</span><span style="display:inline-block;background:#FFF0DB;border:1px solid #FAD9A8;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;padding:5px 12px;border-radius:20px;margin:0 6px 6px 0;">箭头 arrow</span><span style="display:inline-block;background:#FFF0DB;border:1px solid #FAD9A8;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;padding:5px 12px;border-radius:20px;margin:0 6px 6px 0;">平衡 balance</span></div>
+<div class="btn-row"><button class="btn btn--learn" onclick="showScreen('learn')">Learn &rarr; &#23398;&#20064;</button></div>
+</section>
+
+
+  <section class="screen" id="screen-learn">
+<div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">LEARN &middot; Force on a Trolley</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">推小车的力</div></div>
+<div class="screen-header" style="margin-bottom:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;color:#EA580C;">LEARN &middot; PHYSICS SKIN (PhysCompareForce)</div></div>
+<!-- 一句引子 -->
+<div class="skin-card"><div class="zh">同一辆小车:推的力越大,箭头越长,小车跑得越远。</div><div class="en">Same trolley: a bigger force = a longer arrow = the trolley moves further.</div></div>
+
+<!-- ====== PhysCompareForce:前/后对比 + 力箭头 + 天平 + 公式(数量课才出) ====== -->
+<div class="skin-card">
+  <div class="skin-cap">Physics skin &middot; PhysCompareForce</div>
+  <div class="phys-compare">
+    <div class="phys-frame"><div class="phys-when"><span class="zh">之前 · 小力</span></div><div class="phys-stage"><div class="phys-ground"></div><div class="phys-object" style="left:14px;"></div><div class="force-arrow" style="left:52px;bottom:30px;width:22px;"></div></div><div class="force-label"><span class="zh">小推力</span> small push</div></div>
+    <div class="phys-frame"><div class="phys-when"><span class="zh">之后 · 大力</span></div><div class="phys-stage"><div class="phys-ground"></div><div class="phys-object" style="left:14px;transform:translateX(44px);"></div><div class="force-arrow" style="left:52px;bottom:30px;width:64px;"></div></div><div class="force-label"><span class="zh">大推力 → 跑更远</span> big push → further</div></div>
+  </div>
+  <div class="phys-balance tilt"><span class="zh">天平:</span><div class="beam"></div><span class="zh">两边力不相等 → 小车会动</span></div>
+  <div class="phys-formula"><div class="word"><span class="zh">先讲人话:力 = 一个「推」或「拉」。</span></div><div class="word">force = a push or a pull</div><div class="sym">F = m &times; a</div><div class="only"><span class="zh">★ 符号只在「算数量」的课才出现;概念课不放公式。</span></div></div>
+</div>
+
+<!-- so-what -->
+<div class="skin-card" style="background:#F4F7FC;border-color:#CFE0F0;"><div class="zh">🌟 对你有用:看箭头长短,就知道谁推得更用力。</div><div class="en">Useful for you: arrow length tells you who is pushing harder.</div></div>
+<div class="btn-row"><button class="btn btn--accent" onclick="showScreen('try')">Try &rarr; &#32451;&#20064;</button></div>
+</section>
+
+
+  <section class="screen" id="screen-try">
+<div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">TRY &middot; Push the trolley</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">推一推小车</div></div>
+<div class="screen-header" style="margin-bottom:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;color:#EA580C;">TRY &middot; PHYSICS SKIN (PhysSlider)</div></div>
+<!-- ────── PhysSlider · 拉滑杆加大力(共享 science-skins.js;别动 data-phys-* 接线)────── -->
+<div class="phys-slider" data-phys-slider data-phys-target="70">
+  <div style="margin-bottom:8px;"><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:15px;color:#171413;">拉动滑杆加大推力,把小车推到绿线。</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#8b929b;">Drag the slider to add force and push the trolley to the green line.</div></div>
+  <div class="stage"><div class="target" style="left:160px;"><span><span class="zh">目标</span> target</span></div><div class="phys-ground" style="bottom:16px;"></div><div data-phys-object class="phys-object" style="bottom:18px;left:10px;"></div><div data-phys-arrow class="force-arrow" style="left:46px;bottom:24px;width:18px;"></div></div>
+  <div class="row"><span class="zh" style="font-weight:700;">推力 force:</span><input type="range" min="0" max="100" value="0" aria-label="force"><span class="readout" data-phys-readout>0</span></div>
+  <div class="phys-fb" data-phys-feedback></div>
+</div>
+<div class="btn-row"><button class="btn btn--test" onclick="showScreen('test')">Test &rarr; &#27979;&#35797;</button></div>
+</section>
+
+
+  <section class="screen" id="screen-test">
+<div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">TEST &middot; Forces</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">力</div></div>
+<div style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;margin-bottom:12px;">EXAM MODE &middot; NO HINTS &middot; &#32771;&#35797;&#27169;&#24335;</div>
+<!-- ────── QUESTION Q02 (DEMO — 可直接试玩,做新课时换成真题) · 别动 id 接线 ────── -->
+<div class="question-block" style="background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;"><span style="background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px;">Q02</span><span style="background:#FFF0DB;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">APPLY</span><span style="background:#EAFBFF;color:#3AAEC8;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">1 mark</span></div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.55;margin-bottom:4px;">什么力会让滑动的小车慢慢停下来?(打字作答)</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#171413;line-height:1.5;margin-bottom:10px;">What force slows a moving trolley down? (type your answer)</div><div style="background:#FFFBE6;border:1px solid #FCEFB8;border-radius:8px;padding:8px 11px;margin-bottom:10px;"><span style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#C9A227;">&#127919; FILL · one short instruction, e.g. "One short sentence."</span> <span class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;color:#C2410C;">FILL · 一句作答提示,如「一句短答案。」</span></div><div class="answer-widget" style="margin:4px 0 12px;"><textarea id="Q02-input" placeholder="Type your answer here…" data-ph-en="Type your answer here…" data-ph-zh="在这里输入你的答案…" style="width:100%;min-height:62px;padding:10px 12px;border:1.5px solid #E8E2D8;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;background:#fff;box-sizing:border-box;"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;"><button id="Q02-submit" onclick="submitAnswer('Q02')" style="background:#EA580C;color:#fff;border:0;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;cursor:pointer;">Submit &middot; 提交</button><span id="Q02-attempts" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:11px;color:#9B8E7E;">Attempts: 0</span></div><div id="Q02-feedback" style="display:none;margin-top:10px;padding:10px 13px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;"></div></div><div id="Q02-purple" class="cap-purple" style="display:none;"></div><div id="Q02-hint" class="cap-hint" style="display:none;"></div><div id="Q02-hint2" class="cap-hint" style="display:none;"></div><button id="Q02-hint-btn" type="button" class="cap-hint-btn" onclick="manualHint('Q02')">&#128161; Hint &middot; &#25552;&#31034;</button><button id="Q02-show-ans-btn" data-gated="1" onclick="var x=document.getElementById('ans_Q02_0');x.style.display=x.style.display=='none'?'block':'none';" style="background:#2E7D32;color:#fff;border:0;border-radius:8px;padding:6px 14px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">&#9989; Answer &middot; &#31572;&#26696;</button><div id="ans_Q02_0" style="display:none;margin-top:10px;padding:11px 13px;background:#E8FFE8;border:1px solid #BFE6BF;border-radius:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:4px;">Expected answer &middot; &#26631;&#20934;&#31572;&#26696;</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#171413;">Friction</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;margin-top:3px;">摩擦力(friction)</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#2E7D32;margin-top:8px;">Accept &middot; &#21487;&#25910;&#65306;</div><ul style="margin:4px 0 0;padding-left:18px;"><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">friction</li><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">摩擦力</li></ul></div></div>
+<!-- TEST 屏:答错只标对错、不弹提示(引擎自动判断)。复制 question-block 加题,题号顺延 -->
+<div class="btn-row"><button class="btn btn--accent" onclick="showScreen('wrap')">Wrap &rarr; &#24635;&#32467;</button></div>
+</section>
+
+
+  <section class="screen" id="screen-wrap">
+<div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">WRAP &middot; Forces</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">力</div></div>
+<div class="screen-header" style="margin-bottom:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;color:#EA580C;">WRAP</div></div>
+<!-- FILL 总结框 SUMMARY -->
+<div style="background:#F5F0E4;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="font-family:'Inter',sans-serif;font-weight:900;font-size:14px;color:#6D4C41;margin-bottom:10px;">&#128221; SUMMARY &middot; &#24635;&#32467;</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#171413;line-height:1.55;">力有大小和方向,用箭头画。箭头越长,力越大。两边力相等就不动,不相等就动。</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#171413;line-height:1.5;margin-top:4px;">A force has size and direction, drawn as an arrow. Longer arrow = bigger force. Equal forces = no movement; unequal = it moves.</div></div>
+<!-- FILL 记忆口诀 MEMORY HOOK -->
+<style>#mem-hook .zh{color:#FFE9A8 !important;}#mem-hook .en{color:#E8DCC0 !important;}</style><div id="mem-hook" style="background:#171413;border-radius:14px;padding:16px 20px;margin:0 0 14px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#FFFF00;letter-spacing:1px;margin-bottom:6px;">&#129504; MEMORY HOOK &middot; &#35760;&#24518;&#21475;&#35776;</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:800;font-size:16px;color:#FFE9A8;">箭头越长力越大;两边相等就不动。</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#E8DCC0;margin-top:4px;">Longer arrow, bigger force; equal both sides, no move.</div></div>
+<div id="progress-summary-card" style="background:#fff;border:1.5px solid #EA580C;border-radius:14px;padding:18px 22px;margin:0 0 14px;"><div style="font-family:'Inter',sans-serif;font-size:12px;font-weight:800;color:#EA580C;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Your progress this lesson <span class="zh">&middot; 本节课你的表现</span></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;"><div style="text-align:center;"><div id="prog-attempted" style="font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:#171413;">0</div><div style="font-size:10px;color:#9B8E7E;text-transform:uppercase;letter-spacing:.05em;">Tried <span class="zh">尝试</span></div></div><div style="text-align:center;"><div id="prog-correct" style="font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:#1F9D55;">0</div><div style="font-size:10px;color:#9B8E7E;text-transform:uppercase;letter-spacing:.05em;">Correct <span class="zh">答对</span></div></div><div style="text-align:center;"><div id="prog-avg-attempts" style="font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:#EA580C;">0</div><div style="font-size:10px;color:#9B8E7E;text-transform:uppercase;letter-spacing:.05em;">Avg tries <span class="zh">平均次数</span></div></div><div style="text-align:center;"><div id="prog-level" style="font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:#6D4C41;">2</div><div style="font-size:10px;color:#9B8E7E;text-transform:uppercase;letter-spacing:.05em;">Your level <span class="zh">你的等级</span></div></div></div><p id="prog-recommendation" style="font-family:'Inter',sans-serif;font-size:12px;color:#6D4C41;font-style:italic;margin:14px 0 0;line-height:1.55;"></p></div><div class="xp-wrap" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 14px;"><div class="xp-stat" style="background:#F5F0E4;border-radius:12px;padding:12px;text-align:center;"><div class="xp-stat-value" id="xp-lesson" style="font-family:'Inter',sans-serif;font-weight:800;font-size:20px;color:#171413;">+100</div><div class="xp-stat-label" style="font-size:10px;color:#9B8E7E;">Lesson XP <span class="zh">完成</span></div></div><div class="xp-stat" style="background:#F5F0E4;border-radius:12px;padding:12px;text-align:center;"><div class="xp-stat-value" id="xp-mcq" style="font-family:'Inter',sans-serif;font-weight:800;font-size:20px;color:#171413;">+0</div><div class="xp-stat-label" style="font-size:10px;color:#9B8E7E;">Question XP <span class="zh">题目</span></div></div><div class="xp-stat" style="background:#F5F0E4;border-radius:12px;padding:12px;text-align:center;"><div class="xp-stat-value" id="xp-aha" style="font-family:'Inter',sans-serif;font-weight:800;font-size:20px;color:#171413;">+0</div><div class="xp-stat-label" style="font-size:10px;color:#9B8E7E;">Aha XP</div></div><div class="xp-stat" style="background:linear-gradient(135deg,#FFE9D6,#FFF8F2);border-radius:12px;padding:12px;text-align:center;"><div class="xp-stat-value" id="xp-total" style="font-family:'Inter',sans-serif;font-weight:800;font-size:20px;color:#EA580C;">+100</div><div class="xp-stat-label" style="font-size:10px;color:#9B8E7E;">Total <span class="zh">总计</span></div></div></div><div style="background:#FFF8F2;border:1px solid #FFD9B8;border-radius:14px;padding:18px 20px;margin:0 0 14px;"><div style="font-family:'Inter',sans-serif;font-size:13px;font-weight:800;color:#EA580C;margin-bottom:8px;">✨ Your Aha Moment <span class="zh">你的「啊哈」时刻</span></div><p style="font-family:'Inter',sans-serif;font-size:13px;color:#6D4C41;line-height:1.6;margin:0 0 10px;">What was the one thing today that surprised you most? <span class="zh">今天最让你「啊哈」的一件事是什么?</span></p><textarea id="aha-input" placeholder="Type your aha moment here…" data-ph-en="Type your aha moment here…" data-ph-zh="写下你的 aha 时刻…" oninput="if(window.awardXP&&this.value.length>5&&!this._a){this._a=1;awardXP(20,'aha');}" style="width:100%;min-height:74px;padding:10px 12px;border:1.5px solid #E8E2D8;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;background:#fff;box-sizing:border-box;"></textarea></div><div class="btn-row"><button class="btn btn--accent" onclick="completeLesson()">Complete Lesson &middot; &#23436;&#25104;</button></div>
+</section>
+
+  </main>
+</div><!-- .body-wrap -->
+
+
+
+<div class="prof-p">
+  <div class="prof-p-bubble" id="prof-p-bubble">
+    <button class="prof-p-bubble-close" onclick="closeBubble()">&#10005;</button>
+    <div id="prof-p-bubble-text">Hi! Ready to learn?</div>
+    <div class="prof-p-bubble-zh" id="prof-p-bubble-zh">&#21992;!&#20934;&#22791;&#22909;&#20102;&#21527;?</div>
+  </div>
+  <div class="prof-p-avatar" onclick="toggleBubble()" title="DouDou &#35910;&#35910;">
+    
+    <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMCAQG3Bd6fAAAAAElFTkSuQmCC" width="36" height="36" alt="DouDou"> -->
+    
+    <svg width="36" height="36" viewBox="0 0 64 64" fill="none" role="img" aria-label="DouDou co-learner avatar">
+      <!-- Body: round white robot -->
+      <circle cx="32" cy="32" r="28" fill="white" stroke="#E6DFD3" stroke-width="1.5"/>
+      <!-- Single large round orange screen-eye (DouDou's defining feature) -->
+      <circle cx="32" cy="26" r="13" fill="#EA580C" opacity="0.12" stroke="#EA580C" stroke-width="2"/>
+      <circle cx="32" cy="26" r="9" fill="#EA580C"/>
+      <!-- Eye pupil / expression (? default = curious) -->
+      <circle cx="32" cy="26" r="4" fill="white"/>
+      <circle cx="34" cy="24" r="1.5" fill="#EA580C"/>
+      
+      <text x="32" y="50" text-anchor="middle" font-size="11" font-weight="700"
+            fill="#EA580C" font-family="'Noto Sans SC', sans-serif">&#35910;</text>
+    </svg>
+    
+  </div>
+</div>
+
+
+<!-- PHASE 2 ACTIVATE: connect chat input to /api/tutor (Claude API or Doubao API) -->
+<div class="ai-tutor-panel" id="ai-tutor-panel">
+  <div class="ai-tutor-header">
+    <div class="ai-tutor-icon" style="width:32px;height:32px;">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" role="img" aria-label="Professor Spark mini icon">
+        <circle cx="16" cy="16" r="14" fill="white"/>
+        <path d="M9.5 23C11 19.5 13.2 18 16 18C18.8 18 21 19.5 22.5 23" stroke="#EA580C" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <circle cx="19.5" cy="13.5" r="2.3" stroke="#171413" stroke-width="1.8"/>
+        <path d="M14.8 13.5H17.2" stroke="#171413" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M11.5 9.5C14 7.2 18 7.2 20.5 9.5" stroke="#EA580C" stroke-width="2.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ai-tutor-header-title">Professor Spark</div>
+    <button class="ai-tutor-close" onclick="closeAITutor()">&#10005;</button>
+  </div>
+  <div class="ai-tutor-body">
+    <div class="ai-tutor-status">
+      AI Tutor <strong>coming soon</strong> &#183; AI &#32769;&#24072;&#21363;&#23558;&#19978;&#32447;<br>
+      
+      <span style="font-size:11px;">For now, try one of these starter questions:</span>
+    </div>
+    <div class="ai-prompt-list">
+      
+      <!-- FILL: 启发问题(中英);此面板为「即将上线」,只弹提示 -->
+      <button class="ai-prompt-btn" onclick="alert('AI Tutor coming soon &#183; &#21363;&#23558;&#19978;&#32447;')">Why does a longer arrow mean more force?<span class="ai-prompt-btn-zh">为什么箭头越长力越大?</span></button>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="xp-toast" id="xp-toast">+30 XP</div>
+
+
+<!-- PHASE 2 ACTIVATE: connect to reward system to actually grant the surprise -->
+<div class="surprise-modal" id="surprise-modal" onclick="closeSurprise()">
+  <div class="surprise-content" onclick="event.stopPropagation()">
+    <div class="surprise-emoji">&#127881;</div>
+    <div class="surprise-title">Surprise Drop!</div>
+    <div class="surprise-zh">&#24778;&#21916;&#25481;&#33853;!</div>
+    <div class="surprise-text">You unlocked a special bonus: <strong>+500 XP boost</strong> for your next lesson! <span class="zh">&#20320;&#35299;&#38145;&#20102;&#19979;&#33410;&#35838;&#30340;&#39069;&#22806; 500 XP!</span></div>
+    <button class="btn btn-primary" onclick="closeSurprise()">Awesome! &#22826;&#26834;&#20102;!</button>
+  </div>
+</div>
+
+
+<footer class="lesson-footer">
+  &#169; 2026 SciSpark &#183; scisparklab.com &#183; An IG SPARK CENTRE product &#183; igsparkcentre.com<br>
+  All content is original copyrighted material. Unauthorised reproduction prohibited.
+  <div class="lesson-footer-zh">&#29256;&#26435;&#25152;&#26377; &#169; 2026 SciSpark &#183; IG SPARK CENTRE &#26071;&#19979;&#20135;&#21697;&#12290;&#26410;&#32463;&#25480;&#26435;,&#31105;&#27490;&#22797;&#21046;&#25110;&#36716;&#36733;&#12290;</div>
+</footer>
+
+</div><!-- .app -->
+
+
+
+<!-- v8 engine load order (same as live L01): voice-profile → spark-jar → engine → poses → click-spark → skin -->
+<script src="/voice-profile.js"></script>
+<script src="/components/spark-jar/spark-jar.js"></script>
+<script src="/lesson-shell-v8.js"></script>
+<!-- v4+skin: Doudou static poses + click-spark asset + skin behaviour (skin still shared from v4) -->
+<script src="/components/doudou/poses.js"></script>
+<script src="/components/click-spark-fx/click-spark-fx.js"></script>
+<script src="/lesson-shell-v4-skin.js"></script>
+<!-- shared science-skins behaviour (bio point→highlight, phys slider) -->
+<script src="/components/science-skins/science-skins.js"></script>
+
+
+<script>
+// Lesson-specific bubble scripts per screen
+// (this part stays inline because each lesson has different Professor Spark dialogue)
+window.bubbleScripts = {
+  hook:  { en: "Gentle push, slow trolley. Hard push, fast trolley. Let's see why!", zh: "轻推慢、用力快——我们看看为什么!" },
+  learn: { en: "Longer arrow = bigger force. Watch the trolley move!", zh: "箭头越长力越大。看小车怎么动!" },
+  try:   { en: "Drag the slider — push the trolley onto the green line.", zh: "拉滑杆,把小车推到绿线上。" },
+  test:  { en: "What force rubs against the wheels and slows it down?", zh: "什么力磨着轮子,把它慢慢停下来?" },
+  wrap:  { en: "Longer arrow, bigger force — you've got it!", zh: "箭头越长力越大——你懂了!" }
+};
+</script>
+
+
+
+<style>
+/* mascot 豆 glyph: hide in English mode (survives skin re-renders) */
+body:not(.zh-mode) .prof-p-avatar text { display: none !important; }
+
+/* ── 双语乙排版 (工厂单 2026-06-24 · 老板确认「两种都显、中文大」) ──
+   仅限本母版正文区 .main-content:中英都显示;中文为主(黑粗大),英文为配(浅灰小字幕)。
+   导航与任何线上课都不受影响。EN/中文 钮仍在(切换朗读语言)。
+   做真课时:把每段写成 <span class="zh">中文</span><span class="en">English</span>。 */
+/* 正文区中英都显示(specificity 盖过上面的「en 模式隐藏 .zh」规则) */
+body .main-content .en, body .main-content .zh { display: block !important; }
+/* 中文为主:大、粗、深(!important 盖过内联字号) */
+.main-content .zh {
+  font-family: 'Noto Sans SC','Noto Serif SC', sans-serif !important;
+  font-size: 16.5px !important; font-weight: 700 !important; color: #171413 !important;
+  line-height: 1.55 !important; margin: 2px 0 0 !important;
+}
+/* 英文为配:小、浅灰字幕(给用 class="en" 的英文;母版示范也用它) */
+.main-content .en {
+  font-size: 12px !important; font-weight: 400 !important; color: #8b929b !important;
+  line-height: 1.4 !important; margin: 0 !important;
+}
+.feedback-right { background:#E8F8EF; border-left:3px solid #1F9D55; color:#155A38; }
+.feedback-wrong { background:#FCEBEB; border-left:3px solid #A32D2D; color:#7A1F1F; }
+button[disabled] { opacity:.5; cursor:not-allowed; }
+/* PEDAGOGY_CAP 闯关提示系统:紫色轻推 + 黄色提示 + 提示钮 */
+.cap-purple { margin-top:10px; padding:9px 12px; border-radius:10px; background:#F3EAFE; border-left:3px solid #7C3AED; color:#5B21B6; font-family:'Inter',sans-serif; font-size:13px; line-height:1.5; }
+.cap-hint { margin-top:8px; padding:9px 12px; border-radius:10px; background:#FFF7E6; border-left:3px solid #E0A106; color:#7A5A05; font-family:'Inter',sans-serif; font-size:13px; line-height:1.5; }
+.cap-hint-btn { margin-top:8px; margin-right:6px; background:#fff; color:#7A5A05; border:1.5px solid #F0CE7A; border-radius:8px; padding:6px 12px; font-family:'Inter',sans-serif; font-weight:700; font-size:13px; cursor:pointer; }
+/* Keep the nav language toggle visible on mobile too (shell hides it < 640px) */
+.top-nav .lang-toggle { display:inline-flex !important; }
+/* Prominent always-visible language toggle (top-right) */
+#l01-lang { position:fixed; right:12px; top:64px; z-index:80; background:#EA580C; color:#fff; border:0;
+  border-radius:999px; padding:10px 18px; font-family:'Inter',sans-serif; font-weight:800; font-size:15px;
+  box-shadow:0 4px 16px rgba(234,88,12,.45); cursor:pointer; }
+#l01-lang:active { transform:scale(.96); }
+/* Bottom-left control cluster: read-aloud + speed + mute */
+#l01-tools { position:fixed; left:12px; bottom:14px; z-index:80; display:flex; gap:7px; align-items:center;
+  flex-wrap:wrap; max-width:74vw; }
+#l01-tools button, #l01-tools select { font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
+  border-radius:999px; border:1.5px solid #E8E2D8; background:#fff; color:#171413; padding:9px 14px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12); cursor:pointer; }
+#l01-tools select { padding:9px 10px; }
+#l01-read.is-on { background:#EA580C; color:#fff; border-color:#EA580C; }
+#l01-mute.is-muted { background:#9B8E7E; color:#fff; border-color:#9B8E7E; }
+/* Read-aloud teleprompter caption with per-word highlight */
+#l01-caption { position:fixed; left:50%; transform:translateX(-50%); bottom:74px; z-index:78;
+  max-width:min(680px,92vw); max-height:32vh; overflow:auto; background:#171413; color:#F5F0E4;
+  border-radius:16px; padding:16px 20px; font-family:'Inter',sans-serif; font-size:17px; line-height:1.75;
+  box-shadow:0 10px 36px rgba(0,0,0,.34); display:none; }
+#l01-caption .cw { padding:0 2px; border-radius:5px; }
+#l01-caption .cw.on { background:#EA580C; color:#fff; font-weight:800; }
+</style>
+
+<script>
+(function(){
+  /* ================================================================
+     (1) 填题目答案区 PER-QUESTION DATA -- 每题都要在这 4 张表里各加一行
+     ----------------------------------------------------------------
+     题号(Q01、Q02…)必须和上面 HTML question-block 的 id 对上。
+       SCHEMES[QNN] 这题怎么算对:
+         mode:"any"      命中任意一个关键词 = 对
+         mode:"all"      关键词全部命中 = 对
+         mode:"compound" 每组至少命中一个  compound:[["铁","iron"],["勺","spoon"]]
+         mode:"yn"       答 No/否 也算对(yes/no 题)
+         keywords:[...]  收的答案关键词(中英都放,引擎会转小写)
+         reject:[...]    (可选)命中就判错
+       FB_RIGHT[QNN] 答对的解释(en+zh) · FB_WRONG[QNN] 答错的提示(en+zh,TEST屏不显示)
+     Q01、Q02 为可试玩示范,做新课时替换。 */
+  var SCHEMES = {
+    "Q02": { "mode":"any", "keywords":["friction","摩擦力","摩擦"] }
+  };
+  var FB_RIGHT = {
+    "Q02": { "en":"Correct — friction acts against the motion and slows it down.", "zh":"答对 — 摩擦力跟运动方向相反,把它慢慢停下来。" }
+  };
+  var FB_WRONG = {
+    "Q02": { "en":"Think of the rubbing force between the wheels and the ground.", "zh":"想想轮子和地面之间「磨」出来的力。" }
+  };
+  var QIDS = ["Q02"];   /* 本课只有 1 道打字题(在 TEST 屏);TRY 的滑杆是互动演示 */
+
+  /* STEMS[QNN] = 这题题干文字(小写、去标点)。用来识别「把题目抄回来」当答案的乱填。
+     做新课时:把每题题干照填(可留空,留空就跳过这一关)。Q01/Q02 为示范。 */
+  var STEMS = {
+    "Q02":"what force slows a moving trolley down"
+  };
+
+  /* ── 提示文字 HINT1 / HINT2(中英)· 闯关提示系统用 ──
+     HINT1 = 第一条提示;HINT2 = 更具体的第二条(只有 L3 难度会用到)。
+     做新课时每题都填。Q01/Q02 为示范。 */
+  var HINT1 = {
+    "Q02": { "en":"It is the rubbing force between two surfaces.", "zh":"是两个面互相「磨」出来的力。" }
+  };
+  var HINT2 = {
+    "Q02": { "en":"The word is 'friction'.", "zh":"答案就是「摩擦力 friction」。" }
+  };
+
+  /* ── 闯关上限 PEDAGOGY_CAP (锁死区 · PLAYBOOK v8.1 PART 7.0 · 2026-05-21) ──
+     按学生等级定「答错几次后自动出答案、收起提交钮」:L1=2 · L2=3 · L3=4。没选等级 = L2。 */
+  function levelStr(){ return document.body.getAttribute('data-user-level') || '2'; }
+  function capForLevel(){ return ({ '1':2, '2':3, '3':4 })[levelStr()] || 3; }
+  function showPurple(qid){
+    var el=document.getElementById(qid+'-purple'); if(!el) return;
+    el.style.display='block';
+    el.innerHTML='<strong>🤔 Have another think — you\'re close.</strong>'
+      +'<div class="zh" style="margin-top:3px;">🤔 再想一想,你很接近了。</div>';
+  }
+  function showHint(qid, which){
+    var id = (which===2) ? qid+'-hint2' : qid+'-hint';
+    var data = (which===2) ? (HINT2[qid]||{}) : (HINT1[qid]||{});
+    var el=document.getElementById(id); if(!el) return;
+    el.style.display='block';
+    var tag = (which===2) ? 'Hint 2' : 'Hint';
+    el.innerHTML='<strong>💡 '+tag+'</strong> '+(data.en||'')
+      +'<div class="zh" style="margin-top:3px;">💡 提示'+(which===2?' 2':'')+': '+(data.zh||'')+'</div>';
+  }
+  function manualHint(qid){ showHint(qid, 1); }   /* 手动点提示 ≠ 一次作答(不加计数) */
+
+  function normalizeAns(s){ return (s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
+  function tokenizeAns(s){ return normalizeAns(s).replace(/[^a-z0-9一-龥 ]/g,' ').split(' ').filter(function(w){return w.length>1;}); }
+  // Junk-guard A: gibberish / keyboard mash / repeated chars
+  function looksGibberish(i){
+    if(/([a-z一-龥])\1{3,}/.test(i)) return true;            // 4+ identical chars in a row
+    var mash=['asdf','sdfg','dfgh','fghj','ghjk','hjkl','qwer','wert','erty','rtyu','tyui','yuio','uiop','zxcv','xcvb','cvbn','vbnm','poiu','lkjh','mnbv','qaz','wsx','edc'];
+    for(var m=0;m<mash.length;m++){ if(i.indexOf(mash[m])>-1) return true; }
+    var runs=i.match(/[a-z]{5,}/g)||[];                              // a long "word" with almost no vowels
+    for(var r=0;r<runs.length;r++){
+      var v=(runs[r].match(/[aeiou]/g)||[]).length;
+      if(v/runs[r].length < 0.20) return true;
+    }
+    return false;
+  }
+  // Junk-guard B: answer is mostly a copy of the question text
+  function isQuestionCopy(i, qid){
+    var stem=STEMS[qid]; if(!stem) return false;
+    var w=tokenizeAns(i);
+    if(w.length<10 || i.length<50) return false;                     // real answers are one short sentence
+    var inStem=0; for(var k=0;k<w.length;k++){ if(stem.indexOf(w[k])>-1) inStem++; }
+    return (inStem/w.length)>=0.7;
+  }
+  function checkAnswer(input, scheme, qid){
+    var i = normalizeAns(input);
+    if(!i) return false;
+    // STRICT GRADING (order 2026-06-18): junk / copied / vague answers score 0.
+    if(looksGibberish(i)) return false;                              // gate 1: junk guard
+    if(isQuestionCopy(i, qid)) return false;                         // gate 1: copied question
+    if(scheme.reject && scheme.reject.some(function(k){return i.indexOf(k.toLowerCase())>-1;})) return false; // gate 2: must-not
+    // gate 3: must-have keywords (original logic)
+    if(scheme.mode==='any')  return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    if(scheme.mode==='all')  return scheme.keywords.every(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    if(scheme.mode==='compound') return scheme.compound.every(function(g){return g.some(function(k){return i.indexOf(k.toLowerCase())>-1;});});
+    if(scheme.mode==='yn'){
+      var w = i.replace(/[^a-z\u4e00-\u9fa5 ]/g,'').trim();
+      if(w==='no'||w.indexOf('no ')===0||i.indexOf('no,')===0||i.indexOf('no.')===0) return true;
+      return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    }
+    return false;
+  }
+
+  var WRONG = {};   // 本次会话每题答错计数(刷新归零,与 PEDAGOGY_CAP_v1 一致;localStorage 仍记录给 WRAP 总结用)
+  function submitAnswer(qid){
+    var ta = document.getElementById(qid+'-input');
+    if(!ta) return;
+    // TEST screen = exam mode: mark right/wrong but give NO hint. Per order 2026-06-18 §4.
+    var isTest = !!(ta.closest && ta.closest('#screen-test'));
+    var input = (ta.value||'').trim();
+    if(!input){ alert('Please type an answer first. · 请先输入答案。'); return; }
+    var correct = checkAnswer(input, SCHEMES[qid], qid);
+
+    // track attempts
+    var key='scispark_progress_'+qid, track;
+    try{ track=JSON.parse(localStorage.getItem(key)||'{"attempts":[]}'); }catch(e){ track={attempts:[]}; }
+    track.attempts.push({answer:input, correct:correct, t:Date.now()});
+    try{ localStorage.setItem(key, JSON.stringify(track)); }catch(e){}
+    var count = track.attempts.length;
+    var ac = document.getElementById(qid+'-attempts'); if(ac) ac.textContent='Attempts: '+count;
+
+    var fb = document.getElementById(qid+'-feedback'); if(!fb) return;
+    fb.style.display='block';
+    if(correct){
+      fb.className='feedback-right';
+      fb.innerHTML='<strong>✓ Correct!</strong> '+FB_RIGHT[qid].en+'<div class="zh" style="margin-top:4px;">✓ 正确!'+FB_RIGHT[qid].zh+'</div>';
+      var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
+      var hbC=document.getElementById(qid+'-hint-btn'); if(hbC) hbC.style.display='none';
+      try{ if(window.awardXP) awardXP(20,'mcq'); }catch(e){}
+      try{ if(window.SparkJar) window.SparkJar.add(20,'correct'); }catch(e){}
+      try{ if(window.SparkStreak && window.SparkStreak.add) window.SparkStreak.add(); }catch(e){}
+      try{ if(window.playSound) playSound('correct'); }catch(e){}
+      try{ if(window.doudouReact) doudouReact(true); }catch(e){}
+    } else {
+      var capCount=(WRONG[qid]=(WRONG[qid]||0)+1);   // session-fresh wrong count drives the cap + hints
+      fb.className='feedback-wrong';
+      if(isTest){
+        // exam mode: mark wrong, no guiding hint
+        fb.innerHTML='<strong>✗ Not quite.</strong> <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。<em>(已试 '+capCount+' 次)</em></div>';
+      } else {
+        fb.innerHTML='<strong>✗ Not quite.</strong> '+FB_WRONG[qid].en+' <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。'+FB_WRONG[qid].zh+'</div>';
+      }
+      // No effort/sparks for wrong/junk/copied answers (order 2026-06-19): reward only on a correct answer.
+      try{ if(window.playSound) playSound('wrong'); }catch(e){}
+      try{ if(window.doudouReact) doudouReact(false); }catch(e){}
+      applyCapAndHints(qid, capCount, isTest, ta);
+    }
+  }
+
+  // ── PEDAGOGY_CAP + progressive hints (PLAYBOOK v8.1 PART 7.0, locked numbers) ──
+  // Hint rhythm by level (count = number of WRONG submits so far):
+  //   L1: 1→purple+HINT1 ; cap 2→reveal
+  //   L2: 1→purple ; 2→HINT1 ; cap 3→reveal
+  //   L3: 1→purple ; 2→HINT1 ; 3→HINT2 ; cap 4→reveal
+  //   TEST screen: NO purple/hints, but the same cap still auto-reveals + hides submit.
+  function applyCapAndHints(qid, count, isTest, ta){
+    var lvl=levelStr(), cap=capForLevel();
+    if(!isTest){
+      if(count===1){ showPurple(qid); if(lvl==='1') showHint(qid,1); }
+      else if(count===2){ if(lvl==='2'||lvl==='3') showHint(qid,1); }
+      else if(count===3 && lvl==='3'){ showHint(qid,2); }
+    }
+    if(count>=cap){
+      // At cap: auto-reveal the answer, hide submit, disable textarea, hide manual hint.
+      var ansEl=document.getElementById('ans_'+qid+'_0'); if(ansEl) ansEl.style.display='block';
+      var sub=document.getElementById(qid+'-submit'); if(sub) sub.style.display='none';
+      if(ta) ta.disabled=true;
+      var hb=document.getElementById(qid+'-hint-btn'); if(hb) hb.style.display='none';
+    }
+  }
+
+  function showProgressSummary(){
+    var attempted=0, correctCount=0, total=0;
+    QIDS.forEach(function(qid){
+      var t; try{ t=JSON.parse(localStorage.getItem('scispark_progress_'+qid)||'{"attempts":[]}'); }catch(e){ return; }
+      if(t.attempts && t.attempts.length){ attempted++; total+=t.attempts.length; if(t.attempts.some(function(a){return a.correct;})) correctCount++; }
+    });
+    var set=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+    set('prog-attempted',attempted); set('prog-correct',correctCount);
+    set('prog-avg-attempts', attempted? (total/attempted).toFixed(1):'0');
+    set('prog-level', document.body.getAttribute('data-user-level')||'2');
+    var rec=document.getElementById('prog-recommendation');
+    if(rec){
+      var en,zh;
+      if(attempted===0){ en='Answer the questions on the Try and Test screens to see your results here.'; zh='回 Try 和 Test 答题,这里就会显示你的表现。'; }
+      else if(correctCount===attempted){ en='Excellent — '+correctCount+'/'+attempted+' correct on first look. Keep it up!'; zh='很棒 — '+correctCount+'/'+attempted+' 全对。继续保持!'; }
+      else if(correctCount/attempted>=0.6){ en='Solid work — '+correctCount+'/'+attempted+' correct. Review the ones you missed.'; zh='不错 — '+correctCount+'/'+attempted+' 答对。复习一下答错的。'; }
+      else { en=correctCount+'/'+attempted+' correct. Re-read the Learn screen and try again — you can do this.'; zh=correctCount+'/'+attempted+' 答对。回 Learn 屏再看一遍,你可以的。'; }
+      rec.innerHTML = en + '<span class="zh"> '+zh+'</span>';
+    }
+  }
+
+  // ── Language toggle (prominent, works on mobile) ──
+  function l01SyncLang(){
+    var b=document.getElementById('l01-lang'); if(!b) return;
+    var isZh=document.body.classList.contains('zh-mode');
+    b.innerHTML = isZh ? 'EN' : '中文';
+    b.setAttribute('aria-label', isZh ? 'Switch to English' : '切换到中文');
+  }
+  function l01ToggleLang(){
+    var isZh=document.body.classList.contains('zh-mode');
+    try{ if(window.setLang) setLang(isZh ? 'en' : 'zh'); }catch(e){}
+    l01SyncLang();
+  }
+
+  // ── Textarea placeholders follow the language switch (attribute, not visible text) ──
+  function l01SyncPlaceholders(){
+    var zh=document.body.classList.contains('zh-mode');
+    document.querySelectorAll('[data-ph-en]').forEach(function(el){
+      var v = zh ? (el.getAttribute('data-ph-zh') || el.getAttribute('data-ph-en')) : el.getAttribute('data-ph-en');
+      if(v!=null) el.setAttribute('placeholder', v);
+    });
+  }
+
+  // ── Mute (mirror shell state on a big, tappable button) ──
+  function l01SyncMute(){
+    var b=document.getElementById('l01-mute'); if(!b) return;
+    var navm=document.getElementById('mute-toggle');
+    var muted = navm ? (navm.textContent.indexOf('🔇')>-1) : false;
+    b.classList.toggle('is-muted', muted);
+    b.innerHTML = muted ? '🔇 Sound off<span class="zh"> · 静音</span>' : '🔊 Sound on<span class="zh"> · 有声</span>';
+  }
+  function l01ToggleMute(){
+    try{ if(window.toggleMute) toggleMute(); }catch(e){}
+    l01SyncMute();
+  }
+
+  // ── Read-aloud: adjustable speed + per-word highlight (teleprompter) ──
+  function l01ReadDone(){
+    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.remove('is-on'); btn.innerHTML='🔊 Read aloud<span class="zh"> · 朗读</span>'; }
+    var cap=document.getElementById('l01-caption'); if(cap){ cap.style.display='none'; cap.innerHTML=''; }
+  }
+  function l01Read(){
+    if(!('speechSynthesis' in window)){ alert('Read-aloud is not supported in this browser. · 此浏览器不支持朗读。'); return; }
+    if(window.speechSynthesis.speaking || window.speechSynthesis.pending){ window.speechSynthesis.cancel(); l01ReadDone(); return; }
+    var scr=document.querySelector('.screen.active'); if(!scr) return;
+    var clone=scr.cloneNode(true);
+    clone.querySelectorAll('.zh, textarea, button, select, script, .answer-widget, [id$="-feedback"], [id$="-attempts"], [id^="ans_"]').forEach(function(e){ e.remove(); });
+    var text=(clone.innerText||clone.textContent||'').replace(/\s+/g,' ').trim();
+    if(!text) return;
+    // build word spans + char-start index for onboundary mapping
+    var words=text.split(' '), html='', idx=0, starts=[];
+    for(var i=0;i<words.length;i++){ starts.push(idx); html+='<span class="cw" id="cw'+i+'">'+words[i].replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span> '; idx+=words[i].length+1; }
+    var cap=document.getElementById('l01-caption'); cap.innerHTML=html; cap.style.display='block';
+    var rateSel=document.getElementById('l01-rate');
+    var _dflt=(window.SciSparkVoice && window.SciSparkVoice.getRate) ? window.SciSparkVoice.getRate() : 0.45;
+    var rate=rateSel ? (parseFloat(rateSel.value)||_dflt) : _dflt;
+    var u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=rate;
+    u.pitch=(window.SciSparkVoice && window.SciSparkVoice.PITCH_LONG) || 1.22;   // align to 豆豆 voice
+    u.onboundary=function(ev){
+      if(ev.name && ev.name!=='word') return;
+      var ci=ev.charIndex, wi=0;
+      for(var j=0;j<starts.length;j++){ if(starts[j]<=ci) wi=j; else break; }
+      var prev=cap.querySelector('.cw.on'); if(prev) prev.classList.remove('on');
+      var cur=document.getElementById('cw'+wi); if(cur){ cur.classList.add('on'); cur.scrollIntoView({block:'nearest',inline:'center'}); }
+    };
+    u.onend=l01ReadDone; u.onerror=l01ReadDone;
+    var btn=document.getElementById('l01-read'); if(btn){ btn.classList.add('is-on'); btn.innerHTML='⏸ Stop<span class="zh"> · 停止</span>'; }
+    window.speechSynthesis.cancel();
+    // Robust soft-voice speak: waits out the mobile getVoices() race so the
+    // soft 豆豆 voice actually plays (never the device-default male).
+    if (window.SciSparkVoice && window.SciSparkVoice.speak) window.SciSparkVoice.speak(u, 'en-US');
+    else window.speechSynthesis.speak(u);
+  }
+
+  // ── Bring EVERY Chinese run under the language switch (English mode hides all Chinese) ──
+  // Wraps CJK text (incl. Chinese punctuation) in <span class="zh"> so the existing
+  // EN/zh switch + CSS hides it in English mode. Skips controls + already-controlled nodes.
+  // Idempotent (skips inside .zh). Does NOT change any wording — display logic only.
+  var CJK_TEST=/[\u3400-\u9FFF\uF900-\uFAFF\u3000-\u303F\uFF00-\uFFEF]/;
+  var CJK_RUN=/[\s·•]*[\u3400-\u9FFF\uF900-\uFAFF\u3000-\u303F\uFF00-\uFFEF]+/g;
+  function l01WrapCJK(){
+    var SKIP_TAG='SCRIPT,STYLE,TEXTAREA,SELECT,OPTION,INPUT';
+    var SKIP_ANC='.zh,[data-zh],#l01-lang,#l01-tools,#l01-caption,.lang-toggle';
+    var tw=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode:function(n){
+      if(!n.nodeValue || !CJK_TEST.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+      var p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+      if(SKIP_TAG.indexOf(p.nodeName)>-1) return NodeFilter.FILTER_REJECT;
+      if(p.closest && p.closest(SKIP_ANC)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    var nodes=[],n; while(n=tw.nextNode()) nodes.push(n);
+    nodes.forEach(function(tn){
+      var par=tn.parentNode;
+      if(par && par.namespaceURI==='http://www.w3.org/2000/svg'){ if(par.classList) par.classList.add('zh'); return; }
+      var s=tn.nodeValue; CJK_RUN.lastIndex=0;
+      var frag=document.createDocumentFragment(), last=0, m, any=false;
+      while((m=CJK_RUN.exec(s))!==null){
+        any=true;
+        if(m.index>last) frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+        var sp=document.createElement('span'); sp.className='zh'; sp.textContent=m[0]; frag.appendChild(sp);
+        last=m.index+m[0].length;
+        if(CJK_RUN.lastIndex===m.index) CJK_RUN.lastIndex++;
+      }
+      if(!any) return;
+      if(last<s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+      if(tn.parentNode) tn.parentNode.replaceChild(frag, tn);
+    });
+    // hide whole list-items that are now purely Chinese (avoid empty bullets in EN mode)
+    document.querySelectorAll('.main-content li').forEach(function(el){
+      if(el.classList.contains('zh') || !el.querySelector('.zh')) return;
+      var hasOtherChild=Array.prototype.some.call(el.children,function(c){return !c.classList.contains('zh');});
+      if(hasOtherChild) return;
+      var rest=el.textContent;
+      el.querySelectorAll('.zh').forEach(function(z){ rest=rest.replace(z.textContent,''); });
+      if(/^[\s·•:：\/.,，、]*$/.test(rest)) el.classList.add('zh');
+    });
+  }
+
+  function init(){
+    // gate reveal buttons until submit / 2-tries
+    QIDS.forEach(function(qid){
+      // PEDAGOGY_CAP: manual "Show answer" button stays hidden — answer auto-reveals at cap.
+      var b=document.getElementById(qid+'-show-ans-btn'); if(b) b.style.display='none';
+      // TEST screen = no hints: hide the manual Hint button on any question inside #screen-test.
+      var ta0=document.getElementById(qid+'-input');
+      var hb=document.getElementById(qid+'-hint-btn');
+      if(hb && ta0 && ta0.closest && ta0.closest('#screen-test')) hb.style.display='none';
+      // restore prior attempts display + lock if already answered correctly (cap counter is session-fresh)
+      try{
+        var t=JSON.parse(localStorage.getItem('scispark_progress_'+qid)||'{"attempts":[]}');
+        if(t.attempts && t.attempts.length){
+          var ac=document.getElementById(qid+'-attempts'); if(ac) ac.textContent='Attempts: '+t.attempts.length;
+          if(t.attempts.some(function(a){return a.correct;})){
+            var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
+            if(hb) hb.style.display='none';
+          }
+        }
+      }catch(e){}
+    });
+    // run progress summary on WRAP; stop reading when leaving a screen
+    var orig=window.showScreen;
+    if(typeof orig==='function'){
+      window.showScreen=function(id){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} l01ReadDone(); orig(id); l01WrapCJK(); if(id==='wrap') showProgressSummary(); };
+    }
+    // keep my prominent toggle in sync when the nav EN/中文 buttons are used
+    var origSetLang=window.setLang;
+    if(typeof origSetLang==='function'){
+      window.setLang=function(m){ origSetLang(m); l01SyncLang(); l01SyncPlaceholders(); };
+    }
+    l01WrapCJK();
+    l01SyncLang(); l01SyncMute(); l01SyncPlaceholders();
+    if(document.querySelector('.screen.active#screen-wrap')) showProgressSummary();
+  }
+
+  window.submitAnswer=submitAnswer;
+  window.manualHint=manualHint;
+  window.showProgressSummary=showProgressSummary;
+  window.l01Read=l01Read;
+  window.l01ToggleLang=l01ToggleLang;
+  window.l01ToggleMute=l01ToggleMute;
+  if(document.readyState==='loading') window.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+<button id="l01-lang" onclick="l01ToggleLang()" aria-label="Toggle language">中文</button>
+<div id="l01-tools">
+  <button id="l01-read" onclick="l01Read()" aria-label="Read this screen aloud">🔊 Read aloud<span class="zh"> · 朗读</span></button>
+  <select id="l01-rate" aria-label="Reading speed">
+    <option value="0.6" selected>🐢 Slow</option>
+    <option value="0.85">Normal</option>
+    <option value="1.1">🐇 Fast</option>
+  </select>
+  <button id="l01-mute" onclick="l01ToggleMute()" aria-label="Mute or unmute sound">🔊 Sound on<span class="zh"> · 有声</span></button>
+</div>
+<div id="l01-caption" aria-live="polite"></div>
+</body>
+</html>
