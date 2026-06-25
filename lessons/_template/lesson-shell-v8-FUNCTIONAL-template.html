@@ -12,7 +12,8 @@
        "FILL ..." 占位,照着填中英文。
     ② 题目/标准答案/提示/纠错(中英)-- 两个地方要【对应】填,题号一致:
        (a) 屏里的 question-block:题目文字 + 标准答案框
-       (b) 文件底部 <script> 里的 SCHEMES / FB_RIGHT / FB_WRONG / QIDS
+       (b) 文件底部 <script> 里的 SCHEMES / FB_RIGHT / FB_WRONG / HINT1 / HINT2 / STEMS / QIDS
+       (HINT1=第一条提示;HINT2=更具体的第二条,只有 L3 难度会用到;两条都要填中英。)
     ③ 图片 -- 找「IMAGE SLOT 图片位」,换成 <img src="...">,或整块删掉。
     别忘了改课名信息:顶部 <title>、nav-meta、nav-badge、sidebar 单元名、
        <body data-lesson="?">。
@@ -33,8 +34,10 @@
     - 引擎里的函数(checkAnswer/submitAnswer/朗读/中英切换…)只改数据别改逻辑
 
   ★ 自带功能(原样保留,无需设置):
-    打字作答+提交 · 自动给分 · 右上中英切换 · 左下朗读条(慢/正常/快)+静音 ·
-    答错弹双语提示 -> 错2次出「看答案」钮 · TEST 屏考试模式(答错不弹提示) ·
+    打字作答+提交 · 严格给分(乱填/抄题=0) · 答错不奖励(只对了才给) ·
+    🎤 说出答案(语音输入) · 右上中英切换 · 左下朗读条(慢/正常/快·豆豆软声)+静音 ·
+    闯关提示系统(按等级:L1错2次/L2错3次/L3错4次 → 自动出答案+收起提交;紫色轻推+💡提示) ·
+    TEST 屏考试模式(不出提示,但到上限照样出答案) · 💡手动提示钮(点了不算一次) ·
     XP / DouDou 豆豆 / 进度总结 · 5 屏结构(HOOK/LEARN/TRY/TEST/WRAP)
 
   ★ 加题:复制一个 question-block,题号改成新号(Q03…),底部
@@ -253,7 +256,7 @@
 <div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">TRY &middot; FILL Lesson Title</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">FILL 课文标题中文</div></div>
 <div class="screen-header" style="margin-bottom:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;color:#EA580C;">TRY</div></div>
 <!-- ────── QUESTION Q01 (DEMO — 可直接试玩,做新课时换成真题) · 别动 id 接线 ────── -->
-<div class="question-block" style="background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;"><span style="background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px;">Q01</span><span style="background:#FFF0DB;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">STATE</span><span style="background:#EAFBFF;color:#3AAEC8;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">1 mark</span></div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.55;margin-bottom:4px;">DEMO 题 —— 有质量、又占空间的东西,我们叫它什么?(打字作答)</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#171413;line-height:1.5;margin-bottom:10px;">DEMO question — what do we call any stuff that has mass and takes up space? (type your answer)</div><div style="background:#FFFBE6;border:1px solid #FCEFB8;border-radius:8px;padding:8px 11px;margin-bottom:10px;"><span style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#C9A227;">&#127919; FILL · one short instruction, e.g. "One short sentence."</span> <span class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;color:#C2410C;">FILL · 一句作答提示,如「一句短答案。」</span></div><div class="answer-widget" style="margin:4px 0 12px;"><textarea id="Q01-input" placeholder="Type your answer here…" data-ph-en="Type your answer here…" data-ph-zh="在这里输入你的答案…" style="width:100%;min-height:62px;padding:10px 12px;border:1.5px solid #E8E2D8;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;background:#fff;box-sizing:border-box;"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;"><button id="Q01-submit" onclick="submitAnswer('Q01')" style="background:#EA580C;color:#fff;border:0;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;cursor:pointer;">Submit &middot; 提交</button><span id="Q01-attempts" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:11px;color:#9B8E7E;">Attempts: 0</span></div><div id="Q01-feedback" style="display:none;margin-top:10px;padding:10px 13px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;"></div></div><button id="Q01-show-ans-btn" data-gated="1" onclick="var x=document.getElementById('ans_Q01_0');x.style.display=x.style.display=='none'?'block':'none';" style="background:#2E7D32;color:#fff;border:0;border-radius:8px;padding:6px 14px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">&#9989; Answer &middot; &#31572;&#26696;</button><div id="ans_Q01_0" style="display:none;margin-top:10px;padding:11px 13px;background:#E8FFE8;border:1px solid #BFE6BF;border-radius:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:4px;">Expected answer &middot; &#26631;&#20934;&#31572;&#26696;</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#171413;">matter</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;margin-top:3px;">物质(matter)</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#2E7D32;margin-top:8px;">Accept &middot; &#21487;&#25910;&#65306;</div><ul style="margin:4px 0 0;padding-left:18px;"><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">matter</li><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">物质</li></ul></div></div>
+<div class="question-block" style="background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;"><span style="background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px;">Q01</span><span style="background:#FFF0DB;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">STATE</span><span style="background:#EAFBFF;color:#3AAEC8;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">1 mark</span></div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.55;margin-bottom:4px;">DEMO 题 —— 有质量、又占空间的东西,我们叫它什么?(打字作答)</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#171413;line-height:1.5;margin-bottom:10px;">DEMO question — what do we call any stuff that has mass and takes up space? (type your answer)</div><div style="background:#FFFBE6;border:1px solid #FCEFB8;border-radius:8px;padding:8px 11px;margin-bottom:10px;"><span style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#C9A227;">&#127919; FILL · one short instruction, e.g. "One short sentence."</span> <span class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;color:#C2410C;">FILL · 一句作答提示,如「一句短答案。」</span></div><div class="answer-widget" style="margin:4px 0 12px;"><textarea id="Q01-input" placeholder="Type your answer here…" data-ph-en="Type your answer here…" data-ph-zh="在这里输入你的答案…" style="width:100%;min-height:62px;padding:10px 12px;border:1.5px solid #E8E2D8;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;background:#fff;box-sizing:border-box;"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;"><button id="Q01-submit" onclick="submitAnswer('Q01')" style="background:#EA580C;color:#fff;border:0;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;cursor:pointer;">Submit &middot; 提交</button><span id="Q01-attempts" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:11px;color:#9B8E7E;">Attempts: 0</span></div><div id="Q01-feedback" style="display:none;margin-top:10px;padding:10px 13px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;"></div></div><div id="Q01-purple" class="cap-purple" style="display:none;"></div><div id="Q01-hint" class="cap-hint" style="display:none;"></div><div id="Q01-hint2" class="cap-hint" style="display:none;"></div><button id="Q01-hint-btn" type="button" class="cap-hint-btn" onclick="manualHint('Q01')">&#128161; Hint &middot; &#25552;&#31034;</button><button id="Q01-show-ans-btn" data-gated="1" onclick="var x=document.getElementById('ans_Q01_0');x.style.display=x.style.display=='none'?'block':'none';" style="background:#2E7D32;color:#fff;border:0;border-radius:8px;padding:6px 14px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">&#9989; Answer &middot; &#31572;&#26696;</button><div id="ans_Q01_0" style="display:none;margin-top:10px;padding:11px 13px;background:#E8FFE8;border:1px solid #BFE6BF;border-radius:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:4px;">Expected answer &middot; &#26631;&#20934;&#31572;&#26696;</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#171413;">matter</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;margin-top:3px;">物质(matter)</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#2E7D32;margin-top:8px;">Accept &middot; &#21487;&#25910;&#65306;</div><ul style="margin:4px 0 0;padding-left:18px;"><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">matter</li><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">物质</li></ul></div></div>
 <!-- 复制上面的 question-block 加更多 TRY 题:把 Q01 全改成新号(Q03…),并到底部 SCHEMES/FB_RIGHT/FB_WRONG/QIDS 各补一行 -->
 <div class="btn-row"><button class="btn btn--test" onclick="showScreen('test')">Test &rarr; &#27979;&#35797;</button></div>
 </section>
@@ -263,7 +266,7 @@
 <div style="background:#C00000;border-radius:14px;padding:18px 22px;margin:0 0 18px;"><div style="font-family:'Baloo 2','Inter',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1.18;">TEST &middot; FILL Lesson Title</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:17px;color:#FFFF00;margin-top:6px;">FILL 课文标题中文</div></div>
 <div style="display:inline-block;background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:12px;padding:4px 12px;border-radius:8px;margin-bottom:12px;">EXAM MODE &middot; NO HINTS &middot; &#32771;&#35797;&#27169;&#24335;</div>
 <!-- ────── QUESTION Q02 (DEMO — 可直接试玩,做新课时换成真题) · 别动 id 接线 ────── -->
-<div class="question-block" style="background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;"><span style="background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px;">Q02</span><span style="background:#FFF0DB;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">APPLY</span><span style="background:#EAFBFF;color:#3AAEC8;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">1 mark</span></div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.55;margin-bottom:4px;">DEMO 测试题 —— 物体里物质的「量」叫什么?(打字作答)</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#171413;line-height:1.5;margin-bottom:10px;">DEMO TEST question — what is the amount of matter in an object called? (type your answer)</div><div style="background:#FFFBE6;border:1px solid #FCEFB8;border-radius:8px;padding:8px 11px;margin-bottom:10px;"><span style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#C9A227;">&#127919; FILL · one short instruction, e.g. "One short sentence."</span> <span class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;color:#C2410C;">FILL · 一句作答提示,如「一句短答案。」</span></div><div class="answer-widget" style="margin:4px 0 12px;"><textarea id="Q02-input" placeholder="Type your answer here…" data-ph-en="Type your answer here…" data-ph-zh="在这里输入你的答案…" style="width:100%;min-height:62px;padding:10px 12px;border:1.5px solid #E8E2D8;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;background:#fff;box-sizing:border-box;"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;"><button id="Q02-submit" onclick="submitAnswer('Q02')" style="background:#EA580C;color:#fff;border:0;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;cursor:pointer;">Submit &middot; 提交</button><span id="Q02-attempts" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:11px;color:#9B8E7E;">Attempts: 0</span></div><div id="Q02-feedback" style="display:none;margin-top:10px;padding:10px 13px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;"></div></div><button id="Q02-show-ans-btn" data-gated="1" onclick="var x=document.getElementById('ans_Q02_0');x.style.display=x.style.display=='none'?'block':'none';" style="background:#2E7D32;color:#fff;border:0;border-radius:8px;padding:6px 14px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">&#9989; Answer &middot; &#31572;&#26696;</button><div id="ans_Q02_0" style="display:none;margin-top:10px;padding:11px 13px;background:#E8FFE8;border:1px solid #BFE6BF;border-radius:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:4px;">Expected answer &middot; &#26631;&#20934;&#31572;&#26696;</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#171413;">mass</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;margin-top:3px;">质量(mass)</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#2E7D32;margin-top:8px;">Accept &middot; &#21487;&#25910;&#65306;</div><ul style="margin:4px 0 0;padding-left:18px;"><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">mass</li><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">质量</li></ul></div></div>
+<div class="question-block" style="background:#fff;border:1.5px solid #E8E2D8;border-radius:14px;padding:16px 18px;margin:0 0 14px;"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;"><span style="background:#171413;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;padding:3px 11px;border-radius:7px;">Q02</span><span style="background:#FFF0DB;color:#D98A2B;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">APPLY</span><span style="background:#EAFBFF;color:#3AAEC8;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:3px 10px;border-radius:7px;">1 mark</span></div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:14px;color:#C2410C;line-height:1.55;margin-bottom:4px;">DEMO 测试题 —— 物体里物质的「量」叫什么?(打字作答)</div><div class="en" style="font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#171413;line-height:1.5;margin-bottom:10px;">DEMO TEST question — what is the amount of matter in an object called? (type your answer)</div><div style="background:#FFFBE6;border:1px solid #FCEFB8;border-radius:8px;padding:8px 11px;margin-bottom:10px;"><span style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#C9A227;">&#127919; FILL · one short instruction, e.g. "One short sentence."</span> <span class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12px;color:#C2410C;">FILL · 一句作答提示,如「一句短答案。」</span></div><div class="answer-widget" style="margin:4px 0 12px;"><textarea id="Q02-input" placeholder="Type your answer here…" data-ph-en="Type your answer here…" data-ph-zh="在这里输入你的答案…" style="width:100%;min-height:62px;padding:10px 12px;border:1.5px solid #E8E2D8;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;background:#fff;box-sizing:border-box;"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;"><button id="Q02-submit" onclick="submitAnswer('Q02')" style="background:#EA580C;color:#fff;border:0;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;cursor:pointer;">Submit &middot; 提交</button><span id="Q02-attempts" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:11px;color:#9B8E7E;">Attempts: 0</span></div><div id="Q02-feedback" style="display:none;margin-top:10px;padding:10px 13px;border-radius:10px;font-family:'Inter',sans-serif;font-size:13px;line-height:1.55;"></div></div><div id="Q02-purple" class="cap-purple" style="display:none;"></div><div id="Q02-hint" class="cap-hint" style="display:none;"></div><div id="Q02-hint2" class="cap-hint" style="display:none;"></div><button id="Q02-hint-btn" type="button" class="cap-hint-btn" onclick="manualHint('Q02')">&#128161; Hint &middot; &#25552;&#31034;</button><button id="Q02-show-ans-btn" data-gated="1" onclick="var x=document.getElementById('ans_Q02_0');x.style.display=x.style.display=='none'?'block':'none';" style="background:#2E7D32;color:#fff;border:0;border-radius:8px;padding:6px 14px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px;">&#9989; Answer &middot; &#31572;&#26696;</button><div id="ans_Q02_0" style="display:none;margin-top:10px;padding:11px 13px;background:#E8FFE8;border:1px solid #BFE6BF;border-radius:8px;"><div style="font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#2E7D32;margin-bottom:4px;">Expected answer &middot; &#26631;&#20934;&#31572;&#26696;</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#171413;">mass</div><div class="zh" style="font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:#C2410C;margin-top:3px;">质量(mass)</div><div style="font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:#2E7D32;margin-top:8px;">Accept &middot; &#21487;&#25910;&#65306;</div><ul style="margin:4px 0 0;padding-left:18px;"><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">mass</li><li style="margin:2px 0;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:#2E7D32;">质量</li></ul></div></div>
 <!-- TEST 屏:答错只标对错、不弹提示(引擎自动判断)。复制 question-block 加题,题号顺延 -->
 <div class="btn-row"><button class="btn btn--accent" onclick="showScreen('wrap')">Wrap &rarr; &#24635;&#32467;</button></div>
 </section>
@@ -417,6 +420,10 @@ body .main-content .en, body .main-content .zh { display: block !important; }
 .feedback-right { background:#E8F8EF; border-left:3px solid #1F9D55; color:#155A38; }
 .feedback-wrong { background:#FCEBEB; border-left:3px solid #A32D2D; color:#7A1F1F; }
 button[disabled] { opacity:.5; cursor:not-allowed; }
+/* PEDAGOGY_CAP 闯关提示系统:紫色轻推 + 黄色提示 + 提示钮 */
+.cap-purple { margin-top:10px; padding:9px 12px; border-radius:10px; background:#F3EAFE; border-left:3px solid #7C3AED; color:#5B21B6; font-family:'Inter',sans-serif; font-size:13px; line-height:1.5; }
+.cap-hint { margin-top:8px; padding:9px 12px; border-radius:10px; background:#FFF7E6; border-left:3px solid #E0A106; color:#7A5A05; font-family:'Inter',sans-serif; font-size:13px; line-height:1.5; }
+.cap-hint-btn { margin-top:8px; margin-right:6px; background:#fff; color:#7A5A05; border:1.5px solid #F0CE7A; border-radius:8px; padding:6px 12px; font-family:'Inter',sans-serif; font-weight:700; font-size:13px; cursor:pointer; }
 /* Keep the nav language toggle visible on mobile too (shell hides it < 640px) */
 .top-nav .lang-toggle { display:inline-flex !important; }
 /* Prominent always-visible language toggle (top-right) */
@@ -477,6 +484,40 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     "Q01":"demo question what do we call any stuff that has mass and takes up space type your answer",   /* DEMO */
     "Q02":"demo test question what is the amount of matter in an object called type your answer"          /* DEMO */
   };
+
+  /* ── 提示文字 HINT1 / HINT2(中英)· 闯关提示系统用 ──
+     HINT1 = 第一条提示;HINT2 = 更具体的第二条(只有 L3 难度会用到)。
+     做新课时每题都填。Q01/Q02 为示范。 */
+  var HINT1 = {
+    "Q01": { "en":"It starts with 'm'. Think: stuff you can weigh and that fills space.", "zh":"以「物」开头。想:能称重、又占地方的东西。" },   /* DEMO */
+    "Q02": { "en":"It also starts with 'm'. It is how MUCH matter is in the object.", "zh":"想:物体里「有多少」物质,那个量叫什么。" }              /* DEMO */
+  };
+  var HINT2 = {
+    "Q01": { "en":"The word is 'matter'. Type that.", "zh":"答案就是「物质 matter」。打这个词。" },   /* DEMO */
+    "Q02": { "en":"The word is 'mass'. Type that.", "zh":"答案就是「质量 mass」。打这个词。" }            /* DEMO */
+  };
+
+  /* ── 闯关上限 PEDAGOGY_CAP (锁死区 · PLAYBOOK v8.1 PART 7.0 · 2026-05-21) ──
+     按学生等级定「答错几次后自动出答案、收起提交钮」:L1=2 · L2=3 · L3=4。没选等级 = L2。 */
+  function levelStr(){ return document.body.getAttribute('data-user-level') || '2'; }
+  function capForLevel(){ return ({ '1':2, '2':3, '3':4 })[levelStr()] || 3; }
+  function showPurple(qid){
+    var el=document.getElementById(qid+'-purple'); if(!el) return;
+    el.style.display='block';
+    el.innerHTML='<strong>🤔 Have another think — you\'re close.</strong>'
+      +'<div class="zh" style="margin-top:3px;">🤔 再想一想,你很接近了。</div>';
+  }
+  function showHint(qid, which){
+    var id = (which===2) ? qid+'-hint2' : qid+'-hint';
+    var data = (which===2) ? (HINT2[qid]||{}) : (HINT1[qid]||{});
+    var el=document.getElementById(id); if(!el) return;
+    el.style.display='block';
+    var tag = (which===2) ? 'Hint 2' : 'Hint';
+    el.innerHTML='<strong>💡 '+tag+'</strong> '+(data.en||'')
+      +'<div class="zh" style="margin-top:3px;">💡 提示'+(which===2?' 2':'')+': '+(data.zh||'')+'</div>';
+  }
+  function manualHint(qid){ showHint(qid, 1); }   /* 手动点提示 ≠ 一次作答(不加计数) */
+
   function normalizeAns(s){ return (s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
   function tokenizeAns(s){ return normalizeAns(s).replace(/[^a-z0-9一-龥 ]/g,' ').split(' ').filter(function(w){return w.length>1;}); }
   // Junk-guard A: gibberish / keyboard mash / repeated chars
@@ -518,6 +559,7 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     return false;
   }
 
+  var WRONG = {};   // 本次会话每题答错计数(刷新归零,与 PEDAGOGY_CAP_v1 一致;localStorage 仍记录给 WRAP 总结用)
   function submitAnswer(qid){
     var ta = document.getElementById(qid+'-input');
     if(!ta) return;
@@ -541,24 +583,47 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
       fb.className='feedback-right';
       fb.innerHTML='<strong>✓ Correct!</strong> '+FB_RIGHT[qid].en+'<div class="zh" style="margin-top:4px;">✓ 正确!'+FB_RIGHT[qid].zh+'</div>';
       var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
-      var sa=document.getElementById(qid+'-show-ans-btn'); if(sa) sa.style.display='inline-block';
+      var hbC=document.getElementById(qid+'-hint-btn'); if(hbC) hbC.style.display='none';
       try{ if(window.awardXP) awardXP(20,'mcq'); }catch(e){}
       try{ if(window.SparkJar) window.SparkJar.add(20,'correct'); }catch(e){}
       try{ if(window.SparkStreak && window.SparkStreak.add) window.SparkStreak.add(); }catch(e){}
       try{ if(window.playSound) playSound('correct'); }catch(e){}
       try{ if(window.doudouReact) doudouReact(true); }catch(e){}
     } else {
+      var capCount=(WRONG[qid]=(WRONG[qid]||0)+1);   // session-fresh wrong count drives the cap + hints
       fb.className='feedback-wrong';
       if(isTest){
         // exam mode: mark wrong, no guiding hint
-        fb.innerHTML='<strong>✗ Not quite.</strong> <em>(tried '+count+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。<em>(已试 '+count+' 次)</em></div>';
+        fb.innerHTML='<strong>✗ Not quite.</strong> <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。<em>(已试 '+capCount+' 次)</em></div>';
       } else {
-        fb.innerHTML='<strong>✗ Not quite.</strong> '+FB_WRONG[qid].en+' <em>(tried '+count+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。'+FB_WRONG[qid].zh+'</div>';
+        fb.innerHTML='<strong>✗ Not quite.</strong> '+FB_WRONG[qid].en+' <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。'+FB_WRONG[qid].zh+'</div>';
       }
       // No effort/sparks for wrong/junk/copied answers (order 2026-06-19): reward only on a correct answer.
       try{ if(window.playSound) playSound('wrong'); }catch(e){}
       try{ if(window.doudouReact) doudouReact(false); }catch(e){}
-      if(count>=2){ var sa2=document.getElementById(qid+'-show-ans-btn'); if(sa2) sa2.style.display='inline-block'; }
+      applyCapAndHints(qid, capCount, isTest, ta);
+    }
+  }
+
+  // ── PEDAGOGY_CAP + progressive hints (PLAYBOOK v8.1 PART 7.0, locked numbers) ──
+  // Hint rhythm by level (count = number of WRONG submits so far):
+  //   L1: 1→purple+HINT1 ; cap 2→reveal
+  //   L2: 1→purple ; 2→HINT1 ; cap 3→reveal
+  //   L3: 1→purple ; 2→HINT1 ; 3→HINT2 ; cap 4→reveal
+  //   TEST screen: NO purple/hints, but the same cap still auto-reveals + hides submit.
+  function applyCapAndHints(qid, count, isTest, ta){
+    var lvl=levelStr(), cap=capForLevel();
+    if(!isTest){
+      if(count===1){ showPurple(qid); if(lvl==='1') showHint(qid,1); }
+      else if(count===2){ if(lvl==='2'||lvl==='3') showHint(qid,1); }
+      else if(count===3 && lvl==='3'){ showHint(qid,2); }
+    }
+    if(count>=cap){
+      // At cap: auto-reveal the answer, hide submit, disable textarea, hide manual hint.
+      var ansEl=document.getElementById('ans_'+qid+'_0'); if(ansEl) ansEl.style.display='block';
+      var sub=document.getElementById(qid+'-submit'); if(sub) sub.style.display='none';
+      if(ta) ta.disabled=true;
+      var hb=document.getElementById(qid+'-hint-btn'); if(hb) hb.style.display='none';
     }
   }
 
@@ -703,16 +768,21 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
   function init(){
     // gate reveal buttons until submit / 2-tries
     QIDS.forEach(function(qid){
+      // PEDAGOGY_CAP: manual "Show answer" button stays hidden — answer auto-reveals at cap.
       var b=document.getElementById(qid+'-show-ans-btn'); if(b) b.style.display='none';
-      // restore prior attempts
+      // TEST screen = no hints: hide the manual Hint button on any question inside #screen-test.
+      var ta0=document.getElementById(qid+'-input');
+      var hb=document.getElementById(qid+'-hint-btn');
+      if(hb && ta0 && ta0.closest && ta0.closest('#screen-test')) hb.style.display='none';
+      // restore prior attempts display + lock if already answered correctly (cap counter is session-fresh)
       try{
         var t=JSON.parse(localStorage.getItem('scispark_progress_'+qid)||'{"attempts":[]}');
         if(t.attempts && t.attempts.length){
           var ac=document.getElementById(qid+'-attempts'); if(ac) ac.textContent='Attempts: '+t.attempts.length;
           if(t.attempts.some(function(a){return a.correct;})){
             var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
-            if(b) b.style.display='inline-block';
-          } else if(t.attempts.length>=2){ if(b) b.style.display='inline-block'; }
+            if(hb) hb.style.display='none';
+          }
         }
       }catch(e){}
     });
@@ -732,6 +802,7 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
   }
 
   window.submitAnswer=submitAnswer;
+  window.manualHint=manualHint;
   window.showProgressSummary=showProgressSummary;
   window.l01Read=l01Read;
   window.l01ToggleLang=l01ToggleLang;
