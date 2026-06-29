@@ -417,6 +417,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
     Array.prototype.forEach.call(fields, function (field) {
       if (field._voiceWired) return;
       if (field.disabled || field.readOnly) return;
+      // ★ Skip HIDDEN helper textareas (2026-06-29): some questions keep a
+      // display:none merge box (e.g. Q*-input) that silently combines the two
+      // visible boxes (Q*-part1 / Q*-part2). That box has no UI, so a Speak
+      // button beside it is an orphan. The element's OWN computed display is
+      // 'none' only for these merge boxes — fields on an inactive SCREEN are
+      // hidden via an ancestor class, so they still report their own display
+      // and correctly keep their Speak button.
+      if (window.getComputedStyle(field).display === 'none') return;
       field._voiceWired = true;
 
       // Wrap the field so the mic controls sit directly beneath it
