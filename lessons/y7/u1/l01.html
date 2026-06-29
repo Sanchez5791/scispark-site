@@ -583,10 +583,11 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
         var t=JSON.parse(localStorage.getItem('scispark_progress_'+qid)||'{"attempts":[]}');
         if(t.attempts && t.attempts.length){
           var ac=document.getElementById(qid+'-attempts'); if(ac) ac.textContent='Attempts: '+t.attempts.length;
-          if(t.attempts.some(function(a){return a.correct;})){
-            var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
-            if(hb) hb.style.display='none';
-          }
+          // FIX 2026-06-30: do NOT permanently lock Submit on reload after a past
+          // correct answer — a previously-correct Q01 stayed greyed-out and could never
+          // be re-attempted. Keep Submit usable on load; the live disable-on-correct in
+          // submitAnswer still applies for the current session. (Lock policy: boss decides later.)
+          var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=false;
         }
       }catch(e){}
     });
