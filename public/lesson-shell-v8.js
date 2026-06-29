@@ -286,6 +286,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
   var voiceActive = null;          // in-flight session { rec, field, btn } or null
   var voiceStylesInjected = false;
 
+  // The lesson's BASE version is fixed by the file's <html lang> at load
+  // (l01.html = "en" English version, l01-zh.html = "zh" Chinese version).
+  // Captured ONCE here, BEFORE setLang can mutate documentElement.lang, so the
+  // EN/中 speaking-language switch shows ONLY on the Chinese version. The English
+  // version speaks English only — no 中 option, locked to en-GB.
+  var voicePageBaseLang =
+    (String(document.documentElement.lang || 'en').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en';
+
   function voiceLangCode() {
     // Follow current page language (kept in sync by setLang via body classes)
     var zh = document.body.classList.contains('lang-zh') ||
@@ -501,8 +509,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'voice-btn';
-      // PR#73: the chosen speaking language lives on the button (default = page language).
-      btn.dataset.voiceLang = voiceLangCode();
+      // Speaking language lives on the button. Chinese version → follows the UI
+      // (student can switch EN/中). English version → LOCKED to en-GB (no switch).
+      btn.dataset.voiceLang = (voicePageBaseLang === 'zh') ? voiceLangCode() : 'en-GB';
       // PR#73: professional SVG microphone icon (replaces the 🎤 emoji).
       btn.innerHTML =
         '<svg class="voice-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -518,27 +527,31 @@ Globals exposed (lesson HTML can call directly via onclick=):
         voiceStartFor(field, btn);
       });
 
-      // PR#73: EN / 中 speaking-language switch — student picks BEFORE recording.
+      // EN / 中 speaking-language switch — ONLY on the Chinese version (l01-zh).
+      // English version shows the mic alone (English-only); 学英文的不该看到讲中文选项.
       // EN → en-GB, 中 → zh-CN (so Chinese speech becomes Chinese text).
-      var langWrap = document.createElement('span');
-      langWrap.className = 'voice-lang';
-      langWrap.setAttribute('role', 'group');
-      langWrap.setAttribute('aria-label', zh ? '说话语言' : 'Speaking language');
-      [['en-GB', 'EN'], ['zh-CN', '中']].forEach(function (pair) {
-        var opt = document.createElement('button');
-        opt.type = 'button';
-        opt.className = 'voice-lang__opt' + (btn.dataset.voiceLang === pair[0] ? ' is-on' : '');
-        opt.setAttribute('data-lang', pair[0]);
-        opt.textContent = pair[1];
-        opt.addEventListener('click', function (e) {
-          e.preventDefault();
-          btn.dataset.voiceLang = pair[0];
-          btn.dataset.voiceManual = '1';   // student overrode → stop auto-following the UI language
-          var opts = langWrap.querySelectorAll('.voice-lang__opt');
-          Array.prototype.forEach.call(opts, function (o) { o.classList.toggle('is-on', o === opt); });
+      var langWrap = null;
+      if (voicePageBaseLang === 'zh') {
+        langWrap = document.createElement('span');
+        langWrap.className = 'voice-lang';
+        langWrap.setAttribute('role', 'group');
+        langWrap.setAttribute('aria-label', zh ? '说话语言' : 'Speaking language');
+        [['en-GB', 'EN'], ['zh-CN', '中']].forEach(function (pair) {
+          var opt = document.createElement('button');
+          opt.type = 'button';
+          opt.className = 'voice-lang__opt' + (btn.dataset.voiceLang === pair[0] ? ' is-on' : '');
+          opt.setAttribute('data-lang', pair[0]);
+          opt.textContent = pair[1];
+          opt.addEventListener('click', function (e) {
+            e.preventDefault();
+            btn.dataset.voiceLang = pair[0];
+            btn.dataset.voiceManual = '1';   // student overrode → stop auto-following the UI language
+            var opts = langWrap.querySelectorAll('.voice-lang__opt');
+            Array.prototype.forEach.call(opts, function (o) { o.classList.toggle('is-on', o === opt); });
+          });
+          langWrap.appendChild(opt);
         });
-        langWrap.appendChild(opt);
-      });
+      }
 
       // Bouncing waveform (hidden until listening) — 7 bars animate via CSS.
       var wave = document.createElement('span');
@@ -558,7 +571,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
       row.appendChild(btn);
       row.appendChild(wave);
       row.appendChild(status);
-      row.appendChild(langWrap);
+      if (langWrap) row.appendChild(langWrap);   // switch only exists on the Chinese version
       wrap.appendChild(row);
     });
   }
@@ -567,6 +580,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // EN↔中文, every box that the student has NOT manually overridden re-syncs its
   // speaking language (EN→en-GB, 中→zh-CN) and switch highlight. Called from setLang.
   function voiceSyncLang() {
+    // English version is locked to en-GB (no switch) — never resync its mics.
+    if (voicePageBaseLang !== 'zh') return;
     var live = voiceLangCode();
     var rows = document.querySelectorAll('.voice-row');
     Array.prototype.forEach.call(rows, function (row) {
