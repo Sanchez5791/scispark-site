@@ -1,0 +1,61 @@
+================================================================
+Cambridge 牌子扫描结果 · 全部 live HTML 课文
+日期: 2026-06-30 · 双手房用 S3_shell_leak_scanner.py 跑
+扫描对象: origin/main (真上线那份) lessons/ 下全部 HTML, 共 14 个文件
+================================================================
+
+一句话结论
+----------------------------------------------------------------
+  14 个 live HTML 课文里, 只有【1 个文件】命中 Cambridge 牌子。
+  而且那个是【备份档】, 不是真正的学生上课页。
+  真正的学生课 (L01 英/中、U6 八节、U3 L03) —— 全部干净, 0 牌子。
+
+
+命中的那 1 个文件 (要清干净)
+----------------------------------------------------------------
+  文件: lessons/y7/u1/_backup_l01_v4_self_contained.html  (L01 的旧备份档)
+  命中 6 处:
+    行1293:  <div class="source-note">Source: SciSpark practice question (Cambridge-style)</div>
+    行1327:  <div class="source-note">Source: SciSpark practice question (Cambridge-style)</div>
+    行1360:  <div class="source-note">Source: SciSpark practice question (Cambridge-style)</div>
+    行1398:  <div class="q-topic">Matter identification · Cambridge-style MCQ</div>
+    行1412:  <div class="source-note">Source: Adapted from Cambridge © UCLES, 2023 0097/01 Q1</div>
+    行1452:  <div class="source-note">Source: SciSpark assessment question (Cambridge-style)</div>
+  (注: 行1412 那条最重 —— "Cambridge © UCLES, 2023 0097/01" 是直接印考试局来源。
+   其余 5 条是 "Cambridge-style" 字样, 也算牌子, 要全删。)
+
+
+全部 14 个文件结果一览
+----------------------------------------------------------------
+  ❌ 命中 Cambridge (1 个):
+     · lessons/y7/u1/_backup_l01_v4_self_contained.html   —— 6 处 (备份档)
+
+  ✅ 干净, 没牌子 (13 个):
+     · lessons/y7/u1/l01.html            (L01 英文 · 真学生课)
+     · lessons/y7/u1/l01-zh.html         (L01 中文 · 真学生课)
+     · lessons/y7/u1/l01-v3-test.html    (测试档)
+     · lessons/y7/u3/l03.html
+     · lessons/y7/u6/index.html
+     · lessons/y7/u6/l01.html ~ l07.html (U6 八节)
+     · lessons/_fixtures/pqc-selftest.html (自测档)
+
+
+顺带一提 (双手房的观察, 不是命令)
+----------------------------------------------------------------
+  · 有 3 个档其实是【测试 / 备份 / 自测】档, 却也部署在线上、能用网址直接打开:
+      lessons/y7/u1/_backup_l01_v4_self_contained.html   (就是命中那个)
+      lessons/y7/u1/l01-v3-test.html
+      lessons/_fixtures/pqc-selftest.html
+  · 建议: 这 3 个从线上删掉 (备份/测试不该上线)。删了, Cambridge 那条也一并消失。
+  · ★ 双手房不自己删, 只提醒; 等老板点头。
+
+
+扫描器修了 2 个误判 (这次跑真课文时撞到, 顺手修好)
+----------------------------------------------------------------
+  1. 旧版会把 base64 图片码里碰巧夹着的 "CAIE" 当牌子 -> 已改「整词」配, 不再误抓。
+  2. 旧版会把 HTML/JS 里的空数组 [] 当「没填的空格」-> 已改不抓空 []。
+  修完重跑, 上面结果就是干净准确的。新版扫描器已一并交在本文件夹。
+
+================================================================
+完 · 双手房 · 2026-06-30
+================================================================
