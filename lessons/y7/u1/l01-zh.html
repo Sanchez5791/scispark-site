@@ -321,12 +321,35 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     var inStem=0; for(var k=0;k<w.length;k++){ if(stem.indexOf(w[k])>-1) inStem++; }
     return (inStem/w.length)>=0.7;
   }
+  // Junk-guard C: relevance gate (止血 2026-06-30). A LONG answer that is mostly
+  // off-topic is wrong even if it dragged in one keyword. SHORT answers are never
+  // blocked here, so real short answers ("8" / "yes" / "铁" / "有质量") still pass.
+  var REL_STOP={the:1,is:1,are:1,of:1,to:1,and:1,it:1,in:1,on:1,an:1,that:1,this:1,was:1,were:1,be:1,as:1,at:1,or:1,my:1,me:1,you:1,am:1,we:1,a:1,i:1,so:1,do:1};
+  function relevancePool(scheme, qid){
+    var parts=[];
+    if(scheme){ if(scheme.keywords) parts=parts.concat(scheme.keywords);
+      if(scheme.compound) scheme.compound.forEach(function(g){ parts=parts.concat(g); }); }
+    if(typeof STEMS!=='undefined' && STEMS[qid]) parts.push(STEMS[qid]);
+    return parts.join(' ').toLowerCase();
+  }
+  function isOffTopic(i, scheme, qid){
+    var pool=relevancePool(scheme, qid);
+    var en=(i.match(/[a-z]{2,}/g)||[]).filter(function(w){return !REL_STOP[w];});
+    var cjk=i.match(/[一-龥]/g)||[];
+    var total=en.length+cjk.length;
+    if(total<6) return false;                                        // short answers: never off-topic-rejected
+    var on=0;
+    en.forEach(function(w){ if(pool.indexOf(w)>-1) on++; });
+    cjk.forEach(function(c){ if(pool.indexOf(c)>-1) on++; });
+    return (on/total) < 0.34;                                        // long answer, <1/3 on-topic → off-topic
+  }
   function checkAnswer(input, scheme, qid){
     var i = normalizeAns(input);
     if(!i) return false;
     // STRICT GRADING (order 2026-06-18): junk / copied / vague answers score 0.
     if(looksGibberish(i)) return false;                              // gate 1: junk guard
     if(isQuestionCopy(i, qid)) return false;                         // gate 1: copied question
+    if(isOffTopic(i, scheme, qid)) return false;                     // gate 1b: off-topic ramble (止血 2026-06-30)
     if(scheme.reject && scheme.reject.some(function(k){return i.indexOf(k.toLowerCase())>-1;})) return false; // gate 2: must-not
     // gate 3: must-have keywords (original logic)
     if(scheme.mode==='any')  return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
