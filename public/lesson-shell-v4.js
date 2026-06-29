@@ -1675,3 +1675,103 @@ Globals exposed (lesson HTML can call directly via onclick=):
     boot();
   }
 })(); // end IIFE
+
+/* ============================================================
+ * DOUDOU FLOATING MENU (SHELL ONLY) · 双手房 2026-06-30
+ * 右下角一颗豆豆按钮 → 点开往上弹 4 个灰选项(空壳)。
+ * 来源: Hands_Room_FloatingMenu_Shell_Instruction_2026-06-30
+ * 红线: 不接后端、不接功能逻辑、不碰资料库。只留 id/hook。
+ * 自包含 IIFE,不依赖也不改动上面引擎任何函数。
+ * ============================================================ */
+(function doudouFloatingMenuShell() {
+  'use strict';
+
+  // 豆豆 v03 黄豆脸 (P01 idle) — 内嵌,不依赖 poses.js
+  var FACE_SVG =
+    '<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<ellipse cx="100" cy="115" rx="68" ry="80" fill="#F5F4F1" stroke="#E8E2D8" stroke-width="1.5"/>' +
+    '<ellipse cx="36" cy="135" rx="10" ry="20" fill="#F5F4F1" stroke="#E8E2D8" stroke-width="1.5"/>' +
+    '<ellipse cx="164" cy="135" rx="10" ry="20" fill="#F5F4F1" stroke="#E8E2D8" stroke-width="1.5"/>' +
+    '<circle cx="100" cy="95" r="22" fill="#EA580C"/>' +
+    '<rect x="97" y="92" width="6" height="6" fill="#F5F4F1"/>' +
+    '<text x="100" y="148" font-family="Fraunces, serif" font-size="13" font-weight="500" fill="#EA580C" text-anchor="middle">豆</text>' +
+    '<ellipse cx="82" cy="208" rx="14" ry="7" fill="#1A1A1A"/>' +
+    '<ellipse cx="118" cy="208" rx="14" ry="7" fill="#1A1A1A"/>' +
+    '</svg>';
+
+  // 4 个选项 = 空壳。留好 id,以后功能批准了直接往里塞。
+  var ITEMS = [
+    { id: 'menu-ask-doudou', icon: '💬', en: 'Ask DouDou',  zh: '问豆豆' },
+    { id: 'menu-teacher',    icon: '🙋', en: 'Ask Teacher', zh: '求助老师' },
+    { id: 'menu-curiosity',  icon: '🔍', en: 'Curiosity',   zh: '好奇窗' },
+    { id: 'menu-help',       icon: '🆘', en: 'Help',        zh: '求救' }
+  ];
+
+  function buildMenuItems() {
+    return ITEMS.map(function (it) {
+      return (
+        '<button type="button" class="doudou-menu-item" id="' + it.id + '" disabled aria-disabled="true">' +
+          '<span class="doudou-menu-icon">' + it.icon + '</span>' +
+          '<span class="doudou-menu-label">' + it.en +
+            ' <span class="doudou-menu-zh">' + it.zh + '</span>' +
+          '</span>' +
+        '</button>'
+      );
+    }).join('');
+  }
+
+  function mount() {
+    if (document.querySelector('.doudou-fab')) return; // 防重复
+
+    var fab = document.createElement('div');
+    fab.className = 'doudou-fab';
+    fab.innerHTML =
+      '<div class="doudou-fab-menu" id="doudou-fab-menu" role="menu" aria-hidden="true">' +
+        buildMenuItems() +
+      '</div>' +
+      '<button type="button" class="doudou-fab-btn" id="doudou-fab-btn" ' +
+        'aria-label="DouDou 菜单" aria-expanded="false" title="DouDou 豆豆">' +
+        FACE_SVG +
+      '</button>';
+    document.body.appendChild(fab);
+
+    var btn = fab.querySelector('#doudou-fab-btn');
+    var menu = fab.querySelector('#doudou-fab-menu');
+
+    function open() {
+      fab.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.setAttribute('aria-hidden', 'false');
+    }
+    function close() {
+      fab.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+    }
+    function toggle() {
+      if (fab.classList.contains('is-open')) { close(); } else { open(); }
+    }
+
+    // 点按钮 → 开/关
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggle();
+    });
+    // 点菜单里面 → 不收起(选项是壳,点了无事)
+    menu.addEventListener('click', function (e) { e.stopPropagation(); });
+    // 点外面任何地方 → 收起
+    document.addEventListener('click', function () {
+      if (fab.classList.contains('is-open')) close();
+    });
+    // 按 Esc → 收起
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && fab.classList.contains('is-open')) close();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mount);
+  } else {
+    mount();
+  }
+})(); // end DOUDOU FLOATING MENU shell

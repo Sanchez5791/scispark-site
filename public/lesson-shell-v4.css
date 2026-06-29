@@ -1660,3 +1660,100 @@ body.reduced-motion *,
   [data-dropzone] { min-height: 64px; }
 }
 /* end v4 WIDGET RUNTIME STYLES */
+
+/* ============================================================
+ * DOUDOU FLOATING MENU (SHELL ONLY) · 双手房 2026-06-30
+ * 右下角一颗豆豆悬浮按钮 → 点开往上弹 4 个灰选项(空壳,无功能)
+ * 来源指令: Hands_Room_FloatingMenu_Shell_Instruction_2026-06-30
+ * 全部 doudou- 前缀。不接后端、不接功能逻辑。
+ * ============================================================ */
+
+/* 旧的「豆豆教授」浮脸先藏起来(甲案),右下角只剩这一颗 */
+.prof-p { display: none !important; }
+
+.doudou-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+  font-family: var(--ff-body, "Geist", system-ui, sans-serif);
+}
+
+/* ── the one button ── */
+.doudou-fab-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent, #EA580C);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.32);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  padding: 0;
+  margin-left: auto;
+}
+.doudou-fab-btn:hover { transform: scale(1.06); }
+.doudou-fab-btn:active { transform: scale(0.97); }
+.doudou-fab-btn svg { width: 40px; height: 40px; display: block; pointer-events: none; }
+.doudou-fab.is-open .doudou-fab-btn { box-shadow: 0 6px 22px rgba(234, 88, 12, 0.45); }
+
+/* ── pop-up menu (above the button) ── */
+.doudou-fab-menu {
+  position: absolute;
+  right: 0;
+  bottom: 68px;
+  min-width: 200px;
+  background: var(--bg-warm, #FAF7F2);
+  border: 1.5px solid rgba(234, 88, 12, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.doudou-fab.is-open .doudou-fab-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── menu rows (4 disabled shells) ── */
+.doudou-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ink, #1A1A1A);
+}
+.doudou-menu-item .doudou-menu-icon { font-size: 18px; line-height: 1; width: 22px; text-align: center; }
+.doudou-menu-item .doudou-menu-zh { font-family: var(--ff-zh, "Noto Sans SC", sans-serif); }
+
+/* disabled state = greyed, not clickable */
+.doudou-menu-item[disabled],
+.doudou-menu-item:disabled {
+  color: #9AA0A6;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+.doudou-menu-item[disabled] .doudou-menu-icon { filter: grayscale(1); opacity: 0.6; }
+
+/* ── mobile ── */
+@media (max-width: 768px) {
+  .doudou-fab { right: 14px; bottom: 14px; }
+  .doudou-fab-btn { width: 48px; height: 48px; }
+  .doudou-fab-btn svg { width: 34px; height: 34px; }
+  .doudou-fab-menu { bottom: 60px; }
+}
+/* end DOUDOU FLOATING MENU */
