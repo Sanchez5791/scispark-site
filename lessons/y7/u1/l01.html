@@ -299,46 +299,9 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
   }
   function manualHint(qid){ showHint(qid, 1); }   /* 手动点提示 ≠ 一次作答(不加计数) */
 
-  function normalizeAns(s){ return (s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
-  function tokenizeAns(s){ return normalizeAns(s).replace(/[^a-z0-9一-龥 ]/g,' ').split(' ').filter(function(w){return w.length>1;}); }
-  // Junk-guard A: gibberish / keyboard mash / repeated chars
-  function looksGibberish(i){
-    if(/([a-z一-龥])\1{3,}/.test(i)) return true;            // 4+ identical chars in a row
-    var mash=['asdf','sdfg','dfgh','fghj','ghjk','hjkl','qwer','wert','erty','rtyu','tyui','yuio','uiop','zxcv','xcvb','cvbn','vbnm','poiu','lkjh','mnbv','qaz','wsx','edc'];
-    for(var m=0;m<mash.length;m++){ if(i.indexOf(mash[m])>-1) return true; }
-    var runs=i.match(/[a-z]{5,}/g)||[];                              // a long "word" with almost no vowels
-    for(var r=0;r<runs.length;r++){
-      var v=(runs[r].match(/[aeiou]/g)||[]).length;
-      if(v/runs[r].length < 0.20) return true;
-    }
-    return false;
-  }
-  // Junk-guard B: answer is mostly a copy of the question text
-  function isQuestionCopy(i, qid){
-    var stem=STEMS[qid]; if(!stem) return false;
-    var w=tokenizeAns(i);
-    if(w.length<10 || i.length<50) return false;                     // real answers are one short sentence
-    var inStem=0; for(var k=0;k<w.length;k++){ if(stem.indexOf(w[k])>-1) inStem++; }
-    return (inStem/w.length)>=0.7;
-  }
-  function checkAnswer(input, scheme, qid){
-    var i = normalizeAns(input);
-    if(!i) return false;
-    // STRICT GRADING (order 2026-06-18): junk / copied / vague answers score 0.
-    if(looksGibberish(i)) return false;                              // gate 1: junk guard
-    if(isQuestionCopy(i, qid)) return false;                         // gate 1: copied question
-    if(scheme.reject && scheme.reject.some(function(k){return i.indexOf(k.toLowerCase())>-1;})) return false; // gate 2: must-not
-    // gate 3: must-have keywords (original logic)
-    if(scheme.mode==='any')  return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
-    if(scheme.mode==='all')  return scheme.keywords.every(function(k){return i.indexOf(k.toLowerCase())>-1;});
-    if(scheme.mode==='compound') return scheme.compound.every(function(g){return g.some(function(k){return i.indexOf(k.toLowerCase())>-1;});});
-    if(scheme.mode==='yn'){
-      var w = i.replace(/[^a-z\u4e00-\u9fa5 ]/g,'').trim();
-      if(w==='no'||w.indexOf('no ')===0||i.indexOf('no,')===0||i.indexOf('no.')===0) return true;
-      return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
-    }
-    return false;
-  }
+  /* 判分整套已搬进引擎 (lesson-shell-v8.js → SciSpark.gradeText), 2026-06-30.
+     课文只留料 (SCHEMES/STEMS), 调引擎判分。止血/防乱答/防抄题/关键词全在引擎,
+     一处改、所有课自动跟上。判分逻辑与旧本地版逐字一致, 行为不变。 */
 
   var WRONG = {};   // 本次会话每题答错计数(刷新归零,与 PEDAGOGY_CAP_v1 一致;localStorage 仍记录给 WRAP 总结用)
   function submitAnswer(qid){
@@ -348,7 +311,7 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     var isTest = !!(ta.closest && ta.closest('#screen-test'));
     var input = (ta.value||'').trim();
     if(!input){ alert('Please type an answer first. · 请先输入答案。'); return; }
-    var correct = checkAnswer(input, SCHEMES[qid], qid);
+    var correct = (window.SciSpark && SciSpark.gradeText) ? SciSpark.gradeText(input, SCHEMES[qid], (typeof STEMS!=='undefined'?STEMS[qid]:'')) : false;
 
     // track attempts
     var key='scispark_progress_'+qid, track;
@@ -560,10 +523,11 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
         var t=JSON.parse(localStorage.getItem('scispark_progress_'+qid)||'{"attempts":[]}');
         if(t.attempts && t.attempts.length){
           var ac=document.getElementById(qid+'-attempts'); if(ac) ac.textContent='Attempts: '+t.attempts.length;
-          if(t.attempts.some(function(a){return a.correct;})){
-            var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
-            if(hb) hb.style.display='none';
-          }
+          // FIX 2026-06-30: do NOT permanently lock Submit on reload after a past
+          // correct answer — a previously-correct Q01 stayed greyed-out and could never
+          // be re-attempted. Keep Submit usable on load; the live disable-on-correct in
+          // submitAnswer still applies for the current session. (Lock policy: boss decides later.)
+          var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=false;
         }
       }catch(e){}
     });

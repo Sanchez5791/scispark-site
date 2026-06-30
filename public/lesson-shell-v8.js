@@ -286,6 +286,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
   var voiceActive = null;          // in-flight session { rec, field, btn } or null
   var voiceStylesInjected = false;
 
+  // The lesson's BASE version is fixed by the file's <html lang> at load
+  // (l01.html = "en" English version, l01-zh.html = "zh" Chinese version).
+  // Captured ONCE here, BEFORE setLang can mutate documentElement.lang, so the
+  // EN/中 speaking-language switch shows ONLY on the Chinese version. The English
+  // version speaks English only — no 中 option, locked to en-GB.
+  var voicePageBaseLang =
+    (String(document.documentElement.lang || 'en').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en';
+
   function voiceLangCode() {
     // Follow current page language (kept in sync by setLang via body classes)
     var zh = document.body.classList.contains('lang-zh') ||
@@ -299,28 +307,52 @@ Globals exposed (lesson HTML can call directly via onclick=):
     voiceStylesInjected = true;
     var css =
       '.voice-field-wrap{display:block;}' +
-      // Professional Speak control — visually matches the Submit button
-      // (solid #EA580C, radius 8px, weight 800, padding 8px 16px) + EN/中 segmented switch.
+      // Round professional mic button (ChatGPT/Claude-style): 44px circle, solid #EA580C.
+      // While listening it turns red + pulses, a bouncing waveform + "● Recording/录音中" appear.
       '.voice-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}' +
-      '.voice-btn{display:inline-flex;align-items:center;gap:7px;' +
-        'padding:8px 16px;border:0;border-radius:8px;background:#EA580C;' +
-        'color:#fff;font-family:inherit;font-size:13px;font-weight:800;line-height:1;cursor:pointer;' +
-        '-webkit-tap-highlight-color:transparent;box-shadow:0 1px 2px rgba(234,88,12,.25);' +
-        'transition:background .15s,box-shadow .15s,transform .05s;}' +
-      '.voice-btn:hover{background:#C2410C;box-shadow:0 3px 10px rgba(234,88,12,.32);}' +
+      '.voice-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;' +
+        'width:44px;height:44px;padding:0;border:0;border-radius:50%;background:#EA580C;' +
+        'color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;' +
+        'box-shadow:0 2px 6px rgba(234,88,12,.30);transition:background .15s,box-shadow .15s,transform .05s;}' +
+      '.voice-btn:hover{background:#C2410C;box-shadow:0 3px 12px rgba(234,88,12,.38);}' +
       '.voice-btn:active{transform:translateY(1px);}' +
-      '.voice-btn .voice-ic{width:16px;height:16px;flex:none;display:block;}' +
+      '.voice-btn .voice-ic{width:20px;height:20px;flex:none;display:block;}' +
+      // text label kept for screen readers but visually hidden (button is icon-only)
+      '.voice-btn .voice-lbl{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;' +
+        'clip:rect(0 0 0 0);white-space:nowrap;border:0;}' +
       '.voice-btn.listening{background:#DC2626;box-shadow:0 0 0 0 rgba(220,38,38,.45);' +
         'animation:voicePulse 1.15s ease-in-out infinite;}' +
       '.voice-btn[disabled]{opacity:.5;cursor:default;}' +
+      // bouncing waveform — only visible while listening
+      '.voice-wave{display:none;align-items:flex-end;gap:3px;height:22px;padding:0 2px;}' +
+      '.voice-wave.on{display:inline-flex;}' +
+      '.voice-wave span{width:3px;height:100%;background:#DC2626;border-radius:2px;' +
+        'transform-origin:center bottom;animation:voiceBar .9s ease-in-out infinite;}' +
+      '.voice-wave span:nth-child(1){animation-delay:0s;}' +
+      '.voice-wave span:nth-child(2){animation-delay:.12s;}' +
+      '.voice-wave span:nth-child(3){animation-delay:.24s;}' +
+      '.voice-wave span:nth-child(4){animation-delay:.36s;}' +
+      '.voice-wave span:nth-child(5){animation-delay:.48s;}' +
+      '.voice-wave span:nth-child(6){animation-delay:.30s;}' +
+      '.voice-wave span:nth-child(7){animation-delay:.18s;}' +
+      // "● Recording / 录音中" status — only visible while listening
+      '.voice-status{display:none;align-items:center;gap:6px;color:#DC2626;' +
+        'font-family:inherit;font-size:12px;font-weight:800;line-height:1;}' +
+      '.voice-status.on{display:inline-flex;}' +
+      '.voice-status .voice-dot{width:9px;height:9px;border-radius:50%;background:#DC2626;' +
+        'animation:voiceBlink 1s steps(2,start) infinite;}' +
       '.voice-lang{display:inline-flex;border:1.5px solid #F0D2BE;border-radius:8px;overflow:hidden;background:#fff;}' +
       '.voice-lang__opt{padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;line-height:1;' +
         'color:#B06A3A;background:transparent;border:0;cursor:pointer;transition:background .15s,color .15s;}' +
       '.voice-lang__opt.is-on{background:#EA580C;color:#fff;}' +
       '.voice-lang__opt:not(.is-on):hover{background:#FEF4EE;}' +
       '@keyframes voicePulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.45);}' +
-        '50%{box-shadow:0 0 0 7px rgba(220,38,38,0);}}' +
-      '@media (prefers-reduced-motion: reduce){.voice-btn.listening{animation:none;}}';
+        '50%{box-shadow:0 0 0 8px rgba(220,38,38,0);}}' +
+      '@keyframes voiceBar{0%,100%{transform:scaleY(.28);}50%{transform:scaleY(1);}}' +
+      '@keyframes voiceBlink{0%,49%{opacity:1;}50%,100%{opacity:.15;}}' +
+      '@media (max-width:768px){.voice-btn{width:48px;height:48px;}.voice-btn .voice-ic{width:22px;height:22px;}}' +
+      '@media (prefers-reduced-motion: reduce){.voice-btn.listening{animation:none;}' +
+        '.voice-wave span{animation:none;height:60%;}.voice-status .voice-dot{animation:none;}}';
     var style = document.createElement('style');
     style.id = 'voice-input-styles';
     style.textContent = css;
@@ -330,20 +362,33 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function voiceSetListening(btn, on) {
     if (!btn) return;
     btn.classList.toggle('listening', on);
+    var zh = voiceLangCode() === 'zh-CN';
+    // show/hide the bouncing waveform + "● Recording/录音中" status in the same row
+    var row = btn.closest ? btn.closest('.voice-row') : null;
+    if (row) {
+      var wave = row.querySelector('.voice-wave');
+      if (wave) wave.classList.toggle('on', on);
+      var status = row.querySelector('.voice-status');
+      if (status) {
+        status.classList.toggle('on', on);
+        var stxt = status.querySelector('.voice-status-txt');
+        if (stxt) stxt.textContent = zh ? '录音中' : 'Recording';
+      }
+    }
     var lbl = btn.querySelector('.voice-lbl');
     if (lbl) {
       // keep data-en/data-zh in sync so a mid-listen lang toggle stays correct
       if (on) { lbl.setAttribute('data-en', 'Listening…'); lbl.setAttribute('data-zh', '聆听中…'); }
       else    { lbl.setAttribute('data-en', 'Speak');      lbl.setAttribute('data-zh', '说出答案'); }
-      lbl.textContent = lbl.getAttribute(voiceLangCode() === 'zh-CN' ? 'data-zh' : 'data-en');
+      lbl.textContent = lbl.getAttribute(zh ? 'data-zh' : 'data-en');
     }
-    var zh = voiceLangCode() === 'zh-CN';
     btn.setAttribute('aria-label', on ? (zh ? '停止聆听' : 'Stop listening')
                                       : (zh ? '语音输入答案' : 'Voice input'));
   }
 
   function voiceStop() {
     if (voiceActive && voiceActive.rec) {
+      voiceActive.userStopped = true;   // student pressed stop → onend must NOT auto-restart
       try { voiceActive.rec.stop(); } catch (e) {}
     }
   }
@@ -361,41 +406,64 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // English mode → en-GB, Chinese mode → zh-CN, so Chinese speech becomes Chinese text.
     rec.lang = (btn && btn.dataset && btn.dataset.voiceLang) || voiceLangCode();
     rec.interimResults = true;
-    rec.continuous = false;
+    // ★ 2026-06-30: stay ON until the student presses stop (no auto-cutoff).
+    // continuous=true keeps one turn open; onend auto-restarts for browsers
+    // (iOS Safari) that ignore continuous and end after each utterance.
+    rec.continuous = true;
     rec.maxAlternatives = 1;
 
-    var baseValue = field.value || '';
-    var sep = (baseValue && !/\s$/.test(baseValue)) ? ' ' : '';
-    voiceActive = { rec: rec, field: field, btn: btn };
+    // session holds everything onend/onresult need, incl. userStopped flag
+    var session = { rec: rec, field: field, btn: btn, userStopped: false,
+                    baseValue: field.value || '' };
+    voiceActive = session;
 
     rec.onstart = function () { voiceSetListening(btn, true); };
 
     rec.onresult = function (ev) {
-      var finalTxt = '', interimTxt = '';
+      var interimTxt = '', finalAdded = '';
       for (var i = ev.resultIndex; i < ev.results.length; i++) {
         var r = ev.results[i];
-        if (r.isFinal) finalTxt += r[0].transcript;
+        if (r.isFinal) finalAdded += r[0].transcript;
         else interimTxt += r[0].transcript;
       }
-      // Rebuild from the original value each time so interim text replaces
-      // cleanly; final text appends. Student can still edit afterwards.
-      field.value = baseValue + sep + finalTxt + interimTxt;
+      // Commit finals into baseValue (survives across auto-restarts); interim
+      // text is appended transiently. Student can still edit afterwards.
+      if (finalAdded) {
+        var s1 = (session.baseValue && !/\s$/.test(session.baseValue)) ? ' ' : '';
+        session.baseValue = session.baseValue + s1 + finalAdded.replace(/^\s+/, '');
+      }
+      var s2 = (session.baseValue && interimTxt && !/\s$/.test(session.baseValue)) ? ' ' : '';
+      field.value = session.baseValue + (interimTxt ? s2 + interimTxt : '');
       // Notify existing listeners (auto-save / XP) exactly like typing does
       try { field.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
     };
 
-    rec.onerror = function () {
-      // 'not-allowed' / 'service-not-allowed' = mic permission denied.
-      // 'no-speech' / 'aborted' / network = nothing heard. In ALL cases just
-      // reset the button — never block the page, never lose the student's text.
-      voiceSetListening(btn, false);
-      if (voiceActive && voiceActive.btn === btn) voiceActive = null;
+    rec.onerror = function (ev) {
+      // Permission denied → fatal, stop for good (never silently re-open the mic).
+      // 'no-speech' / 'aborted' / 'network' → NOT fatal: let onend auto-restart
+      // so the mic keeps listening through pauses.
+      var err = ev && ev.error;
+      if (err === 'not-allowed' || err === 'service-not-allowed') {
+        session.userStopped = true;
+      }
     };
 
     rec.onend = function () {
-      voiceSetListening(btn, false);
-      if (voiceActive && voiceActive.btn === btn) voiceActive = null;
-      try { field.focus(); } catch (e) {}
+      // Student pressed stop (or a different mic took over) → finish cleanly.
+      if (session.userStopped || voiceActive !== session) {
+        voiceSetListening(btn, false);
+        if (voiceActive === session) voiceActive = null;
+        try { field.focus(); } catch (e) {}
+        return;
+      }
+      // Otherwise the browser ended the turn on its own → restart to keep
+      // listening (this is what makes "press once = stay on" work everywhere).
+      try {
+        rec.start();
+      } catch (e) {
+        voiceSetListening(btn, false);
+        if (voiceActive === session) voiceActive = null;
+      }
     };
 
     try {
@@ -441,8 +509,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'voice-btn';
-      // PR#73: the chosen speaking language lives on the button (default = page language).
-      btn.dataset.voiceLang = voiceLangCode();
+      // Speaking language lives on the button. Chinese version → follows the UI
+      // (student can switch EN/中). English version → LOCKED to en-GB (no switch).
+      btn.dataset.voiceLang = (voicePageBaseLang === 'zh') ? voiceLangCode() : 'en-GB';
       // PR#73: professional SVG microphone icon (replaces the 🎤 emoji).
       btn.innerHTML =
         '<svg class="voice-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -458,30 +527,51 @@ Globals exposed (lesson HTML can call directly via onclick=):
         voiceStartFor(field, btn);
       });
 
-      // PR#73: EN / 中 speaking-language switch — student picks BEFORE recording.
+      // EN / 中 speaking-language switch — ONLY on the Chinese version (l01-zh).
+      // English version shows the mic alone (English-only); 学英文的不该看到讲中文选项.
       // EN → en-GB, 中 → zh-CN (so Chinese speech becomes Chinese text).
-      var langWrap = document.createElement('span');
-      langWrap.className = 'voice-lang';
-      langWrap.setAttribute('role', 'group');
-      langWrap.setAttribute('aria-label', zh ? '说话语言' : 'Speaking language');
-      [['en-GB', 'EN'], ['zh-CN', '中']].forEach(function (pair) {
-        var opt = document.createElement('button');
-        opt.type = 'button';
-        opt.className = 'voice-lang__opt' + (btn.dataset.voiceLang === pair[0] ? ' is-on' : '');
-        opt.setAttribute('data-lang', pair[0]);
-        opt.textContent = pair[1];
-        opt.addEventListener('click', function (e) {
-          e.preventDefault();
-          btn.dataset.voiceLang = pair[0];
-          btn.dataset.voiceManual = '1';   // student overrode → stop auto-following the UI language
-          var opts = langWrap.querySelectorAll('.voice-lang__opt');
-          Array.prototype.forEach.call(opts, function (o) { o.classList.toggle('is-on', o === opt); });
+      var langWrap = null;
+      if (voicePageBaseLang === 'zh') {
+        langWrap = document.createElement('span');
+        langWrap.className = 'voice-lang';
+        langWrap.setAttribute('role', 'group');
+        langWrap.setAttribute('aria-label', zh ? '说话语言' : 'Speaking language');
+        [['en-GB', 'EN'], ['zh-CN', '中']].forEach(function (pair) {
+          var opt = document.createElement('button');
+          opt.type = 'button';
+          opt.className = 'voice-lang__opt' + (btn.dataset.voiceLang === pair[0] ? ' is-on' : '');
+          opt.setAttribute('data-lang', pair[0]);
+          opt.textContent = pair[1];
+          opt.addEventListener('click', function (e) {
+            e.preventDefault();
+            btn.dataset.voiceLang = pair[0];
+            btn.dataset.voiceManual = '1';   // student overrode → stop auto-following the UI language
+            var opts = langWrap.querySelectorAll('.voice-lang__opt');
+            Array.prototype.forEach.call(opts, function (o) { o.classList.toggle('is-on', o === opt); });
+          });
+          langWrap.appendChild(opt);
         });
-        langWrap.appendChild(opt);
-      });
+      }
+
+      // Bouncing waveform (hidden until listening) — 7 bars animate via CSS.
+      var wave = document.createElement('span');
+      wave.className = 'voice-wave';
+      wave.setAttribute('aria-hidden', 'true');
+      for (var bi = 0; bi < 7; bi++) wave.appendChild(document.createElement('span'));
+
+      // "● Recording / 录音中" status (hidden until listening) — child-visible record sign.
+      var status = document.createElement('span');
+      status.className = 'voice-status';
+      status.setAttribute('role', 'status');
+      var dot = document.createElement('span'); dot.className = 'voice-dot';
+      var stxt = document.createElement('span'); stxt.className = 'voice-status-txt';
+      stxt.textContent = zh ? '录音中' : 'Recording';
+      status.appendChild(dot); status.appendChild(stxt);
 
       row.appendChild(btn);
-      row.appendChild(langWrap);
+      row.appendChild(wave);
+      row.appendChild(status);
+      if (langWrap) row.appendChild(langWrap);   // switch only exists on the Chinese version
       wrap.appendChild(row);
     });
   }
@@ -490,6 +580,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // EN↔中文, every box that the student has NOT manually overridden re-syncs its
   // speaking language (EN→en-GB, 中→zh-CN) and switch highlight. Called from setLang.
   function voiceSyncLang() {
+    // English version is locked to en-GB (no switch) — never resync its mics.
+    if (voicePageBaseLang !== 'zh') return;
     var live = voiceLangCode();
     var rows = document.querySelectorAll('.voice-row');
     Array.prototype.forEach.call(rows, function (row) {
@@ -3321,3 +3413,195 @@ Globals exposed (lesson HTML can call directly via onclick=):
     boot();
   }
 })(); // end IIFE
+
+/* ============================================================
+ * DOUDOU FLOATING MENU (SHELL ONLY) · 双手房 2026-06-30
+ * 右下角一颗豆豆按钮 → 点开往上弹 4 个灰选项(空壳)。
+ * 来源: Hands_Room_v8_Buttons_L02_Template_2026-06-30
+ * 红线: 不接后端、不接功能逻辑、不碰资料库。只留 id/hook。
+ * 自包含 IIFE,不依赖也不改动上面引擎任何函数。样式自己注入。
+ * ============================================================ */
+(function doudouFloatingMenuShell() {
+  'use strict';
+
+  // 豆豆 v03 黄豆脸 (P01 idle) — 内嵌,不依赖 poses.js
+  var FACE_SVG =
+    '<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<ellipse cx="100" cy="115" rx="68" ry="80" fill="#F5F4F1" stroke="#E8E2D8" stroke-width="1.5"/>' +
+    '<ellipse cx="36" cy="135" rx="10" ry="20" fill="#F5F4F1" stroke="#E8E2D8" stroke-width="1.5"/>' +
+    '<ellipse cx="164" cy="135" rx="10" ry="20" fill="#F5F4F1" stroke="#E8E2D8" stroke-width="1.5"/>' +
+    '<circle cx="100" cy="95" r="22" fill="#EA580C"/>' +
+    '<rect x="97" y="92" width="6" height="6" fill="#F5F4F1"/>' +
+    '<text x="100" y="148" font-family="Fraunces, serif" font-size="13" font-weight="500" fill="#EA580C" text-anchor="middle">豆</text>' +
+    '<ellipse cx="82" cy="208" rx="14" ry="7" fill="#1A1A1A"/>' +
+    '<ellipse cx="118" cy="208" rx="14" ry="7" fill="#1A1A1A"/>' +
+    '</svg>';
+
+  // 4 个选项 = 空壳。留好 id,以后功能批准了直接往里塞。
+  var ITEMS = [
+    { id: 'menu-ask-doudou', icon: '💬', en: 'Ask DouDou',  zh: '问豆豆' },
+    { id: 'menu-teacher',    icon: '🙋', en: 'Ask Teacher', zh: '求助老师' },
+    { id: 'menu-curiosity',  icon: '🔍', en: 'Curiosity',   zh: '好奇窗' },
+    { id: 'menu-help',       icon: '🆘', en: 'Help',        zh: '求救' }
+  ];
+
+  function injectStyles() {
+    if (document.getElementById('doudou-fab-styles')) return;
+    var css =
+      // 旧的「豆豆教授」浮脸藏起来,右下角只剩这一颗
+      '.prof-p{display:none !important;}' +
+      '.doudou-fab{position:fixed;right:20px;bottom:20px;z-index:9999;' +
+        'font-family:"Geist",system-ui,sans-serif;}' +
+      '.doudou-fab-btn{width:56px;height:56px;border-radius:50%;background:#EA580C;border:0;' +
+        'cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;padding:0;' +
+        '-webkit-tap-highlight-color:transparent;box-shadow:0 4px 16px rgba(234,88,12,.32);' +
+        'transition:transform .18s ease,box-shadow .18s ease;}' +
+      '.doudou-fab-btn:hover{transform:scale(1.06);}' +
+      '.doudou-fab-btn:active{transform:scale(.97);}' +
+      '.doudou-fab-btn svg{width:40px;height:40px;display:block;pointer-events:none;}' +
+      '.doudou-fab.is-open .doudou-fab-btn{box-shadow:0 6px 22px rgba(234,88,12,.45);}' +
+      '.doudou-fab-menu{position:absolute;right:0;bottom:68px;min-width:200px;background:#FAF7F2;' +
+        'border:1.5px solid rgba(234,88,12,.18);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.12);' +
+        'padding:8px;display:none;opacity:0;transform:translateY(10px);' +
+        'transition:opacity .2s ease,transform .2s ease;}' +
+      '.doudou-fab.is-open .doudou-fab-menu{display:block;opacity:1;transform:translateY(0);}' +
+      '.doudou-menu-item{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border:0;' +
+        'background:transparent;border-radius:10px;text-align:left;font-size:14px;font-family:inherit;color:#1A1A1A;}' +
+      '.doudou-menu-item .doudou-menu-icon{font-size:18px;line-height:1;width:22px;text-align:center;}' +
+      '.doudou-menu-item .doudou-menu-zh{font-family:"Noto Sans SC",sans-serif;}' +
+      '.doudou-menu-item[disabled]{color:#9AA0A6;cursor:not-allowed;opacity:.65;}' +
+      '.doudou-menu-item[disabled] .doudou-menu-icon{filter:grayscale(1);opacity:.6;}' +
+      '@media (max-width:768px){.doudou-fab{right:14px;bottom:14px;}' +
+        '.doudou-fab-btn{width:48px;height:48px;}.doudou-fab-btn svg{width:34px;height:34px;}' +
+        '.doudou-fab-menu{bottom:60px;}}';
+    var style = document.createElement('style');
+    style.id = 'doudou-fab-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function buildMenuItems() {
+    return ITEMS.map(function (it) {
+      return (
+        '<button type="button" class="doudou-menu-item" id="' + it.id + '" disabled aria-disabled="true">' +
+          '<span class="doudou-menu-icon">' + it.icon + '</span>' +
+          '<span class="doudou-menu-label">' + it.en +
+            ' <span class="doudou-menu-zh">' + it.zh + '</span>' +
+          '</span>' +
+        '</button>'
+      );
+    }).join('');
+  }
+
+  function mount() {
+    if (document.querySelector('.doudou-fab')) return; // 防重复
+    injectStyles();
+
+    var fab = document.createElement('div');
+    fab.className = 'doudou-fab';
+    fab.innerHTML =
+      '<div class="doudou-fab-menu" id="doudou-fab-menu" role="menu" aria-hidden="true">' +
+        buildMenuItems() +
+      '</div>' +
+      '<button type="button" class="doudou-fab-btn" id="doudou-fab-btn" ' +
+        'aria-label="DouDou 菜单" aria-expanded="false" title="DouDou 豆豆">' +
+        FACE_SVG +
+      '</button>';
+    document.body.appendChild(fab);
+
+    var btn = fab.querySelector('#doudou-fab-btn');
+    var menu = fab.querySelector('#doudou-fab-menu');
+
+    function open()  { fab.classList.add('is-open');  btn.setAttribute('aria-expanded', 'true');  menu.setAttribute('aria-hidden', 'false'); }
+    function close() { fab.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-hidden', 'true'); }
+    function toggle(){ if (fab.classList.contains('is-open')) close(); else open(); }
+
+    btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+    menu.addEventListener('click', function (e) { e.stopPropagation(); });   // 选项是壳,点了无事
+    document.addEventListener('click', function () { if (fab.classList.contains('is-open')) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && fab.classList.contains('is-open')) close(); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mount);
+  } else {
+    mount();
+  }
+})(); // end DOUDOU FLOATING MENU shell
+
+/* ════════════ SHARED TEXT-ANSWER GRADER (止血 + strict grading) ════════════
+   Moved here from per-lesson HTML on 2026-06-30 so every lesson grades the SAME
+   way — change once, all lessons follow. Behaviour ported VERBATIM from Y7U1 L01
+   checkAnswer; grading MUST NOT change (junk → wrong, real → right).
+   Lessons keep their own data (料): SCHEMES[qid] + STEMS[qid], and call
+   SciSpark.gradeText(input, scheme, stem). Has its own scope, so its private
+   looksGibberish does not clash with the appeals-modal one above. */
+(function () {
+  function normalizeAns(s){ return (s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
+  function tokenizeAns(s){ return normalizeAns(s).replace(/[^a-z0-9一-龥 ]/g,' ').split(' ').filter(function(w){return w.length>1;}); }
+  // Junk-guard A: gibberish / keyboard mash / repeated chars
+  function looksGibberish(i){
+    if(/([a-z一-龥])\1{3,}/.test(i)) return true;            // 4+ identical chars in a row
+    var mash=['asdf','sdfg','dfgh','fghj','ghjk','hjkl','qwer','wert','erty','rtyu','tyui','yuio','uiop','zxcv','xcvb','cvbn','vbnm','poiu','lkjh','mnbv','qaz','wsx','edc'];
+    for(var m=0;m<mash.length;m++){ if(i.indexOf(mash[m])>-1) return true; }
+    var runs=i.match(/[a-z]{5,}/g)||[];                              // a long "word" with almost no vowels
+    for(var r=0;r<runs.length;r++){
+      var v=(runs[r].match(/[aeiou]/g)||[]).length;
+      if(v/runs[r].length < 0.20) return true;
+    }
+    return false;
+  }
+  // Junk-guard B: answer is mostly a copy of the question text
+  function isQuestionCopy(i, stem){
+    if(!stem) return false;
+    var w=tokenizeAns(i);
+    if(w.length<10 || i.length<50) return false;                     // real answers are one short sentence
+    var inStem=0; for(var k=0;k<w.length;k++){ if(stem.indexOf(w[k])>-1) inStem++; }
+    return (inStem/w.length)>=0.7;
+  }
+  // Junk-guard C: relevance gate (止血 2026-06-30). A LONG answer that is mostly
+  // off-topic is wrong even if it dragged in one keyword. SHORT answers are never
+  // blocked here, so real short answers ("8" / "yes" / "铁" / "有质量") still pass.
+  var REL_STOP={the:1,is:1,are:1,of:1,to:1,and:1,it:1,in:1,on:1,an:1,that:1,this:1,was:1,were:1,be:1,as:1,at:1,or:1,my:1,me:1,you:1,am:1,we:1,a:1,i:1,so:1,do:1};
+  function relevancePool(scheme, stem){
+    var parts=[];
+    if(scheme){ if(scheme.keywords) parts=parts.concat(scheme.keywords);
+      if(scheme.compound) scheme.compound.forEach(function(g){ parts=parts.concat(g); }); }
+    if(stem) parts.push(stem);
+    return parts.join(' ').toLowerCase();
+  }
+  function isOffTopic(i, scheme, stem){
+    var pool=relevancePool(scheme, stem);
+    var en=(i.match(/[a-z]{2,}/g)||[]).filter(function(w){return !REL_STOP[w];});
+    var cjk=i.match(/[一-龥]/g)||[];
+    var total=en.length+cjk.length;
+    if(total<6) return false;                                        // short answers: never off-topic-rejected
+    var on=0;
+    en.forEach(function(w){ if(pool.indexOf(w)>-1) on++; });
+    cjk.forEach(function(c){ if(pool.indexOf(c)>-1) on++; });
+    return (on/total) < 0.34;                                        // long answer, <1/3 on-topic → off-topic
+  }
+  // Orchestrator (was per-lesson checkAnswer). scheme = SCHEMES[qid], stem = STEMS[qid].
+  function gradeText(input, scheme, stem){
+    if(!scheme) return false;
+    var i = normalizeAns(input);
+    if(!i) return false;
+    // STRICT GRADING (order 2026-06-18): junk / copied / vague answers score 0.
+    if(looksGibberish(i)) return false;                              // gate 1: junk guard
+    if(isQuestionCopy(i, stem)) return false;                        // gate 1: copied question
+    if(isOffTopic(i, scheme, stem)) return false;                    // gate 1b: off-topic ramble (止血 2026-06-30)
+    if(scheme.reject && scheme.reject.some(function(k){return i.indexOf(k.toLowerCase())>-1;})) return false; // gate 2: must-not
+    // gate 3: must-have keywords (original logic)
+    if(scheme.mode==='any')  return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    if(scheme.mode==='all')  return scheme.keywords.every(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    if(scheme.mode==='compound') return scheme.compound.every(function(g){return g.some(function(k){return i.indexOf(k.toLowerCase())>-1;});});
+    if(scheme.mode==='yn'){
+      var w = i.replace(/[^a-z一-龥 ]/g,'').trim();
+      if(w==='no'||w.indexOf('no ')===0||i.indexOf('no,')===0||i.indexOf('no.')===0) return true;
+      return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    }
+    return false;
+  }
+  window.SciSpark = window.SciSpark || {};
+  window.SciSpark.gradeText = gradeText;
+})(); // end SHARED TEXT-ANSWER GRADER
