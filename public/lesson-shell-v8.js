@@ -4026,8 +4026,20 @@ Globals exposed (lesson HTML can call directly via onclick=):
   // ── 旁边小链接的动作 (随时可用, 不泄答案) ──
   // 再讲一次 = 把这题的「方向引导」(FB_WRONG, 只指方向不含答案) 再讲一遍, 明显有反应。
   // 引擎里没有专门的「再讲教学」长内容 → 不乱补, 沿用方向引导 (军师可后续加内容)。
+  // 求救系统 Phase1: 每题限 EXPLAIN_CAP 次、缓存同一份 (不重新生成, 防变相聊天口);
+  // 超过 → 不再重讲, 温和导去「请老师复核」(不泄答案)。
+  var EXPLAIN_CAP = 2;
   function explainAgain(qid) {
-    var w = st(qid).lastWrong;
+    var s = st(qid);
+    s.explainCount = (s.explainCount || 0) + 1;
+    if (s.explainCount > EXPLAIN_CAP) {
+      setMsg(qid, '<strong>🔁 ' + bi('Still stuck?', '还是卡住?') + '</strong> ' +
+        bi('You’ve looked again twice — tap “Ask teacher” and a teacher will review it.',
+           '已经再看两次啦 —— 点「问老师」,老师会帮你复核。'));
+      relang();
+      return;
+    }
+    var w = s.lastWrong;                                  // 缓存同一份方向引导, 不重新生成
     var enTxt = (w && w.en) ? w.en : REREAD.en;
     var zhTxt = (w && w.zh) ? w.zh : REREAD.zh;
     setMsg(qid, '<strong>🔁 ' + bi('Let’s look at this again', '我们再看一次这题') + '</strong> ' + bi(enTxt, zhTxt));
