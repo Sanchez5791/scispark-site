@@ -2411,7 +2411,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
           model_answer: info.modelAnswer || null,
           student_reason_code: code,
           student_reason: txt,
-          status: 'submitted'
+          status: 'submitted',
+          trigger_type: 'STUDENT_APPEAL'   // 求救Phase1 刀2: 学生申诉; 红A/红B/危机由后续刀写, is_crisis/expires_at 走默认
         };
         var res = await sb.from('review_requests').insert(payload).select().single();
         if (res.error) { console.warn('[Review] insert failed:', res.error.message); return null; }
