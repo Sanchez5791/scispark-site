@@ -96,6 +96,8 @@
   <div id="gate" class="gate" style="display:none">
     <h2>复核清单 · Review Console</h2>
     <p>仅老师账号可进入 · Teacher accounts only</p>
+    <button id="g-google" class="btn" style="width:100%;margin-bottom:12px">用 Google 登录 · Continue with Google</button>
+    <div style="font-size:11px;color:var(--ink-3);margin:0 0 12px">— 或用邮箱+密码 · or email + password —</div>
     <input id="g-email" type="email" placeholder="Email" autocomplete="username" />
     <input id="g-pw" type="password" placeholder="Password" autocomplete="current-password" />
     <button id="g-login" class="btn btn--primary">登录 · Log in</button>
@@ -207,6 +209,12 @@
     this.disabled = false;
     if(r.error){ $('#g-err').textContent = '登录失败:' + r.error.message; return; }
     boot();
+  });
+  // 老师平时用 Google 登录 (跟 signin.html 一样)。预览后台补上这颗钮 → 不用密码。
+  $('#g-google').addEventListener('click', async function(){
+    $('#g-err').textContent='';
+    var r = await sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: location.origin + location.pathname } });
+    if(r && r.error){ $('#g-err').textContent = 'Google 登录失败:' + r.error.message; }
   });
   $('#logout').addEventListener('click', async function(){ await sb.auth.signOut(); location.reload(); });
 
