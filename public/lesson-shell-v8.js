@@ -2492,10 +2492,45 @@ Globals exposed (lesson HTML can call directly via onclick=):
         openModal(infoForQid(qid), slot || null);
       } catch (e) {}
     }
+    // ════ 求救系统 Phase1 刀3: 系统红色写记录 + 通知 hook (复用本模块的 Supabase/快照) ════
+    // 红色永不自动记0; 这里只「写一条 review_requests + 留通知 hook」, 冻结由引擎前端做。
+    async function insertSystemRed(qid, triggerType, extra) {
+      try {
+        var sb = await ensureSupabase();
+        var user = await currentUser(sb);
+        if (!user) return null;                               // 没登录 → 静默 (前端冻结已照做)
+        if (appealsByQ[qid]) return appealsByQ[qid];          // 这题已有记录 → 不重复写
+        var info = infoForQid(qid);
+        var payload = {
+          student_id: user.id,
+          lesson_path: lessonPath(), lesson_label: lessonLabel(),
+          question_id: qid, question_stem: info.questionStem || null,
+          student_answer: info.studentAnswer || null,
+          ai_verdict: null, ai_score: null, ai_max: info.aiMax,
+          ai_reason: (extra && extra.aiReason) || info.aiReason || null,
+          model_answer: info.modelAnswer || null,
+          student_reason_code: 'system',                      // 系统占位 (非学生填); 控制台靠 trigger_type 显示
+          student_reason: '[系统自动冻结·待老师复核] ' + ((extra && extra.reason) || triggerType),
+          status: 'submitted',                                // RLS 要求 insert 时 submitted = 进队列待真人
+          trigger_type: triggerType,                          // SYSTEM_RED_A / SYSTEM_RED_B
+          is_crisis: false
+        };
+        var res = await sb.from('review_requests').insert(payload).select().single();
+        if (res.error) { console.warn('[Rescue] insert failed:', res.error.message); return null; }
+        appealsByQ[qid] = res.data;
+        try { notifyOwnerRescue(res.data); } catch (e) {}
+        return res.data;
+      } catch (e) { console.warn('[Rescue] insert error', e && e.message); return null; }
+    }
+    // 通知 hook — ★刀5★ 在这里接 Telegram Bot / 飞书 Webhook (按老板时区静音, 红A可破静音,
+    // 同题多人合并1条)。现在只留 hook + log, ★不发任何通知★ (刀3 不接 Telegram)。
+    function notifyOwnerRescue(record) {
+      try { console.info('[Rescue] notifyOwnerRescue stub (刀5 will send):', record && record.trigger_type, record && record.question_id); } catch (e) {}
+    }
     window.SciSpark = window.SciSpark || {};
-    window.SciSpark.review = { open: openFor };
+    window.SciSpark.review = { open: openFor, recordSystemRed: insertSystemRed, notifyOwner: notifyOwnerRescue };
 
-    return { init: init, open: openFor };
+    return { init: init, open: openFor, recordSystemRed: insertSystemRed };
   })();
 
   // ═════════════════════════════════════════════════════════════
@@ -3816,7 +3851,14 @@ Globals exposed (lesson HTML can call directly via onclick=):
     return false;
   }
   window.SciSpark = window.SciSpark || {};
-  window.SciSpark.gradeText = gradeText;
+  // 🔴A "现在做"半 (刀3 §4): 防判分万一抛错把课弄挂 → 安全回 false + 记错供排查。
+  // 判分签名只有 input/scheme/stem (无 qid), 真正「冻结题」由调用层/未来 GLM 适配层调
+  // SciSpark.rescue.redA(qid, err) 做 (见 FEEDBACK-ZONE CONTROLLER v3)。现规则判分不会抛。
+  var _rawGradeText = gradeText;
+  window.SciSpark.gradeText = function (input, scheme, stem) {
+    try { return _rawGradeText(input, scheme, stem); }
+    catch (e) { try { console.warn('[Rescue] gradeText threw (🔴A hook):', e && e.message); } catch (_) {} window.SciSpark._lastGradeError = e; return false; }
+  };
   window.SciSpark.isJunkAnswer = isJunkAnswer;
 })(); // end SHARED TEXT-ANSWER GRADER
 
@@ -4107,9 +4149,62 @@ Globals exposed (lesson HTML can call directly via onclick=):
     relang();
   }
 
+  // ════ 求救系统 Phase1 · 刀3 红色 (冻结 + 豆豆安抚 + 写记录 + 通知hook; ★永不自动记0★) ════
+  // 红色优先级高于一切 (高于乱码判0/对错): 命中 → 只冻结+等真人, 绝不记0。中文不当乱码 (沿用 CJK)。
+  var RED_COMFORT = {
+    A: { en: 'DouDou hit a snag checking this one. 🫧 It’s frozen for now — a teacher will look and sort it out. Nothing counts against you.',
+         zh: '豆豆在看这题时卡了一下。🫧 这题先冻起来,老师会来看、帮你处理。不会算你错。' },
+    B: { en: 'This one needs a teacher’s eye. 🫧 It’s paused for review — nothing counts against you.',
+         zh: '这题豆豆想请老师看一眼。🫧 先暂停、等老师复核 —— 不会算你错。' }
+  };
+  var LONG_PASTE = 600;                                            // 答案超过这么多字 = 超长贴 → 🔴B
+  function normForRed(s) { return (s || '').toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9一-龥]/g, ''); }
+  function isFrozen(qid) { return !!st(qid)._frozen; }
+  function freezeQuestion(qid, kind) {                             // 冻结题 + 豆豆安抚 (蓝调暖语, 不吓人), 永不记0
+    var s = st(qid); if (s._frozen) return; s._frozen = true;
+    var input = el(qid + '-input'), submit = el(qid + '-submit');
+    if (input)  input.disabled = true;
+    if (submit) submit.disabled = true;
+    var bar = el(qid + '-fbv3'); if (bar) bar.style.display = 'none';   // 红色优先, 收掉圆圈陪伴条
+    var fb = el(qid + '-feedback');
+    if (fb) {
+      fb.className = 'fbv3-frozen';
+      fb.style.cssText = 'display:block;margin-top:10px;padding:11px 14px;border-radius:12px;background:#EAF1FB;border:1px solid #C7DBF5;color:#23324a;font-size:13px;line-height:1.55;font-family:Geist,system-ui,sans-serif;';
+      var c = RED_COMFORT[kind] || RED_COMFORT.B;
+      fb.innerHTML = '<span style="font-size:16px;">🧊</span> ' + bi(c.en, c.zh);
+    }
+    relang();
+  }
+  function redA(qid, info) { freezeQuestion(qid, 'A'); try { if (window.SciSpark && SciSpark.review && SciSpark.review.recordSystemRed) SciSpark.review.recordSystemRed(qid, 'SYSTEM_RED_A', info || {}); } catch (e) {} }
+  function redB(qid, info) { freezeQuestion(qid, 'B'); try { if (window.SciSpark && SciSpark.review && SciSpark.review.recordSystemRed) SciSpark.review.recordSystemRed(qid, 'SYSTEM_RED_B', info || {}); } catch (e) {} }
+  // 🔴B 侦测 (疑似作弊, 纯文本规则, 不靠判分信心): 超长贴 / 几乎一字不差抄标准答案块
+  function checkRedB(qid) {
+    var input = el(qid + '-input'); if (!input) return null;
+    var raw = (input.value || '').trim(); if (!raw) return null;
+    if (raw.length > LONG_PASTE) return 'overlong';
+    var ni = normForRed(raw);
+    if (ni.length >= 20) {                                         // 太短不判, 防误伤短答
+      var ansEl = el('ans_' + qid + '_0');
+      if (ansEl) { var na = normForRed(ansEl.textContent || ''); if (na.length >= 20 && na.indexOf(ni) > -1) return 'verbatim'; }
+    }
+    return null;
+  }
+
   // 课文判分后调这个。opts = { correct, isJunk, isTest, hasHint, right:{en,zh}, wrong:{en,zh} }
   function handle(qid, opts) {
     injectCSS();
+    if (isFrozen(qid)) return { faint: false, red: true };                     // 已冻结 → 不再处理
+    var raw = ((el(qid + '-input') || {}).value || '').trim();
+    var redKind = (raw === '##red-a##') ? 'simA' : checkRedB(qid);             // ##red-a## = §8 模拟 🔴A (测冻结+安抚+记录)
+    if (redKind) {                                                             // 🔴红色优先, 绕过对错/乱码, 永不记0
+      setBusy(qid, true); showThinking(qid);
+      setTimeout(function () {
+        setBusy(qid, false);
+        if (redKind === 'simA') redA(qid, { reason: 'sim-grading-error' });
+        else redB(qid, { reason: redKind });
+      }, THINK_MS);
+      return { faint: false, red: true };
+    }
     var s = st(qid);
     var plan = decide(s, { correct: !!opts.correct, isJunk: !!opts.isJunk });  // 同步算好, faint 同步返回给课文奖励逻辑
     setBusy(qid, true);                                                        // 0.7 秒内输入框 + 提交钮灰着不可按 (防狂点)
@@ -4136,4 +4231,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
 
   window.SciSpark = window.SciSpark || {};
   window.SciSpark.fb = { handle: handle, decide: decide, init: initHide, _state: ST };
+  // 求救Phase1 刀3: 红色接口。未来 GLM 适配层判分崩/超时 → 调 SciSpark.rescue.redA(qid, err)。
+  window.SciSpark.rescue = { redA: redA, redB: redB, freeze: freezeQuestion, isFrozen: isFrozen };
 })(); // end FEEDBACK-ZONE CONTROLLER v3

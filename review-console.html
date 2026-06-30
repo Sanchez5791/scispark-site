@@ -248,6 +248,8 @@
     card.innerHTML =
       '<div class="card__head">' +
         '<span class="tag tag--q">'+esc(row.question_id)+'</span>' +
+        (row.trigger_type && row.trigger_type!=='STUDENT_APPEAL'
+          ? '<span class="tag" style="background:#FEE2E2;color:#B91C1C">'+redLabel(row.trigger_type)+'</span>' : '') +
         '<div class="card__sum">' +
           '<div class="card__lesson">'+esc(row.lesson_label || row.lesson_path)+'</div>' +
           '<div class="card__meta">'+fmtTime(row.created_at)+' · '+esc(REASON_LABELS[row.student_reason_code]||row.student_reason_code)+'</div>' +
@@ -280,6 +282,7 @@
 
   function statusZh(s){ return s==='resolved'?'已处理':(s==='in_review'?'复核中':'待看'); }
   function actionZh(a){ return ({keep:'维持原分',raise:'加分',full:'满分',redo:'不计分·重做',bad_question:'题目错·已修正'})[a]||a; }
+  function redLabel(t){ return ({SYSTEM_RED_A:'🔴A 系统故障',SYSTEM_RED_B:'🔴B 疑似作弊',CRISIS:'🆘 危机'})[t]||t; }
 
   function buildActions(row, card){
     var wrap = document.createElement('div');
@@ -294,7 +297,14 @@
         '<button class="act act--bad" data-a="bad_question">E · 题目错</button>' +
       '</div>' +
       '<div class="extra" data-extra="raise"><input type="number" min="0" placeholder="新分数" /> <span style="font-size:12px;color:var(--ink-3)">/ '+(row.ai_max!=null?row.ai_max:'?')+'</span><button class="btn btn--primary" data-confirm="raise" style="margin-left:8px">确认加分</button></div>' +
-      '<div class="extra" data-extra="keep"><textarea placeholder="(可选)维持原分的原因,会发给学生"></textarea><button class="btn btn--primary" data-confirm="keep" style="margin-top:6px">确认维持</button></div>';
+      '<div class="extra" data-extra="keep"><textarea placeholder="(可选)维持原分的原因,会发给学生"></textarea><button class="btn btn--primary" data-confirm="keep" style="margin-top:6px">确认维持</button></div>' +
+      '<div style="border-top:1px dashed var(--line-2);margin-top:13px;padding-top:11px">' +
+        '<h4>标红冻结 · Flag red <span style="font-weight:500;color:var(--ink-3);font-size:11px">(冻结等真人 · ★不记0★)</span></h4>' +
+        '<div class="act-grid">' +
+          '<button class="act act--bad" data-red="SYSTEM_RED_A">🔴 标红A · 系统故障</button>' +
+          '<button class="act act--bad" data-red="SYSTEM_RED_B">🔴 标红B · 疑似作弊</button>' +
+        '</div>' +
+      '</div>';
 
     wrap.querySelectorAll('.act').forEach(function(b){
       b.addEventListener('click', function(){
@@ -318,7 +328,20 @@
       var note = wrap.querySelector('.extra[data-extra="keep"] textarea').value.trim();
       resolve(row, card, 'keep', null, note);
     });
+    wrap.querySelectorAll('[data-red]').forEach(function(b){
+      b.addEventListener('click', function(){ markRed(row, card, b.getAttribute('data-red')); });
+    });
     return wrap;
+  }
+
+  // 机制1 · 后台手动标红: 改 trigger_type, 状态保持 (冻结等真人), ★不记0、不resolve★。
+  async function markRed(row, card, triggerType){
+    card.style.opacity = '.5';
+    var r = await sb.from('review_requests').update({ trigger_type: triggerType }).eq('id', row.id).select().single();
+    card.style.opacity = '1';
+    if(r.error){ alert('标红失败:'+r.error.message); return; }
+    var fresh = renderCard(r.data); fresh.classList.add('is-open');
+    card.parentNode.replaceChild(fresh, card);
   }
 
   async function resolve(row, card, action, newScore, note){
