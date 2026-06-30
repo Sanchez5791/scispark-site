@@ -596,6 +596,142 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   // ═════════════════════════════════════════════════════════════
+  // ANSWER UI · Claude-style input (件19 / Stage B, 2026-06-30)
+  // Engine-level redesign — change THIS one file → every lesson gets it.
+  // PURE LAYOUT / COSMETIC. Does NOT touch grading (SciSpark.gradeText) nor the
+  // voice-recognition logic (voiceStartFor / voiceSetListening). It only:
+  //   · turns each answer block into a Claude-style box — textarea with the mic
+  //     icon + a small send-arrow docked bottom-right INSIDE the box,
+  //   · hides the big "Submit" button (the arrow clicks it — same handler),
+  //   · collapses 再讲一次 / 找老师 / 看答案 into quiet small text links and
+  //     removes the blue duplicate "Let's look at this again" panel,
+  //   · removes the EN/中 page language toggle on the Chinese lesson (纯中文).
+  // ═════════════════════════════════════════════════════════════
+  var auiStylesInjected = false;
+  function auiInjectStyles() {
+    if (auiStylesInjected) return;
+    auiStylesInjected = true;
+    var css =
+      // box: the border lives on the wrap; the textarea goes borderless with room
+      // bottom-right for the docked mic + arrow.
+      '.aui-box{position:relative;display:block;border:1.5px solid #E8E2D8;border-radius:12px;' +
+        'background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:border-color .15s,box-shadow .15s;}' +
+      '.aui-box:focus-within{border-color:#EA580C;box-shadow:0 0 0 3px rgba(234,88,12,.12);}' +
+      '.aui-box > textarea{border:0 !important;border-radius:12px !important;box-shadow:none !important;' +
+        'background:transparent !important;margin:0 !important;padding:12px 14px 14px !important;' +
+        'padding-right:88px !important;width:100% !important;box-sizing:border-box !important;outline:none !important;' +
+        'min-height:64px;resize:vertical;}' +
+      // mic + arrow cluster docked bottom-right inside the box
+      '.aui-dock{position:absolute;right:8px;bottom:8px;display:flex;align-items:center;gap:6px;}' +
+      '.aui-box .voice-row{margin:0 !important;display:flex;align-items:center;gap:6px;}' +
+      '.aui-box .voice-btn{width:32px !important;height:32px !important;box-shadow:none !important;}' +
+      '.aui-box .voice-btn .voice-ic{width:16px !important;height:16px !important;}' +
+      // hide the EN/中 SPEAKING-language switch inside the box (中文课 = 纯中文,
+      // English lesson never had it) — keeps the box clean.
+      '.aui-box .voice-lang{display:none !important;}' +
+      // small round send-arrow (▲) — the new submit
+      '.aui-send{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;' +
+        'padding:0;border:0;border-radius:50%;background:#EA580C;color:#fff;cursor:pointer;' +
+        'transition:background .15s,opacity .15s;-webkit-tap-highlight-color:transparent;}' +
+      '.aui-send:hover{background:#C2410C;}' +
+      '.aui-send svg{width:18px;height:18px;display:block;}' +
+      '.aui-send[disabled]{opacity:.35;cursor:default;background:#C9BCA9;}' +
+      // hide the lesson's big Submit button (arrow replaces it)
+      '.aui-submit-hidden{display:none !important;}' +
+      // ── clean result ──
+      // blue duplicate "look at this again" panel → gone (it repeats the result)
+      '.review-explain-again{display:none !important;}' +
+      // 再讲一次 / 找老师 → quiet small text links (were chunky buttons)
+      '.review-bar:not(.review-bar--status){display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;' +
+        'background:none !important;border:0 !important;padding:0 !important;}' +
+      '.review-btn{background:none !important;border:0 !important;padding:0 !important;box-shadow:none !important;' +
+        'color:#9B8E7E !important;font-size:12px !important;font-weight:700 !important;cursor:pointer;' +
+        'text-decoration:underline;text-underline-offset:2px;}' +
+      '.review-btn:hover{color:#EA580C !important;}' +
+      // 看答案 (lesson show-answer button) → same quiet small link
+      '[id$="-show-ans-btn"]{background:none !important;border:0 !important;padding:0 !important;box-shadow:none !important;' +
+        'color:#9B8E7E !important;font-size:12px !important;font-weight:700 !important;' +
+        'text-decoration:underline;text-underline-offset:2px;margin-top:6px !important;}' +
+      '[id$="-show-ans-btn"]:hover{color:#EA580C !important;}';
+    var style = document.createElement('style');
+    style.id = 'aui-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  // upward send arrow (mirrors Claude/ChatGPT send affordance)
+  var AUI_SEND_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg>';
+
+  function auiSyncSend(send, submit) {
+    if (send && submit) send.disabled = !!submit.disabled;
+  }
+
+  function mountAnswerUI() {
+    auiInjectStyles();
+    var inputs = document.querySelectorAll('textarea[id$="-input"]');
+    Array.prototype.forEach.call(inputs, function (ta) {
+      if (ta._auiWired) return;
+      var m = (ta.id || '').match(/^(.+)-input$/);
+      if (!m) return;
+      var qid = m[1];
+      var submit = document.getElementById(qid + '-submit');
+      if (!submit) return;                 // only the lesson answer pattern (textarea + matching submit)
+      ta._auiWired = true;
+
+      // box = the voice wrap if the mic was injected, else wrap the textarea now
+      var box = ta.closest('.voice-field-wrap');
+      if (!box) {
+        box = document.createElement('span');
+        box.className = 'voice-field-wrap';
+        ta.parentNode.insertBefore(box, ta);
+        box.appendChild(ta);
+      }
+      box.classList.add('aui-box');
+
+      // dock = bottom-right cluster: [mic row, relocated] [send arrow]
+      var dock = document.createElement('span');
+      dock.className = 'aui-dock';
+      var micRow = box.querySelector('.voice-row');
+      if (micRow) dock.appendChild(micRow);            // move the mic into the box corner
+
+      var send = document.createElement('button');
+      send.type = 'button';
+      send.className = 'aui-send';
+      send.setAttribute('aria-label', 'Send answer · 送出答案');
+      send.innerHTML = AUI_SEND_SVG;
+      send.addEventListener('click', function () {
+        if (submit.disabled) return;
+        submit.click();                                // reuse the lesson's submitAnswer handler
+      });
+      dock.appendChild(send);
+      box.appendChild(dock);
+
+      // hide the big Submit button — the arrow is the new submit
+      submit.classList.add('aui-submit-hidden');
+
+      // keep the arrow disabled in lock-step with the lesson disabling Submit
+      // (e.g. after a correct answer / the Q01 lock) so a locked question can't resubmit.
+      auiSyncSend(send, submit);
+      try {
+        new MutationObserver(function () { auiSyncSend(send, submit); })
+          .observe(submit, { attributes: true, attributeFilter: ['disabled'] });
+      } catch (e) {}
+    });
+
+    // 中文课:拿掉 EN/中 页面语言切换钮(纯中文)。English lesson keeps its toggle.
+    // The zh lesson already LOCKS display to Chinese on load (setLang('zh')), so
+    // hiding the toggle can never trap a student in English. Covers the engine
+    // standard (.lang-toggle) AND the lesson's own button (#l01-lang → [id$="-lang"]).
+    var zhPage = String(document.documentElement.lang || '').toLowerCase().indexOf('zh') === 0;
+    if (zhPage) {
+      document.querySelectorAll('.lang-toggle, [id$="-lang"]').forEach(function (el) { el.style.display = 'none'; });
+    }
+  }
+
+  // ═════════════════════════════════════════════════════════════
   // SCREEN NAVIGATION
   // ═════════════════════════════════════════════════════════════
   const screens = ['hook','learn','try','test','wrap'];
@@ -669,6 +805,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Cover answer boxes mounted on screen entry (idempotent — skips wired fields)
     if (typeof voiceInjectButtons === 'function') {
       try { voiceInjectButtons(); } catch (e) {}
+    }
+    if (typeof mountAnswerUI === 'function') {
+      try { mountAnswerUI(); } catch (e) {}
     }
   }
 
@@ -1630,6 +1769,8 @@ Globals exposed (lesson HTML can call directly via onclick=):
 
     // Inject 🎤 voice-input buttons on every answer box (auto-hidden if unsupported)
     voiceInjectButtons();
+    // 件19: Claude-style answer box (mic+arrow in box, hide big Submit, clean result)
+    if (typeof mountAnswerUI === 'function') { try { mountAnswerUI(); } catch (e) {} }
   });
   
   // ═════════════════════════════════════════════════════════════
@@ -2395,6 +2536,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Inject 🎤 voice-input buttons (engine-level; auto-hidden if unsupported)
     if (typeof voiceInjectButtons === 'function') {
       try { voiceInjectButtons(); } catch (e) {}
+    }
+    if (typeof mountAnswerUI === 'function') {
+      try { mountAnswerUI(); } catch (e) {}
     }
 
     // 求救按钮 — auto-mount 再解释一次 / 请老师复核 on graded questions (MVP 2026-06-20)
@@ -3405,6 +3549,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   if (typeof setupAutoSave === 'function')         window.setupAutoSave = setupAutoSave;
   if (typeof applyLevelFromURL === 'function')     window.applyLevelFromURL = applyLevelFromURL;
   if (typeof voiceInjectButtons === 'function')    window.voiceInjectButtons = voiceInjectButtons;
+  if (typeof mountAnswerUI === 'function')         window.mountAnswerUI = mountAnswerUI;
 
   // Boot when ready
   if (document.readyState === 'loading') {
