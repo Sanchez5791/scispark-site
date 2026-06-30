@@ -2498,7 +2498,10 @@ Globals exposed (lesson HTML can call directly via onclick=):
       try {
         var sb = await ensureSupabase();
         var user = await currentUser(sb);
-        if (!user) return null;                               // 没登录 → 静默 (前端冻结已照做)
+        if (!user) {                                          // 没登录 → 写不进库 (RLS 要 student_id=auth.uid); 前端冻结已照做
+          console.warn('[Rescue] 红色冻结已生效, 但这页没有登录的 session → 跳过写库 (' + triggerType + ', ' + qid + ')。真实学生做课一定登录, 上线不受影响; 预览测试请先登录再触发。');
+          return null;
+        }
         if (appealsByQ[qid]) return appealsByQ[qid];          // 这题已有记录 → 不重复写
         var info = infoForQid(qid);
         var payload = {
