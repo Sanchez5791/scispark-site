@@ -3765,12 +3765,335 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function isJunkAnswer(input, scheme, stem){
     var i = normalizeAns(input);
     if(!i) return false;
-    if(looksGibberish(i)) return true;
-    if(isQuestionCopy(i, stem)) return true;
-    if(isOffTopic(i, scheme, stem)) return true;
+    if(looksGibberish(i)) return true;                 // true gibberish (any language) → A
+    if(isQuestionCopy(i, stem)) return true;           // copied question → A
+    // 修④: one repeated letter (www / aaa) or all-symbols (!!! / ???) = not an answer → A.
+    // Real short answers ("8" / "no" / "铁") are NOT caught (single char / has meaning).
+    var compact = i.replace(/\s+/g, '');
+    if (compact.length >= 2 && /^([a-z])\1+$/.test(compact)) return true;       // www, aaaa
+    if (compact.length >= 1 && !/[a-z0-9一-龥]/.test(compact)) return true;     // pure symbols
+    // 中文为主的答案 = 双语课的认真答错(B), 不当离题A。L01 收中文答案("铁"/"有质量"
+    // 都算对), 所以错的中文也是真在答 → 走学科解释, 不说「试着用英文」。(老板 2026-06-30)
+    var cjk = (i.match(/[一-龥]/g) || []).length;
+    var enw = (i.match(/[a-z]{2,}/g) || []).length;
+    if (cjk > 0 && cjk >= enw) return false;            // Chinese-primary → B
+    if(isOffTopic(i, scheme, stem)) return true;        // English off-topic ramble → A
     return false;
   }
   window.SciSpark = window.SciSpark || {};
   window.SciSpark.gradeText = gradeText;
   window.SciSpark.isJunkAnswer = isJunkAnswer;
 })(); // end SHARED TEXT-ANSWER GRADER
+
+/* ════════════ FEEDBACK-ZONE CONTROLLER · v3 (圆圈进度钮 + 陪伴感, 蓝图 v3, 2026-06-30) ════════════
+   v2 的【逻辑】原样保留 (decide / HINT_AFTER / ANSWER_AFTER / A·B 分流 / 三连 A 救援)。
+   v3 只【重做长相】: 一颗圆圈进度钮随「答错 → 解锁帮助」逐层填充 (50% 解锁 Hint, 100% 解锁
+   Answer); 豆豆微反应 (走一格点一下头 + 满格柔光闪一次); 提交后 0.7 秒「在看你」小停顿
+   (兼防狂点); 「找老师 / 再讲一次」做成圆圈旁的小常驻链接 (随时可点, 不被答错次数卡)。
+   柔光只闪一次, 永不循环, 无音效, 无烟花。引擎管 WHEN + 长相; 课文只给料 (FB_RIGHT/FB_WRONG/
+   hasHint) + 约定 ID 的元素壳 (<qid>-feedback / -hint-btn / -show-ans-btn / ans_<qid>_0)。
+   判分 gradeText 完全不碰 (它只决定对/错, 从不决定哪颗钮亮)。*/
+(function () {
+  // ── 时机常量 (Level-1 预设; 以后接 level 只换这两个数, UI 不用重写) ──
+  var HINT_AFTER   = 1;            // 第 N 次「认真答错」(B) → 解锁 Hint
+  var ANSWER_AFTER = 2;            // 第 N 次「认真答错」(B) → 解锁 Answer
+  var SEGMENTS     = ANSWER_AFTER; // 圆环分段数 (L1 = 2 段, 各 50%)
+  var THINK_MS     = 700;          // 提交后豆豆「在看你」小停顿 (蓝图 §5 决定1)
+  var C            = 125.664;      // 圆周长 = 2πr, r = 20
+
+  var ST = {};
+  function st(qid) { return ST[qid] || (ST[qid] = { b: 0, aStreak: 0, answerOpen: false }); }
+
+  // ── 纯决策核心 (与 v2 逐字一致, 不准改) ──
+  function decide(s, ev) {
+    if (ev.correct) return { kind: 'correct', faint: !!s.answerOpen };
+    var cls = ev.isJunk ? 'A' : 'B';
+    if (cls === 'A') { s.aStreak++; if (s.aStreak >= 3) { cls = 'B'; s.aStreak = 0; } }
+    else { s.aStreak = 0; }
+    if (cls === 'A') return { kind: 'A' };
+    s.b++;
+    var openNow = (s.b >= ANSWER_AFTER && !s.answerOpen);
+    if (openNow) s.answerOpen = true;
+    return { kind: 'B', attempt: s.b, hint: s.b >= HINT_AFTER, answer: s.answerOpen, openAnswer: openNow };
+  }
+
+  // ── helpers ──
+  function el(id) { return document.getElementById(id); }
+  function isZh() { return document.body && document.body.classList.contains('zh-mode'); }
+  function relang() { try { if (window.setLang) setLang(isZh() ? 'zh' : 'en'); } catch (e) {} }
+  function biSet(b, en, zh) { if (!b) return; b.setAttribute('data-en', en); b.setAttribute('data-zh', zh); b.textContent = isZh() ? zh : en; }
+  function bi(en, zh) { return '<span data-en="' + en + '" data-zh="' + zh + '">' + (isZh() ? zh : en) + '</span>'; }
+
+  // ── 文案 (中英双语 · 只指方向 · 不泄答案) ──
+  var SOFT_A    = { en: 'This doesn’t look like a full answer yet — read the question again and give it a try.',
+                    zh: '这个看起来还不是完整答案,再读一次题,试试看。' };
+  var ANS_UNLK  = { en: '— read it, then try to say why.',
+                    zh: '先看答案,再试着说为什么。' };
+  var REREAD    = { en: 'Read the question again — take your time, you’ve got this.',
+                    zh: '再读一次题目,慢慢来,你可以的。' };
+  var ASK_HELP  = { en: 'Raise your hand for your teacher, or ask after class.',
+                    zh: '举手叫老师,或下课时问老师。' };
+  var THINKING  = { en: 'DouDou’s reading your answer…', zh: '豆豆在看你的答案…' };
+  var THINK_B   = { en: 'Have another think.', zh: '再想一想。' };
+
+  // ── CSS (自带, 用 design-token 变量, 没有就给暖色 fallback) ──
+  var cssDone = false;
+  function injectCSS() {
+    if (cssDone || !document.head) return; cssDone = true;
+    var css = [
+      // 陪伴条: 限高, 内部可滚, 永不把题目顶走
+      '.fbv3-bar{margin-top:10px;background:var(--orange-pale,#FFF6EE);border:1.5px solid var(--orange-soft,#FFE3CC);',
+        'border-radius:14px;padding:12px 14px;max-height:46vh;overflow:auto;font-family:\'Geist\',system-ui,sans-serif;',
+        'animation:fbv3In .32s ease-out;}',
+      '@keyframes fbv3In{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}',
+      '.fbv3-top{display:flex;gap:12px;align-items:flex-start;}',
+      // 圆圈
+      '.fbv3-ringwrap{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;}',
+      '.fbv3-ring{position:relative;width:48px;height:48px;border-radius:50%;}',
+      '.fbv3-ring svg{width:48px;height:48px;display:block;transform:rotate(-90deg);}',
+      '.fbv3-track{fill:none;stroke:var(--orange-soft,rgba(234,88,12,.15));stroke-width:4;}',
+      '.fbv3-prog{fill:none;stroke:var(--orange,#EA580C);stroke-width:4;stroke-linecap:round;',
+        'stroke-dasharray:125.664;stroke-dashoffset:125.664;transition:stroke-dashoffset .55s ease-out;}',
+      '.fbv3-face{position:absolute;inset:0;}',
+      '.fbv3-ic{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:19px;line-height:1;transition:opacity .45s ease;}',
+      '.fbv3-ic-key{opacity:0;}',
+      '.fbv3-ring.is-answer .fbv3-ic-hint{opacity:0;}',
+      '.fbv3-ring.is-answer .fbv3-ic-key{opacity:1;}',
+      '.fbv3-ring.fbv3-nod{animation:fbv3Nod .5s ease-out 1;}',
+      '@keyframes fbv3Nod{0%{transform:translateY(0) rotate(0);}30%{transform:translateY(-2px) rotate(-6deg);}',
+        '62%{transform:translateY(1px) rotate(4deg);}100%{transform:none;}}',
+      '.fbv3-ring.fbv3-glow{animation:fbv3Glow .55s ease-out 1;}',
+      '@keyframes fbv3Glow{0%{box-shadow:0 0 0 0 var(--orange-glow,rgba(234,88,12,.45));}',
+        '100%{box-shadow:0 0 0 14px rgba(234,88,12,0);}}',
+      '.fbv3-prog-lbl{font-size:10px;font-weight:700;color:var(--orange,#EA580C);white-space:nowrap;}',
+      // 豆豆的话
+      '.fbv3-msg{flex:1;min-width:0;font-size:13px;line-height:1.55;color:#7a2e08;}',
+      // Hint / Answer 工具
+      '.fbv3-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}',
+      '.fbv3-tools .fbv3-locked{opacity:.4;filter:grayscale(1);pointer-events:none;cursor:not-allowed;',
+        'transition:opacity .4s,filter .4s;}',
+      '.fbv3-tools .fbv3-unlocked{opacity:1;filter:none;pointer-events:auto;cursor:pointer;',
+        'transition:opacity .4s,filter .4s;animation:fbv3Pop .25s ease-out;}',
+      '@keyframes fbv3Pop{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}',
+      // 旁边小常驻链接 (找老师 / 再讲一次)
+      '.fbv3-links{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;}',
+      '.fbv3-link{background:none;border:0;padding:3px 0;font:inherit;font-size:12px;color:#9a6a3a;',
+        'text-decoration:underline;cursor:pointer;font-family:\'Geist\',sans-serif;}',
+      '.fbv3-link:hover{color:var(--orange,#EA580C);}',
+      // 答案展开区 (也限高, 内部可滚)
+      '.fbv3-answer{margin-top:10px;max-height:32vh;overflow:auto;}',
+      // 提交后的「在看你」小指示
+      '.fbv3-thinkwrap{background:none!important;border:0!important;}',
+      '.fbv3-think{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#9a6a3a;font-family:\'Geist\',sans-serif;}',
+      '.fbv3-think .fbv3-eyes{display:inline-block;animation:fbv3Bob 1s ease-in-out infinite;}',
+      '@keyframes fbv3Bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}',
+      // 短状态条 (软话 / 对错 / 考试)
+      '.fbv3-soft{background:var(--orange-pale,#FFF6EE);border:1px solid var(--orange-soft,#FFE3CC);color:#7a2e08;}',
+      '.fbv3-right{background:#EAF7EA;border:1px solid #BFE6BF;color:#1f5132;}',
+      '.fbv3-wrong{background:#FFF6EE;border:1px solid #FFE3CC;color:#7a2e08;}',
+      // 手机: 圆圈小一点; Hint/Answer 触控热区 ≥44px
+      '@media (max-width:768px){.fbv3-ring,.fbv3-ring svg{width:40px;height:40px;}.fbv3-ic{font-size:16px;}',
+        '.fbv3-tools button{min-height:44px;}}',
+      // 关掉动画偏好: 一切动画/过渡停掉 (无障碍)
+      '@media (prefers-reduced-motion:reduce){.fbv3-bar,.fbv3-soft,.fbv3-prog,.fbv3-ic,',
+        '.fbv3-ring.fbv3-nod,.fbv3-ring.fbv3-glow,.fbv3-tools .fbv3-unlocked,.fbv3-think .fbv3-eyes{',
+        'animation:none!important;transition:none!important;}}'
+    ].join('');
+    var s = document.createElement('style'); s.id = 'fbv3-styles'; s.textContent = css;
+    document.head.appendChild(s);
+  }
+
+  // ── 圆圈 + 陪伴条 DOM ──
+  function ringHTML() {
+    return '' +
+      '<div class="fbv3-ring" role="img" aria-label="Help progress: 0 of ' + SEGMENTS + '">' +
+        '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">' +
+          '<circle class="fbv3-track" cx="24" cy="24" r="20"></circle>' +
+          '<circle class="fbv3-prog"  cx="24" cy="24" r="20"></circle>' +
+        '</svg>' +
+        '<span class="fbv3-face">' +
+          '<span class="fbv3-ic fbv3-ic-hint">💡</span>' +
+          '<span class="fbv3-ic fbv3-ic-key">🔑</span>' +
+        '</span>' +
+      '</div>' +
+      '<div class="fbv3-prog-lbl" data-en="Help 0/' + SEGMENTS + '" data-zh="支援 0/' + SEGMENTS + '">Help 0/' + SEGMENTS + '</div>';
+  }
+
+  // 建一次陪伴条, 把课文里现成的 Hint/Answer 钮 + 答案块搬进来 (ID 不变, getElementById 照找得到)
+  function buildBar(qid) {
+    var existing = el(qid + '-fbv3'); if (existing) return existing;
+    var fb = el(qid + '-feedback'); if (!fb) return null;
+    var bar = document.createElement('div');
+    bar.className = 'fbv3-bar'; bar.id = qid + '-fbv3';
+    bar.setAttribute('role', 'status'); bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML =
+      '<div class="fbv3-top">' +
+        '<div class="fbv3-ringwrap">' + ringHTML() + '</div>' +
+        '<div class="fbv3-msg" id="' + qid + '-fbv3-msg"></div>' +
+      '</div>' +
+      '<div class="fbv3-tools" id="' + qid + '-fbv3-tools"></div>' +
+      '<div class="fbv3-links">' +
+        '<button type="button" class="fbv3-link fbv3-explain" data-en="Explain again" data-zh="再讲一次">Explain again</button>' +
+        '<button type="button" class="fbv3-link fbv3-ask" data-en="Ask teacher" data-zh="问老师">Ask teacher</button>' +
+      '</div>';
+    var wrap = fb.parentNode;                                   // 输入框那个盒子
+    wrap.parentNode.insertBefore(bar, wrap.nextSibling);        // 陪伴条插在输入盒之后, 题目还在上面
+    var tools = bar.querySelector('.fbv3-tools');
+    var hintBtn = el(qid + '-hint-btn'), ansBtn = el(qid + '-show-ans-btn'), ansEl = el('ans_' + qid + '_0');
+    if (hintBtn) { tools.appendChild(hintBtn); hintBtn.style.display = 'none'; }
+    if (ansBtn)  { tools.appendChild(ansBtn);  ansBtn.style.display  = 'none'; }
+    if (ansEl)   { ansEl.classList.add('fbv3-answer'); bar.appendChild(ansEl); }
+    var ex = bar.querySelector('.fbv3-explain'); if (ex) ex.addEventListener('click', function () { explainAgain(qid); });
+    var ak = bar.querySelector('.fbv3-ask');     if (ak) ak.addEventListener('click', function () { askTeacher(qid); });
+    relang();
+    return bar;
+  }
+
+  // 圆环走到第 b 段; 走的瞬间豆豆点一下头; 满格柔光闪一次
+  function setRing(bar, b) {
+    var ring = bar.querySelector('.fbv3-ring');
+    var prog = bar.querySelector('.fbv3-prog');
+    var lbl  = bar.querySelector('.fbv3-prog-lbl');
+    var pct  = Math.min(b / SEGMENTS, 1);
+    if (prog) prog.style.strokeDashoffset = (C * (1 - pct)).toFixed(2);
+    if (ring) {
+      ring.classList.remove('fbv3-nod'); void ring.offsetWidth; ring.classList.add('fbv3-nod');
+      setTimeout(function () { ring.classList.remove('fbv3-nod'); }, 560);
+      if (pct >= 1) {
+        ring.classList.add('is-answer');                       // 💡 淡出 → 🔑 淡入
+        ring.classList.remove('fbv3-glow'); void ring.offsetWidth; ring.classList.add('fbv3-glow');
+        setTimeout(function () { ring.classList.remove('fbv3-glow'); }, 620);
+      }
+      var aria = (pct >= 1)
+        ? ('Help progress: ' + SEGMENTS + ' of ' + SEGMENTS + ', Answer unlocked')
+        : ('Help progress: ' + b + ' of ' + SEGMENTS + (pct >= 0.5 ? ', Hint unlocked' : ''));
+      ring.setAttribute('aria-label', aria);
+    }
+    if (lbl) biSet(lbl, 'Help ' + b + '/' + SEGMENTS, '支援 ' + b + '/' + SEGMENTS);
+  }
+
+  function setMsg(qid, html) { var m = el(qid + '-fbv3-msg'); if (m) m.innerHTML = html; }
+
+  function lockBtn(b, en, zh) {
+    if (!b || b._fbUnlocked) return;
+    b.style.display = ''; b.classList.add('fbv3-locked'); b.classList.remove('fbv3-unlocked');
+    b.setAttribute('aria-disabled', 'true');
+    biSet(b, '🔒 ' + en, '🔒 ' + zh);
+  }
+  function unlockBtn(b, en, zh) {
+    if (!b || b._fbUnlocked) return;
+    b._fbUnlocked = true;
+    b.style.display = ''; b.classList.remove('fbv3-locked'); b.classList.add('fbv3-unlocked');
+    b.removeAttribute('aria-disabled');
+    biSet(b, en, zh);
+  }
+
+  // ── 旁边小链接的动作 (随时可用, 不泄答案) ──
+  function explainAgain(qid) {
+    setMsg(qid, '<strong>' + bi('Explain again', '再讲一次') + '</strong> ' + bi(REREAD.en, REREAD.zh));
+    var input = el(qid + '-input');
+    if (input && input.scrollIntoView) { try { input.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {} }
+    relang();
+  }
+  function askTeacher(qid) {
+    // 现版本: 老实给一句「举手叫老师」。真后台通知是下一批 (蓝图 §5 决定2 押后), 不假装已发出。
+    try { if (window.SciSpark && SciSpark.requestHelp) SciSpark.requestHelp(qid); } catch (e) {}
+    setMsg(qid, '<strong>' + bi('Ask teacher', '问老师') + '</strong> ' + bi(ASK_HELP.en, ASK_HELP.zh));
+    relang();
+  }
+
+  // ── 提交后的「在看你」小停顿 ──
+  function setBusy(qid, busy) {
+    var input = el(qid + '-input'), submit = el(qid + '-submit');
+    if (input)  input.disabled  = busy;
+    if (submit) submit.disabled = busy;
+  }
+  function showThinking(qid) {
+    var fb = el(qid + '-feedback'); if (!fb) return;
+    fb.style.display = 'block'; fb.className = 'fbv3-thinkwrap';
+    fb.innerHTML = '<span class="fbv3-think"><span class="fbv3-eyes">👀</span>' + bi(THINKING.en, THINKING.zh) + '</span>';
+    relang();
+  }
+
+  // ── 各状态渲染 ──
+  function renderCorrect(qid, faint, opts) {
+    var bar = el(qid + '-fbv3'); if (bar) bar.style.display = 'none';   // 圆圈/提示/答案/陪伴条全收掉
+    var fb = el(qid + '-feedback');
+    if (fb) {
+      fb.style.display = 'block'; fb.className = 'fbv3-right';
+      if (faint) fb.innerHTML = bi('✓ Got it.', '✓ 答对了。');         // 看了答案再打对 = 淡认可, 不放烟花
+      else fb.innerHTML = '<strong>' + bi('✓ Correct!', '✓ 正确!') + '</strong> ' + (opts.right ? bi(opts.right.en, opts.right.zh) : '');
+    }
+    var submit = el(qid + '-submit'); if (submit) submit.disabled = true;
+    relang();
+  }
+
+  function renderExam(qid, plan) {                                      // 考试屏: 只打对错, 没提示没答案
+    var fb = el(qid + '-feedback'); if (!fb) return;
+    fb.style.display = 'block';
+    if (plan.kind === 'A') { fb.className = 'fbv3-soft'; fb.innerHTML = bi(SOFT_A.en, SOFT_A.zh); }
+    else { fb.className = 'fbv3-wrong'; fb.innerHTML = '<strong>' + bi('Not quite.', '差一点。') + '</strong>'; }
+    relang();
+  }
+
+  function renderA(qid) {                                              // A = 不是答案: 圆环不走, 只一句软话
+    var bar = el(qid + '-fbv3');
+    if (bar) { bar.style.display = ''; setMsg(qid, bi(SOFT_A.en, SOFT_A.zh)); }
+    else {
+      var fb = el(qid + '-feedback');
+      if (fb) { fb.style.display = 'block'; fb.className = 'fbv3-soft'; fb.innerHTML = bi(SOFT_A.en, SOFT_A.zh); }
+    }
+    relang();
+  }
+
+  function renderB(qid, plan, opts) {                                  // B = 认真答错: 圆环走 + 逐层解锁
+    var fb = el(qid + '-feedback'); if (fb) fb.style.display = 'none';  // 短状态条让位给陪伴条
+    var bar = buildBar(qid); if (!bar) return;
+    bar.style.display = '';
+    setRing(bar, plan.attempt);
+    if (plan.openAnswer) setMsg(qid, '<strong>🔑 ' + bi('Answer unlocked', '答案解锁了') + '</strong> ' + bi(ANS_UNLK.en, ANS_UNLK.zh));
+    else {
+      var w = opts.wrong || { en: '', zh: '' };
+      setMsg(qid, '<strong>' + bi('💭 ' + THINK_B.en, '💭 ' + THINK_B.zh) + '</strong> ' + bi(w.en, w.zh));
+    }
+    // Hint: 有料且到点 → 亮; 这题没料 → 不出现
+    var hintBtn = el(qid + '-hint-btn');
+    if (opts.hasHint && plan.hint) unlockBtn(hintBtn, '💡 Hint', '💡 提示');
+    else if (hintBtn && !opts.hasHint) hintBtn.style.display = 'none';
+    // Answer: 到点 → 亮 (学生自己点开, 不自动揭); 没到 → 灰着锁着 + 标几次后开放
+    var ansBtn = el(qid + '-show-ans-btn');
+    if (plan.answer) unlockBtn(ansBtn, '✅ Answer', '✅ 答案');
+    else lockBtn(ansBtn, 'Answer · opens after ' + ANSWER_AFTER + ' tries', '答案 · 答错' + ANSWER_AFTER + '次后开放');
+    relang();
+  }
+
+  // 课文判分后调这个。opts = { correct, isJunk, isTest, hasHint, right:{en,zh}, wrong:{en,zh} }
+  function handle(qid, opts) {
+    injectCSS();
+    var s = st(qid);
+    var plan = decide(s, { correct: !!opts.correct, isJunk: !!opts.isJunk });  // 同步算好, faint 同步返回给课文奖励逻辑
+    setBusy(qid, true);                                                        // 0.7 秒内输入框 + 提交钮灰着不可按 (防狂点)
+    showThinking(qid);
+    setTimeout(function () {
+      setBusy(qid, false);
+      if (plan.kind === 'correct') { renderCorrect(qid, plan.faint, opts); return; }
+      if (opts.isTest)             { renderExam(qid, plan); return; }
+      if (plan.kind === 'A')       { renderA(qid); return; }
+      renderB(qid, plan, opts);
+    }, THINK_MS);
+    return { faint: plan.faint };
+  }
+
+  // 开课时: 把所有 Hint/Answer 钮 + 旧紫框/旧提示藏起来 → 答题前画面干净 (state0, 圆圈不出现)。幂等。
+  function initHide() {
+    injectCSS();
+    var sel = document.querySelectorAll('[id$="-hint-btn"],[id$="-show-ans-btn"],.cap-purple,.cap-hint');
+    Array.prototype.forEach.call(sel, function (b) { if (!b._fbUnlocked) b.style.display = 'none'; });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHide);
+  else initHide();
+
+  window.SciSpark = window.SciSpark || {};
+  window.SciSpark.fb = { handle: handle, decide: decide, init: initHide, _state: ST };
+})(); // end FEEDBACK-ZONE CONTROLLER v3
