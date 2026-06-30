@@ -3528,3 +3528,80 @@ Globals exposed (lesson HTML can call directly via onclick=):
     mount();
   }
 })(); // end DOUDOU FLOATING MENU shell
+
+/* ════════════ SHARED TEXT-ANSWER GRADER (止血 + strict grading) ════════════
+   Moved here from per-lesson HTML on 2026-06-30 so every lesson grades the SAME
+   way — change once, all lessons follow. Behaviour ported VERBATIM from Y7U1 L01
+   checkAnswer; grading MUST NOT change (junk → wrong, real → right).
+   Lessons keep their own data (料): SCHEMES[qid] + STEMS[qid], and call
+   SciSpark.gradeText(input, scheme, stem). Has its own scope, so its private
+   looksGibberish does not clash with the appeals-modal one above. */
+(function () {
+  function normalizeAns(s){ return (s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
+  function tokenizeAns(s){ return normalizeAns(s).replace(/[^a-z0-9一-龥 ]/g,' ').split(' ').filter(function(w){return w.length>1;}); }
+  // Junk-guard A: gibberish / keyboard mash / repeated chars
+  function looksGibberish(i){
+    if(/([a-z一-龥])\1{3,}/.test(i)) return true;            // 4+ identical chars in a row
+    var mash=['asdf','sdfg','dfgh','fghj','ghjk','hjkl','qwer','wert','erty','rtyu','tyui','yuio','uiop','zxcv','xcvb','cvbn','vbnm','poiu','lkjh','mnbv','qaz','wsx','edc'];
+    for(var m=0;m<mash.length;m++){ if(i.indexOf(mash[m])>-1) return true; }
+    var runs=i.match(/[a-z]{5,}/g)||[];                              // a long "word" with almost no vowels
+    for(var r=0;r<runs.length;r++){
+      var v=(runs[r].match(/[aeiou]/g)||[]).length;
+      if(v/runs[r].length < 0.20) return true;
+    }
+    return false;
+  }
+  // Junk-guard B: answer is mostly a copy of the question text
+  function isQuestionCopy(i, stem){
+    if(!stem) return false;
+    var w=tokenizeAns(i);
+    if(w.length<10 || i.length<50) return false;                     // real answers are one short sentence
+    var inStem=0; for(var k=0;k<w.length;k++){ if(stem.indexOf(w[k])>-1) inStem++; }
+    return (inStem/w.length)>=0.7;
+  }
+  // Junk-guard C: relevance gate (止血 2026-06-30). A LONG answer that is mostly
+  // off-topic is wrong even if it dragged in one keyword. SHORT answers are never
+  // blocked here, so real short answers ("8" / "yes" / "铁" / "有质量") still pass.
+  var REL_STOP={the:1,is:1,are:1,of:1,to:1,and:1,it:1,in:1,on:1,an:1,that:1,this:1,was:1,were:1,be:1,as:1,at:1,or:1,my:1,me:1,you:1,am:1,we:1,a:1,i:1,so:1,do:1};
+  function relevancePool(scheme, stem){
+    var parts=[];
+    if(scheme){ if(scheme.keywords) parts=parts.concat(scheme.keywords);
+      if(scheme.compound) scheme.compound.forEach(function(g){ parts=parts.concat(g); }); }
+    if(stem) parts.push(stem);
+    return parts.join(' ').toLowerCase();
+  }
+  function isOffTopic(i, scheme, stem){
+    var pool=relevancePool(scheme, stem);
+    var en=(i.match(/[a-z]{2,}/g)||[]).filter(function(w){return !REL_STOP[w];});
+    var cjk=i.match(/[一-龥]/g)||[];
+    var total=en.length+cjk.length;
+    if(total<6) return false;                                        // short answers: never off-topic-rejected
+    var on=0;
+    en.forEach(function(w){ if(pool.indexOf(w)>-1) on++; });
+    cjk.forEach(function(c){ if(pool.indexOf(c)>-1) on++; });
+    return (on/total) < 0.34;                                        // long answer, <1/3 on-topic → off-topic
+  }
+  // Orchestrator (was per-lesson checkAnswer). scheme = SCHEMES[qid], stem = STEMS[qid].
+  function gradeText(input, scheme, stem){
+    if(!scheme) return false;
+    var i = normalizeAns(input);
+    if(!i) return false;
+    // STRICT GRADING (order 2026-06-18): junk / copied / vague answers score 0.
+    if(looksGibberish(i)) return false;                              // gate 1: junk guard
+    if(isQuestionCopy(i, stem)) return false;                        // gate 1: copied question
+    if(isOffTopic(i, scheme, stem)) return false;                    // gate 1b: off-topic ramble (止血 2026-06-30)
+    if(scheme.reject && scheme.reject.some(function(k){return i.indexOf(k.toLowerCase())>-1;})) return false; // gate 2: must-not
+    // gate 3: must-have keywords (original logic)
+    if(scheme.mode==='any')  return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    if(scheme.mode==='all')  return scheme.keywords.every(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    if(scheme.mode==='compound') return scheme.compound.every(function(g){return g.some(function(k){return i.indexOf(k.toLowerCase())>-1;});});
+    if(scheme.mode==='yn'){
+      var w = i.replace(/[^a-z一-龥 ]/g,'').trim();
+      if(w==='no'||w.indexOf('no ')===0||i.indexOf('no,')===0||i.indexOf('no.')===0) return true;
+      return scheme.keywords.some(function(k){return i.indexOf(k.toLowerCase())>-1;});
+    }
+    return false;
+  }
+  window.SciSpark = window.SciSpark || {};
+  window.SciSpark.gradeText = gradeText;
+})(); // end SHARED TEXT-ANSWER GRADER
