@@ -3864,8 +3864,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
                     zh: '这个看起来还不是完整答案,再读一次题,试试看。' };
   var ANS_UNLK  = { en: '— read it, then try to say why.',
                     zh: '先看答案,再试着说为什么。' };
-  var REREAD    = { en: 'Read the question again — take your time, you’ve got this.',
-                    zh: '再读一次题目,慢慢来,你可以的。' };
   var ASK_HELP  = { en: 'Raise your hand for your teacher, or ask after class.',
                     zh: '举手叫老师,或下课时问老师。' };
   var THINKING  = { en: 'DouDou’s reading your answer…', zh: '豆豆在看你的答案…' };
@@ -3969,7 +3967,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
       '</div>' +
       '<div class="fbv3-tools" id="' + qid + '-fbv3-tools"></div>' +
       '<div class="fbv3-links">' +
-        '<button type="button" class="fbv3-link fbv3-explain" data-en="Explain again" data-zh="再讲一次">Explain again</button>' +
         '<button type="button" class="fbv3-link fbv3-ask" data-en="Ask teacher" data-zh="问老师">Ask teacher</button>' +
       '</div>';
     var wrap = fb.parentNode;                                   // 输入框那个盒子
@@ -3979,7 +3976,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if (hintBtn) { tools.appendChild(hintBtn); hintBtn.style.display = 'none'; }
     if (ansBtn)  { tools.appendChild(ansBtn);  ansBtn.style.display  = 'none'; }
     if (ansEl)   { ansEl.classList.add('fbv3-answer'); bar.appendChild(ansEl); }
-    var ex = bar.querySelector('.fbv3-explain'); if (ex) ex.addEventListener('click', function () { explainAgain(qid); });
     var ak = bar.querySelector('.fbv3-ask');     if (ak) ak.addEventListener('click', function () { askTeacher(qid); });
     relang();
     return bar;
@@ -4024,30 +4020,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     biSet(b, en, zh);
   }
 
-  // ── 旁边小链接的动作 (随时可用, 不泄答案) ──
-  // 再讲一次 = 把这题的「方向引导」(FB_WRONG, 只指方向不含答案) 再讲一遍, 明显有反应。
-  // 引擎里没有专门的「再讲教学」长内容 → 不乱补, 沿用方向引导 (军师可后续加内容)。
-  // 求救系统 Phase1: 每题限 EXPLAIN_CAP 次、缓存同一份 (不重新生成, 防变相聊天口);
-  // 超过 → 不再重讲, 温和导去「请老师复核」(不泄答案)。
-  var EXPLAIN_CAP = 2;
-  function explainAgain(qid) {
-    var s = st(qid);
-    s.explainCount = (s.explainCount || 0) + 1;
-    if (s.explainCount > EXPLAIN_CAP) {
-      setMsg(qid, '<strong>🔁 ' + bi('Still stuck?', '还是卡住?') + '</strong> ' +
-        bi('You’ve looked again twice — tap “Ask teacher” and a teacher will review it.',
-           '已经再看两次啦 —— 点「问老师」,老师会帮你复核。'));
-      relang();
-      return;
-    }
-    var w = s.lastWrong;                                  // 缓存同一份方向引导, 不重新生成
-    var enTxt = (w && w.en) ? w.en : REREAD.en;
-    var zhTxt = (w && w.zh) ? w.zh : REREAD.zh;
-    setMsg(qid, '<strong>🔁 ' + bi('Let’s look at this again', '我们再看一次这题') + '</strong> ' + bi(enTxt, zhTxt));
-    var input = el(qid + '-input');
-    if (input && input.scrollIntoView) { try { input.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {} }
-    relang();
-  }
+  // ── 旁边小链接的动作 ──
   // 问老师 = 接回「请老师复核」弹框 (件23 回归修复, PR#63 那套)。在陪伴条里放一个小槽,
   // 送出后槽会变成「已提交」状态条。没接通 (没登录/REVIEW 缺席) → 退回温和占位语。
   function askTeacher(qid) {
@@ -4114,7 +4087,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   function renderB(qid, plan, opts) {                                  // B = 认真答错: 圆环走 + 逐层解锁
-    if (opts.wrong) st(qid).lastWrong = opts.wrong;                    // 存方向引导, 给「再讲一次」重讲用
     var fb = el(qid + '-feedback'); if (fb) fb.style.display = 'none';  // 短状态条让位给陪伴条
     var bar = buildBar(qid); if (!bar) return;
     bar.style.display = '';
