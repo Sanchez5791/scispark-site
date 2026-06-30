@@ -3602,6 +3602,26 @@ Globals exposed (lesson HTML can call directly via onclick=):
     }
     return false;
   }
+  // ── Read-only A/B classifier (off-topic feedback, 2026-06-30) ──
+  // Returns true when a WRONG answer was rejected as junk / off-topic by one of
+  // the first three gates (gibberish / copied-question / off-topic ramble) —
+  // i.e. "this doesn't look like an answer", NOT a genuine wrong attempt.
+  // Does NOT change grading: gradeText's verdict is untouched, this only reads
+  // the SAME gates so a lesson can show a neutral line instead of the academic
+  // explanation. The `reject` misconception gate is NOT here — a misconception is
+  // a genuine attempt (B) and must keep the academic explanation.
+  // NOTE: short non-answers ("can you hear me") are NOT caught — short answers
+  // bypass the off-topic gate to protect real short answers ("8" / "铁"); catching
+  // those needs semantic detection = 件18 (out of scope here).
+  function isJunkAnswer(input, scheme, stem){
+    var i = normalizeAns(input);
+    if(!i) return false;
+    if(looksGibberish(i)) return true;
+    if(isQuestionCopy(i, stem)) return true;
+    if(isOffTopic(i, scheme, stem)) return true;
+    return false;
+  }
   window.SciSpark = window.SciSpark || {};
   window.SciSpark.gradeText = gradeText;
+  window.SciSpark.isJunkAnswer = isJunkAnswer;
 })(); // end SHARED TEXT-ANSWER GRADER
