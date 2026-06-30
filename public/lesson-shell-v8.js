@@ -2212,13 +2212,17 @@ Globals exposed (lesson HTML can call directly via onclick=):
       var bar = document.createElement('div');
       bar.className = 'review-bar';
 
-      var explainBtn = btn('review-btn--explain', '🔁 Explain again', '🔁 再解释一次');
-      explainBtn.addEventListener('click', function () { reExplain(info, explainBtn); });
+      // ⛔ 止血 (疑点1, 2026-06-30): the「🔁 再解释一次」button one-tap revealed the answer
+      // (reExplain force-clicks the gated show-answer button, bypassing its gate). Hidden until
+      // the future progressive toolbar (needs AI review). reExplain logic left UNTOUCHED below,
+      // just not wired or rendered. Only 找老师 (Ask teacher) remains in the bar.
+      // var explainBtn = btn('review-btn--explain', '🔁 Explain again', '🔁 再解释一次');
+      // explainBtn.addEventListener('click', function () { reExplain(info, explainBtn); });
 
       var reviewBtn = btn('review-btn--review', '🙋 Ask teacher to review', '🙋 请老师复核');
       reviewBtn.addEventListener('click', function () { openModal(info, bar); });
 
-      bar.appendChild(explainBtn);
+      // bar.appendChild(explainBtn);   // ⛔ 止血: explain button not rendered (see note above)
       bar.appendChild(reviewBtn);
       info.anchor.insertAdjacentElement('afterend', bar);
       relangNewNodes();
