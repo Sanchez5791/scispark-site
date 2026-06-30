@@ -2460,7 +2460,41 @@ Globals exposed (lesson HTML can call directly via onclick=):
       window.addEventListener('focus', queueScan);
     }
 
-    return { init: init };
+    // ── 回归修复 (件23, 2026-06-30): 圆圈 v3 把 -feedback 改成 display:none + 类名 fbv3-*,
+    //    害 collectGraded 扫不到 →「请老师复核」自动挂载失效。这里露一个按 qid 直接开复核框的
+    //    接口, 让圆圈陪伴条里的「问老师」链接接回原本的弹框 (PR#63 那套)。不新建任何复核/通知逻辑。
+    function infoForQid(qid) {
+      var fb = document.getElementById(qid + '-feedback');
+      var input = document.getElementById(qid + '-input');
+      var container = (fb && (fb.closest('.question-block') || fb.parentElement)) ||
+                      (input && (input.closest('.question-block') || input.parentElement)) || null;
+      var ansEl = document.getElementById('ans_' + qid + '_0') ||
+                  document.getElementById(qid + '-answer') || document.getElementById(qid + '-model');
+      var maxMarks = parseMarks(container);
+      return {
+        anchor: fb, container: container, qid: qid, verdict: 'wrong',
+        studentAnswer: input ? (input.value || '').trim() : '',
+        aiReason: fb ? textOf(fb).slice(0, 1000) : '',
+        modelAnswer: textOf(ansEl).slice(0, 1000),
+        questionStem: stemOf(container, qid),
+        aiMax: maxMarks, aiScore: 0,
+        showAnsBtn: document.getElementById(qid + '-show-ans-btn')
+      };
+    }
+    function openFor(qid, slot) {
+      try {
+        var existing = appealsByQ[qid];
+        if (existing && slot && slot.parentNode) {            // 已申诉过 → 显示状态条, 不重复开框
+          slot.parentNode.replaceChild(pillHTML(existing), slot);
+          relangNewNodes(); return;
+        }
+        openModal(infoForQid(qid), slot || null);
+      } catch (e) {}
+    }
+    window.SciSpark = window.SciSpark || {};
+    window.SciSpark.review = { open: openFor };
+
+    return { init: init, open: openFor };
   })();
 
   // ═════════════════════════════════════════════════════════════
@@ -3888,6 +3922,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
       '.fbv3-think .fbv3-eyes{display:inline-block;animation:fbv3Bob 1s ease-in-out infinite;}',
       '@keyframes fbv3Bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}',
       // 短状态条 (软话 / 对错 / 考试)
+      '.fbv3-reviewslot:not(:empty){margin-top:10px;}',
       '.fbv3-soft{background:var(--orange-pale,#FFF6EE);border:1px solid var(--orange-soft,#FFE3CC);color:#7a2e08;}',
       '.fbv3-right{background:#EAF7EA;border:1px solid #BFE6BF;color:#1f5132;}',
       '.fbv3-wrong{background:#FFF6EE;border:1px solid #FFE3CC;color:#7a2e08;}',
@@ -3989,17 +4024,36 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   // ── 旁边小链接的动作 (随时可用, 不泄答案) ──
+  // 再讲一次 = 把这题的「方向引导」(FB_WRONG, 只指方向不含答案) 再讲一遍, 明显有反应。
+  // 引擎里没有专门的「再讲教学」长内容 → 不乱补, 沿用方向引导 (军师可后续加内容)。
   function explainAgain(qid) {
-    setMsg(qid, '<strong>' + bi('Explain again', '再讲一次') + '</strong> ' + bi(REREAD.en, REREAD.zh));
+    var w = st(qid).lastWrong;
+    var enTxt = (w && w.en) ? w.en : REREAD.en;
+    var zhTxt = (w && w.zh) ? w.zh : REREAD.zh;
+    setMsg(qid, '<strong>🔁 ' + bi('Let’s look at this again', '我们再看一次这题') + '</strong> ' + bi(enTxt, zhTxt));
     var input = el(qid + '-input');
     if (input && input.scrollIntoView) { try { input.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {} }
     relang();
   }
+  // 问老师 = 接回「请老师复核」弹框 (件23 回归修复, PR#63 那套)。在陪伴条里放一个小槽,
+  // 送出后槽会变成「已提交」状态条。没接通 (没登录/REVIEW 缺席) → 退回温和占位语。
   function askTeacher(qid) {
-    // 现版本: 老实给一句「举手叫老师」。真后台通知是下一批 (蓝图 §5 决定2 押后), 不假装已发出。
-    try { if (window.SciSpark && SciSpark.requestHelp) SciSpark.requestHelp(qid); } catch (e) {}
-    setMsg(qid, '<strong>' + bi('Ask teacher', '问老师') + '</strong> ' + bi(ASK_HELP.en, ASK_HELP.zh));
-    relang();
+    var slot = el(qid + '-fbv3-reviewslot');
+    if (!slot) {
+      var bar = el(qid + '-fbv3');
+      var links = bar && bar.querySelector('.fbv3-links');
+      slot = document.createElement('div');
+      slot.id = qid + '-fbv3-reviewslot';
+      slot.className = 'fbv3-reviewslot';
+      if (links && links.parentNode) links.parentNode.insertBefore(slot, links.nextSibling);
+      else if (bar) bar.appendChild(slot);
+    }
+    if (window.SciSpark && SciSpark.review && SciSpark.review.open) {
+      SciSpark.review.open(qid, slot);
+    } else {
+      setMsg(qid, '<strong>' + bi('Ask teacher', '问老师') + '</strong> ' + bi(ASK_HELP.en, ASK_HELP.zh));
+      relang();
+    }
   }
 
   // ── 提交后的「在看你」小停顿 ──
@@ -4047,6 +4101,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
 
   function renderB(qid, plan, opts) {                                  // B = 认真答错: 圆环走 + 逐层解锁
+    if (opts.wrong) st(qid).lastWrong = opts.wrong;                    // 存方向引导, 给「再讲一次」重讲用
     var fb = el(qid + '-feedback'); if (fb) fb.style.display = 'none';  // 短状态条让位给陪伴条
     var bar = buildBar(qid); if (!bar) return;
     bar.style.display = '';
