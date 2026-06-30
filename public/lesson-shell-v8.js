@@ -3780,15 +3780,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
   window.SciSpark.isJunkAnswer = isJunkAnswer;
 })(); // end SHARED TEXT-ANSWER GRADER
 
-/* ════════════ FEEDBACK-ZONE CONTROLLER · v2 (蓝图 v2, 2026-06-30) ════════════
-   Engine owns WHEN (A/B routing, attempt counting, Hint@1 / Answer@3 unlock gates,
-   one-time orange soft-light). Lesson owns WHAT (per-question text) + the element
-   shells (convention IDs: <qid>-feedback / -purple / -hint-btn / -show-ans-btn).
-   Grading (gradeText) is NOT touched — it only decides right/wrong, never which
-   button lights up. Fixes the 中性话×鼓励 contradiction by making A and B mutually
-   exclusive: A = soft coach line only (skip 鼓励/Hint/Answer); B = explanation +
-   Hint (1st) + Answer (3rd). 3 consecutive A → rescued as B-1st. */
+/* ════════════ FEEDBACK-ZONE CONTROLLER · v2 (蓝图 v2 + FixPass, 2026-06-30) ════════════
+   Engine owns WHEN (A/B routing, attempt counting, Hint / Answer unlock gates, one-time
+   orange soft-light). Lesson owns WHAT (per-question text) + the element shells (convention
+   IDs: <qid>-feedback / -purple / -hint-btn / -show-ans-btn). Grading (gradeText) is NOT
+   touched — it only decides right/wrong, never which button lights up. A = soft coach line
+   only (skip 鼓励/Hint/Answer); B = direction explanation + Hint + Answer. 3 consecutive A →
+   rescued as B-1st. Default = Level 1: Hint after 1 wrong, Answer after 2 wrong (named
+   constants below so a future level system just swaps them for a per-level table). */
 (function () {
+  // ── timing (Level-1 default; future: read per student level) ──
+  var HINT_AFTER = 1;    // unlock Hint   after this many genuine (B) wrong answers
+  var ANSWER_AFTER = 2;  // unlock Answer after this many genuine (B) wrong answers
+
   var ST = {};
   function st(qid) { return ST[qid] || (ST[qid] = { b: 0, aStreak: 0, answerOpen: false }); }
 
@@ -3800,9 +3804,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     else { s.aStreak = 0; }
     if (cls === 'A') return { kind: 'A' };
     s.b++;
-    var openNow = (s.b >= 3 && !s.answerOpen);
+    var openNow = (s.b >= ANSWER_AFTER && !s.answerOpen);
     if (openNow) s.answerOpen = true;
-    return { kind: 'B', attempt: s.b, hint: s.b >= 1, answer: s.answerOpen, openAnswer: openNow };
+    return { kind: 'B', attempt: s.b, hint: s.b >= HINT_AFTER, answer: s.answerOpen, openAnswer: openNow };
   }
 
   var cssDone = false;
@@ -3813,30 +3817,55 @@ Globals exposed (lesson HTML can call directly via onclick=):
         'border-radius:12px;padding:11px 14px;color:#7a2e08;font-size:13px;line-height:1.55;' +
         'animation:fbv2In .3s ease-out;}' +
       '@keyframes fbv2In{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}' +
-      '.fbv2-unlocked{animation:fbv2Pop .2s ease-out;}' +
+      // 平时暗着看得见: dimmed, grey, not clickable — tells the student a 救兵 is coming
+      '.fbv2-locked{opacity:.35 !important;filter:grayscale(1);pointer-events:none;cursor:not-allowed;' +
+        'transition:opacity .4s,filter .4s,background .4s;}' +
+      // unlock: grey→bright in 0.4s + ONE orange glow (~0.8s), never loops
+      '.fbv2-unlocked{opacity:1 !important;filter:none;pointer-events:auto;cursor:pointer;' +
+        'transition:opacity .4s,filter .4s,background .4s;animation:fbv2Pop .2s ease-out;}' +
       '.fbv2-glow{animation:fbv2Glow .8s ease-out 1;}' +
       '@keyframes fbv2Pop{0%{transform:scale(1);}50%{transform:scale(1.03);}100%{transform:scale(1);}}' +
-      '@keyframes fbv2Glow{0%{box-shadow:0 0 0 0 var(--orange-glow,rgba(234,88,12,.4));}' +
+      '@keyframes fbv2Glow{0%{box-shadow:0 0 0 0 var(--orange,#EA580C);}' +
+        '50%{box-shadow:0 0 0 6px var(--orange-glow,rgba(234,88,12,.4));}' +
         '100%{box-shadow:0 0 0 10px rgba(234,88,12,0);}}' +
       '@media (prefers-reduced-motion: reduce){.fbv2-soft,.fbv2-unlocked{animation:none;}.fbv2-glow{animation:none;}}';
     var s = document.createElement('style'); s.id = 'fbv2-styles'; s.textContent = css;
     document.head.appendChild(s);
   }
 
-  // On load: hide every Hint / Answer tool button so they only appear once EARNED
-  // (Hint at B-1st, Answer at B-3rd). Idempotent — never re-hides one already shown.
-  function initHide() {
+  function relang() { try { if (window.setLang) setLang(document.body.classList.contains('zh-mode') ? 'zh' : 'en'); } catch (e) {} }
+  function el(id) { return document.getElementById(id); }
+  function biSet(b, en, zh) { if (!b) return; b.setAttribute('data-en', en); b.setAttribute('data-zh', zh); b.textContent = en; }
+
+  // On load: every Hint / Answer tool is shown but DIMMED-LOCKED with a "opens after N
+  // tries" label (蓝图 四-1). Earned later → bright + glow. Exam-screen (#screen-test)
+  // questions get NO tools at all. Idempotent.
+  function initLock() {
     injectCSS();
     var btns = document.querySelectorAll('[id$="-hint-btn"],[id$="-show-ans-btn"]');
     Array.prototype.forEach.call(btns, function (b) {
       if (b._fbInit || b._fbShown) return;
       b._fbInit = true;
-      b.style.display = 'none';
+      if (b.closest && b.closest('#screen-test')) { b.style.display = 'none'; return; }  // exam = no help
+      b.style.display = '';
+      b.classList.add('fbv2-locked');
+      if (/-hint-btn$/.test(b.id)) biSet(b, '🔒 Hint · opens after ' + HINT_AFTER + ' try',
+                                            '🔒 提示 · 答错' + HINT_AFTER + ' 次后开放');
+      else                        biSet(b, '🔒 Answer · opens after ' + ANSWER_AFTER + ' tries',
+                                            '🔒 答案 · 答错' + ANSWER_AFTER + ' 次后开放');
     });
+    relang();
   }
 
-  function relang() { try { if (window.setLang) setLang(document.body.classList.contains('zh-mode') ? 'zh' : 'en'); } catch (e) {} }
-  function el(id) { return document.getElementById(id); }
+  function unlock(b, enLbl, zhLbl) {
+    if (!b || b._fbShown) return;
+    b._fbShown = true;
+    b.style.display = '';
+    b.classList.remove('fbv2-locked');
+    b.classList.add('fbv2-unlocked', 'fbv2-glow');
+    biSet(b, enLbl, zhLbl);
+    setTimeout(function () { b.classList.remove('fbv2-glow'); }, 850);
+  }
 
   var SOFT_A = { en: 'This doesn’t look like a full answer yet — read the question again and give it a try.',
                  zh: '这好像还不是完整的答案 —— 再读一次题目,试试看。' };
@@ -3851,7 +3880,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
     var fb = el(qid + '-feedback'), purple = el(qid + '-purple'),
         hintBtn = el(qid + '-hint-btn'), ansBtn = el(qid + '-show-ans-btn'),
         ansEl = el('ans_' + qid + '_0'), submit = el(qid + '-submit');
-    if (purple) purple.style.display = 'none';            // ★ kill the always-on 紫框 (fixes contradiction)
+    if (purple) purple.style.display = 'none';            // ★ kill the always-on 紫框
 
     if (plan.kind === 'correct') {
       if (fb) { fb.style.display = 'block'; fb.className = 'feedback-right';
@@ -3859,6 +3888,7 @@ Globals exposed (lesson HTML can call directly via onclick=):
           '<div class="zh" style="margin-top:4px;">✓ 正确!' + (opts.right ? opts.right.zh : '') + '</div>'; }
       if (submit) submit.disabled = true;
       if (hintBtn) hintBtn.style.display = 'none';
+      if (ansBtn && !ansBtn._fbShown) ansBtn.style.display = 'none';   // hide unopened answer tool
       relang();
       return { faint: plan.faint };
     }
@@ -3877,27 +3907,19 @@ Globals exposed (lesson HTML can call directly via onclick=):
       return { faint: false };                             // no 鼓励 / Hint / Answer
     }
 
-    // B = 认真答错: explanation + 鼓励, gated Hint(1st)/Answer(3rd)
+    // B = 认真答错: direction explanation (no answer) + gated Hint / Answer
     if (fb) { fb.style.display = 'block'; fb.className = 'feedback-wrong';
       fb.innerHTML = '<strong>✗ Have another think.</strong> ' + (opts.wrong ? opts.wrong.en : '') +
         '<em> (tried ' + plan.attempt + '×)</em>' +
         '<div class="zh" style="margin-top:4px;">✗ 再想一想。' + (opts.wrong ? opts.wrong.zh : '') + '</div>'; }
 
-    if (plan.hint && opts.hasHint && hintBtn && !hintBtn._fbShown) {
-      hintBtn._fbShown = true;
-      hintBtn.style.display = '';
-      hintBtn.classList.add('fbv2-unlocked', 'fbv2-glow');
-      setTimeout(function () { hintBtn.classList.remove('fbv2-glow'); }, 850);
-    }
+    if (plan.hint && opts.hasHint) unlock(hintBtn, '💡 Hint', '💡 提示');
 
-    if (plan.openAnswer && ansBtn) {                       // unlock Answer at 3rd: appear + glow + reveal + why
-      ansBtn._fbShown = true;
-      ansBtn.style.display = '';
-      ansBtn.classList.add('fbv2-unlocked', 'fbv2-glow');
-      setTimeout(function () { ansBtn.classList.remove('fbv2-glow'); }, 850);
+    if (plan.openAnswer && ansBtn) {                       // unlock Answer: bright + glow + reveal + why
+      unlock(ansBtn, '✅ Answer', '✅ 答案');
       if (ansEl) {
         ansEl.style.display = 'block';
-        if (opts.right && !ansEl._whyAdded) {              // 一两句「为什么对」
+        if (opts.right && !ansEl._whyAdded) {              // answer + 一两句「为什么对」 (only here)
           ansEl._whyAdded = true;
           var why = document.createElement('div');
           why.style.cssText = 'margin-top:8px;font-size:13px;color:#3a6b3a;';
@@ -3911,9 +3933,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     return { faint: false };
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHide);
-  else initHide();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initLock);
+  else initLock();
 
   window.SciSpark = window.SciSpark || {};
-  window.SciSpark.fb = { handle: handle, decide: decide, init: initHide, _state: ST };
+  window.SciSpark.fb = { handle: handle, decide: decide, init: initLock, _state: ST };
 })(); // end FEEDBACK-ZONE CONTROLLER v2
