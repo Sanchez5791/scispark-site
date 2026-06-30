@@ -3767,6 +3767,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     if(!i) return false;
     if(looksGibberish(i)) return true;                 // true gibberish (any language) → A
     if(isQuestionCopy(i, stem)) return true;           // copied question → A
+    // 修④: one repeated letter (www / aaa) or all-symbols (!!! / ???) = not an answer → A.
+    // Real short answers ("8" / "no" / "铁") are NOT caught (single char / has meaning).
+    var compact = i.replace(/\s+/g, '');
+    if (compact.length >= 2 && /^([a-z])\1+$/.test(compact)) return true;       // www, aaaa
+    if (compact.length >= 1 && !/[a-z0-9一-龥]/.test(compact)) return true;     // pure symbols
     // 中文为主的答案 = 双语课的认真答错(B), 不当离题A。L01 收中文答案("铁"/"有质量"
     // 都算对), 所以错的中文也是真在答 → 走学科解释, 不说「试着用英文」。(老板 2026-06-30)
     var cjk = (i.match(/[一-龥]/g) || []).length;
