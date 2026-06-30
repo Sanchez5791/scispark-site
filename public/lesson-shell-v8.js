@@ -3765,12 +3765,155 @@ Globals exposed (lesson HTML can call directly via onclick=):
   function isJunkAnswer(input, scheme, stem){
     var i = normalizeAns(input);
     if(!i) return false;
-    if(looksGibberish(i)) return true;
-    if(isQuestionCopy(i, stem)) return true;
-    if(isOffTopic(i, scheme, stem)) return true;
+    if(looksGibberish(i)) return true;                 // true gibberish (any language) → A
+    if(isQuestionCopy(i, stem)) return true;           // copied question → A
+    // 中文为主的答案 = 双语课的认真答错(B), 不当离题A。L01 收中文答案("铁"/"有质量"
+    // 都算对), 所以错的中文也是真在答 → 走学科解释, 不说「试着用英文」。(老板 2026-06-30)
+    var cjk = (i.match(/[一-龥]/g) || []).length;
+    var enw = (i.match(/[a-z]{2,}/g) || []).length;
+    if (cjk > 0 && cjk >= enw) return false;            // Chinese-primary → B
+    if(isOffTopic(i, scheme, stem)) return true;        // English off-topic ramble → A
     return false;
   }
   window.SciSpark = window.SciSpark || {};
   window.SciSpark.gradeText = gradeText;
   window.SciSpark.isJunkAnswer = isJunkAnswer;
 })(); // end SHARED TEXT-ANSWER GRADER
+
+/* ════════════ FEEDBACK-ZONE CONTROLLER · v2 (蓝图 v2, 2026-06-30) ════════════
+   Engine owns WHEN (A/B routing, attempt counting, Hint@1 / Answer@3 unlock gates,
+   one-time orange soft-light). Lesson owns WHAT (per-question text) + the element
+   shells (convention IDs: <qid>-feedback / -purple / -hint-btn / -show-ans-btn).
+   Grading (gradeText) is NOT touched — it only decides right/wrong, never which
+   button lights up. Fixes the 中性话×鼓励 contradiction by making A and B mutually
+   exclusive: A = soft coach line only (skip 鼓励/Hint/Answer); B = explanation +
+   Hint (1st) + Answer (3rd). 3 consecutive A → rescued as B-1st. */
+(function () {
+  var ST = {};
+  function st(qid) { return ST[qid] || (ST[qid] = { b: 0, aStreak: 0, answerOpen: false }); }
+
+  // ── pure decision core (unit-testable; mutates state) ──
+  function decide(s, ev) {
+    if (ev.correct) return { kind: 'correct', faint: !!s.answerOpen };
+    var cls = ev.isJunk ? 'A' : 'B';
+    if (cls === 'A') { s.aStreak++; if (s.aStreak >= 3) { cls = 'B'; s.aStreak = 0; } }
+    else { s.aStreak = 0; }
+    if (cls === 'A') return { kind: 'A' };
+    s.b++;
+    var openNow = (s.b >= 3 && !s.answerOpen);
+    if (openNow) s.answerOpen = true;
+    return { kind: 'B', attempt: s.b, hint: s.b >= 1, answer: s.answerOpen, openAnswer: openNow };
+  }
+
+  var cssDone = false;
+  function injectCSS() {
+    if (cssDone || !document.head) return; cssDone = true;
+    var css =
+      '.fbv2-soft{background:var(--orange-pale,#FFF6EE);border:1.5px solid var(--orange-soft,#FFE9D6);' +
+        'border-radius:12px;padding:11px 14px;color:#7a2e08;font-size:13px;line-height:1.55;' +
+        'animation:fbv2In .3s ease-out;}' +
+      '@keyframes fbv2In{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}' +
+      '.fbv2-unlocked{animation:fbv2Pop .2s ease-out;}' +
+      '.fbv2-glow{animation:fbv2Glow .8s ease-out 1;}' +
+      '@keyframes fbv2Pop{0%{transform:scale(1);}50%{transform:scale(1.03);}100%{transform:scale(1);}}' +
+      '@keyframes fbv2Glow{0%{box-shadow:0 0 0 0 var(--orange-glow,rgba(234,88,12,.4));}' +
+        '100%{box-shadow:0 0 0 10px rgba(234,88,12,0);}}' +
+      '@media (prefers-reduced-motion: reduce){.fbv2-soft,.fbv2-unlocked{animation:none;}.fbv2-glow{animation:none;}}';
+    var s = document.createElement('style'); s.id = 'fbv2-styles'; s.textContent = css;
+    document.head.appendChild(s);
+  }
+
+  // On load: hide every Hint / Answer tool button so they only appear once EARNED
+  // (Hint at B-1st, Answer at B-3rd). Idempotent — never re-hides one already shown.
+  function initHide() {
+    injectCSS();
+    var btns = document.querySelectorAll('[id$="-hint-btn"],[id$="-show-ans-btn"]');
+    Array.prototype.forEach.call(btns, function (b) {
+      if (b._fbInit || b._fbShown) return;
+      b._fbInit = true;
+      b.style.display = 'none';
+    });
+  }
+
+  function relang() { try { if (window.setLang) setLang(document.body.classList.contains('zh-mode') ? 'zh' : 'en'); } catch (e) {} }
+  function el(id) { return document.getElementById(id); }
+
+  var SOFT_A = { en: 'This doesn’t look like a full answer yet — read the question again and give it a try.',
+                 zh: '这好像还不是完整的答案 —— 再读一次题目,试试看。' };
+  function softSpan() { return '<span data-en="' + SOFT_A.en + '" data-zh="' + SOFT_A.zh + '">' + SOFT_A.en + '</span>'; }
+
+  // lesson calls this AFTER grading a typed answer.
+  // opts = { correct, isJunk, isTest, hasHint, right:{en,zh}, wrong:{en,zh} }
+  function handle(qid, opts) {
+    injectCSS();
+    var s = st(qid);
+    var plan = decide(s, { correct: !!opts.correct, isJunk: !!opts.isJunk });
+    var fb = el(qid + '-feedback'), purple = el(qid + '-purple'),
+        hintBtn = el(qid + '-hint-btn'), ansBtn = el(qid + '-show-ans-btn'),
+        ansEl = el('ans_' + qid + '_0'), submit = el(qid + '-submit');
+    if (purple) purple.style.display = 'none';            // ★ kill the always-on 紫框 (fixes contradiction)
+
+    if (plan.kind === 'correct') {
+      if (fb) { fb.style.display = 'block'; fb.className = 'feedback-right';
+        fb.innerHTML = '<strong>✓ Correct!</strong> ' + (opts.right ? opts.right.en : '') +
+          '<div class="zh" style="margin-top:4px;">✓ 正确!' + (opts.right ? opts.right.zh : '') + '</div>'; }
+      if (submit) submit.disabled = true;
+      if (hintBtn) hintBtn.style.display = 'none';
+      relang();
+      return { faint: plan.faint };
+    }
+
+    if (opts.isTest) {                                     // exam mode: mark only, no hints/answer
+      if (fb) { fb.style.display = 'block';
+        if (plan.kind === 'A') { fb.className = 'fbv2-soft'; fb.innerHTML = softSpan(); }
+        else { fb.className = 'feedback-wrong'; fb.innerHTML = '<strong>✗ Not quite.</strong><div class="zh" style="margin-top:4px;">✗ 差一点。</div>'; }
+      }
+      relang(); return { faint: false };
+    }
+
+    if (plan.kind === 'A') {                               // A = 不是答案: ONLY the soft coach line
+      if (fb) { fb.style.display = 'block'; fb.className = 'fbv2-soft'; fb.innerHTML = softSpan(); }
+      relang();
+      return { faint: false };                             // no 鼓励 / Hint / Answer
+    }
+
+    // B = 认真答错: explanation + 鼓励, gated Hint(1st)/Answer(3rd)
+    if (fb) { fb.style.display = 'block'; fb.className = 'feedback-wrong';
+      fb.innerHTML = '<strong>✗ Have another think.</strong> ' + (opts.wrong ? opts.wrong.en : '') +
+        '<em> (tried ' + plan.attempt + '×)</em>' +
+        '<div class="zh" style="margin-top:4px;">✗ 再想一想。' + (opts.wrong ? opts.wrong.zh : '') + '</div>'; }
+
+    if (plan.hint && opts.hasHint && hintBtn && !hintBtn._fbShown) {
+      hintBtn._fbShown = true;
+      hintBtn.style.display = '';
+      hintBtn.classList.add('fbv2-unlocked', 'fbv2-glow');
+      setTimeout(function () { hintBtn.classList.remove('fbv2-glow'); }, 850);
+    }
+
+    if (plan.openAnswer && ansBtn) {                       // unlock Answer at 3rd: appear + glow + reveal + why
+      ansBtn._fbShown = true;
+      ansBtn.style.display = '';
+      ansBtn.classList.add('fbv2-unlocked', 'fbv2-glow');
+      setTimeout(function () { ansBtn.classList.remove('fbv2-glow'); }, 850);
+      if (ansEl) {
+        ansEl.style.display = 'block';
+        if (opts.right && !ansEl._whyAdded) {              // 一两句「为什么对」
+          ansEl._whyAdded = true;
+          var why = document.createElement('div');
+          why.style.cssText = 'margin-top:8px;font-size:13px;color:#3a6b3a;';
+          why.innerHTML = '<strong>Why:</strong> ' + opts.right.en +
+            '<div class="zh">为什么:' + opts.right.zh + '</div>';
+          ansEl.appendChild(why);
+        }
+      }
+    }
+    relang();
+    return { faint: false };
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHide);
+  else initHide();
+
+  window.SciSpark = window.SciSpark || {};
+  window.SciSpark.fb = { handle: handle, decide: decide, init: initHide, _state: ST };
+})(); // end FEEDBACK-ZONE CONTROLLER v2

@@ -321,35 +321,39 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     var count = track.attempts.length;
     var ac = document.getElementById(qid+'-attempts'); if(ac) ac.textContent='Attempts: '+count;
 
-    var fb = document.getElementById(qid+'-feedback'); if(!fb) return;
-    fb.style.display='block';
+    if(!correct){ WRONG[qid]=(WRONG[qid]||0)+1; }   // session wrong count (kept for WRAP summary)
+
+    // v2 feedback zone: the ENGINE controller owns the display — A/B routing, gated
+    // Hint@1 / Answer@3, orange soft-light, and it kills the always-on 紫框 (this fixes
+    // the 中性话×鼓励 contradiction). Lesson keeps rewards + attempt tracking. Grading
+    // verdict (correct) is unchanged.
+    var isJunk = (!correct) && window.SciSpark && SciSpark.isJunkAnswer &&
+      SciSpark.isJunkAnswer(input, SCHEMES[qid], (typeof STEMS!=='undefined'?STEMS[qid]:''));
+    var res = (window.SciSpark && SciSpark.fb)
+      ? SciSpark.fb.handle(qid, {
+          correct: correct, isJunk: !!isJunk, isTest: isTest,
+          hasHint: !!(typeof HINT1!=='undefined' && HINT1[qid] && (HINT1[qid].en || HINT1[qid].zh)),
+          right: (typeof FB_RIGHT!=='undefined' && FB_RIGHT[qid]) || null,
+          wrong: (typeof FB_WRONG!=='undefined' && FB_WRONG[qid]) || null
+        })
+      : null;
+
     if(correct){
-      fb.className='feedback-right';
-      fb.innerHTML='<strong>✓ Correct!</strong> '+FB_RIGHT[qid].en+'<div class="zh" style="margin-top:4px;">✓ 正确!'+FB_RIGHT[qid].zh+'</div>';
-      var sub=document.getElementById(qid+'-submit'); if(sub) sub.disabled=true;
-      var hbC=document.getElementById(qid+'-hint-btn'); if(hbC) hbC.style.display='none';
       try{ if(window.awardXP) awardXP(20,'mcq'); }catch(e){}
-      try{ if(window.SparkJar) window.SparkJar.add(20,'correct'); }catch(e){}
-      try{ if(window.SparkStreak && window.SparkStreak.add) window.SparkStreak.add(); }catch(e){}
-      try{ if(window.playSound) playSound('correct'); }catch(e){}
+      if(res && res.faint){
+        // saw the answer first, then copied it → quiet acknowledgement, no fireworks /
+        // streak (防抄, blueprint v2). They still get the XP for finishing.
+        try{ if(window.playSound) playSound('click'); }catch(e){}
+      } else {
+        try{ if(window.SparkJar) window.SparkJar.add(20,'correct'); }catch(e){}
+        try{ if(window.SparkStreak && window.SparkStreak.add) window.SparkStreak.add(); }catch(e){}
+        try{ if(window.playSound) playSound('correct'); }catch(e){}
+      }
       try{ if(window.doudouReact) doudouReact(true); }catch(e){}
     } else {
-      var capCount=(WRONG[qid]=(WRONG[qid]||0)+1);   // session-fresh wrong count drives the cap + hints
-      fb.className='feedback-wrong';
-      if(isTest){
-        // exam mode: mark wrong, no guiding hint
-        fb.innerHTML='<strong>✗ Not quite.</strong> <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。<em>(已试 '+capCount+' 次)</em></div>';
-      } else if (window.SciSpark && SciSpark.isJunkAnswer && SciSpark.isJunkAnswer(input, SCHEMES[qid], (typeof STEMS!=='undefined'?STEMS[qid]:''))) {
-        // off-topic / junk (NOT a genuine attempt) → neutral line, not the academic
-        // explanation (off-topic feedback 2026-06-30). 判分不变,只换显示哪句话。
-        fb.innerHTML='<strong>✗</strong> That doesn’t look like an answer to this question — try again. <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 这好像不是在答这一题,再试一次。</div>';
-      } else {
-        fb.innerHTML='<strong>✗ Not quite.</strong> '+FB_WRONG[qid].en+' <em>(tried '+capCount+'×)</em><div class="zh" style="margin-top:4px;">✗ 差一点。'+FB_WRONG[qid].zh+'</div>';
-      }
-      // No effort/sparks for wrong/junk/copied answers (order 2026-06-19): reward only on a correct answer.
+      // No effort/sparks for wrong/junk answers (order 2026-06-19): reward only on correct.
       try{ if(window.playSound) playSound('wrong'); }catch(e){}
       try{ if(window.doudouReact) doudouReact(false); }catch(e){}
-      applyCapAndHints(qid, capCount, isTest, ta);
     }
   }
 
