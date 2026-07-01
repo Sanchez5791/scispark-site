@@ -1136,7 +1136,9 @@ function showToast(message, opts) {
     if (!startBtn) return;
     const yr = (child.year_group || 'Y7').toLowerCase();
     function lessonUrl(unit, lesson) {
-      return '/lessons/' + yr + '/u' + unit + '/l' + String(lesson).padStart(2, '0') + '.html';
+      // 身份修复 (2026-07-01): 进课链接带上「是哪个孩子」, 引擎 resolveActiveChild 靠它认对人 (多孩子不猜错)。
+      return '/lessons/' + yr + '/u' + unit + '/l' + String(lesson).padStart(2, '0') + '.html'
+             + '?child_id=' + encodeURIComponent(child.id);
     }
     let target = lessonUrl(1, 1); // fallback: very first lesson
     try {

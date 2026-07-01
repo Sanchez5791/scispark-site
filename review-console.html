@@ -263,6 +263,8 @@
         '<span class="tag tag--q">'+esc(row.question_id)+'</span>' +
         (row.trigger_type && row.trigger_type!=='STUDENT_APPEAL'
           ? '<span class="tag" style="background:#FEE2E2;color:#B91C1C">'+redLabel(row.trigger_type)+'</span>' : '') +
+        // 身份修复 (2026-07-01): child_id 为空 = 没认出是哪个孩子 → 提示老师人工认领 (救命铁律: 危机/申诉照写不挡)
+        (row.child_id ? '' : '<span class="tag" style="background:#FEF3C7;color:#92400E" title="没绑定到具体孩子, 请人工认领">待认领 · UNRESOLVED</span>') +
         '<div class="card__sum">' +
           '<div class="card__lesson">'+esc(row.lesson_label || row.lesson_path)+'</div>' +
           '<div class="card__meta">'+fmtTime(row.created_at)+' · '+esc(REASON_LABELS[row.student_reason_code]||row.student_reason_code)+'</div>' +

@@ -1088,19 +1088,54 @@ Globals exposed (lesson HTML can call directly via onclick=):
     } catch (e) { return null; }
   }
 
+  // ═══════════════════════════════════════════════════════════════
+  // resolveActiveChild — 身份修复 (Engine-thaw Item2, 2026-07-01)。
+  // 认「这次上课是哪个孩子」的 ★唯一入口★, 取代旧的 children…limit(1) 猜第一个。
+  //   • 网址 ?child_id= 且确是这家长的孩子 → 用它。
+  //   • 没带 + 只有一个孩子              → 用那个。
+  //   • 没带 + 多个孩子                  → UNRESOLVED (★不猜★)。
+  //   • 带了但不是这家长的 / 没孩子 / 没登录 → UNRESOLVED。
+  // 返回 { childId|null, resolved:bool, reason, userId }。按页缓存 (但 'no-auth' 不缓存, 会重试)。
+  // ★救命铁律 (军师 2026-07-01): 课堂数据(逐题/进度) 认不出 → 跳过不写(别猜错人);
+  //   危机/申诉(review_requests) 认不出 → 仍照写, child_id 留 null(待认领), 永不因此挡。★
+  let _activeChild = null;   // 稳定结果缓存; 绝不缓存 'no-auth'(未登录, 下次重试)
+  async function resolveActiveChild(client) {
+    if (_activeChild) return _activeChild;
+    const out = { childId: null, resolved: false, reason: 'no-auth', userId: null };
+    try {
+      if (!client) return out;
+      const { data: { session } } = await client.auth.getSession();  // LOCAL, no session-readiness race
+      const user = session && session.user;
+      if (!user) return out;                       // 未登录 → 不缓存, 下次重试
+      out.userId = user.id;
+      let urlChildId = null;
+      try { urlChildId = new URLSearchParams(location.search).get('child_id'); } catch (e) {}
+      const { data: kids } = await client
+        .from('children').select('id').eq('parent_id', user.id);   // ★全部孩子, 不再 limit 1★
+      const list = kids || [];
+      if (urlChildId && list.some(function (k) { return k.id === urlChildId; })) {
+        out.childId = urlChildId; out.resolved = true; out.reason = 'url';
+      } else if (urlChildId) {
+        out.reason = 'not-owned';                  // 带了但不是这家长的 → 不用(防串号)
+      } else if (list.length === 1) {
+        out.childId = list[0].id; out.resolved = true; out.reason = 'single';
+      } else if (list.length > 1) {
+        out.reason = 'multi-no-param';             // ★ 认不出是哪个孩子 → 不猜 ★
+      } else {
+        out.reason = 'no-child';
+      }
+      _activeChild = out;                          // 稳定 → 缓存
+    } catch (e) {}
+    return out;
+  }
+
   async function _pqResolveChild() {
     if (_pqChildId) return _pqChildId;   // cache ONLY a real child → keep retrying until logged in
     try {
       const client = await waitForSupabaseClient(3000);
       if (!client) return null;
-      // getSession() is LOCAL (no network) → avoids the boot-time session-readiness race that
-      // getUser() hit (cf. PR#53). If the session isn't hydrated yet, the next capture retries.
-      const { data: { session } } = await client.auth.getSession();
-      const user = session && session.user;
-      if (!user) return null;            // not logged in (yet) → skip; retry on next capture
-      const { data: child } = await client
-        .from('children').select('id').eq('parent_id', user.id).limit(1).maybeSingle();
-      if (child) _pqChildId = child.id;
+      const r = await resolveActiveChild(client);   // 身份修复: 唯一认孩子入口 (不再 limit 1)
+      if (r.resolved) _pqChildId = r.childId;        // 课堂数据: 认不出(多孩子没带) → 不缓存 → 跳过写(别猜错人)
     } catch (e) {}
     return _pqChildId;
   }
@@ -1621,23 +1656,16 @@ Globals exposed (lesson HTML can call directly via onclick=):
         const client = await waitForSupabaseClient(3000);
         if (!client) return;
   
-        const { data: { user }, error: authErr } = await client.auth.getUser();
-        if (authErr || !user) return;
-  
-        const { data: child } = await client
-          .from('children')
-          .select('id')
-          .eq('parent_id', user.id)
-          .limit(1)
-          .maybeSingle();
-        if (!child) return;
-  
+        // 身份修复: 用唯一入口认孩子; 认不出(多孩子没带 child_id) → 跳过, 别把进度记错人 (课堂数据=可挡)
+        const _ac = await resolveActiveChild(client);
+        if (!_ac.resolved) { console.warn('[SciSpark] lesson_progress skipped — child unresolved (' + _ac.reason + ')'); return; }
+
         const now = new Date().toISOString();
         const { error: upsertErr } = await client
           .from('lesson_progress')
           .upsert(
             {
-              child_id:     child.id,
+              child_id:     _ac.childId,
               lesson_id:    lessonId,
               status:       'completed',
               started_at:   now,   // used only on first INSERT; ignored on conflict update
@@ -1974,8 +2002,12 @@ Globals exposed (lesson HTML can call directly via onclick=):
       const user = auth && auth.data && auth.data.user;
       if (!user) return false;
       if (status === 'view') return true;
+      // 身份修复 · 清 E5 老坑: 旧代码写 child_id: user.id (把家长 id 当孩子 id, 双重错)。
+      // 改走唯一入口; 认不出 → 跳过, ★永不再把家长 id 当孩子 id 写★ (课堂数据=可挡)。
+      const _ac = await resolveActiveChild(sb);
+      if (!_ac.resolved) { console.warn('[SciSpark v3] trackProgress skipped — child unresolved (' + _ac.reason + ')'); return false; }
       const { error } = await sb.from('lesson_progress').upsert({
-        child_id: user.id,
+        child_id: _ac.childId,
         lesson_id: lessonId,
         completed_at: new Date().toISOString()
       }, { onConflict: 'child_id,lesson_id' });
@@ -2091,8 +2123,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // 危机记录: 用现有 review_requests 表 + is_crisis=true + trigger_type=CRISIS (刀2 已加栏; ★不动表结构★)
     async function doInsertCrisis(info, txt, sb, user) {
       try {
+        // 身份修复 · ★救命铁律★: 危机认不出孩子(多孩子没带) 也照写, child_id 留 null=待认领; ★绝不因此挡★。
+        var _ac = await resolveActiveChild(sb);
         var payload = {
           student_id: user.id,
+          child_id: (_ac && _ac.resolved) ? _ac.childId : null,
           lesson_path: lessonPath(), lesson_label: lessonLabel(),
           question_id: info.qid, question_stem: info.questionStem || null,
           student_answer: info.studentAnswer || null,
@@ -2503,8 +2538,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
 
     async function doInsert(info, code, txt, sb, user) {
       try {
+        // 身份修复 · ★救命铁律★: 申诉认不出孩子也照写, child_id 留 null=待认领; ★绝不因此挡★。
+        var _ac = await resolveActiveChild(sb);
         var payload = {
           student_id: user.id,
+          child_id: (_ac && _ac.resolved) ? _ac.childId : null,
           lesson_path: lessonPath(),
           lesson_label: lessonLabel(),
           question_id: info.qid,
@@ -2610,8 +2648,11 @@ Globals exposed (lesson HTML can call directly via onclick=):
         }
         if (appealsByQ[qid]) return appealsByQ[qid];          // 这题已有记录 → 不重复写
         var info = infoForQid(qid);
+        // 身份修复 · ★救命铁律★: 系统红色认不出孩子也照写, child_id 留 null=待认领; ★绝不因此挡★。
+        var _ac = await resolveActiveChild(sb);
         var payload = {
           student_id: user.id,
+          child_id: (_ac && _ac.resolved) ? _ac.childId : null,
           lesson_path: lessonPath(), lesson_label: lessonLabel(),
           question_id: qid, question_stem: info.questionStem || null,
           student_answer: info.studentAnswer || null,
