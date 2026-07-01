@@ -2714,10 +2714,12 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Streak initial render
     SparkStreak.render();
 
-    // Apply saved lang
-    let saved = 'en';
-    try { saved = localStorage.getItem(LS_LANG) || 'en'; } catch (e) {}
-    setLang(saved);
+    // Apply lang — the PAGE's declared language wins (老板令 2026-07-01): l0X-zh.html must
+    // load in Chinese so students who chose Chinese never see English feedback. The toggle
+    // still switches language during the session; on reload the page's own language wins.
+    var _pageZh = (String(document.documentElement.lang || '').toLowerCase().indexOf('zh') === 0)
+      || (document.body && (document.body.classList.contains('lang-zh') || document.body.classList.contains('zh-mode')));
+    setLang(_pageZh ? 'zh' : 'en');
 
     // Render mute toggle initial state
     renderMuteToggle();
@@ -4365,7 +4367,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     setTimeout(function () {
       setBusy(qid, false);
       if (plan.kind === 'correct') { renderCorrect(qid, plan.faint, opts); return; }
-      if (opts.isTest)             { renderExam(qid, plan); return; }
+      // 老板令 2026-07-01: 考试屏(TEST)也走支援模式 (提示/答案/问老师), 与练习屏(TRY)一模一样。
+      // 原「考试屏只判对错、不给答案」已停用 —— 不再走 renderExam。改一处, 全站所有课的考试题一起支援。
+      // if (opts.isTest)             { renderExam(qid, plan); return; }
       if (plan.kind === 'A')       { renderA(qid); return; }
       renderB(qid, plan, opts);
     }, THINK_MS);
