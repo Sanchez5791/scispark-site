@@ -2714,10 +2714,12 @@ Globals exposed (lesson HTML can call directly via onclick=):
     // Streak initial render
     SparkStreak.render();
 
-    // Apply saved lang
-    let saved = 'en';
-    try { saved = localStorage.getItem(LS_LANG) || 'en'; } catch (e) {}
-    setLang(saved);
+    // Apply lang — the PAGE's declared language wins (老板令 2026-07-01): l0X-zh.html must
+    // load in Chinese so students who chose Chinese never see English feedback. The toggle
+    // still switches language during the session; on reload the page's own language wins.
+    var _pageZh = (String(document.documentElement.lang || '').toLowerCase().indexOf('zh') === 0)
+      || (document.body && (document.body.classList.contains('lang-zh') || document.body.classList.contains('zh-mode')));
+    setLang(_pageZh ? 'zh' : 'en');
 
     // Render mute toggle initial state
     renderMuteToggle();
