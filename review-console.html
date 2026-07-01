@@ -232,7 +232,8 @@
   async function load(){
     var list = $('#list');
     list.innerHTML = '<div class="loading">载入中…</div>';
-    var q = sb.from('review_requests').select('*').order('created_at',{ascending:false}).limit(200);
+    // 求救Phase1 刀4: 危机记录置顶 (is_crisis=true 排最前), 再按最新。
+    var q = sb.from('review_requests').select('*').order('is_crisis',{ascending:false}).order('created_at',{ascending:false}).limit(200);
     if(currentFilter==='pending') q = q.in('status',['submitted','in_review']);
     else if(currentFilter==='resolved') q = q.eq('status','resolved');
     var r = await q;
@@ -251,6 +252,9 @@
   function renderCard(row){
     var card = document.createElement('div');
     card.className = 'card';
+    // 刀4: 危机记录高亮 (红框) + 置顶排序 (见 load) + 🆘危机标签 (见 redLabel)
+    var isCrisisRow = (row.is_crisis===true) || (row.trigger_type==='CRISIS');
+    if(isCrisisRow){ card.style.cssText = 'border:2px solid #B91C1C;background:#FFF5F5;box-shadow:0 0 0 3px rgba(185,28,28,.10)'; }
     var verdict = row.ai_verdict==='correct' ? 'correct' : (row.ai_verdict==='wrong'?'wrong':'');
     var scoreTxt = (row.ai_score!=null ? row.ai_score : '?') + (row.ai_max!=null ? '/'+row.ai_max : '');
 

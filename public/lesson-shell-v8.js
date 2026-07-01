@@ -2036,6 +2036,97 @@ Globals exposed (lesson HTML can call directly via onclick=):
       return t.slice(0, 200);
     }
 
+    // ════════════════════════════════════════════════════════════════
+    // 求救系统 Phase1 · 刀4: 危机侦测 (护小孩)
+    //   照定版词表 (CrisisWordList_FINAL_2026-06-30) §2, ★一字不改★。
+    //   ★双手房不自加减词; 以后增删走军师/老板。★
+    //   只挂【理由框】提交 (科学课答题框含 死/die 等正常生物答案, 不扫, 免误报)。
+    //   命中 → 转真人(写危机记录, 复核台置顶) + 豆豆定版安抚 + 不锁不限次 + 通知只留hook(刀5接TG)。
+    //   (B) 完整绝望语气侦测需 GLM = Phase2; 这刀先做 (A)关键词 + b1宽网 + b2兜底(申诉本来就进复核台)。
+    // ════════════════════════════════════════════════════════════════
+    // 繁→简 归一化 (只覆盖词表里出现的字; 马来西亚多用简体, 繁体作宽网兜底)
+    var TRAD2SIMP = {
+      '沒':'没','義':'义','這':'这','裡':'里','裏':'里','結':'结','傷':'伤','別':'别',
+      '見':'见','過':'过','點':'点','們':'们','會':'会','罵':'骂','媽':'妈','護':'护',
+      '負':'负','學':'学','討':'讨','厭':'厌','擠':'挤','針':'针','對':'对','幫':'帮',
+      '撐':'撑','誰':'谁','來':'来'
+    };
+    function normCrisis(s) {
+      s = (s || '').toLowerCase();
+      s = s.replace(/[㐀-鿿]/g, function (c) { return TRAD2SIMP[c] || c; });
+      return s.replace(/[^a-z0-9㐀-鿿]/g, '');   // 去空格/标点/符号, 只留 英数 + 汉字 → 宽网
+    }
+    // 定版词表 §2 (中文简繁 + 拼音/谐音/数字 + 英文) — 一字不改。系统一律 → 转真人, 不按分类区别对待。
+    var CRISIS_RAW = [
+      // A. 伤害自己 / 不想活
+      '想死','不想活','活不下去','没意思','没意义','不想在这里了','消失算了','结束这一切',
+      '伤害自己','割自己','想跳','想跳下去','没用了','想睡着别醒了','不见了好了','没人要我',
+      '我走了你们会好过点',
+      'xiang si','bu xiang huo','想4','不想活了','4了算了',
+      'want to die','kill myself','end it','end it all','don\'t want to live','hurt myself',
+      'cut myself','disappear forever','go away forever','no one needs me','better off without me',
+      // B. 被伤害 / 虐待
+      '被打','打我','被骂','不敢回家','怕我爸','怕我妈','怕回家','他碰我','他碰了我',
+      '没人保护我','在家很痛',
+      'being hit','they hit me','scared to go home','afraid of my dad','afraid of my mum',
+      'someone touched me','no one protects me',
+      // C. 被霸凌 / 被孤立
+      '被欺负','同学打我','没人理我','大家讨厌我','不想上学','被排挤','没有朋友','大家都针对我',
+      'bullied','they pick on me','nobody likes me','everyone hates me','left out','picked on','no friends',
+      // D. 极度绝望 / 求救
+      '救命','帮帮我','撑不住了','好累不想努力了','没有希望','谁来救我','我受不了了','好痛苦',
+      'help me','can\'t take it anymore','so tired','no hope','save me','i can\'t anymore'
+    ];
+    var CRISIS_NORM = CRISIS_RAW.map(normCrisis).filter(function (w) { return w.length > 0; });
+    function isCrisis(txt) {                              // 命中任一词 → 危机 (拿不准=当危机, 宁多勿漏)
+      var n = normCrisis(txt); if (!n) return false;
+      for (var i = 0; i < CRISIS_NORM.length; i++) { if (n.indexOf(CRISIS_NORM[i]) > -1) return true; }
+      return false;
+    }
+    // 豆豆安抚语 (定版 §3, 一字不改) — 温柔, 不吓人, 不评判, 不追问, 不下诊断, ★不写"你被标记/请拨打热线"★
+    var CRISIS_COMFORT = {
+      zh: '豆豆收到你的消息了。🫧 你很重要，老师很关心你，会很快来看你。如果你现在很难受，旁边有可以信任的大人，也可以告诉他们。',
+      en: 'DouDou got your message. 🫧 You matter, and your teacher cares — they’ll check in with you soon. If things feel hard right now, a trusted grown-up nearby can help too.'
+    };
+    // 危机记录: 用现有 review_requests 表 + is_crisis=true + trigger_type=CRISIS (刀2 已加栏; ★不动表结构★)
+    async function doInsertCrisis(info, txt, sb, user) {
+      try {
+        var payload = {
+          student_id: user.id,
+          lesson_path: lessonPath(), lesson_label: lessonLabel(),
+          question_id: info.qid, question_stem: info.questionStem || null,
+          student_answer: info.studentAnswer || null,
+          ai_verdict: info.verdict || null,
+          ai_score: (typeof info.aiScore === 'number' ? info.aiScore : null),
+          ai_max: (typeof info.aiMax === 'number' ? info.aiMax : null),
+          ai_reason: info.aiReason || null, model_answer: info.modelAnswer || null,
+          student_reason_code: 'crisis',           // 系统占位; 复核台靠 trigger_type/is_crisis 显示危机
+          student_reason: txt,                     // 小孩原话快照 (真人读); ★危机不受10字下限★
+          status: 'submitted', trigger_type: 'CRISIS', is_crisis: true
+        };
+        var res = await sb.from('review_requests').insert(payload).select().single();
+        if (res.error) { console.warn('[Crisis] insert failed:', res.error.message); return null; }
+        try { notifyOwnerCrisis(res.data); } catch (e) {}
+        return res.data;
+      } catch (e) { console.warn('[Crisis] insert error:', e && e.message); return null; }
+    }
+    // 通知 hook — ★刀5★ 在此接 Telegram (危机破静音即时). 这刀只留 hook + log, ★不发任何通知★.
+    function notifyOwnerCrisis(record) {
+      try { console.info('[Crisis] notifyOwner stub (刀5 will send):', record && record.question_id); } catch (e) {}
+    }
+    // 前端: 命中危机 → 把两钮条换成豆豆定版安抚 (★不显示"你被标记危机/已通知"等吓人字眼★)
+    function showCrisisComfort(bar) {
+      if (!bar || !bar.parentNode) return;
+      var box = document.createElement('div');
+      box.className = 'review-crisis-note';
+      box.style.cssText = 'margin-top:10px;padding:12px 14px;border-radius:12px;background:#EAF1FB;border:1px solid #C7DBF5;color:#23324a;font-size:13px;line-height:1.65;font-family:Geist,system-ui,sans-serif;';
+      box.setAttribute('data-en', CRISIS_COMFORT.en);
+      box.setAttribute('data-zh', CRISIS_COMFORT.zh);
+      box.textContent = (lang() === 'zh' ? CRISIS_COMFORT.zh : CRISIS_COMFORT.en);
+      bar.parentNode.replaceChild(box, bar);
+      relangNewNodes();
+    }
+
     // ── junk guard for the written reason (mirrors lesson strict-grading spirit) ──
     function looksGibberish(s) {
       s = (s || '').trim();
@@ -2329,21 +2420,36 @@ Globals exposed (lesson HTML can call directly via onclick=):
       capEl.setAttribute('data-en', 'Reviews left this week: ' + left + ' / ' + WEEKLY_CAP);
       capEl.setAttribute('data-zh', '本周复核次数:还剩 ' + left + ' / ' + WEEKLY_CAP);
       relangNewNodes();
-      if (left <= 0) {
-        submit.disabled = true;
+      var capped = (left <= 0);        // ★危机不受次数上限★: 用完也保留可按, 非危机在提交时才拦
+      if (capped) {
         setErr(ov, 'You have used all your reviews this week. Please try again next week.',
                    '本周复核次数已用完,下周再试。');
-        return;
       }
       submit.disabled = false;
 
       var onSubmit = function () {
         var code = ov.querySelector('.review-modal__reason').value;
         var txt = (ov.querySelector('.review-modal__reason-text').value || '').trim();
+
+        // ★护小孩·刀4★: 危机内容最优先 — 在 分类/字数/次数 任何闸之前。
+        // 命中 → 转真人(写危机置顶记录) + 豆豆定版安抚; 不锁、不限次、不要求10字。
+        if (isCrisis(txt)) {
+          submit.disabled = true; setErr(ov, '', '');
+          doInsertCrisis(info, txt, sb, user).then(function () {
+            closeModal();
+            showCrisisComfort(bar);
+          });
+          return;
+        }
+
         if (!code) { setErr(ov, 'Please pick a reason first.', '请先选一个原因。'); return; }
         if (looksGibberish(txt)) {
           setErr(ov, 'Please write a real reason — at least 10 characters.',
                      '请写一句真实的理由 — 至少 10 个字。'); return;
+        }
+        if (capped) {                    // 非危机 + 本周用完 → 拦 (危机已在上面放行)
+          setErr(ov, 'You have used all your reviews this week. Please try again next week.',
+                     '本周复核次数已用完,下周再试。'); return;
         }
         submit.disabled = true;
         setErr(ov, '', '');
