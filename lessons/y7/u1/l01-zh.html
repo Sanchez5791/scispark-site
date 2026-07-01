@@ -308,7 +308,7 @@ button[disabled] { opacity:.5; cursor:not-allowed; }
     var ta = document.getElementById(qid+'-input');
     if(!ta) return;
     // TEST screen = exam mode: mark right/wrong but give NO hint. Per order 2026-06-18 §4.
-    var isTest = false;  // 老板令 2026-07-01: 考试屏也走支援模式(提示/答案/问老师), 与练习屏一模一样
+    var isTest = !!(ta.closest && ta.closest('#screen-test'));
     var input = (ta.value||'').trim();
     if(!input){ alert('Please type an answer first. · 请先输入答案。'); return; }
     var correct = (window.SciSpark && SciSpark.gradeText) ? SciSpark.gradeText(input, SCHEMES[qid], (typeof STEMS!=='undefined'?STEMS[qid]:'')) : false;

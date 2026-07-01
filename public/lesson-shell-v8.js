@@ -4365,7 +4365,9 @@ Globals exposed (lesson HTML can call directly via onclick=):
     setTimeout(function () {
       setBusy(qid, false);
       if (plan.kind === 'correct') { renderCorrect(qid, plan.faint, opts); return; }
-      if (opts.isTest)             { renderExam(qid, plan); return; }
+      // 老板令 2026-07-01: 考试屏(TEST)也走支援模式 (提示/答案/问老师), 与练习屏(TRY)一模一样。
+      // 原「考试屏只判对错、不给答案」已停用 —— 不再走 renderExam。改一处, 全站所有课的考试题一起支援。
+      // if (opts.isTest)             { renderExam(qid, plan); return; }
       if (plan.kind === 'A')       { renderA(qid); return; }
       renderB(qid, plan, opts);
     }, THINK_MS);
