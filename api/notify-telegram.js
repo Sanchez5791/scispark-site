@@ -1,13 +1,15 @@
-// api/notify-telegram.js — SciSpark 求救系统 Phase1 · 刀5 · Telegram 通知 (主发送函数)
+// api/notify-telegram.js — SciSpark 求救系统 Phase1 · 刀5 · 求救/危机通知 (主发送函数)
 // ============================================================================
 // Vercel serverless function — POST /api/notify-telegram
+// 多渠道: Telegram + 邮件(Resend) + WhatsApp(CallMeBot)。每个渠道各自靠环境变量开关,
+//   没配就跳过; 任一渠道发出即算通知到。三条渠道内容【都匿名】(红线2)。
 //
 // 链路 (server-authoritative, 不靠学生浏览器):
 //   学生按求救/危机 → v8 引擎写一行 review_requests(status='submitted')
 //   → 数据库 AFTER INSERT 触发器 trg_notify_telegram (pg_net)
 //   → 调本函数一次 (带共享密钥头 x-notify-secret)
-//   → 本函数在【服务器端】调 Telegram sendMessage → 发到老板 chat
-//   → 成功: 写 review_requests.tg_notified_at (防重复); 失败: 写 notify_failures (可补发)
+//   → 本函数在【服务器端】发所有已配置渠道 (Telegram/邮件/WhatsApp)
+//   → 任一成功: 写 review_requests.tg_notified_at (防重复); 失败渠道: 写 notify_failures (可补发)
 //
 // ★ 三条最高红线 (刀5 工单 §2):
 //   1. Telegram 只在服务器端发。token 只从 Vercel 环境变量读, 绝不进浏览器。
@@ -22,6 +24,10 @@
 //     TELEGRAM_NOTIFY_SECRET ← 共享密钥, 与数据库 GUC app.telegram_notify_secret 相同
 //   复用现成 (api/mark*.js 已在用):
 //     SUPABASE_URL, SUPABASE_SERVICE_KEY
+//   邮件渠道 (可选, 不填则跳过):
+//     RESEND_API_KEY, NOTIFY_EMAIL_TO, [NOTIFY_EMAIL_FROM 默认 onboarding@resend.dev]
+//   WhatsApp 渠道 (可选, 免费 CallMeBot, 不可靠, 不填则跳过):
+//     CALLMEBOT_PHONE, CALLMEBOT_APIKEY
 //   可选:
 //     SITE_URL (默认 https://scisparklab.com)
 // ============================================================================
@@ -122,26 +128,98 @@ async function logFailure(id, reason) {
   } catch (e) { /* 日志失败也不能挡主流程; 复核台记录仍在 */ }
 }
 
-// 真正调 Telegram (服务器端)。返回 {ok, detail}。
+// 每个渠道返回统一形状: {channel, ok, skipped, detail}
+//   skipped=true  → 没配这个渠道 (不算失败, 不记账)
+//   ok=true       → 真发出去了
+//   ok=false      → 配了但发失败 (记账 + 可补发)
+
+// ── 渠道1: Telegram (服务器端) ──
 async function sendTelegram(text) {
   const token  = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token)  return { ok: false, detail: 'TELEGRAM_BOT_TOKEN not set' };
-  if (!chatId) return { ok: false, detail: 'TELEGRAM_CHAT_ID not set' };
-  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  if (!token || !chatId) return { channel: 'telegram', ok: false, skipped: true, detail: 'not configured' };
   try {
-    const r = await fetch(url, {
+    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // disable_web_page_preview: 复核台链接不展开大预览, 保持消息干净
       body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
     });
     const body = await r.text();
-    if (!r.ok) return { ok: false, detail: `telegram ${r.status}: ${body.slice(0, 200)}` };
-    return { ok: true, detail: 'sent' };
+    if (!r.ok) return { channel: 'telegram', ok: false, detail: `telegram ${r.status}: ${body.slice(0, 160)}` };
+    return { channel: 'telegram', ok: true, detail: 'sent' };
   } catch (e) {
-    return { ok: false, detail: `telegram error: ${e && e.message ? e.message : String(e)}` };
+    return { channel: 'telegram', ok: false, detail: `telegram error: ${e && e.message ? e.message : String(e)}` };
   }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+// ── 渠道2: 邮件 (Resend)。★匿名★: 无真名、无原文, 只类型+课节参考+题号+参考号+复核台链。──
+async function sendEmail(row) {
+  const key = process.env.RESEND_API_KEY;
+  const to  = process.env.NOTIFY_EMAIL_TO;
+  const from = process.env.NOTIFY_EMAIL_FROM || 'SciSpark Alerts <onboarding@resend.dev>';
+  if (!key || !to) return { channel: 'email', ok: false, skipped: true, detail: 'not configured' };
+  const s       = sourceLabel(row);
+  const isCrisis = !!(row.is_crisis || row.trigger_type === 'CRISIS');
+  const lesson  = row.lesson_label || row.lesson_path || '—';
+  const qid     = row.question_id || '—';
+  const ref     = String(row.id || '').slice(0, 8);
+  const console_ = siteUrl() + '/review-console';
+  const subject = isCrisis ? `${s.icon} SciSpark 危机提醒 — 请立刻处理` : `${s.icon} SciSpark 求救提醒`;
+  const html = `
+    <div style="font-family:Geist,'Noto Sans SC',system-ui,sans-serif;color:#0F172A;line-height:1.55">
+      <h2 style="margin:0 0 4px">${escapeHtml(subject)}</h2>
+      <p style="margin:0 0 14px;color:#6b6358">SciSpark · 自动通知（匿名）</p>
+      <table style="border-collapse:collapse;font-size:14px">
+        <tr><td style="padding:3px 12px 3px 0;color:#6b6358">类型</td><td><b>${escapeHtml(s.name)}</b></td></tr>
+        <tr><td style="padding:3px 12px 3px 0;color:#6b6358">课节参考</td><td>${escapeHtml(lesson)} ${escapeHtml(qid)}</td></tr>
+        <tr><td style="padding:3px 12px 3px 0;color:#6b6358">参考号</td><td>#${escapeHtml(ref)}</td></tr>
+      </table>
+      <p style="margin:18px 0 0">
+        <a href="${console_}" style="background:#EA580C;color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:700;display:inline-block">前往复核台 →</a>
+      </p>
+    </div>`;
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject, html }),
+    });
+    if (!r.ok) return { channel: 'email', ok: false, detail: `resend ${r.status}: ${(await r.text()).slice(0, 160)}` };
+    return { channel: 'email', ok: true, detail: 'sent' };
+  } catch (e) {
+    return { channel: 'email', ok: false, detail: `email error: ${e && e.message ? e.message : String(e)}` };
+  }
+}
+
+// ── 渠道3: WhatsApp (CallMeBot 免费, ★不可靠, 兜底而非主报警★)。同样匿名。──
+async function sendWhatsApp(text) {
+  const phone  = process.env.CALLMEBOT_PHONE;
+  const apikey = process.env.CALLMEBOT_APIKEY;
+  if (!phone || !apikey) return { channel: 'whatsapp', ok: false, skipped: true, detail: 'not configured' };
+  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}`
+            + `&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(apikey)}`;
+  try {
+    const r = await fetch(url, { method: 'GET' });
+    const body = await r.text();
+    if (!r.ok) return { channel: 'whatsapp', ok: false, detail: `callmebot ${r.status}: ${body.slice(0, 160)}` };
+    return { channel: 'whatsapp', ok: true, detail: 'sent' };
+  } catch (e) {
+    return { channel: 'whatsapp', ok: false, detail: `whatsapp error: ${e && e.message ? e.message : String(e)}` };
+  }
+}
+
+// ── 同时发所有【已配置】的渠道; 任一成功即算通知到 ──
+async function sendAllChannels(row) {
+  const text = buildMessage(row);
+  const results = await Promise.all([sendTelegram(text), sendEmail(row), sendWhatsApp(text)]);
+  const anySent = results.some((r) => r.ok);
+  // 配了但发失败的渠道 (skipped 的不算失败)
+  const failed = results.filter((r) => !r.ok && !r.skipped);
+  return { anySent, results, failed };
 }
 
 const json = (res, status, body) => res.status(status).json(body);
@@ -161,14 +239,17 @@ async function processOne(row) {
     return { id: row.id, throttled: true, crisis: isCrisis };
   }
 
-  const send = await sendTelegram(buildMessage(row));
-  if (send.ok) {
-    await stampNotified(row.id);           // 只有真发出去才盖章 → 失败可补发
-    return { id: row.id, sent: true, crisis: isCrisis };
+  const { anySent, results, failed } = await sendAllChannels(row);
+  // 配了但发失败的渠道各记一笔 (供补发 + 看日志)。复核台记录仍在, 危机没丢。
+  for (const f of failed) await logFailure(row.id, `${f.channel}: ${f.detail}`);
+
+  if (anySent) {
+    // 至少一个渠道发出去了 → 盖章 (视为已通知)。
+    await stampNotified(row.id);
+    return { id: row.id, sent: true, crisis: isCrisis, channels: results.map((r) => ({ [r.channel]: r.ok ? 'sent' : (r.skipped ? 'skip' : 'fail') })) };
   }
-  // 失败/未配置: 不盖章 (留着补发) + 记失败日志。复核台记录仍在, 危机没丢。
-  await logFailure(row.id, send.detail);
-  return { id: row.id, sent: false, error: send.detail, crisis: isCrisis };
+  // 全部渠道未配置或全失败 → 不盖章 (留着补发)。
+  return { id: row.id, sent: false, crisis: isCrisis, channels: results.map((r) => ({ [r.channel]: r.skipped ? 'skip' : 'fail' })) };
 }
 
 // ── 补发模式: 找出最近 24h 内失败(未盖章)的记录, 重试 ──

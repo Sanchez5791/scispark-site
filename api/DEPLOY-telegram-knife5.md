@@ -32,6 +32,24 @@
    - `SITE_URL` = `https://scisparklab.com` (若没填过)
    > `SUPABASE_URL` / `SUPABASE_SERVICE_KEY` 现成已有,不用动。
 
+### 步骤 A2 — (可选)加邮件 + WhatsApp 渠道(同样匿名;不填就只走 Telegram)
+> 三个渠道各自独立:没填某个渠道的钥匙 → 自动跳过, 不影响别的。任一渠道发出即算通知到。
+
+**邮件(Resend, 免费, 发到你自己的 Gmail 不用验证域名):**
+1. 去 resend.com 用**你的 Gmail** 免费注册 → 拿一把 `API Key`(形如 `re_xxx`)。
+2. Vercel 环境变量新增(勾 Production + Preview):
+   - `RESEND_API_KEY` = `re_xxx`
+   - `NOTIFY_EMAIL_TO` = 你的 Gmail(收报警的邮箱)
+   > 用测试发件人 `onboarding@resend.dev` 只能发到你注册用的那个邮箱 —— 正好够用, 免域名验证。
+   > 以后想发到别的邮箱, 再去 Resend 验证一个发信域名, 并设 `NOTIFY_EMAIL_FROM`。
+
+**WhatsApp(CallMeBot, 免费但★不可靠★, 只当兜底别当唯一报警):**
+1. 手机 WhatsApp 加联系人 **+34 644 51 95 23**, 发一句 `I allow callmebot to send me messages`。
+2. 它回一条带 `apikey` 的消息, 记下。
+3. Vercel 环境变量新增(勾 Production + Preview):
+   - `CALLMEBOT_PHONE` = 你的号码(带国码纯数字, 如 `60123456789`)
+   - `CALLMEBOT_APIKEY` = 上面拿到的 apikey
+
 ### 步骤 B — 推分支,拿 Vercel 预览域名
 - 双手房推 `feat/knife5-telegram-notify` → Vercel 自动出一个预览域名(形如 `https://scispark-site-xxxx.vercel.app`)。
 - 记下这个预览域名,后面 SQL 和取号都用它。
