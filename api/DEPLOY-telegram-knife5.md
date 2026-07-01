@@ -44,17 +44,19 @@
    - `TELEGRAM_CHAT_ID` = 那个数字 (勾 Production + Preview)
 5. **拿到后,删掉 `api/telegram-chatid.js` 再推一次**(双手房做)。
 
-### 步骤 D — 跑数据库迁移 + 设两个数据库设置(卡⑫:纯增量·可回滚,不删不改现有数据)
+### 步骤 D — 跑数据库迁移 + 写配置表(卡⑫:纯增量·可回滚,不删不改现有数据)
+> ★不用 `alter database ... set`★:Supabase 的 postgres 角色没权限设数据库参数(会报
+> 42501 permission denied)。改用一张私有【配置表】private.notify_config 存 URL+密钥。
 1. 应用迁移(Supabase SQL editor 贴 `20260701_telegram_notify.sql` 全文跑,或 `supabase db push`)。
 2. 在 SQL editor 再跑(把 `<预览域名>` 换成真域名;密钥用步骤 A 同一条):
    ```sql
-   alter database postgres
-     set app.telegram_notify_url = 'https://<预览域名>/api/notify-telegram';
-   alter database postgres
-     set app.telegram_notify_secret = '<和 TELEGRAM_NOTIFY_SECRET 一模一样的那条>';
-   select pg_reload_conf();
+   insert into private.notify_config (key, value) values
+     ('telegram_notify_url',    'https://<预览域名>/api/notify-telegram'),
+     ('telegram_notify_secret', '<和 TELEGRAM_NOTIFY_SECRET 一模一样的那条>')
+   on conflict (key) do update set value = excluded.value;
    ```
-   > ★密钥两处必须【一字不差】相同★:Vercel 的 `TELEGRAM_NOTIFY_SECRET` = 数据库的 `app.telegram_notify_secret`。不一样 = 静默 403 不发。
+   > ★密钥两处必须【一字不差】相同★:Vercel 的 `TELEGRAM_NOTIFY_SECRET` = 配置表的
+   > `telegram_notify_secret`。不一样 = 静默 403 不发。
 
 ---
 
