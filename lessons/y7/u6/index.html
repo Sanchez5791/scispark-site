@@ -97,5 +97,20 @@
       <div class="qn">10 &#39064; &#183; 5 &#22270;&#20301;</div>
     </a>
 
-  
+
+<script>
+  /* 身份修复 (2026-07-01): 若本页网址带 ?child_id=, 传给每个课链接, 让引擎认对孩子 (多孩子不猜错)。
+     没带就不动 (引擎回退: 单孩子用那个; 多孩子按救命铁律 — 课堂数据挡、危机照写)。 */
+  (function () {
+    try {
+      var cid = new URLSearchParams(location.search).get('child_id');
+      if (!cid) return;
+      document.querySelectorAll('a.card[href]').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href || /[?&]child_id=/.test(href)) return;
+        a.setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + 'child_id=' + encodeURIComponent(cid));
+      });
+    } catch (e) {}
+  })();
+</script>
 </html>
