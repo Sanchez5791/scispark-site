@@ -4161,7 +4161,6 @@ Globals exposed (lesson HTML can call directly via onclick=):
          zh: '这题豆豆想请老师看一眼。🫧 先暂停、等老师复核 —— 不会算你错。' }
   };
   var LONG_PASTE = 600;                                            // 答案超过这么多字 = 超长贴 → 🔴B
-  function normForRed(s) { return (s || '').toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9一-龥]/g, ''); }
   function isFrozen(qid) { return !!st(qid)._frozen; }
   function freezeQuestion(qid, kind) {                             // 冻结题 + 豆豆安抚 (蓝调暖语, 不吓人), 永不记0
     var s = st(qid); if (s._frozen) return; s._frozen = true;
@@ -4180,16 +4179,13 @@ Globals exposed (lesson HTML can call directly via onclick=):
   }
   function redA(qid, info) { freezeQuestion(qid, 'A'); try { if (window.SciSpark && SciSpark.review && SciSpark.review.recordSystemRed) SciSpark.review.recordSystemRed(qid, 'SYSTEM_RED_A', info || {}); } catch (e) {} }
   function redB(qid, info) { freezeQuestion(qid, 'B'); try { if (window.SciSpark && SciSpark.review && SciSpark.review.recordSystemRed) SciSpark.review.recordSystemRed(qid, 'SYSTEM_RED_B', info || {}); } catch (e) {} }
-  // 🔴B 侦测 (疑似作弊, 纯文本规则, 不靠判分信心): 超长贴 / 几乎一字不差抄标准答案块
+  // 🔴B 侦测 (疑似滥用, 纯文本规则): 只留【超长灌水 >600 字】。
+  // 刀3.5 (2026-07-01): 「整句照抄标准答案」不再算作弊 —— 答对本来就长得像标准答案,
+  //   改由 handle() 先判对错、对就放行 (整句照抄若判对也放行)。只动这条①, 超长②不碰。
   function checkRedB(qid) {
     var input = el(qid + '-input'); if (!input) return null;
     var raw = (input.value || '').trim(); if (!raw) return null;
-    if (raw.length > LONG_PASTE) return 'overlong';
-    var ni = normForRed(raw);
-    if (ni.length >= 20) {                                         // 太短不判, 防误伤短答
-      var ansEl = el('ans_' + qid + '_0');
-      if (ansEl) { var na = normForRed(ansEl.textContent || ''); if (na.length >= 20 && na.indexOf(ni) > -1) return 'verbatim'; }
-    }
+    if (raw.length > LONG_PASTE) return 'overlong';               // >600 字 = 超长灌水 → 🔴B
     return null;
   }
 
@@ -4198,16 +4194,23 @@ Globals exposed (lesson HTML can call directly via onclick=):
     injectCSS();
     if (isFrozen(qid)) return { faint: false, red: true };                     // 已冻结 → 不再处理
     var raw = ((el(qid + '-input') || {}).value || '').trim();
-    var redKind = (raw === '##red-a##') ? 'simA' : checkRedB(qid);             // ##red-a## = §8 模拟 🔴A (测冻结+安抚+记录)
-    if (redKind) {                                                             // 🔴红色优先, 绕过对错/乱码, 永不记0
+
+    // 🔴A: ##red-a## = §8 模拟判分崩 (测冻结+安抚+记录; 未来 GLM 崩溃钩)。最高优先, 与对错无关, 不碰。
+    if (raw === '##red-a##') {
       setBusy(qid, true); showThinking(qid);
-      setTimeout(function () {
-        setBusy(qid, false);
-        if (redKind === 'simA') redA(qid, { reason: 'sim-grading-error' });
-        else redB(qid, { reason: redKind });
-      }, THINK_MS);
+      setTimeout(function () { setBusy(qid, false); redA(qid, { reason: 'sim-grading-error' }); }, THINK_MS);
       return { faint: false, red: true };
     }
+
+    // 刀3.5: 先判对错 —— 答对(命中标准答案/可接受答案) 直接放行, ★哪怕整句照抄也放行★, 不进🔴B。
+    // 🔴B 只留【超长灌水】: 仅当【答错】且 >600 字才冻结等真人 (在 decide 前拦, 冻结不记一次尝试)。
+    // 边角(老板锁): 超长但判对 → 当对放行 (对优先)。
+    if (!opts.correct && checkRedB(qid) === 'overlong') {
+      setBusy(qid, true); showThinking(qid);
+      setTimeout(function () { setBusy(qid, false); redB(qid, { reason: 'overlong' }); }, THINK_MS);
+      return { faint: false, red: true };
+    }
+
     var s = st(qid);
     var plan = decide(s, { correct: !!opts.correct, isJunk: !!opts.isJunk });  // 同步算好, faint 同步返回给课文奖励逻辑
     setBusy(qid, true);                                                        // 0.7 秒内输入框 + 提交钮灰着不可按 (防狂点)
