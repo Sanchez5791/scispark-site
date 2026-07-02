@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOS button demo</title>
+  <style>
+    body{font-family:Geist,system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 20px;color:#0F172A;line-height:1.6}
+    h1{color:#B91C1C}
+    .lang{margin:14px 0;padding:10px 14px;background:#F1F5F9;border-radius:10px}
+    button.set{padding:6px 12px;border:1px solid #CBD5E1;border-radius:8px;background:#fff;cursor:pointer;margin-right:8px}
+    code{background:#F1F5F9;padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h1>SciSpark · 匿名求救按钮 测试页</h1>
+  <p>右下角应出现红色浮窗按钮「需要帮助 / Get help」。按它 → 面板 → 送出 → 只显示温柔话。</p>
+  <div class="lang">
+    切换语言 (测双语):
+    <button class="set" onclick="localStorage.setItem('lang','en');location.reload()">English</button>
+    <button class="set" onclick="localStorage.setItem('lang','zh');location.reload()">中文</button>
+    当前: <code id="cur"></code>
+  </div>
+  <p>说明: 本页 <code>/api/sos</code> 在本地没有后台, fetch 会失败 —— 正是要验证「就算失败, 小孩也只看到温柔话」。</p>
+  <script>document.getElementById('cur').textContent = localStorage.getItem('lang') || 'en (default)';</script>
+  <!-- 本地测试用 /public/sos.js; 上线后各页用别名 /sos.js -->
+  <script src="/public/sos.js" defer></script>
+</body>
+</html>
