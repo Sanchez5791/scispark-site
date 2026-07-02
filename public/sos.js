@@ -40,7 +40,8 @@
 
   // ── 样式 (作用域前缀 sos-, 不污染页面) ──
   var css = [
-    '.sos-fab{position:fixed;right:18px;bottom:18px;z-index:2147483000;',
+    // 左下角: 上课页右下已有豆豆浮窗(right:20 bottom:20), 放左下全站不打架
+    '.sos-fab{position:fixed;left:18px;bottom:18px;z-index:2147483000;',
       'display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:none;cursor:pointer;',
       'border-radius:999px;background:#B91C1C;color:#fff;font:600 15px/1 Geist,system-ui,sans-serif;',
       'box-shadow:0 6px 20px rgba(185,28,28,.35);}',
